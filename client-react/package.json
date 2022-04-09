@@ -43,16 +43,10 @@
     "test": "react-app-rewired test",
     "test:ci": "react-app-rewired test --coverage --reporters default --reporters=jest-junit",
     "test:debug": "react-app-rewired --inspect-brk test --no-cache --verbose=false --runInBand",
-    "storybook": "start-storybook -p 9009 -s public",
     "analyze": "react-app-rewired build --stats && webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
-    "build-storybook": "build-storybook -s public",
     "lint": "eslint --ext .tsx,.ts src --format visualstudio"
   },
   "devDependencies": {
-    "@storybook/addon-actions": "^4.1.11",
-    "@storybook/addon-links": "^4.1.11",
-    "@storybook/addons": "^4.1.11",
-    "@storybook/react": "^4.1.11",
     "@types/applicationinsights-js": "^1.0.9",
     "@types/enzyme": "^3.1.17",
     "@types/enzyme-adapter-react-16": "^1.0.3",
