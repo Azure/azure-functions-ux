@@ -22,7 +22,6 @@ export const javaStack: WebAppStack = {
             linuxRuntimeSettings: {
               // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
-              isHidden: true,
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -37,7 +36,6 @@ export const javaStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '17',
-              isHidden: true,
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
