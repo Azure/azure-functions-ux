@@ -167,7 +167,7 @@ function validateASPStack(aspDotnetStack) {
   expect(aspDotnetStack.displayText).to.equal('.NET');
   expect(aspDotnetStack.value).to.equal('aspnet');
   expect(aspDotnetStack.preferredOs).to.equal('windows');
-  expect(aspDotnetStack.majorVersions.length).to.equal(4);
+  expect(aspDotnetStack.majorVersions.length).to.equal(5);
   expect(aspDotnetStack).to.deep.equal(hardCodedAspDotnetStack);
 }
 
