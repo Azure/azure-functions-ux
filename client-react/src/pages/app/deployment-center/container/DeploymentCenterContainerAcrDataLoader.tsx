@@ -96,12 +96,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           const dropdownOptions: IDropdownOption[] = [];
 
           //Check to see if the acr exists in the current subscription
-          const isAcrInSameSubscription = registriesResponse.data.value.find(
+          const isAcrInSameSubscription = registriesResponse.data.value.some(
             registry => registry.properties.loginServer.toLocaleLowerCase() === formProps.values.acrLoginServer.toLocaleLowerCase()
           );
+
           if (!isAcrInSameSubscription && formProps.values.acrLoginServer) {
             await fetchHiddenAcrTag();
           }
+
           registriesResponse.data.value.forEach(registry => {
             const loginServer = registry.properties.loginServer;
 
@@ -140,8 +142,13 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             setAcrResourceId();
           }
         } else {
-          setAcrStatusMessage(t('deploymentCenterContainerAcrRegistriesNotAvailable').format(subscription));
-          setAcrStatusMessageType(MessageBarType.warning);
+          // We don't have any containers in the current sub, check for the hidden tag anyway
+          if (formProps.values.acrLoginServer) {
+            await fetchHiddenAcrTag();
+          } else {
+            setAcrStatusMessage(t('deploymentCenterContainerAcrRegistriesNotAvailable').format(subscription));
+            setAcrStatusMessageType(MessageBarType.warning);
+          }
         }
       } else {
         const errorMessage = getErrorMessage(registriesResponse.metadata.error);
@@ -366,18 +373,16 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     } else {
       // acrName is case-sensitive, so pull name from application settings if possible
       let acrName = '';
-      if (
-        !!deploymentCenterContext.applicationSettings &&
-        !!deploymentCenterContext.applicationSettings.properties &&
-        !!deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting]
-      ) {
+      if (deploymentCenterContext?.applicationSettings?.properties[DeploymentCenterConstants.usernameSetting]) {
         acrName = deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting];
       } else {
         acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
       }
-      const newsubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
-      if (!!newsubscriptionId) {
-        setSubscription(newsubscriptionId);
+
+      const newSubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
+
+      if (newSubscriptionId) {
+        setSubscription(newSubscriptionId);
       }
     }
   };
@@ -442,7 +447,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         const subId = tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
         setSubscription(subId);
       }
-      return '';
     } catch {
       portalContext.log(getTelemetryInfo('error', 'parseHiddenTag', 'failed'));
     }

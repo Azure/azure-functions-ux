@@ -23,7 +23,7 @@ export default class TagsService {
   public static fetchAcrResourceId = (acrName: string) => {
     const queryString =
       `where type == 'microsoft.containerregistry/registries'` +
-      `| where name == '${acrName}'` +
+      `| where tolower(name) == '${acrName}'` +
       `| project id,name,type,resourceGroup,location,subscriptionId`;
 
     const request: ARGRequest = {
