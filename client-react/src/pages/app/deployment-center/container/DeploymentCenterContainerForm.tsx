@@ -699,8 +699,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     };
     portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
 
-    // Only do the save if scmtype in the config is set to none.
-    // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
+    // Only do the save if scmType in the config is set to none.
+    // If the scmType in the config is not none, the user should be doing a disconnect operation first.
     // This check is in place, because the use could set the form props ina dirty state by just modifying the
     // publishing user information.
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {

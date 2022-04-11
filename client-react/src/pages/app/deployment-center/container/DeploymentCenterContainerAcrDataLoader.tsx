@@ -88,6 +88,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.passwordSetting]
         : '';
 
+      if (formProps.values.acrLoginServer) {
+        await fetchHiddenAcrTag();
+      }
+
       portalContext.log(getTelemetryInfo('info', 'getAcrRegistries', 'submit'));
       const registriesResponse = await deploymentCenterData.getAcrRegistries(subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
@@ -96,12 +100,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           const dropdownOptions: IDropdownOption[] = [];
 
           //Check to see if the acr exists in the current subscription
-          const isAcrInSameSubscription = registriesResponse.data.value.find(
+          const isAcrInSameSubscription = registriesResponse.data.value.some(
             registry => registry.properties.loginServer.toLocaleLowerCase() === formProps.values.acrLoginServer.toLocaleLowerCase()
           );
+
           if (!isAcrInSameSubscription && formProps.values.acrLoginServer) {
             await fetchHiddenAcrTag();
           }
+
           registriesResponse.data.value.forEach(registry => {
             const loginServer = registry.properties.loginServer;
 
@@ -375,9 +381,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       } else {
         acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
       }
-      const newsubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
-      if (!!newsubscriptionId) {
-        setSubscription(newsubscriptionId);
+      const newSubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
+      if (newSubscriptionId) {
+        setSubscription(newSubscriptionId);
       }
     }
   };
@@ -442,7 +448,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         const subId = tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
         setSubscription(subId);
       }
-      return '';
     } catch {
       portalContext.log(getTelemetryInfo('error', 'parseHiddenTag', 'failed'));
     }
