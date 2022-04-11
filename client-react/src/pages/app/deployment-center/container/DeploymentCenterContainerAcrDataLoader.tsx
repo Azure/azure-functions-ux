@@ -88,10 +88,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         ? deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.passwordSetting]
         : '';
 
-      if (formProps.values.acrLoginServer) {
-        await fetchHiddenAcrTag();
-      }
-
       portalContext.log(getTelemetryInfo('info', 'getAcrRegistries', 'submit'));
       const registriesResponse = await deploymentCenterData.getAcrRegistries(subscription);
       if (registriesResponse.metadata.success && registriesResponse.data) {
@@ -146,8 +142,13 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             setAcrResourceId();
           }
         } else {
-          setAcrStatusMessage(t('deploymentCenterContainerAcrRegistriesNotAvailable').format(subscription));
-          setAcrStatusMessageType(MessageBarType.warning);
+          // We don't have any containers in the current sub, check for the hidden tag anyway
+          if (formProps.values.acrLoginServer) {
+            await fetchHiddenAcrTag();
+          } else {
+            setAcrStatusMessage(t('deploymentCenterContainerAcrRegistriesNotAvailable').format(subscription));
+            setAcrStatusMessageType(MessageBarType.warning);
+          }
         }
       } else {
         const errorMessage = getErrorMessage(registriesResponse.metadata.error);
@@ -372,16 +373,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     } else {
       // acrName is case-sensitive, so pull name from application settings if possible
       let acrName = '';
-      if (
-        !!deploymentCenterContext.applicationSettings &&
-        !!deploymentCenterContext.applicationSettings.properties &&
-        !!deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting]
-      ) {
+      if (deploymentCenterContext?.applicationSettings?.properties[DeploymentCenterConstants.usernameSetting]) {
         acrName = deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting];
       } else {
         acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
       }
+
       const newSubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
+
       if (newSubscriptionId) {
         setSubscription(newSubscriptionId);
       }
