@@ -99,7 +99,7 @@ export class DropboxController {
   private _getDropboxClientSecret() {
     if (this.envIsOnPrem) {
       // TODO: FIX KEY VALUE FOR CLIENT SECRET
-      return this.configService.get('DeploymentCenter_DropboxClinetSecret');
+      return this.configService.get('DeploymentCenter_DropboxClientSecret');
     }
     return this.configService.get('DROPBOX_CLIENT_SECRET');
   }
