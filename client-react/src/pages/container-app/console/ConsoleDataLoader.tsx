@@ -129,8 +129,8 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   const sendWsMessage = (text: string) => {
     if (ws.current && ws.current.readyState === ws.current.OPEN) {
-      var encoder = new TextEncoder();
-      var arr = encoder.encode(text);
+      const encoder = new TextEncoder();
+      const arr = encoder.encode(text);
       ws.current.send(new Blob([new Uint8Array([0, 0]), arr]));
     }
   };
