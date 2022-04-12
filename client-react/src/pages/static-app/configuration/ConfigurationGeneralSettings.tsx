@@ -162,7 +162,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
   }, [formProps.values.visitorPassword, formProps.values.visitorPasswordConfirm, formProps.values.passwordProtection]);
 
   useEffect(() => {
-    if (!!formProps.values.passwordProtection) {
+    if (formProps.values.passwordProtection) {
       setPasswordProtection(formProps.values.passwordProtection);
     }
 

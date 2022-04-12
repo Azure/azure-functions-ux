@@ -40,7 +40,7 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
       resourceGroup: site?.properties.resourceGroup ?? '',
       subscriptionName: resourceDescriptor.subscription,
       workerRuntime: workerRuntime || '',
-      slotName: !!site ? new ArmSiteDescriptor(site.id).slot || '' : '',
+      slotName: site ? new ArmSiteDescriptor(site.id).slot || '' : '',
     };
   };
 

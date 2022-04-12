@@ -53,7 +53,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     }
 
     // Connect to the container if one is selected.
-    if (!!revisionReplicaContainer) {
+    if (revisionReplicaContainer) {
       const revisionReplicaContainerBefore = revisionReplicaContainer;
       ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
         if (revisionReplicaContainerBefore === revisionReplicaContainer) {

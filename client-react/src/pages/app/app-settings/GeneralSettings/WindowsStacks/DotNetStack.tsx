@@ -94,7 +94,7 @@ const DotNetStack: React.SFC<StackProps> = props => {
     if (netFrameworkVersion) {
       try {
         const netFrameworkVersionSubstring = netFrameworkVersion.substring(1);
-        const netFrameworkVersionInt = !!netFrameworkVersionSubstring ? netFrameworkVersionSubstring.split('.')[0] : undefined;
+        const netFrameworkVersionInt = netFrameworkVersionSubstring?.split('.')[0];
         if (netFrameworkVersionInt && toInteger(netFrameworkVersionInt) >= NETFRAMEWORKVERSION5) {
           setVersionDropdownValue(netFrameworkVersion);
           return;

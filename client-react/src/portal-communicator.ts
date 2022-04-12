@@ -72,7 +72,7 @@ export default class PortalCommunicator {
         this.shellSrc
       );
     } else if (Url.getParameterByName(null, 'appsvc.bladetype') === 'framecontrol') {
-      const innerDataJson = !!data ? JSON.parse(data) : null;
+      const innerDataJson = data ? JSON.parse(data) : null;
       window.parent.postMessage(
         {
           data: { data: innerDataJson, kind: verb },
