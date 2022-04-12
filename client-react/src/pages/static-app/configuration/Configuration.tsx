@@ -425,9 +425,8 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   };
 
   const getCheckedValueForCheckBox = (disabled: boolean) => {
-    const selectedEnvironmentVariables =
-      values.environmentVariables?.filter(environmentVariable => environmentVariable.checked).length ?? [];
-    return !disabled && !!values.environmentVariables && selectedEnvironmentVariables === values.environmentVariables.length;
+    const selectedEnvironmentVariables = values.environmentVariables?.filter(environmentVariable => environmentVariable.checked) ?? [];
+    return !disabled && !!values.environmentVariables && selectedEnvironmentVariables.length === values.environmentVariables.length;
   };
 
   const getFilteredItems = () => {
