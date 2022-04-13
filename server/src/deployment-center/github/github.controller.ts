@@ -296,8 +296,9 @@ export class GithubController {
 
   @Post('auth/github/getToken')
   @HttpCode(200)
-  async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string, @Headers('origin') origin: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
+    this.redirectURL = `${origin}/auth/github/callback`;
     if (
       !session ||
       !session[Constants.oauthApis.github_state_key] ||

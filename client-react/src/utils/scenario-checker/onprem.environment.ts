@@ -274,7 +274,7 @@ export class OnPremEnvironment extends Environment {
       id: ScenarioIds.githubSource,
       runCheckAsync: async () => {
         const hasGitHubCredentials = await sendHttpRequest<boolean>({
-          url: `${Url.serviceHost}/api/github/hasOnPremCredentials`,
+          url: `${Url.serviceHost}api/github/hasOnPremCredentials`,
           method: 'GET',
         });
         if (hasGitHubCredentials.metadata.success) {
@@ -288,7 +288,7 @@ export class OnPremEnvironment extends Environment {
       id: ScenarioIds.bitbucketSource,
       runCheckAsync: async () => {
         const hasBitbucketCredentials = await sendHttpRequest<boolean>({
-          url: `${Url.serviceHost}/api/bitbucket/hasOnPremCredentials`,
+          url: `${Url.serviceHost}api/bitbucket/hasOnPremCredentials`,
           method: 'GET',
         });
         if (hasBitbucketCredentials.metadata.success) {
@@ -303,7 +303,7 @@ export class OnPremEnvironment extends Environment {
       id: ScenarioIds.dropboxSource,
       runCheckAsync: async () => {
         const hasDropboxCredentials = await sendHttpRequest<boolean>({
-          url: `${Url.serviceHost}/api/dropbox/hasOnPremCredentials`,
+          url: `${Url.serviceHost}api/dropbox/hasOnPremCredentials`,
           method: 'GET',
         });
         if (hasDropboxCredentials.metadata.success) {
@@ -317,7 +317,7 @@ export class OnPremEnvironment extends Environment {
       id: ScenarioIds.onedriveSource,
       runCheckAsync: async () => {
         const hasOneDriveCredentials = await sendHttpRequest<boolean>({
-          url: `${Url.serviceHost}/api/onedrive/hasOnPremCredentials`,
+          url: `${Url.serviceHost}api/onedrive/hasOnPremCredentials`,
           method: 'GET',
         });
         if (hasOneDriveCredentials.metadata.success) {

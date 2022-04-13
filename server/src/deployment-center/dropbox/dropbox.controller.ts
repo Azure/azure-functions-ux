@@ -48,8 +48,9 @@ export class DropboxController {
 
   @Post('auth/dropbox/getToken')
   @HttpCode(200)
-  async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string, @Headers('origin') origin: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
+    this.redirectUrl = `${origin}/auth/dropbox/callback`;
     if (
       !session ||
       !session[Constants.oauthApis.dropbox_state_key] ||

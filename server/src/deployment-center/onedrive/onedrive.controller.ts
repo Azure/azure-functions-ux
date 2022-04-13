@@ -46,8 +46,9 @@ export class OnedriveController {
 
   @Post('auth/onedrive/getToken')
   @HttpCode(200)
-  async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string, @Headers('origin') origin: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
+    this.redirectUrl = `${origin}/auth/onedrive/callback`;
     if (
       !session ||
       !session[Constants.oauthApis.onedrive_state_key] ||
