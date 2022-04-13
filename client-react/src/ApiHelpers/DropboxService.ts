@@ -66,7 +66,7 @@ export default class DropboxService {
   };
 
   private static _sendDropboxRequest = (url: string, dropboxToken: string, method: Method, data: any) => {
-    return sendHttpRequest<DropboxArrayResponse<DropboxFolder[]>>(
+    return sendHttpRequest<DropboxArrayResponse>(
       {
         url,
         method,

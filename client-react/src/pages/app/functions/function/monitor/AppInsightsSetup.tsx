@@ -17,17 +17,14 @@ const AppInsightsSetup: React.FC<AppInsightsSetupProps> = props => {
   const { t } = useTranslation();
 
   const openConfigureAppInsights = async () => {
-    await portalContext.openBlade(
-      {
-        detailBlade: 'AppServicesEnablementBlade',
-        extension: 'AppInsightsExtension',
-        detailBladeInputs: {
-          resourceUri: siteId,
-          linkedComponent: null,
-        },
+    await portalContext.openBlade({
+      detailBlade: 'AppServicesEnablementBlade',
+      extension: 'AppInsightsExtension',
+      detailBladeInputs: {
+        resourceUri: siteId,
+        linkedComponent: null,
       },
-      'function-monitor'
-    );
+    });
     fetchNewAppInsightsComponent();
   };
 

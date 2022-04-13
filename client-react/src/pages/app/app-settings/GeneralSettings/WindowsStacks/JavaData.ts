@@ -2,7 +2,7 @@ import { IDropdownOption } from '@fluentui/react';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
 import i18next from 'i18next';
-import { AppStackOs, AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
+import { AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';
 
@@ -40,7 +40,7 @@ export const getJavaMinorVersionObject = (javaStack: WebAppStack, selectedJavaVe
   return minorVersionSettings;
 };
 
-export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack, osType?: AppStackOs): IDropdownOption[] => {
+export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack): IDropdownOption[] => {
   const options: IDropdownOption[] = [];
   javaStack.majorVersions.forEach(javaStackMajorVersion => {
     let windowsRuntimeCount = 0;

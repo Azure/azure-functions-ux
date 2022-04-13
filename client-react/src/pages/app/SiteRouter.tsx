@@ -64,7 +64,7 @@ const DeploymentCenter: any = lazy(() =>
   import(/* webpackChunkName:"deploymentcenter" */ './deployment-center/DeploymentCenterDataLoader')
 );
 
-const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
+const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);

@@ -34,18 +34,15 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
   };
 
   const openAppInsightsQueryEditor = () => {
-    portalContext.openBlade(
-      {
-        detailBlade: 'LogsBlade',
-        extension: 'Microsoft_Azure_Monitoring_Logs',
-        detailBladeInputs: {
-          resourceId: appInsightsResourceId,
-          source: 'Microsoft.Web-FunctionApp',
-          query: invocationsContext.formInvocationDetailsQuery(operationId, invocationId),
-        },
+    portalContext.openBlade({
+      detailBlade: 'LogsBlade',
+      extension: 'Microsoft_Azure_Monitoring_Logs',
+      detailBladeInputs: {
+        resourceId: appInsightsResourceId,
+        source: 'Microsoft.Web-FunctionApp',
+        query: invocationsContext.formInvocationDetailsQuery(operationId, invocationId),
       },
-      'function-monitor'
-    );
+    });
   };
 
   const getColumns = (): IColumn[] => {

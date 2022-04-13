@@ -70,7 +70,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [callCount, setCallCount] = useState(0);
   const [showFilteredLogsMessage, setShowFilteredLogsMessage] = useState<boolean>(false);
 
-  const fetchComponent = async (force?: boolean) => {
+  const fetchComponent = async () => {
     const tagsProperty = site?.tags;
     // NOTE: This write permission check is for updating site and app settings objects. Therefore, we only check ReadOnlyRbac and ReadOnlyLock.
     const hasWritePermission = !appReadOnlyPermission && !appReadOnlyLockPermission;
@@ -280,7 +280,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   useEffect(() => {
     if (!appInsightsComponent) {
-      fetchComponent(true);
+      fetchComponent();
     } else if (!quickPulseToken) {
       fetchToken(appInsightsComponent);
     } else if (started) {

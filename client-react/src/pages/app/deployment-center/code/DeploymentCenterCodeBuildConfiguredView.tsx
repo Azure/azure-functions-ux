@@ -8,7 +8,7 @@ import { ScmType } from '../../../../models/site/config';
 import { SiteStateContext } from '../../../../SiteState';
 import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
 
-const DeploymentCenterCodeBuildConfiguredView: React.FC<{}> = () => {
+const DeploymentCenterCodeBuildConfiguredView: React.FC = () => {
   const { t } = useTranslation();
   const [defaultStack, setDefaultStack] = useState<string>(t('loading'));
   const [defaultVersion, setDefaultVersion] = useState<string | undefined>(t('loading'));

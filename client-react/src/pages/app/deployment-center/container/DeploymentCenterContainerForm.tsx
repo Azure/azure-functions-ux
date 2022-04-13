@@ -577,8 +577,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         deploymentCenterData,
         deploymentCenterContext.resourceId,
         payload,
-        deploymentCenterContext.gitHubToken,
-        siteContext.isKubeApp
+        deploymentCenterContext.gitHubToken
       );
     } else {
       return updateSourceControlResponse;

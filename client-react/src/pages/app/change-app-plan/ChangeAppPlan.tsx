@@ -89,9 +89,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const { t } = useTranslation();
 
-  const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(
-    getInitialFormValues(site, currentServerFarm, serverFarms, resourceGroups)
-  );
+  const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(getInitialFormValues(site, currentServerFarm, serverFarms));
 
   // Initialization
   useEffect(() => {
@@ -312,20 +310,17 @@ const openSpecPicker = async (
   linkElement: React.MutableRefObject<ILink | null>,
   portalCommunicator: PortalCommunicator
 ) => {
-  const result = await portalCommunicator.openBlade<SpecPickerOutput>(
-    {
-      detailBlade: 'SpecPickerFrameBlade',
-      detailBladeInputs: {
-        id: currentServerFarmId,
-        data: {
-          selectedSkuCode: 'F1',
-          returnObjectResult: true,
-        },
+  const result = await portalCommunicator.openBlade<SpecPickerOutput>({
+    detailBlade: 'SpecPickerFrameBlade',
+    detailBladeInputs: {
+      id: currentServerFarmId,
+      data: {
+        selectedSkuCode: 'F1',
+        returnObjectResult: true,
       },
-      openAsContextBlade: true,
     },
-    'changeAppPlan'
-  );
+    openAsContextBlade: true,
+  });
 
   (linkElement.current as ILink).focus();
 
@@ -464,15 +459,11 @@ const changeSiteToNewPlan = async (
     rgName = serverFarmInfo.newPlanInfo.newResourceGroupName;
   }
 
-  const newServerFarmId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${rgName}/providers/Microsoft.Web/serverFarms/${
-    serverFarmInfo.newPlanInfo.name
-  }`;
+  const newServerFarmId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${rgName}/providers/Microsoft.Web/serverFarms/${serverFarmInfo.newPlanInfo.name}`;
 
   // Purposely ignoring slots to avoid a back-end bug where if webSiteId is a slot resourceId, then you'll get a 404 on create.
   // This works because slots always have the same webspace as prod sites.
-  const webSiteId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${
-    siteDescriptor.resourceGroup
-  }/providers/Microsoft.Web/sites/${siteDescriptor.site}`;
+  const webSiteId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${siteDescriptor.resourceGroup}/providers/Microsoft.Web/sites/${siteDescriptor.site}`;
 
   const newServerFarm = {
     id: newServerFarmId,
@@ -609,8 +600,7 @@ const getDropdownOptions = (objs: ArmObj<any>[]) => {
 const getInitialFormValues = (
   site: ArmObj<Site>,
   currentServerFarm: ArmObj<ServerFarm>,
-  serverFarms: ArmObj<ServerFarm>[],
-  resourceGroups: ArmObj<ResourceGroup>[]
+  serverFarms: ArmObj<ServerFarm>[]
 ): ChangeAppPlanFormValues => {
   const existingPlan = serverFarms.length > 0 ? serverFarms[0] : null;
   const planDescriptor = new ArmPlanDescriptor(currentServerFarm.id);

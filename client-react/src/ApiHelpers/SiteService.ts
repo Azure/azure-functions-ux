@@ -34,7 +34,8 @@ export default class SiteService {
     site: ArmObj<Site>,
     configSettingsToIgnore: string[] = SiteService._configSettingsToIgnore
   ) => {
-    const { identity, ...rest } = site;
+    const rest: ArmObj<Site> = { ...site };
+    delete rest.identity;
 
     const siteConfig = !!rest && !!rest.properties && rest.properties.siteConfig;
     SiteService._removePropertiesFromSiteConfig(siteConfig, configSettingsToIgnore);
@@ -311,7 +312,7 @@ export default class SiteService {
     return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'getHostStatus', skipBatching: force });
   };
 
-  public static fireSyncTrigger = (site: ArmObj<Site>, token: string) => {
+  public static fireSyncTrigger = (site: ArmObj<Site>) => {
     return MakeArmCall<any>({ resourceId: `${site.id}/host/default/sync`, commandName: 'syncTrigger', method: 'POST' });
   };
 

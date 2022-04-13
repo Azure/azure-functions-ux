@@ -616,7 +616,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const refresh = async () => {
     if (site) {
       setIsRefreshing(true);
-      SiteService.fireSyncTrigger(site, startupInfoContext.token).then(r => {
+      SiteService.fireSyncTrigger(site).then(r => {
         fetchData();
         if (!r.metadata.success) {
           LogService.error(

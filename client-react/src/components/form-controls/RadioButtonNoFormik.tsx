@@ -22,7 +22,7 @@ const fieldStyle = style({
   marginRight: '10px',
 });
 const RadioButtonNoFormik: React.SFC<IChoiceGroupProps & RadioButtonProps> = props => {
-  const { options, learnMore, label, subLabel, upsellMessage, theme, onChange, displayInVerticalLayout, ...rest } = props;
+  const { options, onChange, displayInVerticalLayout, ...rest } = props;
   const optionsWithMargin: IChoiceGroupOption[] | undefined =
     options &&
     options.map(option => {

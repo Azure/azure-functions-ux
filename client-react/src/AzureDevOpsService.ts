@@ -151,7 +151,7 @@ export default class AzureDevOpsService {
   }
 
   private _sendRequest<T>(url: string, account: string): Promise<HttpResponseObject<T>> {
-    return this.getAccounts().then(result => {
+    return this.getAccounts().then(() => {
       const currentAccount = this._accountsList.find(x => x.AccountName.toLowerCase() === account.toLowerCase());
       const forceMsaPassthrough = currentAccount ? currentAccount.ForceMsaPassThrough : false;
       return sendHttpRequest<T>({ url, method: 'GET', headers: this.getAzDevDirectHeaders(forceMsaPassthrough) });
