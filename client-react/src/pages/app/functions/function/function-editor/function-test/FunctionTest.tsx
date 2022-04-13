@@ -177,7 +177,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     const siteConfig = functionEditorContext.functionData.siteConfig;
     if (siteConfig?.properties.cors?.allowedOrigins) {
       const referrer = CommonConstants.getReferrer();
-      if (!!referrer) {
+      if (referrer) {
         return siteConfig.properties.cors.allowedOrigins.filter(allowedOrigin => allowedOrigin.toLocaleLowerCase() === referrer).length > 0;
       }
     }
