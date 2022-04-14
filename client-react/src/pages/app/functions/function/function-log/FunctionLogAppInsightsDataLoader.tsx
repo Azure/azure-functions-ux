@@ -72,6 +72,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const fetchComponent = async (force?: boolean) => {
     const tagsProperty = site?.tags;
+    // NOTE: This write permission check is for updating site and app settings objects. Therefore, we only check ReadOnlyRbac and ReadOnlyLock.
     const hasWritePermission = !appReadOnlyPermission && !appReadOnlyLockPermission;
     const appSettingsPromise = SiteService.fetchApplicationSettings(siteResourceId);
     const appInsightsDataPromise = AppInsightsService.getAppInsightsResourceAndUpdateTags(
