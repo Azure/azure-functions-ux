@@ -52,8 +52,10 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const startupInfoContext = useContext(StartupInfoContext);
   const siteStateContext = useContext(SiteStateContext);
+  const { site, siteAppEditState } = siteStateContext;
 
-  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteStateContext.siteAppEditState);
+  const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteAppEditState);
+  const appReadOnlyLockPermission = SiteHelper.isReadOnlyLockPermission(siteAppEditState);
 
   const { t } = useTranslation();
 
@@ -69,31 +71,29 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [showFilteredLogsMessage, setShowFilteredLogsMessage] = useState<boolean>(false);
 
   const fetchComponent = async (force?: boolean) => {
-    const [appInsightsResourceIdResponse, fetchAppSettingsResponse] = await Promise.all([
-      AppInsightsService.getAppInsightsResourceId(siteResourceId, startupInfoContext.subscriptions),
-      SiteService.fetchApplicationSettings(siteResourceId),
-    ]);
+    const tagsProperty = site?.tags;
+    // NOTE: This write permission check is for updating site and app settings objects. Therefore, we only check ReadOnlyRbac and ReadOnlyLock.
+    const hasWritePermission = !appReadOnlyPermission && !appReadOnlyLockPermission;
+    const appSettingsPromise = SiteService.fetchApplicationSettings(siteResourceId);
+    const appInsightsDataPromise = AppInsightsService.getAppInsightsResourceAndUpdateTags(
+      siteResourceId,
+      LogCategories.functionLog,
+      appSettingsPromise,
+      tagsProperty,
+      startupInfoContext.subscriptions,
+      hasWritePermission
+    );
 
-    if (appInsightsResourceIdResponse.metadata.success) {
-      const aiResourceId = appInsightsResourceIdResponse.data;
-      if (aiResourceId) {
-        const appInsightsResponse = await AppInsightsService.getAppInsights(aiResourceId);
-        if (appInsightsResponse.metadata.success) {
-          setAppInsightsComponent(appInsightsResponse.data);
-        } else {
-          LogService.error(
-            LogCategories.functionLog,
-            'getAppInsights',
-            `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
-          );
-        }
-      }
+    const [appInsightsDataResponse, fetchAppSettingsResponse] = await Promise.all([appInsightsDataPromise, appSettingsPromise]);
+
+    if (appInsightsDataResponse?.data?.metadata.success) {
+      setAppInsightsComponent(appInsightsDataResponse.data.data);
     } else {
       setAppInsightsComponent(null);
       LogService.error(
         LogCategories.functionLog,
-        'getAppInsightsResourceId',
-        `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
+        'getAppInsights',
+        `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsDataResponse?.data?.metadata.error)}`
       );
     }
 
