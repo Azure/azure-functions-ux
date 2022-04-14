@@ -55,6 +55,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const { site, siteAppEditState } = siteStateContext;
 
   const appReadOnlyPermission = SiteHelper.isRbacReaderPermission(siteAppEditState);
+  const appReadOnlyLockPermission = SiteHelper.isReadOnlyLockPermission(siteAppEditState);
 
   const { t } = useTranslation();
 
@@ -71,7 +72,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const fetchComponent = async (force?: boolean) => {
     const tagsProperty = site?.tags;
-    const hasWritePermission = SiteHelper.hasWritePermission(siteAppEditState);
+    const hasWritePermission = !appReadOnlyPermission && !appReadOnlyLockPermission;
     const appSettingsPromise = SiteService.fetchApplicationSettings(siteResourceId);
     const appInsightsDataPromise = AppInsightsService.getAppInsightsResourceAndUpdateTags(
       siteResourceId,

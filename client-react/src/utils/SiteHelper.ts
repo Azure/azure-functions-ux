@@ -109,7 +109,7 @@ export default class SiteHelper {
     return editMode === FunctionAppEditMode.ReadOnlyRbac;
   }
 
-  public static hasWritePermission(editMode: FunctionAppEditMode) {
-    return editMode !== FunctionAppEditMode.ReadOnlyLock && editMode !== FunctionAppEditMode.ReadOnlyRbac;
+  public static isReadOnlyLockPermission(editMode: FunctionAppEditMode) {
+    return editMode === FunctionAppEditMode.ReadOnlyLock;
   }
 }
