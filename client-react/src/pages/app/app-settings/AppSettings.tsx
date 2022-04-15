@@ -19,7 +19,7 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
 import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
-import { BladeCloseReason, IBladeResult, OpenBladeSource } from '../../../models/portal-models';
+import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
 import { SiteStateContext } from '../../../SiteState';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
@@ -99,17 +99,14 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     currentValues: AppSettingsFormValues,
     setCurrentValues: (values: AppSettingsFormValues) => void
   ) => {
-    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
-      {
-        detailBlade: 'CreateLinkerBlade',
-        detailBladeInputs: {
-          sourceResourceId: resourceId,
-        },
-        extension: 'ServiceLinkerExtension',
-        openAsContextBlade: true,
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>({
+      detailBlade: 'CreateLinkerBlade',
+      detailBladeInputs: {
+        sourceResourceId: resourceId,
       },
-      OpenBladeSource.appSettings
-    );
+      extension: 'ServiceLinkerExtension',
+      openAsContextBlade: true,
+    });
     if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];
       if (!!webAppConfig && !!initialValues) {
@@ -125,18 +122,15 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     currentValues: AppSettingsFormValues,
     setCurrentValues: (values: AppSettingsFormValues) => void
   ) => {
-    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
-      {
-        detailBlade: 'UpdateLinkerBlade',
-        detailBladeInputs: {
-          sourceResourceId: resourceId,
-          configName: settingName,
-        },
-        extension: 'ServiceLinkerExtension',
-        openAsContextBlade: true,
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>({
+      detailBlade: 'UpdateLinkerBlade',
+      detailBladeInputs: {
+        sourceResourceId: resourceId,
+        configName: settingName,
       },
-      OpenBladeSource.appSettings
-    );
+      extension: 'ServiceLinkerExtension',
+      openAsContextBlade: true,
+    });
     if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];
       if (!!webAppConfig && !!initialValues) {
@@ -152,18 +146,15 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     currentValues: AppSettingsFormValues,
     setCurrentValues: (values: AppSettingsFormValues) => void
   ) => {
-    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>(
-      {
-        detailBlade: 'DeleteLinkerBlade',
-        detailBladeInputs: {
-          sourceResourceId: resourceId,
-          configName: settingName,
-        },
-        extension: 'ServiceLinkerExtension',
-        openAsContextBlade: true,
+    const response = await portalContext.openBlade<ServiceLinkerBladeResponse>({
+      detailBlade: 'DeleteLinkerBlade',
+      detailBladeInputs: {
+        sourceResourceId: resourceId,
+        configName: settingName,
       },
-      OpenBladeSource.appSettings
-    );
+      extension: 'ServiceLinkerExtension',
+      openAsContextBlade: true,
+    });
     if (isServiceLinkerBladeResponseSucceeded(response)) {
       const webAppConfig = response.data['webAppConfiguration'];
       if (!!webAppConfig && !!initialValues) {

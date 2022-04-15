@@ -18,7 +18,7 @@ interface RadioButtonProps {
 }
 
 const RadioButton: React.SFC<IChoiceGroupProps & FieldProps & RadioButtonProps> = props => {
-  const { field, form, options, theme, displayInVerticalLayout, ...rest } = props;
+  const { field, form, options, displayInVerticalLayout, ...rest } = props;
   const onChange = (e: unknown, option: IChoiceGroupOption) => {
     form.setFieldValue(field.name, option.key);
   };

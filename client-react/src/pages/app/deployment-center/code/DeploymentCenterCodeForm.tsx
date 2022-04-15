@@ -115,8 +115,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           deploymentCenterData,
           deploymentCenterContext.resourceId,
           payload,
-          deploymentCenterContext.gitHubToken,
-          siteStateContext.isKubeApp
+          deploymentCenterContext.gitHubToken
         );
       } else {
         if (!updateSourceControlResponse.metadata.success) {
@@ -197,8 +196,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       deploymentCenterData,
       deploymentCenterContext.resourceId,
       payload,
-      deploymentCenterContext.gitHubToken,
-      siteStateContext.isKubeApp
+      deploymentCenterContext.gitHubToken
     );
   };
 

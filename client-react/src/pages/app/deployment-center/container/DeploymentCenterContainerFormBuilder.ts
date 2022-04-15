@@ -36,7 +36,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     const serverUrl = this._getServerUrl();
     const username = this._getUsername();
     const password = this._getPassword();
-    const fxVersionParts = this._getFxVersionParts(serverUrl, username);
+    const fxVersionParts = this._getFxVersionParts(serverUrl);
 
     return {
       scmType: this._siteConfig ? this._siteConfig.properties.scmType : ScmType.None,
@@ -235,7 +235,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     return this._siteConfig?.properties.appCommandLine ?? '';
   }
 
-  private _getFxVersionParts(appSettingServerUrl: string, appSettingUsername: string): FxVersionParts {
+  private _getFxVersionParts(appSettingServerUrl: string): FxVersionParts {
     if (!this._siteConfig) {
       return {
         server: '',

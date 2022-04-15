@@ -96,7 +96,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     }
   };
 
-  const onRequestBodyChange = (newValue, event) => {
+  const onRequestBodyChange = newValue => {
     setReqBody(newValue);
   };
 
@@ -259,9 +259,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
             <div className={functionTestBodyStyle}>
               <Pivot
                 selectedKey={selectedPivotTab}
-                onLinkClick={(item?: PivotItem, ev?) =>
-                  !!item && !!item.props.itemKey && setSelectedPivotTab(item.props.itemKey as PivotType)
-                }
+                onLinkClick={(item?: PivotItem) => !!item && !!item.props.itemKey && setSelectedPivotTab(item.props.itemKey as PivotType)}
                 overflowBehavior={OverflowBehavior.menu}>
                 <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')}>
                   <FunctionTestInput

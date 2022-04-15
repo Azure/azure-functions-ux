@@ -158,14 +158,14 @@ export default class PortalCommunicator {
     }
   }
 
-  public openBlade<T, U = any>(bladeInfo: IOpenBladeInfo<U>, source: string): Promise<IBladeResult<T>> {
+  public openBlade<T, U = any>(bladeInfo: IOpenBladeInfo<U>): Promise<IBladeResult<T>> {
     const payload: IDataMessage<IOpenBladeInfo<U>> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
     };
 
     PortalCommunicator.postMessage(Verbs.openBlade2, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === payload.operationId),
@@ -180,8 +180,8 @@ export default class PortalCommunicator {
     });
   }
 
-  public openFrameBlade<T, U = any>(bladeInfo: IOpenBladeInfo<FrameBladeParams<U>>, source: string): Promise<IBladeResult<T>> {
-    return this.openBlade(bladeInfo, source);
+  public openFrameBlade<T, U = any>(bladeInfo: IOpenBladeInfo<FrameBladeParams<U>>): Promise<IBladeResult<T>> {
+    return this.openBlade(bladeInfo);
   }
 
   public getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {
@@ -213,7 +213,7 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.httpRequest, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === payload.operationId),
@@ -232,7 +232,7 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.ibizaExperimentationFlighting, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === payload.operationId),
@@ -253,7 +253,7 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.getSubscriptionInfo, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === payload.operationId),
@@ -407,7 +407,7 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.executeArmUpdateRequest, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === operationId),
@@ -441,7 +441,7 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.hasPermission, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === operationId),
@@ -478,7 +478,7 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.hasLock, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === operationId),

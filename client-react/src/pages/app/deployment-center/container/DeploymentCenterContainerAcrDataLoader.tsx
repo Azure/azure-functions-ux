@@ -463,19 +463,16 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   };
 
   const openIdentityBlade = async () => {
-    const response = await portalContext.openBlade(
-      {
-        detailBlade: 'AzureResourceIdentitiesBladeV2',
-        extension: 'Microsoft_Azure_ManagedServiceIdentity',
-        detailBladeInputs: {
-          resourceId: deploymentCenterContext.resourceId,
-          apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
-          systemAssignedStatus: 2, // IdentityStatus.Supported
-          userAssignedStatus: 2, // IdentityStatus.Supported
-        },
+    const response = await portalContext.openBlade({
+      detailBlade: 'AzureResourceIdentitiesBladeV2',
+      extension: 'Microsoft_Azure_ManagedServiceIdentity',
+      detailBladeInputs: {
+        resourceId: deploymentCenterContext.resourceId,
+        apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+        systemAssignedStatus: 2, // IdentityStatus.Supported
+        userAssignedStatus: 2, // IdentityStatus.Supported
       },
-      'deployment-center'
-    );
+    });
     if (response) {
       fetchManagedIdentityOptions();
     }

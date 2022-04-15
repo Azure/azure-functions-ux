@@ -28,7 +28,7 @@ export default class FunctionKeysData {
       return [];
     }
     return sortBy(
-      Object.keys(keys).map((key, i) => ({
+      Object.keys(keys).map(key => ({
         name: key,
         value: keys[key],
       })),

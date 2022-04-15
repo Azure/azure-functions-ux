@@ -8,7 +8,7 @@ import { Environment, ScenarioCheckInput } from './scenario.models';
 export class WindowsCode extends Environment {
   public name = 'WindowCode';
 
-  constructor(t: (string) => string) {
+  constructor() {
     super();
     this.scenarioChecks[ScenarioIds.windowsAppStack] = {
       id: ScenarioIds.windowsAppStack,

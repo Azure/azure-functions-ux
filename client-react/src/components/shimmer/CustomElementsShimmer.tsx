@@ -7,7 +7,7 @@ interface CustomElementsShimmerProps {
   className?: string;
 }
 
-const CustomElementsShimmer: React.FC<CustomElementsShimmerProps> = props => {
+const CustomElementsShimmer: React.FC<CustomElementsShimmerProps> = () => {
   return (
     <Fabric className={wrapperClass}>
       <Shimmer customElementsGroup={getLineGapShimmerGroup()} width="350" />

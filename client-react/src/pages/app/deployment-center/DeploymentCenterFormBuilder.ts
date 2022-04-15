@@ -73,7 +73,7 @@ export abstract class DeploymentCenterFormBuilder {
         .test('confirmPasswordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
           return this.parent.publishingUsername && this.parent.publishingUsername !== getPublishingUsername() ? value : true;
         }),
-      workflowOption: Yup.mixed().test('workflowOptionRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+      workflowOption: Yup.mixed().test('workflowOptionRequired', this._t('deploymentCenterFieldRequiredMessage'), function() {
         return this.parent.buildProvider === BuildProvider.GitHubAction
           ? this.parent.branch && this.parent.workflowOption !== 'none'
           : true;

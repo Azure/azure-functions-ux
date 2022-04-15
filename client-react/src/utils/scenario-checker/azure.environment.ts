@@ -67,7 +67,7 @@ export class AzureEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.webSocketsEnabled] = {
       id: ScenarioIds.webSocketsEnabled,
-      runCheck: (input: ScenarioCheckInput) => {
+      runCheck: () => {
         return { status: 'enabled' };
       },
     };
@@ -142,7 +142,7 @@ export class AzureEnvironment extends Environment {
     };
   }
 
-  public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
+  public isCurrentEnvironment(): boolean {
     return process.env.REACT_APP_RUNETIME_TYPE === 'Azure';
   }
 

@@ -5,7 +5,7 @@ import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 
-const DeploymentCenterLocalGitProvider: React.FC<{}> = props => {
+const DeploymentCenterLocalGitProvider: React.FC = () => {
   const { t } = useTranslation();
 
   return (
