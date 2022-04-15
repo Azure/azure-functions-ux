@@ -34,6 +34,7 @@ import {
   updateGitHubActionSourceControlPropertiesManually,
   updateGitHubActionAppSettingsForPython,
   getRuntimeVersion,
+  updateGitHubActionAppSettingsRuntimeStack,
 } from '../utility/GitHubActionUtility';
 import {
   getWorkflowFilePath,
@@ -82,6 +83,23 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,
       });
+
+      portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
+
+      if (
+        !!deploymentCenterContext.configMetadata &&
+        !deploymentCenterContext.configMetadata[DeploymentCenterConstants.metadataCurrentStack]
+      ) {
+        const updateAppSettingsResponse = await updateGitHubActionAppSettingsRuntimeStack(
+          deploymentCenterData,
+          deploymentCenterContext.resourceId,
+          values.runtimeStack,
+          values.runtimeVersion
+        );
+        if (!updateAppSettingsResponse?.metadata.success) {
+          portalContext.log(getTelemetryInfo('error', 'updateAppSettingsRuntimeStack', 'failed'));
+        }
+      }
 
       if (
         !updateSourceControlResponse.metadata.success &&
@@ -638,9 +656,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     let errorMessage = getErrorMessage(response.metadata.error);
 
     if (errorMessage.toLowerCase() === CommonConstants.workflowDispatchTriggerErrorMessage && !!workflowFileUrlInfo) {
-      const url = `${workflowFileUrlInfo.repoUrl}/blob/${workflowFileUrlInfo.branch}/.github/workflows/${
-        workflowFileUrlInfo.workflowFileName
-      }`;
+      const url = `${workflowFileUrlInfo.repoUrl}/blob/${workflowFileUrlInfo.branch}/.github/workflows/${workflowFileUrlInfo.workflowFileName}`;
       errorMessage = t('missingWorkflowDispatchTrigger').format(url);
     }
 

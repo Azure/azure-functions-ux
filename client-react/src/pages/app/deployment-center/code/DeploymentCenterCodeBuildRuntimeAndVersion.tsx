@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   DeploymentCenterFieldProps,
@@ -7,6 +7,7 @@ import {
   RuntimeVersionOptions,
   RuntimeStackOptions,
   DotnetRuntimeVersion,
+  JavaContainers,
 } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
@@ -18,9 +19,9 @@ import {
   getRuntimeStackSetting,
   getTelemetryInfo,
 } from '../utility/DeploymentCenterUtility';
-import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
+import { deploymentCenterInfoBannerDiv, titleWithPaddingStyle } from '../DeploymentCenter.styles';
 import { SiteStateContext } from '../../../../SiteState';
-import { JavaContainers, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
+import { JavaContainers as JavaContainersInterface, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks/function-app-stacks';
 import { AppStackOs } from '../../../../models/stacks/app-stacks';
@@ -28,12 +29,27 @@ import { PortalContext } from '../../../../PortalContext';
 import { ArmArray } from '../../../../models/arm-obj';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { KeyValue } from '../../../../models/portal-models';
+import { Field } from 'formik';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+// import { BuildProvider } from '../../../../models/site/config';
+import Dropdown from '../../../../components/form-controls/DropDown';
 
-type StackSettings = (WebAppRuntimes & JavaContainers) | FunctionAppRuntimes;
+type StackSettings = (WebAppRuntimes & JavaContainersInterface) | FunctionAppRuntimes;
 
 const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  // NOTE(michinoy): Disabling preferred array literal rule to allow '.find' operation on the runtimeStacksData.
+  // tslint:disable-next-line: prefer-array-literal
+  const [selectedRuntime, setSelectedRuntime] = useState<string | undefined>(undefined);
+  const [selectedVersion, setSelectedVersion] = useState<string | undefined>(undefined);
+  const [runtimeStackOptions, setRuntimeStackOptions] = useState<IDropdownOption[]>([]);
+  const [runtimeVersionOptions, setRuntimeVersionOptions] = useState<IDropdownOption[]>([]);
+  const [javaContainerOptions, setJavaContainerOptions] = useState<IDropdownOption[]>([]);
+  const [stackMismatchMessage, setStackMismatchMessage] = useState<string>('');
+  const [showMismatchWarningBar, setShowMismatchWarningBar] = useState(true);
+  const gitHubActionRuntimeVersionMapping = useRef<KeyValue<string>>({});
   const [runtimeStacksData, setRuntimeStacksData] = useState<Array<WebAppStack | FunctionAppStack>>([]);
   const [defaultStack, setDefaultStack] = useState<string>('');
   const [defaultVersion, setDefaultVersion] = useState<string>('');
@@ -61,6 +77,11 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     if (runtimeStacksResponse.metadata.success) {
       const runtimeStacks = (runtimeStacksResponse.data as ArmArray<WebAppStack | FunctionAppStack>).value.map(stack => stack.properties);
       setRuntimeStacksData(runtimeStacks);
+      setRuntimeStackOptions(
+        runtimeStacks.map(stack => {
+          return { text: stack.displayText, key: stack.value.toLocaleLowerCase() };
+        })
+      );
     } else {
       portalContext.log(
         getTelemetryInfo('error', 'runtimeStacksResponse', 'failed', {
@@ -71,33 +92,51 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     }
   };
 
-  const setDefaultValues = () => {
-    const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
-      siteStateContext.isLinuxApp,
-      siteStateContext.isFunctionApp,
-      siteStateContext.isKubeApp,
-      deploymentCenterContext.siteConfig,
-      deploymentCenterContext.configMetadata,
-      deploymentCenterContext.applicationSettings
-    );
+  const populateVersionDropdown = (selectedStack: string) => {
+    const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === selectedStack);
 
-    //Note (stpelleg): Java is different
-    if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java17) {
-      defaultStackAndVersion.runtimeVersion = '17.0';
-    } else if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java11) {
-      defaultStackAndVersion.runtimeVersion = '11.0';
-    } else if (
-      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8 ||
-      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8Linux
-    ) {
-      defaultStackAndVersion.runtimeVersion = '8.0';
+    if (runtimeStack) {
+      const displayedVersions: IDropdownOption[] = [];
+
+      runtimeStack.majorVersions.forEach(majorVersion => {
+        majorVersion.minorVersions.forEach(minorVersion => {
+          let value = minorVersion.value;
+          value =
+            (siteStateContext.isLinuxApp || siteStateContext.isKubeApp) &&
+            minorVersion.stackSettings.linuxRuntimeSettings &&
+            minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
+              ? minorVersion.stackSettings.linuxRuntimeSettings.runtimeVersion
+              : value;
+          value =
+            !siteStateContext.isLinuxApp &&
+            !siteStateContext.isKubeApp &&
+            minorVersion.stackSettings.windowsRuntimeSettings &&
+            minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
+              ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
+              : value;
+
+          addGitHubActionRuntimeVersionMapping(
+            selectedStack,
+            value.toLocaleLowerCase(),
+            minorVersion.stackSettings,
+            gitHubActionRuntimeVersionMapping.current
+          );
+          displayedVersions.push({ text: minorVersion.displayText, key: value.toLocaleLowerCase() });
+        });
+      });
+
+      setRuntimeVersionOptions(displayedVersions);
     }
+  };
 
-    formProps.setFieldValue('runtimeStack', defaultStackAndVersion.runtimeStack);
-    formProps.setFieldValue('runtimeVersion', defaultStackAndVersion.runtimeVersion.toLocaleLowerCase());
+  const populateJavaContainerDropdown = () => {
+    const items = [
+      { key: JavaContainers.JavaSE, text: getJavaContainerDisplayName(JavaContainers.JavaSE) },
+      { key: JavaContainers.JBoss, text: getJavaContainerDisplayName(JavaContainers.JBoss) },
+      { key: JavaContainers.Tomcat, text: getJavaContainerDisplayName(JavaContainers.Tomcat) },
+    ];
 
-    setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersion.runtimeStack));
-    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersion.runtimeVersion, siteStateContext.isLinuxApp));
+    setJavaContainerOptions(items);
   };
 
   const updateJavaContainer = () => {
@@ -207,11 +246,100 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     return `${os}-${stack.toLocaleLowerCase()}-${minorVersion.toLocaleLowerCase()}`;
   };
 
+  const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
+    const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, stackValue, runtimeVersionValue);
+
+    return gitHubActionRuntimeVersionMapping.current[key] ? gitHubActionRuntimeVersionMapping.current[key] : runtimeVersionValue;
+  };
+
   const initializeFormValues = () => {
     formProps.setFieldValue('runtimeStack', '');
     formProps.setFieldValue('runtimeVersion', '');
     formProps.setFieldValue('runtimeRecommendedVersion', '');
     formProps.setFieldValue('javaContainer', '');
+  };
+
+  const setDefaultValues = () => {
+    const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
+      siteStateContext.isLinuxApp,
+      siteStateContext.isFunctionApp,
+      siteStateContext.isKubeApp,
+      deploymentCenterContext.siteConfig,
+      deploymentCenterContext.configMetadata,
+      deploymentCenterContext.applicationSettings
+    );
+
+    //Note (stpelleg): Java is different
+    if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java17) {
+      defaultStackAndVersion.runtimeVersion = '17.0';
+    } else if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java11) {
+      defaultStackAndVersion.runtimeVersion = '11.0';
+    } else if (
+      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8 ||
+      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8Linux
+    ) {
+      defaultStackAndVersion.runtimeVersion = '8.0';
+    }
+
+    formProps.setFieldValue('runtimeStack', defaultStackAndVersion.runtimeStack);
+    formProps.setFieldValue('runtimeVersion', defaultStackAndVersion.runtimeVersion.toLocaleLowerCase());
+
+    setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersion.runtimeStack));
+    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersion.runtimeVersion, siteStateContext.isLinuxApp));
+  };
+
+  const updateSelectedRuntime = (e: any, option: IDropdownOption) => {
+    setSelectedRuntime(option.key.toString());
+    formProps.setFieldValue('runtimeStack', option.key.toString());
+
+    // NOTE(michinoy): Show a warning message if the user selects a stack which does not match what their app is configured with.
+    if (defaultStack && option.key.toString() !== defaultStack.toLocaleLowerCase()) {
+      updateStackMismatchMessage();
+    } else {
+      setStackMismatchMessage('');
+    }
+
+    populateVersionDropdown(option.key.toString());
+  };
+
+  const updateSelectedVersion = (e: any, option: IDropdownOption) => {
+    setSelectedVersion(option.key.toString());
+
+    formProps.setFieldValue('runtimeVersion', option.key.toString());
+    formProps.setFieldValue(
+      'runtimeRecommendedVersion',
+      getRuntimeStackRecommendedVersion(formProps.values.runtimeStack, option.key.toString())
+    );
+
+    if (selectedRuntime === RuntimeStackOptions.Java) {
+      populateJavaContainerDropdown();
+    }
+  };
+
+  const updateSelectedJavaContainer = (e: any, option: IDropdownOption) => {
+    setJavaContainer(option.key.toString());
+
+    formProps.setFieldValue('javaContainer', option.key.toString());
+  };
+
+  const updateStackMismatchMessage = () => {
+    if (deploymentCenterContext.siteDescriptor) {
+      const siteName = deploymentCenterContext.siteDescriptor.site;
+      const slotName = deploymentCenterContext.siteDescriptor.slot;
+      setShowMismatchWarningBar(true);
+      setStackMismatchMessage(
+        t('githubActionStackMismatchMessage', {
+          appName: slotName ? `${siteName} (${slotName})` : siteName,
+          stack: defaultStack,
+        })
+      );
+    } else {
+      setStackMismatchMessage('');
+    }
+  };
+
+  const closeStackMismatchWarningBanner = () => {
+    setShowMismatchWarningBar(false);
   };
 
   useEffect(() => {
@@ -231,22 +359,89 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [defaultStack, runtimeStacksData]);
 
+  const getCustomBanner = () => {
+    return (
+      <>
+        {stackMismatchMessage && showMismatchWarningBar && (
+          <div className={deploymentCenterInfoBannerDiv}>
+            <CustomBanner
+              id="stack-mismatch-message"
+              message={stackMismatchMessage}
+              type={MessageBarType.warning}
+              onDismiss={closeStackMismatchWarningBanner}
+            />
+          </div>
+        )}
+      </>
+    );
+  };
+
   return (
     <>
       <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
 
-      <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
-        <div>{defaultStack}</div>
-      </ReactiveFormControl>
+      {getCustomBanner()}
 
-      <ReactiveFormControl id="deployment-center-code-settings-runtime-version" label={t('deploymentCenterSettingsRuntimeVersionLabel')}>
-        <div>{defaultVersion}</div>
-      </ReactiveFormControl>
+      {!defaultStack && !defaultVersion ? (
+        <>
+          <Field
+            label={t('deploymentCenterSettingsRuntimeLabel')}
+            placeholder={t('deploymentCenterRuntimeStackPlaceholder')}
+            name="runtimeStack"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={runtimeStackOptions}
+            selectedKey={selectedRuntime}
+            onChange={updateSelectedRuntime}
+            required={true}
+            aria-required={true}
+          />
+          <Field
+            label={t('deploymentCenterSettingsRuntimeVersionLabel')}
+            placeholder={t('deploymentCenterRuntimeVersionPlaceholder')}
+            name="runtimeVersion"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={runtimeVersionOptions}
+            selectedKey={selectedVersion}
+            onChange={updateSelectedVersion}
+            required={true}
+            aria-required={true}
+          />
 
-      {javaContainer && (
-        <ReactiveFormControl id="deployment-center-code-settings-java-container" label={t('deploymentCenterJavaWebServerStack')}>
-          <div>{javaContainer}</div>
-        </ReactiveFormControl>
+          {selectedRuntime === RuntimeStackOptions.Java && (
+            <Field
+              label={t('javaContainer')}
+              placeholder={t('deploymentCenterJavaContainerPlaceholder')}
+              name="javaContainer"
+              component={Dropdown}
+              displayInVerticalLayout={true}
+              options={javaContainerOptions}
+              selectedKey={javaContainer}
+              onChange={updateSelectedJavaContainer}
+              required={true}
+              aria-required={true}
+            />
+          )}
+        </>
+      ) : (
+        <>
+          <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
+            <div>{defaultStack}</div>
+          </ReactiveFormControl>
+
+          <ReactiveFormControl
+            id="deployment-center-code-settings-runtime-version"
+            label={t('deploymentCenterSettingsRuntimeVersionLabel')}>
+            <div>{defaultVersion}</div>
+          </ReactiveFormControl>
+
+          {!!javaContainer && (
+            <ReactiveFormControl id="deployment-center-code-settings-java-container" label={t('deploymentCenterJavaWebServerStack')}>
+              <div>{javaContainer}</div>
+            </ReactiveFormControl>
+          )}
+        </>
       )}
     </>
   );

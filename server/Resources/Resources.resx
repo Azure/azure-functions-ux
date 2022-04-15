@@ -6642,6 +6642,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterOAuthBranchPlaceholder" xml:space="preserve">
         <value>Select branch</value>
     </data>
+    <data name="deploymentCenterRuntimeStackPlaceholder" xml:space="preserve">
+        <value>Select runtime stack</value>
+    </data>
+    <data name="deploymentCenterRuntimeVersionPlaceholder" xml:space="preserve">
+        <value>Select runtime version</value>
+    </data>
+    <data name="deploymentCenterJavaContainerPlaceholder" xml:space="preserve">
+        <value>Select java container</value>
+    </data>
     <data name="deploymentCenterCodeSettingsSourcPlaceholder" xml:space="preserve">
         <value>Select code source</value>
     </data>

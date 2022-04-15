@@ -60,6 +60,54 @@ export const updateGitHubActionAppSettingsForPython = async (
   }
 };
 
+export const updateGitHubActionAppSettingsRuntimeStack = async (
+  deploymentCenterData: DeploymentCenterData,
+  resourceId: string,
+  runtimeStack: string,
+  runtimeVersion: string
+) => {
+  const fetchExistingMetadataResponse = await deploymentCenterData.getConfigMetadata(resourceId);
+  if (!fetchExistingMetadataResponse.metadata.success) {
+    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'fetchExistingMetadataResponse'), {
+      error: fetchExistingMetadataResponse.metadata.error,
+    });
+
+    return fetchExistingMetadataResponse;
+  }
+
+  const properties = fetchExistingMetadataResponse.data.properties ?? {};
+  properties[DeploymentCenterConstants.metadataCurrentStack] = runtimeStack;
+  const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
+
+  if (runtimeStack === RuntimeStacks.node) {
+    const fetchExistingAppSettingsResponse = await deploymentCenterData.fetchApplicationSettings(resourceId);
+    if (!fetchExistingAppSettingsResponse.metadata.success) {
+      LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'fetchExistingAppSettingsResponse'), {
+        error: fetchExistingAppSettingsResponse.metadata.error,
+      });
+      return fetchExistingAppSettingsResponse;
+    }
+
+    const properties = fetchExistingAppSettingsResponse.data && fetchExistingAppSettingsResponse.data.properties;
+    if (!!properties) {
+      properties[DeploymentCenterConstants.appSettings_WEBSITE_NODE_DEFAULT_VERSION] = runtimeVersion;
+      const updateAppSettingsResponse = await deploymentCenterData.updateApplicationSettings(
+        resourceId,
+        fetchExistingAppSettingsResponse.data
+      );
+
+      if (!updateAppSettingsResponse.metadata.success) {
+        LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateAppSettingsResponse'), {
+          error: updateAppSettingsResponse.metadata.error,
+        });
+        return updateAppSettingsResponse;
+      }
+    }
+  }
+
+  return updateMetadataResponse;
+};
+
 export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
   resourceId: string,
