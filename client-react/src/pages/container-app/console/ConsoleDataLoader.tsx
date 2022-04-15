@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { XTerm } from 'xterm-for-react';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
+import { FitAddon } from 'xterm-addon-fit';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -23,7 +24,11 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   React.useEffect(() => {
     if (terminalRef.current) {
+      const fitAddon = new FitAddon();
       terminalRef.current.terminal.options = { cursorStyle: 'underline', cursorBlink: true };
+      terminalRef.current.terminal.loadAddon(fitAddon);
+      fitAddon.fit();
+      terminalRef.current.terminal.resize(200, 800);
     }
   }, [terminalRef]);
 
