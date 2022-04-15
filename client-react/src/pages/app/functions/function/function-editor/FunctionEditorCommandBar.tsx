@@ -84,7 +84,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     setShowInvalidFileSelectedWarning(!isValidFile);
   };
 
-  const onTestItemRender = (item: any, dismissMenu: () => void) => {
+  const onTestItemRender = (item: any) => {
     const tooltipId = 'tooltip-id';
     if (testDisabled) {
       return (

@@ -4,7 +4,7 @@ import { isLinuxApp, isLinuxDynamic, isWorkflowApp } from '../arm-utils';
 export class FunctionAppEnvironment extends Environment {
   public name = 'FunctionApp';
 
-  constructor(t: (string) => string) {
+  constructor() {
     super();
     this.scenarioChecks[ScenarioIds.vstsDeploymentHide] = {
       id: ScenarioIds.vstsDeploymentHide,

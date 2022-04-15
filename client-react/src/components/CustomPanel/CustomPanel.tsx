@@ -31,7 +31,7 @@ const CustomPanel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
       <div className={panelHeaderStyle}>
         {headerText && <h3>{headerText}</h3>}
         <button onClick={onClick} className={closeButtonStyle(theme)}>
-          <CloseSvg role="button" aria-label={t('close')} className={closeButtonSvgStyle(theme)} focusable="true" />
+          <CloseSvg role="button" aria-label={t('close')} className={closeButtonSvgStyle()} focusable="true" />
         </button>
         {!!headerContent && headerContent}
       </div>

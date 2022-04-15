@@ -54,7 +54,7 @@ export const closeButtonStyle = (theme: ThemeExtended) =>
     float: 'right',
   });
 
-export const closeButtonSvgStyle = (theme: ThemeExtended) =>
+export const closeButtonSvgStyle = () =>
   style({
     height: '12px',
     width: '12px',

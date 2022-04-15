@@ -233,7 +233,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
       return (
         <TooltipHost content={t('delete')} id={`function-keys-delete-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
           <IconButton
-            className={`${defaultCellStyle} ${deleteButtonStyle(theme)}`}
+            className={`${defaultCellStyle} ${deleteButtonStyle()}`}
             disabled={!appPermission}
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}

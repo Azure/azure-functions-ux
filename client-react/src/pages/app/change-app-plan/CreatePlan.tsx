@@ -64,7 +64,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
 
     const validate = getServerFarmValidator(subscriptionId, rgName, t);
     validate(planInfo.name)
-      .then(_ => {
+      .then(() => {
         const duplicate = serverFarmsInWebspace.find(s => s.name.toLowerCase() === planInfo.name.toLowerCase());
         if (duplicate) {
           setNewPlanNameValidationError(t('validationWebspaceUniqueErrorFormat').format(planInfo.name));

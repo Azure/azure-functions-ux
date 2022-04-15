@@ -8,7 +8,7 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { vstsDescriptionStyle } from '../DeploymentCenter.styles';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
-const DeploymentCenterVstsBuildProvider: React.FC<{}> = props => {
+const DeploymentCenterVstsBuildProvider: React.FC = () => {
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);

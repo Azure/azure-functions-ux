@@ -18,7 +18,7 @@ interface CustomComboboxProps {
 }
 
 const ComboBoxNoFormik = (props: IComboBoxProps & CustomComboboxProps) => {
-  const { value, onChange, errorMessage, options, label, ...rest } = props;
+  const { value, onChange, errorMessage, options, ...rest } = props;
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
 

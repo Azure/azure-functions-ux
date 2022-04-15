@@ -110,13 +110,10 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   };
 
   const onAppInsightsMessageClick = () => {
-    portalContext.openFrameBlade(
-      {
-        detailBlade: 'SiteConfigSettingsFrameBladeReact',
-        detailBladeInputs: { id: armFunctionDescriptor.getSiteOnlyResourceId() },
-      },
-      'functionMonitoring'
-    );
+    portalContext.openFrameBlade({
+      detailBlade: 'SiteConfigSettingsFrameBladeReact',
+      detailBladeInputs: { id: armFunctionDescriptor.getSiteOnlyResourceId() },
+    });
   };
 
   if (!!appInsightsKeyType && appInsightsKeyType === AppInsightsKeyType.keyVault) {

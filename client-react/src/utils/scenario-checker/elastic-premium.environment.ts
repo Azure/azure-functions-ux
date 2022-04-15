@@ -3,7 +3,7 @@ import { ScenarioCheckInput, Environment } from './scenario.models';
 export class ElasticPremiumAppEnvironment extends Environment {
   public name = 'ElasticPremiumApp';
 
-  constructor(t: (string) => string) {
+  constructor() {
     super();
     this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
       id: ScenarioIds.alwaysOnSupported,

@@ -55,7 +55,7 @@ const ConfigurationAdvancedAddEdit: React.FC<ConfigurationAdvancedAddEditProps> 
     return errorMessage ? { message: errorMessage, level: MessageBarType.error } : undefined;
   };
 
-  const onChange = (newValue, e) => {
+  const onChange = newValue => {
     setEnvironmentVariablesJSON(newValue);
     validate(newValue);
   };
