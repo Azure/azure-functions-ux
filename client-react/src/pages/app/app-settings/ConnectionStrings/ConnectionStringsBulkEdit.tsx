@@ -46,7 +46,7 @@ const ConnectionStringsBulkEdit: React.FC<ConnectionStringsBulkEditProps> = prop
     disable: false,
   };
 
-  const onChange = (newValue, event) => {
+  const onChange = newValue => {
     setConnectionStringsState(newValue);
     validate(newValue);
   };

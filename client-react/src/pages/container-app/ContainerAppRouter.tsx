@@ -13,13 +13,13 @@ export interface ContainerAppRouterProps {
   appName?: string;
 }
 
-const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>> = (props) => {
+const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>> = () => {
   const theme = useContext(ThemeContext);
 
   return (
     <main className={iconStyles(theme)}>
       <StartupInfoContext.Consumer>
-        {(value) => {
+        {value => {
           return (
             value.token && (
               <Router>

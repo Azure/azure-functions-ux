@@ -317,7 +317,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setInitialLoading(false);
   };
 
-  const onChange = (newValue, event) => {
+  const onChange = newValue => {
     setFileContent({ ...fileContent, latest: newValue });
   };
 
@@ -417,7 +417,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const fileName = file.name;
     const notificationId = portalCommunicator.startNotification(t('uploadingFile'), t('uploadingFileWithName').format(fileName));
 
-    xhr.onloadstart = async loadStartEvent => {
+    xhr.onloadstart = async () => {
       setIsUploadingFile(true);
     };
     xhr.onloadend = async loadEndEvent => {

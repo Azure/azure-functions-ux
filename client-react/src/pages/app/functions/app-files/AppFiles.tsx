@@ -135,7 +135,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     }
   };
 
-  const onChange = (newValue, event) => {
+  const onChange = newValue => {
     setFileContent({ ...fileContent, latest: newValue });
   };
 

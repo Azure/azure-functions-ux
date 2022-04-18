@@ -97,8 +97,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           deploymentCenterData,
           deploymentCenterContext.resourceId,
           payload,
-          deploymentCenterContext.gitHubToken,
-          siteStateContext.isKubeApp
+          deploymentCenterContext.gitHubToken
         );
       } else {
         if (!updateSourceControlResponse.metadata.success) {
@@ -179,8 +178,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       deploymentCenterData,
       deploymentCenterContext.resourceId,
       payload,
-      deploymentCenterContext.gitHubToken,
-      siteStateContext.isKubeApp
+      deploymentCenterContext.gitHubToken
     );
   };
 
@@ -638,9 +636,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     let errorMessage = getErrorMessage(response.metadata.error);
 
     if (errorMessage.toLowerCase() === CommonConstants.workflowDispatchTriggerErrorMessage && !!workflowFileUrlInfo) {
-      const url = `${workflowFileUrlInfo.repoUrl}/blob/${workflowFileUrlInfo.branch}/.github/workflows/${
-        workflowFileUrlInfo.workflowFileName
-      }`;
+      const url = `${workflowFileUrlInfo.repoUrl}/blob/${workflowFileUrlInfo.branch}/.github/workflows/${workflowFileUrlInfo.workflowFileName}`;
       errorMessage = t('missingWorkflowDispatchTrigger').format(url);
     }
 

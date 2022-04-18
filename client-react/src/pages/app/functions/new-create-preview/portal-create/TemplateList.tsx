@@ -158,7 +158,7 @@ const TemplateList: React.FC<TemplateListProps> = props => {
     );
   };
 
-  const onItemInvoked = (item?: FunctionTemplate, index?: number) => {
+  const onItemInvoked = (item?: FunctionTemplate) => {
     if (item) {
       setSelectedTemplate(item);
     }

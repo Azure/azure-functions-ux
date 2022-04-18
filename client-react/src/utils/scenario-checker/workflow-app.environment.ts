@@ -5,8 +5,8 @@ import { isWorkflowApp } from '../arm-utils';
 export class WorkflowAppEnvironment extends FunctionAppEnvironment {
   public name = 'WorkflowApp';
 
-  constructor(t: (string) => string) {
-    super(t);
+  constructor() {
+    super();
 
     this.scenarioChecks[ScenarioIds.runtimeScaleMonitoringSupported] = {
       id: ScenarioIds.runtimeScaleMonitoringSupported,

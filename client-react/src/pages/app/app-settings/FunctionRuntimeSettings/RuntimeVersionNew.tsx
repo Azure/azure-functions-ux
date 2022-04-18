@@ -16,9 +16,10 @@ import {
 import { AppSettingsFormProps, FormAppSetting } from '../AppSettings.types';
 import { addOrUpdateFormAppSetting, removeFromAppSetting } from '../AppSettingsFormData';
 import { FunctionAppStacksContext, PermissionsContext } from '../Contexts';
+import { runtimeVersionDirty } from '../Sections/FunctionRuntimeSettingsPivot';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
-  const { values, setFieldValue } = props;
+  const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
 
   const [stackSupportedRuntimeVersions, setStackSupportedRuntimeVersions] = useState<RuntimeExtensionMajorVersions[]>([]);
@@ -167,6 +168,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
             disabled={false}
             label={t('runtimeVersion')}
             id="function-app-settings-runtime-version"
+            dirty={runtimeVersionDirty(values, initialValues)}
           />
         </>
       ) : (

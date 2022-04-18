@@ -24,7 +24,7 @@ interface CustomComboBoxProps {
 }
 
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
-  const { field, form, options, styles, setOptions, allowFreeform, isLoading, searchable, text, clearComboBox, ...rest } = props;
+  const { field, form, options, setOptions, allowFreeform, isLoading, searchable, clearComboBox, ...rest } = props;
   const theme = useContext(ThemeContext);
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
 

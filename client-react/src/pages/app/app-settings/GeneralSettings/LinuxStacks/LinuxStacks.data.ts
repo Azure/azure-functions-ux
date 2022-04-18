@@ -22,7 +22,7 @@ export const getRuntimeStacks = (builtInStacks: WebAppStack[]) => {
     }));
 };
 
-export const getMajorVersions = (builtInStacks: WebAppStack[], stack: string, t: i18next.TFunction) => {
+export const getMajorVersions = (builtInStacks: WebAppStack[], stack: string) => {
   const stackToLower = (stack || '').toLowerCase();
   const currentStack = builtInStacks.find(s => s.value === stackToLower);
   return (

@@ -6,7 +6,7 @@ import { NationalCloudEnvironment } from './national-cloud.environment';
 export class ContainerApp extends Environment {
   public name = 'ContainerApp';
 
-  constructor(t: (string) => string) {
+  constructor() {
     super();
 
     this.scenarioChecks[ScenarioIds.deploymentCenter] = {

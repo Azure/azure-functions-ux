@@ -74,7 +74,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const onRuntimeStackChange = (newRuntimeStack: string) => {
     setRuntimeStack(newRuntimeStack);
     if (newRuntimeStack !== LINUXJAVASTACKKEY) {
-      const majorVersions = getMajorVersions(supportedStacks, newRuntimeStack, t);
+      const majorVersions = getMajorVersions(supportedStacks, newRuntimeStack);
       if (majorVersions.length > 0) {
         const majVer = majorVersions[0];
         setMajorVersionRuntime(majVer.key as string);
@@ -155,7 +155,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
                   selectedKey={majorVersionRuntime || ''}
                   dirty={isMajorVersionDirty()}
                   onChange={(e, newVal) => onMajorVersionChange(newVal.key)}
-                  options={getMajorVersions(supportedStacks, runtimeStack, t)}
+                  options={getMajorVersions(supportedStacks, runtimeStack)}
                   disabled={disableAllControls}
                   label={t('majorVersion')}
                   id="linux-fx-version-major-version"

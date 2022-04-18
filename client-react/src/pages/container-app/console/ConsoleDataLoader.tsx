@@ -68,7 +68,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
             }
           };
 
-          ws.current.onerror = (ev: Event) => {
+          ws.current.onerror = () => {
             // log error appropriately
           };
 

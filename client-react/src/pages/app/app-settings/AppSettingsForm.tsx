@@ -137,7 +137,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   );
 };
 
-const getPivotTabId = (itemKey: string, index: number) => {
+const getPivotTabId = (itemKey: string) => {
   switch (itemKey) {
     case 'generalSettings':
       return 'app-settings-general-settings-tab';

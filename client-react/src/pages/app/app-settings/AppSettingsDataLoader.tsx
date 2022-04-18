@@ -40,7 +40,6 @@ import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
 import { isFunctionApp, isKubeApp, isLinuxApp } from '../../../utils/arm-utils';
-import { StartupInfoContext } from '../../../StartupInfoContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
 import { getErrorMessage, getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
@@ -114,7 +113,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
   const siteContext = useContext(SiteRouterContext);
-  const startUpInfoContext = useContext(StartupInfoContext);
 
   const [asyncData, setAsyncData] = useState<AppSettingsAsyncData>({
     functionsHostStatus: { loadingState: LoadingStates.loading },
@@ -186,7 +184,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
       if (isFunctionApp(site.data)) {
-        SiteService.fireSyncTrigger(site.data, startUpInfoContext.token || '').then(r => {
+        SiteService.fireSyncTrigger(site.data).then(r => {
           if (!r.metadata.success) {
             LogService.error(
               LogCategories.appSettings,
@@ -342,10 +340,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const scaleUpPlan = async () => {
-    await portalContext.openFrameBlade(
-      { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
-      'appsettings'
-    );
+    await portalContext.openFrameBlade({
+      detailBlade: 'SpecPickerFrameBlade',
+      detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId },
+    });
     const newSite = await SiteService.fetchSite(resourceId);
     setCurrentSiteNonForm(newSite.data);
   };
@@ -380,7 +378,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     return true;
   };
 
-  const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
+  const onSubmit = async (values: AppSettingsFormValues) => {
     setSaving(true);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const { site, slotConfigNames, slotConfigNamesModified } = convertFormToState(
@@ -418,7 +416,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
       fetchReferences();
       if (isFunctionApp(site)) {
-        SiteService.fireSyncTrigger(site, startUpInfoContext.token || '').then(r => {
+        SiteService.fireSyncTrigger(site).then(r => {
           if (!r.metadata.success) {
             LogService.error(
               LogCategories.appSettings,
