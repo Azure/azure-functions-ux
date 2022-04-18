@@ -241,7 +241,7 @@ export const authorizeWithProvider = (
       } catch {
         // Do nothing
       }
-    }, 100);
+    }, 10000);
 
     // If no activity after 60 seconds, turn off the timer and close the auth window.
     setTimeout(() => {
