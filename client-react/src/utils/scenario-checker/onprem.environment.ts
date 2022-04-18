@@ -4,6 +4,8 @@ import { ArmSiteDescriptor } from '../resourceDescriptors';
 import { QuotaService } from '../QuotaService';
 import { QuotaNames, QuotaScope } from '../../models/quotaSettings';
 import { ComputeMode } from '../../models/site/compute-mode';
+import { sendHttpRequest } from '../../ApiHelpers/HttpClient';
+import Url from '../url';
 
 export class OnPremEnvironment extends Environment {
   public name = 'OnPrem';
@@ -263,6 +265,85 @@ export class OnPremEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.showAppInsightsLogs] = {
       id: ScenarioIds.showAppInsightsLogs,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.githubSource] = {
+      id: ScenarioIds.githubSource,
+      runCheckAsync: async () => {
+        const hasGitHubCredentials = await sendHttpRequest<boolean>({
+          url: `${Url.serviceHost}api/github/hasOnPremCredentials`,
+          method: 'GET',
+        });
+        if (hasGitHubCredentials.metadata.success) {
+          return { status: hasGitHubCredentials.data ? 'enabled' : 'disabled' };
+        }
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.bitbucketSource] = {
+      id: ScenarioIds.bitbucketSource,
+      runCheckAsync: async () => {
+        const hasBitbucketCredentials = await sendHttpRequest<boolean>({
+          url: `${Url.serviceHost}api/bitbucket/hasOnPremCredentials`,
+          method: 'GET',
+        });
+        if (hasBitbucketCredentials.metadata.success) {
+          return { status: hasBitbucketCredentials.data ? 'enabled' : 'disabled' };
+        }
+
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.dropboxSource] = {
+      id: ScenarioIds.dropboxSource,
+      runCheckAsync: async () => {
+        const hasDropboxCredentials = await sendHttpRequest<boolean>({
+          url: `${Url.serviceHost}api/dropbox/hasOnPremCredentials`,
+          method: 'GET',
+        });
+        if (hasDropboxCredentials.metadata.success) {
+          return { status: hasDropboxCredentials.data ? 'enabled' : 'disabled' };
+        }
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.onedriveSource] = {
+      id: ScenarioIds.onedriveSource,
+      runCheckAsync: async () => {
+        const hasOneDriveCredentials = await sendHttpRequest<boolean>({
+          url: `${Url.serviceHost}api/onedrive/hasOnPremCredentials`,
+          method: 'GET',
+        });
+        if (hasOneDriveCredentials.metadata.success) {
+          return { status: hasOneDriveCredentials.data ? 'enabled' : 'disabled' };
+        }
+
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
+      id: ScenarioIds.vstsKuduSource,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.githubActionsBuildProvider] = {
+      id: ScenarioIds.githubActionsBuildProvider,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.azurePipelinesBuildProvider] = {
+      id: ScenarioIds.azurePipelinesBuildProvider,
       runCheck: () => {
         return { status: 'disabled' };
       },
