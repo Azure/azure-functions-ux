@@ -55,7 +55,7 @@ export class ConfigService implements OnModuleInit {
       env: {
         appName: process.env.WEBSITE_SITE_NAME,
         hostName: process.env.WEBSITE_HOSTNAME,
-        cloud: process.env.APPSVC_CLOUD as CloudType,
+        cloud: !!process.env.WEBSITE_SITE_NAME ? CloudType.public : CloudType.onprem,
         acceptedOriginsSuffix: acceptedOrigins,
       },
       version: process.env.VERSION,

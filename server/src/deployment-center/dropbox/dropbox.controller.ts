@@ -1,10 +1,12 @@
-import { Controller, Post, Body, HttpException, Get, Session, HttpCode, Response } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Get, Session, HttpCode, Response, Headers } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { HttpService } from '../../shared/http/http.service';
+import { CloudType } from '../../types/config';
+import { AxiosResponse } from 'axios';
 
 @Controller()
 export class DropboxController {
@@ -16,9 +18,14 @@ export class DropboxController {
     private httpService: HttpService
   ) {}
 
+  private config = this.configService.staticReactConfig;
+  private envIsOnPrem = !!this.config.env && this.config.env.cloud === CloudType.onprem;
+  private redirectUrl: string;
+
   @Get('auth/dropbox/authorize')
-  async authorize(@Session() session, @Response() res) {
+  async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
+    this.redirectUrl = `https://${host}/auth/dropbox/callback`;
     if (session) {
       stateKey = session[Constants.oauthApis.dropbox_state_key] = GUID.newGuid();
     } else {
@@ -28,9 +35,9 @@ export class DropboxController {
     }
 
     res.redirect(
-      `https://dropbox.com/oauth2/authorize?client_id=${this.configService.get('DROPBOX_CLIENT_ID')}&redirect_uri=${this.configService.get(
-        'DROPBOX_REDIRECT_URL'
-      )}&response_type=code&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
+      `https://dropbox.com/oauth2/authorize?client_id=${this._getDropboxClientId()}&redirect_uri=${this._getDropboxRedirectUrl()}&response_type=code&state=${this.dcService
+        .hashStateGuid(stateKey)
+        .substr(0, 10)}`
     );
   }
 
@@ -41,8 +48,9 @@ export class DropboxController {
 
   @Post('auth/dropbox/getToken')
   @HttpCode(200)
-  async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
+  async getToken(@Session() session, @Body('redirUrl') redirUrl: string, @Headers('origin') origin: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
+    this.redirectUrl = `${origin}/auth/dropbox/callback`;
     if (
       !session ||
       !session[Constants.oauthApis.dropbox_state_key] ||
@@ -55,15 +63,14 @@ export class DropboxController {
     try {
       const r = await this.httpService.post<{ access_token: string }>(
         'https://api.dropbox.com/oauth2/token',
-        `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.DROPBOX_REDIRECT_URL}&client_id=${
-          process.env.DROPBOX_CLIENT_ID
-        }&client_secret=${process.env.DROPBOX_CLIENT_SECRET}`,
+        `code=${code}&grant_type=authorization_code&redirect_uri=${this._getDropboxRedirectUrl()}&client_id=${this._getDropboxClientId()}&client_secret=${this._getDropboxClientSecret()}`,
         {
           headers: {
             'Content-type': 'application/x-www-form-urlencoded',
           },
         }
       );
+
       return {
         accessToken: r.data.access_token,
         refreshToken: '',
@@ -75,5 +82,32 @@ export class DropboxController {
       }
       throw new HttpException('Internal Server Error', 500);
     }
+  }
+
+  @Get('api/dropbox/hasOnPremCredentials')
+  @HttpCode(200)
+  async hasOnPremCredentials() {
+    return !!this._getDropboxClientId() && !!this._getDropboxClientSecret();
+  }
+
+  private _getDropboxClientId() {
+    if (this.envIsOnPrem) {
+      return this.configService.get('DeploymentCenter_DropboxClientId');
+    }
+    return this.configService.get('DROPBOX_CLIENT_ID');
+  }
+
+  private _getDropboxClientSecret() {
+    if (this.envIsOnPrem) {
+      return this.configService.get('DeploymentCenter_DropboxClientSecret');
+    }
+    return this.configService.get('DROPBOX_CLIENT_SECRET');
+  }
+
+  private _getDropboxRedirectUrl() {
+    if (this.envIsOnPrem && !!this.redirectUrl) {
+      return this.redirectUrl;
+    }
+    return this.configService.get('DROPBOX_REDIRECT_URL');
   }
 }

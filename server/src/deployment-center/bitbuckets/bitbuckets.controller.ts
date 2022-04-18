@@ -5,6 +5,8 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { HttpService } from '../../shared/http/http.service';
+import { CloudType, StaticReactConfig } from '../../types/config';
+import { AxiosResponse } from 'axios';
 @Controller()
 export class BitbucketsController {
   constructor(
@@ -14,9 +16,14 @@ export class BitbucketsController {
     private httpService: HttpService
   ) {}
 
+  private config = this.configService.staticReactConfig;
+  private envIsOnPrem = !!this.config.env && this.config.env.cloud === CloudType.onprem;
+  private redirectURL: string;
+
   @Get('auth/bitbucket/authorize')
-  async authorize(@Session() session, @Response() res) {
+  async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
+    this.redirectURL = `https://${host}/auth/bitbucket/callback`;
     if (session) {
       stateKey = session[Constants.oauthApis.bitbucket_state_key] = GUID.newGuid();
     } else {
@@ -26,11 +33,11 @@ export class BitbucketsController {
     }
 
     res.redirect(
-      `${Constants.oauthApis.bitbucketUri}/authorize?client_id=${this.configService.get(
-        'BITBUCKET_CLIENT_ID'
-      )}&redirect_uri=${this.configService.get(
-        'BITBUCKET_REDIRECT_URL'
-      )}&scope=account+repository+webhook&response_type=code&state=${this.dcService.hashStateGuid(stateKey).substr(0, 10)}`
+      `${
+        Constants.oauthApis.bitbucketUri
+      }/authorize?client_id=${this.getBitbucketClientId()}&redirect_uri=${this.getBitbucketRedirectUrl()}&scope=account+repository+webhook&response_type=code&state=${this.dcService
+        .hashStateGuid(stateKey)
+        .substr(0, 10)}`
     );
   }
 
@@ -44,7 +51,8 @@ export class BitbucketsController {
   async getToken(@Session() session, @Body('redirUrl') redirUrl: string, @Headers('origin') origin: string) {
     const state = this.dcService.getParameterByName('state', redirUrl);
     const environment = this.dcService.getEnvironment(origin);
-    if (!environment) {
+    this.redirectURL = `${origin}/auth/bitbucket/callback`;
+    if (!environment && !this.envIsOnPrem) {
       throw new HttpException('Invalid Environment', 403);
     }
     if (
@@ -57,24 +65,25 @@ export class BitbucketsController {
     }
     const code = this.dcService.getParameterByName('code', redirUrl);
     try {
-      const r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
+      let r: AxiosResponse;
+      r = await this.httpService.post<{ access_token: string; refresh_token: string }>(
         `${Constants.oauthApis.bitbucketUri}/access_token`,
-        `code=${code}&grant_type=authorization_code&redirect_uri=${process.env.BITBUCKET_REDIRECT_URL}`,
+        `code=${code}&grant_type=authorization_code&redirect_uri=${this.getBitbucketRedirectUrl()}`,
         {
           auth: {
-            username: process.env.BITBUCKET_CLIENT_ID as string,
-            password: process.env.BITBUCKET_CLIENT_SECRET as string,
+            username: this.getBitbucketClientId() as string,
+            password: this.getBitbucketClientSecret() as string,
           },
           headers: {
-            Referer: process.env.BITBUCKET_REDIRECT_URL,
+            Referer: this.getBitbucketRedirectUrl(),
             'Content-type': 'application/x-www-form-urlencoded',
           },
         }
       );
       return {
+        environment,
         accessToken: r.data.access_token,
         refreshToken: r.data.refresh_token,
-        environment: environment,
       };
     } catch (err) {
       if (err.response) {
@@ -82,5 +91,34 @@ export class BitbucketsController {
       }
       throw new HttpException('Internal Server Error', 500);
     }
+  }
+
+  @Get('api/bitbucket/hasOnPremCredentials')
+  @HttpCode(200)
+  async hasCredentials() {
+    return !!this.getBitbucketClientId() && !!this.getBitbucketClientSecret();
+  }
+
+  private getBitbucketClientId() {
+    if (this.envIsOnPrem) {
+      return this.configService.get('DeploymentCenter_BitbuckClientId');
+    } else {
+      return this.configService.get('BITBUCKET_CLIENT_ID');
+    }
+  }
+
+  private getBitbucketClientSecret() {
+    if (this.envIsOnPrem) {
+      return this.configService.get('DeploymentCenter_BitbuckClientSecret');
+    } else {
+      return this.configService.get('BITBUCKET_CLIENT_SECRET');
+    }
+  }
+
+  private getBitbucketRedirectUrl() {
+    if (this.envIsOnPrem) {
+      return this.redirectURL;
+    }
+    return this.configService.get('BITBUCKET_REDIRECT_URL');
   }
 }

@@ -25,10 +25,15 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const isGitHubActionEnabled =
-    runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby &&
-    !(runtimeStack.toLocaleLowerCase() == RuntimeStackOptions.PHP && !siteStateContext.isLinuxApp && !runtimeVersion) &&
-    !deploymentCenterContext.isIlbASE;
+  const isGitHubActionEnabled = () => {
+    var checkGitHubAction = scenarioService.checkScenario(ScenarioIds.githubActionsBuildProvider, { site: siteStateContext.site });
+    return (
+      runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby &&
+      !(runtimeStack.toLocaleLowerCase() == RuntimeStackOptions.PHP && !siteStateContext.isLinuxApp && !runtimeVersion) &&
+      !deploymentCenterContext.isIlbASE &&
+      checkGitHubAction.status !== 'disabled'
+    );
+  };
 
   const isKuduDisabled = () => {
     return scenarioService.checkScenario(ScenarioIds.kuduBuildProvider, { site: siteStateContext.site }).status === 'disabled';
@@ -54,7 +59,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
   ];
 
   const getBuildOptions = () => {
-    return formProps.values.sourceProvider === ScmType.GitHub && isGitHubActionEnabled
+    return formProps.values.sourceProvider === ScmType.GitHub && isGitHubActionEnabled()
       ? [
           {
             key: BuildProvider.GitHubAction,
