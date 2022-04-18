@@ -57,7 +57,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       const revisionReplicaContainerBefore = revisionReplicaContainer;
       ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
         if (revisionReplicaContainerBefore === revisionReplicaContainer) {
-          const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.logStreamEndpoint, '/sh');
+          const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.logStreamEndpoint, 'sh');
           ws.current = new WebSocket(serverEndpoint);
 
           ws.current.onmessage = async (event: MessageEvent) => {
@@ -82,11 +82,8 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   const getServerEndpoint = (logStreamEndpoint: string, startUpCommand: string) => {
     const wssReplacedEndpoint = logStreamEndpoint.replace('https://', 'wss://');
-    const revisionReplacedEndpoint = wssReplacedEndpoint.replace(
-      '/revisions/logstream',
-      `${revisionReplicaContainer}/exec${startUpCommand}`
-    );
-    return revisionReplacedEndpoint;
+    const revisionReplacedEndpoint = wssReplacedEndpoint.replace('/revisions/logstream', `${revisionReplicaContainer}/exec`);
+    return `${revisionReplacedEndpoint}&command=${startUpCommand}`;
   };
 
   const processMessageBlob = async (data: Blob) => {
