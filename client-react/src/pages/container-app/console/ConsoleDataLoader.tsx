@@ -81,7 +81,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   }, [revisionReplicaContainer]);
 
   const getServerEndpoint = (execEndpoint: string, startUpCommand: string) => {
-    const execEndpointWithRevisionReplicaContainer = execEndpoint.replace('revisions/exec', `${revisionReplicaContainer}/exec`);
+    const execEndpointWithRevisionReplicaContainer = execEndpoint.replace('/revisions/exec', `${revisionReplicaContainer}/exec`);
     return `${execEndpointWithRevisionReplicaContainer}&command=${startUpCommand}`;
   };
 
