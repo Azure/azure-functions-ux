@@ -73,8 +73,6 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
       return t('containerImageNamePlaceHolder');
     } else if (siteStateContext.isLinuxApp) {
       return t('containerImageAndTagPlaceholder');
-    } else {
-      return t('containerImageAndTagPlaceholderForWindows');
     }
   };
 
