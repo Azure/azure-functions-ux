@@ -5,6 +5,7 @@ import { ReactComponent as AppInsightsSvg } from '../../../../../images/Common/A
 import { paddingStyle, bottomButtonStyle } from './FunctionMonitor.styles';
 import { PrimaryButton } from '@fluentui/react';
 import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
 
 interface AppInsightsSetupProps {
   siteId: string;
