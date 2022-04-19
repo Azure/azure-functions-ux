@@ -215,7 +215,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
             </>
           )}
 
-          <Field id="container-acr-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
+          <Field id="container-acr-startUpFileOrCommand" name="command" component={TextField} label={t('containerStartupFileOrCommand')} />
         </>
       )}
 
