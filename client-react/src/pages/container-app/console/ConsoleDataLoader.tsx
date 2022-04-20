@@ -34,7 +34,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
       notifyTerminalResize(width, height);
     }
-  }, [terminalRef, ws]);
+  }, [terminalRef]);
 
   useEffect(() => {
     if (!!props.resourceId && !!props.revision && !!props.replica && !!props.container) {
@@ -127,7 +127,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   };
 
   const getServerEndpoint = (execEndpoint: string, startUpCommand: string) => {
-    const execEndpointWithRevisionReplicaContainer = execEndpoint.replace('revisions/exec', `${revisionReplicaContainer}/exec`);
+    const execEndpointWithRevisionReplicaContainer = execEndpoint.replace('/revisions/exec', `${revisionReplicaContainer}/exec`);
     return `${execEndpointWithRevisionReplicaContainer}&command=${startUpCommand}`;
   };
 
