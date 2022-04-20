@@ -7,7 +7,7 @@ import Url from '../url';
 export class KubeApp extends Environment {
   public name = 'KubeApp';
 
-  constructor(t: (string) => string) {
+  constructor() {
     super();
 
     this.scenarioChecks[ScenarioIds.onedriveSource] = {

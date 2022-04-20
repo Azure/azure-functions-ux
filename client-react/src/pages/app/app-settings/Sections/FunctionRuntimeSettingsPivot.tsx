@@ -56,7 +56,7 @@ const FunctionRuntimeSettingsPivot: React.FC<AppSettingsFormProps> = props => {
   );
 };
 
-const runtimeVersionDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
+export const runtimeVersionDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
   const currentValue = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
   const initialValue = findFormAppSettingValue(initialValues.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) || '';
   return !isEqual(currentValue, initialValue);

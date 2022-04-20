@@ -100,22 +100,19 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
 
   const openFeedbackBlade = () => {
     const featureName = 'AppServiceConfiguration';
-    portalCommunicator.openBlade(
-      {
-        detailBlade: 'InProductFeedbackBlade',
-        extension: 'HubsExtension',
-        openAsContextBlade: true,
-        detailBladeInputs: {
-          bladeName: `${featureName}`,
-          cesQuestion: t('configurationFeedbackCESQuestion'),
-          cvaQuestion: t('configurationFeedbackCVAQuestion'),
-          extensionName: 'WebsitesExtension',
-          featureName: `${featureName}`,
-          surveyId: `${featureName}- 0420`,
-        },
+    portalCommunicator.openBlade({
+      detailBlade: 'InProductFeedbackBlade',
+      extension: 'HubsExtension',
+      openAsContextBlade: true,
+      detailBladeInputs: {
+        bladeName: `${featureName}`,
+        cesQuestion: t('configurationFeedbackCESQuestion'),
+        cvaQuestion: t('configurationFeedbackCVAQuestion'),
+        extensionName: 'WebsitesExtension',
+        featureName: `${featureName}`,
+        surveyId: `${featureName}- 0420`,
       },
-      'configuration'
-    );
+    });
   };
 
   // Data for CommandBar

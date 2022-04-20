@@ -5,7 +5,7 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { SiteStateContext } from '../../../../SiteState';
 
-const DeploymentCenterContainerSettingsReadOnlyView: React.FC<{}> = props => {
+const DeploymentCenterContainerSettingsReadOnlyView: React.FC = () => {
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);

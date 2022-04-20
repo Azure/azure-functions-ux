@@ -8,9 +8,9 @@ import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishing
 import { getAppDockerWebhookUrl } from '../utility/DeploymentCenterUtility';
 import { TextFieldType } from '../../../../utils/CommonConstants';
 
-const DeploymentCenterContainerContinuousDeploymentSettings: React.FC<
-  DeploymentCenterFieldProps<DeploymentCenterContainerFormData>
-> = props => {
+const DeploymentCenterContainerContinuousDeploymentSettings: React.FC<DeploymentCenterFieldProps<
+  DeploymentCenterContainerFormData
+>> = () => {
   const { t } = useTranslation();
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const [webhookUrl, setWebhookUrl] = useState<string>('');

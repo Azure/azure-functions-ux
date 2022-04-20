@@ -4007,8 +4007,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerPassword" xml:space="preserve">
         <value>Password</value>
     </data>
-    <data name="containerStartupFile" xml:space="preserve">
-        <value>Startup File</value>
+    <data name="containerStartupFileOrCommand" xml:space="preserve">
+        <value>Startup file or command</value>
     </data>
     <data name="containerConfigurationSource" xml:space="preserve">
         <value>Configuration Source</value>
@@ -6976,7 +6976,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
     <data name="deploymentCenterContainerType" xml:space="preserve">
-        <value>Container Type</value>
+        <value>Container type</value>
     </data>
     <data name="deploymentCenterInvalidYaml" xml:space="preserve">
         <value>Invalid YAML</value>

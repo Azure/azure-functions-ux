@@ -11,7 +11,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
-const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
+const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
   const { t } = useTranslation();
 
   const [repo, setRepo] = useState<string | undefined>(undefined);

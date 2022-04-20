@@ -136,11 +136,7 @@ export class QuickPulseQueryLayer {
     this._queryServersInfo = querySessionInfo;
 
     //note(stpelleg): Need to update the configuration each time we recieve a new session id
-    if (
-      useNewFunctionLogsApi &&
-      liveLogsSessionId &&
-      this._detailedSessionInfo?.liveLogsSessionId !== liveLogsSessionId
-    ) {
+    if (useNewFunctionLogsApi && liveLogsSessionId && this._detailedSessionInfo?.liveLogsSessionId !== liveLogsSessionId) {
       this._detailedSessionInfo.liveLogsSessionId = liveLogsSessionId || '';
       this.setConfigurationV2();
     }
@@ -210,18 +206,14 @@ export class QuickPulseQueryLayer {
       }
 
       // Remove all documents which we've already seen
-      sessionInfo.seqNumber = this.processDocuments(dataV2.DataRanges[0].Documents, sessionInfo.seqNumber, aggregatorId);
+      sessionInfo.seqNumber = this.processDocuments(dataV2.DataRanges[0].Documents, sessionInfo.seqNumber);
       if (dataV2.DataRanges.length > 1) {
         // Check whether we're already looking at different instance
         if (this._instanceId !== dataV2.DataRanges[1].Instance) {
           dataV2.DataRanges.splice(1, 1);
           sessionInfo.instanceSeqNumber = 0;
         } else {
-          sessionInfo.instanceSeqNumber = this.processDocuments(
-            dataV2.DataRanges[1].Documents,
-            sessionInfo.instanceSeqNumber,
-            aggregatorId
-          );
+          sessionInfo.instanceSeqNumber = this.processDocuments(dataV2.DataRanges[1].Documents, sessionInfo.instanceSeqNumber);
         }
       }
     } else {
@@ -240,7 +232,7 @@ export class QuickPulseQueryLayer {
     return dataV2;
   };
 
-  private processDocuments(documents: qpschema.SchemaDocument[], seqNumber: number, aggregatorId: string): number {
+  private processDocuments(documents: qpschema.SchemaDocument[], seqNumber: number): number {
     if (documents && documents.length > 0) {
       // Find the first one we don't need
       let index = 0;

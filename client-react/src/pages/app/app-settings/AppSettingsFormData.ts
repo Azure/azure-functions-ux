@@ -413,7 +413,7 @@ export function getCleanedReferences(references: ArmObj<ConfigKeyVaultReferenceL
     return [];
   }
 
-  return Object.keys(keyToReferenceStatuses).map((key, i) => ({
+  return Object.keys(keyToReferenceStatuses).map(key => ({
     name: key,
     reference: keyToReferenceStatuses[key].reference,
     status: keyToReferenceStatuses[key].status,

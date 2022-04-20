@@ -1,5 +1,5 @@
 // TODO (krmitta):  Rename the file after this version is tested
-import { MessageBarType } from '@fluentui/react';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -16,12 +16,13 @@ import {
 import { AppSettingsFormProps, FormAppSetting } from '../AppSettings.types';
 import { addOrUpdateFormAppSetting, removeFromAppSetting } from '../AppSettingsFormData';
 import { FunctionAppStacksContext, PermissionsContext } from '../Contexts';
+import { runtimeVersionDirty } from '../Sections/FunctionRuntimeSettingsPivot';
 
 const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
-  const { values, setFieldValue } = props;
+  const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
 
-  const [stackSupportedRuntimeVersions, setStackSupportedRuntimeVersions] = useState<RuntimeExtensionMajorVersions[]>([]);
+  const [stackSupportedRuntimeVersions, setStackSupportedRuntimeVersions] = useState<IDropdownOption[]>([]);
   const [selectedRuntimeVersion, setselectedRuntimeVersion] = useState<string>(RuntimeExtensionMajorVersions.custom);
   const [showWarningBannerForNonSupportedVersion, setShowWarningBannerForNonSupportedVersion] = useState(false);
 
@@ -53,11 +54,14 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
     if (isCustomVersion) {
       setShowWarningBannerForNonSupportedVersion(true);
+      setStackSupportedRuntimeVersions([
+        ...supportedExtensionVersionsFromStacksData.map(key => ({ key, text: key })),
+        { key: RuntimeExtensionMajorVersions.custom, text: `${RuntimeExtensionMajorVersions.custom} (${runtimeVersion})` },
+      ]);
       runtimeVersion = RuntimeExtensionMajorVersions.custom;
-      setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData, RuntimeExtensionMajorVersions.custom]);
     } else {
       setShowWarningBannerForNonSupportedVersion(false);
-      setStackSupportedRuntimeVersions([...supportedExtensionVersionsFromStacksData]);
+      setStackSupportedRuntimeVersions(supportedExtensionVersionsFromStacksData.map(key => ({ key, text: key })));
     }
 
     if (selectedRuntimeVersion !== runtimeVersion) {
@@ -159,14 +163,12 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
           {getBannerComponents()}
           <DropdownNoFormik
             onChange={(_e, option) => onDropdownChange(!!option && option.key)}
-            options={stackSupportedRuntimeVersions.map(version => ({
-              key: version.toLocaleLowerCase(),
-              text: version.toLocaleLowerCase(),
-            }))}
+            options={stackSupportedRuntimeVersions}
             selectedKey={selectedRuntimeVersion}
             disabled={false}
             label={t('runtimeVersion')}
             id="function-app-settings-runtime-version"
+            dirty={runtimeVersionDirty(values, initialValues)}
           />
         </>
       ) : (
