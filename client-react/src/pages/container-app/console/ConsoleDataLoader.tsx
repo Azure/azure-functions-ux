@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
+import { debounce } from 'lodash-es';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -17,7 +18,6 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const { width, height } = useWindowSize();
   const ws = useRef<WebSocket>();
   const terminalRef = useRef<XTerm>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
   const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
 
   useEffect(() => {
@@ -32,7 +32,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
         cursorBlink: true,
       };
 
-      notifyTerminalResize(width, height);
+      resizeHandler(width, height);
     }
   }, [terminalRef]);
 
@@ -63,7 +63,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
         disableStdin: true,
       };
 
-      notifyTerminalResize(width, height);
+      resizeHandler(width, height);
     }
 
     // Connect to the container if one is selected.
@@ -83,7 +83,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
           };
 
           ws.current.onopen = () => {
-            notifyTerminalResize(width, height);
+            resizeHandler(width, height);
           };
 
           ws.current.onerror = (ev: Event) => {
@@ -100,36 +100,6 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       });
     }
   }, [revisionReplicaContainer]);
-
-  useEffect(() => {
-    // set resize listener
-    window.addEventListener('resize', (ev: UIEvent) => {
-      resizeListener((ev.target as any)?.innerWidth!, (ev.target as any)?.innerHeight!);
-    });
-
-    // clean up function
-    return () => {
-      // remove resize listener
-      window.removeEventListener('resize', (ev: UIEvent) =>
-        resizeListener((ev.target as any)?.innerWidth!, (ev.target as any)?.innerHeight!)
-      );
-    };
-  }, []);
-
-  const resizeListener = (width: number, height: number) => {
-    if (timeoutRef.current !== undefined) {
-      // prevent execution of previous setTimeout
-      clearTimeout(timeoutRef.current);
-    } else {
-      notifyTerminalResize(width, height);
-      timeoutRef.current = undefined;
-    }
-    // change width from the state object after 150 milliseconds
-    timeoutRef.current = setTimeout(() => {
-      notifyTerminalResize(width, height);
-      timeoutRef.current = undefined;
-    }, 300);
-  };
 
   const getServerEndpoint = (execEndpoint: string, startUpCommand: string) => {
     const execEndpointWithRevisionReplicaContainer = execEndpoint.replace('/revisions/exec', `${revisionReplicaContainer}/exec`);
@@ -182,7 +152,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     }
   };
 
-  const notifyTerminalResize = (width: number, height: number) => {
+  const resizeHandler = (width: number, height: number) => {
     const columns = Math.floor(width / 9 - 0.5) - 2;
     const rows = Math.floor(height / 17 - 0.5);
 
@@ -196,6 +166,16 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       ws.current.send(new Blob([new Uint8Array([0, 4]), arr]));
     }
   };
+
+  const debouncedResizeHandler = useMemo(() => debounce(resizeHandler, 300, { trailing: true, leading: true }), []);
+
+  useEffect(() => {
+    return () => debouncedResizeHandler.cancel();
+  }, []);
+
+  useEffect(() => {
+    debouncedResizeHandler(width, height);
+  }, [width, height]);
 
   return (
     <div style={{ height: '100vh' }}>
