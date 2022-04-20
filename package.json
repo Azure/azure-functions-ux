@@ -34,7 +34,6 @@
     }
   },
   "dependencies": {
-    "recursive-install": "^1.4.0",
-    "xterm-addon-fit": "^0.5.0"
+    "recursive-install": "^1.4.0"
   }
 }
