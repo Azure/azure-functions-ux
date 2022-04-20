@@ -16,7 +16,6 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   const { width, height } = useWindowSize();
   const ws = useRef<WebSocket>();
-  const rootRef = useRef<HTMLDivElement>(null);
   const terminalRef = useRef<XTerm>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
   const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
@@ -193,7 +192,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   };
 
   return (
-    <div ref={rootRef} style={{ height: '100vh' }}>
+    <div style={{ height: '100vh' }}>
       <XTerm ref={terminalRef} onData={onData} />
     </div>
   );
