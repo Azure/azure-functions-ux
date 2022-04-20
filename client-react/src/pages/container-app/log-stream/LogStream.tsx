@@ -1,5 +1,6 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize';
+import { debounce } from 'lodash-es';
 import { XTerm } from 'xterm-for-react';
 import { PortalContext } from '../../../PortalContext';
 
@@ -9,7 +10,7 @@ export interface LogStreamProps {
   line?: string;
 }
 
-const LogStream: React.SFC<LogStreamProps> = props => {
+const LogStream: React.SFC<LogStreamProps> = (props) => {
   const portalCommunicator = useContext(PortalContext);
 
   const { width, height } = useWindowSize();
@@ -23,7 +24,6 @@ const LogStream: React.SFC<LogStreamProps> = props => {
   useEffect(() => {
     if (terminalRef.current?.terminal && props.reset) {
       terminalRef.current?.terminal.reset();
-      notifyTerminalResize(width, height);
     }
   }, [props.reset]);
 
@@ -33,46 +33,34 @@ const LogStream: React.SFC<LogStreamProps> = props => {
     }
   }, [props.line]);
 
-  useEffect(() => {
-    // set resize listener
-    window.addEventListener('resize', (ev: UIEvent) => {
-      resizeListener((ev.target as any)?.innerWidth!, (ev.target as any)?.innerHeight!);
-    });
+  const resizeHandler = (width: number, height: number) => {
+    const columns = Math.floor(width / 9 - 0.5) - 2;
+    const rows = Math.floor(height / 17 - 0.5);
+    if (terminalRef.current?.terminal) {
+      terminalRef.current?.terminal.resize(columns, rows);
+      timeoutRef.current = undefined;
+    }
+  };
 
-    // clean up function
-    return () => {
-      // remove resize listener
-      window.removeEventListener('resize', (ev: UIEvent) =>
-        resizeListener((ev.target as any)?.innerWidth!, (ev.target as any)?.innerHeight!)
-      );
-    };
+  const debouncedResizeHandler = useMemo(() => debounce(resizeHandler, 300, { trailing: true, leading: true }), []);
+
+  useEffect(() => {
+    return () => debouncedResizeHandler.cancel();
+  }, []);
+
+  useEffect(() => {
+    debouncedResizeHandler(width, height);
   }, [width, height]);
 
-  const resizeListener = (width: number, height: number) => {
-    console.log('listener:' + width + ' ' + height);
-    // prevent execution of previous setTimeout
-    timeoutRef.current && clearTimeout(timeoutRef.current);
-    // change width from the state object after 150 milliseconds
-    timeoutRef.current = setTimeout(() => {
-      notifyTerminalResize(width, height);
-    }, 50);
-  };
-
-  const notifyTerminalResize = (width: number, height: number) => {
-    const columns = Math.floor(width / 9);
-    const rows = Math.floor(height / 19);
-    terminalRef.current!.terminal.resize(columns, rows);
-
-    console.log('resize:' + width + ' ' + height);
-  };
-
   return (
-    <XTerm
-      options={{
-        disableStdin: true,
-      }}
-      ref={terminalRef}
-    />
+    <div style={{ height: '100vh', overflow: 'hidden' }}>
+      <XTerm
+        options={{
+          disableStdin: true,
+        }}
+        ref={terminalRef}
+      />
+    </div>
   );
 };
 

@@ -114,16 +114,21 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
         resizeListener((ev.target as any)?.innerWidth!, (ev.target as any)?.innerHeight!)
       );
     };
-  }, [width, height]);
+  }, []);
 
   const resizeListener = (width: number, height: number) => {
-    console.log('listener:' + width + ' ' + height);
-    // prevent execution of previous setTimeout
-    timeoutRef.current && clearTimeout(timeoutRef.current);
+    if (timeoutRef.current !== undefined) {
+      // prevent execution of previous setTimeout
+      clearTimeout(timeoutRef.current);
+    } else {
+      notifyTerminalResize(width, height);
+      timeoutRef.current = undefined;
+    }
     // change width from the state object after 150 milliseconds
     timeoutRef.current = setTimeout(() => {
       notifyTerminalResize(width, height);
-    }, 50);
+      timeoutRef.current = undefined;
+    }, 300);
   };
 
   const getServerEndpoint = (execEndpoint: string, startUpCommand: string) => {
@@ -178,11 +183,12 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   };
 
   const notifyTerminalResize = (width: number, height: number) => {
-    const columns = Math.floor(width / 9);
-    const rows = Math.floor(height / 19);
-    terminalRef.current!.terminal.resize(columns, rows);
+    const columns = Math.floor(width / 9 - 0.5) - 2;
+    const rows = Math.floor(height / 17 - 0.5);
 
-    console.log('resize:' + width + ' ' + height);
+    if (terminalRef.current) {
+      terminalRef.current.terminal.resize(columns, rows);
+    }
 
     if (ws.current && ws.current.readyState === ws.current.OPEN) {
       const encoder = new TextEncoder();
