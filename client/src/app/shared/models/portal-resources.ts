@@ -1290,7 +1290,7 @@ export class PortalResources {
   public static containerServerURLPlaceholder = 'containerServerURLPlaceholder';
   public static containerLogin = 'containerLogin';
   public static containerPassword = 'containerPassword';
-  public static containerStartupFile = 'containerStartupFile';
+  public static containerStartupFileOrCommand = 'containerStartupFileOrCommand';
   public static containerConfigurationSource = 'containerConfigurationSource';
   public static containerConfiguration = 'containerConfiguration';
   public static quickstartDotnetTitle = 'quickstartDotnetTitle';

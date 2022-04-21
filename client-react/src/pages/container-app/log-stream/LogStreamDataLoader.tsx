@@ -10,11 +10,7 @@ class LogStreamDataLoader extends React.Component<LogStreamProps, {}> {
   }
 
   public render() {
-    return (
-      <>
-        <LogStream {...this.props} />
-      </>
-    );
+    return <LogStream {...this.props} />;
   }
 }
 

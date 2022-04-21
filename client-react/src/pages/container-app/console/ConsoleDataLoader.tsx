@@ -1,7 +1,9 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
+import { debounce } from 'lodash-es';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -13,6 +15,7 @@ export interface ConsoleDataLoaderProps {
 const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const portalCommunicator = useContext(PortalContext);
 
+  const { width, height } = useWindowSize();
   const ws = useRef<WebSocket>();
   const terminalRef = useRef<XTerm>(null);
   const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
@@ -21,13 +24,19 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     portalCommunicator.loadComplete();
   }, [portalCommunicator]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (terminalRef.current) {
-      terminalRef.current.terminal.options = { cursorStyle: 'underline', cursorBlink: true };
+      terminalRef.current.terminal.options = {
+        ...(terminalRef.current.terminal.options || {}),
+        cursorStyle: 'underline',
+        cursorBlink: true,
+      };
+
+      resizeHandler(width, height);
     }
   }, [terminalRef]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (!!props.resourceId && !!props.revision && !!props.replica && !!props.container) {
       setRevisionReplicaContainer(`/revisions/${props.revision}/replicas/${props.replica}/containers/${props.container}`);
     } else {
@@ -35,7 +44,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     }
   }, [props.resourceId, props.revision, props.replica, props.container]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     // The selected container has changed.
 
     // Clean up the web socket
@@ -49,7 +58,12 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     // Reset the terminal
     if (terminalRef.current) {
       terminalRef.current.terminal.reset();
-      terminalRef.current.terminal.options.disableStdin = true;
+      terminalRef.current.terminal.options = {
+        ...(terminalRef.current.terminal.options || {}),
+        disableStdin: true,
+      };
+
+      resizeHandler(width, height);
     }
 
     // Connect to the container if one is selected.
@@ -68,12 +82,19 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
             }
           };
 
-          ws.current.onerror = () => {
+          ws.current.onopen = () => {
+            resizeHandler(width, height);
+          };
+
+          ws.current.onerror = (ev: Event) => {
             // log error appropriately
           };
 
           if (terminalRef.current) {
-            terminalRef.current.terminal.options.disableStdin = false;
+            terminalRef.current.terminal.options = {
+              ...(terminalRef.current.terminal.options || {}),
+              disableStdin: false,
+            };
           }
         }
       });
@@ -131,7 +152,36 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     }
   };
 
-  return <XTerm ref={terminalRef} onData={onData} />;
+  const resizeHandler = (width: number, height: number) => {
+    const columns = Math.floor(width / 9 - 0.5) - 2;
+    const rows = Math.floor(height / 17 - 0.5);
+
+    if (terminalRef.current) {
+      terminalRef.current.terminal.resize(columns, rows);
+    }
+
+    if (ws.current && ws.current.readyState === ws.current.OPEN) {
+      const encoder = new TextEncoder();
+      const arr = encoder.encode('{"Width":' + columns + ',"Height":' + rows + '}');
+      ws.current.send(new Blob([new Uint8Array([0, 4]), arr]));
+    }
+  };
+
+  const debouncedResizeHandler = useMemo(() => debounce(resizeHandler, 300, { trailing: true, leading: true }), []);
+
+  useEffect(() => {
+    return () => debouncedResizeHandler.cancel();
+  }, []);
+
+  useEffect(() => {
+    debouncedResizeHandler(width, height);
+  }, [width, height]);
+
+  return (
+    <div style={{ height: '100vh' }}>
+      <XTerm ref={terminalRef} onData={onData} />
+    </div>
+  );
 };
 
 export default ConsoleDataLoader;

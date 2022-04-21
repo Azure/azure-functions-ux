@@ -17,6 +17,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     onChange,
     onBlur,
     errorMessage,
+    label,
     widthOverride,
     styles,
     id,
