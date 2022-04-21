@@ -5691,21 +5691,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="readWritePermissionsRequired" xml:space="preserve">
         <value>Read/Write permissions are required to view/edit this section.</value>
     </data>
-    <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
-        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).</value>
-    </data>
-    <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
-        <value>Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
     <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
         <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
     </data>
@@ -6899,9 +6884,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
         <value>Failed to save container configuration: {0}</value>
-    </data>
-    <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
     </data>
     <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
         <value>The server URL must begin with https://</value>
