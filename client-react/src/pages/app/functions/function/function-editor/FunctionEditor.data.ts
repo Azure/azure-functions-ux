@@ -70,6 +70,10 @@ export default class FunctionEditorData {
     return BindingManager.getEventGridTriggerInfo(functionInfo.properties);
   }
 
+  public isAuthenticationEventTriggerFunction(functionInfo: ArmObj<FunctionInfo>) {
+    return BindingManager.getAuthenticationEventTriggerTypeInfo(functionInfo.properties);
+  }
+
   public getSaveFileHeaders(mime: string) {
     return {
       'Content-Type': mime,
