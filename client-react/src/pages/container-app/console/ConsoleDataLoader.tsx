@@ -1,7 +1,7 @@
 import { TextField } from '@fluentui/react';
 import { PrimaryButton } from '@fluentui/react/lib/Button';
 import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluentui/react/lib/ChoiceGroup';
-import Dialog, { DialogFooter, DialogType } from '@fluentui/react/lib/Dialog';
+import Dialog, { DialogFooter, DialogType, IDialogContentProps } from '@fluentui/react/lib/Dialog';
 import { debounce } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import useBoolean from 'react-use/lib/useBoolean';
@@ -9,7 +9,7 @@ import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
-import { consoleStyles } from './ConsoleDataLoader.styles';
+import { consoleStyles, dialogFooterStyles, dialogTitleStyles } from './ConsoleDataLoader.styles';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -25,7 +25,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const ws = useRef<WebSocket>();
   const terminalRef = useRef<XTerm>(null);
   const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
-  const [hideDialog, toggleHideDialog] = useBoolean(false);
+  const [hideDialog, toggleHideDialog] = useBoolean(true);
 
   useEffect(() => {
     portalCommunicator.loadComplete();
@@ -160,14 +160,15 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     () => ({
       titleAriaId: 'Choose start up command',
       isBlocking: true,
-      //styles: dialogStyles,
     }),
     []
   );
 
-  const dialogContentProps = {
+  const dialogContentProps: IDialogContentProps = {
     type: DialogType.normal,
     title: 'Choose start up command',
+    styles: dialogTitleStyles(),
+    showCloseButton: false,
   };
 
   const onConnectClick = () => {
@@ -244,7 +245,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       <XTerm ref={terminalRef} onData={onData} />
       <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps}>
         <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
-        <DialogFooter styles={{ actions: { marginTop: '34px' }, actionsRight: { textAlign: 'left' } }}>
+        <DialogFooter styles={dialogFooterStyles()}>
           <PrimaryButton onClick={onConnectClick} text="Connect" />
         </DialogFooter>
       </Dialog>
