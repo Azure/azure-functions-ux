@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { debounce } from 'lodash-es';
 import { XTerm } from 'xterm-for-react';
+import { getTerminalDimensions } from '../xtermHelper';
 import { PortalContext } from '../../../PortalContext';
 
 export interface LogStreamProps {
@@ -10,7 +11,7 @@ export interface LogStreamProps {
   line?: string;
 }
 
-const LogStream: React.SFC<LogStreamProps> = (props) => {
+const LogStream: React.SFC<LogStreamProps> = props => {
   const portalCommunicator = useContext(PortalContext);
 
   const { width, height } = useWindowSize();
@@ -34,10 +35,9 @@ const LogStream: React.SFC<LogStreamProps> = (props) => {
   }, [props.line]);
 
   const resizeHandler = (width: number, height: number) => {
-    const columns = Math.floor(width / 9 - 0.5) - 2;
-    const rows = Math.floor(height / 17 - 0.5);
     if (terminalRef.current?.terminal) {
-      terminalRef.current?.terminal.resize(columns, rows);
+      const { cols, rows } = getTerminalDimensions(width, height, terminalRef.current?.terminal);
+      terminalRef.current?.terminal.resize(cols, rows);
       timeoutRef.current = undefined;
     }
   };
