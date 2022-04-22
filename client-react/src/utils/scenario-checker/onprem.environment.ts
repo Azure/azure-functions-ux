@@ -328,6 +328,13 @@ export class OnPremEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.vstsKuduSource] = {
+      id: ScenarioIds.vstsKuduSource,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.githubActionsBuildProvider] = {
       id: ScenarioIds.githubActionsBuildProvider,
       runCheck: () => {

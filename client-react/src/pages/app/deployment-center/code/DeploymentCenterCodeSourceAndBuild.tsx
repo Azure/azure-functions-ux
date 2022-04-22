@@ -84,7 +84,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     continuousDeploymentOptions.push({
       key: ScmType.Vso,
       text: t('deploymentCenterCodeSettingsSourceAzureRepos'),
-      disabled: checkVstsKuduSource.status === 'disabled' || (window.appsvc && window.appsvc.env.runtimeType === 'OnPrem'),
+      disabled: checkVstsKuduSource.status === 'disabled',
     });
 
     return continuousDeploymentOptions.length > 0

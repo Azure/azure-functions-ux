@@ -25,10 +25,11 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const isGitHubActionEnabled = () => {
+    var checkGitHubAction = scenarioService.checkScenario(ScenarioIds.githubActionsBuildProvider, { site: siteStateContext.site });
     return (
       runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby &&
       !deploymentCenterContext.isIlbASE &&
-      scenarioService.checkScenario(ScenarioIds.githubActionsBuildProvider, { site: siteStateContext.site }).status !== 'disabled'
+      checkGitHubAction.status !== 'disabled'
     );
   };
 
