@@ -4,6 +4,7 @@ import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluen
 import Dialog, { DialogFooter, DialogType, IDialogContentProps } from '@fluentui/react/lib/Dialog';
 import { debounce } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import useBoolean from 'react-use/lib/useBoolean';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
@@ -22,6 +23,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const portalCommunicator = useContext(PortalContext);
 
   const { width, height } = useWindowSize();
+  const { t } = useTranslation();
   const ws = useRef<WebSocket>();
   const terminalRef = useRef<XTerm>(null);
   const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
@@ -78,6 +80,8 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     } else {
       toggleHideDialog(true);
     }
+    setSelectedKey(options[0]);
+    setCustomTextField('');
   }, [revisionReplicaContainer]);
 
   useEffect(() => {
@@ -158,7 +162,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   const modalProps = React.useMemo(
     () => ({
-      titleAriaId: 'Choose start up command',
+      titleAriaId: t('containerApp_console_chooseStartUpCommand'),
       isBlocking: true,
     }),
     []
@@ -166,7 +170,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   const dialogContentProps: IDialogContentProps = {
     type: DialogType.normal,
-    title: 'Choose start up command',
+    title: t('containerApp_console_chooseStartUpCommand'),
     styles: dialogTitleStyles(),
     showCloseButton: false,
   };
@@ -202,7 +206,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
         };
 
         ws.current.onerror = (ev: Event) => {
-          updateConsoleText('Failed to connect to replica.');
+          updateConsoleText(t('containerApp_console_failedToConnect'));
         };
 
         if (terminalRef.current) {
@@ -226,7 +230,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     return (
       <div className={consoleStyles.customTextField}>
         {defaultRender(props)}
-        <TextField placeholder="Custom" value={customTextField} onChange={onTextFieldChange} />
+        <TextField placeholder={t('containerApp_console_connect')} value={customTextField} onChange={onTextFieldChange} />
       </div>
     );
   };
@@ -246,7 +250,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps}>
         <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
         <DialogFooter styles={dialogFooterStyles()}>
-          <PrimaryButton onClick={onConnectClick} text="Connect" />
+          <PrimaryButton onClick={onConnectClick} text={t('containerApp_console_connect')} />
         </DialogFooter>
       </Dialog>
     </div>
