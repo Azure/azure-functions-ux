@@ -87,7 +87,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
           };
 
           ws.current.onerror = (ev: Event) => {
-            // log error appropriately
+            updateConsoleText('Failed to connect to replica.');
           };
 
           if (terminalRef.current) {
@@ -154,7 +154,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   const resizeHandler = (width: number, height: number) => {
     const columns = Math.floor(width / 9 - 0.5) - 2;
-    const rows = Math.floor(height / 17 - 0.5);
+    const rows = Math.floor(height / 17 - 0.5) - 3;
 
     if (terminalRef.current) {
       terminalRef.current.terminal.resize(columns, rows);
