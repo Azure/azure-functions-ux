@@ -1,9 +1,15 @@
+import { TextField } from '@fluentui/react';
+import { PrimaryButton } from '@fluentui/react/lib/Button';
+import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluentui/react/lib/ChoiceGroup';
+import Dialog, { DialogFooter, DialogType } from '@fluentui/react/lib/Dialog';
+import { debounce } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import useBoolean from 'react-use/lib/useBoolean';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
-import { debounce } from 'lodash-es';
+import { consoleStyles } from './ConsoleDataLoader.styles';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -19,6 +25,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const ws = useRef<WebSocket>();
   const terminalRef = useRef<XTerm>(null);
   const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
+  const [hideDialog, toggleHideDialog] = useBoolean(false);
 
   useEffect(() => {
     portalCommunicator.loadComplete();
@@ -66,40 +73,20 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       resizeHandler(width, height);
     }
 
-    // Connect to the container if one is selected.
     if (revisionReplicaContainer) {
-      const revisionReplicaContainerBefore = revisionReplicaContainer;
-      ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
-        if (revisionReplicaContainerBefore === revisionReplicaContainer) {
-          const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.execEndpoint, '/bin/sh');
-          ws.current = new WebSocket(serverEndpoint);
-
-          ws.current.onmessage = async (event: MessageEvent) => {
-            if (event.data instanceof Blob) {
-              processMessageBlob(event.data);
-            } else {
-              updateConsoleText(event.data + '\r\n');
-            }
-          };
-
-          ws.current.onopen = () => {
-            resizeHandler(width, height);
-          };
-
-          ws.current.onerror = (ev: Event) => {
-            updateConsoleText('Failed to connect to replica.');
-          };
-
-          if (terminalRef.current) {
-            terminalRef.current.terminal.options = {
-              ...(terminalRef.current.terminal.options || {}),
-              disableStdin: false,
-            };
-          }
-        }
-      });
+      toggleHideDialog(false);
+    } else {
+      toggleHideDialog(true);
     }
   }, [revisionReplicaContainer]);
+
+  useEffect(() => {
+    return () => debouncedResizeHandler.cancel();
+  }, []);
+
+  useEffect(() => {
+    debouncedResizeHandler(width, height);
+  }, [width, height]);
 
   const getServerEndpoint = (execEndpoint: string, startUpCommand: string) => {
     const execEndpointWithRevisionReplicaContainer = execEndpoint.replace('/revisions/exec', `${revisionReplicaContainer}/exec`);
@@ -154,7 +141,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   const resizeHandler = (width: number, height: number) => {
     const columns = Math.floor(width / 9 - 0.5) - 2;
-    const rows = Math.floor(height / 17 - 0.5) - 3;
+    const rows = Math.floor(height / 17 - 0.5);
 
     if (terminalRef.current) {
       terminalRef.current.terminal.resize(columns, rows);
@@ -169,17 +156,98 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   const debouncedResizeHandler = useMemo(() => debounce(resizeHandler, 300, { trailing: true, leading: true }), []);
 
-  useEffect(() => {
-    return () => debouncedResizeHandler.cancel();
-  }, []);
+  const modalProps = React.useMemo(
+    () => ({
+      titleAriaId: 'Choose start up command',
+      isBlocking: true,
+      //styles: dialogStyles,
+    }),
+    []
+  );
 
-  useEffect(() => {
-    debouncedResizeHandler(width, height);
-  }, [width, height]);
+  const dialogContentProps = {
+    type: DialogType.normal,
+    title: 'Choose start up command',
+  };
+
+  const onConnectClick = () => {
+    let command = '';
+    if (selectedKey.key == 'sh' || selectedKey.key == 'bash') {
+      command = selectedKey.text;
+    } else if (selectedKey.key == 'custom' && customTextField) {
+      command = customTextField;
+    } else {
+      return;
+    }
+
+    toggleHideDialog();
+
+    const revisionReplicaContainerBefore = revisionReplicaContainer;
+    ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
+      if (revisionReplicaContainerBefore === revisionReplicaContainer) {
+        const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.execEndpoint, command);
+        ws.current = new WebSocket(serverEndpoint);
+
+        ws.current.onmessage = async (event: MessageEvent) => {
+          if (event.data instanceof Blob) {
+            processMessageBlob(event.data);
+          } else {
+            updateConsoleText(event.data + '\r\n');
+          }
+        };
+
+        ws.current.onopen = () => {
+          resizeHandler(width, height);
+        };
+
+        ws.current.onerror = (ev: Event) => {
+          updateConsoleText('Failed to connect to replica.');
+        };
+
+        if (terminalRef.current) {
+          terminalRef.current.terminal.options = {
+            ...(terminalRef.current.terminal.options || {}),
+            disableStdin: false,
+          };
+        }
+      }
+    });
+  };
+
+  const onTextFieldChange = (_: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) => {
+    setCustomTextField(newValue || '');
+  };
+
+  const onCustomOptionRender = (
+    props: IChoiceGroupOptionProps,
+    defaultRender: (props?: IChoiceGroupOptionProps) => JSX.Element
+  ): JSX.Element | null => {
+    return (
+      <div className={consoleStyles.customTextField}>
+        {defaultRender(props)}
+        <TextField placeholder="Custom" value={customTextField} onChange={onTextFieldChange} />
+      </div>
+    );
+  };
+
+  const options: IChoiceGroupOption[] = [
+    { key: 'sh', text: '/bin/sh' },
+    { key: 'bash', text: '/bin/bash' },
+    { key: 'custom', text: '', onRenderField: onCustomOptionRender },
+  ];
+
+  const [selectedKey, setSelectedKey] = useState<IChoiceGroupOption>(options[0]);
+  const [customTextField, setCustomTextField] = useState<string>('');
 
   return (
-    <div style={{ height: '100vh' }}>
+    <div className={consoleStyles.divContainer}>
       <XTerm ref={terminalRef} onData={onData} />
+      <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps}>
+        <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
+        <DialogFooter styles={{ actions: { marginTop: '34px' }, actionsRight: { textAlign: 'left' } }}>
+          <PrimaryButton onClick={onConnectClick} text="Connect" />
+        </DialogFooter>
+      </Dialog>
     </div>
   );
 };
