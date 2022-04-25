@@ -1,6 +1,7 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
 // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
+const java17EOL = new Date(2031, 9).toString();
 const java11EOL = new Date(2026, 9).toString();
 const java8EOL = new Date(2025, 3).toString();
 const java7EOL = new Date(2023, 7).toString();
@@ -10,6 +11,70 @@ export const javaStack: WebAppStack = {
   value: 'java',
   preferredOs: 'linux',
   majorVersions: [
+    {
+      displayText: 'Java 17',
+      value: '17',
+      minorVersions: [
+        {
+          displayText: 'Java 17',
+          value: '17.0',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '17',
+              isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 17.0.2',
+          value: '17.0.2',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '17.0.2',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 17.0.1',
+          value: '17.0.1',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '17.0.1',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            },
+          },
+        },
+      ],
+    },
     {
       displayText: 'Java 11',
       value: '11',
@@ -21,6 +86,63 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '11',
               isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.14',
+          value: '11.0.14',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.14',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.13',
+          value: '11.0.13',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.13',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.12',
+          value: '11.0.12',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.12',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -200,6 +322,63 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8',
               isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_322',
+          value: '8.0.322',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_322',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_312',
+          value: '8.0.312',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_312',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_302',
+          value: '8.0.302',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_302',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
