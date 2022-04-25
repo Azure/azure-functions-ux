@@ -8,10 +8,6 @@ export const consoleStyles = mergeStyleSets({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  divContainer: {
-    height: '100vh',
-    overflow: 'hidden',
-  },
   dialogFooterAlignLeft: {
     textAlign: 'left',
   },

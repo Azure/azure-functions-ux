@@ -10,6 +10,7 @@ import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
+import { containerAppStyles } from '../ContainerApp.styles';
 import { consoleStyles, dialogFooterStyles, dialogTitleStyles } from './ConsoleDataLoader.styles';
 
 export interface ConsoleDataLoaderProps {
@@ -75,11 +76,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       resizeHandler(width, height);
     }
 
-    if (revisionReplicaContainer) {
-      toggleHideDialog(false);
-    } else {
-      toggleHideDialog(true);
-    }
+    toggleHideDialog(!revisionReplicaContainer);
     setSelectedKey(options[0]);
     setCustomTextField('');
   }, [revisionReplicaContainer]);
@@ -230,7 +227,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     return (
       <div className={consoleStyles.customTextField}>
         {defaultRender(props)}
-        <TextField placeholder={t('containerApp_console_connect')} value={customTextField} onChange={onTextFieldChange} />
+        <TextField placeholder={t('containerApp_console_custom')} value={customTextField} onChange={onTextFieldChange} />
       </div>
     );
   };
@@ -245,12 +242,16 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const [customTextField, setCustomTextField] = useState<string>('');
 
   return (
-    <div className={consoleStyles.divContainer}>
+    <div className={containerAppStyles.divContainer}>
       <XTerm ref={terminalRef} onData={onData} />
       <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps}>
         <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
         <DialogFooter styles={dialogFooterStyles()}>
-          <PrimaryButton onClick={onConnectClick} text={t('containerApp_console_connect')} />
+          <PrimaryButton
+            onClick={onConnectClick}
+            text={t('containerApp_console_connect')}
+            disabled={!selectedKey || (selectedKey.key === 'custom' && !customTextField)}
+          />
         </DialogFooter>
       </Dialog>
     </div>
