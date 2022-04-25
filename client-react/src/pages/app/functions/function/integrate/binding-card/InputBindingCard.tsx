@@ -1,6 +1,6 @@
-import i18next from 'i18next';
 import { Link } from '@fluentui/react';
-import React, { useContext } from 'react';
+import i18next from 'i18next';
+import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as InputSvg } from '../../../../../../images/Common/input.svg';
 import { ArmObj } from '../../../../../../models/arm-obj';
@@ -18,7 +18,7 @@ import { getBindingDirection } from '../FunctionIntegrate.utils';
 import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
 
-const InputBindingCard: React.SFC<EditableBindingCardProps> = props => {
+const InputBindingCard: React.FC<EditableBindingCardProps> = props => {
   const { functionInfo, bindings, readOnly, loadBindingSettings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -58,26 +58,19 @@ const getContent = (
   theme: ThemeExtended,
   inputBindings: BindingInfo[],
   readOnly: boolean,
-  loadBindingSettings
+  loadBindingSettings: (bindingId: string, force: boolean) => Promise<void>
 ): JSX.Element => {
-  const inputList = inputBindings.map((item, i) => {
-    const name = item.name ? `(${item.name})` : '';
-    const linkName = `${BindingFormBuilder.getBindingTypeName(item, bindings)} ${name}`;
+  const inputList = inputBindings.map((inputBinding, i) => {
     return (
       <li key={i.toString()}>
-        <Link
-          onClick={() => {
-            loadBindingSettings(
-              bindings.find(
-                binding => BindingManager.isBindingTypeEqual(binding.type, item.type) && binding.direction === BindingDirection.in
-              )!.id,
-              false
-            ).then(() => {
-              editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingDirection.in);
-            });
-          }}>
-          {linkName}
-        </Link>
+        <InputLink
+          bindingEditorContext={bindingEditorContext}
+          bindings={bindings}
+          functionInfo={functionInfo}
+          inputBinding={inputBinding}
+          loadBindingSettings={loadBindingSettings}
+          portalCommunicator={portalCommunicator}
+        />
       </li>
     );
   });
@@ -100,6 +93,47 @@ const getContent = (
   }
 
   return <ul className={listStyle(theme)}>{completeInputList}</ul>;
+};
+
+interface InputLinkProps {
+  bindingEditorContext: BindingEditorContextInfo;
+  bindings: Binding[];
+  functionInfo: ArmObj<FunctionInfo>;
+  inputBinding: BindingInfo;
+  loadBindingSettings: (bindingId: string, force: boolean) => Promise<void>;
+  portalCommunicator: PortalCommunicator;
+}
+
+const InputLink: React.FC<InputLinkProps> = ({
+  bindingEditorContext,
+  bindings,
+  functionInfo,
+  inputBinding,
+  loadBindingSettings,
+  portalCommunicator,
+}) => {
+  const { t } = useTranslation();
+
+  const bindingId = useMemo(
+    () =>
+      bindings.find(
+        binding => BindingManager.isBindingTypeEqual(binding.type, inputBinding.type) && binding.direction === BindingDirection.in
+      )?.id,
+    [bindings, inputBinding]
+  );
+
+  return bindingId ? (
+    <Link
+      onClick={() => {
+        loadBindingSettings(bindingId, false).then(() => {
+          editExisting(portalCommunicator, t, functionInfo, inputBinding, bindingEditorContext, BindingDirection.in);
+        });
+      }}>
+      {`${BindingFormBuilder.getBindingTypeName(inputBinding, bindings)} ${inputBinding.name ? `(${inputBinding.name})` : ''}`}
+    </Link>
+  ) : (
+    <div>-</div>
+  );
 };
 
 export default InputBindingCard;

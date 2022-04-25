@@ -1,6 +1,6 @@
-import i18next from 'i18next';
 import { Link } from '@fluentui/react';
-import React, { useContext } from 'react';
+import i18next from 'i18next';
+import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as PowerSvg } from '../../../../../../images/Common/power.svg';
 import { ArmObj } from '../../../../../../models/arm-obj';
@@ -18,7 +18,7 @@ import { getBindingDirection } from '../FunctionIntegrate.utils';
 import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
 
-const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
+const TriggerBindingCard: React.FC<EditableBindingCardProps> = props => {
   const { functionInfo, bindings, readOnly, loadBindingSettings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -62,14 +62,14 @@ const getContent = (
     <ul className={listStyle(theme)}>
       {trigger ? (
         <li key="0">
-          <Link
-            onClick={() => {
-              loadBindingSettings(bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, trigger.type))!.id, false).then(
-                () => {
-                  editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger);
-                }
-              );
-            }}>{`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}</Link>
+          <TriggerLink
+            bindingEditorContext={bindingEditorContext}
+            bindings={bindings}
+            functionInfo={functionInfo}
+            loadBindingSettings={loadBindingSettings}
+            portalCommunicator={portalCommunicator}
+            trigger={trigger}
+          />
         </li>
       ) : !readOnly ? (
         <li key={'newTrigger'}>
@@ -87,6 +87,44 @@ const getContent = (
         emptyList(t('integrateNoTriggerDefined'))
       )}
     </ul>
+  );
+};
+
+interface TriggerLinkProps {
+  bindingEditorContext: BindingEditorContextInfo;
+  bindings: Binding[];
+  functionInfo: ArmObj<FunctionInfo>;
+  loadBindingSettings: (bindingId: string, force: boolean) => Promise<void>;
+  portalCommunicator: PortalCommunicator;
+  trigger: BindingInfo;
+}
+
+const TriggerLink: React.FC<TriggerLinkProps> = ({
+  bindingEditorContext,
+  bindings,
+  functionInfo,
+  loadBindingSettings,
+  portalCommunicator,
+  trigger,
+}) => {
+  const { t } = useTranslation();
+
+  const bindingId = useMemo(() => bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, trigger.type))?.id, [
+    bindings,
+    trigger,
+  ]);
+
+  return bindingId ? (
+    <Link
+      onClick={() => {
+        loadBindingSettings(bindingId, false).then(() => {
+          editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger);
+        });
+      }}>
+      {`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}
+    </Link>
+  ) : (
+    <div>-</div>
   );
 };
 
