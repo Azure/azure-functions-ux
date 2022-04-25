@@ -4,6 +4,7 @@ import { debounce } from 'lodash-es';
 import { XTerm } from 'xterm-for-react';
 import { getTerminalDimensions } from '../xtermHelper';
 import { PortalContext } from '../../../PortalContext';
+import { containerAppStyles } from '../ContainerApp.styles';
 
 export interface LogStreamProps {
   resourceId: string;
@@ -11,7 +12,7 @@ export interface LogStreamProps {
   line?: string;
 }
 
-const LogStream: React.SFC<LogStreamProps> = props => {
+const LogStream: React.FC<LogStreamProps> = props => {
   const portalCommunicator = useContext(PortalContext);
 
   const { width, height } = useWindowSize();
@@ -53,7 +54,7 @@ const LogStream: React.SFC<LogStreamProps> = props => {
   }, [width, height]);
 
   return (
-    <div style={{ height: '100vh', overflow: 'hidden' }}>
+    <div className={containerAppStyles.divContainer}>
       <XTerm
         options={{
           disableStdin: true,
