@@ -8,6 +8,7 @@ import { useTranslation } from 'react-i18next';
 import useBoolean from 'react-use/lib/useBoolean';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
+import { getTerminalDimensions } from '../xtermHelper';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
 import { containerAppStyles } from '../ContainerApp.styles';
@@ -141,16 +142,15 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   };
 
   const resizeHandler = (width: number, height: number) => {
-    const columns = Math.floor(width / 9 - 0.5) - 2;
-    const rows = Math.floor(height / 17 - 0.5);
+    const { cols, rows } = getTerminalDimensions(width, height, terminalRef.current?.terminal);
 
     if (terminalRef.current) {
-      terminalRef.current.terminal.resize(columns, rows);
+      terminalRef.current.terminal.resize(cols, rows);
     }
 
     if (ws.current && ws.current.readyState === ws.current.OPEN) {
       const encoder = new TextEncoder();
-      const arr = encoder.encode('{"Width":' + columns + ',"Height":' + rows + '}');
+      const arr = encoder.encode('{"Width":' + cols + ',"Height":' + rows + '}');
       ws.current.send(new Blob([new Uint8Array([0, 4]), arr]));
     }
   };

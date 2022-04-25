@@ -3810,11 +3810,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";containerStartupFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";containerStartupFileOrCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Startup File]]></Val>
+          <Val><![CDATA[Startup file or command]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Startdatei]]></Val>
+            <Val><![CDATA[Startdatei oder Befehl]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5387,10 +5387,13 @@
       </Item>
       <Item ItemId=";deploymentCenterContainerType" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Container Type]]></Val>
+          <Val><![CDATA[Container type]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Containertyp]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Container Type]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -11439,60 +11442,6 @@
           <Prev Cat="Text">
             <Val><![CDATA[Cannot upgrade with existing functions: Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app.]]></Val>
           </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionInvalidWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ihre benutzerdefinierte Runtimeversion ({0}) wird nicht unterstützt. Daher verwendet Ihre App die neueste Version ({1}), und es wird immer die neueste Version der Runtime ausgeführt – selbst bei Hauptversionsupdates, die möglicherweise Breaking Changes enthalten. Es empfiehlt sich, diesen Wert auf eine bestimmte Hauptversion festzulegen (z. B. ~2), damit Sie eine Benachrichtigung mit neueren Versionen für ein Update erhalten.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ihre App ist derzeit an die Runtimeversion "{0}" angeheftet. Das Anheften an "{0}" bedeutet, dass immer die neueste Version der Runtime ausgeführt wird – selbst bei Hauptversionsupdates, die möglicherweise Breaking Changes enthalten. Es empfiehlt sich, diesen Wert auf eine bestimmte Hauptversion festzulegen (z. B. ~2), damit Sie eine Benachrichtigung mit neueren Versionen für ein Update erhalten.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ihre App ist derzeit an die Runtimeversion "{0}" angeheftet und verwendet daher die neueste Version ({1}). Das Anheften an "{0}" bedeutet, dass immer die neueste Version der Runtime ausgeführt wird, selbst bei Hauptversionsupdates, die möglicherweise Breaking Changes enthalten. Es empfiehlt sich, diesen Wert auf eine bestimmte Hauptversion festzulegen (z. B. ~2), damit Sie eine Benachrichtigung mit neueren Versionen für ein Update erhalten.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Die Runtimeversion ist für Ihre App nicht konfiguriert. Die Runtime kann daher nicht gestartet werden. Aktualisieren Sie die Runtimeversion auf einen gültigen Wert (z. B. ~2).]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ihre App ist derzeit an die Runtimeversion "{0}" angeheftet. Wenn diese Version nicht mehr unterstützt wird, verwendet Ihre App die neueste Version der Runtime. Möglicherweise weist diese eine andere Hauptversion auf und enthält Breaking Changes. Es empfiehlt sich, diesen Wert auf eine bestimmte Hauptversion festzulegen (z. B. ~2), damit Sie eine Benachrichtigung mit neueren Versionen für ein Update erhalten.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarningForV2" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ihre App ist derzeit auf die Runtimeversion "{0}" festgelegt und wird nach Oktober 2020 keine weiteren Sicherheitsupgrades erhalten. Es wird empfohlen, ein Upgrade auf die neueste Version der Runtime durchzuführen. Weitere Informationen finden Sie in diesem Artikel.]]></Val>
-          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
