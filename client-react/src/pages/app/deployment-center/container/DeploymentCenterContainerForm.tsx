@@ -644,9 +644,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       const updateApplicationPropertiesResponse = await updateApplicationProperties(values);
 
       if (!updateApplicationPropertiesResponse.success) {
+        containerConfigurationSucceeded = false;
         errorMessage = getErrorMessage(updateApplicationPropertiesResponse.error);
       }
     } else {
+      containerConfigurationSucceeded = false;
       errorMessage = getErrorMessage(updateGitHubActionSettingsResponse.error);
     }
 
