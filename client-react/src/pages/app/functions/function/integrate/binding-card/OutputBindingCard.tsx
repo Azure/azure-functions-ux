@@ -1,6 +1,6 @@
 import { Link } from '@fluentui/react';
 import i18next from 'i18next';
-import React, { useContext, useMemo } from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as OutputSvg } from '../../../../../../images/Common/output.svg';
 import { ArmObj } from '../../../../../../models/arm-obj';
@@ -11,12 +11,11 @@ import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
-import { BindingManager } from '../../../../../../utils/BindingManager';
-import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import { getBindingDirection } from '../FunctionIntegrate.utils';
-import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
+import BindingCard, { createNew, EditableBindingCardProps, emptyList } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
+import BindingCardLink from './BindingCardLink';
 
 const OutputBindingCard: React.FC<EditableBindingCardProps> = props => {
   const { functionInfo, bindings, readOnly, loadBindingSettings } = props;
@@ -63,12 +62,13 @@ const getContent = (
   const outputList: JSX.Element[] = outputBindings.map((outputBinding, i) => {
     return (
       <li key={i.toString()}>
-        <OutputLink
+        <BindingCardLink
+          bindingDirection={BindingDirection.out}
           bindingEditorContext={bindingEditorContext}
+          bindingInfo={outputBinding}
           bindings={bindings}
           functionInfo={functionInfo}
           loadBindingSettings={loadBindingSettings}
-          outputBinding={outputBinding}
           portalCommunicator={portalCommunicator}
         />
       </li>
@@ -93,47 +93,6 @@ const getContent = (
   }
 
   return <ul className={listStyle(theme)}>{completeOutputList}</ul>;
-};
-
-interface OutputLinkProps {
-  bindingEditorContext: BindingEditorContextInfo;
-  bindings: Binding[];
-  functionInfo: ArmObj<FunctionInfo>;
-  loadBindingSettings: (bindingId: string, force: boolean) => Promise<void>;
-  outputBinding: BindingInfo;
-  portalCommunicator: PortalCommunicator;
-}
-
-const OutputLink: React.FC<OutputLinkProps> = ({
-  bindingEditorContext,
-  bindings,
-  functionInfo,
-  loadBindingSettings,
-  outputBinding,
-  portalCommunicator,
-}) => {
-  const { t } = useTranslation();
-
-  const bindingId = useMemo(
-    () =>
-      bindings.find(
-        binding => BindingManager.isBindingTypeEqual(binding.type, outputBinding.type) && binding.direction === BindingDirection.out
-      )?.id,
-    [bindings, outputBinding]
-  );
-
-  return bindingId ? (
-    <Link
-      onClick={() => {
-        loadBindingSettings(bindingId, false).then(() => {
-          editExisting(portalCommunicator, t, functionInfo, outputBinding, bindingEditorContext, BindingDirection.out);
-        });
-      }}>
-      {`${BindingFormBuilder.getBindingTypeName(outputBinding, bindings)} ${outputBinding.name ? `(${outputBinding.name})` : ''}`}
-    </Link>
-  ) : (
-    <div>-</div>
-  );
 };
 
 export default OutputBindingCard;
