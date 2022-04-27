@@ -120,6 +120,7 @@ export const nodeStack: WebAppStack = {
           stackSettings: {
             linuxRuntimeSettings: {
               runtimeVersion: 'NODE|12-lts',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -132,6 +133,7 @@ export const nodeStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '12.13.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
