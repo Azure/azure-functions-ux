@@ -91,6 +91,7 @@ export const aspDotnetStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v5.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -102,6 +103,7 @@ export const aspDotnetStack: WebAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|5.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
