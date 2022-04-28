@@ -1,11 +1,11 @@
 export interface StandardArmResourceTemplate {
   apiVersion: string;
-  kind?: string;
   location: string;
   name: string;
   properties: Record<string, unknown>;
-  sku?: Record<string, unknown>;
   type: string;
+  kind?: string;
+  sku?: Record<string, unknown>;
 }
 
 class FusionControls {
