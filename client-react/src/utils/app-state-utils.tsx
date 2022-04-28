@@ -113,8 +113,8 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
     return FunctionAppEditMode.ReadOnlyCustom;
   }
 
-  if (isFunctionApp(site) && FunctionAppService.usingDotnet5WorkerRuntime(appSettings)) {
-    return FunctionAppEditMode.ReadOnlyDotnet5;
+  if (isFunctionApp(site) && FunctionAppService.usingDotnetIsolatedRuntime(appSettings)) {
+    return FunctionAppEditMode.ReadOnlyDotnetIsolated;
   }
 
   if (FunctionAppService.usingRunFromPackage(appSettings)) {

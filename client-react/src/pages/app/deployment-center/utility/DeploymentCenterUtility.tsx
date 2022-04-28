@@ -153,18 +153,15 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFuncti
   }
   const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
+  let fxVersionParts: string[] = linuxFxVersionParts;
 
   if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
-    let fxVersionParts: string[];
-    if (isFunctionApp) {
-      fxVersionParts = linuxFxVersionParts;
-    } else {
+    if (!isFunctionApp) {
       fxVersionParts = siteConfig.properties.linuxFxVersion?.split('-') ?? [];
     }
-    return fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
   }
 
-  return siteConfig.properties.linuxFxVersion;
+  return fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
 };
 
 const getWebAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
@@ -182,7 +179,6 @@ const getWebAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
 const getFunctionAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
   const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
-
   return runtimeStack === 'dotnetcore' || runtimeStack === 'dotnet' ? RuntimeStacks.dotnet : runtimeStack;
 };
 
@@ -430,6 +426,8 @@ export const getRuntimeStackDisplayName = (stack: string) => {
       return RuntimeStackDisplayNames.AspDotNet;
     case RuntimeStackOptions.Dotnet:
       return RuntimeStackDisplayNames.Dotnet;
+    case RuntimeStackOptions.DotnetIsolated:
+      return RuntimeStackDisplayNames.DotnetIsolated;
     default:
       return '';
   }

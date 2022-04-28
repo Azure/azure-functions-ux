@@ -33,9 +33,12 @@ export class WorkflowService20201201 {
 
   getFunctionAppCodeLinuxWorkflowFile(providedOs: string, providedRuntimeStack: string) {
     const runtimeStack = providedRuntimeStack.toLocaleLowerCase();
+    console.log(runtimeStack);
 
     switch (runtimeStack) {
       case RuntimeStacks.Dotnet:
+        return this.readWorkflowFile('function-app-configs/dotnetcore-linux.config.yml');
+      case RuntimeStacks.DotnetIsolated:
         return this.readWorkflowFile('function-app-configs/dotnetcore-linux.config.yml');
       case RuntimeStacks.Java:
         return this.readWorkflowFile('function-app-configs/java-linux.config.yml');
