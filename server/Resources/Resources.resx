@@ -7392,4 +7392,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="logicAppPlanPickerGridUsageRowTitle" xml:space="preserve">
         <value>Pay as you go usage</value>
     </data>
+    <data name="containerApp_console_chooseStartUpCommand" xml:space="preserve">
+        <value>Choose start up command</value>
+    </data>
+    <data name="containerApp_console_failedToConnect" xml:space="preserve">
+        <value>Failed to connect to replica.</value>
+    </data>
+    <data name="containerApp_console_connect" xml:space="preserve">
+        <value>Connect</value>
+    </data>
+    <data name="containerApp_console_custom" xml:space="preserve">
+        <value>Custom</value>
+    </data>   
 </root>
