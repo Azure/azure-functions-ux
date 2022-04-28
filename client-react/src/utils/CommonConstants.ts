@@ -171,6 +171,7 @@ export class CommonConstants {
     master: 'master',
     eventGridV1: 'eventgridextensionconfig_extension',
     eventGridV2: 'eventgrid_extension',
+    authenticationEvent: 'customauthenticationextension_extension',
   };
 
   public static EventGridSubscriptionEndpoints = {

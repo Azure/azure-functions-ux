@@ -2,7 +2,9 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
+  const dotnet5EOL = getDateString(new Date(2022, 5, 8), useIsoDateFormat);
   const dotnetCore3Point0EOL = getDateString(new Date(2020, 3, 3), useIsoDateFormat);
+  const dotnetCore3Point1EOL = getDateString(new Date(2022, 12, 3), useIsoDateFormat);
   const dotnetCore2Point2EOL = getDateString(new Date(2019, 12, 23), useIsoDateFormat);
   const dotnetCore2Point1EOL = getDateString(new Date(2021, 7, 21), useIsoDateFormat);
   const dotnetCore2Point0EOL = getDateString(new Date(2018, 10, 1), useIsoDateFormat);
@@ -95,6 +97,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v5.0',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -103,9 +106,11 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '5.0.x',
                 },
+                endOfLifeDate: dotnet5EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|5.0',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -114,6 +119,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '5.0.x',
                 },
+                endOfLifeDate: dotnet5EOL,
               },
             },
           },
@@ -137,6 +143,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.1.301',
                 },
+                endOfLifeDate: dotnetCore3Point1EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|3.1',
@@ -148,6 +155,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.1.301',
                 },
+                endOfLifeDate: dotnetCore3Point1EOL,
               },
             },
           },

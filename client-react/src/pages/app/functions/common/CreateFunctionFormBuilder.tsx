@@ -40,18 +40,15 @@ export class CreateFunctionFormBuilder extends BindingFormBuilder {
 
   private _getInitialFunctionName(): string {
     let i = 1;
-    while (true) {
-      // eslint-disable-next-line no-loop-func
-      const func = this._functionsInfo.find(value => {
-        return `${this._defaultName.toLowerCase()}${i.toString()}` === value.properties.name.toLowerCase();
-      });
-
-      if (func) {
-        i = i + 1;
-      } else {
-        return this._defaultName + i;
-      }
+    while (
+      this._functionsInfo.find(value => {
+        return `${this._defaultName.toLowerCase()}${i}` === value.properties.name.toLowerCase();
+      })
+    ) {
+      i = i + 1;
     }
+
+    return this._defaultName + i;
   }
 
   private _getFunctionNameTextField(formProps: FormikProps<CreateFunctionFormValues>, isDisabled: boolean) {
