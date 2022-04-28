@@ -55,7 +55,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
         ...props,
       };
 
-  const errorMessage = get(form.errors, field.name, '') as string;
+  const errorMessage = get(form.touched, field.name, false) ? (get(form.errors, field.name, '') as string) : undefined;
 
   const loadingProps = isLoading
     ? {

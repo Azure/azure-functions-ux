@@ -1,9 +1,18 @@
+import { TextField } from '@fluentui/react';
+import { PrimaryButton } from '@fluentui/react/lib/Button';
+import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluentui/react/lib/ChoiceGroup';
+import Dialog, { DialogFooter, DialogType, IDialogContentProps } from '@fluentui/react/lib/Dialog';
+import { debounce } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import useBoolean from 'react-use/lib/useBoolean';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
+import { getTerminalDimensions } from '../xtermHelper';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
-import { debounce } from 'lodash-es';
+import { containerAppStyles } from '../ContainerApp.styles';
+import { consoleStyles, dialogFooterStyles, dialogTitleStyles } from './ConsoleDataLoader.styles';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -16,9 +25,11 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const portalCommunicator = useContext(PortalContext);
 
   const { width, height } = useWindowSize();
+  const { t } = useTranslation();
   const ws = useRef<WebSocket>();
   const terminalRef = useRef<XTerm>(null);
   const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
+  const [hideDialog, toggleHideDialog] = useBoolean(true);
 
   useEffect(() => {
     portalCommunicator.loadComplete();
@@ -66,40 +77,18 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       resizeHandler(width, height);
     }
 
-    // Connect to the container if one is selected.
-    if (revisionReplicaContainer) {
-      const revisionReplicaContainerBefore = revisionReplicaContainer;
-      ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
-        if (revisionReplicaContainerBefore === revisionReplicaContainer) {
-          const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.execEndpoint, '/bin/sh');
-          ws.current = new WebSocket(serverEndpoint);
-
-          ws.current.onmessage = async (event: MessageEvent) => {
-            if (event.data instanceof Blob) {
-              processMessageBlob(event.data);
-            } else {
-              updateConsoleText(event.data + '\r\n');
-            }
-          };
-
-          ws.current.onopen = () => {
-            resizeHandler(width, height);
-          };
-
-          ws.current.onerror = (ev: Event) => {
-            // log error appropriately
-          };
-
-          if (terminalRef.current) {
-            terminalRef.current.terminal.options = {
-              ...(terminalRef.current.terminal.options || {}),
-              disableStdin: false,
-            };
-          }
-        }
-      });
-    }
+    toggleHideDialog(!revisionReplicaContainer);
+    setSelectedKey(options[0]);
+    setCustomTextField('');
   }, [revisionReplicaContainer]);
+
+  useEffect(() => {
+    return () => debouncedResizeHandler.cancel();
+  }, []);
+
+  useEffect(() => {
+    debouncedResizeHandler(width, height);
+  }, [width, height]);
 
   const getServerEndpoint = (execEndpoint: string, startUpCommand: string) => {
     const execEndpointWithRevisionReplicaContainer = execEndpoint.replace('/revisions/exec', `${revisionReplicaContainer}/exec`);
@@ -153,33 +142,118 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   };
 
   const resizeHandler = (width: number, height: number) => {
-    const columns = Math.floor(width / 9 - 0.5) - 2;
-    const rows = Math.floor(height / 17 - 0.5);
+    const { cols, rows } = getTerminalDimensions(width, height, terminalRef.current?.terminal);
 
     if (terminalRef.current) {
-      terminalRef.current.terminal.resize(columns, rows);
+      terminalRef.current.terminal.resize(cols, rows);
     }
 
     if (ws.current && ws.current.readyState === ws.current.OPEN) {
       const encoder = new TextEncoder();
-      const arr = encoder.encode('{"Width":' + columns + ',"Height":' + rows + '}');
+      const arr = encoder.encode('{"Width":' + cols + ',"Height":' + rows + '}');
       ws.current.send(new Blob([new Uint8Array([0, 4]), arr]));
     }
   };
 
   const debouncedResizeHandler = useMemo(() => debounce(resizeHandler, 300, { trailing: true, leading: true }), []);
 
-  useEffect(() => {
-    return () => debouncedResizeHandler.cancel();
-  }, []);
+  const modalProps = React.useMemo(
+    () => ({
+      titleAriaId: t('containerApp_console_chooseStartUpCommand'),
+      isBlocking: true,
+    }),
+    []
+  );
 
-  useEffect(() => {
-    debouncedResizeHandler(width, height);
-  }, [width, height]);
+  const dialogContentProps: IDialogContentProps = {
+    type: DialogType.normal,
+    title: t('containerApp_console_chooseStartUpCommand'),
+    styles: dialogTitleStyles(),
+    showCloseButton: false,
+  };
+
+  const onConnectClick = () => {
+    let command = '';
+    if (selectedKey.key == 'sh' || selectedKey.key == 'bash') {
+      command = selectedKey.text;
+    } else if (selectedKey.key == 'custom' && customTextField) {
+      command = customTextField;
+    } else {
+      return;
+    }
+
+    toggleHideDialog();
+
+    const revisionReplicaContainerBefore = revisionReplicaContainer;
+    ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
+      if (revisionReplicaContainerBefore === revisionReplicaContainer) {
+        const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.execEndpoint, command);
+        ws.current = new WebSocket(serverEndpoint);
+
+        ws.current.onmessage = async (event: MessageEvent) => {
+          if (event.data instanceof Blob) {
+            processMessageBlob(event.data);
+          } else {
+            updateConsoleText(event.data + '\r\n');
+          }
+        };
+
+        ws.current.onopen = () => {
+          resizeHandler(width, height);
+        };
+
+        ws.current.onerror = (ev: Event) => {
+          updateConsoleText(t('containerApp_console_failedToConnect'));
+        };
+
+        if (terminalRef.current) {
+          terminalRef.current.terminal.options = {
+            ...(terminalRef.current.terminal.options || {}),
+            disableStdin: false,
+          };
+        }
+      }
+    });
+  };
+
+  const onTextFieldChange = (_: React.FormEvent<HTMLInputElement | HTMLTextAreaElement>, newValue?: string | undefined) => {
+    setCustomTextField(newValue || '');
+  };
+
+  const onCustomOptionRender = (
+    props: IChoiceGroupOptionProps,
+    defaultRender: (props?: IChoiceGroupOptionProps) => JSX.Element
+  ): JSX.Element | null => {
+    return (
+      <div className={consoleStyles.customTextField}>
+        {defaultRender(props)}
+        <TextField placeholder={t('containerApp_console_custom')} value={customTextField} onChange={onTextFieldChange} />
+      </div>
+    );
+  };
+
+  const options: IChoiceGroupOption[] = [
+    { key: 'sh', text: '/bin/sh' },
+    { key: 'bash', text: '/bin/bash' },
+    { key: 'custom', text: '', onRenderField: onCustomOptionRender },
+  ];
+
+  const [selectedKey, setSelectedKey] = useState<IChoiceGroupOption>(options[0]);
+  const [customTextField, setCustomTextField] = useState<string>('');
 
   return (
-    <div style={{ height: '100vh' }}>
+    <div className={containerAppStyles.divContainer}>
       <XTerm ref={terminalRef} onData={onData} />
+      <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps}>
+        <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
+        <DialogFooter styles={dialogFooterStyles()}>
+          <PrimaryButton
+            onClick={onConnectClick}
+            text={t('containerApp_console_connect')}
+            disabled={!selectedKey || (selectedKey.key === 'custom' && !customTextField)}
+          />
+        </DialogFooter>
+      </Dialog>
     </div>
   );
 };

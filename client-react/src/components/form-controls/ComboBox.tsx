@@ -60,7 +60,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
     }
   }, [options]);
 
-  const errorMessage = get(form.errors, field.name, '') as string;
+  const errorMessage = get(form.touched, field.name, false) ? (get(form.errors, field.name, '') as string) : undefined;
 
   return (
     <div className={loadingComboBoxStyle}>

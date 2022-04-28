@@ -2,7 +2,10 @@ import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { debounce } from 'lodash-es';
 import { XTerm } from 'xterm-for-react';
+import { getTerminalDimensions } from '../xtermHelper';
 import { PortalContext } from '../../../PortalContext';
+import { containerAppStyles } from '../ContainerApp.styles';
+import { TextUtilitiesService } from '../../../utils/textUtilities';
 
 export interface LogStreamProps {
   resourceId: string;
@@ -10,7 +13,7 @@ export interface LogStreamProps {
   line?: string;
 }
 
-const LogStream: React.SFC<LogStreamProps> = (props) => {
+const LogStream: React.FC<LogStreamProps> = props => {
   const portalCommunicator = useContext(PortalContext);
 
   const { width, height } = useWindowSize();
@@ -20,6 +23,21 @@ const LogStream: React.SFC<LogStreamProps> = (props) => {
   useEffect(() => {
     portalCommunicator.loadComplete();
   }, [portalCommunicator]);
+
+  useEffect(() => {
+    if (!!terminalRef.current?.terminal) {
+      terminalRef.current.terminal.attachCustomKeyEventHandler((key: KeyboardEvent) => {
+        const textToCopy =
+          key.code === 'KeyC' && key.ctrlKey && !key.altKey && !key.metaKey && terminalRef.current?.terminal.getSelection();
+        if (!!textToCopy) {
+          TextUtilitiesService.copyContentToClipboard(textToCopy);
+        }
+        return true;
+      });
+
+      terminalRef.current.terminal.focus();
+    }
+  }, [terminalRef]);
 
   useEffect(() => {
     if (terminalRef.current?.terminal && props.reset) {
@@ -34,10 +52,9 @@ const LogStream: React.SFC<LogStreamProps> = (props) => {
   }, [props.line]);
 
   const resizeHandler = (width: number, height: number) => {
-    const columns = Math.floor(width / 9 - 0.5) - 2;
-    const rows = Math.floor(height / 17 - 0.5);
     if (terminalRef.current?.terminal) {
-      terminalRef.current?.terminal.resize(columns, rows);
+      const { cols, rows } = getTerminalDimensions(width, height, terminalRef.current?.terminal);
+      terminalRef.current?.terminal.resize(cols, rows);
       timeoutRef.current = undefined;
     }
   };
@@ -53,7 +70,7 @@ const LogStream: React.SFC<LogStreamProps> = (props) => {
   }, [width, height]);
 
   return (
-    <div style={{ height: '100vh', overflow: 'hidden' }}>
+    <div className={containerAppStyles.divContainer}>
       <XTerm
         options={{
           disableStdin: true,
