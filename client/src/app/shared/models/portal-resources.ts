@@ -2418,4 +2418,8 @@ export class PortalResources {
   public static logicAppPlanPickerGridNetworkRowTitle = 'logicAppPlanPickerGridNetworkRowTitle';
   public static logicAppPlanPickerGridInstancesRowTitle = 'logicAppPlanPickerGridInstancesRowTitle';
   public static logicAppPlanPickerGridUsageRowTitle = 'logicAppPlanPickerGridUsageRowTitle';
+  public static containerApp_console_chooseStartUpCommand = 'containerApp_console_chooseStartUpCommand';
+  public static containerApp_console_failedToConnect = 'containerApp_console_failedToConnect';
+  public static containerApp_console_connect = 'containerApp_console_connect';
+  public static containerApp_console_custom = 'containerApp_console_custom';
 }

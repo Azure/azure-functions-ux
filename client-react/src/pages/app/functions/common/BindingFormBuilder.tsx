@@ -24,8 +24,8 @@ export const horizontalLabelStyle = style({
 });
 
 export class BindingFormBuilder {
-  public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string => {
-    return (bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, currentBinding.type)) as Binding).displayName;
+  public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string | undefined => {
+    return bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, currentBinding.type))?.displayName;
   };
 
   constructor(
