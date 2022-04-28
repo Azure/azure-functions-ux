@@ -142,7 +142,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
           publishType: PublishType.Code,
           os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-          runtimeStack: values.runtimeStack === RuntimeStacks.dotnetIsolated ? RuntimeStacks.dotnet : values.runtimeStack,
+          runtimeStack: values.runtimeStack,
           workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
           slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
           variables: variables,
