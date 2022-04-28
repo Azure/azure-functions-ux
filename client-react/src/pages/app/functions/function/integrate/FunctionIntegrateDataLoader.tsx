@@ -149,7 +149,6 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     functionIntegrateData.getBindings(this.state.functionAppId).then(r => {
       if (r.metadata.success) {
         this.setState({
-          ...this.state,
           bindings: r.data.properties,
         });
       } else {
@@ -158,6 +157,10 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           'getBindings',
           `Failed to get bindings: ${getErrorMessageOrStringify(r.metadata.error)}`
         );
+        this.setState({
+          bindings: [],
+          bindingsError: true,
+        });
       }
     });
   }

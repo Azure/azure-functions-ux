@@ -19,9 +19,15 @@ const LogStream: React.FC<LogStreamProps> = props => {
   const { width, height } = useWindowSize();
   const terminalRef = useRef<XTerm>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
+  const xtermReady = useRef(false);
 
   useEffect(() => {
     portalCommunicator.loadComplete();
+
+    if (!!terminalRef.current?.terminal && !xtermReady.current) {
+      portalCommunicator.xtermReady();
+      xtermReady.current = true;
+    }
   }, [portalCommunicator]);
 
   useEffect(() => {
@@ -36,6 +42,11 @@ const LogStream: React.FC<LogStreamProps> = props => {
       });
 
       terminalRef.current.terminal.focus();
+
+      if (!!portalCommunicator && !xtermReady.current) {
+        portalCommunicator.xtermReady();
+        xtermReady.current = true;
+      }
     }
   }, [terminalRef]);
 

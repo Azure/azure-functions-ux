@@ -10,7 +10,7 @@ import { getBindingDirection } from '../FunctionIntegrate.utils';
 import BindingCard, { BindingCardChildProps } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
 
-const UnknownDirectionBindingCard: React.SFC<BindingCardChildProps> = props => {
+const UnknownDirectionBindingCard: React.FC<BindingCardChildProps> = props => {
   const { functionInfo, bindings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -34,10 +34,10 @@ const getUnknownBindings = (bindings: BindingInfo[]): BindingInfo[] => {
 const getContent = (bindings: Binding[], theme: ThemeExtended, unknownBindings: BindingInfo[]): JSX.Element => {
   const unknownList = unknownBindings.map((item, i) => {
     const name = item.name ? `(${item.name})` : '';
-    const linkName = `${BindingFormBuilder.getBindingTypeName(item, bindings)} ${name}`;
+    const bindingTypeName = BindingFormBuilder.getBindingTypeName(item, bindings);
     return (
       <li className="unknownBinding" key={i.toString()}>
-        {linkName}
+        {bindingTypeName ? `${bindingTypeName} ${name}` : '-'}
       </li>
     );
   });
