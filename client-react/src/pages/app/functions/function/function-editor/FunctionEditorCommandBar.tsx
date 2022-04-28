@@ -212,9 +212,33 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       .sort((urlObj1, urlObj2) => urlObj1.text.localeCompare(urlObj2.text));
   };
 
+  const getAuthenticationEventSubscriptionUrl = (code: string) => {
+    return siteStateContext.site
+      ? `${Url.getMainUrl(siteStateContext.site)}/runtime/webhooks/customauthenticationextension?functionName=${
+          functionInfo.properties.name
+        }&code=${code}`
+      : '';
+  };
+
+  const getUrlObjsForAuthenticationEventTriggerFunction = () => {
+    return urlObjs
+      .filter(urlObj => {
+        return urlObj.type === UrlType.System && urlObj.text === CommonConstants.AppKeys.authenticationEvent;
+      })
+      .map(urlObj => {
+        return {
+          ...urlObj,
+          url: getAuthenticationEventSubscriptionUrl(urlObj.data),
+        };
+      })
+      .sort((urlObj1, urlObj2) => urlObj1.text.localeCompare(urlObj2.text));
+  };
+
   const getFilteredUrlObj = (): UrlObj[] => {
     if (functionEditorContext.isEventGridTriggerFunction(functionInfo)) {
       return getUrlObjsForEventGridTriggerFunction();
+    } else if (functionEditorContext.isAuthenticationEventTriggerFunction(functionInfo)) {
+      return getUrlObjsForAuthenticationEventTriggerFunction();
     } else {
       return urlObjs;
     }

@@ -254,7 +254,7 @@ export const getCodeWebAppWorkflowInformation = (
         content = getJavaJarGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       }
       break;
-    case RuntimeStacks.dotnet:
+    case RuntimeStacks.dotnet: {
       // NOTE(michinoy): All of the dotnet related stacks are under the 'dotnet' stack now
       // so workflow file creation will diverge based on the runtime version instead.
       const version = runtimeVersion.toLocaleLowerCase();
@@ -263,6 +263,7 @@ export const getCodeWebAppWorkflowInformation = (
           ? getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName)
           : getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       break;
+    }
     case RuntimeStacks.php:
       content = isLinuxApp
         ? getPhpLinuxGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion)

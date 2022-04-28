@@ -13,13 +13,13 @@ export function processLogs(logStream: string, oldLogs: LogEntry[]): LogEntry[] 
 }
 
 function getLogLevel(message: string): FBLogLevel {
-  if (message.match(LogRegex.errorLog)) {
+  if (message.match(LogRegex.errorLog) || message.match(LogRegex.errorLogUTC)) {
     return FBLogLevel.Error;
   }
-  if (message.match(LogRegex.infoLog)) {
+  if (message.match(LogRegex.infoLog) || message.match(LogRegex.infoLogUTC)) {
     return FBLogLevel.Info;
   }
-  if (message.match(LogRegex.warningLog)) {
+  if (message.match(LogRegex.warningLog) || message.match(LogRegex.warningLogUTC)) {
     return FBLogLevel.Warning;
   }
   if (message.match(LogRegex.log)) {
