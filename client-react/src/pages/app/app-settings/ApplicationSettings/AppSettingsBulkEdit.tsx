@@ -45,7 +45,7 @@ const AppSettingsBulkEdit: React.FC<AppSettingsBulkEditProps> = props => {
     disable: false,
   };
 
-  const onChange = (newValue, event) => {
+  const onChange = newValue => {
     setAppSettingsState(newValue);
     validate(newValue);
   };

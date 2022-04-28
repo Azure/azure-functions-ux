@@ -32,7 +32,7 @@ const TextField: React.FC<FieldProps & ITextFieldProps & CustomTextFieldProps> =
   };
 
   const getErrorMessage = () => {
-    return cronErrorMessage(get(form.errors, field.name, '') as string);
+    return get(form.touched, field.name, false) ? cronErrorMessage(get(form.errors, field.name, '') as string) : undefined;
   };
 
   // TODO (refortie): Temporary hard-coding of the documentation link.

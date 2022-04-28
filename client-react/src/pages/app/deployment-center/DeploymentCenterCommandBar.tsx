@@ -57,22 +57,19 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
 
   const openFeedbackBlade = () => {
     const featureName = 'DeploymentCenter';
-    portalContext.openBlade(
-      {
-        detailBlade: 'InProductFeedbackBlade',
-        extension: 'HubsExtension',
-        openAsContextBlade: true,
-        detailBladeInputs: {
-          bladeName: `${featureName}`,
-          cesQuestion: t('deploymentCenterFeedbackCESQuestion'),
-          cvaQuestion: t('deploymentCenterFeedbackCVAQuestion'),
-          extensionName: 'WebsitesExtension',
-          featureName: `${featureName}`,
-          surveyId: `${featureName}-0920`,
-        },
+    portalContext.openBlade({
+      detailBlade: 'InProductFeedbackBlade',
+      extension: 'HubsExtension',
+      openAsContextBlade: true,
+      detailBladeInputs: {
+        bladeName: `${featureName}`,
+        cesQuestion: t('deploymentCenterFeedbackCESQuestion'),
+        cvaQuestion: t('deploymentCenterFeedbackCVAQuestion'),
+        extensionName: 'WebsitesExtension',
+        featureName: `${featureName}`,
+        surveyId: `${featureName}-0920`,
       },
-      'deployment-center'
-    );
+    });
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {

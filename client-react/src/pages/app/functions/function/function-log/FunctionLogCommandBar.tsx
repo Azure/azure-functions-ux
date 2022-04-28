@@ -153,7 +153,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     };
   };
 
-  const onRenderFilterItem = (item: IContextualMenuItem, dismissMenu: (ev?: any, dismissAll?: boolean) => void) => {
+  const onRenderFilterItem = (item: IContextualMenuItem) => {
     let iconProps = {};
     if (logLevel === item.data) {
       iconProps = {
@@ -242,21 +242,18 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   const openLiveMetrics = () => {
     if (appInsightsResourceId) {
       const descriptor = new ArmResourceDescriptor(appInsightsResourceId);
-      portalContext.openBlade(
-        {
-          detailBlade: 'QuickPulseBladeV2',
-          detailBladeInputs: {
-            ComponentId: {
-              Name: descriptor.resourceName,
-              SubscriptionId: descriptor.subscription,
-              ResourceGroup: descriptor.resourceGroup,
-            },
-            ResourceId: descriptor.resourceId,
+      portalContext.openBlade({
+        detailBlade: 'QuickPulseBladeV2',
+        detailBladeInputs: {
+          ComponentId: {
+            Name: descriptor.resourceName,
+            SubscriptionId: descriptor.subscription,
+            ResourceGroup: descriptor.resourceGroup,
           },
-          extension: 'AppInsightsExtension',
+          ResourceId: descriptor.resourceId,
         },
-        'function-logs'
-      );
+        extension: 'AppInsightsExtension',
+      });
     }
   };
 
@@ -288,22 +285,19 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
 
   const openFeedbackBlade = () => {
     const featureName = selectedLoggingOption === LoggingOptions.appInsights ? 'FunctionLogs-AppInsights' : 'FunctionLogs-FileBased';
-    portalContext.openBlade(
-      {
-        detailBlade: 'InProductFeedbackBlade',
-        extension: 'HubsExtension',
-        openAsContextBlade: true,
-        detailBladeInputs: {
-          bladeName: `${featureName}`,
-          cesQuestion: t('functionLogsFeedbackCESQuestion'),
-          cvaQuestion: t('functionLogsFeedbackCVAQuestion'),
-          extensionName: 'WebsitesExtension',
-          featureName: `${featureName}`,
-          surveyId: `${featureName}-0420`,
-        },
+    portalContext.openBlade({
+      detailBlade: 'InProductFeedbackBlade',
+      extension: 'HubsExtension',
+      openAsContextBlade: true,
+      detailBladeInputs: {
+        bladeName: `${featureName}`,
+        cesQuestion: t('functionLogsFeedbackCESQuestion'),
+        cvaQuestion: t('functionLogsFeedbackCVAQuestion'),
+        extensionName: 'WebsitesExtension',
+        featureName: `${featureName}`,
+        surveyId: `${featureName}-0420`,
       },
-      'function-logs'
-    );
+    });
   };
 
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };

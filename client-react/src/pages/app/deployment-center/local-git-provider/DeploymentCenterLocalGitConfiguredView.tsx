@@ -5,7 +5,7 @@ import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishing
 import { getGitCloneUri } from '../utility/DeploymentCenterUtility';
 import { deploymentCenterContent } from '../DeploymentCenter.styles';
 
-const DeploymentCenterLocalGitConfiguredView: React.FC<{}> = props => {
+const DeploymentCenterLocalGitConfiguredView: React.FC = () => {
   const { t } = useTranslation();
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const gitCloneUri = getGitCloneUri(deploymentCenterPublishingContext);

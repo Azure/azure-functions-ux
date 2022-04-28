@@ -73,8 +73,6 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
       return t('containerImageNamePlaceHolder');
     } else if (siteStateContext.isLinuxApp) {
       return t('containerImageAndTagPlaceholder');
-    } else {
-      return t('containerImageAndTagPlaceholderForWindows');
     }
   };
 
@@ -129,7 +127,12 @@ const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterField
             </ReactiveFormControl>
           )}
 
-          <Field id="container-dockerHub-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
+          <Field
+            id="container-dockerHub-startUpFileOrCommand"
+            name="command"
+            component={TextField}
+            label={t('containerStartupFileOrCommand')}
+          />
         </>
       )}
 

@@ -51,7 +51,7 @@ export interface QuickstartOption {
   };
 }
 
-const ChevronUp: React.FC<{}> = props => {
+const ChevronUp: React.FC = () => {
   const theme = useContext(ThemeContext);
 
   return <Icon iconName="ChevronUp" className={markdownIconStyle(theme)} />;

@@ -69,40 +69,31 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
 
   const onVaultNameClick = async () => {
     if (keyVaultResourceId) {
-      await portalContext.openBlade(
-        {
-          detailBlade: 'VaultBlade',
-          detailBladeInputs: { id: keyVaultResourceId },
-          extension: 'Microsoft_Azure_KeyVault',
-        },
-        'vaultBlade'
-      );
+      await portalContext.openBlade({
+        detailBlade: 'VaultBlade',
+        detailBladeInputs: { id: keyVaultResourceId },
+        extension: 'Microsoft_Azure_KeyVault',
+      });
     }
   };
 
   const onSecretNameClick = async () => {
     if (keyVaultResourceId) {
-      await portalContext.openBlade(
-        {
-          detailBlade: 'ListSecretVersionsBlade',
-          detailBladeInputs: { id: secretNameUri, vaultId: keyVaultResourceId },
-          extension: 'Microsoft_Azure_KeyVault',
-        },
-        'vaultBlade'
-      );
+      await portalContext.openBlade({
+        detailBlade: 'ListSecretVersionsBlade',
+        detailBladeInputs: { id: secretNameUri, vaultId: keyVaultResourceId },
+        extension: 'Microsoft_Azure_KeyVault',
+      });
     }
   };
 
   const onSecretVersionClick = async () => {
     if (keyVaultResourceId) {
-      await portalContext.openBlade(
-        {
-          detailBlade: 'SecretVersionBlade',
-          detailBladeInputs: { id: secretVersionUri, vaultId: keyVaultResourceId },
-          extension: 'Microsoft_Azure_KeyVault',
-        },
-        'vaultBlade'
-      );
+      await portalContext.openBlade({
+        detailBlade: 'SecretVersionBlade',
+        detailBladeInputs: { id: secretVersionUri, vaultId: keyVaultResourceId },
+        extension: 'Microsoft_Azure_KeyVault',
+      });
     }
   };
 
