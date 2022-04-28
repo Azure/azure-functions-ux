@@ -33,7 +33,6 @@ export class WorkflowService20201201 {
 
   getFunctionAppCodeLinuxWorkflowFile(providedOs: string, providedRuntimeStack: string) {
     const runtimeStack = providedRuntimeStack.toLocaleLowerCase();
-    console.log(runtimeStack);
 
     switch (runtimeStack) {
       case RuntimeStacks.Dotnet:
