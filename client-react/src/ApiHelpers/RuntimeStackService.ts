@@ -30,7 +30,7 @@ export default class RuntimeStackService {
   };
 
   public static getFunctionAppConfigurationStacks = (stacksOs: AppStackOs) => {
-    if (RuntimeStackService._useFusionApi()) {
+    if (RuntimeStackService._useFusionApi() || (window.appsvc && window.appsvc.env.runtimeType === 'OnPrem')) {
       return RuntimeStackService._getFunctionAppConfigurationStacksNonArm(stacksOs);
     }
 
