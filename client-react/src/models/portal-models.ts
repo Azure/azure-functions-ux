@@ -41,6 +41,7 @@ export interface IStartupInfo<T> {
   theme: string;
   armEndpoint: string;
   featureInfo: IFeatureInfo<T>;
+  highContrastKey: HighContrastTheme;
 }
 
 export interface IDataMessage<T> {
@@ -351,4 +352,10 @@ export enum BladeCloseReason {
 
 export enum OpenBladeSource {
   appSettings = 'app-settings',
+}
+
+export enum HighContrastTheme {
+  None = 0,
+  White = 1,
+  Black = 2,
 }
