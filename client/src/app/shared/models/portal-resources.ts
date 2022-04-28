@@ -2422,4 +2422,10 @@ export class PortalResources {
   public static containerApp_console_failedToConnect = 'containerApp_console_failedToConnect';
   public static containerApp_console_connect = 'containerApp_console_connect';
   public static containerApp_console_custom = 'containerApp_console_custom';
+  public static cosmosDb_apiType_coreSql = 'cosmosDb_apiType_coreSql';
+  public static cosmosDb_error_accountNameRequired = 'cosmosDb_error_accountNameRequired';
+  public static cosmosDb_error_accountNameInvalid = 'cosmosDb_error_accountNameInvalid';
+  public static cosmosDb_error_accountNameTaken = 'cosmosDb_error_accountNameTaken';
+  public static cosmosDb_label_accountName = 'cosmosDb_label_accountName';
+  public static cosmosDb_label_apiType = 'cosmosDb_label_apiType';
 }
