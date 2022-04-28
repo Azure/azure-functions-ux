@@ -302,6 +302,10 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.loadComplete, this.packageData({}));
   }
 
+  public xtermReady() {
+    PortalCommunicator.postMessage(Verbs.xtermReady, this.packageData({}));
+  }
+
   public startNotification(title: string, description: string) {
     const payload: INotificationInfo = {
       title,

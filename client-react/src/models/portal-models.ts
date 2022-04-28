@@ -116,6 +116,7 @@ export class Verbs {
   public static sendData = 'send-data';
   public static loadComplete = 'load-complete';
   public static sendUpdatedInputs = 'send-updated-inputs';
+  public static xtermReady = 'xterm-ready';
 }
 
 export enum LogEntryLevel {
