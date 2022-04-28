@@ -145,7 +145,6 @@ export enum JavaContainers {
 }
 
 export enum DotnetRuntimeVersion {
-  aspNetv6 = 'v6.0', // TODO: add v6.0 in dotnet runtime version?
   aspNetv4 = 'v4.0',
   aspNetv2 = 'v2.0',
 }
