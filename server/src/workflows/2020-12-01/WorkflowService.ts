@@ -139,6 +139,8 @@ export class WorkflowService20201201 {
   getContainerWorkflowFile(os: string) {
     if (os.toLocaleLowerCase() === Os.Linux) {
       return this.readWorkflowFile('container-configs/container-linux.config.yml');
+    } else if (os.toLocaleLowerCase() === Os.Windows) {
+      return this.readWorkflowFile('container-configs/container-windows.config.yml');
     } else {
       throw new HttpException(`The workflow file for containers and OS '${os}' does not exist.`, 404);
     }
