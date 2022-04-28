@@ -249,7 +249,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
   const getRuntimeStackRecommendedVersion = (stackValue: string, runtimeVersionValue: string): string => {
     const key = generateGitHubActionRuntimeVersionMappingKey(siteStateContext.isLinuxApp, stackValue, runtimeVersionValue);
 
-    return gitHubActionRuntimeVersionMapping.current[key] ? gitHubActionRuntimeVersionMapping.current[key] : runtimeVersionValue;
+    return gitHubActionRuntimeVersionMapping.current[key] || runtimeVersionValue;
   };
 
   const initializeFormValues = () => {

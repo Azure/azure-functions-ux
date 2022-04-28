@@ -88,7 +88,7 @@ export const updateGitHubActionAppSettingsRuntimeStack = async (
       return fetchExistingAppSettingsResponse;
     }
 
-    const properties = fetchExistingAppSettingsResponse.data && fetchExistingAppSettingsResponse.data.properties;
+    const properties = fetchExistingAppSettingsResponse.data?.properties;
     if (!!properties) {
       properties[DeploymentCenterConstants.appSettings_WEBSITE_NODE_DEFAULT_VERSION] = runtimeVersion;
       const updateAppSettingsResponse = await deploymentCenterData.updateApplicationSettings(
