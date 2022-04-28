@@ -24,7 +24,7 @@ interface CustomComboBoxProps {
 }
 
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
-  const { field, form, options, setOptions, allowFreeform, isLoading, searchable, clearComboBox, ...rest } = props;
+  const { field, form, options, styles, setOptions, allowFreeform, isLoading, searchable, text, clearComboBox, ...rest } = props;
   const theme = useContext(ThemeContext);
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
 
@@ -60,7 +60,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
     }
   }, [options]);
 
-  const errorMessage = get(form.errors, field.name, '') as string;
+  const errorMessage = get(form.touched, field.name, false) ? (get(form.errors, field.name, '') as string) : undefined;
 
   return (
     <div className={loadingComboBoxStyle}>

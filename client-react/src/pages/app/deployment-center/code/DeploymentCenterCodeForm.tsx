@@ -213,7 +213,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';
-      case ScmType.ExternalGit:
+      case ScmType.ExternalGit: {
         const repoUrlParts = values.repo.split('://');
         const protocol = repoUrlParts[0];
         const hostContents = repoUrlParts[1];
@@ -222,6 +222,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           return `${protocol}://${values.externalUsername}:${values.externalPassword}@${hostContents}`;
         }
         return values.repo;
+      }
       case ScmType.Vso:
         return values.repo;
       default:

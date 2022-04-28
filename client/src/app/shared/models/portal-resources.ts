@@ -1290,7 +1290,7 @@ export class PortalResources {
   public static containerServerURLPlaceholder = 'containerServerURLPlaceholder';
   public static containerLogin = 'containerLogin';
   public static containerPassword = 'containerPassword';
-  public static containerStartupFile = 'containerStartupFile';
+  public static containerStartupFileOrCommand = 'containerStartupFileOrCommand';
   public static containerConfigurationSource = 'containerConfigurationSource';
   public static containerConfiguration = 'containerConfiguration';
   public static quickstartDotnetTitle = 'quickstartDotnetTitle';
@@ -1839,11 +1839,6 @@ export class PortalResources {
   public static githubActionInfo = 'githubActionInfo';
   public static commitId = 'commitId';
   public static readWritePermissionsRequired = 'readWritePermissionsRequired';
-  public static functionsRuntimeVersionMissingWarning = 'functionsRuntimeVersionMissingWarning';
-  public static functionsRuntimeVersionLatestOrBetaWarning = 'functionsRuntimeVersionLatestOrBetaWarning';
-  public static functionsRuntimeVersionLatestOrBetaWithExactVersionWarning = 'functionsRuntimeVersionLatestOrBetaWithExactVersionWarning';
-  public static functionsRuntimeVersionNeedsUpdateWarning = 'functionsRuntimeVersionNeedsUpdateWarning';
-  public static functionsRuntimeVersionInvalidWarning = 'functionsRuntimeVersionInvalidWarning';
   public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
   public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
   public static functionsRuntimeVersionExistingFunctionsConfirmationTitle = 'functionsRuntimeVersionExistingFunctionsConfirmationTitle';
@@ -2254,7 +2249,6 @@ export class PortalResources {
   public static savingContainerConfigurationSuccess = 'savingContainerConfigurationSuccess';
   public static savingContainerConfigurationFailed = 'savingContainerConfigurationFailed';
   public static savingContainerConfigurationFailedWithStatusMessage = 'savingContainerConfigurationFailedWithStatusMessage';
-  public static functionsRuntimeVersionNeedsUpdateWarningForV2 = 'functionsRuntimeVersionNeedsUpdateWarningForV2';
   public static deploymentCenterServerUrlIsUrl = 'deploymentCenterServerUrlIsUrl';
   public static pricing_pv3NotAvailable = 'pricing_pv3NotAvailable';
   public static hyperVIsolation = 'hyperVIsolation';
@@ -2427,4 +2421,8 @@ export class PortalResources {
   public static logicAppPlanPickerGridNetworkRowTitle = 'logicAppPlanPickerGridNetworkRowTitle';
   public static logicAppPlanPickerGridInstancesRowTitle = 'logicAppPlanPickerGridInstancesRowTitle';
   public static logicAppPlanPickerGridUsageRowTitle = 'logicAppPlanPickerGridUsageRowTitle';
+  public static containerApp_console_chooseStartUpCommand = 'containerApp_console_chooseStartUpCommand';
+  public static containerApp_console_failedToConnect = 'containerApp_console_failedToConnect';
+  public static containerApp_console_connect = 'containerApp_console_connect';
+  public static containerApp_console_custom = 'containerApp_console_custom';
 }

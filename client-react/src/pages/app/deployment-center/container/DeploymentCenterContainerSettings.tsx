@@ -270,7 +270,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   }, [deploymentCenterContext.siteConfig]);
 
   useEffect(() => {
-    setShowSourceSelectionOption(siteStateContext && siteStateContext.isLinuxApp);
+    setShowSourceSelectionOption(!!siteStateContext);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext.isLinuxApp]);
