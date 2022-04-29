@@ -271,7 +271,7 @@ export enum WorkerRuntimeLanguages {
   powershell = 'powershell',
   php = 'php',
   custom = 'custom',
-  dotnet5 = 'dotnet-isolated',
+  dotnetIsolated = 'dotnet-isolated',
 }
 
 export enum FunctionsDotnetVersion {
