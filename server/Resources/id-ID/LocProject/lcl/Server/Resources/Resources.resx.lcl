@@ -3345,6 +3345,42 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";containerApp_console_chooseStartUpCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Choose start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pilih perintah mulai]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_connect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connect]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sambungkan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_custom" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kustom]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_failedToConnect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to connect to replica.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Gagal menghubungkan ke replika.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";containerConfiguration" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Configuration]]></Val>
@@ -10892,60 +10928,6 @@
           <Val><![CDATA[You are updating your runtime version from {0} to {1}. This may introduce breaking changes to the language and bindings for your existing functions. Consider creating a new function app and migrating your functions to it when upgrading major versions of the runtime.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Anda memperbarui versi runtime dari {0} ke {1}. Hal ini dapat mengakibatkan perubahan yang mengganggu pada bahasa dan pengikatan fungsi yang ada. Pertimbangkan untuk membuat aplikasi fungsi baru dan memigrasikan fungsi Anda pada aplikasi fungsi baru saat meningkatkan runtime versi utama.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionInvalidWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Versi runtime kustom Anda ({0}) tidak didukung. Akibatnya, aplikasi Anda menggunakan versi terbaru {1}, dan akan selalu menjalankan versi runtime terbaru, bahkan di seluruh pembaruan versi utama yang mungkin berisi perubahan yang mengganggu. Disarankan untuk mengatur nilai tersebut ke versi utama tertentu (misalnya ~2) dan Anda akan mendapatkan pemberitahuan terkait pembaruan versi terbaru.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Aplikasi saat ini disematkan ke versi runtime '{0}'. Dengan menyematkan ke '{0}' berarti Anda akan selalu menjalankan versi terbaru runtime bahkan di seluruh pembaruan versi utama yang mungkin berisi perubahan yang mengganggu. Disarankan untuk mengatur nilai tersebut ke versi utama tertentu (misalnya ~2) dan Anda akan mendapatkan pemberitahuan terkait pembaruan versi terbaru.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Aplikasi saat ini disematkan ke versi runtime '{0}', sehingga aplikasi Anda menggunakan versi terbaru ({1}). Dengan menyematkan ke '{0}' berarti Anda akan selalu menjalankan versi terbaru runtime bahkan di seluruh pembaruan versi utama yang mungkin berisi perubahan yang mengganggu. Disarankan untuk mengatur nilai tersebut ke versi utama tertentu (misalnya ~2) dan Anda akan mendapatkan pemberitahuan terkait pembaruan versi terbaru.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Versi runtime tidak dikonfigurasi untuk aplikasi Anda. Akibatnya, runtime tidak dapat dimulai. Perbarui versi runtime ke nilai yang valid (misalnya ~2).]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Aplikasi Anda saat ini disematkan ke versi runtime '{0}'. Saat versi ini tidak lagi didukung, aplikasi Anda akan mulai menggunakan versi terbaru runtime, yang dapat berupa versi utama yang berbeda dan mungkin berisi perubahan yang mengganggu. Disarankan untuk mengatur nilai tersebut ke versi utama tertentu (misalnya ~2) dan Anda akan mendapatkan pemberitahuan terkait pembaruan versi terbaru.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarningForV2" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Aplikasi Anda saat ini disematkan ke versi runtime '{0}' dan tidak akan menerima peningkatan keamanan setelah Oktober 2020. Sebaiknya Anda meningkatkan ke versi runtime terbaru. Lihat artikel ini untuk mengetahui informasi selengkapnya.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
