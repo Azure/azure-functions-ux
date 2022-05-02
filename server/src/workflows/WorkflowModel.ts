@@ -19,6 +19,7 @@ export enum RuntimeStacks {
   Python = 'python',
   Powershell = 'powershell',
   Dotnet = 'dotnet',
+  DotnetIsolated = 'dotnet-isolated',
   Php = 'php',
 }
 

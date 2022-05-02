@@ -357,6 +357,7 @@ export const RuntimeStacks = {
   php: 'php',
   powershell: 'powershell',
   dotnet: 'dotnet',
+  dotnetIsolated: 'dotnet-isolated',
 };
 
 export const defaultDotnetCoreMajorVersion = {

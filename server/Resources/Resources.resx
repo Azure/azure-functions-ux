@@ -5917,7 +5917,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Are you sure you want to delete the input?</value>
     </data>
     <data name="integrate_bindingsFailedLoading" xml:space="preserve">
-        <value>One or more bindings failed to load, please refresh the page.</value>
+        <value>One or more bindings failed to load. Please try again later.</value>
     </data>
     <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
         <value>When using compiled functions, bindings defined as attributes may not be shown.</value>

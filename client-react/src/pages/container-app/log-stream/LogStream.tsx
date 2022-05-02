@@ -5,6 +5,7 @@ import { XTerm } from 'xterm-for-react';
 import { getTerminalDimensions } from '../xtermHelper';
 import { PortalContext } from '../../../PortalContext';
 import { containerAppStyles } from '../ContainerApp.styles';
+import { TextUtilitiesService } from '../../../utils/textUtilities';
 
 export interface LogStreamProps {
   resourceId: string;
@@ -18,10 +19,36 @@ const LogStream: React.FC<LogStreamProps> = props => {
   const { width, height } = useWindowSize();
   const terminalRef = useRef<XTerm>(null);
   const timeoutRef = useRef<NodeJS.Timeout>();
+  const xtermReady = useRef(false);
 
   useEffect(() => {
     portalCommunicator.loadComplete();
+
+    if (!!terminalRef.current?.terminal && !xtermReady.current) {
+      portalCommunicator.xtermReady();
+      xtermReady.current = true;
+    }
   }, [portalCommunicator]);
+
+  useEffect(() => {
+    if (!!terminalRef.current?.terminal) {
+      terminalRef.current.terminal.attachCustomKeyEventHandler((key: KeyboardEvent) => {
+        const textToCopy =
+          key.code === 'KeyC' && key.ctrlKey && !key.altKey && !key.metaKey && terminalRef.current?.terminal.getSelection();
+        if (!!textToCopy) {
+          TextUtilitiesService.copyContentToClipboard(textToCopy);
+        }
+        return true;
+      });
+
+      terminalRef.current.terminal.focus();
+
+      if (!!portalCommunicator && !xtermReady.current) {
+        portalCommunicator.xtermReady();
+        xtermReady.current = true;
+      }
+    }
+  }, [terminalRef]);
 
   useEffect(() => {
     if (terminalRef.current?.terminal && props.reset) {
