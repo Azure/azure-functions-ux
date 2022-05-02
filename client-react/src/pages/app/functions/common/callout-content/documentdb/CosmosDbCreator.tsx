@@ -3,23 +3,12 @@ import { Field, FormikProps } from 'formik';
 import { debounce } from 'lodash';
 import { useCallback, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { sendHttpRequest } from '../../../../../../ApiHelpers/HttpClient';
+import DocumentDBService from '../../../../../../ApiHelpers/DocumentDBService';
 import InputLabel from '../../../../../../components/InputLabel/InputLabel';
 import { StartupInfoContext } from '../../../../../../StartupInfoContext';
-import { ThemeContext } from '../../../../../../ThemeContext';
-import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { Guid } from '../../../../../../utils/Guid';
 import CosmosDbControls from './CosmosDbControls';
-import {
-  accountNameFieldStyle,
-  accountNameInputStyle,
-  apiTypeFieldStyle,
-  apiTypeStyle,
-  errorIconStyle,
-  inputErrorDivHorizontalStyle,
-  inputErrorStyle,
-  inputStackStyle,
-} from './CosmosDbCreator.styles';
+import { accountNameFieldStyles, useStyles } from './CosmosDbCreator.styles';
 
 export interface CreateCosmosDbFormValues {
   accountName: string;
@@ -36,7 +25,7 @@ const validNameRegExp = /^[a-z0-9-]{3,44}$/;
 
 export const CosmosDbCreator: React.FC<CosmosDbCreatorProps> = ({ formProps, setTemplate }: CosmosDbCreatorProps) => {
   const startupInfoContext = useContext(StartupInfoContext);
-  const theme = useContext(ThemeContext);
+  const styles = useStyles();
   const { t } = useTranslation();
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -48,15 +37,9 @@ export const CosmosDbCreator: React.FC<CosmosDbCreatorProps> = ({ formProps, set
         } else if (!validNameRegExp.test(name)) {
           resolve(t('cosmosDb_error_accountNameInvalid'));
         } else {
-          // https://docs.microsoft.com/rest/api/cosmos-db-resource-provider/2021-07-01-preview/database-accounts/check-name-exists
+          const { armEndpoint, token } = startupInfoContext;
           resolve(
-            sendHttpRequest<void>({
-              headers: {
-                Authorization: `Bearer ${startupInfoContext.token}`,
-              },
-              method: 'HEAD',
-              url: `${startupInfoContext.armEndpoint}/providers/Microsoft.DocumentDB/databaseAccountNames/${name}?api-version=${CommonConstants.ApiVersions.documentDBApiVersion20210415}`,
-            }).then(response => {
+            DocumentDBService.validateDatabaseAccountName(armEndpoint, token, name).then(response => {
               return response.metadata.success ? t('cosmosDb_error_accountNameTaken') : undefined;
             })
           );
@@ -80,7 +63,7 @@ export const CosmosDbCreator: React.FC<CosmosDbCreatorProps> = ({ formProps, set
 
   return (
     <Stack>
-      <Stack horizontal verticalAlign="center" className={inputStackStyle}>
+      <Stack horizontal verticalAlign="center" className={styles.inputStack}>
         <InputLabel
           htmlFor="accountName"
           labelText={t('cosmosDb_label_accountName')}
@@ -89,31 +72,27 @@ export const CosmosDbCreator: React.FC<CosmosDbCreatorProps> = ({ formProps, set
           tooltipId={`tooltip-${Guid.newTinyGuid()}`}
         />
         <Field
-          className={accountNameFieldStyle}
+          className={styles.accountNameField}
           component={TextField}
           id="accountName"
-          inputClassName={accountNameInputStyle}
+          inputClassName={styles.accountNameInput}
           name="accountName"
-          styles={{
-            fieldGroup: {
-              height: '24px',
-            },
-          }}
+          styles={accountNameFieldStyles}
           validate={(value: string) => new Promise<string | undefined>(resolve => validateAccountName(value, resolve))}
           value={formProps.values.accountName}
           onChange={formProps.handleChange}
         />
       </Stack>
       {formProps.errors.accountName && (
-        <Stack horizontal className={inputErrorDivHorizontalStyle}>
-          <Icon className={errorIconStyle(theme)} iconName="StatusErrorFull" />
-          <span className={inputErrorStyle(theme)}>{formProps.errors.accountName}</span>
+        <Stack horizontal className={styles.inputErrorDivHorizontal}>
+          <Icon className={styles.errorIcon} iconName="StatusErrorFull" />
+          <span className={styles.inputError}>{formProps.errors.accountName}</span>
         </Stack>
       )}
-      <Stack horizontal verticalAlign="center" className={inputStackStyle}>
+      <Stack horizontal verticalAlign="center" className={styles.inputStack}>
         <InputLabel labelText={t('cosmosDb_label_apiType')} required />
-        <Stack verticalAlign="center" className={apiTypeFieldStyle}>
-          <span className={apiTypeStyle(theme)}>{t('cosmosDb_apiType_coreSql')}</span>
+        <Stack verticalAlign="center" className={styles.apiTypeField}>
+          <span className={styles.apiType}>{t('cosmosDb_apiType_coreSql')}</span>
         </Stack>
       </Stack>
     </Stack>

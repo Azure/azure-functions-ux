@@ -31,9 +31,9 @@ export const useStyles = () => {
       style({
         color: theme.semanticColors.textColor,
         fontSize: '18px',
+        fontWeight: 600,
         lineHeight: '24px',
-        margin: 0,
-        padding: 0,
+        marginBlock: 0,
       }),
     [theme]
   );

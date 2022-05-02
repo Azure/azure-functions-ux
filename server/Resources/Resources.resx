@@ -7411,7 +7411,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The account name is required.</value>
     </data>
     <data name="cosmosDb_error_accountNameInvalid" xml:space="preserve">
-        <value>The account name must consist of 3-44 lowercase letters, numbers, or '-' characters.</value>
+        <value>The account name must consist of minimum 3 and maximum 44 lowercase letters, numbers, or '-' characters.</value>
     </data>
     <data name="cosmosDb_error_accountNameTaken" xml:space="preserve">
         <value>The account name is already taken.</value>

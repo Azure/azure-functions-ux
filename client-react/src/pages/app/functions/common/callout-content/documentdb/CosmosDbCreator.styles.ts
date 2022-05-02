@@ -1,23 +1,25 @@
+import { ITextFieldStyles } from '@fluentui/react';
+import { useContext, useMemo } from 'react';
 import { style } from 'typestyle';
-import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../../../../../ThemeContext';
 
 const fieldWidth = '275px';
 
-export const inputStackStyle = style({
+const inputStack = style({
   justifyContent: 'space-between',
 });
 
-export const accountNameFieldStyle = style({
+const accountNameField = style({
   width: fieldWidth,
   height: '24px',
 });
 
-export const accountNameInputStyle = style({
+const accountNameInput = style({
   fontSize: '13px',
   lineHeight: '18px',
 });
 
-export const apiTypeFieldStyle = style({
+const apiTypeField = style({
   fontSize: '13px',
   height: '24px',
   lineHeight: '18px',
@@ -25,24 +27,54 @@ export const apiTypeFieldStyle = style({
   width: fieldWidth,
 });
 
-export const inputErrorDivHorizontalStyle = style({
+export const inputErrorDivHorizontal = style({
   marginLeft: '178px',
   marginTop: '4px',
 });
 
-export const errorIconStyle = (theme: ThemeExtended) =>
-  style({
-    color: theme.semanticColors.errorText,
-    marginRight: '10px',
-  });
+export const useStyles = () => {
+  const theme = useContext(ThemeContext);
 
-export const inputErrorStyle = (theme: ThemeExtended) =>
-  style({
-    color: theme.semanticColors.errorText,
-    fontSize: '12px',
-  });
+  const apiType = useMemo(
+    () =>
+      style({
+        color: theme.semanticColors.textColor,
+      }),
+    [theme]
+  );
 
-export const apiTypeStyle = (theme: ThemeExtended) =>
-  style({
-    color: theme.semanticColors.textColor,
-  });
+  const errorIcon = useMemo(
+    () =>
+      style({
+        color: theme.semanticColors.errorText,
+        marginRight: '10px',
+      }),
+    [theme]
+  );
+
+  const inputError = useMemo(
+    () =>
+      style({
+        color: theme.semanticColors.errorText,
+        fontSize: '12px',
+      }),
+    [theme]
+  );
+
+  return {
+    accountNameField,
+    accountNameInput,
+    apiType,
+    apiTypeField,
+    errorIcon,
+    inputError,
+    inputErrorDivHorizontal,
+    inputStack,
+  };
+};
+
+export const accountNameFieldStyles: Pick<ITextFieldStyles, 'fieldGroup'> = {
+  fieldGroup: {
+    height: '24px',
+  },
+};

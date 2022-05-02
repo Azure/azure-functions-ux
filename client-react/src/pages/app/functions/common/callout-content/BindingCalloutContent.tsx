@@ -26,8 +26,8 @@ const BindingCalloutContent = <T,>({
   const { t } = useTranslation();
 
   return (
-    <div className={styles.calloutContent}>
-      <h3 className={styles.header}>{header}</h3>
+    <section className={styles.calloutContent}>
+      <h1 className={styles.header}>{header}</h1>
       <div className={styles.description}>{description}</div>
       <Formik initialValues={initialValues} onSubmit={onCreate}>
         {formProps => (
@@ -40,7 +40,7 @@ const BindingCalloutContent = <T,>({
           </>
         )}
       </Formik>
-    </div>
+    </section>
   );
 };
 
