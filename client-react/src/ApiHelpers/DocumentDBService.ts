@@ -8,7 +8,7 @@ import { sendHttpRequest } from './HttpClient';
 export default class DocumentDBService {
   public static fetchDatabaseAccounts = (resourceId: string) => {
     const { subscription } = new ArmResourceDescriptor(resourceId);
-    const id = `/subscriptions/${subscription}/providers/${CommonConstants.resourceTypes.cosmosDbAccount}`;
+    const id = `/subscriptions/${subscription}/providers/${CommonConstants.ResourceTypes.cosmosDbAccount}`;
     return MakeArmCall<ArmArray<DatabaseAccount>>({
       resourceId: id,
       commandName: 'fetchDatabaseAccounts',
