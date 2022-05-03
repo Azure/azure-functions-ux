@@ -6,7 +6,6 @@ import { useTranslation } from 'react-i18next';
 import DocumentDBService from '../../../../../../ApiHelpers/DocumentDBService';
 import InputLabel from '../../../../../../components/InputLabel/InputLabel';
 import { StartupInfoContext } from '../../../../../../StartupInfoContext';
-import { Guid } from '../../../../../../utils/Guid';
 import CosmosDbControls from './CosmosDbControls';
 import { accountNameFieldStyles, useStyles } from './CosmosDbCreator.styles';
 
@@ -64,13 +63,7 @@ export const CosmosDbCreator: React.FC<CosmosDbCreatorProps> = ({ formProps, set
   return (
     <Stack>
       <Stack horizontal verticalAlign="center" className={styles.inputStack}>
-        <InputLabel
-          htmlFor="accountName"
-          labelText={t('cosmosDb_label_accountName')}
-          required
-          tooltipContent={t('cosmosDb_label_accountName')}
-          tooltipId={`tooltip-${Guid.newTinyGuid()}`}
-        />
+        <InputLabel htmlFor="accountName" labelText={t('cosmosDb_label_accountName')} required />
         <Field
           className={styles.accountNameField}
           component={TextField}
