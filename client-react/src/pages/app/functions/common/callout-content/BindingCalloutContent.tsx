@@ -1,11 +1,12 @@
 import { DefaultButton, PrimaryButton } from '@fluentui/react';
-import { Form, Formik, FormikActions, FormikProps } from 'formik';
+import { Form, Formik, FormikActions, FormikProps, FormikValues } from 'formik';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './BindingCalloutContent.style';
 
 interface BindingCalloutContentProps<TValues> {
   description: React.ReactNode;
+  formRef: React.RefObject<Formik<FormikValues>>;
   header: string;
   initialValues: TValues;
   onCancel: () => void;
@@ -15,6 +16,7 @@ interface BindingCalloutContentProps<TValues> {
 
 const BindingCalloutContent = <T,>({
   description,
+  formRef,
   header,
   initialValues,
   onCancel,
@@ -29,8 +31,8 @@ const BindingCalloutContent = <T,>({
     <section className={styles.calloutContent}>
       <h1 className={styles.header}>{header}</h1>
       <div className={styles.description}>{description}</div>
-      <Formik initialValues={initialValues} onSubmit={onCreate}>
-        {formProps => (
+      <Formik initialValues={initialValues} onSubmit={onCreate} ref={formRef}>
+        {(formProps: FormikProps<T>) => (
           <>
             <Form>{onRenderCreator(formProps, setTemplate, template)}</Form>
             <div className={styles.actionBar}>
