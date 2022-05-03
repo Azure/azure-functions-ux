@@ -31,6 +31,7 @@ export class CommonConstants {
     iotHubApiVersion20170119: '2017-01-19',
     serviceBusApiVersion20150801: '2015-08-01',
     documentDBApiVersion20150408: '2015-04-08',
+    documentDBApiVersion20210415: '2021-04-15',
     appInsightsTokenApiVersion20150501: '2015-05-01',
     quickpulseTokenApiVersion20211014: '2021-10-14',
     appInsightsQueryApiVersion20180420: '2018-04-20',
@@ -271,7 +272,7 @@ export enum WorkerRuntimeLanguages {
   powershell = 'powershell',
   php = 'php',
   custom = 'custom',
-  dotnet5 = 'dotnet-isolated',
+  dotnetIsolated = 'dotnet-isolated',
 }
 
 export enum FunctionsDotnetVersion {

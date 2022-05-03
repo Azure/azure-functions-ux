@@ -50,9 +50,9 @@ export default class FunctionAppService {
     return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.custom;
   }
 
-  public static usingDotnet5WorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
+  public static usingDotnetIsolatedRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {
     const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
-    return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.dotnet5;
+    return !!workerRuntime && workerRuntime === WorkerRuntimeLanguages.dotnetIsolated;
   }
 
   public static usingPowershellWorkerRuntime(appSettings: ArmObj<KeyValue<string>>): boolean {

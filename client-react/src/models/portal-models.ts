@@ -331,7 +331,7 @@ export enum FunctionAppEditMode {
   ReadOnlyLock,
   ReadOnlyRbac,
   ReadOnlyCustom,
-  ReadOnlyDotnet5,
+  ReadOnlyDotnetIsolated,
   ReadOnlyArc,
   ReadOnlyAzureFiles,
 }

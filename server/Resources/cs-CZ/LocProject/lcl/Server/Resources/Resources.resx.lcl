@@ -3522,6 +3522,42 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";containerApp_console_chooseStartUpCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Choose start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Zvolit spouštěcí příkaz]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_connect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connect]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Připojit]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_custom" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vlastní]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_failedToConnect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to connect to replica.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Připojení k replice selhalo.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";containerConfiguration" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Configuration]]></Val>
@@ -11442,60 +11478,6 @@
           <Prev Cat="Text">
             <Val><![CDATA[Cannot upgrade with existing functions: Major version upgrades can introduce breaking changes to languages and bindings. When upgrading major versions of the runtime, consider creating a new function app and migrate your functions to this new app.]]></Val>
           </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionInvalidWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Vlastní verze modulu runtime ({0}) se nepodporuje. Kvůli tomu vaše aplikace používá nejnovější verzi {1}. Nejnovější verzi modulu runtime budete používat vždy, a to i v případě, že se aktualizuje hlavní verze, která může po aktualizaci obsahovat změny způsobující chyby. Doporučuje se nastavit danou hodnotu na konkrétní hlavní verzi (např. ~2), a až bude k dispozici aktualizace na novější verze, dostanete oznámení.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Vaše aplikace je v tuto chvíli připnutá k verzi modulu runtime {0}. Připnutí k {0} znamená, že vždy budete používat nejnovější verzi modulu runtime, a to i v případě, že se aktualizuje hlavní verze, která může po aktualizaci obsahovat změny způsobující chyby. Doporučuje se nastavit danou hodnotu na konkrétní hlavní verzi (např. ~2), a až bude k dispozici aktualizace na novější verze, dostanete oznámení.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Vaše aplikace je v tuto chvíli připnutá k verzi modulu runtime {0}, proto používá nejnovější verzi ({1}). Připnutí k {0} znamená, že vždy budete používat nejnovější verzi modulu runtime, a to i v případě, že se aktualizuje hlavní verze, která může po aktualizaci obsahovat změny způsobující chyby. Doporučuje se nastavit danou hodnotu na konkrétní hlavní verzi (např. ~2), a až bude k dispozici aktualizace na novější verze, dostanete oznámení.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pro vaši aplikaci není nakonfigurovaná verze modulu runtime. Kvůli tomu se modul runtime nedá spustit. Aktualizujte prosím verzi modulu runtime na platnou hodnotu (např. ~2).]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Vaše aplikace je v tuto chvíli připnutá k verzi modulu runtime {0}. Až se tato verze přestane podporovat, vaše aplikace začne používat nejnovější verzi modulu runtime, která může být jinou hlavní verzí a může obsahovat změny způsobující chyby. Doporučuje se nastavit danou hodnotu na konkrétní hlavní verzi (např. ~2), a až bude k dispozici aktualizace na novější verze, dostanete oznámení.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarningForV2" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Vaše aplikace je momentálně připnutá k verzi modulu runtime {0} a od listopadu 2020 už nebude dostávat upgrady zabezpečení. Doporučuje se upgradovat na nejnovější verzi modulu runtime. Další informace najdete v tomto článku.]]></Val>
-          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>

@@ -91,6 +91,16 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
     return Observable.of(null);
   }
 
+  private _updateHardwareItemsList(isHyperVOrXenon: boolean) {
+    if (isHyperVOrXenon) {
+      this.hardwareItems.unshift({
+        iconUrl: 'image/storage.svg',
+        title: this._ts.instant(PortalResources.hyperVIsolation),
+        description: this._ts.instant(PortalResources.hyperVIsolationDesc),
+      });
+    }
+  }
+
   runInitialization(input: PriceSpecInput) {
     if (!ArmUtil.isASEV3GenerallyAccessible()) {
       this.state = 'hidden';
@@ -105,6 +115,9 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
           // ASE permissions to scale their plan.
           if (r.isSuccessful && r.result.kind && r.result.kind.toLowerCase().indexOf(Kinds.aseV3.toLowerCase()) === -1) {
             this.state = 'hidden';
+          } else {
+            const { hyperV, isXenon } = input.planDetails.plan.properties;
+            this._updateHardwareItemsList(hyperV || isXenon);
           }
         });
       }
@@ -112,14 +125,18 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
       return this._checkIfSkuEnabledOnStamp(input.planDetails && input.planDetails.plan.id).switchMap(_ => {
         return this.checkIfDreamspark(input.subscriptionId);
       });
-    } else if (
-      input.specPickerInput.data &&
-      (!input.specPickerInput.data.allowAseV3Creation ||
+    } else if (input.specPickerInput.data) {
+      if (
+        !input.specPickerInput.data.allowAseV3Creation ||
         (input.specPickerInput.data.isNewFunctionAppCreate &&
-          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)))
-    ) {
-      this.state = 'hidden';
-      return this.checkIfDreamspark(input.subscriptionId);
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard))
+      ) {
+        this.state = 'hidden';
+        return this.checkIfDreamspark(input.subscriptionId);
+      } else {
+        const { hyperV, isXenon } = input.specPickerInput.data;
+        this._updateHardwareItemsList(hyperV || isXenon);
+      }
     }
 
     return Observable.of(null);

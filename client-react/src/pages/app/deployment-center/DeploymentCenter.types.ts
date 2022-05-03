@@ -76,6 +76,7 @@ export enum RuntimeStackOptions {
   PHP = 'php',
   AspDotNet = 'asp.net',
   Dotnet = 'dotnet',
+  DotnetIsolated = 'dotnet-isolated',
 }
 
 export enum RuntimeStackDisplayNames {
@@ -89,6 +90,7 @@ export enum RuntimeStackDisplayNames {
   PHP = 'PHP',
   AspDotNet = 'ASP.NET',
   Dotnet = '.NET',
+  DotnetIsolated = '.Net Isolated',
 }
 
 export enum RuntimeVersionOptions {
