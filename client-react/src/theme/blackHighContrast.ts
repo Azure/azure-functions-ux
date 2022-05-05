@@ -39,11 +39,15 @@ export const semanticColors = {
   bodyBackgroundHovered: AzurePortalColors.background,
   bodyBackgroundChecked: AzurePortalColors.background,
   bodyFrameBackground: AzurePortalColors.background,
+
   disabledBackground: AzurePortalColors.background,
   disabledBodyText: AzurePortalColors.disabledText,
   disabledSubtext: AzurePortalColors.disabledText,
+
   focusBorder: AzurePortalColors.standardControlOutlineAccent,
   variantBorder: AzurePortalColors.standardControlOutlineAccent,
+  smallInputBorder: AzurePortalColors.standardControlOutlineRest,
+
   inputBorder: AzurePortalColors.textControlOutlineRest,
   inputBorderHovered: AzurePortalColors.textControlOutlineHovered,
   inputBackground: AzurePortalColors.background,
@@ -51,12 +55,12 @@ export const semanticColors = {
   inputBackgroundCheckedHovered: AzurePortalColors.buttonHovered,
   inputForegroundChecked: AzurePortalColors.background,
   inputFocusBorderAlt: AzurePortalColors.standardControlOutlineAccent,
-  smallInputBorder: AzurePortalColors.standardControlOutlineRest,
   inputPlaceholderText: AzurePortalColors.placeholderText,
   inputPlaceholderBackgroundChecked: AzurePortalColors.buttonPressed,
   inputIconDisabled: AzurePortalColors.buttonDisabled,
   inputIconHovered: themePalette.neutralPrimary,
   inputIcon: themePalette.themePrimary,
+
   buttonBackground: AzurePortalColors.background,
   buttonBackgroundChecked: AzurePortalColors.buttonPressed,
   buttonBackgroundHovered: AzurePortalColors.buttonHovered,
@@ -71,7 +75,9 @@ export const semanticColors = {
   buttonTextCheckedHovered: AzurePortalColors.background,
   buttonTextPressed: AzurePortalColors.textColor,
   buttonTextDisabled: AzurePortalColors.background,
+  buttonBorder: AzurePortalColors.textColor,
   buttonBorderDisabled: 'transparent',
+
   primaryButtonBackground: AzurePortalColors.buttonHovered,
   primaryButtonBackgroundHovered: AzurePortalColors.buttonHovered,
   primaryButtonBackgroundPressed: AzurePortalColors.primaryButtonPressed,
@@ -82,6 +88,7 @@ export const semanticColors = {
   primaryButtonTextDisabled: AzurePortalColors.buttonDisabled,
   primaryButtonBorderDisabled: AzurePortalColors.buttonDisabled,
   primaryButtonBorder: AzurePortalColors.textColor,
+
   menuBackground: AzurePortalColors.background,
   menuIcon: themePalette.themePrimary,
   menuHeader: themePalette.themePrimary,
