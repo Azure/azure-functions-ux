@@ -33,6 +33,7 @@ import {
 import { ISubscription } from './models/subscription';
 import { darkTheme } from './theme/dark';
 import { lightTheme } from './theme/light';
+import { blackHighContrast } from './theme/blackHighContrast';
 import { Guid } from './utils/Guid';
 import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
@@ -553,7 +554,7 @@ export default class PortalCommunicator {
               ? darkTheme
               : lightTheme
             : startupInfo.highContrastKey === HighContrastTheme.Black
-            ? darkTheme
+            ? blackHighContrast
             : lightTheme;
 
         loadTheme(newTheme);
