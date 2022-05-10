@@ -45,7 +45,7 @@ export const AzurePortalColors = {
   cardBackgroundColor: '#ffffff',
 };
 
-const themePalette: IPalette = {
+export const themePalette: IPalette = {
   themeDarker: '#004578',
   themeDark: '#005a9e',
   themeDarkAlt: '#106ebe',
@@ -98,7 +98,7 @@ const themePalette: IPalette = {
   greenLight: '#bad80a',
 };
 
-const semanticColors = {
+export const semanticColors = {
   bodyBackground: AzurePortalColors.background,
   bodyStandoutBackground: AzurePortalColors.sectionBackground,
   bodyBackgroundHovered: AzurePortalColors.background,

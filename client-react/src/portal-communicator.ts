@@ -34,6 +34,7 @@ import { ISubscription } from './models/subscription';
 import { darkTheme } from './theme/dark';
 import { lightTheme } from './theme/light';
 import { blackHighContrast } from './theme/blackHighContrast';
+import { whiteHighContrast } from './theme/whiteHighContrast';
 import { Guid } from './utils/Guid';
 import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
@@ -549,12 +550,12 @@ export default class PortalCommunicator {
       const startupInfo = data as IStartupInfo<any>;
       if (this.currentTheme !== startupInfo.theme || this.currentContrast !== startupInfo.highContrastKey) {
         const newTheme =
-          startupInfo.highContrastKey === HighContrastTheme.None
-            ? startupInfo.theme === PortalTheme.dark
-              ? darkTheme
-              : lightTheme
-            : startupInfo.highContrastKey === HighContrastTheme.Black
+          startupInfo.highContrastKey === HighContrastTheme.Black
             ? blackHighContrast
+            : startupInfo.highContrastKey === HighContrastTheme.White
+            ? whiteHighContrast
+            : startupInfo.theme === PortalTheme.dark
+            ? darkTheme
             : lightTheme;
 
         loadTheme(newTheme);
