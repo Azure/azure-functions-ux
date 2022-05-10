@@ -1,11 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { css, IComboBox, IComboBoxOption, IComboBoxProps, IDropdownOption, Spinner, SpinnerSize } from '@fluentui/react';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
+import { useContext, useEffect, useState } from 'react';
+import { comboBoxSpinnerStyle, loadingComboBoxStyle } from '../../pages/app/deployment-center/DeploymentCenter.styles';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 import { ThemeContext } from '../../ThemeContext';
 import ComboBoxNoFormik from './ComboBoxnoFormik';
-import { IComboBoxProps, IComboBoxOption, IComboBox, IDropdownOption, Spinner, SpinnerSize } from '@fluentui/react';
-import { comboBoxSpinnerStyle, loadingComboBoxStyle } from '../../pages/app/deployment-center/DeploymentCenter.styles';
 
 interface CustomComboBoxProps {
   id: string;
@@ -21,10 +21,24 @@ interface CustomComboBoxProps {
   isLoading?: boolean;
   searchable?: boolean;
   clearComboBox?: boolean;
+  overrideLoadingComboboxStyles?: string;
 }
 
 const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
-  const { field, form, options, styles, setOptions, allowFreeform, isLoading, searchable, text, clearComboBox, ...rest } = props;
+  const {
+    allowFreeform,
+    clearComboBox,
+    field,
+    form,
+    isLoading,
+    options,
+    overrideLoadingComboboxStyles,
+    searchable,
+    setOptions,
+    styles,
+    text,
+    ...rest
+  } = props;
   const theme = useContext(ThemeContext);
   const [searchTerm, setSearchTerm] = useState<string | undefined>(undefined);
 
@@ -58,12 +72,14 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
       form.setFieldValue(field.name, undefined);
       setSearchTerm(undefined);
     }
+
+    /* eslint-disable-next-line react-hooks/exhaustive-deps */
   }, [options]);
 
   const errorMessage = get(form.touched, field.name, false) ? (get(form.errors, field.name, '') as string) : undefined;
 
   return (
-    <div className={loadingComboBoxStyle}>
+    <div className={css(loadingComboBoxStyle, overrideLoadingComboboxStyles)}>
       <ComboBoxNoFormik
         selectedKey={field.value === undefined ? 'null' : field.value}
         text={searchTerm}

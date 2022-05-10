@@ -2428,6 +2428,8 @@ export class PortalResources {
   public static containerApp_console_connect = 'containerApp_console_connect';
   public static containerApp_console_custom = 'containerApp_console_custom';
   public static new_parenthesized = 'new_parenthesized';
+  public static automatic = 'automatic';
+  public static manual = 'manual';
   public static cosmosDb_apiType_coreSql = 'cosmosDb_apiType_coreSql';
   public static cosmosDb_error_accountNameRequired = 'cosmosDb_error_accountNameRequired';
   public static cosmosDb_error_accountNameInvalid = 'cosmosDb_error_accountNameInvalid';
@@ -2439,15 +2441,23 @@ export class PortalResources {
   public static cosmosDb_error_databaseNameCharacters = 'cosmosDb_error_databaseNameCharacters';
   public static cosmosDb_error_databaseNameSpace = 'cosmosDb_error_databaseNameSpace';
   public static cosmosDb_error_fieldRequired = 'cosmosDb_error_fieldRequired';
+  public static cosmosDb_error_partitionKeyPathSlash = 'cosmosDb_error_partitionKeyPathSlash';
+  public static cosmosDb_error_writePermissionsRequired = 'cosmosDb_error_writePermissionsRequired';
+  public static cosmosDb_header_customAppSetting = 'cosmosDb_header_customAppSetting';
+  public static cosmosDb_header_details = 'cosmosDb_header_details';
   public static cosmosDb_label_accountName = 'cosmosDb_label_accountName';
   public static cosmosDb_label_apiType = 'cosmosDb_label_apiType';
   public static nodeStackLearnMore = 'nodeStackLearnMore';
+  public static cosmosDb_label_connection = 'cosmosDb_label_connection';
   public static cosmosDb_label_container = 'cosmosDb_label_container';
   public static cosmosDb_label_cosmosDbAccount = 'cosmosDb_label_cosmosDbAccount';
   public static cosmosDb_label_createAContainer = 'cosmosDb_label_createAContainer';
   public static cosmosDb_label_createADatabase = 'cosmosDb_label_createADatabase';
   public static cosmosDb_label_createAnAccount = 'cosmosDb_label_createAnAccount';
+  public static cosmosDb_label_customAppSettingKey = 'cosmosDb_label_customAppSettingKey';
+  public static cosmosDb_label_customAppSettingValue = 'cosmosDb_label_customAppSettingValue';
   public static cosmosDb_label_database = 'cosmosDb_label_database';
+  public static cosmosDb_label_partitionKeyPath = 'cosmosDb_label_partitionKeyPath';
   public static cosmosDb_newAccountDialog_description = 'cosmosDb_newAccountDialog_description';
   public static cosmosDb_newAccountDialog_link = 'cosmosDb_newAccountDialog_link';
   public static cosmosDb_newAccountDialog_title = 'cosmosDb_newAccountDialog_title';
@@ -2455,6 +2465,8 @@ export class PortalResources {
   public static cosmosDb_placeholder_selectAContainer = 'cosmosDb_placeholder_selectAContainer';
   public static cosmosDb_placeholder_selectADatabase = 'cosmosDb_placeholder_selectADatabase';
   public static cosmosDb_placeholder_selectAnAccount = 'cosmosDb_placeholder_selectAnAccount';
+  public static cosmosDb_tooltip_customAppSettingKey = 'cosmosDb_tooltip_customAppSettingKey';
+  public static cosmosDb_tooltip_partitionKeyPath = 'cosmosDb_tooltip_partitionKeyPath';
   public static containerApp_console_startUpCommandAriaLabel = 'containerApp_console_startUpCommandAriaLabel';
   public static containerApp_console_cancel = 'containerApp_console_cancel';
 }

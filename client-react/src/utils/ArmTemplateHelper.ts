@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface IArmDeploymentTemplate {
   $schema: string;
   contentVersion: '1.0.0.0'; // This isn't a "recurring setup" type of template, so this can stay constant
@@ -15,6 +17,10 @@ export interface IArmResourceTemplate {
   dependsOn?: string[];
   properties?: Record<string, any>;
 }
+
+export type TSetArmResourceTemplate = React.Dispatch<React.SetStateAction<IArmResourceTemplate>>;
+
+export type TSetArmResourceTemplates = React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>;
 
 // Makes ARM deployment to resource group
 // https://docs.microsoft.com/en-us/rest/api/resources/deployments/create-or-update

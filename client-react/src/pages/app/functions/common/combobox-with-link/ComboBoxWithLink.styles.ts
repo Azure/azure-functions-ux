@@ -27,6 +27,10 @@ const header = style({
   marginBlock: 0,
 });
 
+const overrideLoadingComboboxStyles = style({
+  display: 'block',
+});
+
 const section = style({
   display: 'flex',
   flexDirection: 'column',
@@ -36,12 +40,18 @@ const section = style({
 export const useStyles = (layout: Layout) => {
   const calloutContainer = useMemo(
     () =>
-      style({
-        marginBottom: '15px',
-        marginLeft: layout === Layout.Horizontal ? '200px' : '0px',
-        marginRight: '0px',
-        marginTop: '-15px',
-      }),
+      layout === Layout.Horizontal
+        ? style({
+            marginBottom: '15px',
+            marginRight: '162px',
+            marginTop: '-15px',
+            minWidth: '235px',
+            textAlign: 'right',
+          })
+        : style({
+            marginBottom: '15px',
+            marginTop: '-15px',
+          }),
     [layout]
   );
 
@@ -51,6 +61,7 @@ export const useStyles = (layout: Layout) => {
     calloutContainer,
     container,
     header,
+    overrideLoadingComboboxStyles,
     section,
   };
 };

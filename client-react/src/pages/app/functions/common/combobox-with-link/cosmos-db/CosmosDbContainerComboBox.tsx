@@ -8,7 +8,7 @@ import ComboBox from '../../../../../../components/form-controls/ComboBox';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../../../components/form-controls/TextField';
 import { BindingSetting } from '../../../../../../models/functions/binding';
-import { IArmResourceTemplate } from '../../../../../../utils/ArmTemplateHelper';
+import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../../utils/ArmTemplateHelper';
 import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
 import {
@@ -35,7 +35,7 @@ interface Props {
   label: string;
   layout: Layout;
   resourceId: string;
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>; // TSetArmResources
+  setArmResources: TSetArmResourceTemplates;
   setting: BindingSetting;
   value: string;
 }
@@ -58,17 +58,18 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
     if (formProps.status?.isNewDbAcct) {
       setNewContainerName(undefined);
     }
-  }, [formProps.status.isNewDbAcct]);
+  }, [formProps.status?.isNewDbAcct]);
 
   // Set containers to empty (for new databases) or fetch containers (for existing databases).
   useEffect(() => {
     if (formProps.status?.isNewDatabase) {
       setContainers(undefined);
     } else {
-      const dbAcctName = formProps.values.connectionStringSetting.split('_')[0];
-      const dbAcctType = formProps.status.dbAcctType;
+      const dbAcctName = getDatabaseAccountNameFromConnectionString(formProps);
+      const dbAcctId = formProps.status?.dbAcctId ?? resourceId;
+      const dbAcctType = formProps.status?.dbAcctType;
 
-      DocumentDBService.fetchContainers(resourceId, dbAcctName, dbAcctType, formProps.values.databaseName).then(r => {
+      DocumentDBService.fetchContainers(dbAcctId, dbAcctName, dbAcctType, formProps.values.databaseName).then(r => {
         if (!r.metadata.success) {
           LogService.error(
             LogCategories.bindingResource,
@@ -102,7 +103,7 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.status.isNewDatabase, formProps.values.databaseName]);
+  }, [formProps.status?.isNewDatabase, formProps.values.databaseName]);
 
   // Set the partition key path in the container template when it changes.
   useEffect(() => {
@@ -282,14 +283,15 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
 
   return (
     <>
-      {!formProps.status.isNewDatabase && !!containers ? (
+      {!formProps.status?.isNewDatabase && !!containers ? (
         <div className={styles.container}>
           <ComboBox
             allowFreeform={false}
-            onChange={(_, option, __, customValue) => onChange(option, customValue, formProps, field)}
             autoComplete="on"
+            onChange={(_, option, __, customValue) => onChange(option, customValue, formProps, field)}
             options={options}
             {...props}
+            overrideLoadingComboboxStyles={styles.overrideLoadingComboboxStyles}
             placeholder={placeholder}
           />
           {!isDisabled ? (

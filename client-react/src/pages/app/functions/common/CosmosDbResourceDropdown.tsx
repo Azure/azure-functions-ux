@@ -9,7 +9,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmArray } from '../../../../models/arm-obj';
 import { DatabaseAccount } from '../../../../models/documentDB';
 import { BindingSetting } from '../../../../models/functions/binding';
-import { IArmResourceTemplate } from '../../../../utils/ArmTemplateHelper';
+import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../utils/ArmTemplateHelper';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import {
   getNewContainerArmTemplate,
@@ -27,7 +27,7 @@ import { useStyles } from './CosmosDbResourceDropdown.styles';
 interface Props {
   armResources: IArmResourceTemplate[];
   resourceId: string;
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>;
+  setArmResources: TSetArmResourceTemplates;
   setting: BindingSetting;
 }
 
@@ -73,8 +73,11 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
 
     if (databaseAccounts) {
       result.push(
-        ...databaseAccounts.value.map(({ kind, name }) => ({
-          data: kind,
+        ...databaseAccounts.value.map(({ id, kind, name }) => ({
+          data: {
+            id,
+            kind,
+          },
           key: `${name}_COSMOSDB`,
           text: name,
         }))
@@ -94,7 +97,7 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
         const dbAcctConnectionSettingKey = option.key as string; // Format: `${dbAcctName}_COSMOSDB`
         const dbAcctName = dbAcctConnectionSettingKey.split('_')[0];
         formProps.setFieldValue(field.name, dbAcctConnectionSettingKey);
-        formProps.setStatus({ ...formProps.status, dbAcctType: option.data });
+        formProps.setStatus({ ...formProps.status, dbAcctId: option.data.id, dbAcctType: option.data.kind });
 
         // Make sure the isNewDbAcct status is staying up-to-date with the selected option
         if (!selectedItem && !!formProps.status?.isNewDbAcct) {
@@ -152,9 +155,11 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
   useEffect(() => {
     // Set database account type (SQL or MongoDB)
     if (!!formProps.status && !formProps.status.dbAcctType && !!options[0]) {
-      formProps.setStatus({ ...formProps.status, dbAcctType: options[0].data });
+      formProps.setStatus({ ...formProps.status, dbAcctType: options[0].data.kind });
     }
-  }, [formProps, options]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [!!options[0]]);
 
   useEffect(() => {
     // Set the value when coming back from the callout
@@ -162,7 +167,9 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
       onChange(selectedItem, formProps, field);
       setSelectedItem(undefined);
     }
-  }, [field, formProps, onChange, selectedItem]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedItem]);
 
   return isLoading ? (
     <LoadingComponent />
@@ -171,7 +178,7 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
       <Dropdown
         onChange={(_, option) => onChange(option, formProps, field)}
         {...props}
-        options={props.options ?? options}
+        options={options ?? props.options}
         placeholder={options.length === 0 ? t('cosmosDb_placeholder_noExistingAccounts') : t('cosmosDb_placeholder_selectAnAccount')}
       />
       {!disabled ? (

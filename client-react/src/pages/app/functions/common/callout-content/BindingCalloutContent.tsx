@@ -11,7 +11,11 @@ interface BindingCalloutContentProps<TValues> {
   initialValues: TValues;
   onCancel: () => void;
   onCreate: (values: TValues, formikActions: FormikActions<TValues>) => void;
-  onRenderCreator: (formProps: FormikProps<TValues>, setTemplate: React.Dispatch<string>, template?: string) => React.ReactNode;
+  onRenderCreator: (
+    formProps: FormikProps<TValues>,
+    setTemplate: React.Dispatch<React.SetStateAction<string>>,
+    template?: string
+  ) => React.ReactNode;
 }
 
 const BindingCalloutContent = <T,>({

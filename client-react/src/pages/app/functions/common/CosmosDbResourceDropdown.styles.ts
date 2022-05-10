@@ -10,12 +10,18 @@ const callout = style({
 export const useStyles = (layout: Layout = Layout.Horizontal) => {
   const calloutContainer = useMemo(
     () =>
-      style({
-        marginTop: '-15px',
-        marginRight: '0px',
-        marginBottom: '15px',
-        marginLeft: layout === Layout.Horizontal ? '200px' : '0px',
-      }),
+      layout === Layout.Horizontal
+        ? style({
+            marginBottom: '15px',
+            marginRight: '162px',
+            marginTop: '-15px',
+            minWidth: '235px',
+            textAlign: 'right',
+          })
+        : style({
+            marginBottom: '15px',
+            marginTop: '-15px',
+          }),
     [layout]
   );
 
