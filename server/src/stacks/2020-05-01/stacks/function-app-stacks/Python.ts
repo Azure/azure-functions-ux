@@ -14,7 +14,7 @@ export const pythonStack: FunctionAppStack = {
         {
           sortOrder: 0,
           os: 'linux',
-          isPreview: false,
+          isPreview: true,
           isDeprecated: false,
           isHidden: false,
           applicationInsightsEnabled: true,
