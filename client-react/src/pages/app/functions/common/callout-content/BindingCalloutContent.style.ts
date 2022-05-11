@@ -8,9 +8,11 @@ const actionBarStyle = style({
 });
 
 const calloutContentStyle = style({
+  boxSizing: 'border-box',
   display: 'flex',
   flexDirection: 'column',
   gap: '16px',
+  padding: '16px 24px',
 });
 
 export const useStyles = () => {

@@ -50,15 +50,14 @@ export const CosmosDbCreator: React.FC<CosmosDbCreatorProps> = ({ formProps, set
   );
 
   useEffect(() => {
-    if (formProps) {
-      /** @todo (joechung): #14256559 - Fix template when integrating this. */
+    if (formProps?.values.accountName) {
       const cDbControls = new CosmosDbControls();
-      cDbControls.template.name = formProps.values.accountName;
+      cDbControls.template.name = formProps?.values.accountName;
       cDbControls.template.kind = 'GlobalDocumentDB';
 
       setTemplate(cDbControls.createTemplateJSON());
     }
-  }, [formProps, setTemplate]);
+  }, [formProps?.values.accountName, setTemplate]);
 
   return (
     <Stack>
