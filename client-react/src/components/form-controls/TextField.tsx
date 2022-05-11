@@ -21,7 +21,8 @@ export interface CustomTextFieldProps {
   layout?: Layout;
 }
 
-const TextField: React.FC<FieldProps & ITextFieldProps & CustomTextFieldProps> = props => {
+/** @note (joechung): The `form` attribute from `FieldProps` does not match the one from `ITextFieldProps`. */
+const TextField: React.FC<FieldProps & Omit<ITextFieldProps, 'form'> & CustomTextFieldProps> = props => {
   const { field, form, ...rest } = props;
 
   const { t } = useTranslation();
