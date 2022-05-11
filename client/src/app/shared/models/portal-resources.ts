@@ -2428,4 +2428,5 @@ export class PortalResources {
   public static cosmosDb_error_accountNameTaken = 'cosmosDb_error_accountNameTaken';
   public static cosmosDb_label_accountName = 'cosmosDb_label_accountName';
   public static cosmosDb_label_apiType = 'cosmosDb_label_apiType';
+  public static nodeStackLearnMore = 'nodeStackLearnMore';
 }
