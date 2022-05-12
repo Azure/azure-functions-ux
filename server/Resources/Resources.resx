@@ -7447,6 +7447,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="cosmosDb_label_apiType" xml:space="preserve">
         <value>API</value>
     </data>
+    <data name="nodeStackLearnMore" xml:space="preserve">
+        <value>Node version is defined through the {0} app setting.</value>
+    </data>
     <data name="cosmosDb_label_container" xml:space="preserve">
         <value>Container</value>
     </data>

@@ -2436,6 +2436,7 @@ export class PortalResources {
   public static cosmosDb_error_fieldRequired = 'cosmosDb_error_fieldRequired';
   public static cosmosDb_label_accountName = 'cosmosDb_label_accountName';
   public static cosmosDb_label_apiType = 'cosmosDb_label_apiType';
+  public static nodeStackLearnMore = 'nodeStackLearnMore';
   public static cosmosDb_label_container = 'cosmosDb_label_container';
   public static cosmosDb_label_cosmosDbAccount = 'cosmosDb_label_cosmosDbAccount';
   public static cosmosDb_label_createAContainer = 'cosmosDb_label_createAContainer';
