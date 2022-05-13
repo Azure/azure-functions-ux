@@ -4,7 +4,6 @@ import { IDropdownOption, ITextFieldProps, Label, TextField } from '@fluentui/re
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Subject } from 'rxjs';
-import { debounceTime } from 'rxjs/operators';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import IconButton from '../../../../../../components/IconButton/IconButton';
@@ -49,8 +48,7 @@ const KeyValueFieldComponent: React.FC<FieldProps & ITextFieldProps> = props => 
   const { field, form, ...rest } = props;
   const errorMessage = get(form.errors, field.name, '') as string;
   const inputDebouncer = new Subject<{ e: any; value: string }>();
-  const DEBOUNCE_TIME = 300;
-  inputDebouncer.pipe(debounceTime(DEBOUNCE_TIME)).subscribe(({ e, value }) => {
+  inputDebouncer.pipe().subscribe(({ e, value }) => {
     form.setFieldValue(field.name, value);
     field.onChange(e);
   });

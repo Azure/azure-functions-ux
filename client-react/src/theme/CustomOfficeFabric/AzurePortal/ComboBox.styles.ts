@@ -22,9 +22,6 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
           '&.is-open': {
             borderColor: semanticColors.focusBorder,
           },
-          '.ms-Button-icon': {
-            height: StyleConstants.inputControlHeightInner,
-          },
         },
       },
     ],

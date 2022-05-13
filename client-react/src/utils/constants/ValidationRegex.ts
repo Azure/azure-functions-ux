@@ -26,4 +26,8 @@ export class ValidationRegex {
 
     homeDir: /^([c-zC-Z]:)?[/\\][/\\]?([Hh][Oo][Mm][Ee])$/,
   };
+
+  public static readonly specialCharacters = new RegExp('^[^/\\\\#?]+$');
+
+  public static readonly noSpacesAtEnd = new RegExp('[^\\s]+$');
 }
