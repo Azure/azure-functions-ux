@@ -2450,4 +2450,5 @@ export class PortalResources {
   public static cosmosDb_placeholder_selectAContainer = 'cosmosDb_placeholder_selectAContainer';
   public static cosmosDb_placeholder_selectADatabase = 'cosmosDb_placeholder_selectADatabase';
   public static cosmosDb_placeholder_selectAnAccount = 'cosmosDb_placeholder_selectAnAccount';
+  public static containerApp_console_startUpCommandAriaLabel = 'containerApp_console_startUpCommandAriaLabel';
 }

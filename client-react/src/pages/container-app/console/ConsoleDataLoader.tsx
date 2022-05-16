@@ -227,7 +227,12 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     return (
       <div className={consoleStyles.customTextField}>
         {defaultRender(props)}
-        <TextField placeholder={t('containerApp_console_custom')} value={customTextField} onChange={onTextFieldChange} />
+        <TextField
+          placeholder={t('containerApp_console_custom')}
+          value={customTextField}
+          onChange={onTextFieldChange}
+          ariaLabel={t('containerApp_console_startUpCommandAriaLabel')}
+        />
       </div>
     );
   };
