@@ -161,6 +161,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     () => ({
       titleAriaId: t('containerApp_console_chooseStartUpCommand'),
       isBlocking: true,
+      forceFocusInsideTrap: false,
     }),
     []
   );
@@ -248,8 +249,11 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   return (
     <div className={containerAppStyles.divContainer}>
-      <XTerm ref={terminalRef} onData={onData} />
-      <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps}>
+      {/** NOTE(krmitta): For accessibility purposes, we are preventing Tab key on the XTerm because otherwise it will get stuck inside the consle */}
+      <div tabIndex={-1}>
+        <XTerm ref={terminalRef} onData={onData} />
+      </div>
+      <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps} forceFocusInsideTrap={false}>
         <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
         <DialogFooter styles={dialogFooterStyles()}>
           <PrimaryButton
