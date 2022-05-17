@@ -41,7 +41,17 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
         ...(terminalRef.current.terminal.options || {}),
         cursorStyle: 'underline',
         cursorBlink: true,
+        screenReaderMode: true,
       };
+
+      ///** NOTE(krmitta): For accessibility purposes, we are preventing Tab key on the XTerm because otherwise it will get stuck inside the console */
+      if (terminalRef.current.terminal.element) {
+        terminalRef.current.terminal.element.tabIndex = -1;
+      }
+
+      if (terminalRef.current.terminal.textarea) {
+        terminalRef.current.terminal.textarea.tabIndex = -1;
+      }
 
       resizeHandler(width, height);
     }
@@ -249,10 +259,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   return (
     <div className={containerAppStyles.divContainer}>
-      {/** NOTE(krmitta): For accessibility purposes, we are preventing Tab key on the XTerm because otherwise it will get stuck inside the console */}
-      <div tabIndex={-1}>
-        <XTerm ref={terminalRef} onData={onData} />
-      </div>
+      <XTerm ref={terminalRef} onData={onData} />
       <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps} forceFocusInsideTrap={false}>
         <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
         <DialogFooter styles={dialogFooterStyles()}>
