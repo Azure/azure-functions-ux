@@ -41,7 +41,6 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
         ...(terminalRef.current.terminal.options || {}),
         cursorStyle: 'underline',
         cursorBlink: true,
-        screenReaderMode: true,
       };
 
       ///** NOTE(krmitta): For accessibility purposes, we are preventing Tab key on the XTerm because otherwise it will get stuck inside the console */
