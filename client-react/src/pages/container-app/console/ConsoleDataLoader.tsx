@@ -249,7 +249,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   return (
     <div className={containerAppStyles.divContainer}>
-      {/** NOTE(krmitta): For accessibility purposes, we are preventing Tab key on the XTerm because otherwise it will get stuck inside the consle */}
+      {/** NOTE(krmitta): For accessibility purposes, we are preventing Tab key on the XTerm because otherwise it will get stuck inside the console */}
       <div tabIndex={-1}>
         <XTerm ref={terminalRef} onData={onData} />
       </div>
