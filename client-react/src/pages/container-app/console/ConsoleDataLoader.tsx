@@ -1,5 +1,5 @@
 import { TextField } from '@fluentui/react';
-import { PrimaryButton } from '@fluentui/react/lib/Button';
+import { PrimaryButton, DefaultButton } from '@fluentui/react/lib/Button';
 import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluentui/react/lib/ChoiceGroup';
 import Dialog, { DialogFooter, DialogType, IDialogContentProps } from '@fluentui/react/lib/Dialog';
 import { debounce } from 'lodash-es';
@@ -238,6 +238,12 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     );
   };
 
+  const onCancel = () => {
+    // NOTE(krmitta): We need a cancel button to help users tab out of the dialog box. And if they click cancel,
+    // then they are not really moving forward with the connect process thus the message
+    updateConsoleText(t('containerApp_console_failedToConnect'));
+  };
+
   const options: IChoiceGroupOption[] = [
     { key: 'sh', text: '/bin/sh' },
     { key: 'bash', text: '/bin/bash' },
@@ -249,10 +255,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
   return (
     <div className={containerAppStyles.divContainer}>
-      {/** NOTE(krmitta): For accessibility purposes, we are preventing Tab key on the XTerm because otherwise it will get stuck inside the console */}
-      <div tabIndex={-1}>
-        <XTerm ref={terminalRef} onData={onData} />
-      </div>
+      <XTerm ref={terminalRef} onData={onData} />
       <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps} forceFocusInsideTrap={false}>
         <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
         <DialogFooter styles={dialogFooterStyles()}>
@@ -261,6 +264,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
             text={t('containerApp_console_connect')}
             disabled={!selectedKey || (selectedKey.key === 'custom' && !customTextField)}
           />
+          <DefaultButton text={t('containerApp_console_cancel')} onClick={onCancel} />
         </DialogFooter>
       </Dialog>
     </div>
