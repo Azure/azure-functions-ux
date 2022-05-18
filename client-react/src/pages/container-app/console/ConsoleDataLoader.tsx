@@ -241,6 +241,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const onCancel = () => {
     // NOTE(krmitta): We need a cancel button to help users tab out of the dialog box. And if they click cancel,
     // then they are not really moving forward with the connect process thus the message
+    toggleHideDialog();
     updateConsoleText(t('containerApp_console_failedToConnect'));
   };
 
