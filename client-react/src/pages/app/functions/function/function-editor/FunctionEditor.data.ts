@@ -80,4 +80,8 @@ export default class FunctionEditorData {
       'If-Match': '*',
     };
   }
+
+  public getAuthenticationTriggerUrl(baseUrl: string, functionInfo: ArmObj<FunctionInfo>, code: string) {
+    return `${baseUrl}/runtime/webhooks/customauthenticationextension?function=${functionInfo.properties.name}&code=${code}`;
+  }
 }
