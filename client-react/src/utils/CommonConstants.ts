@@ -344,3 +344,7 @@ export class Monitoring {
 }
 
 export const ScmHosts = ['.scm.azurewebsites.net', '.scm.azurewebsites.us', '.scm.chinacloudsites.cn', '.scm.azurewebsites.de'];
+
+export const KeyBoard = {
+  shiftTab: '\x1B[Z',
+};

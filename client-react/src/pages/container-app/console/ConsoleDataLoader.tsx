@@ -1,5 +1,5 @@
 import { TextField } from '@fluentui/react';
-import { PrimaryButton } from '@fluentui/react/lib/Button';
+import { PrimaryButton, DefaultButton } from '@fluentui/react/lib/Button';
 import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluentui/react/lib/ChoiceGroup';
 import Dialog, { DialogFooter, DialogType, IDialogContentProps } from '@fluentui/react/lib/Dialog';
 import { debounce } from 'lodash-es';
@@ -13,6 +13,7 @@ import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
 import { containerAppStyles } from '../ContainerApp.styles';
 import { consoleStyles, dialogFooterStyles, dialogTitleStyles } from './ConsoleDataLoader.styles';
+import { KeyBoard } from '../../../utils/CommonConstants';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -161,6 +162,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     () => ({
       titleAriaId: t('containerApp_console_chooseStartUpCommand'),
       isBlocking: true,
+      forceFocusInsideTrap: false,
     }),
     []
   );
@@ -227,9 +229,21 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     return (
       <div className={consoleStyles.customTextField}>
         {defaultRender(props)}
-        <TextField placeholder={t('containerApp_console_custom')} value={customTextField} onChange={onTextFieldChange} />
+        <TextField
+          placeholder={t('containerApp_console_custom')}
+          value={customTextField}
+          onChange={onTextFieldChange}
+          ariaLabel={t('containerApp_console_startUpCommandAriaLabel')}
+        />
       </div>
     );
+  };
+
+  const onCancel = () => {
+    // NOTE(krmitta): We need a cancel button to help users tab out of the dialog box. And if they click cancel,
+    // then they are not really moving forward with the connect process thus the message
+    toggleHideDialog();
+    updateConsoleText(t('containerApp_console_failedToConnect'));
   };
 
   const options: IChoiceGroupOption[] = [
@@ -241,10 +255,20 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const [selectedKey, setSelectedKey] = useState<IChoiceGroupOption>(options[0]);
   const [customTextField, setCustomTextField] = useState<string>('');
 
+  const onKey = (event: any) => {
+    // NOTE(krmitta): For accessibility purposes, we need to remove the focus from terminal when Shift+Tab is present inside the console
+    if (event?.key === KeyBoard.shiftTab) {
+      const terminal = terminalRef.current?.terminal;
+      if (terminal) {
+        terminal.blur();
+      }
+    }
+  };
+
   return (
     <div className={containerAppStyles.divContainer}>
-      <XTerm ref={terminalRef} onData={onData} />
-      <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps}>
+      <XTerm ref={terminalRef} onData={onData} onKey={onKey} />
+      <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps} forceFocusInsideTrap={false}>
         <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
         <DialogFooter styles={dialogFooterStyles()}>
           <PrimaryButton
@@ -252,6 +276,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
             text={t('containerApp_console_connect')}
             disabled={!selectedKey || (selectedKey.key === 'custom' && !customTextField)}
           />
+          <DefaultButton text={t('containerApp_console_cancel')} onClick={onCancel} />
         </DialogFooter>
       </Dialog>
     </div>
