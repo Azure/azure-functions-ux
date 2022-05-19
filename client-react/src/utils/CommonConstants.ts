@@ -317,13 +317,13 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     linuxPortalEditing: 'linux-portal-editing-variant',
     portalCallOnEditor: 'enable-portal-call-editor',
-    useNewFunctionLogsApi: 'useNewFunctionLogsApi',
+    newFunctionLogsApi: 'use-new-function-logs-api',
   };
 
   public static ControlFlight = {
     linuxPortalEditing: 'linux-portal-editing-default',
     portalCallOnEditor: 'disable-portal-call-editor',
-    useOldFunctionLogsApi: 'useOldFunctionLogsApi',
+    newFunctionLogsApi: 'use-old-function-logs-api',
   };
 }
 

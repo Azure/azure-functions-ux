@@ -71,6 +71,7 @@ export interface FunctionEditorProps {
   workerRuntime?: string;
   enablePortalCall?: boolean;
   isLinuxSkuFlightingEnabled?: boolean;
+  isFunctionLogsApiFlightingEnabled?: boolean;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -96,6 +97,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     addCorsRule,
     enablePortalCall,
     isLinuxSkuFlightingEnabled,
+    isFunctionLogsApiFlightingEnabled,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -518,7 +520,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   useEffect(() => {
     fetchData();
     setLiveLogsSessionId(Guid.newGuid());
-    if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi)) {
+    const useNewFunctionLogsApi =
+      !!isFunctionLogsApiFlightingEnabled || Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi);
+    if (useNewFunctionLogsApi && runtimeVersion === CommonConstants.FunctionsRuntimeVersions.four) {
       setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
       expandLogPanel();
     } else {
