@@ -13,6 +13,7 @@ import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
 import { containerAppStyles } from '../ContainerApp.styles';
 import { consoleStyles, dialogFooterStyles, dialogTitleStyles } from './ConsoleDataLoader.styles';
+import { KeyBoard } from '../../../utils/CommonConstants';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -254,9 +255,19 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const [selectedKey, setSelectedKey] = useState<IChoiceGroupOption>(options[0]);
   const [customTextField, setCustomTextField] = useState<string>('');
 
+  const onKey = (event: any) => {
+    // NOTE(krmitta): For accessibility purposes, we need to remove the focus from terminal when Shift+Tab is present inside the console
+    if (event?.key === KeyBoard.shiftTab) {
+      const terminal = terminalRef.current?.terminal;
+      if (terminal) {
+        terminal.blur();
+      }
+    }
+  };
+
   return (
     <div className={containerAppStyles.divContainer}>
-      <XTerm ref={terminalRef} onData={onData} />
+      <XTerm ref={terminalRef} onData={onData} onKey={onKey} />
       <Dialog hidden={hideDialog} dialogContentProps={dialogContentProps} modalProps={modalProps} forceFocusInsideTrap={false}>
         <ChoiceGroup selectedKey={selectedKey.key} onChange={(_, option) => setSelectedKey(option!)} options={options} />
         <DialogFooter styles={dialogFooterStyles()}>
