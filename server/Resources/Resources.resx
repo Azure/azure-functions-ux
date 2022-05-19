@@ -7492,4 +7492,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerApp_console_startUpCommandAriaLabel" xml:space="preserve">
         <value>Custom start up command</value>
     </data>
+    <data name="containerApp_console_cancel" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
 </root>
