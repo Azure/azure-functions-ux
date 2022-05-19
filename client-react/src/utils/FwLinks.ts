@@ -45,6 +45,7 @@ export const Links = {
   jbossAdditionalCostLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2169219',
   corsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=870118',
   staticSitePasswordProtectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2187127',
+  configureNodeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2195169',
 };
 
 export const DeploymentCenterLinks = {
