@@ -82,6 +82,6 @@ export default class FunctionEditorData {
   }
 
   public getAuthenticationTriggerUrl(baseUrl: string, functionInfo: ArmObj<FunctionInfo>, code: string) {
-    return `${baseUrl}/runtime/webhooks/customauthenticationextension?function=${functionInfo.properties.name}&code=${code}`;
+    return `${baseUrl}/runtime/webhooks/customauthenticationextension?functionName=${functionInfo.properties.name}&code=${code}`;
   }
 }

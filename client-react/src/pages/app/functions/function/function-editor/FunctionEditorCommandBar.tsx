@@ -214,7 +214,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const getAuthenticationEventSubscriptionUrl = (code: string) => {
     return siteStateContext.site
-      ? `${Url.getMainUrl(siteStateContext.site)}/runtime/webhooks/customauthenticationextension?function=${
+      ? `${Url.getMainUrl(siteStateContext.site)}/runtime/webhooks/customauthenticationextension?functionName=${
           functionInfo.properties.name
         }&code=${code}`
       : '';
