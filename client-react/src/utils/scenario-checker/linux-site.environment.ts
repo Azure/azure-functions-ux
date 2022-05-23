@@ -46,7 +46,7 @@ export class LinuxSiteEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.webSocketsSupported] = {
       id: ScenarioIds.webSocketsSupported,
       runCheck: () => {
-        return { status: 'enabled' };
+        return { status: 'disabled' };
       },
     };
 
