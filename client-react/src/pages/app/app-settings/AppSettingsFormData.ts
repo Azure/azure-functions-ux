@@ -10,7 +10,7 @@ import {
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
-import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
+import { Site, PublishingCredentialPolicies, MinTlsVersion } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
@@ -100,12 +100,15 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
     linuxFxVersion = linuxFxVersionParts.join('|');
   }
 
+  const minTlsVersion = config.properties.minTlsVersion || MinTlsVersion.tLS12;
+
   const newConfig: ArmObj<SiteConfig> = {
     ...config,
     properties: {
       ...config.properties,
       linuxFxVersion,
       remoteDebuggingVersion,
+      minTlsVersion,
     },
   };
   return newConfig;
