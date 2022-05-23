@@ -520,9 +520,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   useEffect(() => {
     fetchData();
     setLiveLogsSessionId(Guid.newGuid());
-    const useNewFunctionLogsApi =
-      !!isFunctionLogsApiFlightingEnabled || Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi);
-    if (useNewFunctionLogsApi && runtimeVersion === CommonConstants.FunctionsRuntimeVersions.four) {
+    if (isFunctionLogsApiFlightingEnabled && runtimeVersion === CommonConstants.FunctionsRuntimeVersions.four) {
       setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
       expandLogPanel();
     } else {

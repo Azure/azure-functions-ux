@@ -16,7 +16,7 @@ export const getTelemetryInfo = (
       }
     : {};
 
-  const dataContent = data ? data : {};
+  const dataContent = data ?? {};
 
   return {
     action,

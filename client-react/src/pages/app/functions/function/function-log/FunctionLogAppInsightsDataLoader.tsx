@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useMemo } from 'react';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { AppInsightsComponent, QuickPulseToken } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
@@ -19,7 +19,6 @@ import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper'
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import { KeyValue } from '../../../../../models/portal-models';
-import Url from '../../../../../utils/url';
 import { PortalContext } from '../../../../../PortalContext';
 
 interface FunctionLogAppInsightsDataLoaderProps {
@@ -141,7 +140,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     liveLogsSessionId?: string
   ) => {
     quickPulseQueryLayer
-      .queryDetails(tokenComponent.token, false, '', useNewFunctionLogsApi(), liveLogsSessionId)
+      .queryDetails(tokenComponent.token, false, '', useNewFunctionLogsApi, liveLogsSessionId)
       .then((dataV2: any) => {
         let newDocs;
         if (!!dataV2 && dataV2.Documents) {
@@ -228,7 +227,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
 
   const reconnectQueryLayer = () => {
     const newQueryLayer = new QuickPulseQueryLayer(getQuickPulseQueryEndpoint(), defaultClient);
-    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(), [], useNewFunctionLogsApi());
+    newQueryLayer.setConfiguration([], getDefaultDocumentStreams(), [], useNewFunctionLogsApi);
     setQueryLayer(newQueryLayer);
     setCallCount(0);
   };
@@ -267,11 +266,8 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setAllLogEntries([]);
   };
 
-  const useNewFunctionLogsApi = useCallback(() => {
-    const isNewLogsApiEnabled =
-      Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) || !!isFunctionLogsApiFlightingEnabled;
-
-    return isNewLogsApiEnabled && functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four;
+  const useNewFunctionLogsApi = useMemo(() => {
+    return isFunctionLogsApiFlightingEnabled && functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four;
   }, [functionsRuntimeVersion, liveLogsSessionId, isFunctionLogsApiFlightingEnabled]);
 
   useEffect(() => {
@@ -281,7 +277,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   }, []);
 
   useEffect(() => {
-    setShowFilteredLogsMessage(useNewFunctionLogsApi() && !!liveLogsSessionId);
+    setShowFilteredLogsMessage(useNewFunctionLogsApi && !!liveLogsSessionId);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [functionsRuntimeVersion, liveLogsSessionId, isFunctionLogsApiFlightingEnabled]);
@@ -331,7 +327,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       loadingMessage={loadingMessage}
       appInsightsResourceId={appInsightsComponent ? appInsightsComponent.id : ''}
       showFilteredLogsMessage={showFilteredLogsMessage}
-      useNewFunctionLogsApi={useNewFunctionLogsApi()}
+      useNewFunctionLogsApi={useNewFunctionLogsApi}
       {...props}
     />
   );
