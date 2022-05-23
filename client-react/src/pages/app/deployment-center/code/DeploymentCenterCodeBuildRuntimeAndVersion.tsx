@@ -73,6 +73,35 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     }
   };
 
+  const setDefaultValues = () => {
+    const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
+      siteStateContext.isLinuxApp,
+      siteStateContext.isFunctionApp,
+      siteStateContext.isKubeApp,
+      deploymentCenterContext.siteConfig,
+      deploymentCenterContext.configMetadata,
+      deploymentCenterContext.applicationSettings
+    );
+
+    //Note (stpelleg): Java is different
+    if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java17) {
+      defaultStackAndVersion.runtimeVersion = '17.0';
+    } else if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java11) {
+      defaultStackAndVersion.runtimeVersion = '11.0';
+    } else if (
+      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8 ||
+      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8Linux
+    ) {
+      defaultStackAndVersion.runtimeVersion = '8.0';
+    }
+
+    formProps.setFieldValue('runtimeStack', defaultStackAndVersion.runtimeStack);
+    formProps.setFieldValue('runtimeVersion', defaultStackAndVersion.runtimeVersion.toLocaleLowerCase());
+
+    setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersion.runtimeStack));
+    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersion.runtimeVersion, siteStateContext.isLinuxApp));
+  };
+
   const updateJavaContainer = () => {
     if (deploymentCenterContext.siteConfig && formProps.values.runtimeStack && formProps.values.runtimeStack === RuntimeStacks.java) {
       const siteConfigJavaContainer = siteStateContext.isLinuxApp
@@ -185,35 +214,6 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     formProps.setFieldValue('runtimeVersion', '');
     formProps.setFieldValue('runtimeRecommendedVersion', '');
     formProps.setFieldValue('javaContainer', '');
-  };
-
-  const setDefaultValues = () => {
-    const defaultStackAndVersion: RuntimeStackSetting = getRuntimeStackSetting(
-      siteStateContext.isLinuxApp,
-      siteStateContext.isFunctionApp,
-      siteStateContext.isKubeApp,
-      deploymentCenterContext.siteConfig,
-      deploymentCenterContext.configMetadata,
-      deploymentCenterContext.applicationSettings
-    );
-
-    //Note (stpelleg): Java is different
-    if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java17) {
-      defaultStackAndVersion.runtimeVersion = '17.0';
-    } else if (defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java11) {
-      defaultStackAndVersion.runtimeVersion = '11.0';
-    } else if (
-      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8 ||
-      defaultStackAndVersion.runtimeVersion.toLocaleLowerCase() === RuntimeVersionOptions.Java8Linux
-    ) {
-      defaultStackAndVersion.runtimeVersion = '8.0';
-    }
-
-    formProps.setFieldValue('runtimeStack', defaultStackAndVersion.runtimeStack);
-    formProps.setFieldValue('runtimeVersion', defaultStackAndVersion.runtimeVersion.toLocaleLowerCase());
-
-    setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersion.runtimeStack));
-    setDefaultVersion(getDefaultVersionDisplayName(defaultStackAndVersion.runtimeVersion, siteStateContext.isLinuxApp));
   };
 
   useEffect(() => {
