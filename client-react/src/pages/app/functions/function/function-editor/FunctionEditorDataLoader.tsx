@@ -379,14 +379,30 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     liveLogsSessionId?: string
   ): NetAjaxSettings | undefined => {
     if (site) {
-      const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
+      const baseUrl = Url.getMainUrl(site);
+      const input = newFunctionInfo.properties.test_data || '';
+
+      let data: unknown = { input };
+      let url = `${baseUrl}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
+      if (functionEditorData.isAuthenticationEventTriggerFunction(newFunctionInfo)) {
+        try {
+          data = JSON.parse(input);
+        } catch {
+          /** @note (joechung): Treat invalid JSON as string input. */
+        }
+
+        const functionKey = xFunctionKey ?? functionKeys.default;
+        const code = [...functionUrls, ...hostUrls, ...systemUrls].find(urlObj => urlObj.key === functionKey)?.data;
+        url = functionEditorData.getAuthenticationTriggerUrl(baseUrl, newFunctionInfo, code);
+      }
+
       const headers = getHeaders([], xFunctionKey);
 
       return {
         uri: url,
         type: 'POST',
         headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data: { input: newFunctionInfo.properties.test_data || '' },
+        data,
       };
     }
     return undefined;
