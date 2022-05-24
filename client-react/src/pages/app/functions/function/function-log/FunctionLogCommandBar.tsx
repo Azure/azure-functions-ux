@@ -12,6 +12,7 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import Url from '../../../../../utils/url';
 import { SiteStateContext } from '../../../../../SiteState';
 import { IContextualMenuItem, ActionButton, IButtonProps, CommandBar, ICommandBarItemProps } from '@fluentui/react';
+import { getTelemetryInfo } from '../../common/FunctionsUtility';
 
 interface FunctionLogCommandBarProps {
   isPanelVisible: boolean;
@@ -27,6 +28,7 @@ interface FunctionLogCommandBarProps {
   toggleConnection: () => void;
   clear: () => void;
   toggleMaximize: () => void;
+  useNewFunctionLogsApi?: boolean;
   appInsightsResourceId?: string;
   leftAlignMainToolbarItems?: boolean;
   showLoggingOptionsDropdown?: boolean;
@@ -53,6 +55,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     leftAlignMainToolbarItems,
     showLoggingOptionsDropdown,
     selectedLoggingOption,
+    useNewFunctionLogsApi,
   } = props;
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -117,6 +120,9 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       if (selectedLoggingOption === LoggingOptions.appInsights) {
         setIsLoggingOptionConfirmCallOutVisible(true);
       } else {
+        portalContext.log(
+          getTelemetryInfo('info', 'selectedLoggingOption', 'clicked', { selectedLoggingOption: LoggingOptions.appInsights })
+        );
         props.setSelectedLoggingOption(LoggingOptions.appInsights);
         LogService.trackEvent(LogCategories.functionLog, 'appInsights-logging-selected', {
           resourceId: siteStateContext.resourceId,
@@ -284,7 +290,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   const openFeedbackBlade = () => {
-    const featureName = selectedLoggingOption === LoggingOptions.appInsights ? 'FunctionLogs-AppInsights' : 'FunctionLogs-FileBased';
+    const featureName = getFeatureName();
     portalContext.openBlade({
       detailBlade: 'InProductFeedbackBlade',
       extension: 'HubsExtension',
@@ -298,6 +304,13 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
         surveyId: `${featureName}-0420`,
       },
     });
+  };
+
+  const getFeatureName = () => {
+    if (selectedLoggingOption === LoggingOptions.fileBased) {
+      return 'FunctionLogs-FileBased';
+    }
+    return useNewFunctionLogsApi ? 'FunctionLogs-AppInsights-V2' : 'FunctionLogs-AppInsights-V1';
   };
 
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
