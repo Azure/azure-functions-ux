@@ -1,5 +1,6 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
+const dotnet5EOL = new Date(2022, 5, 8).toString();
 const dotnetCore3Point0EOL = new Date(2020, 3, 3).toString();
 const dotnetCore2Point2EOL = new Date(2019, 12, 23).toString();
 const dotnetCore2Point1EOL = new Date(2021, 7, 21).toString();
@@ -44,6 +45,7 @@ export const dotnetStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v5.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -52,6 +54,7 @@ export const dotnetStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '5.0.x',
               },
+              endOfLifeDate: dotnet5EOL,
             },
           },
         },
