@@ -70,7 +70,6 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    useNewFunctionLogsApi: 'useNewFunctionLogsApi', //websitesextension_ext=appsvc.useNewFunctionLogsApi%3Dtrue
   };
 
   public static readonly AppDensityLimit = 8;
@@ -330,11 +329,13 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     linuxPortalEditing: 'linux-portal-editing-variant',
     portalCallOnEditor: 'enable-portal-call-editor',
+    newFunctionLogsApi: 'use-new-function-logs-api',
   };
 
   public static ControlFlight = {
     linuxPortalEditing: 'linux-portal-editing-default',
     portalCallOnEditor: 'disable-portal-call-editor',
+    newFunctionLogsApi: 'use-old-function-logs-api',
   };
 }
 
