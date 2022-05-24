@@ -125,6 +125,27 @@ export class KubeApp extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.platform64BitSupported] = {
+      id: ScenarioIds.platform64BitSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.classicPipelineModeSupported] = {
+      id: ScenarioIds.classicPipelineModeSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.enableTLSVersion] = {
+      id: ScenarioIds.enableTLSVersion,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
