@@ -13,7 +13,6 @@ import { MinTlsVersion, SslState } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
-import { isKubeApp } from '../../../../utils/arm-utils';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -25,7 +24,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
-  const isKube = isKubeApp(site);
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
@@ -54,8 +52,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   return (
     <div>
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' &&
-        values.currentlySelectedStack !== 'java' &&
-        !isKube && (
+        values.currentlySelectedStack !== 'java' && (
           <Field
             name="config.properties.use32BitWorkerProcess"
             dirty={values.config.properties.use32BitWorkerProcess !== initialValues.config.properties.use32BitWorkerProcess}
@@ -76,7 +73,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ]}
           />
         )}
-      {scenarioChecker.checkScenario(ScenarioIds.classicPipelineModeSupported, { site }).status !== 'disabled' && !isKube && (
+      {scenarioChecker.checkScenario(ScenarioIds.classicPipelineModeSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.managedPipelineMode"
           dirty={values.config.properties.managedPipelineMode !== initialValues.config.properties.managedPipelineMode}
@@ -97,7 +94,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         />
       )}
       {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
-        !isKube &&
         (disableFtp() ? (
           <DropdownNoFormik
             onChange={() => {}}
@@ -140,7 +136,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ]}
           />
         ))}
-      {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && !isKube && (
+      {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.http20Enabled"
           dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
@@ -161,7 +157,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
-      {scenarioChecker.checkScenario(ScenarioIds.webSocketsSupported, { site }).status !== 'disabled' && !isKube && (
+      {scenarioChecker.checkScenario(ScenarioIds.webSocketsSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.webSocketsEnabled"
           dirty={values.config.properties.webSocketsEnabled !== initialValues.config.properties.webSocketsEnabled}
@@ -182,7 +178,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
-      {scenarioChecker.checkScenario(ScenarioIds.alwaysOnSupported, { site }).status !== 'disabled' && !isKube && (
+      {scenarioChecker.checkScenario(ScenarioIds.alwaysOnSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.alwaysOn"
           dirty={values.config.properties.alwaysOn !== initialValues.config.properties.alwaysOn}
@@ -205,7 +201,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
-      {scenarioChecker.checkScenario(ScenarioIds.clientAffinitySupported, { site }).status !== 'disabled' && !isKube && (
+      {scenarioChecker.checkScenario(ScenarioIds.clientAffinitySupported, { site }).status !== 'disabled' && (
         <Field
           name="site.properties.clientAffinityEnabled"
           dirty={values.site.properties.clientAffinityEnabled !== initialValues.site.properties.clientAffinityEnabled}
@@ -258,7 +254,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           label={t('minTlsVersionLabel')}
           infoBubbleMessage={t('minTlsVersionInfoBubbleMessage')}
           dirty={values.config.properties.minTlsVersion !== initialValues.config.properties.minTlsVersion}
-          disabled={isKube}
+          disabled={scenarioChecker.checkScenario(ScenarioIds.enableTLSVersion, { site }).status === 'disabled'}
           options={[
             {
               key: MinTlsVersion.tLS10,
