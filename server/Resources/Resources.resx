@@ -7412,5 +7412,96 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="containerApp_console_custom" xml:space="preserve">
         <value>Custom</value>
-    </data>   
+    </data>
+    <data name="new_parenthesized" xml:space="preserve">
+        <value>(new)</value>
+        <comment>Prefix for dropdown option text indicating their newness, e.g., (new) CosmosDatabase</comment>
+    </data>
+    <data name="cosmosDb_apiType_coreSql" xml:space="preserve">
+        <value>Core (SQL)</value>
+    </data>
+    <data name="cosmosDb_error_accountNameRequired" xml:space="preserve">
+        <value>The account name is required.</value>
+    </data>
+    <data name="cosmosDb_error_accountNameInvalid" xml:space="preserve">
+        <value>The account name must consist of minimum 3 and maximum 44 lowercase letters, numbers, or '-' characters.</value>
+    </data>
+    <data name="cosmosDb_error_accountNameTaken" xml:space="preserve">
+        <value>The account name is already taken.</value>
+    </data>
+    <data name="cosmosDb_error_containerAlreadyExists" xml:space="preserve">
+        <value>The container already exists.</value>
+    </data>
+    <data name="cosmosDb_error_containerNameCharacters" xml:space="preserve">
+        <value>The container name cannot contain any special characters.</value>
+    </data>
+    <data name="cosmosDb_error_containerNameSpace" xml:space="preserve">
+        <value>The container name cannot end with a space.</value>
+    </data>
+    <data name="cosmosDb_error_databaseAlreadyExists" xml:space="preserve">
+        <value>The database already exists.</value>
+    </data>
+    <data name="cosmosDb_error_databaseNameCharacters" xml:space="preserve">
+        <value>The database name cannot contain any special characters.</value>
+    </data>
+    <data name="cosmosDb_error_databaseNameSpace" xml:space="preserve">
+        <value>The database name cannot end with a space.</value>
+    </data>
+    <data name="cosmosDb_error_fieldRequired" xml:space="preserve">
+        <value>The field is required.</value>
+    </data>
+    <data name="cosmosDb_label_accountName" xml:space="preserve">
+        <value>Account name</value>
+    </data>
+    <data name="cosmosDb_label_apiType" xml:space="preserve">
+        <value>API</value>
+    </data>
+    <data name="nodeStackLearnMore" xml:space="preserve">
+        <value>Node version is defined through the {0} app setting.</value>
+    </data>
+    <data name="cosmosDb_label_container" xml:space="preserve">
+        <value>Container</value>
+    </data>
+    <data name="cosmosDb_label_cosmosDbAccount" xml:space="preserve">
+        <value>Cosmos DB account</value>
+    </data>
+    <data name="cosmosDb_label_createAContainer" xml:space="preserve">
+        <value>Create a container</value>
+    </data>
+    <data name="cosmosDb_label_createADatabase" xml:space="preserve">
+        <value>Create a database</value>
+    </data>
+    <data name="cosmosDb_label_createAnAccount" xml:space="preserve">
+        <value>Create an account</value>
+    </data>
+    <data name="cosmosDb_label_database" xml:space="preserve">
+        <value>Database</value>
+    </data>
+    <data name="cosmosDb_newAccountDialog_description" xml:space="preserve">
+        <value>Create a new serverless account in the same Azure region and resource group as the function. For more options, go to </value>
+    </data>
+    <data name="cosmosDb_newAccountDialog_link" xml:space="preserve">
+        <value>Create Cosmos DB account.</value>
+    </data>
+    <data name="cosmosDb_newAccountDialog_title" xml:space="preserve">
+        <value>Create a Cosmos DB account</value>
+    </data>
+    <data name="cosmosDb_placeholder_noExistingAccounts" xml:space="preserve">
+        <value>Select an account</value>
+    </data>
+    <data name="cosmosDb_placeholder_selectAContainer" xml:space="preserve">
+        <value>Select a container</value>
+    </data>
+    <data name="cosmosDb_placeholder_selectADatabase" xml:space="preserve">
+        <value>Select a database</value>
+    </data>
+    <data name="cosmosDb_placeholder_selectAnAccount" xml:space="preserve">
+        <value>Select an account</value>
+    </data>
+    <data name="containerApp_console_startUpCommandAriaLabel" xml:space="preserve">
+        <value>Custom start up command</value>
+    </data>
+    <data name="containerApp_console_cancel" xml:space="preserve">
+        <value>Cancel</value>
+    </data>
 </root>

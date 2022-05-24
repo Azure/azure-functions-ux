@@ -1,7 +1,6 @@
 ﻿import * as qpschema from './QuickPulseSchema';
 import { QPSchemaConfigurationMetric, QPSchemaDocumentStreamInfo, RequestFieldsEnum, DependencyFieldsEnum } from './QuickPulseSchema';
 import axios, { AxiosRequestConfig } from 'axios';
-import Url from '../utils/url';
 import { CommonConstants } from '../utils/CommonConstants';
 import { TelemetryTypesEnum } from '.';
 
@@ -84,9 +83,9 @@ export class QuickPulseQueryLayer {
     metrics: qpschema.QPSchemaConfigurationMetric[],
     documentStreams: QPSchemaDocumentStreamInfo[],
     trustedAuthorizedAgents: string[],
-    functionsRuntimeVersion?: string
+    useNewFunctionLogsApi: boolean
   ) {
-    if (this.useNewFunctionLogsApi(functionsRuntimeVersion)) {
+    if (useNewFunctionLogsApi) {
       this.setConfigurationV2();
     } else {
       this._configurationVersion++;
@@ -129,14 +128,13 @@ export class QuickPulseQueryLayer {
     authorizationHeader: string,
     querySessionInfo: boolean,
     instanceId: string,
-    liveLogsSessionId?: string,
-    functionsRuntimeVersion?: string
+    useNewFunctionLogsApi: boolean,
+    liveLogsSessionId?: string
   ) {
-    const useNewFunctionLogsApi = this.useNewFunctionLogsApi(functionsRuntimeVersion);
     this._queryServersInfo = querySessionInfo;
 
     //note(stpelleg): Need to update the configuration each time we recieve a new session id
-    if (useNewFunctionLogsApi && liveLogsSessionId && this._detailedSessionInfo?.liveLogsSessionId !== liveLogsSessionId) {
+    if (useNewFunctionLogsApi && !!liveLogsSessionId && this._detailedSessionInfo?.liveLogsSessionId !== liveLogsSessionId) {
       this._detailedSessionInfo.liveLogsSessionId = liveLogsSessionId || '';
       this.setConfigurationV2();
     }
@@ -152,13 +150,6 @@ export class QuickPulseQueryLayer {
       useNewFunctionLogsApi ? this.getDetailedRequestV2.bind(this) : this.getDetailedRequest.bind(this),
       this._detailedSessionInfo,
       useNewFunctionLogsApi
-    );
-  }
-
-  private useNewFunctionLogsApi(functionsRuntimeVersion?: string) {
-    return (
-      !!Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi) &&
-      functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four
     );
   }
 

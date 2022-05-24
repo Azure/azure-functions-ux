@@ -12,7 +12,6 @@ import DebuggingWindows from '../GeneralSettings/DebuggingWindows';
 import DebuggingLinux from '../GeneralSettings/DebuggingLinux';
 import { isEqual } from 'lodash-es';
 import ClientCert from '../GeneralSettings/ClientCert/ClientCert';
-import { isKubeApp } from '../../../../utils/arm-utils';
 
 const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values } = props;
@@ -34,15 +33,13 @@ const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   return (
     <>
       <Stacks {...props} />
-      {/* NOTE (krmitta): Need to hide platform settings for KubeApp as elements within are not shown */}
-      {!isKubeApp(site) && (
-        <>
-          <h3>{t('platformSettings')}</h3>
-          <div className={settingsWrapper}>
-            <Platform {...props} />
-          </div>
-        </>
-      )}
+      {/* NOTE (krmitta): Need to hide platform settings except TLS settings for KubeApp as elements within are not shown */}
+      <>
+        <h3>{t('platformSettings')}</h3>
+        <div className={settingsWrapper}>
+          <Platform {...props} />
+        </div>
+      </>
       {getDebuggingRender()}
       <SlotAutoSwap {...props} />
       <ClientCert {...props} />

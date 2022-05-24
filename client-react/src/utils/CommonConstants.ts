@@ -24,13 +24,16 @@ export class CommonConstants {
     antaresApiVersion20181101: '2018-11-01',
     antaresApiVersion20201201: '2020-12-01',
     armBatchApi20151101: '2015-11-01',
+    armDeploymentApiVersion20210401: '2021-04-01',
     resourceGraphApiVersion20180901preview: '2018-09-01-preview',
+    sitesApiVersion20201201: '2020-12-01',
     storageApiVersion20180701: '2018-07-01',
     storageApiVersion20210401: '2021-04-01',
     eventHubApiVersion20150801: '2015-08-01',
     iotHubApiVersion20170119: '2017-01-19',
     serviceBusApiVersion20150801: '2015-08-01',
     documentDBApiVersion20150408: '2015-04-08',
+    documentDBApiVersion20191212: '2019-12-12',
     documentDBApiVersion20210415: '2021-04-15',
     appInsightsTokenApiVersion20150501: '2015-05-01',
     quickpulseTokenApiVersion20211014: '2021-10-14',
@@ -67,7 +70,6 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    useNewFunctionLogsApi: 'useNewFunctionLogsApi', //websitesextension_ext=appsvc.useNewFunctionLogsApi%3Dtrue
   };
 
   public static readonly AppDensityLimit = 8;
@@ -261,6 +263,20 @@ export class CommonConstants {
 
   //min length is 8, must contain uppercase, lowercase, number, and symbol
   public static readonly passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
+
+  public static readonly CosmosDbDefaults = {
+    containerName: 'CosmosContainer',
+    databaseName: 'CosmosDatabase',
+    partitionKeyPath: '/id',
+  };
+
+  public static readonly CosmosDbTypes = {
+    globalDocumentDb: 'GlobalDocumentDB',
+  };
+
+  public static readonly ResourceTypes = {
+    cosmosDbAccount: 'Microsoft.DocumentDB/databaseAccounts',
+  };
 }
 
 export enum WorkerRuntimeLanguages {
@@ -313,11 +329,13 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     linuxPortalEditing: 'linux-portal-editing-variant',
     portalCallOnEditor: 'enable-portal-call-editor',
+    newFunctionLogsApi: 'use-new-function-logs-api',
   };
 
   public static ControlFlight = {
     linuxPortalEditing: 'linux-portal-editing-default',
     portalCallOnEditor: 'disable-portal-call-editor',
+    newFunctionLogsApi: 'use-old-function-logs-api',
   };
 }
 
@@ -327,3 +345,7 @@ export class Monitoring {
 }
 
 export const ScmHosts = ['.scm.azurewebsites.net', '.scm.azurewebsites.us', '.scm.chinacloudsites.cn', '.scm.azurewebsites.de'];
+
+export const KeyBoard = {
+  shiftTab: '\x1B[Z',
+};

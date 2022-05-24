@@ -28,10 +28,13 @@ import {
   FrameBladeParams,
   PortalTheme,
   IFeatureInfo,
+  HighContrastTheme,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import { darkTheme } from './theme/dark';
 import { lightTheme } from './theme/light';
+import { blackHighContrast } from './theme/blackHighContrast';
+import { whiteHighContrast } from './theme/whiteHighContrast';
 import { Guid } from './utils/Guid';
 import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
@@ -94,6 +97,7 @@ export default class PortalCommunicator {
   }
 
   public currentTheme = 'lightTheme';
+  public currentContrast: number;
   private operationStream = new Subject<IDataMessage<any>>();
   private notificationStartStream = new Subject<INotificationStartedInfo>();
   private frameId;
@@ -544,11 +548,20 @@ export default class PortalCommunicator {
 
     if (methodName === Verbs.sendStartupInfo) {
       const startupInfo = data as IStartupInfo<any>;
-      if (this.currentTheme !== startupInfo.theme) {
-        const newTheme = startupInfo.theme === PortalTheme.dark ? darkTheme : lightTheme;
+      if (this.currentTheme !== startupInfo.theme || this.currentContrast !== startupInfo.highContrastKey) {
+        const newTheme =
+          startupInfo.highContrastKey === HighContrastTheme.Black
+            ? blackHighContrast
+            : startupInfo.highContrastKey === HighContrastTheme.White
+            ? whiteHighContrast
+            : startupInfo.theme === PortalTheme.dark
+            ? darkTheme
+            : lightTheme;
+
         loadTheme(newTheme);
         this.setTheme(newTheme as ThemeExtended);
         this.currentTheme = startupInfo.theme;
+        this.currentContrast = startupInfo.highContrastKey;
       }
       this.setArmEndpointInternal(startupInfo.armEndpoint);
       this.setArmTokenInternal(startupInfo.token);

@@ -2,7 +2,7 @@ import { IPalette } from '@fluentui/react';
 import { ThemeExtended } from './SemanticColorsExtended';
 import { AzurePortalColors as LightThemePortalColors } from './light';
 
-const AzurePortalColors = {
+export const AzurePortalColors = {
   lineSeparator: 'rgba(107, 132, 156, 0.25)',
   sectionDividerScrollbar: 'rgba(107, 132, 156, 0.35)',
   background: '#111111',
@@ -46,7 +46,7 @@ const AzurePortalColors = {
   cardBackgroundColor: '#2b2b2b',
 };
 
-const themePalette: IPalette = {
+export const themePalette: IPalette = {
   themePrimary: '#4894fe',
   themeLighterAlt: '#03070a',
   themeLighter: '#0a1a27',
@@ -99,7 +99,7 @@ const themePalette: IPalette = {
   greenLight: '#bad80a',
 };
 
-const semanticColors = {
+export const semanticColors = {
   bodyBackground: AzurePortalColors.background,
   bodyStandoutBackground: AzurePortalColors.sectionBackground,
   bodyBackgroundHovered: AzurePortalColors.background,

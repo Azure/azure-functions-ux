@@ -65,6 +65,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [enablePortalCall, setEnablePortalCall] = useState(false);
   const [isLinuxSkuFlightingEnabled, setIsLinuxSkuFlightingEnabled] = useState(false);
+  const [isFunctionLogsApiFlightingEnabled, setIsFunctionLogsApiFlightingEnabled] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -90,6 +91,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       hostStatusResponse,
       enablePortalCall,
       isLinuxSkuFlightingEnabled,
+      isFunctionLogsApiFlightingEnabled,
     ] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
       functionEditorData.getFunctionInfo(resourceId),
@@ -98,10 +100,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       SiteService.fetchFunctionsHostStatus(siteResourceId),
       portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor),
       portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.linuxPortalEditing),
+      portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.newFunctionLogsApi),
     ]);
 
     setEnablePortalCall(enablePortalCall);
     setIsLinuxSkuFlightingEnabled(isLinuxSkuFlightingEnabled);
+    setIsFunctionLogsApiFlightingEnabled(isFunctionLogsApiFlightingEnabled);
 
     // NOTE (krmitta): App-Settings are going to be used to fetch the workerRuntime,
     // for logging purposes only. Thus we are not going to block on this.
@@ -375,14 +379,30 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     liveLogsSessionId?: string
   ): NetAjaxSettings | undefined => {
     if (site) {
-      const url = `${Url.getMainUrl(site)}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
+      const baseUrl = Url.getMainUrl(site);
+      const input = newFunctionInfo.properties.test_data || '';
+
+      let data: unknown = { input };
+      let url = `${baseUrl}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
+      if (functionEditorData.isAuthenticationEventTriggerFunction(newFunctionInfo)) {
+        try {
+          data = JSON.parse(input);
+        } catch {
+          /** @note (joechung): Treat invalid JSON as string input. */
+        }
+
+        const functionKey = xFunctionKey ?? functionKeys.default;
+        const code = [...functionUrls, ...hostUrls, ...systemUrls].find(urlObj => urlObj.key === functionKey)?.data;
+        url = functionEditorData.getAuthenticationTriggerUrl(baseUrl, newFunctionInfo, code);
+      }
+
       const headers = getHeaders([], xFunctionKey);
 
       return {
         uri: url,
         type: 'POST',
         headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data: { input: newFunctionInfo.properties.test_data || '' },
+        data,
       };
     }
     return undefined;
@@ -765,6 +785,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             addCorsRule={addCorsRule}
             enablePortalCall={enablePortalCall}
             isLinuxSkuFlightingEnabled={isLinuxSkuFlightingEnabled}
+            isFunctionLogsApiFlightingEnabled={isFunctionLogsApiFlightingEnabled}
           />
         </div>
       ) : (
