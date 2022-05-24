@@ -23,6 +23,8 @@ import {
   validateGitHubActionStacks,
   validateStaticSiteInStacks,
   validateStaticSiteFilter,
+  validateGoInStacks,
+  validateGoInFilter,
 } from './validations';
 
 const stacksService = new StacksService20201001();
@@ -231,6 +233,24 @@ describe('WebApp Stacks Test 2020-10-01', () => {
     it('should validate the Static Site stack filter', done => {
       const stacks = stacksService.getWebAppStacks(undefined, 'staticsite');
       validateStaticSiteFilter(stacks);
+      done();
+    });
+  });
+
+  // Test Go stack
+  describe('Test the Go stack', () => {
+    it('should validate the Go stack', done => {
+      const stacks = stacksService.getWebAppStacks();
+      validateGoInStacks(stacks);
+      done();
+    });
+  });
+
+  // Test Go stack filter
+  describe('Test the Go stack filter', () => {
+    it('should validate the Go stack filter', done => {
+      const stacks = stacksService.getWebAppStacks(undefined, 'go');
+      validateGoInFilter(stacks);
       done();
     });
   });

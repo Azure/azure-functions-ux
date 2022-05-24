@@ -21,6 +21,7 @@ import { rubyStack as rubyWebAppStack, rubyStackNonIsoDates as rubyWebAppStackNo
 import { javaStack as javaWebAppStack, javaStackNonIsoDates as javaWebAppStackNonIsoDates } from '../stacks/web-app-stacks/Java';
 import { javaContainersStack as javaContainersWebAppStack } from '../stacks/web-app-stacks/JavaContainers';
 import { staticSiteStack as staticSiteWebAppStack } from '../stacks/web-app-stacks/StaticSite';
+import { golangStack, golangStackWithNonIsoDates } from '../stacks/web-app-stacks/Golang';
 
 @Injectable()
 export class StacksService20201001 {
@@ -70,6 +71,7 @@ export class StacksService20201001 {
     const javaStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? javaWebAppStack : javaWebAppStackNonIsoDates));
     const javaContainersStackCopy = JSON.parse(JSON.stringify(javaContainersWebAppStack));
     const staticSiteStackCopy = JSON.parse(JSON.stringify(staticSiteWebAppStack));
+    const goStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? golangStack : golangStackWithNonIsoDates));
 
     let stacks: WebAppStack[] = [
       dotnetStackCopy,
@@ -80,6 +82,7 @@ export class StacksService20201001 {
       javaStackCopy,
       javaContainersStackCopy,
       staticSiteStackCopy,
+      goStackCopy,
     ];
 
     if (stackValue) {
