@@ -258,7 +258,7 @@ function validateJavaStack(javaStack) {
   expect(javaStack.value).to.equal('java');
   expect(javaStack.preferredOs).to.equal('linux');
   expect(javaStack.majorVersions.length).to.equal(4);
-  expect(javaStack).to.deep.equal(hardCodedJavaStack);
+  expect(javaStack).to.deep.equal(hardCodedGolangStack);
 }
 
 export function validateJavaContainersInStacks(stacks) {
