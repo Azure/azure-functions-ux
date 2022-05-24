@@ -2155,9 +2155,6 @@ export class PortalResources {
   public static deploymentCenterOAuthRepositoryPlaceholder = 'deploymentCenterOAuthRepositoryPlaceholder';
   public static deploymentCenterOAuthBranch = 'deploymentCenterOAuthBranch';
   public static deploymentCenterOAuthBranchPlaceholder = 'deploymentCenterOAuthBranchPlaceholder';
-  public static deploymentCenterRuntimeStackPlaceholder = 'deploymentCenterRuntimeStackPlaceholder';
-  public static deploymentCenterRuntimeVersionPlaceholder = 'deploymentCenterRuntimeVersionPlaceholder';
-  public static deploymentCenterJavaContainerPlaceholder = 'deploymentCenterJavaContainerPlaceholder';
   public static deploymentCenterCodeSettingsSourcPlaceholder = 'deploymentCenterCodeSettingsSourcPlaceholder';
   public static deploymentCenterCodeSettingsSourceContinuousDeploymentHeader =
     'deploymentCenterCodeSettingsSourceContinuousDeploymentHeader';
