@@ -28,7 +28,7 @@ const RuntimeScaleMonitoring: React.FC<AppSettingsFormProps & WithTranslation> =
       const exactRuntimeVersionParsed = FunctionsRuntimeVersionHelper.parseExactRuntimeVersion(exactRuntimeVersion || null);
       const initialRuntimeVersionParsed = FunctionsRuntimeVersionHelper.parseConfiguredRuntimeVersion(initialRuntimeVersion);
 
-      const supportedVersions = [RuntimeExtensionMajorVersions.v2, RuntimeExtensionMajorVersions.v3];
+      const supportedVersions = [RuntimeExtensionMajorVersions.v2, RuntimeExtensionMajorVersions.v3, RuntimeExtensionMajorVersions.v4];
       supportedVersions.forEach(version => {
         if (initialRuntimeVersionParsed === version || exactRuntimeVersionParsed === version) {
           isSupported = true;
