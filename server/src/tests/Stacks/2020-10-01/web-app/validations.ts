@@ -258,7 +258,7 @@ function validateJavaStack(javaStack) {
   expect(javaStack.value).to.equal('java');
   expect(javaStack.preferredOs).to.equal('linux');
   expect(javaStack.majorVersions.length).to.equal(4);
-  expect(javaStack).to.deep.equal(hardCodedGolangStack);
+  expect(javaStack).to.deep.equal(hardCodedJavaStack);
 }
 
 export function validateJavaContainersInStacks(stacks) {
@@ -294,7 +294,7 @@ function validateGoStack(goStack) {
   expect(goStack.value).to.equal('go');
   expect(goStack.preferredOs).to.equal('linux');
   expect(goStack.majorVersions.length).to.equal(1);
-  expect(goStack).to.deep.equal(hardCodedRubyStack);
+  expect(goStack).to.deep.equal(hardCodedGolangStack);
 }
 
 export function validateGitHubActionStacks(stacks) {
