@@ -9,7 +9,7 @@ import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
 import PortalCommunicator from '../portal-communicator';
 import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
-import { CommonConstants, ExperimentationConstants } from './CommonConstants';
+import { CommonConstants } from './CommonConstants';
 import FunctionAppService from './FunctionAppService';
 import LogService from './LogService';
 import RbacConstants from './rbac-constants';
