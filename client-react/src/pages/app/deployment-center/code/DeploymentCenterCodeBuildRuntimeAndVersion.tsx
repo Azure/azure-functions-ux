@@ -254,7 +254,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     <>
       <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
 
-      {!defaultStack && !defaultVersion ? (
+      {!defaultStack || !defaultVersion ? (
         <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
           <div>
             {t('deploymentCenterConfigureRuntimeMessage')}
