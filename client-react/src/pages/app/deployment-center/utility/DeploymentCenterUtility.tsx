@@ -25,6 +25,7 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Link } from '@fluentui/react';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 export const getLogId = (component: string, event: string): string => {
   return `${component}/${event}`;
@@ -83,10 +84,12 @@ const getRuntimeStackVersionForWindows = (
   siteConfig: ArmObj<SiteConfig>,
   applicationSettings: ArmObj<KeyValue<string>>
 ) => {
-  const metadataStack = configMetadata.properties['CURRENT_STACK'] && configMetadata.properties['CURRENT_STACK'].toLocaleLowerCase();
+  const metadataStack =
+    configMetadata.properties[DeploymentCenterConstants.metadataCurrentStack] &&
+    configMetadata.properties[DeploymentCenterConstants.metadataCurrentStack].toLocaleLowerCase();
 
   if (stack === RuntimeStacks.node) {
-    return applicationSettings.properties['WEBSITE_NODE_DEFAULT_VERSION'];
+    return applicationSettings.properties[DeploymentCenterConstants.appSettings_WEBSITE_NODE_DEFAULT_VERSION];
   } else if (stack === RuntimeStacks.python) {
     return siteConfig.properties.pythonVersion;
   } else if (stack === RuntimeStacks.java) {
@@ -110,8 +113,8 @@ const getRuntimeStackVersionForWindows = (
 };
 
 const getWebAppRuntimeStackForWindows = (configMetadata: ArmObj<KeyValue<string>>) => {
-  if (configMetadata.properties['CURRENT_STACK']) {
-    const metadataStack = configMetadata.properties['CURRENT_STACK'].toLocaleLowerCase();
+  if (configMetadata.properties[DeploymentCenterConstants.metadataCurrentStack]) {
+    const metadataStack = configMetadata.properties[DeploymentCenterConstants.metadataCurrentStack].toLocaleLowerCase();
 
     return metadataStack === 'dotnet' || metadataStack === 'dotnetcore' ? RuntimeStacks.dotnet : metadataStack;
   }

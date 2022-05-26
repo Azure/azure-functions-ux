@@ -23,7 +23,7 @@ export const settingsWrapper = style({
 
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
-  const { values, initialValues, errors } = props;
+  const { values, initialValues, tab, errors } = props;
 
   const site = useContext(SiteContext);
 
@@ -67,7 +67,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
 
   return (
-    <Pivot getTabId={getPivotTabId} overflowBehavior={OverflowBehavior.menu}>
+    <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
       <PivotItem
         className={pivotWrapper}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
