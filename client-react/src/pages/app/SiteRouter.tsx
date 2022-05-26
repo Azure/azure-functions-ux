@@ -150,7 +150,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
 
-                    <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
+                    <AppSettingsLoadable resourceId={value.resourceId} tab={value.featureInfo?.data?.tab} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
                     <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
                     <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />

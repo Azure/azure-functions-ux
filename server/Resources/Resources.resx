@@ -6360,6 +6360,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
         <value>Version</value>
     </data>
+    <data name="deploymentCenterConfigureRuntimeMessage" xml:space="preserve">
+        <value>A runtime stack has not been configured for this app. Select a runtime stack here. </value>
+    </data>
+    <data name="deploymentCenterConfigureRuntimeLink" xml:space="preserve">
+        <value>Configure runtime</value>
+    </data>
     <data name="deploymentCenterImageAndTagError" xml:space="preserve">
         <value>There was an error fetching the image and tag.</value>
     </data>
