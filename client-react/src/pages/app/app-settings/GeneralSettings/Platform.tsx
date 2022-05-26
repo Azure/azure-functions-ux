@@ -254,6 +254,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           label={t('minTlsVersionLabel')}
           infoBubbleMessage={t('minTlsVersionInfoBubbleMessage')}
           dirty={values.config.properties.minTlsVersion !== initialValues.config.properties.minTlsVersion}
+          disabled={scenarioChecker.checkScenario(ScenarioIds.enableTLSVersion, { site }).status === 'disabled'}
           options={[
             {
               key: MinTlsVersion.tLS10,

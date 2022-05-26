@@ -70,7 +70,7 @@ export interface FunctionEditorProps {
   testData?: string;
   workerRuntime?: string;
   enablePortalCall?: boolean;
-  isLinuxSkuFlightingEnabled?: boolean;
+  isFunctionLogsApiFlightingEnabled?: boolean;
 }
 
 export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
@@ -95,7 +95,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     workerRuntime,
     addCorsRule,
     enablePortalCall,
-    isLinuxSkuFlightingEnabled,
+    isFunctionLogsApiFlightingEnabled,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -472,7 +472,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           type={MessageBarType.error}
         />
       );
-    } else if (FunctionAppService.enableEditingForLinux(site, !!isLinuxSkuFlightingEnabled, workerRuntime) && isLinuxDynamic(site)) {
+    } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
       // NOTE(krmitta): Banner is only visible in case of Linux Consumption
       return (
         <CustomBanner
@@ -518,7 +518,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   useEffect(() => {
     fetchData();
     setLiveLogsSessionId(Guid.newGuid());
-    if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.useNewFunctionLogsApi)) {
+    if (isFunctionLogsApiFlightingEnabled && runtimeVersion === CommonConstants.FunctionsRuntimeVersions.four) {
       setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
       expandLogPanel();
     } else {

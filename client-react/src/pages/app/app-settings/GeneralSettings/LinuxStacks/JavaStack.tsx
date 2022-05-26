@@ -223,17 +223,15 @@ const JavaStack: React.SFC<StackProps> = props => {
   };
 
   const onContainerKeyChange = (newMajorVersion: string, newContainerKey: string) => {
-    if (newContainerKey !== currentContainerKey) {
-      const containerVersionDropdownOptions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(
-        newMajorVersion,
-        newContainerKey
-      );
-      setCurrentContainerVersionDropdownOptions(containerVersionDropdownOptions);
-      if (containerVersionDropdownOptions.length > 0) {
-        setFieldValue('config.properties.linuxFxVersion', containerVersionDropdownOptions[0].key);
-      }
-      setCurrentContainerKey(newContainerKey);
+    const containerVersionDropdownOptions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(
+      newMajorVersion,
+      newContainerKey
+    );
+    setCurrentContainerVersionDropdownOptions(containerVersionDropdownOptions);
+    if (containerVersionDropdownOptions.length > 0) {
+      setFieldValue('config.properties.linuxFxVersion', containerVersionDropdownOptions[0].key);
     }
+    setCurrentContainerKey(newContainerKey);
   };
 
   const isMajorVersionDirty = () => {

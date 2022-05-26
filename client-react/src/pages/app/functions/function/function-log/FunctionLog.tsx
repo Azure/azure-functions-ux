@@ -41,6 +41,7 @@ interface FunctionLogProps {
   selectedLoggingOption?: LoggingOptions;
   setSelectedLoggingOption?: (options: LoggingOptions) => void;
   showFilteredLogsMessage?: boolean;
+  useNewFunctionLogsApi?: boolean;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -70,6 +71,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     showLoggingOptionsDropdown,
     setSelectedLoggingOption,
     showFilteredLogsMessage,
+    useNewFunctionLogsApi,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
@@ -201,6 +203,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         showLoggingOptionsDropdown={showLoggingOptionsDropdown}
         selectedLoggingOption={selectedLoggingOption}
         setSelectedLoggingOption={setSelectedLoggingOption}
+        useNewFunctionLogsApi={useNewFunctionLogsApi}
       />
       {isExpanded && (
         <div

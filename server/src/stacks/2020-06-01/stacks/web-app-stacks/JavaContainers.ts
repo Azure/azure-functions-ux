@@ -281,12 +281,12 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Apache Tomcat 10.0.17',
-          value: '10.0.17',
+          displayText: 'Apache Tomcat 10.0.12',
+          value: '10.0.12',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
-              javaContainerVersion: '10.0.17',
+              javaContainerVersion: '10.0.12',
             },
             linuxContainerSettings: {
               java8Runtime: 'TOMCAT|10.0.12-java8',
