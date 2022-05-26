@@ -144,7 +144,7 @@ export class GenericSpecGroup extends PriceSpecGroup {
         (input.planDetails && input.planDetails.plan && input.planDetails && input.planDetails.plan.properties.numberOfWorkers) || 1;
       const spec = new GenericPlanPriceSpec(this.injector, pricingTier.properties);
       if (
-        ((!input.planDetails && input.planDetails.plan) || (input.planDetails && input.planDetails.plan.sku.name !== spec.skuCode)) &&
+        (!input.planDetails || !input.planDetails.plan || input.planDetails.plan.sku.name !== spec.skuCode) &&
         pricingTier.properties.availableInstances < numberOfWorkersRequired
       ) {
         spec.state = 'disabled';
