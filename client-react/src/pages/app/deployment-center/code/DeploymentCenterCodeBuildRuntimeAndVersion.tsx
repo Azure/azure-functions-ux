@@ -28,6 +28,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { ArmArray } from '../../../../models/arm-obj';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { KeyValue } from '../../../../models/portal-models';
+import { Link } from '@fluentui/react';
 
 type StackSettings = (WebAppRuntimes & JavaContainersInterface) | FunctionAppRuntimes;
 
@@ -209,6 +210,22 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     return `${os}-${stack.toLocaleLowerCase()}-${minorVersion.toLocaleLowerCase()}`;
   };
 
+  const openConfigurationBlade = async () => {
+    const response = await portalContext.openFrameBlade({
+      detailBlade: 'SiteConfigSettingsFrameBladeReact',
+      detailBladeInputs: {
+        id: deploymentCenterContext.resourceId,
+        data: {
+          tab: 'generalSettings',
+        },
+      },
+    });
+
+    if (response) {
+      deploymentCenterContext.refresh();
+    }
+  };
+
   const initializeFormValues = () => {
     formProps.setFieldValue('runtimeStack', '');
     formProps.setFieldValue('runtimeVersion', '');
@@ -237,18 +254,33 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     <>
       <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
 
-      <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
-        <div>{defaultStack}</div>
-      </ReactiveFormControl>
-
-      <ReactiveFormControl id="deployment-center-code-settings-runtime-version" label={t('deploymentCenterSettingsRuntimeVersionLabel')}>
-        <div>{defaultVersion}</div>
-      </ReactiveFormControl>
-
-      {javaContainer && (
-        <ReactiveFormControl id="deployment-center-code-settings-java-container" label={t('deploymentCenterJavaWebServerStack')}>
-          <div>{javaContainer}</div>
+      {!defaultStack && !defaultVersion ? (
+        <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
+          <div>
+            {t('deploymentCenterConfigureRuntimeMessage')}
+            <Link id="deployment-center-code-settings-configure-runtime-link" onClick={openConfigurationBlade}>
+              {t('deploymentCenterConfigureRuntimeLink')}
+            </Link>
+          </div>
         </ReactiveFormControl>
+      ) : (
+        <>
+          <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
+            <div>{defaultStack}</div>
+          </ReactiveFormControl>
+
+          <ReactiveFormControl
+            id="deployment-center-code-settings-runtime-version"
+            label={t('deploymentCenterSettingsRuntimeVersionLabel')}>
+            <div>{defaultVersion}</div>
+          </ReactiveFormControl>
+
+          {javaContainer && (
+            <ReactiveFormControl id="deployment-center-code-settings-java-container" label={t('deploymentCenterJavaWebServerStack')}>
+              <div>{javaContainer}</div>
+            </ReactiveFormControl>
+          )}
+        </>
       )}
     </>
   );

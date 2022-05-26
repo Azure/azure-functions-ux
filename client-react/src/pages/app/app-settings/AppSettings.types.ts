@@ -98,6 +98,7 @@ export interface ServiceLinkerProps {
 export type AppSettingsFormikPropsCombined = FormikProps<AppSettingsFormValues> & ServiceLinkerProps;
 export interface AppSettingsFormProps extends AppSettingsFormikPropsCombined {
   asyncData: AppSettingsAsyncData;
+  tab?: string;
 }
 
 export type LeaseDurationType = 'infinite' | 'fixed';
