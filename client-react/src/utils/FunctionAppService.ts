@@ -74,20 +74,19 @@ export default class FunctionAppService {
 
   public static isEditingCheckNeededForLinuxSku = (
     site: ArmObj<Site>,
-    isLinuxSkuFlightingEnabled: boolean,
     addPremiumV2Check: boolean = true
   ) => {
     return (
-      !!site && isLinuxSkuFlightingEnabled && (isLinuxDynamic(site) || isLinuxElastic(site) || (addPremiumV2Check && isPremiumV2(site)))
+      !!site && (isLinuxDynamic(site) || isLinuxElastic(site) || (addPremiumV2Check && isPremiumV2(site)))
     );
   };
 
-  public static enableEditingForLinux(site: ArmObj<Site>, isLinuxSkuFlightingEnabled: boolean, workerRuntime?: string) {
+  public static enableEditingForLinux(site: ArmObj<Site>, workerRuntime?: string) {
     // NOTE (krmitta): Editing is only enabled for Linux Consumption or Linux Elastic Premium and Node/Python stack only.
     // For Powershell, we still need to use the feature-flag.
     return (
       !!workerRuntime &&
-      FunctionAppService.isEditingCheckNeededForLinuxSku(site, isLinuxSkuFlightingEnabled) &&
+      FunctionAppService.isEditingCheckNeededForLinuxSku(site) &&
       (workerRuntime === WorkerRuntimeLanguages.nodejs ||
         workerRuntime === WorkerRuntimeLanguages.python ||
         workerRuntime === WorkerRuntimeLanguages.powershell)
