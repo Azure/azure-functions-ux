@@ -64,7 +64,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [enablePortalCall, setEnablePortalCall] = useState(false);
-  const [isLinuxSkuFlightingEnabled, setIsLinuxSkuFlightingEnabled] = useState(false);
   const [isFunctionLogsApiFlightingEnabled, setIsFunctionLogsApiFlightingEnabled] = useState(false);
 
   const siteContext = useContext(SiteRouterContext);
@@ -90,7 +89,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       functionKeysResponse,
       hostStatusResponse,
       enablePortalCall,
-      isLinuxSkuFlightingEnabled,
       isFunctionLogsApiFlightingEnabled,
     ] = await Promise.all([
       siteContext.fetchSite(siteResourceId),
@@ -99,12 +97,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       FunctionsService.fetchKeys(resourceId),
       SiteService.fetchFunctionsHostStatus(siteResourceId),
       portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor),
-      portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.linuxPortalEditing),
       portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.newFunctionLogsApi),
     ]);
 
     setEnablePortalCall(enablePortalCall);
-    setIsLinuxSkuFlightingEnabled(isLinuxSkuFlightingEnabled);
     setIsFunctionLogsApiFlightingEnabled(isFunctionLogsApiFlightingEnabled);
 
     // NOTE (krmitta): App-Settings are going to be used to fetch the workerRuntime,
@@ -784,7 +780,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             workerRuntime={workerRuntime}
             addCorsRule={addCorsRule}
             enablePortalCall={enablePortalCall}
-            isLinuxSkuFlightingEnabled={isLinuxSkuFlightingEnabled}
             isFunctionLogsApiFlightingEnabled={isFunctionLogsApiFlightingEnabled}
           />
         </div>
