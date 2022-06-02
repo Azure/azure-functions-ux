@@ -23,9 +23,9 @@ export const labelSectionStyle = style({
   fontWeight: 600,
 });
 
-export const footerStyle = style({
+export const headerStyle = {
   marginTop: '50px',
-});
+};
 
 export const planTypeStyle = style({
   marginBottom: '-10px',

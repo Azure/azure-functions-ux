@@ -33,6 +33,7 @@ import {
   buttonFooterStyle,
   buttonPadding,
   formStyle,
+  headerStyle,
   labelSectionStyle,
   planTypeStyle,
   sectionStyle,
@@ -128,7 +129,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
         </Stack>
 
         <ReactiveFormControl id="currentAppServicePlan" label={t('appServicePlan')}>
-          <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
+          <div tabIndex={0} aria-label={`${t('appServicePlan')} ${getPlanName(currentServerFarm)}`}>
             {getPlanName(currentServerFarm)}
           </div>
         </ReactiveFormControl>
@@ -138,7 +139,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   const getDestinationPlanDetailsHeader = () => {
     return (
-      <Stack style={{ marginTop: '50px' }}>
+      <Stack style={headerStyle}>
         <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
       </Stack>
     );
@@ -158,7 +159,8 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                   { key: ChangeAppPlanTierTypes.Dynamic, text: t('consumptionPlan') },
                   { key: ChangeAppPlanTierTypes.ElasticPremium, text: t('functionPremiumPlan') },
                 ]}
-                onChange={(o, e) => e && handleTierChange(e.key as ChangeAppPlanTierTypes)}></RadioButtonNoFormik>
+                onChange={(o, e) => e && handleTierChange(e.key as ChangeAppPlanTierTypes)}
+              />
             </ReactiveFormControl>
           </div>
         )}
@@ -193,7 +195,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const getCurrentResourceGroup = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
     return (
       <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
-        <div tabIndex={0} aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
+        <div tabIndex={0} aria-label={`${t('resourceGroup')} ${getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}`}>
           {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
         </div>
       </ReactiveFormControl>
@@ -203,7 +205,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const getCurrentRegion = () => {
     return (
       <ReactiveFormControl id="currentRegion" label={t('region')} mouseOverToolTip={t('changePlanLocationTooltip')}>
-        <span tabIndex={0} aria-label={t('region') + site.location}>
+        <span tabIndex={0} aria-label={`${t('region')} ${site.location}`}>
           {site.location}
         </span>
       </ReactiveFormControl>
@@ -218,7 +220,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
     );
   };
 
-  const getChangeAppPlanFooter = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
+  const getChangeAppPlanFooter = (submitForm: () => void) => {
     return (
       <div className={buttonFooterStyle(theme)}>
         <PrimaryButton
@@ -227,7 +229,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
           className={buttonPadding}
           data-automation-id="test"
           allowDisabledFocus={true}
-          onClick={formProps.submitForm}
+          onClick={submitForm}
           disabled={isUpdating || siteIsReadOnlyLocked}
         />
       </div>
@@ -256,7 +258,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                     {getCurrentTier(formProps)}
                   </Stack>
                 </section>
-                {getChangeAppPlanFooter(formProps)}
+                {getChangeAppPlanFooter(formProps.submitForm)}
               </form>
             );
           }}

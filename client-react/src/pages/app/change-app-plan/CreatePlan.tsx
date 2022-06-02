@@ -109,11 +109,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
           onClick={() => onClosePanel(newPlanInfo)}
           disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission}
         />
-        <DefaultButton
-          text={t('cancel')}
-          ariaLabel={t('calcel')}
-          className={buttonPadding}
-          onClick={() => toggleShowPanel(false)}></DefaultButton>
+        <DefaultButton text={t('cancel')} ariaLabel={t('cancel')} className={buttonPadding} onClick={() => toggleShowPanel(false)} />
       </div>
     );
   };
