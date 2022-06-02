@@ -1,14 +1,13 @@
 import { Formik, FormikProps } from 'formik';
 import i18next from 'i18next';
-import { IDropdownOption, ILink, Link, MessageBar, MessageBarType, PrimaryButton, Stack } from '@fluentui/react';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Link, MessageBar, MessageBarType, Stack } from '@fluentui/react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
 import SiteService from '../../../ApiHelpers/SiteService';
 import FeatureDescriptionCard from '../../../components/feature-description-card/FeatureDescriptionCard';
-import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
 import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/app-service-plan.svg';
 import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { BroadcastMessageId } from '../../../models/portal-models';
@@ -23,37 +22,23 @@ import { ArmPlanDescriptor, ArmSiteDescriptor } from '../../../utils/resourceDes
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmValidator';
-import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
-import { addNewPlanToOptions, CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN } from './CreateOrSelectPlan';
-import { addNewRgOption } from './CreateOrSelectResourceGroup';
+import { CreateOrSelectPlanFormValues } from './CreateOrSelectPlan';
 import { Links } from '../../../utils/FwLinks';
-import Url from '../../../utils/url';
-import { CommonConstants } from '../../../utils/CommonConstants';
-import {
-  buttonFooterStyle,
-  buttonPadding,
-  formStyle,
-  headerStyle,
-  labelSectionStyle,
-  planTypeStyle,
-  sectionStyle,
-  wrapperStyle,
-} from './ChangeAppPlan.styles';
-import { ChangeAppPlanFormValues, ChangeAppPlanProps, ChangeAppPlanTierTypes, CompletionTelemetry } from './ChangeAppPlan.types';
-import { ThemeContext } from '../../../ThemeContext';
-import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
+import { formStyle, wrapperStyle } from './ChangeAppPlan.styles';
+import { ChangeAppPlanFormValues, ChangeAppPlanProps, CompletionTelemetry } from './ChangeAppPlan.types';
+
+import { ChangeAppPlanFooter } from './ChangeAppPlanFooter';
+import { CurrentPlanDetails } from './ChangeAppPlanCurrentPlanDetails';
+import { DestinationPlanDetails } from './ChangeAppPlanDestinationPlanDetails';
 
 export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
-  const { resourceGroups, serverFarms, site, currentServerFarm, hostingEnvironment, onChangeComplete } = props;
+  const { serverFarms, resourceGroups, site, currentServerFarm, hostingEnvironment, onChangeComplete } = props;
 
   const [isUpdating, setIsUpdating] = useState(false);
   const [siteIsReadOnlyLocked, setSiteIsReadOnlyLocked] = useState(false);
   const [showAppDensityWarning, setShowAppDensityWarning] = useState(false);
   const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(getInitialFormValues(site, currentServerFarm, serverFarms));
 
-  const changeSkuLinkElement = useRef<ILink | null>(null);
-
-  const theme = useContext(ThemeContext);
   const portalCommunicator = useContext(PortalContext);
 
   const { t } = useTranslation();
@@ -79,160 +64,13 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
     updateAppDensityWarning(setShowAppDensityWarning, formValues.serverFarmInfo, t);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formValues]);
-
-  const rgOptions = getDropdownOptions(resourceGroups);
-  addNewRgOption(formValues.serverFarmInfo.newPlanInfo.newResourceGroupName, rgOptions, t);
-
-  const serverFarmOptions = getDropdownOptions(serverFarms);
-  addNewPlanToOptions(formValues.serverFarmInfo.newPlanInfo.name, serverFarmOptions, t);
-
-  const onPlanChange = (form: FormikProps<ChangeAppPlanFormValues>, planInfo: CreateOrSelectPlanFormValues) => {
-    form.setFieldValue('serverFarmInfo', planInfo);
-    updateAppDensityWarning(setShowAppDensityWarning, planInfo, t);
-  };
-
-  if (rgOptions.length === 0) {
-    const newResourceGroupName = formValues.serverFarmInfo.newPlanInfo.newResourceGroupName;
-    rgOptions.unshift({
-      key: newResourceGroupName,
-      text: newResourceGroupName,
-      data: newResourceGroupName,
-      selected: true,
-    });
-  }
-
-  if (serverFarmOptions.length === 0) {
-    serverFarmOptions.unshift({
-      key: formValues.serverFarmInfo.newPlanInfo.name,
-      text: t('newFormat').format(formValues.serverFarmInfo.newPlanInfo.name),
-      data: NEW_PLAN,
-      selected: true,
-    });
-  }
-
-  const subscriptionId = new ArmPlanDescriptor(currentServerFarm.id).subscription;
+  }, [formValues, formValues.serverFarmInfo]);
 
   const getChangePlanHeaderCard = () => {
     return (
       <header>
         <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
       </header>
-    );
-  };
-
-  const getCurrentPlanDetails = () => {
-    return (
-      <>
-        <Stack style={sectionStyle}>
-          <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
-        </Stack>
-
-        <ReactiveFormControl id="currentAppServicePlan" label={t('appServicePlan')}>
-          <div tabIndex={0} aria-label={`${t('appServicePlan')} ${getPlanName(currentServerFarm)}`}>
-            {getPlanName(currentServerFarm)}
-          </div>
-        </ReactiveFormControl>
-      </>
-    );
-  };
-
-  const getDestinationPlanDetailsHeader = () => {
-    return (
-      <Stack style={headerStyle}>
-        <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
-      </Stack>
-    );
-  };
-
-  const getPlanTypeRadioButton = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
-    return (
-      <>
-        {Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true' && (
-          <div className={planTypeStyle}>
-            <ReactiveFormControl id="planType" label={t('planType')}>
-              <RadioButtonNoFormik
-                id="planType"
-                ariaLabelledBy={t('planType')}
-                defaultSelectedKey={formProps.values.serverFarmInfo.newPlanInfo.tier}
-                options={[
-                  { key: ChangeAppPlanTierTypes.Dynamic, text: t('consumptionPlan') },
-                  { key: ChangeAppPlanTierTypes.ElasticPremium, text: t('functionPremiumPlan') },
-                ]}
-                onChange={(o, e) => e && handleTierChange(e.key as ChangeAppPlanTierTypes)}
-              />
-            </ReactiveFormControl>
-          </div>
-        )}
-      </>
-    );
-  };
-
-  const handleTierChange = (planTier: ChangeAppPlanTierTypes) => {
-    //TODO: (stpelleg): reload plans
-  };
-
-  const getDestinationAppServicePlan = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
-    return (
-      <ReactiveFormControl id="destinationAppServicePlan" label={t('appServicePlan')} required={true}>
-        <CreateOrSelectPlan
-          subscriptionId={subscriptionId}
-          isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
-          newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
-          existingPlan={formProps.values.serverFarmInfo.existingPlan}
-          options={serverFarmOptions}
-          resourceGroupOptions={rgOptions}
-          onPlanChange={info => {
-            onPlanChange(formProps, info);
-          }}
-          serverFarmsInWebspace={serverFarms}
-          hostingEnvironment={hostingEnvironment}
-        />
-      </ReactiveFormControl>
-    );
-  };
-
-  const getCurrentResourceGroup = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
-    return (
-      <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
-        <div tabIndex={0} aria-label={`${t('resourceGroup')} ${getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}`}>
-          {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
-        </div>
-      </ReactiveFormControl>
-    );
-  };
-
-  const getCurrentRegion = () => {
-    return (
-      <ReactiveFormControl id="currentRegion" label={t('region')} mouseOverToolTip={t('changePlanLocationTooltip')}>
-        <span tabIndex={0} aria-label={`${t('region')} ${site.location}`}>
-          {site.location}
-        </span>
-      </ReactiveFormControl>
-    );
-  };
-
-  const getCurrentTier = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
-    return (
-      <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
-        {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator, t)}
-      </ReactiveFormControl>
-    );
-  };
-
-  const getChangeAppPlanFooter = (submitForm: () => void) => {
-    return (
-      <div className={buttonFooterStyle(theme)}>
-        <PrimaryButton
-          text={t('ok')}
-          ariaLabel={t('ok')}
-          className={buttonPadding}
-          data-automation-id="test"
-          allowDisabledFocus={true}
-          onClick={submitForm}
-          disabled={isUpdating || siteIsReadOnlyLocked}
-        />
-      </div>
     );
   };
 
@@ -249,16 +87,21 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                 {getChangePlanHeaderCard()}
                 <section>
                   <Stack style={formStyle}>
-                    {getCurrentPlanDetails()}
-                    {getDestinationPlanDetailsHeader()}
-                    {getPlanTypeRadioButton(formProps)}
-                    {getDestinationAppServicePlan(formProps)}
-                    {getCurrentResourceGroup(formProps)}
-                    {getCurrentRegion()}
-                    {getCurrentTier(formProps)}
+                    <CurrentPlanDetails currentServerFarm={currentServerFarm} />
+                    <DestinationPlanDetails
+                      currentServerFarm={currentServerFarm}
+                      hostingEnvironment={hostingEnvironment}
+                      serverFarms={serverFarms}
+                      resourceGroups={resourceGroups}
+                      formProps={formProps}
+                    />
                   </Stack>
                 </section>
-                {getChangeAppPlanFooter(formProps.submitForm)}
+                <ChangeAppPlanFooter
+                  submitForm={formProps.submitForm}
+                  isUpdating={isUpdating}
+                  siteIsReadOnlyLocked={siteIsReadOnlyLocked}
+                />
               </form>
             );
           }}
@@ -312,67 +155,6 @@ const getWarningBar = (
         </Link>
       </MessageBar>
     );
-  }
-};
-
-const getPricingTierValue = (
-  currentServerFarmId: string,
-  form: FormikProps<ChangeAppPlanFormValues>,
-  linkElement: React.MutableRefObject<ILink | null>,
-  portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction
-) => {
-  const skuString = getSelectedSkuString(form.values);
-
-  if (form.values.serverFarmInfo.isNewPlan) {
-    return (
-      <Link
-        aria-label={t('pricingTier') + skuString}
-        onClick={() => openSpecPicker(currentServerFarmId, form, linkElement, portalCommunicator)}
-        componentRef={ref => (linkElement.current = ref)}>
-        {skuString}
-      </Link>
-    );
-  }
-
-  return (
-    <span tabIndex={0} aria-label={t('pricingTier') + skuString}>
-      {getSelectedSkuString(form.values)}
-    </span>
-  );
-};
-
-const openSpecPicker = async (
-  currentServerFarmId: string,
-  form: FormikProps<ChangeAppPlanFormValues>,
-  linkElement: React.MutableRefObject<ILink | null>,
-  portalCommunicator: PortalCommunicator
-) => {
-  const result = await portalCommunicator.openBlade<SpecPickerOutput>({
-    detailBlade: 'SpecPickerFrameBlade',
-    detailBladeInputs: {
-      id: currentServerFarmId,
-      data: {
-        selectedSkuCode: 'F1',
-        returnObjectResult: true,
-      },
-    },
-    openAsContextBlade: true,
-  });
-
-  (linkElement.current as ILink).focus();
-
-  if (result.reason === 'childClosedSelf') {
-    const newServerFarmInfo = {
-      ...form.values.serverFarmInfo,
-      newPlanInfo: {
-        ...form.values.serverFarmInfo.newPlanInfo,
-        skuCode: result.data.value.skuCode,
-        tier: result.data.value.tier,
-      },
-    };
-
-    form.setFieldValue('serverFarmInfo', newServerFarmInfo);
   }
 };
 
@@ -575,64 +357,12 @@ const changeSiteToNewPlan = async (
   return true;
 };
 
-const getSelectedSkuString = (values: ChangeAppPlanFormValues) => {
-  let tier: string;
-  let skuCode: string;
-  if (values.serverFarmInfo.isNewPlan) {
-    skuCode = values.serverFarmInfo.newPlanInfo.skuCode;
-    tier = values.serverFarmInfo.newPlanInfo.tier;
-  } else {
-    const sku: ArmSku = (values.serverFarmInfo.existingPlan as ArmObj<ServerFarm>).sku as ArmSku;
-    skuCode = sku.name;
-    tier = sku.tier;
-  }
-
-  return `${tier} (${skuCode}) `;
-};
-
 const getSelectedSkuCode = (values: ChangeAppPlanFormValues) => {
   if (values.serverFarmInfo.isNewPlan) {
     return values.serverFarmInfo.newPlanInfo.skuCode;
   }
 
   return ((values.serverFarmInfo.existingPlan as ArmObj<ServerFarm>).sku as ArmSku).name;
-};
-
-const getSelectedResourceGroupString = (values: CreateOrSelectPlanFormValues, t: i18next.TFunction) => {
-  if (values.isNewPlan) {
-    if (values.newPlanInfo.isNewResourceGroup) {
-      return t('newFormat').format(values.newPlanInfo.newResourceGroupName);
-    }
-
-    return `${(values.newPlanInfo.existingResourceGroup as ArmObj<ResourceGroup>).name}`;
-  }
-
-  const planDescriptor = new ArmPlanDescriptor((values.existingPlan as ArmObj<ServerFarm>).id);
-  return `${planDescriptor.resourceGroup}`;
-};
-
-const getPlanName = (serverFarm: ArmObj<ServerFarm>) => {
-  const descriptor = new ArmPlanDescriptor(serverFarm.id);
-  return descriptor.name;
-};
-
-const getDropdownOptions = (objs: ArmObj<any>[]) => {
-  let options: IDropdownOption[] = [];
-  if (objs) {
-    for (let i = 0; i < objs.length; i = i + 1) {
-      options = [
-        ...options,
-        {
-          key: objs[i].id.toLowerCase(),
-          text: objs[i].name,
-          data: objs[i],
-          selected: i === 0,
-        },
-      ];
-    }
-  }
-
-  return options;
 };
 
 const getInitialFormValues = (

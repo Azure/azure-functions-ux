@@ -1,3 +1,4 @@
+import { FormikProps } from 'formik';
 import { ArmObj } from '../../../models/arm-obj';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 import { ResourceGroup } from '../../../models/resource-group';
@@ -31,4 +32,22 @@ export interface ChangeAppPlanFormValues {
 export enum ChangeAppPlanTierTypes {
   Dynamic = 'Dynamic',
   ElasticPremium = 'ElasticPremium',
+}
+
+export interface ChangeAppPlanFooterProps {
+  isUpdating: boolean;
+  siteIsReadOnlyLocked: boolean;
+  submitForm: () => void;
+}
+
+export interface DestinationPlanDetailsProps {
+  formProps: FormikProps<ChangeAppPlanFormValues>;
+  currentServerFarm: ArmObj<ServerFarm>;
+  resourceGroups: ArmObj<ResourceGroup>[];
+  serverFarms: ArmObj<ServerFarm>[];
+  hostingEnvironment?: ArmObj<HostingEnvironment>;
+}
+
+export interface CurrentPlanDetailsProps {
+  currentServerFarm: ArmObj<ServerFarm>;
 }

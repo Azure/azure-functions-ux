@@ -11,6 +11,7 @@ export const wrapperStyle = {
 
 export const formStyle = {
   marginTop: '30px',
+  marginBottom: '40px',
 };
 
 export const sectionStyle = {
