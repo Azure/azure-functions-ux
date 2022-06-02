@@ -3,7 +3,6 @@ import i18next from 'i18next';
 import { IDropdownOption, ILink, Link, MessageBar, MessageBarType, PrimaryButton, Stack } from '@fluentui/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { style } from 'typestyle';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
@@ -12,7 +11,6 @@ import FeatureDescriptionCard from '../../../components/feature-description-card
 import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
 import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/app-service-plan.svg';
 import { ArmObj, ArmSku } from '../../../models/arm-obj';
-import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 import { BroadcastMessageId } from '../../../models/portal-models';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
@@ -29,55 +27,20 @@ import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { addNewPlanToOptions, CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 import { Links } from '../../../utils/FwLinks';
-
-export const leftCol = style({
-  marginRight: '20px',
-});
-
-const wrapperStyle = {
-  padding: '30px',
-};
-
-const formStyle = {
-  marginTop: '30px',
-};
-
-const sectionStyle = {
-  marginTop: '10px',
-};
-
-const labelSectionStyle = style({
-  textTransform: 'uppercase',
-  fontSize: '11px',
-  fontWeight: 600,
-});
-
-const footerStyle = style({
-  marginTop: '50px',
-});
-
-interface CompletionTelemetry {
-  success: boolean;
-  newResourceGroup: boolean;
-  newPlan: boolean;
-  resourceId?: string;
-  message?: string;
-}
-
-export interface ChangeAppPlanProps {
-  site: ArmObj<Site>;
-  currentServerFarm: ArmObj<ServerFarm>;
-  hostingEnvironment?: ArmObj<HostingEnvironment>;
-  resourceGroups: ArmObj<ResourceGroup>[];
-  serverFarms: ArmObj<ServerFarm>[];
-  onChangeComplete: () => void;
-}
-
-export interface ChangeAppPlanFormValues {
-  site: ArmObj<Site>;
-  currentServerFarm: ArmObj<ServerFarm>;
-  serverFarmInfo: CreateOrSelectPlanFormValues;
-}
+import Url from '../../../utils/url';
+import { CommonConstants } from '../../../utils/CommonConstants';
+import {
+  buttonFooterStyle,
+  buttonPadding,
+  formStyle,
+  labelSectionStyle,
+  planTypeStyle,
+  sectionStyle,
+  wrapperStyle,
+} from './ChangeAppPlan.styles';
+import { ChangeAppPlanFormValues, ChangeAppPlanProps, ChangeAppPlanTierTypes, CompletionTelemetry } from './ChangeAppPlan.types';
+import { ThemeContext } from '../../../ThemeContext';
+import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
 
 export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const { resourceGroups, serverFarms, site, currentServerFarm, hostingEnvironment, onChangeComplete } = props;
@@ -85,11 +48,14 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [siteIsReadOnlyLocked, setSiteIsReadOnlyLocked] = useState(false);
   const [showAppDensityWarning, setShowAppDensityWarning] = useState(false);
-  const portalCommunicator = useContext(PortalContext);
-  const changeSkuLinkElement = useRef<ILink | null>(null);
-  const { t } = useTranslation();
-
   const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(getInitialFormValues(site, currentServerFarm, serverFarms));
+
+  const changeSkuLinkElement = useRef<ILink | null>(null);
+
+  const theme = useContext(ThemeContext);
+  const portalCommunicator = useContext(PortalContext);
+
+  const { t } = useTranslation();
 
   // Initialization
   useEffect(() => {
@@ -146,6 +112,128 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
 
   const subscriptionId = new ArmPlanDescriptor(currentServerFarm.id).subscription;
 
+  const getChangePlanHeaderCard = () => {
+    return (
+      <header>
+        <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
+      </header>
+    );
+  };
+
+  const getCurrentPlanDetails = () => {
+    return (
+      <>
+        <Stack style={sectionStyle}>
+          <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
+        </Stack>
+
+        <ReactiveFormControl id="currentAppServicePlan" label={t('appServicePlan')}>
+          <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
+            {getPlanName(currentServerFarm)}
+          </div>
+        </ReactiveFormControl>
+      </>
+    );
+  };
+
+  const getDestinationPlanDetailsHeader = () => {
+    return (
+      <Stack style={{ marginTop: '50px' }}>
+        <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
+      </Stack>
+    );
+  };
+
+  const getPlanTypeRadioButton = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
+    return (
+      <>
+        {Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true' && (
+          <div className={planTypeStyle}>
+            <ReactiveFormControl id="planType" label={t('planType')}>
+              <RadioButtonNoFormik
+                id="planType"
+                ariaLabelledBy={t('planType')}
+                defaultSelectedKey={formProps.values.serverFarmInfo.newPlanInfo.tier}
+                options={[
+                  { key: ChangeAppPlanTierTypes.Dynamic, text: t('consumptionPlan') },
+                  { key: ChangeAppPlanTierTypes.ElasticPremium, text: t('functionPremiumPlan') },
+                ]}
+                onChange={(o, e) => e && handleTierChange(e.key as ChangeAppPlanTierTypes)}></RadioButtonNoFormik>
+            </ReactiveFormControl>
+          </div>
+        )}
+      </>
+    );
+  };
+
+  const handleTierChange = (planTier: ChangeAppPlanTierTypes) => {
+    //TODO: (stpelleg): reload plans
+  };
+
+  const getDestinationAppServicePlan = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
+    return (
+      <ReactiveFormControl id="destinationAppServicePlan" label={t('appServicePlan')} required={true}>
+        <CreateOrSelectPlan
+          subscriptionId={subscriptionId}
+          isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
+          newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
+          existingPlan={formProps.values.serverFarmInfo.existingPlan}
+          options={serverFarmOptions}
+          resourceGroupOptions={rgOptions}
+          onPlanChange={info => {
+            onPlanChange(formProps, info);
+          }}
+          serverFarmsInWebspace={serverFarms}
+          hostingEnvironment={hostingEnvironment}
+        />
+      </ReactiveFormControl>
+    );
+  };
+
+  const getCurrentResourceGroup = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
+    return (
+      <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
+        <div tabIndex={0} aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
+          {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
+        </div>
+      </ReactiveFormControl>
+    );
+  };
+
+  const getCurrentRegion = () => {
+    return (
+      <ReactiveFormControl id="currentRegion" label={t('region')} mouseOverToolTip={t('changePlanLocationTooltip')}>
+        <span tabIndex={0} aria-label={t('region') + site.location}>
+          {site.location}
+        </span>
+      </ReactiveFormControl>
+    );
+  };
+
+  const getCurrentTier = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
+    return (
+      <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
+        {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator, t)}
+      </ReactiveFormControl>
+    );
+  };
+
+  const getChangeAppPlanFooter = (formProps: FormikProps<ChangeAppPlanFormValues>) => {
+    return (
+      <div className={buttonFooterStyle(theme)}>
+        <PrimaryButton
+          text={t('ok')}
+          ariaLabel={t('ok')}
+          className={buttonPadding}
+          data-automation-id="test"
+          allowDisabledFocus={true}
+          onClick={formProps.submitForm}
+          disabled={isUpdating || siteIsReadOnlyLocked}
+        />
+      </div>
+    );
+  };
+
   return (
     <>
       {getWarningBar(siteIsReadOnlyLocked, t, showAppDensityWarning, formValues)}
@@ -156,71 +244,19 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
           {(formProps: FormikProps<ChangeAppPlanFormValues>) => {
             return (
               <form>
-                <header>
-                  <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
-                </header>
-
+                {getChangePlanHeaderCard()}
                 <section>
                   <Stack style={formStyle}>
-                    <Stack style={sectionStyle}>
-                      <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
-                    </Stack>
-
-                    <ReactiveFormControl id="currentAppServicePlan" label={t('appServicePlan')}>
-                      <div tabIndex={0} aria-label={t('appServicePlan') + getPlanName(currentServerFarm)}>
-                        {getPlanName(currentServerFarm)}
-                      </div>
-                    </ReactiveFormControl>
-
-                    <Stack style={{ marginTop: '50px' }}>
-                      <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
-                    </Stack>
-
-                    <ReactiveFormControl id="destinationAppServicePlan" label={t('appServicePlan')} required={true}>
-                      <CreateOrSelectPlan
-                        subscriptionId={subscriptionId}
-                        isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
-                        newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
-                        existingPlan={formProps.values.serverFarmInfo.existingPlan}
-                        options={serverFarmOptions}
-                        resourceGroupOptions={rgOptions}
-                        onPlanChange={info => {
-                          onPlanChange(formProps, info);
-                        }}
-                        serverFarmsInWebspace={serverFarms}
-                        hostingEnvironment={hostingEnvironment}
-                      />
-                    </ReactiveFormControl>
-
-                    <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
-                      <div
-                        tabIndex={0}
-                        aria-label={t('resourceGroup') + getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}>
-                        {getSelectedResourceGroupString(formProps.values.serverFarmInfo, t)}
-                      </div>
-                    </ReactiveFormControl>
-
-                    <ReactiveFormControl id="currentRegion" label={t('region')} mouseOverToolTip={t('changePlanLocationTooltip')}>
-                      <span tabIndex={0} aria-label={t('region') + site.location}>
-                        {site.location}
-                      </span>
-                    </ReactiveFormControl>
-
-                    <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
-                      {getPricingTierValue(currentServerFarm.id, formProps, changeSkuLinkElement, portalCommunicator, t)}
-                    </ReactiveFormControl>
+                    {getCurrentPlanDetails()}
+                    {getDestinationPlanDetailsHeader()}
+                    {getPlanTypeRadioButton(formProps)}
+                    {getDestinationAppServicePlan(formProps)}
+                    {getCurrentResourceGroup(formProps)}
+                    {getCurrentRegion()}
+                    {getCurrentTier(formProps)}
                   </Stack>
                 </section>
-
-                <footer className={footerStyle}>
-                  <PrimaryButton
-                    data-automation-id="test"
-                    text={t('ok')}
-                    allowDisabledFocus={true}
-                    onClick={formProps.submitForm}
-                    disabled={isUpdating || siteIsReadOnlyLocked}
-                  />
-                </footer>
+                {getChangeAppPlanFooter(formProps)}
               </form>
             );
           }}

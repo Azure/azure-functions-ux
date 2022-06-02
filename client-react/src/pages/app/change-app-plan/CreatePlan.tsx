@@ -8,10 +8,12 @@ import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-e
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
 import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
+import { ThemeContext } from '../../../ThemeContext';
 import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
+import { buttonFooterStyle, buttonPadding } from './ChangeAppPlan.styles';
 import { NewPlanInfo } from './CreateOrSelectPlan';
 import { CreateOrSelectResourceGroup, ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 
@@ -37,6 +39,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
 
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
+  const theme = useContext(ThemeContext);
 
   const onChangePlanName = (e: any, value: string) => {
     setNewPlanInfo({
@@ -96,14 +99,21 @@ export const CreatePlan = (props: CreatePlanProps) => {
 
   const onRenderFooterContent = () => {
     return (
-      <div>
+      <div className={buttonFooterStyle(theme)}>
         <PrimaryButton
+          text={t('ok')}
+          ariaLabel={t('ok')}
+          className={buttonPadding}
+          data-automation-id="test"
+          allowDisabledFocus={true}
           onClick={() => onClosePanel(newPlanInfo)}
-          style={{ marginRight: '8px' }}
-          disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission}>
-          OK
-        </PrimaryButton>
-        <DefaultButton onClick={() => toggleShowPanel(false)}>Cancel</DefaultButton>
+          disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission}
+        />
+        <DefaultButton
+          text={t('cancel')}
+          ariaLabel={t('calcel')}
+          className={buttonPadding}
+          onClick={() => toggleShowPanel(false)}></DefaultButton>
       </div>
     );
   };
