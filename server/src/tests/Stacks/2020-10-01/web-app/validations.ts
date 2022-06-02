@@ -7,12 +7,13 @@ import { rubyStack as hardCodedRubyStack } from './../../../../stacks/2020-10-01
 import { javaStack as hardCodedJavaStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/Java';
 import { javaContainersStack as hardCodedJavaContainersStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/JavaContainers';
 import { staticSiteStack as hardCodedStaticSite } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/StaticSite';
+import { golangStack as hardCodedGolangStack } from '../../../../stacks/2020-10-01/stacks/web-app-stacks/Golang';
 
 const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(9);
 }
 
 export function validateWindowsStacks(stacks) {
@@ -32,7 +33,7 @@ function validateWindowsStackLength(stacks) {
 
 function validateLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(9);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
@@ -88,7 +89,7 @@ export function validateNotDeprecatedStacks(stacks) {
 
 function validateNotDeprecatedStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(9);
 }
 
 function validateStacksAreNotDeprecated(stacks) {
@@ -121,7 +122,7 @@ export function validateNotPreviewStacks(stacks) {
 
 function validateNotPreviewStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(9);
 }
 
 function validateStacksAreNotPreview(stacks) {
@@ -276,6 +277,24 @@ function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.preferredOs).to.equal(undefined);
   expect(javaContainersStack.majorVersions.length).to.equal(10);
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
+}
+
+export function validateGoInStacks(stacks) {
+  validateAllStackLength(stacks);
+  validateGoStack(stacks[8]);
+}
+
+export function validateGoInFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateGoStack(stacks[0]);
+}
+
+function validateGoStack(goStack) {
+  expect(goStack.displayText).to.equal('Go');
+  expect(goStack.value).to.equal('go');
+  expect(goStack.preferredOs).to.equal('linux');
+  expect(goStack.majorVersions.length).to.equal(1);
+  expect(goStack).to.deep.equal(hardCodedGolangStack);
 }
 
 export function validateGitHubActionStacks(stacks) {

@@ -68,6 +68,7 @@ const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scena
 
 interface AppSettingsProps {
   resourceId: string;
+  tab?: string;
 }
 
 const AppSettings: React.FC<AppSettingsProps> = props => {
@@ -249,6 +250,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                             <div className={formStyle}>
                               <AppSettingsForm
                                 asyncData={asyncData}
+                                tab={props.tab}
                                 onServiceLinkerUpdateClick={(settingName: string) =>
                                   onServiceLinkerUpdateClick(
                                     settingName,

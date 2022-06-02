@@ -2066,6 +2066,8 @@ export class PortalResources {
   public static deploymentCenterSettingsBuildLabel = 'deploymentCenterSettingsBuildLabel';
   public static deploymentCenterSettingsRuntimeLabel = 'deploymentCenterSettingsRuntimeLabel';
   public static deploymentCenterSettingsRuntimeVersionLabel = 'deploymentCenterSettingsRuntimeVersionLabel';
+  public static deploymentCenterConfigureRuntimeMessage = 'deploymentCenterConfigureRuntimeMessage';
+  public static deploymentCenterConfigureRuntimeLink = 'deploymentCenterConfigureRuntimeLink';
   public static deploymentCenterImageAndTagError = 'deploymentCenterImageAndTagError';
   public static deploymentCenterContainerSettingsSourceOptionContainerRegistry =
     'deploymentCenterContainerSettingsSourceOptionContainerRegistry';

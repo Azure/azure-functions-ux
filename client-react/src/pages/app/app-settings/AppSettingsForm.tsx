@@ -2,7 +2,7 @@ import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
 import React, { useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-import { AppSettingsFormProps } from './AppSettings.types';
+import { AppSettingsFormProps, AppSettingsTabs } from './AppSettings.types';
 import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
 import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
 import FunctionRuntimeSettingsPivot, { functionRuntimeSettingsDirty } from './Sections/FunctionRuntimeSettingsPivot';
@@ -23,7 +23,7 @@ export const settingsWrapper = style({
 
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
-  const { values, initialValues, errors } = props;
+  const { values, initialValues, tab, errors } = props;
 
   const site = useContext(SiteContext);
 
@@ -67,13 +67,13 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
 
   return (
-    <Pivot getTabId={getPivotTabId} overflowBehavior={OverflowBehavior.menu}>
+    <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
       <PivotItem
         className={pivotWrapper}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
           CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
         }
-        itemKey="applicationSettings"
+        itemKey={AppSettingsTabs.applicationSettings}
         linkText={t('applicationSettings')}>
         <ApplicationSettingsPivot {...props} />
       </PivotItem>
@@ -84,7 +84,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
           }
-          itemKey="functionRuntimeSettings"
+          itemKey={AppSettingsTabs.functionRuntimeSettings}
           linkText={isWorkflowApp(site) ? t('workflowRuntimeSettings') : t('functionRuntimeSettings')}>
           <FunctionRuntimeSettingsPivot {...props} />
         </PivotItem>
@@ -98,7 +98,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, dirtyLabel, generalSettingsErrorCheck)
           }
-          itemKey="generalSettings"
+          itemKey={AppSettingsTabs.generalSettings}
           linkText={t('generalSettings')}>
           <GeneralSettings {...props} />
         </PivotItem>
@@ -112,7 +112,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, defaultDocumentsDirtyCheck, dirtyLabel, defaultDocumentsErrorCheck)
           }
-          itemKey="defaultDocuments"
+          itemKey={AppSettingsTabs.defaultDocuments}
           linkText={t('defaultDocuments')}>
           <DefaultDocumentsPivot {...props} />
         </PivotItem>
@@ -126,7 +126,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
             CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck, dirtyLabel)
           }
-          itemKey="pathMappings"
+          itemKey={AppSettingsTabs.pathMappings}
           linkText={t('pathMappings')}>
           <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
         </PivotItem>
@@ -139,15 +139,15 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
 const getPivotTabId = (itemKey: string) => {
   switch (itemKey) {
-    case 'generalSettings':
+    case AppSettingsTabs.generalSettings:
       return 'app-settings-general-settings-tab';
-    case 'pathMappings':
+    case AppSettingsTabs.pathMappings:
       return 'app-settings-path-mappings-tab';
-    case 'defaultDocuments':
+    case AppSettingsTabs.defaultDocuments:
       return 'app-settings-default-documents-tab';
-    case 'applicationSettings':
+    case AppSettingsTabs.applicationSettings:
       return 'app-settings-application-settings-tab';
-    case 'functionRuntimeSettings':
+    case AppSettingsTabs.functionRuntimeSettings:
       return 'app-settings-function-runtime-settings-tab';
   }
   return '';
