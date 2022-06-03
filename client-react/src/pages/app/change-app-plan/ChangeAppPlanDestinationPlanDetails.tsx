@@ -1,5 +1,5 @@
 import { IDropdownOption, ILink, Link, Stack } from '@fluentui/react';
-import { useContext, useRef } from 'react';
+import { useContext, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
 import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
@@ -42,7 +42,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     const planDescriptor = new ArmPlanDescriptor((existingPlan as ArmObj<ServerFarm>).id);
-    return `${planDescriptor.resourceGroup}`;
+    return planDescriptor.resourceGroup;
   };
 
   const getPricingTierValue = (currentServerFarmId: string, linkElement: React.MutableRefObject<ILink | null>) => {
@@ -51,7 +51,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     if (formProps.values.serverFarmInfo.isNewPlan) {
       return (
         <Link
-          aria-label={t('pricingTier') + skuString}
+          aria-label={`${t('pricingTier')} ${skuString}`}
           onClick={() => openSpecPicker(currentServerFarmId, linkElement)}
           componentRef={ref => (linkElement.current = ref)}>
           {skuString}
@@ -60,7 +60,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     return (
-      <span tabIndex={0} aria-label={t('pricingTier') + skuString}>
+      <span tabIndex={0} aria-label={`${t('pricingTier')} ${skuString}`}>
         {getSelectedSkuString()}
       </span>
     );
@@ -119,63 +119,48 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     //TODO: (stpelleg): reload plans
   };
 
-  const getDestinationPlanHeader = () => {
-    <Stack style={headerStyle}>
-      <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
-    </Stack>;
-  };
+  const serverFarmOptions = useMemo(() => {
+    const options = getDropdownOptions(serverFarms);
+    addNewPlanToOptions(formProps.values.serverFarmInfo.newPlanInfo.name, options, t);
+    if (options.length === 0) {
+      options.unshift({
+        key: formProps.values.serverFarmInfo.newPlanInfo.name,
+        text: t('newFormat').format(formProps.values.serverFarmInfo.newPlanInfo.name),
+        data: NEW_PLAN,
+        selected: true,
+      });
+    }
 
-  const getDropdownOptions = (objs: ArmObj<any>[]) => {
-    let options: IDropdownOption[] = [];
-    if (objs) {
-      for (let i = 0; i < objs.length; i = i + 1) {
-        options = [
-          ...options,
-          {
-            key: objs[i].id.toLowerCase(),
-            text: objs[i].name,
-            data: objs[i],
-            selected: i === 0,
-          },
-        ];
-      }
+    return options;
+  }, [formProps.values.serverFarmInfo.newPlanInfo.name, serverFarms, t]);
+
+  const rgOptions = useMemo(() => {
+    const options = getDropdownOptions(resourceGroups);
+    addNewRgOption(formProps.values.serverFarmInfo.newPlanInfo.newResourceGroupName, options, t);
+    if (options.length === 0) {
+      const newResourceGroupName = formProps.values.serverFarmInfo.newPlanInfo.newResourceGroupName;
+      options.unshift({
+        key: newResourceGroupName,
+        text: newResourceGroupName,
+        data: newResourceGroupName,
+        selected: true,
+      });
     }
     return options;
-  };
-
-  const serverFarmOptions = getDropdownOptions(serverFarms);
-  addNewPlanToOptions(formProps.values.serverFarmInfo.newPlanInfo.name, serverFarmOptions, t);
-  if (serverFarmOptions.length === 0) {
-    serverFarmOptions.unshift({
-      key: formProps.values.serverFarmInfo.newPlanInfo.name,
-      text: t('newFormat').format(formProps.values.serverFarmInfo.newPlanInfo.name),
-      data: NEW_PLAN,
-      selected: true,
-    });
-  }
-
-  const rgOptions = getDropdownOptions(resourceGroups);
-  addNewRgOption(formProps.values.serverFarmInfo.newPlanInfo.newResourceGroupName, rgOptions, t);
-  if (rgOptions.length === 0) {
-    const newResourceGroupName = formProps.values.serverFarmInfo.newPlanInfo.newResourceGroupName;
-    rgOptions.unshift({
-      key: newResourceGroupName,
-      text: newResourceGroupName,
-      data: newResourceGroupName,
-      selected: true,
-    });
-  }
+  }, [formProps.values.serverFarmInfo.newPlanInfo.newResourceGroupName, resourceGroups, t]);
 
   return (
     <>
-      {getDestinationPlanHeader()}
+      <Stack className={headerStyle}>
+        <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
+      </Stack>
 
       {isNewChangeAspEnabled && (
         <div className={planTypeStyle}>
           <ReactiveFormControl id="planType" label={t('planType')}>
             <RadioButtonNoFormik
               id="planType"
-              ariaLabelledBy={t('planType')}
+              aria-label={t('planType')}
               defaultSelectedKey={formProps.values.serverFarmInfo.newPlanInfo.tier}
               options={[
                 { key: ChangeAppPlanTierTypes.Dynamic, text: t('consumptionPlan') },
@@ -195,9 +180,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
           existingPlan={formProps.values.serverFarmInfo.existingPlan}
           options={serverFarmOptions}
           resourceGroupOptions={rgOptions}
-          onPlanChange={info => {
-            onPlanChange(info);
-          }}
+          onPlanChange={onPlanChange}
           serverFarmsInWebspace={serverFarms}
           hostingEnvironment={hostingEnvironment}
         />
@@ -220,4 +203,22 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       </ReactiveFormControl>
     </>
   );
+};
+
+const getDropdownOptions = (objs: ArmObj<any>[]) => {
+  let options: IDropdownOption[] = [];
+  if (objs) {
+    for (let i = 0; i < objs.length; i = i + 1) {
+      options = [
+        ...options,
+        {
+          key: objs[i].id.toLowerCase(),
+          text: objs[i].name,
+          data: objs[i],
+          selected: i === 0,
+        },
+      ];
+    }
+  }
+  return options;
 };

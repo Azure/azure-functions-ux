@@ -10,14 +10,9 @@ import { CurrentPlanDetailsProps } from './ChangeAppPlan.types';
 export const CurrentPlanDetails: React.FC<CurrentPlanDetailsProps> = ({ currentServerFarm }) => {
   const { t } = useTranslation();
 
-  const getPlanName = (serverFarm: ArmObj<ServerFarm>) => {
-    const descriptor = new ArmPlanDescriptor(serverFarm.id);
-    return descriptor.name;
-  };
-
   return (
     <>
-      <Stack style={sectionStyle}>
+      <Stack className={sectionStyle}>
         <h4 className={labelSectionStyle}>{t('changePlanCurrentPlanDetails')}</h4>
       </Stack>
 
@@ -28,4 +23,9 @@ export const CurrentPlanDetails: React.FC<CurrentPlanDetailsProps> = ({ currentS
       </ReactiveFormControl>
     </>
   );
+};
+
+const getPlanName = (serverFarm: ArmObj<ServerFarm>) => {
+  const descriptor = new ArmPlanDescriptor(serverFarm.id);
+  return descriptor.name;
 };

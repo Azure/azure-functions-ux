@@ -7,8 +7,6 @@ import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
 import SiteService from '../../../ApiHelpers/SiteService';
-import FeatureDescriptionCard from '../../../components/feature-description-card/FeatureDescriptionCard';
-import { ReactComponent as AppServicePlanSvg } from '../../../images/AppService/app-service-plan.svg';
 import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { BroadcastMessageId } from '../../../models/portal-models';
 import { ResourceGroup } from '../../../models/resource-group';
@@ -30,6 +28,7 @@ import { ChangeAppPlanFormValues, ChangeAppPlanProps, CompletionTelemetry } from
 import { ChangeAppPlanFooter } from './ChangeAppPlanFooter';
 import { CurrentPlanDetails } from './ChangeAppPlanCurrentPlanDetails';
 import { DestinationPlanDetails } from './ChangeAppPlanDestinationPlanDetails';
+import { ChangeAppPlanHeader } from './ChangeAppPlanHeader';
 
 export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const { serverFarms, resourceGroups, site, currentServerFarm, hostingEnvironment, onChangeComplete } = props;
@@ -66,27 +65,19 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formValues, formValues.serverFarmInfo]);
 
-  const getChangePlanHeaderCard = () => {
-    return (
-      <header>
-        <FeatureDescriptionCard name={t('changePlanName')} description={t('changePlanDescription')} Svg={AppServicePlanSvg} />
-      </header>
-    );
-  };
-
   return (
     <>
       {getWarningBar(siteIsReadOnlyLocked, t, showAppDensityWarning, formValues)}
-      <div style={wrapperStyle}>
+      <div className={wrapperStyle}>
         <Formik
           initialValues={formValues}
           onSubmit={values => onSubmit(values, setIsUpdating, setFormValues, portalCommunicator, t, onChangeComplete)}>
           {(formProps: FormikProps<ChangeAppPlanFormValues>) => {
             return (
               <form>
-                {getChangePlanHeaderCard()}
+                <ChangeAppPlanHeader />
                 <section>
-                  <Stack style={formStyle}>
+                  <Stack className={formStyle}>
                     <CurrentPlanDetails currentServerFarm={currentServerFarm} />
                     <DestinationPlanDetails
                       currentServerFarm={currentServerFarm}

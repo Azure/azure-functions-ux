@@ -5,18 +5,18 @@ export const leftCol = style({
   marginRight: '20px',
 });
 
-export const wrapperStyle = {
+export const wrapperStyle = style({
   padding: '30px',
-};
+});
 
-export const formStyle = {
+export const formStyle = style({
   marginTop: '30px',
   marginBottom: '40px',
-};
+});
 
-export const sectionStyle = {
+export const sectionStyle = style({
   marginTop: '10px',
-};
+});
 
 export const labelSectionStyle = style({
   textTransform: 'uppercase',
@@ -24,9 +24,9 @@ export const labelSectionStyle = style({
   fontWeight: 600,
 });
 
-export const headerStyle = {
+export const headerStyle = style({
   marginTop: '50px',
-};
+});
 
 export const planTypeStyle = style({
   marginBottom: '-10px',
