@@ -1838,6 +1838,9 @@ export class PortalResources {
   public static quickstartLoadFailure = 'quickstartLoadFailure';
   public static githubActionInfo = 'githubActionInfo';
   public static commitId = 'commitId';
+  public static planType = 'planType';
+  public static consumptionPlan = 'consumptionPlan';
+  public static functionPremiumPlan = 'functionPremiumPlan';
   public static readWritePermissionsRequired = 'readWritePermissionsRequired';
   public static functionsRuntimeVersionCustomInfo = 'functionsRuntimeVersionCustomInfo';
   public static functionsRuntimeVersionExistingFunctionsWarning = 'functionsRuntimeVersionExistingFunctionsWarning';
