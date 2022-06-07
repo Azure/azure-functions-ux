@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { style } from 'typestyle';
 import { Layout } from '../../../../../components/form-controls/ReactiveFormControl';
+import { getCalloutContainerStyles } from '../Common.styles';
 
 const buttonContainer = style({
   display: 'flex',
@@ -27,6 +28,10 @@ const header = style({
   marginBlock: 0,
 });
 
+const overrideLoadingComboboxStyles = style({
+  display: 'block',
+});
+
 const section = style({
   display: 'flex',
   flexDirection: 'column',
@@ -34,16 +39,7 @@ const section = style({
 });
 
 export const useStyles = (layout: Layout) => {
-  const calloutContainer = useMemo(
-    () =>
-      style({
-        marginBottom: '15px',
-        marginLeft: layout === Layout.Horizontal ? '200px' : '0px',
-        marginRight: '0px',
-        marginTop: '-15px',
-      }),
-    [layout]
-  );
+  const calloutContainer = useMemo(() => getCalloutContainerStyles(layout), [layout]);
 
   return {
     buttonContainer,
@@ -51,6 +47,7 @@ export const useStyles = (layout: Layout) => {
     calloutContainer,
     container,
     header,
+    overrideLoadingComboboxStyles,
     section,
   };
 };

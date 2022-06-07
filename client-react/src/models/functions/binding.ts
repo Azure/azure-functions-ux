@@ -29,11 +29,12 @@ export interface BindingSetting {
   defaultValue: string;
   required: boolean;
   label: string;
-  help: string;
+  help?: string;
   validators?: BindingValidator[];
   enum?: BindingEnum[];
   placeholder?: string;
   resource?: BindingSettingResource;
+  options?: any[];
 }
 
 export interface BindingRule {
@@ -65,6 +66,7 @@ export enum BindingSettingValue {
   enum = 'enum',
   checkBoxList = 'checkBoxList',
   boolean = 'boolean',
+  radioButtons = 'radioButtons',
 }
 
 export enum BindingSettingResource {
