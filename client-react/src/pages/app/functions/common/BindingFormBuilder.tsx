@@ -22,14 +22,29 @@ export class BindingFormBuilder<TOptions> {
     return bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, currentBinding.type))?.displayName;
   };
 
+  protected bindingList: Binding[];
+  protected options?: TOptions;
+  protected resourceId: string;
+  protected t: i18next.TFunction;
+
+  private _areCreateFunctionFieldsHorizontal: boolean;
+  private _bindingInfoList: BindingInfo[];
+
   constructor(
-    private _bindingInfoList: BindingInfo[],
-    protected bindingList: Binding[],
-    protected resourceId: string,
-    protected t: i18next.TFunction,
-    private _areCreateFunctionFieldsHorizontal: boolean,
-    protected options?: TOptions
-  ) {}
+    bindingInfoList: BindingInfo[],
+    bindingList: Binding[],
+    resourceId: string,
+    t: i18next.TFunction,
+    areCreateFunctionFieldsHorizontal: boolean,
+    options?: TOptions
+  ) {
+    this.bindingList = bindingList;
+    this.options = options;
+    this.resourceId = resourceId;
+    this.t = t;
+    this._areCreateFunctionFieldsHorizontal = areCreateFunctionFieldsHorizontal;
+    this._bindingInfoList = bindingInfoList;
+  }
 
   public getInitialFormValues(): BindingEditorFormValues {
     const initialFormValues: BindingEditorFormValues = {};

@@ -1,6 +1,7 @@
 import { useMemo } from 'react';
 import { style } from 'typestyle';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
+import { getCalloutContainerStyles } from './Common.styles';
 
 const callout = style({
   boxSizing: 'border-box',
@@ -8,22 +9,7 @@ const callout = style({
 });
 
 export const useStyles = (layout: Layout = Layout.Horizontal) => {
-  const calloutContainer = useMemo(
-    () =>
-      layout === Layout.Horizontal
-        ? style({
-            marginBottom: '15px',
-            marginRight: '162px',
-            marginTop: '-15px',
-            minWidth: '235px',
-            textAlign: 'right',
-          })
-        : style({
-            marginBottom: '15px',
-            marginTop: '-15px',
-          }),
-    [layout]
-  );
+  const calloutContainer = useMemo(() => getCalloutContainerStyles(layout), [layout]);
 
   return {
     callout,

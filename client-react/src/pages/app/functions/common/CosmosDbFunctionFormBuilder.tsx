@@ -22,6 +22,18 @@ interface CreateCosmosDbFunctionFormBuilderOptions {
   hasSubscriptionWritePermission: boolean;
 }
 
+const beginsWithSlash = '^[/].*';
+
+enum SettingNames {
+  collectionName = 'collectionName',
+  databaseName = 'databaseName',
+}
+
+enum ConnectionType {
+  automatic = 'automatic',
+  manual = 'manual',
+}
+
 class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmosDbFunctionFormBuilderOptions> {
   private _metadataHasBeenUpdated: boolean;
 
@@ -77,9 +89,7 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
     }
 
     const { direction, type, ...bindingFormValues } = super.getInitialFormValues();
-    bindingFormValues.connectionType = !(this.options?.hasResourceGroupWritePermission && this.options?.hasSubscriptionWritePermission)
-      ? 'manual'
-      : 'automatic';
+    bindingFormValues.connectionType = !this._hasWritePermissions() ? ConnectionType.manual : ConnectionType.automatic;
     bindingFormValues.partitionKeyPath = CommonConstants.CosmosDbDefaults.partitionKeyPath;
 
     return {
@@ -134,9 +144,9 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
     setArmResources: TSetArmResourceTemplates
   ) {
     const component =
-      setting.name === 'databaseName'
+      setting.name === SettingNames.databaseName
         ? CosmosDbDatabaseComboBox
-        : setting.name === 'collectionName'
+        : setting.name === SettingNames.collectionName
         ? CosmosDbContainerComboBox
         : undefined;
 
@@ -173,7 +183,7 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
   ) {
     return (
       <>
-        {!!this.bindingList[0].settings && formProps.values.connectionType === 'automatic' && (
+        {!!this.bindingList[0].settings && formProps.values.connectionType === ConnectionType.automatic && (
           <>
             {this.getResourceField(this.bindingList[0].settings[1], formProps, disabled, this.resourceId, armResources, setArmResources)}
             {formProps.values[this.bindingList[0].settings[1].name] &&
@@ -183,7 +193,7 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
             {!!formProps.status?.isNewContainer && this.getTextField(this.bindingList[0].settings[4], formProps, disabled)}
           </>
         )}
-        {!!this.bindingList[0].settings && formProps.values.connectionType === 'manual' && (
+        {!!this.bindingList[0].settings && formProps.values.connectionType === ConnectionType.manual && (
           <>
             <h3>{this.t('cosmosDb_header_customAppSetting')}</h3>
             {this.getTextField(
@@ -247,9 +257,13 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
     );
   }
 
+  private _hasWritePermissions(): boolean {
+    return !!this.options?.hasResourceGroupWritePermission || !!this.options?.hasSubscriptionWritePermission;
+  }
+
   private _modifyMetadata() {
     // This functionality works on the assumption that the indices don't change (6/29/2021)
-    if (!!this.bindingList?.[0] && !!this.bindingList[0].settings && this.bindingList[0].type === BindingType.cosmosDBTrigger) {
+    if (!!this.bindingList[0] && !!this.bindingList[0].settings && this.bindingList[0].type === BindingType.cosmosDBTrigger) {
       // Modify existing fields
       this.bindingList[0].settings[0].label = this.t('cosmosDb_label_cosmosDbAccount');
       delete this.bindingList[0].settings[0].help;
@@ -288,7 +302,7 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
         name: 'connectionType',
         options: [
           {
-            disabled: !(this.options?.hasResourceGroupWritePermission && this.options?.hasSubscriptionWritePermission),
+            disabled: !this._hasWritePermissions(),
             key: 'automatic',
             text: this.t('automatic'),
           },
@@ -309,7 +323,7 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
         required: true,
         validators: [
           {
-            expression: '^[/].*',
+            expression: beginsWithSlash,
             errorText: this.t('cosmosDb_error_partitionKeyPathSlash'),
           },
         ],
@@ -336,7 +350,7 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
     return undefined;
   }
 
-  private _validateRadioButton(value: boolean | undefined, required: boolean): string | undefined {
+  private _validateRadioButton(value: string | undefined, required: boolean): string | undefined {
     if (required && value === undefined) {
       return this.t('fieldRequired');
     }

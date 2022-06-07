@@ -113,7 +113,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = (props: TemplateDetailProp
   };
 
   const createBuilder = () => {
-    if (!!functionsInfo && !!bindings && !!resourceId) {
+    if (!!functionsInfo && !!bindings) {
       /** @todo (joechung): Use CosmosDbFunctionFormBuilder instead for Cosmos DB triggers. */
       setBuilder(
         new CreateFunctionFormBuilder(
