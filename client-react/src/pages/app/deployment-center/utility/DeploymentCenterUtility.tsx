@@ -288,7 +288,7 @@ export const getGitCloneUri = (deploymentCenterPublishingContext: IDeploymentCen
 
 export const getAppDockerWebhookUrl = (publishingCredentialsArmObj: ArmObj<PublishingCredentials>) => {
   if (publishingCredentialsArmObj.properties.scmUri) {
-    return `${publishingCredentialsArmObj.properties.scmUri}/docker/hook`;
+    return `${publishingCredentialsArmObj.properties.scmUri}/api/registry/webhook`;
   }
 
   return '';
