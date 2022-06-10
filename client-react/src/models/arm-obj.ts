@@ -1,4 +1,3 @@
-import { Omit } from '@uifabric/utilities';
 import { KeyValue } from './portal-models';
 
 export interface MsiIdentity {
