@@ -1,8 +1,8 @@
+import { FormikProps } from 'formik';
+import * as Yup from 'yup';
 import { ArmObj } from '../../../models/arm-obj';
 import { KeyValue } from '../../../models/portal-models';
 import { Environment } from '../../../models/static-site/environment';
-import * as Yup from 'yup';
-import { FormikProps } from 'formik';
 import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
 
 export interface EnvironmentVariable {
@@ -70,6 +70,7 @@ export interface ConfigurationFormData {
   isAppSettingsDirty: boolean;
   isGeneralSettingsDirty: boolean;
   selectedEnvironment?: ArmObj<Environment>;
+  allowConfigFileUpdates: boolean;
 }
 
 export type ConfigurationYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, ConfigurationFormData>>;
@@ -88,6 +89,7 @@ export interface ConfigurationFormProps {
   refresh: (currentEnvironment?: ArmObj<Environment>) => void;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
   staticSiteSku: StaticSiteSku;
+  location?: string;
 }
 
 export interface ConfigurationPivotProps {

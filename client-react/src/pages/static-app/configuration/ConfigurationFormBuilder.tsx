@@ -1,14 +1,14 @@
+import i18next from 'i18next';
+import * as Yup from 'yup';
+import { ArmObj } from '../../../models/arm-obj';
+import { Environment } from '../../../models/static-site/environment';
+import { CommonConstants } from '../../../utils/CommonConstants';
 import {
   ConfigurationFormData,
   ConfigurationYupValidationSchemaType,
   EnvironmentVariable,
   PasswordProtectionTypes,
 } from './Configuration.types';
-import * as Yup from 'yup';
-import i18next from 'i18next';
-import { ArmObj } from '../../../models/arm-obj';
-import { Environment } from '../../../models/static-site/environment';
-import { CommonConstants } from '../../../utils/CommonConstants';
 
 export class ConfigurationFormBuilder {
   protected _t: i18next.TFunction;
@@ -21,9 +21,11 @@ export class ConfigurationFormBuilder {
     environments?: ArmObj<Environment>[],
     passwordProtection?: PasswordProtectionTypes,
     defaultEnvironment?: ArmObj<Environment>,
-    defaultEnvironmentVariables?: EnvironmentVariable[]
+    defaultEnvironmentVariables?: EnvironmentVariable[],
+    allowConfigFileUpdates: boolean = false
   ): ConfigurationFormData {
     return {
+      allowConfigFileUpdates,
       environments: environments || [],
       environmentVariables: defaultEnvironmentVariables || [],
       passwordProtectionEnvironments: '',
@@ -38,6 +40,7 @@ export class ConfigurationFormBuilder {
 
   public generateYupValidationSchema(): ConfigurationYupValidationSchemaType {
     return Yup.object().shape({
+      allowConfigFileUpdates: Yup.boolean().notRequired(),
       environmentVariables: Yup.mixed().notRequired(),
       isAppSettingsDirty: Yup.mixed().notRequired(),
       isGeneralSettingsDirty: Yup.mixed().notRequired(),
