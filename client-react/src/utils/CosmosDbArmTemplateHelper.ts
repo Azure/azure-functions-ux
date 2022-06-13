@@ -1,12 +1,11 @@
 import { FormikProps } from 'formik';
-import React from 'react';
 import { ArmObj } from '../models/arm-obj';
-import { getArmDeploymentTemplate, IArmResourceTemplate } from './ArmTemplateHelper';
+import { getArmDeploymentTemplate, IArmResourceTemplate, TSetArmResourceTemplate, TSetArmResourceTemplates } from './ArmTemplateHelper';
 import { CommonConstants } from './CommonConstants';
 
 export const addDatabaseAccountType = (
   endpoint: string,
-  databaseAccountType: string,
+  databaseAccountType: string = CommonConstants.CosmosDbTypes.globalDocumentDb,
   isContainer: boolean = false,
   databaseName?: string
 ): string => {
@@ -16,7 +15,7 @@ export const addDatabaseAccountType = (
 
   switch (databaseAccountType) {
     case CommonConstants.CosmosDbTypes.globalDocumentDb:
-      return endpoint + !isContainer ? 'sqlDatabases' : `sqlDatabases/${databaseName}/containers`;
+      return endpoint + (!isContainer ? 'sqlDatabases' : `sqlDatabases/${databaseName}/containers`);
 
     default:
       return '';
@@ -196,8 +195,8 @@ export const getNewDatabaseArmTemplate = (
 
 export const removeCurrentContainerArmTemplate = (
   armResources: IArmResourceTemplate[],
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>,
-  setStoredArmTemplate?: React.Dispatch<React.SetStateAction<IArmResourceTemplate>>
+  setArmResources: TSetArmResourceTemplates,
+  setStoredArmTemplate?: TSetArmResourceTemplate
 ) => {
   removeTemplateConditionally(
     armResources,
@@ -209,8 +208,8 @@ export const removeCurrentContainerArmTemplate = (
 
 export const removeCurrentDatabaseAccountArmTemplate = (
   armResources: IArmResourceTemplate[],
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>,
-  setStoredArmTemplate?: React.Dispatch<React.SetStateAction<IArmResourceTemplate>>
+  setArmResources: TSetArmResourceTemplates,
+  setStoredArmTemplate?: TSetArmResourceTemplate
 ) => {
   removeTemplateConditionally(
     armResources,
@@ -222,8 +221,8 @@ export const removeCurrentDatabaseAccountArmTemplate = (
 
 export const removeCurrentDatabaseArmTemplate = (
   armResources: IArmResourceTemplate[],
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>,
-  setStoredArmTemplate?: React.Dispatch<React.SetStateAction<IArmResourceTemplate>>
+  setArmResources: TSetArmResourceTemplates,
+  setStoredArmTemplate?: TSetArmResourceTemplate
 ) => {
   removeTemplateConditionally(
     armResources,
@@ -235,9 +234,9 @@ export const removeCurrentDatabaseArmTemplate = (
 
 export const removeTemplateConditionally = (
   armResources: IArmResourceTemplate[],
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>,
+  setArmResources: TSetArmResourceTemplates,
   condition: (resource: IArmResourceTemplate) => boolean,
-  setStoredArmTemplate?: React.Dispatch<React.SetStateAction<IArmResourceTemplate>>
+  setStoredArmTemplate?: TSetArmResourceTemplate
 ) => {
   const modifiableArmResources = armResources;
 
@@ -252,8 +251,8 @@ export const removeTemplateConditionally = (
 
 export const storeTemplateAndClearResources = (
   armResources: IArmResourceTemplate[],
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>,
-  setStoredArmTemplate: React.Dispatch<React.SetStateAction<IArmResourceTemplate>>
+  setArmResources: TSetArmResourceTemplates,
+  setStoredArmTemplate: TSetArmResourceTemplate
 ) => {
   for (const armResource of armResources) {
     if (armResource.type.toLowerCase().includes('databaseaccounts') && armResource.name.split('/').length === 1) {

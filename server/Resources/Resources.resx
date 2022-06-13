@@ -7423,6 +7423,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>(new)</value>
         <comment>Prefix for dropdown option text indicating their newness, e.g., (new) CosmosDatabase</comment>
     </data>
+    <data name="automatic" xml:space="preserve">
+        <value>Automatic</value>
+    </data>
+    <data name="manual" xml:space="preserve">
+        <value>Manual</value>
+    </data>
     <data name="cosmosDb_apiType_coreSql" xml:space="preserve">
         <value>Core (SQL)</value>
     </data>
@@ -7456,6 +7462,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="cosmosDb_error_fieldRequired" xml:space="preserve">
         <value>The field is required.</value>
     </data>
+    <data name="cosmosDb_error_partitionKeyPathSlash" xml:space="preserve">
+        <value>The partition key path must contain at least one \'/\' at the beginning of the string.</value>
+    </data>
+    <data name="cosmosDb_error_writePermissionsRequired" xml:space="preserve">
+        <value>Automatic mode is disabled for users with read-only permissions in their subscription or resource group.</value>
+    </data>
+    <data name="cosmosDb_header_customAppSetting" xml:space="preserve">
+        <value>Custom app setting</value>
+    </data>
+    <data name="cosmosDb_header_details" xml:space="preserve">
+        <value>Cosmos DB details</value>
+    </data>
     <data name="cosmosDb_label_accountName" xml:space="preserve">
         <value>Account name</value>
     </data>
@@ -7464,6 +7482,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="nodeStackLearnMore" xml:space="preserve">
         <value>Node version is defined through the {0} app setting.</value>
+    </data>
+    <data name="cosmosDb_label_connection" xml:space="preserve">
+        <value>Cosmos DB connection</value>
     </data>
     <data name="cosmosDb_label_container" xml:space="preserve">
         <value>Container</value>
@@ -7480,8 +7501,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="cosmosDb_label_createAnAccount" xml:space="preserve">
         <value>Create an account</value>
     </data>
+    <data name="cosmosDb_label_customAppSettingKey" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="cosmosDb_label_customAppSettingValue" xml:space="preserve">
+        <value>Connection string setting</value>
+    </data>
     <data name="cosmosDb_label_database" xml:space="preserve">
         <value>Database</value>
+    </data>
+    <data name="cosmosDb_label_partitionKeyPath" xml:space="preserve">
+        <value>Partition key path</value>
     </data>
     <data name="cosmosDb_newAccountDialog_description" xml:space="preserve">
         <value>Create a new serverless account in the same Azure region and resource group as the function. For more options, go to </value>
@@ -7503,6 +7533,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="cosmosDb_placeholder_selectAnAccount" xml:space="preserve">
         <value>Select an account</value>
+    </data>
+    <data name="cosmosDb_tooltip_customAppSettingKey" xml:space="preserve">
+        <value>Enter the key/value pair for the Cosmos DB custom app setting.</value>
+    </data>
+    <data name="cosmosDb_tooltip_partitionKeyPath" xml:space="preserve">
+        <value>The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size.</value>
     </data>
     <data name="containerApp_console_startUpCommandAriaLabel" xml:space="preserve">
         <value>Custom start up command</value>
