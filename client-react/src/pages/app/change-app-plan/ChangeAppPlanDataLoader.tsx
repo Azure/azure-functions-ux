@@ -14,11 +14,12 @@ import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { LogCategories } from '../../../utils/LogCategories';
 import { PortalContext } from '../../../PortalContext';
 import Url from '../../../utils/url';
 import { CommonConstants } from '../../../utils/CommonConstants';
+import { ChangeAppPlanTierTypes } from './ChangeAppPlan.types';
 
 interface ChangeAppPlanDataLoaderProps {
   resourceId: string;
@@ -89,10 +90,20 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
           }
 
           setCurrentServerFarm(responses[0].data);
-          setServerFarms(filterListToPotentialPlans(siteResult, responses[1]));
+          setServerFarms(filterListToPotentialPlans(siteResult, responses[1], consumptionToPremiumEnabled(responses[0].data)));
           setInitializeData(false);
         });
     }
+  };
+
+  const consumptionToPremiumEnabled = (currentServerFarm: ArmObj<ServerFarm> | null) => {
+    const currentTier = currentServerFarm?.sku?.tier.toLocaleLowerCase();
+    const isDynamicOrPremium =
+      currentTier === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase() ||
+      currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
+    const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
+    const isLinux = !!site && isLinuxApp(site);
+    return isNewChangeAspEnabled && isDynamicOrPremium && !isLinux;
   };
 
   const refresh = () => {
@@ -121,9 +132,7 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
   );
 };
 
-const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<ServerFarm>[]) => {
-  const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
-
+const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<ServerFarm>[], consumptionToPremiumEnabled: boolean) => {
   return serverFarms.filter(serverFarm => {
     if (site.properties.serverFarmId.toLowerCase() === serverFarm.id.toLowerCase()) {
       return false;
@@ -135,7 +144,7 @@ const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<Serv
     }
 
     if (
-      !isNewChangeAspEnabled &&
+      !consumptionToPremiumEnabled &&
       (site.properties.sku === ServerFarmSkuConstants.Tier.dynamic || site.properties.sku === ServerFarmSkuConstants.Tier.elasticPremium) &&
       serverFarm.sku.tier !== site.properties.sku
     ) {

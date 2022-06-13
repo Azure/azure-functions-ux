@@ -7,7 +7,7 @@ import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import Url from '../../../utils/url';
@@ -31,14 +31,16 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const portalCommunicator = useContext(PortalContext);
 
   const subscriptionId = new ArmPlanDescriptor(currentServerFarm.id).subscription;
-  const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
-  const isDynamicOrEP = useMemo(() => {
+
+  const consumptionToPremiumEnabled = useMemo(() => {
     const currentTier = currentServerFarm.sku?.tier.toLocaleLowerCase();
-    return (
+    const isDynamicOrPremium =
       currentTier === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase() ||
-      currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase()
-    );
-  }, [currentServerFarm]);
+      currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
+    const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
+    const isLinux = isLinuxApp(formProps.values.site);
+    return isNewChangeAspEnabled && isDynamicOrPremium && !isLinux;
+  }, [currentServerFarm, formProps.values.site]);
 
   const getSelectedResourceGroupString = () => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
@@ -172,7 +174,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const serverFarmOptions = useMemo(() => {
     let filteredServerFarmOptions = serverFarms;
-    if (isNewChangeAspEnabled) {
+    if (consumptionToPremiumEnabled) {
       filteredServerFarmOptions = serverFarms.filter(serverFarm => serverFarm?.sku?.tier === skuTier);
     }
     const options = getDropdownOptions(filteredServerFarmOptions);
@@ -210,7 +212,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
       </Stack>
 
-      {isNewChangeAspEnabled && isDynamicOrEP && (
+      {consumptionToPremiumEnabled && (
         <div className={planTypeStyle}>
           <ReactiveFormControl id="planType" label={t('planType')}>
             <RadioButtonNoFormik
