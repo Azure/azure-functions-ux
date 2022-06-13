@@ -17,6 +17,8 @@ import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-e
 import { isFunctionApp } from '../../../utils/arm-utils';
 import { LogCategories } from '../../../utils/LogCategories';
 import { PortalContext } from '../../../PortalContext';
+import Url from '../../../utils/url';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 interface ChangeAppPlanDataLoaderProps {
   resourceId: string;
@@ -120,6 +122,8 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
 };
 
 const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<ServerFarm>[]) => {
+  const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
+
   return serverFarms.filter(serverFarm => {
     if (site.properties.serverFarmId.toLowerCase() === serverFarm.id.toLowerCase()) {
       return false;
@@ -131,6 +135,7 @@ const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<Serv
     }
 
     if (
+      !isNewChangeAspEnabled &&
       (site.properties.sku === ServerFarmSkuConstants.Tier.dynamic || site.properties.sku === ServerFarmSkuConstants.Tier.elasticPremium) &&
       serverFarm.sku.tier !== site.properties.sku
     ) {

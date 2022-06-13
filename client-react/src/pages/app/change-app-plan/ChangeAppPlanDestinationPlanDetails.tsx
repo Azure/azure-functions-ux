@@ -1,5 +1,5 @@
 import { IDropdownOption, ILink, Link, Stack } from '@fluentui/react';
-import { useContext, useMemo, useRef } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
 import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
@@ -7,6 +7,7 @@ import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
+import { isFunctionApp } from '../../../utils/arm-utils';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import Url from '../../../utils/url';
@@ -24,6 +25,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   serverFarms,
 }) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
+  const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
 
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -48,7 +50,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const getPricingTierValue = (currentServerFarmId: string, linkElement: React.MutableRefObject<ILink | null>) => {
     const skuString = getSelectedSkuString();
 
-    if (formProps.values.serverFarmInfo.isNewPlan) {
+    if (formProps.values.serverFarmInfo.isNewPlan && formProps.values.serverFarmInfo.newPlanInfo.tier !== ChangeAppPlanTierTypes.Dynamic) {
       return (
         <Link
           aria-label={`${t('pricingTier')} ${skuString}`}
@@ -88,7 +90,8 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       detailBladeInputs: {
         id: currentServerFarmId,
         data: {
-          selectedSkuCode: 'F1',
+          forbiddenSkus: getForbiddenSkus(),
+          isFunctionApp: isFunctionApp(formProps.values.site),
           returnObjectResult: true,
         },
       },
@@ -108,7 +111,37 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       };
 
       formProps.setFieldValue('serverFarmInfo', newServerFarmInfo);
+      setSkuTier(result.data.value.tier);
     }
+  };
+
+  const getForbiddenSkus = () => {
+    if (formProps.values.currentServerFarm.sku?.tier === ChangeAppPlanTierTypes.Dynamic) {
+      return [
+        'free',
+        'shared',
+        'small_basic',
+        'medium_Basic',
+        'large_basic',
+        'small_standard',
+        'medium_standard',
+        'large_standard',
+        'D1_premiumV2',
+        'D2_premiumV2',
+        'D3_premiumV2',
+        'small_premium',
+        'medium_premium',
+        'large_premium',
+        'P3V3',
+        'P2V3',
+        'P1V3',
+        'WS1',
+        'WS2',
+        'WS3',
+      ];
+    }
+
+    return [];
   };
 
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
@@ -116,11 +149,15 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   };
 
   const onPlanTierChange = (planTier: ChangeAppPlanTierTypes) => {
-    //TODO: (stpelleg): reload plans
+    setSkuTier(planTier);
   };
 
   const serverFarmOptions = useMemo(() => {
-    const options = getDropdownOptions(serverFarms);
+    let filteredServerFarmOptions = serverFarms;
+    if (isNewChangeAspEnabled) {
+      filteredServerFarmOptions = serverFarms.filter(serverFarm => serverFarm?.sku?.tier === skuTier);
+    }
+    const options = getDropdownOptions(filteredServerFarmOptions);
     addNewPlanToOptions(formProps.values.serverFarmInfo.newPlanInfo.name, options, t);
     if (options.length === 0) {
       options.unshift({
@@ -132,7 +169,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     return options;
-  }, [formProps.values.serverFarmInfo.newPlanInfo.name, serverFarms, t]);
+  }, [formProps.values.serverFarmInfo.newPlanInfo?.name, skuTier, serverFarms, t]);
 
   const rgOptions = useMemo(() => {
     const options = getDropdownOptions(resourceGroups);
@@ -149,6 +186,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     return options;
   }, [formProps.values.serverFarmInfo.newPlanInfo.newResourceGroupName, resourceGroups, t]);
 
+  //when plan tier changes -- reload server farms. If new -- default to PV2 and Consumption, otherwise get the top option and select it as a plan
   return (
     <>
       <Stack className={headerStyle}>
@@ -161,7 +199,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
             <RadioButtonNoFormik
               id="planType"
               aria-label={t('planType')}
-              defaultSelectedKey={formProps.values.serverFarmInfo.newPlanInfo.tier}
+              defaultSelectedKey={skuTier}
               options={[
                 { key: ChangeAppPlanTierTypes.Dynamic, text: t('consumptionPlan') },
                 { key: ChangeAppPlanTierTypes.ElasticPremium, text: t('functionPremiumPlan') },
@@ -183,6 +221,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
           onPlanChange={onPlanChange}
           serverFarmsInWebspace={serverFarms}
           hostingEnvironment={hostingEnvironment}
+          skuTier={skuTier}
         />
       </ReactiveFormControl>
 
