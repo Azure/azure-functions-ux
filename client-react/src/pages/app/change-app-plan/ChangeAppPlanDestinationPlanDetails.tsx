@@ -32,6 +32,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const subscriptionId = new ArmPlanDescriptor(currentServerFarm.id).subscription;
   const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
+  const isDynamicOrEP = useMemo(() => {
+    const currentTier = currentServerFarm.sku?.tier.toLocaleLowerCase();
+    return (
+      currentTier === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase() ||
+      currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase()
+    );
+  }, [currentServerFarm]);
 
   const getSelectedResourceGroupString = () => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
@@ -89,11 +96,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       detailBlade: 'SpecPickerFrameBlade',
       detailBladeInputs: {
         id: currentServerFarmId,
-        data: {
-          forbiddenSkus: getForbiddenSkus(),
-          isFunctionApp: isFunctionApp(formProps.values.site),
-          returnObjectResult: true,
-        },
+        data: getSkuPickerData(),
       },
       openAsContextBlade: true,
     });
@@ -115,7 +118,22 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
   };
 
+  const getSkuPickerData = () => {
+    if (currentServerFarm.sku?.tier.toLocaleLowerCase() === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase()) {
+      return {
+        forbiddenSkus: getForbiddenSkus(),
+        isFunctionApp: isFunctionApp(formProps.values.site),
+        returnObjectResult: true,
+      };
+    }
+    return {
+      selectedSkuCode: 'F1',
+      returnObjectResult: true,
+    };
+  };
+
   const getForbiddenSkus = () => {
+    //NOTE(stpelleg): Need to block all non-EP skus in the sku picker for dynamic plans
     if (formProps.values.currentServerFarm.sku?.tier === ChangeAppPlanTierTypes.Dynamic) {
       return [
         'free',
@@ -186,14 +204,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     return options;
   }, [formProps.values.serverFarmInfo.newPlanInfo.newResourceGroupName, resourceGroups, t]);
 
-  //when plan tier changes -- reload server farms. If new -- default to PV2 and Consumption, otherwise get the top option and select it as a plan
   return (
     <>
       <Stack className={headerStyle}>
         <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
       </Stack>
 
-      {isNewChangeAspEnabled && (
+      {isNewChangeAspEnabled && isDynamicOrEP && (
         <div className={planTypeStyle}>
           <ReactiveFormControl id="planType" label={t('planType')}>
             <RadioButtonNoFormik
