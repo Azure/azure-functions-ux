@@ -90,20 +90,10 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
           }
 
           setCurrentServerFarm(responses[0].data);
-          setServerFarms(filterListToPotentialPlans(siteResult, responses[1], consumptionToPremiumEnabled(responses[0].data)));
+          setServerFarms(filterListToPotentialPlans(siteResult, responses[1], consumptionToPremiumEnabled(responses[0].data, site)));
           setInitializeData(false);
         });
     }
-  };
-
-  const consumptionToPremiumEnabled = (currentServerFarm: ArmObj<ServerFarm> | null) => {
-    const currentTier = currentServerFarm?.sku?.tier.toLocaleLowerCase();
-    const isDynamicOrPremium =
-      currentTier === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase() ||
-      currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
-    const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
-    const isLinux = !!site && isLinuxApp(site);
-    return isNewChangeAspEnabled && isDynamicOrPremium && !isLinux;
   };
 
   const refresh = () => {
@@ -158,6 +148,16 @@ const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<Serv
 
     return true;
   });
+};
+
+export const consumptionToPremiumEnabled = (currentServerFarm: ArmObj<ServerFarm> | null, site: ArmObj<Site> | null) => {
+  const currentTier = currentServerFarm?.sku?.tier.toLocaleLowerCase();
+  const isDynamicOrPremium =
+    currentTier === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase() ||
+    currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
+  const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
+  const isLinux = !!site && isLinuxApp(site);
+  return isNewChangeAspEnabled && isDynamicOrPremium && !isLinux;
 };
 
 export default ChangeAppPlanDataLoader;

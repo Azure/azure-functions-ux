@@ -7,13 +7,12 @@ import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
-import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
-import { CommonConstants } from '../../../utils/CommonConstants';
+import { isFunctionApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import Url from '../../../utils/url';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
 import { ChangeAppPlanTierTypes, DestinationPlanDetailsProps } from './ChangeAppPlan.types';
+import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 
@@ -32,15 +31,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const subscriptionId = new ArmPlanDescriptor(currentServerFarm.id).subscription;
 
-  const consumptionToPremiumEnabled = useMemo(() => {
-    const currentTier = currentServerFarm.sku?.tier.toLocaleLowerCase();
-    const isDynamicOrPremium =
-      currentTier === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase() ||
-      currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
-    const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
-    const isLinux = isLinuxApp(formProps.values.site);
-    return isNewChangeAspEnabled && isDynamicOrPremium && !isLinux;
-  }, [currentServerFarm, formProps.values.site]);
+  const isConsumptionToPremiumEnabled = useMemo(() => consumptionToPremiumEnabled(currentServerFarm, formProps.values.site), [
+    currentServerFarm,
+    formProps.values.site,
+  ]);
 
   const getSelectedResourceGroupString = () => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
@@ -98,7 +92,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       detailBlade: 'SpecPickerFrameBlade',
       detailBladeInputs: {
         id: currentServerFarmId,
-        data: getSkuPickerData(),
+        data: skuPickerData,
       },
       openAsContextBlade: true,
     });
@@ -120,21 +114,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
   };
 
-  const getSkuPickerData = () => {
-    if (currentServerFarm.sku?.tier.toLocaleLowerCase() === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase()) {
-      return {
-        forbiddenSkus: getForbiddenSkus(),
-        isFunctionApp: isFunctionApp(formProps.values.site),
-        returnObjectResult: true,
-      };
-    }
-    return {
-      selectedSkuCode: 'F1',
-      returnObjectResult: true,
-    };
-  };
-
-  const getForbiddenSkus = () => {
+  const forbiddenSkus = useMemo(() => {
     //NOTE(stpelleg): Need to block all non-EP skus in the sku picker for dynamic plans
     if (formProps.values.currentServerFarm.sku?.tier === ChangeAppPlanTierTypes.Dynamic) {
       return [
@@ -160,9 +140,22 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         'WS3',
       ];
     }
-
     return [];
-  };
+  }, [formProps.values.currentServerFarm]);
+
+  const skuPickerData = useMemo(() => {
+    if (currentServerFarm.sku?.tier.toLocaleLowerCase() === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase()) {
+      return {
+        forbiddenSkus,
+        isFunctionApp: isFunctionApp(formProps.values.site),
+        returnObjectResult: true,
+      };
+    }
+    return {
+      selectedSkuCode: 'F1',
+      returnObjectResult: true,
+    };
+  }, [currentServerFarm, forbiddenSkus, formProps.values.site]);
 
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
     formProps.setFieldValue('serverFarmInfo', planInfo);
@@ -173,10 +166,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   };
 
   const serverFarmOptions = useMemo(() => {
-    let filteredServerFarmOptions = serverFarms;
-    if (consumptionToPremiumEnabled) {
-      filteredServerFarmOptions = serverFarms.filter(serverFarm => serverFarm?.sku?.tier === skuTier);
-    }
+    const filteredServerFarmOptions = isConsumptionToPremiumEnabled
+      ? serverFarms.filter(serverFarm => serverFarm?.sku?.tier === skuTier)
+      : serverFarms;
+
     const options = getDropdownOptions(filteredServerFarmOptions);
     addNewPlanToOptions(formProps.values.serverFarmInfo.newPlanInfo.name, options, t);
     if (options.length === 0) {
@@ -212,7 +205,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
       </Stack>
 
-      {consumptionToPremiumEnabled && (
+      {isConsumptionToPremiumEnabled && (
         <div className={planTypeStyle}>
           <ReactiveFormControl id="planType" label={t('planType')}>
             <RadioButtonNoFormik
