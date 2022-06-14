@@ -434,7 +434,7 @@ export class PlanPriceSpecManager {
           (this._specPicker.statusMessage.level !== 'warning' && this._specPicker.statusMessage.level !== 'error');
 
         if (
-          (shouldShowUpsellStatusMessage && (tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2)) ||
+          (shouldShowUpsellStatusMessage && tier === Tier.premiumV2 && spec.tier !== Tier.premiumV2) ||
           (tier !== Tier.premiumV2 && spec.tier === Tier.premiumV2)
         ) {
           // show message when upgrading to PV2 or downgrading from PV2.
@@ -593,7 +593,7 @@ export class PlanPriceSpecManager {
         if (r.isSuccessful) {
           this._plan = r.result;
 
-          if (this._plan.sku.name === this.DynamicSku) {
+          if (this._plan.sku.name === this.DynamicSku && this._getOsType(inputs) === OsType.Linux) {
             this._specPicker.statusMessage = {
               message: this._ts.instant(PortalResources.pricing_notAvailableConsumption),
               level: 'error',

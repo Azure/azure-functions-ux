@@ -1,5 +1,5 @@
 import { IDropdownOption, ILink, Link, Stack } from '@fluentui/react';
-import { useContext, useMemo, useRef } from 'react';
+import { useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
 import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
@@ -7,12 +7,12 @@ import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
-import { CommonConstants } from '../../../utils/CommonConstants';
+import { isFunctionApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import Url from '../../../utils/url';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
 import { ChangeAppPlanTierTypes, DestinationPlanDetailsProps } from './ChangeAppPlan.types';
+import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 
@@ -24,12 +24,17 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   serverFarms,
 }) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
+  const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
 
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
 
   const subscriptionId = new ArmPlanDescriptor(currentServerFarm.id).subscription;
-  const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
+
+  const isConsumptionToPremiumEnabled = useMemo(() => consumptionToPremiumEnabled(currentServerFarm, formProps.values.site), [
+    currentServerFarm,
+    formProps.values.site,
+  ]);
 
   const getSelectedResourceGroupString = () => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
@@ -48,7 +53,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const getPricingTierValue = (currentServerFarmId: string, linkElement: React.MutableRefObject<ILink | null>) => {
     const skuString = getSelectedSkuString();
 
-    if (formProps.values.serverFarmInfo.isNewPlan) {
+    if (formProps.values.serverFarmInfo.isNewPlan && formProps.values.serverFarmInfo.newPlanInfo.tier !== ChangeAppPlanTierTypes.Dynamic) {
       return (
         <Link
           aria-label={`${t('pricingTier')} ${skuString}`}
@@ -87,10 +92,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       detailBlade: 'SpecPickerFrameBlade',
       detailBladeInputs: {
         id: currentServerFarmId,
-        data: {
-          selectedSkuCode: 'F1',
-          returnObjectResult: true,
-        },
+        data: skuPickerData,
       },
       openAsContextBlade: true,
     });
@@ -108,19 +110,67 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       };
 
       formProps.setFieldValue('serverFarmInfo', newServerFarmInfo);
+      setSkuTier(result.data.value.tier);
     }
   };
+
+  const forbiddenSkus = useMemo(() => {
+    //NOTE(stpelleg): Need to block all non-EP skus in the sku picker for dynamic plans
+    if (formProps.values.currentServerFarm.sku?.tier === ChangeAppPlanTierTypes.Dynamic) {
+      return [
+        'free',
+        'shared',
+        'small_basic',
+        'medium_Basic',
+        'large_basic',
+        'small_standard',
+        'medium_standard',
+        'large_standard',
+        'D1_premiumV2',
+        'D2_premiumV2',
+        'D3_premiumV2',
+        'small_premium',
+        'medium_premium',
+        'large_premium',
+        'P3V3',
+        'P2V3',
+        'P1V3',
+        'WS1',
+        'WS2',
+        'WS3',
+      ];
+    }
+    return [];
+  }, [formProps.values.currentServerFarm]);
+
+  const skuPickerData = useMemo(() => {
+    if (currentServerFarm.sku?.tier.toLocaleLowerCase() === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase()) {
+      return {
+        forbiddenSkus,
+        isFunctionApp: isFunctionApp(formProps.values.site),
+        returnObjectResult: true,
+      };
+    }
+    return {
+      selectedSkuCode: 'F1',
+      returnObjectResult: true,
+    };
+  }, [currentServerFarm, forbiddenSkus, formProps.values.site]);
 
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
     formProps.setFieldValue('serverFarmInfo', planInfo);
   };
 
   const onPlanTierChange = (planTier: ChangeAppPlanTierTypes) => {
-    //TODO: (stpelleg): reload plans
+    setSkuTier(planTier);
   };
 
   const serverFarmOptions = useMemo(() => {
-    const options = getDropdownOptions(serverFarms);
+    const filteredServerFarmOptions = isConsumptionToPremiumEnabled
+      ? serverFarms.filter(serverFarm => serverFarm?.sku?.tier === skuTier)
+      : serverFarms;
+
+    const options = getDropdownOptions(filteredServerFarmOptions);
     addNewPlanToOptions(formProps.values.serverFarmInfo.newPlanInfo.name, options, t);
     if (options.length === 0) {
       options.unshift({
@@ -132,7 +182,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     return options;
-  }, [formProps.values.serverFarmInfo.newPlanInfo.name, serverFarms, t]);
+  }, [formProps.values.serverFarmInfo.newPlanInfo?.name, skuTier, serverFarms, t]);
 
   const rgOptions = useMemo(() => {
     const options = getDropdownOptions(resourceGroups);
@@ -155,13 +205,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
       </Stack>
 
-      {isNewChangeAspEnabled && (
+      {isConsumptionToPremiumEnabled && (
         <div className={planTypeStyle}>
           <ReactiveFormControl id="planType" label={t('planType')}>
             <RadioButtonNoFormik
               id="planType"
               aria-label={t('planType')}
-              defaultSelectedKey={formProps.values.serverFarmInfo.newPlanInfo.tier}
+              defaultSelectedKey={skuTier}
               options={[
                 { key: ChangeAppPlanTierTypes.Dynamic, text: t('consumptionPlan') },
                 { key: ChangeAppPlanTierTypes.ElasticPremium, text: t('functionPremiumPlan') },
@@ -183,6 +233,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
           onPlanChange={onPlanChange}
           serverFarmsInWebspace={serverFarms}
           hostingEnvironment={hostingEnvironment}
+          skuTier={skuTier}
         />
       </ReactiveFormControl>
 

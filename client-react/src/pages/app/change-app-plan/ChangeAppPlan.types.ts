@@ -34,6 +34,11 @@ export enum ChangeAppPlanTierTypes {
   ElasticPremium = 'ElasticPremium',
 }
 
+export enum ChangeAppPlanDefaultSkuCodes {
+  Dynamic = 'Y1',
+  ElasticPremium = 'EP1',
+}
+
 export interface ChangeAppPlanFooterProps {
   isUpdating: boolean;
   siteIsReadOnlyLocked: boolean;

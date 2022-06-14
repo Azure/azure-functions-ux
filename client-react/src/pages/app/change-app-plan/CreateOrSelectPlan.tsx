@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption, Stack } from '@fluentui/react';
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
@@ -10,6 +10,7 @@ import i18next from 'i18next';
 import { ArmObj } from '../../../models/arm-obj';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
+import { ChangeAppPlanDefaultSkuCodes, ChangeAppPlanTierTypes } from './ChangeAppPlan.types';
 
 export const NEW_PLAN = '__NEWPLAN__';
 
@@ -33,6 +34,7 @@ export interface CreateOrSelectPlanProps {
   serverFarmsInWebspace: ArmObj<ServerFarm>[];
   hostingEnvironment?: ArmObj<HostingEnvironment>;
   onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void;
+  skuTier?: string;
 }
 
 export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateOrSelectPlanProps & IDropdownProps) => {
@@ -46,6 +48,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     existingPlan,
     onPlanChange,
     serverFarmsInWebspace,
+    skuTier,
   } = props;
 
   const theme = useContext(ThemeContext);
@@ -58,22 +61,40 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     existingPlan,
   });
 
-  const onChangeDropdown = (e: unknown, option: IDropdownOption) => {
-    const info = { ...planInfo };
+  const onChangeDropdown = useCallback(
+    (_e: unknown, option: IDropdownOption) => {
+      const info = { ...planInfo };
 
-    if (option.data === NEW_PLAN) {
-      info.isNewPlan = true;
-      info.newPlanInfo.name = option.key as string;
-    } else {
-      info.isNewPlan = false;
-      info.existingPlan = option.data;
-    }
+      if (option.data === NEW_PLAN) {
+        info.isNewPlan = true;
+        info.newPlanInfo.name = option.key as string;
+        if (info.newPlanInfo.tier !== skuTier) {
+          if (skuTier === ChangeAppPlanTierTypes.Dynamic) {
+            info.newPlanInfo.tier = ChangeAppPlanTierTypes.Dynamic;
+            info.newPlanInfo.skuCode = ChangeAppPlanDefaultSkuCodes.Dynamic;
+          } else if (skuTier === ChangeAppPlanTierTypes.ElasticPremium) {
+            info.newPlanInfo.tier = ChangeAppPlanTierTypes.ElasticPremium;
+            info.newPlanInfo.skuCode = ChangeAppPlanDefaultSkuCodes.ElasticPremium;
+          }
+        }
+      } else {
+        info.isNewPlan = false;
+        info.existingPlan = option.data;
+      }
 
-    setPlanInfo(info);
-    onPlanChange(info);
-  };
+      setPlanInfo(info);
+      onPlanChange(info);
+    },
+    [options]
+  );
 
   const fullpage = width > 1000;
+
+  useEffect(() => {
+    if (options?.[0]) {
+      onChangeDropdown(null, options[0]);
+    }
+  }, [options]);
 
   return (
     <>
