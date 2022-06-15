@@ -1,6 +1,7 @@
-import { IDropdownOption, ILink, Link, Stack } from '@fluentui/react';
+import { IDropdownOption, ILink, Link, MessageBarType, Stack } from '@fluentui/react';
 import { useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
 import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
 import { ArmObj, ArmSku } from '../../../models/arm-obj';
@@ -10,7 +11,7 @@ import { PortalContext } from '../../../PortalContext';
 import { isFunctionApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
-import { headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
+import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
 import { ChangeAppPlanTierTypes, DestinationPlanDetailsProps } from './ChangeAppPlan.types';
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
@@ -35,6 +36,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     currentServerFarm,
     formProps.values.site,
   ]);
+
+  const isPremiumToConsumptionSelected = useMemo(() => {
+    return skuTier === ChangeAppPlanTierTypes.Dynamic && currentServerFarm.sku?.tier === ChangeAppPlanTierTypes.ElasticPremium;
+  }, [skuTier, currentServerFarm.sku?.tier]);
 
   const getSelectedResourceGroupString = () => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
@@ -204,6 +209,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       <Stack className={headerStyle}>
         <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
       </Stack>
+
+      {isPremiumToConsumptionSelected && (
+        <CustomBanner className={bannerStyle} type={MessageBarType.warning} message={t('premiumToConsumptionWarning')} />
+      )}
 
       {isConsumptionToPremiumEnabled && (
         <div className={planTypeStyle}>
