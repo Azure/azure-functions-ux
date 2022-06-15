@@ -47,6 +47,7 @@ const getRubyStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 gitHubActionSettings: {
                   isSupported: false,
                 },
+                isHidden: true,
                 endOfLifeDate: ruby2Point7EOL,
               },
             },
