@@ -165,7 +165,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
           placeholder={t('planName')}
           required={true}
           className={textboxStyle}
-          widthOverride="95%"
+          widthOverride="100%"
         />
       </Panel>
     </>
