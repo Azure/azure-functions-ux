@@ -32,6 +32,11 @@ export const planTypeStyle = style({
   marginBottom: '-10px',
 });
 
+export const bannerStyle = style({
+  maxWidth: '725px',
+  marginBottom: '5px',
+});
+
 export const buttonFooterStyle = (theme: ThemeExtended): string =>
   style({
     backgroundColor: `${theme.semanticColors.background}`,

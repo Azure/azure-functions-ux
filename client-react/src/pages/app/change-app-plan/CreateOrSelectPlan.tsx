@@ -34,6 +34,7 @@ export interface CreateOrSelectPlanProps {
   serverFarmsInWebspace: ArmObj<ServerFarm>[];
   hostingEnvironment?: ArmObj<HostingEnvironment>;
   onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void;
+  isUpdating: boolean;
   skuTier?: string;
 }
 
@@ -49,6 +50,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     onPlanChange,
     serverFarmsInWebspace,
     skuTier,
+    isUpdating,
   } = props;
 
   const theme = useContext(ThemeContext);
@@ -105,6 +107,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           onChange={onChangeDropdown}
           styles={dropdownStyleOverrides(theme, fullpage)}
           ariaLabel={t('appServicePlan')}
+          disabled={isUpdating}
         />
         <CreatePlan
           newPlanInfo={planInfo.newPlanInfo}
@@ -113,6 +116,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           subscriptionId={subscriptionId}
           hostingEnvironment={hostingEnvironment}
           onCreatePanelClose={newPlan => onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, t, onPlanChange)}
+          isUpdating={isUpdating}
         />
       </Stack>
     </>
