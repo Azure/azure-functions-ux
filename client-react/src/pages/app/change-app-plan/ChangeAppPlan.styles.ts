@@ -37,6 +37,16 @@ export const bannerStyle = style({
   marginBottom: '5px',
 });
 
+export const textboxStyle = style({
+  maxWidth: '275px',
+  paddingRight: '0px',
+});
+
+export const linkStyle = style({
+  marginTop: '-20px',
+  paddingBottom: '15px',
+});
+
 export const buttonFooterStyle = (theme: ThemeExtended): string =>
   style({
     backgroundColor: `${theme.semanticColors.background}`,
