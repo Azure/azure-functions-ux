@@ -14,6 +14,7 @@ import { PortalContext } from '../../../PortalContext';
 import { ThemeContext } from '../../../ThemeContext';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
 import RbacConstants from '../../../utils/rbac-constants';
+import { linkStyle } from './ChangeAppPlan.styles';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -138,9 +139,10 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         required={true}
       />
 
-      <div ref={menuButton => (menuButtonElement.current = menuButton)}>
+      <div className={linkStyle} ref={menuButton => (menuButtonElement.current = menuButton)}>
         {getNewLink(hasSubscriptionWritePermission, onShowCallout, createNewLinkElement, t)}
       </div>
+
       <Callout
         className={calloutStyle}
         role="alertdialog"

@@ -241,7 +241,7 @@ const changeSiteToNewPlan = async (
 ) => {
   const { site, serverFarmInfo, currentServerFarm } = formValues;
   const siteDescriptor = new ArmSiteDescriptor(site.id);
-  let rgName = siteDescriptor.resourceGroup;
+  let rgName = serverFarmInfo.newPlanInfo.existingResourceGroup?.name ?? siteDescriptor.resourceGroup;
 
   if (serverFarmInfo.newPlanInfo.isNewResourceGroup) {
     const rgResponse = await ResourceGroupService.updateResourceGroup(
@@ -251,7 +251,7 @@ const changeSiteToNewPlan = async (
     );
 
     if (!rgResponse.metadata.success) {
-      const createRgError = getErrorMessage(rgResponse.metadata.error) || rgName;
+      const createRgError = getErrorMessage(rgResponse.metadata.error) || siteDescriptor.resourceGroup;
       portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
       LogService.trackEvent(
         LogCategories.changeAppPlan,

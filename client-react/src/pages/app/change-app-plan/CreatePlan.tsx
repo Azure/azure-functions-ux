@@ -7,13 +7,12 @@ import { ArmObj } from '../../../models/arm-obj';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
-import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
-import { buttonFooterStyle, buttonPadding } from './ChangeAppPlan.styles';
+import { buttonFooterStyle, buttonPadding, textboxStyle } from './ChangeAppPlan.styles';
 import { NewPlanInfo } from './CreateOrSelectPlan';
 import { CreateOrSelectResourceGroup, ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 
@@ -160,12 +159,13 @@ export const CreatePlan = (props: CreatePlanProps) => {
           label={t('_name')}
           id="createplan-planname"
           layout={Layout.Vertical}
-          styles={TextFieldStyles}
           value={newPlanInfo.name}
           onChange={onChangePlanName}
           errorMessage={newPlanNameValidationError}
           placeholder={t('planName')}
           required={true}
+          className={textboxStyle}
+          widthOverride="100%"
         />
       </Panel>
     </>
