@@ -6637,7 +6637,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Repository</value>
     </data>
     <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
-        <value>Select repository</value>
+        <value>Select or type repository</value>
     </data>
     <data name="deploymentCenterOAuthBranch" xml:space="preserve">
         <value>Branch</value>
