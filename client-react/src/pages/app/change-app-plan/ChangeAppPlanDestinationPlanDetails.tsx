@@ -23,6 +23,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   hostingEnvironment,
   resourceGroups,
   serverFarms,
+  isUpdating,
 }) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
@@ -63,7 +64,8 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         <Link
           aria-label={`${t('pricingTier')} ${skuString}`}
           onClick={() => openSpecPicker(currentServerFarmId, linkElement)}
-          componentRef={ref => (linkElement.current = ref)}>
+          componentRef={ref => (linkElement.current = ref)}
+          disabled={isUpdating}>
           {skuString}
         </Link>
       );
@@ -221,6 +223,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
               id="planType"
               aria-label={t('planType')}
               defaultSelectedKey={skuTier}
+              disabled={isUpdating}
               options={[
                 { key: ChangeAppPlanTierTypes.Dynamic, text: t('consumptionPlan') },
                 { key: ChangeAppPlanTierTypes.ElasticPremium, text: t('functionPremiumPlan') },
@@ -243,6 +246,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
           serverFarmsInWebspace={serverFarms}
           hostingEnvironment={hostingEnvironment}
           skuTier={skuTier}
+          isUpdating={isUpdating}
         />
       </ReactiveFormControl>
 

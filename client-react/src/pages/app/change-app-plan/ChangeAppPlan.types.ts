@@ -46,6 +46,7 @@ export interface ChangeAppPlanFooterProps {
 }
 
 export interface DestinationPlanDetailsProps {
+  isUpdating: boolean;
   formProps: FormikProps<ChangeAppPlanFormValues>;
   currentServerFarm: ArmObj<ServerFarm>;
   resourceGroups: ArmObj<ResourceGroup>[];

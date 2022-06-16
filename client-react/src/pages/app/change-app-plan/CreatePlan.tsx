@@ -22,12 +22,13 @@ export interface CreatePlanProps {
   serverFarmsInWebspace: ArmObj<ServerFarm>[];
   resourceGroupOptions: IDropdownOption[];
   subscriptionId: string;
-  hostingEnvironment?: ArmObj<HostingEnvironment>;
   onCreatePanelClose: (newPlanInfo: NewPlanInfo) => void;
+  isUpdating: boolean;
+  hostingEnvironment?: ArmObj<HostingEnvironment>;
 }
 
 export const CreatePlan = (props: CreatePlanProps) => {
-  const { resourceGroupOptions, serverFarmsInWebspace, subscriptionId, onCreatePanelClose, hostingEnvironment } = props;
+  const { resourceGroupOptions, serverFarmsInWebspace, subscriptionId, onCreatePanelClose, hostingEnvironment, isUpdating } = props;
 
   const [showPanel, setShowPanel] = useState(false);
   const [hasSubscriptionWritePermission, setHasSubscriptionWritePermission] = useState(true);
@@ -94,7 +95,11 @@ export const CreatePlan = (props: CreatePlanProps) => {
       return;
     }
 
-    return <Link onClick={() => toggleShowPanel(true)}>{t('createNew')}</Link>;
+    return (
+      <Link onClick={() => toggleShowPanel(true)} disabled={isUpdating}>
+        {t('createNew')}
+      </Link>
+    );
   };
 
   const onRenderFooterContent = () => {
@@ -107,7 +112,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
           data-automation-id="test"
           allowDisabledFocus={true}
           onClick={() => onClosePanel(newPlanInfo)}
-          disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission}
+          disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission || isUpdating}
         />
         <DefaultButton text={t('cancel')} ariaLabel={t('cancel')} className={buttonPadding} onClick={() => toggleShowPanel(false)} />
       </div>
