@@ -45,6 +45,7 @@ export const rubyStack: WebAppStack = {
               gitHubActionSettings: {
                 isSupported: false,
               },
+              isHidden: true,
               endOfLifeDate: ruby2Point7EOL,
             },
           },
