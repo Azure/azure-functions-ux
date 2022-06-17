@@ -147,3 +147,11 @@ export enum KeyVaultReferenceStatus {
 export interface ConfigKeyVaultReferenceList {
   keyToReferenceStatuses: { [name: string]: KeyVaultReference };
 }
+
+export enum AppSettingsTabs {
+  applicationSettings = 'applicationSettings',
+  functionRuntimeSettings = 'functionRuntimeSettings',
+  generalSettings = 'generalSettings',
+  defaultDocuments = 'defaultDocuments',
+  pathMappings = 'pathMappings',
+}

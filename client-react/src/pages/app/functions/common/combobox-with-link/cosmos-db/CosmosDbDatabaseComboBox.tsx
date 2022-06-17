@@ -8,7 +8,7 @@ import ComboBox from '../../../../../../components/form-controls/ComboBox';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../../../components/form-controls/TextField';
 import { BindingSetting } from '../../../../../../models/functions/binding';
-import { IArmResourceTemplate } from '../../../../../../utils/ArmTemplateHelper';
+import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../../utils/ArmTemplateHelper';
 import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
 import {
@@ -37,7 +37,7 @@ interface Props {
   label: string;
   layout: Layout;
   resourceId: string;
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>;
+  setArmResources: TSetArmResourceTemplates;
   setting: BindingSetting;
   value: string;
 }
@@ -60,16 +60,17 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
     if (formProps.status?.isNewDbAcct) {
       setNewDatabaseName(undefined);
     }
-  }, [formProps.status.isNewDbAcct]);
+  }, [formProps.status?.isNewDbAcct]);
 
   useEffect(() => {
     if (formProps.status?.isNewDbAcct) {
       setDatabases(undefined);
     } else {
-      const dbAcctName = formProps.values.connectionStringSetting.split('_')[0];
-      const dbAcctType = formProps.status.dbAcctType;
+      const dbAcctName = getDatabaseAccountNameFromConnectionString(formProps);
+      const dbAcctId = formProps.status?.dbAcctId ?? resourceId;
+      const dbAcctType = formProps.status?.dbAcctType;
 
-      DocumentDBService.fetchDatabases(resourceId, dbAcctName, dbAcctType).then(r => {
+      DocumentDBService.fetchDatabases(dbAcctId, dbAcctName, dbAcctType).then(r => {
         if (!r.metadata.success) {
           LogService.error(
             LogCategories.bindingResource,
@@ -105,7 +106,7 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.status.isNewDbAcct, formProps.values.connectionStringSetting]);
+  }, [formProps.status?.isNewDbAcct, formProps.values.connectionStringSetting]);
 
   const options = useMemo((): IComboBoxOption[] => {
     const result: IComboBoxOption[] = newDatabaseName
@@ -253,14 +254,15 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
 
   return (
     <>
-      {!formProps.status.isNewDbAcct && !!databases ? (
+      {!formProps.status?.isNewDbAcct && !!databases ? (
         <div className={styles.container}>
           <ComboBox
             allowFreeform={false}
-            onChange={(_, option, __, customValue) => onChange(option, customValue, formProps, field)}
             autoComplete="on"
+            onChange={(_, option, __, customValue) => onChange(option, customValue, formProps, field)}
             options={options}
             {...props}
+            overrideLoadingComboboxStyles={styles.overrideLoadingComboboxStyles}
             placeholder={placeholder}
           />
           {!isDisabled ? (

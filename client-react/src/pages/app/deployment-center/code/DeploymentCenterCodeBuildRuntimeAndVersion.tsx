@@ -29,6 +29,7 @@ import { ArmArray } from '../../../../models/arm-obj';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { KeyValue } from '../../../../models/portal-models';
 import { Link } from '@fluentui/react';
+import { AppSettingsTabs } from '../../app-settings/AppSettings.types';
 
 type StackSettings = (WebAppRuntimes & JavaContainersInterface) | FunctionAppRuntimes;
 
@@ -216,7 +217,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       detailBladeInputs: {
         id: deploymentCenterContext.resourceId,
         data: {
-          tab: 'generalSettings',
+          tab: AppSettingsTabs.generalSettings,
         },
       },
     });

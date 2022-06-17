@@ -7,11 +7,12 @@ import { ArmObj } from '../../../models/arm-obj';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
-import { TextFieldStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
+import { ThemeContext } from '../../../ThemeContext';
 import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
+import { buttonFooterStyle, buttonPadding, textboxStyle } from './ChangeAppPlan.styles';
 import { NewPlanInfo } from './CreateOrSelectPlan';
 import { CreateOrSelectResourceGroup, ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 
@@ -20,12 +21,13 @@ export interface CreatePlanProps {
   serverFarmsInWebspace: ArmObj<ServerFarm>[];
   resourceGroupOptions: IDropdownOption[];
   subscriptionId: string;
-  hostingEnvironment?: ArmObj<HostingEnvironment>;
   onCreatePanelClose: (newPlanInfo: NewPlanInfo) => void;
+  isUpdating: boolean;
+  hostingEnvironment?: ArmObj<HostingEnvironment>;
 }
 
 export const CreatePlan = (props: CreatePlanProps) => {
-  const { resourceGroupOptions, serverFarmsInWebspace, subscriptionId, onCreatePanelClose, hostingEnvironment } = props;
+  const { resourceGroupOptions, serverFarmsInWebspace, subscriptionId, onCreatePanelClose, hostingEnvironment, isUpdating } = props;
 
   const [showPanel, setShowPanel] = useState(false);
   const [hasSubscriptionWritePermission, setHasSubscriptionWritePermission] = useState(true);
@@ -37,6 +39,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
 
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
+  const theme = useContext(ThemeContext);
 
   const onChangePlanName = (e: any, value: string) => {
     setNewPlanInfo({
@@ -91,19 +94,26 @@ export const CreatePlan = (props: CreatePlanProps) => {
       return;
     }
 
-    return <Link onClick={() => toggleShowPanel(true)}>{t('createNew')}</Link>;
+    return (
+      <Link onClick={() => toggleShowPanel(true)} disabled={isUpdating}>
+        {t('createNew')}
+      </Link>
+    );
   };
 
   const onRenderFooterContent = () => {
     return (
-      <div>
+      <div className={buttonFooterStyle(theme)}>
         <PrimaryButton
+          text={t('ok')}
+          ariaLabel={t('ok')}
+          className={buttonPadding}
+          data-automation-id="test"
+          allowDisabledFocus={true}
           onClick={() => onClosePanel(newPlanInfo)}
-          style={{ marginRight: '8px' }}
-          disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission}>
-          OK
-        </PrimaryButton>
-        <DefaultButton onClick={() => toggleShowPanel(false)}>Cancel</DefaultButton>
+          disabled={!newPlanInfo.name || !!newPlanNameValidationError || !hasResourceGroupWritePermission || isUpdating}
+        />
+        <DefaultButton text={t('cancel')} ariaLabel={t('cancel')} className={buttonPadding} onClick={() => toggleShowPanel(false)} />
       </div>
     );
   };
@@ -149,12 +159,13 @@ export const CreatePlan = (props: CreatePlanProps) => {
           label={t('_name')}
           id="createplan-planname"
           layout={Layout.Vertical}
-          styles={TextFieldStyles}
           value={newPlanInfo.name}
           onChange={onChangePlanName}
           errorMessage={newPlanNameValidationError}
           placeholder={t('planName')}
           required={true}
+          className={textboxStyle}
+          widthOverride="100%"
         />
       </Panel>
     </>

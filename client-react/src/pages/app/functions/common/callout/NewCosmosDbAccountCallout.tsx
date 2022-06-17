@@ -2,7 +2,7 @@ import { Link } from '@fluentui/react';
 import { Formik, FormikProps } from 'formik';
 import { useCallback, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IArmResourceTemplate } from '../../../../../utils/ArmTemplateHelper';
+import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../utils/ArmTemplateHelper';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import {
   getNewContainerArmTemplate,
@@ -24,7 +24,7 @@ interface NewCosmosDBAccountCalloutProps {
   armResources: IArmResourceTemplate[];
   form: FormikProps<unknown>;
   resourceId: string;
-  setArmResources: React.Dispatch<React.SetStateAction<IArmResourceTemplate[]>>;
+  setArmResources: TSetArmResourceTemplates;
   setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>;
   setNewDatabaseAccountName: React.Dispatch<React.SetStateAction<string>>;
   setNewDbAcctType: React.Dispatch<React.SetStateAction<string>>;

@@ -1,4 +1,4 @@
-import { ISemanticColors, ITheme } from '@uifabric/styling';
+import { ISemanticColors, ITheme } from '@fluentui/react';
 
 export interface AzurePortalColors {
   lineSeparator: string;
