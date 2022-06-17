@@ -70,7 +70,7 @@ export interface ConfigurationFormData {
   isAppSettingsDirty: boolean;
   isGeneralSettingsDirty: boolean;
   selectedEnvironment?: ArmObj<Environment>;
-  allowConfigFileUpdates: boolean;
+  allowConfigFileUpdates?: boolean;
 }
 
 export type ConfigurationYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, ConfigurationFormData>>;
