@@ -1,35 +1,51 @@
-import React from 'react';
-import { ChoiceGroup, IChoiceGroupProps, IChoiceGroupOption } from '@fluentui/react';
+import {
+  ChoiceGroup,
+  IChoiceGroupOption,
+  IChoiceGroupOptionProps,
+  IChoiceGroupOptionStyleProps,
+  IChoiceGroupOptionStyles,
+  IChoiceGroupProps,
+  IStyleFunctionOrObject,
+} from '@fluentui/react';
+import { useMemo } from 'react';
 import { style } from 'typestyle';
 import { ChoiceGroupStyles, ChoiceGroupVerticalStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import ReactiveFormControl from './ReactiveFormControl';
 
 interface RadioButtonProps {
   id: string;
-  label?: string;
-  subLabel?: string;
-  upsellMessage?: string;
+  dirty?: boolean;
+  displayInVerticalLayout?: boolean;
   infoBubbleMessage?: string;
   learnMore?: {
     learnMoreLink: string;
     learnMoreText: string;
   };
-  dirty?: boolean;
-  displayInVerticalLayout?: boolean;
+  label?: string;
+  optionStyles?: IStyleFunctionOrObject<IChoiceGroupOptionStyleProps, IChoiceGroupOptionStyles>;
+  subLabel?: string;
+  upsellMessage?: string;
 }
 
 const fieldStyle = style({
   marginRight: '10px',
 });
-const RadioButtonNoFormik: React.SFC<IChoiceGroupProps & RadioButtonProps> = props => {
-  const { options, learnMore, label, subLabel, upsellMessage, theme, onChange, displayInVerticalLayout, ...rest } = props;
-  const optionsWithMargin: IChoiceGroupOption[] | undefined =
-    options &&
-    options.map(option => {
-      const newOption: IChoiceGroupOption = option;
-      newOption.onRenderField = (fieldProps, defaultRenderer) => <div className={fieldStyle}>{defaultRenderer!(fieldProps)}</div>;
-      return newOption;
-    });
+
+const RadioButtonNoFormik: React.FC<IChoiceGroupProps & RadioButtonProps> = (props: IChoiceGroupProps & RadioButtonProps) => {
+  const { options, learnMore, label, subLabel, upsellMessage, theme, onChange, displayInVerticalLayout, optionStyles, ...rest } = props;
+
+  const optionsWithMargin = useMemo<IChoiceGroupOption[]>(
+    () =>
+      options?.map(option => ({
+        ...option,
+        styles: optionStyles,
+        onRenderField: (fieldProps: IChoiceGroupOptionProps, defaultRenderer?: (props: IChoiceGroupOptionProps) => JSX.Element | null) => (
+          <div className={fieldStyle}>{defaultRenderer?.(fieldProps) ?? null}</div>
+        ),
+      })) ?? [],
+    [options, optionStyles]
+  );
+
   return (
     <ReactiveFormControl {...props}>
       <ChoiceGroup

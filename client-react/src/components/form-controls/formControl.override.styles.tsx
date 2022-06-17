@@ -1,9 +1,10 @@
-import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
+import { IStyleBaseArray } from '@fluentui/merge-styles';
 import { IDropdownStyles, ITextFieldStyles, ITooltipHostStyles } from '@fluentui/react';
 import { style } from 'typestyle';
-import { ThemeExtended } from '../../theme/SemanticColorsExtended';
-import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
+import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
+import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 const FORM_DEFAULT_WIDTH = '275px';
 const FULL_PAGE_WIDTH = '220px';
@@ -41,7 +42,7 @@ export const comboboxStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
   return {
     ...baseStyle,
     root: [
-      ...(baseStyle.root as any),
+      ...(baseStyle.root as IStyleBaseArray),
       {
         width: widthOverride || FORM_DEFAULT_WIDTH,
       },
@@ -62,7 +63,7 @@ export const textFieldPrefixStylesOverride = (hasPrefix: boolean) => {
     : undefined;
 };
 
-export const textFieldStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
+export const textFieldStyleOverrides = (theme?: ThemeExtended, fullPage?: boolean, widthOverride?: string) => styleProps => {
   const baseStyle = TextFieldStyles(styleProps);
   return {
     ...baseStyle,
