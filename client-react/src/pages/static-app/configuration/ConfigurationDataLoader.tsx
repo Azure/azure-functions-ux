@@ -118,8 +118,8 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
       let envResponse: ArmObj<Environment>[] = [];
       if (environmentResponse.metadata.success) {
         // TODO(krmitta): Handle nextlinks
-        setEnvironments(environmentResponse.data.value);
         envResponse = environmentResponse.data.value;
+        setEnvironments(envResponse);
       } else {
         setApiFailure(true);
         LogService.error(
