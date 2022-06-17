@@ -1,5 +1,14 @@
-import { FontSizes, FontWeights, HighContrastSelector, IStyle, IPalette, getGlobalClassNames } from '@uifabric/styling';
-import { IChoiceGroupOptionStyleProps, IChoiceGroupOptionStyles, IsFocusVisibleClassName } from '@fluentui/react';
+import {
+  FontSizes,
+  FontWeights,
+  getGlobalClassNames,
+  HighContrastSelector,
+  IChoiceGroupOptionStyleProps,
+  IChoiceGroupOptionStyles,
+  IPalette,
+  IsFocusVisibleClassName,
+  IStyle,
+} from '@fluentui/react';
 import { ThemeExtended } from '../../SemanticColorsExtended';
 
 const GlobalClassNames = {

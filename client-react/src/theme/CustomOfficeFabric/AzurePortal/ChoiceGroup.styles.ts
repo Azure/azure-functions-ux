@@ -1,5 +1,4 @@
-import { IChoiceGroupStyleProps, IChoiceGroupStyles, IStyleFunction } from '@fluentui/react';
-import { getGlobalClassNames } from '@uifabric/styling';
+import { getGlobalClassNames, IChoiceGroupStyleProps, IChoiceGroupStyles, IStyleFunction } from '@fluentui/react';
 import { ThemeExtended } from '../../SemanticColorsExtended';
 
 const GlobalClassNames = {
