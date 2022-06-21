@@ -59,7 +59,6 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               linuxRuntimeSettings: {
                 // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
-                isAutoUpdate: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -73,7 +72,6 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               },
               windowsRuntimeSettings: {
                 runtimeVersion: '17.0.2',
-                isAutoUpdate: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -94,7 +92,6 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               linuxRuntimeSettings: {
                 // Note (jafreebe): Runtime on Linux Java is determined by the Java container
                 runtimeVersion: '',
-                isAutoUpdate: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -108,7 +105,6 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               },
               windowsRuntimeSettings: {
                 runtimeVersion: '17.0.1',
-                isAutoUpdate: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
