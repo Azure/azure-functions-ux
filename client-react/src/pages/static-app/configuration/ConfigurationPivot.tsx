@@ -1,45 +1,50 @@
-import React, { useContext, useState } from 'react';
-import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
+import { IPivotItemProps, Pivot, PivotItem } from '@fluentui/react';
+import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CustomTabRenderer from '../../app/app-settings/Sections/CustomTabRenderer';
-import Configuration from './Configuration';
 import { PortalContext } from '../../../PortalContext';
 import { ThemeContext } from '../../../ThemeContext';
-import { ConfigurationPivotProps } from './Configuration.types';
-import { getTelemetryInfo } from '../StaticSiteUtility';
-import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';
+import CustomTabRenderer from '../../app/app-settings/Sections/CustomTabRenderer';
 import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
+import { getTelemetryInfo } from '../StaticSiteUtility';
+import Configuration from './Configuration';
+import { ConfigurationPivotProps } from './Configuration.types';
+import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';
+import { useStyles } from './ConfigurationPivot.styles';
 
-const ConfigurationPivot: React.FC<ConfigurationPivotProps> = props => {
+const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: ConfigurationPivotProps) => {
   const { isLoading, hasWritePermissions, formProps, staticSiteSku } = props;
+
+  const styles = useStyles();
   const { t } = useTranslation();
-  const [selectedKey, setSelectedKey] = useState<string>('appSettings');
+  const [selectedKey, setSelectedKey] = useState('appSettings');
 
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
 
-  const isGeneralSettingsDisabled = isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free;
+  const onLinkClick = useCallback(
+    (item?: PivotItem) => {
+      if (item?.props.itemKey) {
+        setSelectedKey(item.props.itemKey);
+        portalContext.log(
+          getTelemetryInfo('info', 'tabClicked', 'clicked', {
+            tabName: item.props.itemKey,
+          })
+        );
+      }
+    },
+    [portalContext]
+  );
 
-  const onLinkClick = (item: PivotItem) => {
-    if (item.props.itemKey) {
-      setSelectedKey(item.props.itemKey);
-      const data = {
-        tabName: item.props.itemKey,
-      };
-      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', data));
-    }
-  };
+  const isAppSettingsDirty = useCallback((): boolean => {
+    return !!formProps.values?.isAppSettingsDirty;
+  }, [formProps.values?.isAppSettingsDirty]);
 
-  const isAppSettingsDirty = (): boolean => {
-    return !!formProps.values && formProps.values.isAppSettingsDirty;
-  };
-
-  const isGeneralSettingsDirty = (): boolean => {
-    return !!formProps.values && formProps.values.isGeneralSettingsDirty;
-  };
+  const isGeneralSettingsDirty = useCallback((): boolean => {
+    return !!formProps.values?.isGeneralSettingsDirty;
+  }, [formProps.values?.isGeneralSettingsDirty]);
 
   return (
-    <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
+    <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
       <PivotItem
         itemKey="appSettings"
         headerText={t('staticSite_applicationSettings')}
@@ -57,7 +62,7 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = props => {
           CustomTabRenderer(link, defaultRenderer, theme, isGeneralSettingsDirty, t('modifiedTag'))
         }>
         <ConfigurationGeneralSettings
-          disabled={isGeneralSettingsDisabled}
+          disabled={isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free}
           formProps={formProps}
           isLoading={isLoading}
           staticSiteSku={staticSiteSku}

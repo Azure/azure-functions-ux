@@ -2392,6 +2392,9 @@ export class PortalResources {
   public static staticSite_confirmVisitorPassword = 'staticSite_confirmVisitorPassword';
   public static staticSite_visitorPasswordRequired = 'staticSite_visitorPasswordRequired';
   public static staticSite_confirmVisitorPasswordRequired = 'staticSite_confirmVisitorPasswordRequired';
+  public static staticSite_configurationFile = 'staticSite_configurationFile';
+  public static staticSite_configurationFileDescription = 'staticSite_configurationFileDescription';
+  public static staticSite_configurationFileToggle = 'staticSite_configurationFileToggle';
   public static staticSite_generalSettingsUpdate = 'staticSite_generalSettingsUpdate';
   public static staticSite_loadingGeneralSettings = 'staticSite_loadingGeneralSettings';
   public static staticSite_loadingApplicationSettings = 'staticSite_loadingApplicationSettings';

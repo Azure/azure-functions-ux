@@ -1,5 +1,5 @@
-import { Label, Link, Stack, TooltipHost, TooltipOverflowMode } from '@fluentui/react';
-import React, { useContext, useState } from 'react';
+import { css, Label, Link, Stack, TooltipHost, TooltipOverflowMode } from '@fluentui/react';
+import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { style } from 'typestyle';
@@ -92,18 +92,20 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   };
 
   return (
-    <Stack horizontal={horizontal} className={`${formControlClassName ?? ''} ${controlContainerStyle(!!upsellMessage, fullPage)}`}>
+    <Stack horizontal={horizontal} className={css(formControlClassName, controlContainerStyle(!!upsellMessage, fullPage))}>
       {(label || (pushContentRight && fullPage)) && (
-        <Stack horizontal className={`${formStackStyle(!!upsellMessage, fullPage, horizontal)} ${customLabelStackClassName ?? ''}`}>
+        <Stack horizontal className={css(formStackStyle(!!upsellMessage, fullPage, horizontal), customLabelStackClassName)}>
           {upsellMessage && (
             <div className={upsellIconStyle}>
               <UpsellIcon upsellMessage={upsellMessage} />
             </div>
           )}
           <Label
-            className={`${customLabelClassName ?? ''} ${formLabelStyle(!!upsellMessage, fullPage, horizontal)} ${
-              dirty ? dirtyElementStyle(theme, true) : ''
-            }`}
+            className={css(
+              formLabelStyle(!!upsellMessage, fullPage, horizontal),
+              customLabelClassName,
+              dirty && dirtyElementStyle(theme, true)
+            )}
             id={`${id}-label`}>
             <TooltipHost
               overflowMode={TooltipOverflowMode.Self}
