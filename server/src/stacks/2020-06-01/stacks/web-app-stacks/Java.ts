@@ -51,8 +51,8 @@ export const javaStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java 17.0.3',
-          value: '17.0.3',
+          displayText: 'Java 17.0.2',
+          value: '17.0.2',
           stackSettings: {
             linuxRuntimeSettings: {
               // Note (jafreebe): Runtime on Linux Java is determined by the Java container
@@ -70,7 +70,7 @@ export const javaStack: WebAppStack = {
               endOfLifeDate: java17EOL,
             },
             windowsRuntimeSettings: {
-              runtimeVersion: '17.0.3',
+              runtimeVersion: '17.0.2',
               isAutoUpdate: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
