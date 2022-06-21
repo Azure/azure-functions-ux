@@ -53,7 +53,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             },
           },
           {
-            displayText: 'Java 2',
+            displayText: 'Java 17.0.2',
             value: '17.0.2',
             stackSettings: {
               linuxRuntimeSettings: {
