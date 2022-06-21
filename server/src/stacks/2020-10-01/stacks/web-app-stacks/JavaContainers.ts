@@ -224,6 +224,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Red Hat JBoss EAP 7.4.2',
+          value: '7.4.2',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.4.2-java8',
+              java11Runtime: 'JBOSSEAP|7.4.2-java11'
+            }
+          }
+        },
+        {
           displayText: 'Red Hat JBoss EAP 7.4.1',
           value: '7.4.1',
           stackSettings: {
