@@ -6,11 +6,11 @@ export const dotnetStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: '.NET 7 Isolated',
+      displayText: '.NET 7 Isolated (Preview)',
       value: 'dotnet7isolated',
       minorVersions: [
         {
-          displayText: '.NET 7 Isolated',
+          displayText: '.NET 7 Isolated (Preview)',
           value: '7 Isolated',
           stackSettings: {
             windowsRuntimeSettings: {
@@ -18,7 +18,7 @@ export const dotnetStack: FunctionAppStack = {
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: true,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -38,7 +38,7 @@ export const dotnetStack: FunctionAppStack = {
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: true,
+                isSupported: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
