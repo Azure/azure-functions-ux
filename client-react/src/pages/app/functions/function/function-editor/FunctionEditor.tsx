@@ -1,52 +1,53 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ArmObj } from '../../../../../models/arm-obj';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
-import FunctionEditorCommandBar from './FunctionEditorCommandBar';
-import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { Site } from '../../../../../models/site/site';
-import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
-import { PanelType, IDropdownOption, MessageBarType } from '@fluentui/react';
-import FunctionTest from './function-test/FunctionTest';
-import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
-import { InputFormValues, ResponseContent, FileContent, UrlObj, LoggingOptions } from './FunctionEditor.types';
-import { VfsObject } from '../../../../../models/functions/vfs';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
+import { IDropdownOption, MessageBarType, PanelType } from '@fluentui/react';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
-import { useTranslation } from 'react-i18next';
-import {
-  testLoadingStyle,
-  commandBarSticky,
-  logPanelStyle,
-  defaultMonacoEditorHeight,
-  testPanelStyle,
-  editorStyle,
-  editorDivStyle,
-} from './FunctionEditor.styles';
-import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
-import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
-import { SiteStateContext } from '../../../../../SiteState';
-import SiteHelper from '../../../../../utils/SiteHelper';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import { minimumLogPanelHeight, logCommandBarHeight } from '../function-log/FunctionLog.styles';
-import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
-import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
-import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
-import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
-import { FunctionEditorContext } from './FunctionEditorDataLoader';
-import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
-import Url from '../../../../../utils/url';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
+import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
+import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
+import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { VfsObject } from '../../../../../models/functions/vfs';
+import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
+import { Site } from '../../../../../models/site/site';
 import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
 import { BindingManager } from '../../../../../utils/BindingManager';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
+import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
 import FunctionAppService from '../../../../../utils/FunctionAppService';
 import { Links } from '../../../../../utils/FwLinks';
 import { Guid } from '../../../../../utils/Guid';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import LogService from '../../../../../utils/LogService';
+import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
+import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
+import SiteHelper from '../../../../../utils/SiteHelper';
+import Url from '../../../../../utils/url';
+import { logCommandBarHeight, minimumLogPanelHeight } from '../function-log/FunctionLog.styles';
+import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
+import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
+import FunctionTest from './function-test/FunctionTest';
+import {
+  commandBarSticky,
+  defaultMonacoEditorHeight,
+  editorDivStyle,
+  editorStyle,
+  logPanelStyle,
+  testLoadingStyle,
+  testPanelStyle,
+} from './FunctionEditor.styles';
+import { FileContent, InputFormValues, LoggingOptions, ResponseContent, UrlObj } from './FunctionEditor.types';
+import FunctionEditorCommandBar from './FunctionEditorCommandBar';
+import { FunctionEditorContext } from './FunctionEditorDataLoader';
+import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
+import { isNewPythonProgrammingModel } from './useFunctionEditorQueries';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -73,7 +74,7 @@ export interface FunctionEditorProps {
   isFunctionLogsApiFlightingEnabled?: boolean;
 }
 
-export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
+export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEditorProps) => {
   const {
     functionInfo,
     site,
@@ -100,23 +101,23 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
-  const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
+  const [selectedFile, setSelectedFile] = useState<IDropdownOption>();
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
-  const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
-  const [initialLoading, setInitialLoading] = useState<boolean>(true);
-  const [savingFile, setSavingFile] = useState<boolean>(false);
+  const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption>();
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [savingFile, setSavingFile] = useState(false);
   const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
   const [fileSavedCount, setFileSavedCount] = useState(0);
   const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
-  const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
+  const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean>();
   const [showDiscardConfirmDialog, setShowDiscardConfirmDialog] = useState(false);
   const [logPanelHeight, setLogPanelHeight] = useState(0);
-  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
-  const [liveLogsSessionId, setLiveLogsSessionId] = useState<undefined | string>(undefined);
-  const [showInvalidFileSelectedWarning, setShowInvalidFileSelectedWarning] = useState<boolean | undefined>(undefined);
-  const [selectedFileName, setSelectedFileName] = useState<string>('');
+  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions>();
+  const [liveLogsSessionId, setLiveLogsSessionId] = useState<string>();
+  const [showInvalidFileSelectedWarning, setShowInvalidFileSelectedWarning] = useState<boolean>();
+  const [selectedFileName, setSelectedFileName] = useState('');
 
   const { t } = useTranslation();
 
@@ -259,30 +260,32 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     );
   };
 
-  const setSelectedFileContent = async (file: VfsObject) => {
-    const headers = {
-      'Content-Type': file.mime,
-    };
-    const fileResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion, headers, file.name);
-    if (fileResponse.metadata.success) {
-      let fileText = fileResponse.data as string;
-      if (typeof fileResponse.data !== 'string') {
-        // third parameter refers to the number of white spaces.
-        // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
-        fileText = JSON.stringify(fileResponse.data, null, 2);
-      }
-      setIsFileContentAvailable(true);
-      setFileContent({ default: fileText, latest: fileText });
-    } else {
-      setFileContent({ default: '', latest: '' });
-      setIsFileContentAvailable(false);
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'getFileContent',
-        `Failed to get file content: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
-      );
-    }
-  };
+  const setSelectedFileContent = useCallback(
+    (file: VfsObject) => {
+      const headers = {
+        'Content-Type': file.mime,
+      };
+      const functionName = isNewPythonProgrammingModel(functionInfo) ? '' : functionInfo.properties.name;
+
+      FunctionsService.getFileContent(site.id, functionName, runtimeVersion, headers, file.name).then(fileResponse => {
+        setIsFileContentAvailable(fileResponse.metadata.success);
+
+        if (fileResponse.metadata.success) {
+          const fileText = typeof fileResponse.data === 'string' ? fileResponse.data : JSON.stringify(fileResponse.data, null, 2);
+          setFileContent({ default: fileText, latest: fileText });
+        } else {
+          setFileContent({ default: '', latest: '' });
+
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'getFileContent',
+            `Failed to get file content: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
+          );
+        }
+      });
+    },
+    [functionInfo, runtimeVersion, site.id]
+  );
 
   const getScriptFileOption = (): IDropdownOption | undefined => {
     const scriptHref = functionInfo.properties.script_href;
@@ -399,7 +402,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
   };
 
-  const uploadFile = async (file: any) => {
+  const uploadFile = async file => {
     const xhr = new XMLHttpRequest();
     const url = `${window.appsvc &&
       window.appsvc.env &&
@@ -495,8 +498,6 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded]);
 
   useEffect(() => {
