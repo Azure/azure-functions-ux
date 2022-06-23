@@ -51,13 +51,45 @@ export const javaStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java 17.0.2',
+          value: '17.0.2',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '17.0.2',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '17',
+              },
+              endOfLifeDate: java17EOL,
+            },
+          },
+        },
+        {
           displayText: 'Java 17.0.1',
           value: '17.0.1',
           stackSettings: {
             linuxRuntimeSettings: {
               // Note (jafreebe): Runtime on Linux Java is determined by the Java container
               runtimeVersion: '',
-              isAutoUpdate: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -71,7 +103,6 @@ export const javaStack: WebAppStack = {
             },
             windowsRuntimeSettings: {
               runtimeVersion: '17.0.1',
-              isAutoUpdate: false,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -113,6 +144,39 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '11',
               isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 11.0.14',
+          value: '11.0.14',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+              runtimeVersion: '',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '11',
+              },
+              endOfLifeDate: java11EOL,
+            },
+            windowsRuntimeSettings: {
+              runtimeVersion: '11.0.14',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -444,6 +508,25 @@ export const javaStack: WebAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '1.8',
               isAutoUpdate: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+                isDefaultOff: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8',
+              },
+              endOfLifeDate: java8EOL,
+            },
+          },
+        },
+        {
+          displayText: 'Java 1.8.0_322',
+          value: '8.0.322',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '1.8.0_322',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
