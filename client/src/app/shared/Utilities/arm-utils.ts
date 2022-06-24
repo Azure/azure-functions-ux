@@ -54,15 +54,10 @@ export namespace ArmUtil {
   }
 
   export function isASEV3GenerallyAccessible(): boolean {
-    // NOTE(miabebax): ASEv3 is available in Public, Fairfax, USNat and USSec environment only.
+    // NOTE(miabebax): ASEv3 is available in Public, Fairfax and USSec environment only.
     // We use this helper function to decide whether we display ASEv3 or ASEv2 features.
     // Ex: In spec picker blade, we hide isolatedV2 specs if it is not ASEv3 supported regions.
-    return (
-      !NationalCloudEnvironment.isNationalCloud() ||
-      NationalCloudEnvironment.isFairFax() ||
-      NationalCloudEnvironment.isUSNat() ||
-      NationalCloudEnvironment.isUSSec()
-    );
+    return !NationalCloudEnvironment.isNationalCloud() || NationalCloudEnvironment.isFairFax() || NationalCloudEnvironment.isUSSec();
   }
 
   export function mapArmSiteToContext(obj: ArmObj<Site>, injector: Injector): FunctionAppContext {
