@@ -218,7 +218,7 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     const selectedSpecGroup = this.specManager.selectedSpecGroup;
     const isEmpty = selectedSpecGroup.recommendedSpecs.length === 0 && this.specManager.selectedSpecGroup.additionalSpecs.length === 0;
 
-    //When user is trying to create a new ASP, we will provide a link to 'ASE' create page if it falls into one one of two conditions below
+    //When user is trying to create a new ASP, we will provide a link to 'ASE' create page if it falls into one of two conditions below
     //Condition 1: ASEv3 is supported, but no recommendation or additional specs are available
     //Condition 2: ASEv3 is not supported.
     const isNewPlan = this._input.data && !this._input.data.selectedSkuCode;
