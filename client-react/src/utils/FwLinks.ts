@@ -46,6 +46,7 @@ export const Links = {
   corsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=870118',
   staticSitePasswordProtectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2187127',
   configureNodeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2195169',
+  staticSiteAllowConfigFileUpdatesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2198769',
 };
 
 export const DeploymentCenterLinks = {

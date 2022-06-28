@@ -116,7 +116,11 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const isStackDropdownComponentVisible = () => {
     return (
-      siteStateContext.site && !isContainerApp(siteStateContext.site) && runtimeStack && !isDotNetApp(runtimeStack) && currentStackData
+      siteStateContext.site &&
+      !isContainerApp(siteStateContext.site) &&
+      runtimeStack &&
+      (!isDotNetApp(runtimeStack) || isLinux()) &&
+      currentStackData
     );
   };
 
@@ -150,7 +154,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
       siteStateContext.site &&
       !isContainerApp(siteStateContext.site) &&
       runtimeStack &&
-      !isDotNetApp(runtimeStack) &&
+      (!isDotNetApp(runtimeStack) || isLinux()) &&
       currentStackData && (
         <>
           <DropdownNoFormik
@@ -215,7 +219,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   if (isWindowsContainer()) {
     return null;
   }
-  return isStackDropdownComponentVisible() || isLinux() ? (
+  return isStackDropdownComponentVisible() ? (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>

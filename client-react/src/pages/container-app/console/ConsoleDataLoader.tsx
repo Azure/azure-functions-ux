@@ -17,9 +17,7 @@ import { KeyBoard } from '../../../utils/CommonConstants';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
-  revision?: string;
-  replica?: string;
-  container?: string;
+  execEndpoint?: string;
 }
 
 const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
@@ -29,7 +27,6 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   const { t } = useTranslation();
   const ws = useRef<WebSocket>();
   const terminalRef = useRef<XTerm>(null);
-  const [revisionReplicaContainer, setRevisionReplicaContainer] = useState<string>();
   const [hideDialog, toggleHideDialog] = useBoolean(true);
 
   useEffect(() => {
@@ -47,14 +44,6 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       resizeHandler(width, height);
     }
   }, [terminalRef]);
-
-  useEffect(() => {
-    if (!!props.resourceId && !!props.revision && !!props.replica && !!props.container) {
-      setRevisionReplicaContainer(`/revisions/${props.revision}/replicas/${props.replica}/containers/${props.container}`);
-    } else {
-      setRevisionReplicaContainer(undefined);
-    }
-  }, [props.resourceId, props.revision, props.replica, props.container]);
 
   useEffect(() => {
     // The selected container has changed.
@@ -78,10 +67,10 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
       resizeHandler(width, height);
     }
 
-    toggleHideDialog(!revisionReplicaContainer);
+    toggleHideDialog(!props.execEndpoint);
     setSelectedKey(options[0]);
     setCustomTextField('');
-  }, [revisionReplicaContainer]);
+  }, [props.execEndpoint]);
 
   useEffect(() => {
     return () => debouncedResizeHandler.cancel();
@@ -92,8 +81,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
   }, [width, height]);
 
   const getServerEndpoint = (execEndpoint: string, startUpCommand: string) => {
-    const execEndpointWithRevisionReplicaContainer = execEndpoint.replace('/revisions/exec', `${revisionReplicaContainer}/exec`);
-    return `${execEndpointWithRevisionReplicaContainer}&command=${startUpCommand}`;
+    return `${execEndpoint}&command=${startUpCommand}`;
   };
 
   const processMessageBlob = async (data: Blob) => {
@@ -186,9 +174,9 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
 
     toggleHideDialog();
 
-    const revisionReplicaContainerBefore = revisionReplicaContainer;
+    const execEndpointBefore = props.execEndpoint;
     ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
-      if (revisionReplicaContainerBefore === revisionReplicaContainer) {
+      if (execEndpointBefore === props.execEndpoint) {
         const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.execEndpoint, command);
         ws.current = new WebSocket(serverEndpoint);
 

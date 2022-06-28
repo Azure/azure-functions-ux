@@ -6,6 +6,58 @@ export const dotnetStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: '.NET 7 Isolated (Preview)',
+      value: 'dotnet7isolated',
+      minorVersions: [
+        {
+          displayText: '.NET 7 Isolated (Preview)',
+          value: '7 Isolated',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v7.0',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '7.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                netFrameworkVersion: 'v7.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNET-ISOLATED|7.0',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '7.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                linuxFxVersion: 'DOTNET-ISOLATED|7.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET 6',
       value: 'dotnet6',
       minorVersions: [

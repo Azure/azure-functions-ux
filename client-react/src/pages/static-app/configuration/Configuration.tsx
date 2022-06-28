@@ -1,49 +1,49 @@
-import React, { useState, useContext, useEffect } from 'react';
-import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import {
-  ICommandBarItemProps,
-  IColumn,
-  SelectionMode,
-  DetailsListLayoutMode,
-  Link,
-  TooltipHost,
   ActionButton,
   Checkbox,
-  DetailsRow,
   DetailsHeader,
+  DetailsListLayoutMode,
+  DetailsRow,
+  IColumn,
+  ICommandBarItemProps,
+  Link,
   ProgressIndicator,
+  SelectionMode,
+  TooltipHost,
 } from '@fluentui/react';
+import { sortBy } from 'lodash-es';
+import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ConfigurationProps, EnvironmentVariable, PanelType } from './Configuration.types';
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import CustomPanel from '../../../components/CustomPanel/CustomPanel';
+import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { commandBarSeparator } from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import { getSearchFilter } from '../../../components/form-controls/SearchBox';
+import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
+import IconButton from '../../../components/IconButton/IconButton';
+import { ArmObj } from '../../../models/arm-obj';
+import { Environment } from '../../../models/static-site/environment';
+import { PortalContext } from '../../../PortalContext';
+import { ThemeContext } from '../../../ThemeContext';
+import { Links } from '../../../utils/FwLinks';
+import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
+import ConfigurationData from './Configuration.data';
 import {
+  formDescriptionStyle,
   formStyle,
   tableValueComponentStyle,
   tableValueFormFieldStyle,
   tableValueIconStyle,
-  formDescriptionStyle,
   tableValueTextFieldStyle,
 } from './Configuration.styles';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
-import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
-import { ArmObj } from '../../../models/arm-obj';
-import { Environment } from '../../../models/static-site/environment';
-import IconButton from '../../../components/IconButton/IconButton';
-import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
-import { ThemeContext } from '../../../ThemeContext';
-import CustomPanel from '../../../components/CustomPanel/CustomPanel';
+import { ConfigurationProps, EnvironmentVariable, PanelType } from './Configuration.types';
 import ConfigurationAddEdit from './ConfigurationAddEdit';
-import { sortBy } from 'lodash-es';
-import ConfigurationData from './Configuration.data';
 import ConfigurationAdvancedAddEdit from './ConfigurationAdvancedAddEdit';
-import { Links } from '../../../utils/FwLinks';
-import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
-import { PortalContext } from '../../../PortalContext';
-import { commandBarSeparator } from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
-import { getSearchFilter } from '../../../components/form-controls/SearchBox';
-import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import ConfigurationEnvironmentSelector from './ConfigurationEnvironmentSelector';
 
-const Configuration: React.FC<ConfigurationProps> = props => {
+const Configuration: React.FC<ConfigurationProps> = (props: ConfigurationProps) => {
   const {
     selectedEnvironmentVariableResponse,
     isLoading,
@@ -567,10 +567,12 @@ const Configuration: React.FC<ConfigurationProps> = props => {
   return (
     <>
       {isLoading ? (
-        <ProgressIndicator
-          description={t('staticSite_loadingApplicationSettings')}
-          ariaValueText={t('staticSite_loadingApplicationSettings')}
-        />
+        <div className={formStyle}>
+          <ProgressIndicator
+            description={t('staticSite_loadingApplicationSettings')}
+            ariaValueText={t('staticSite_loadingApplicationSettings')}
+          />
+        </div>
       ) : (
         <>
           {getConfirmDialogs()}

@@ -7323,6 +7323,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_confirmVisitorPasswordRequired" xml:space="preserve">
         <value>Please confirm the visitor password. This value must match the password entered above.</value>
     </data>
+    <data name="staticSite_configurationFile" xml:space="preserve">
+        <value>Configuration file</value>
+    </data>
+    <data name="staticSite_configurationFileDescription" xml:space="preserve">
+        <value>Keep configuration file changes enabled to allow changes in your staticwebapp.config.json to take effect. Disabling them may cause new deployments to fail.</value>
+    </data>
+    <data name="staticSite_configurationFileToggle" xml:space="preserve">
+        <value>Enable configuration file changes</value>
+    </data>
     <data name="staticSite_generalSettingsUpdate" xml:space="preserve">
         <value>Updating general settings</value>
     </data>
