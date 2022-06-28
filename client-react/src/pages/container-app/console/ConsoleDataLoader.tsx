@@ -1,19 +1,19 @@
-import { TextField } from '@fluentui/react';
-import { PrimaryButton, DefaultButton } from '@fluentui/react/lib/Button';
+import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluentui/react/lib/ChoiceGroup';
 import Dialog, { DialogFooter, DialogType, IDialogContentProps } from '@fluentui/react/lib/Dialog';
+import { TextField } from '@fluentui/react/lib/TextField';
 import { debounce } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useBoolean from 'react-use/lib/useBoolean';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { XTerm } from 'xterm-for-react';
-import { getTerminalDimensions } from '../xtermHelper';
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
-import { containerAppStyles } from '../ContainerApp.styles';
-import { consoleStyles, dialogFooterStyles, dialogTitleStyles } from './ConsoleDataLoader.styles';
 import { KeyBoard } from '../../../utils/CommonConstants';
+import { containerAppStyles } from '../ContainerApp.styles';
+import { getTerminalDimensions } from '../xtermHelper';
+import { consoleStyles, dialogFooterStyles, dialogTitleStyles } from './ConsoleDataLoader.styles';
 
 export interface ConsoleDataLoaderProps {
   resourceId: string;
@@ -80,8 +80,8 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     debouncedResizeHandler(width, height);
   }, [width, height]);
 
-  const getServerEndpoint = (execEndpoint: string, startUpCommand: string) => {
-    return `${execEndpoint}&command=${startUpCommand}`;
+  const getServerEndpoint = (execEndpoint: string, token: string, startUpCommand: string) => {
+    return `${execEndpoint}?token=${token}&command=${startUpCommand}`;
   };
 
   const processMessageBlob = async (data: Blob) => {
@@ -177,7 +177,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     const execEndpointBefore = props.execEndpoint;
     ContainerAppService.getAuthToken(props.resourceId).then(authTokenResponse => {
       if (execEndpointBefore === props.execEndpoint) {
-        const serverEndpoint = getServerEndpoint(authTokenResponse.data.properties.execEndpoint, command);
+        const serverEndpoint = getServerEndpoint(props.execEndpoint || '', authTokenResponse.data.properties.token, command);
         ws.current = new WebSocket(serverEndpoint);
 
         ws.current.onmessage = async (event: MessageEvent) => {
