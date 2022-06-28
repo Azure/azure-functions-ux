@@ -61,6 +61,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [showTestPanel, setShowTestPanel] = useState(false);
   const [testData, setTestData] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
+  const [addingCorsRules, setAddingCorsRules] = useState(false);
+  const [retryFunctionTest, setRetryFunctionTest] = useState(true);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
   const [enablePortalCall, setEnablePortalCall] = useState(false);
@@ -465,7 +467,22 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const runUsingPortal = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
     const response: ResponseContent = { code: 0, text: '' };
 
-    const runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+    let runFunctionResponse;
+    if (retryFunctionTest) {
+      let errorCount = 0;
+      let functionSuccess = false;
+      for (errorCount = 0; errorCount < 5 || functionSuccess; ++errorCount) {
+        runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+        const jqXHR = getJQXHR(runFunctionResponse, LogCategories.FunctionEdit, 'makeHttpRequestForRunFunction');
+        if (jqXHR && jqXHR.status && jqXHR.status !== 200) {
+          functionSuccess = true;
+        }
+      }
+      setRetryFunctionTest(false);
+    } else {
+      runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+    }
+
     const runFunctionResponseResult = runFunctionResponse.result;
     const jqXHR = getJQXHR(runFunctionResponse, LogCategories.FunctionEdit, 'makeHttpRequestForRunFunction');
     if (jqXHR) {
@@ -698,6 +715,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   const addCorsRule = async (corsRule: string) => {
+    setAddingCorsRules(true);
     setIsRefreshing(true);
     const siteConfig = functionEditorData.functionData.siteConfig;
     const allowedOrigins = !!siteConfig && siteConfig.properties.cors.allowedOrigins ? siteConfig.properties.cors.allowedOrigins : [];
@@ -722,7 +740,20 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       );
     }
 
-    setIsRefreshing(false);
+    //(NOTE) stpelleg: Need to add a delay of 30s for Function App restart
+    //Function App does not show as restarting, only returns "Running"
+    const functionAppRestartPromise = new Promise<void>(resolve => {
+      setTimeout(() => {
+        resolve();
+      }, 60000);
+    });
+
+    functionAppRestartPromise.then(() => {
+      setAddingCorsRules(false);
+      setIsRefreshing(false);
+      setRetryFunctionTest(true);
+      refresh();
+    });
   };
 
   useEffect(() => {
@@ -781,6 +812,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
             addCorsRule={addCorsRule}
             enablePortalCall={enablePortalCall}
             isFunctionLogsApiFlightingEnabled={isFunctionLogsApiFlightingEnabled}
+            addingCorsRules={addingCorsRules}
           />
         </div>
       ) : (

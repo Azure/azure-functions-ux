@@ -33,6 +33,7 @@ export interface FunctionTestProps {
   responseContent?: ResponseContent;
   testData?: string;
   enablePortalCall?: boolean;
+  addingCorsRules?: boolean;
 }
 
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
@@ -60,6 +61,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     getFunctionUrl,
     addCorsRule,
     enablePortalCall,
+    addingCorsRules,
   } = props;
 
   const errorMessage = {
@@ -209,7 +211,9 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
       );
     }
 
-    if (!!responseContent && responseContent.code === 403) {
+    if (addingCorsRules) {
+      return <CustomBanner message={t('functionEditorCorsWarning')} type={MessageBarType.info} />;
+    } else if (!!responseContent && responseContent.code === 403) {
       return (
         <CustomBanner
           message={t('functionEditor_privateLinkRunMessage')}
@@ -223,14 +227,17 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
   useEffect(() => {
     !!responseContent && setSelectedPivotTab(PivotType.output);
+    console.log(responseContent);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseContent]);
+
   useEffect(() => {
     setUpdatedInputFormValues();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testData, xFunctionKey]);
+
   return (
     <Formik
       initialValues={defaultInputFormValues}
@@ -242,7 +249,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           id: 'run',
           title: t('run'),
           onClick: formProps.submitForm,
-          disable: !!statusMessage || checkCorsAndDisableTest(),
+          disable: !!statusMessage || checkCorsAndDisableTest() || !!addingCorsRules,
           autoFocus: true,
         };
 
