@@ -60,6 +60,17 @@ export class BindingFormBuilder<TOptions> {
           value = setting.enum?.map(e => e.value) ?? [];
         }
 
+        // Ensure that value is set correctly when a case-insensitive match is found,
+        // e.g., 'ANONYMOUS' authorization level should match 'anonymous' enum option value.
+        if (setting.value === BindingSettingValue.enum && !!value) {
+          const match = setting.enum?.find(
+            option => value.localeCompare(option.value, /* locales */ undefined, { sensitivity: 'base' }) === 0
+          )?.value;
+          if (match) {
+            value = match;
+          }
+        }
+
         initialFormValues[setting.name] = value;
       }
 
