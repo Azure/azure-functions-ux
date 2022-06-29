@@ -162,6 +162,57 @@ export const dotnetStack: FunctionAppStack = {
       ],
     },
     {
+      displayText: '.NET 5 (non-LTS)',
+      value: 'dotnet5',
+      minorVersions: [
+        {
+          displayText: '.NET 5 (non-LTS)',
+          value: '5 (non-LTS)',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v5.0',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '5.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNET-ISOLATED|5.0',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '5.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                linuxFxVersion: 'DOTNET-ISOLATED|5.0',
+              },
+              supportedFunctionsExtensionVersions: ['~3'],
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET Core 3',
       value: 'dotnetcore3',
       minorVersions: [
