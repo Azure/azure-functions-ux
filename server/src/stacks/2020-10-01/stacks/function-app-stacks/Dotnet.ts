@@ -15,7 +15,6 @@ export const dotnetStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v7.0',
-              isEarlyAccess: true,
               isPreview: true,
               isHidden: true,
               remoteDebuggingSupported: false,
@@ -37,7 +36,6 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNET-ISOLATED|7.0',
-              isEarlyAccess: true,
               isPreview: true,
               isHidden: true,
               remoteDebuggingSupported: false,
