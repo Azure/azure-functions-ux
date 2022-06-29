@@ -1,58 +1,46 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { MessageBarType } from '@fluentui/react';
+import { Method } from 'axios';
+import { createContext, useCallback, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
+import SiteService from '../../../../../ApiHelpers/SiteService';
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
+import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
-import { FunctionEditor } from './FunctionEditor';
-import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
-import FunctionEditorData from './FunctionEditor.data';
-import { Site } from '../../../../../models/site/site';
-import { SiteRouterContext } from '../../../SiteRouter';
-import Url from '../../../../../utils/url';
-import { NameValuePair, ResponseContent, UrlObj, UrlType, urlParameterRegExp } from './FunctionEditor.types';
-import AppKeyService from '../../../../../ApiHelpers/AppKeysService';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import { BindingManager } from '../../../../../utils/BindingManager';
-import { AppKeysInfo } from '../../app-keys/AppKeys.types';
-import SiteService from '../../../../../ApiHelpers/SiteService';
-import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../../../../../models/functions/runtime-extension';
-import { Host } from '../../../../../models/functions/host';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
+import { RuntimeExtensionCustomVersions, RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
 import { VfsObject } from '../../../../../models/functions/vfs';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { KeyValue } from '../../../../../models/portal-models';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
-import StringUtils from '../../../../../utils/string';
-import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
-import { CommonConstants, ExperimentationConstants } from '../../../../../utils/CommonConstants';
-import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
 import { PortalContext } from '../../../../../PortalContext';
-import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
-import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import { SiteStateContext } from '../../../../../SiteState';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { BindingManager } from '../../../../../utils/BindingManager';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import LogService from '../../../../../utils/LogService';
+import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
+import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import SiteHelper from '../../../../../utils/SiteHelper';
-import { Method } from 'axios';
+import StringUtils from '../../../../../utils/string';
+import Url from '../../../../../utils/url';
+import { FunctionEditor } from './FunctionEditor';
+import FunctionEditorData from './FunctionEditor.data';
+import { shrinkEditorStyle } from './FunctionEditor.styles';
+import { NameValuePair, ResponseContent, UrlObj, urlParameterRegExp, UrlType } from './FunctionEditor.types';
+import { useFunctionEditorQueries } from './useFunctionEditorQueries';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
 }
 
 const functionEditorData = new FunctionEditorData();
-export const FunctionEditorContext = React.createContext(functionEditorData);
 
-const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props => {
-  const { resourceId } = props;
+export const FunctionEditorContext = createContext(functionEditorData);
+
+const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ resourceId }: FunctionEditorDataLoaderProps) => {
   const [initialLoading, setInitialLoading] = useState(true);
-  const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
-  const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo> | undefined>(undefined);
-  const [hostKeys, setHostKeys] = useState<AppKeysInfo | undefined>(undefined);
-  const [functionKeys, setFunctionKeys] = useState<KeyValue<string>>({});
-  const [runtimeVersion, setRuntimeVersion] = useState<string | undefined>(undefined);
-  const [hostJsonContent, setHostJsonContent] = useState<Host | undefined>(undefined);
-  const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
   const [responseContent, setResponseContent] = useState<ResponseContent | undefined>(undefined);
   const [functionRunning, setFunctionRunning] = useState(false);
   const [hostUrls, setHostUrls] = useState<UrlObj[]>([]);
@@ -62,141 +50,35 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   const [testData, setTestData] = useState<string | undefined>(undefined);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
-  const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
-  const [enablePortalCall, setEnablePortalCall] = useState(false);
-  const [isFunctionLogsApiFlightingEnabled, setIsFunctionLogsApiFlightingEnabled] = useState(false);
 
-  const siteContext = useContext(SiteRouterContext);
   const siteStateContext = useContext(SiteStateContext);
   const startupInfoContext = useContext(StartupInfoContext);
   const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
 
+  const {
+    enablePortalCall,
+    fileList,
+    functionInfo,
+    functionKeys,
+    hostJsonContent,
+    hostKeys,
+    isFunctionLogsApiFlightingEnabled,
+    refreshQueries,
+    runtimeVersion,
+    setFileList,
+    setFunctionInfo,
+    site,
+    status,
+    workerRuntime,
+  } = useFunctionEditorQueries(resourceId, functionEditorData);
+
   const isHttpOrWebHookFunction = !!functionInfo && functionEditorData.isHttpOrWebHookFunction(functionInfo);
 
   const getSiteResourceId = () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     return armSiteDescriptor.getTrimmedResourceId();
-  };
-
-  const fetchData = async () => {
-    const siteResourceId = getSiteResourceId();
-    const [
-      siteResponse,
-      functionInfoResponse,
-      appKeysResponse,
-      functionKeysResponse,
-      hostStatusResponse,
-      enablePortalCall,
-      isFunctionLogsApiFlightingEnabled,
-    ] = await Promise.all([
-      siteContext.fetchSite(siteResourceId),
-      functionEditorData.getFunctionInfo(resourceId),
-      AppKeyService.fetchKeys(siteResourceId),
-      FunctionsService.fetchKeys(resourceId),
-      SiteService.fetchFunctionsHostStatus(siteResourceId),
-      portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor),
-      portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.newFunctionLogsApi),
-    ]);
-
-    setEnablePortalCall(enablePortalCall);
-    setIsFunctionLogsApiFlightingEnabled(isFunctionLogsApiFlightingEnabled);
-
-    // NOTE (krmitta): App-Settings are going to be used to fetch the workerRuntime,
-    // for logging purposes only. Thus we are not going to block on this.
-    fetchAppSettings(siteResourceId);
-
-    if (siteResponse.metadata.success) {
-      setSite(siteResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'fetchSite',
-        `Failed to fetch site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
-      );
-    }
-
-    if (functionInfoResponse.metadata.success) {
-      setFunctionInfo(functionInfoResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'getFunction',
-        `Failed to get function info: ${getErrorMessageOrStringify(functionInfoResponse.metadata.error)}`
-      );
-    }
-
-    if (hostStatusResponse.metadata.success) {
-      const hostStatusData = hostStatusResponse.data;
-      const currentRuntimeVersion = StringUtils.getRuntimeVersionString(hostStatusData.properties.version);
-      setRuntimeVersion(currentRuntimeVersion);
-      const [hostJsonResponse, fileListResponse] = await Promise.all([
-        FunctionsService.getHostJson(siteResourceId, currentRuntimeVersion),
-        FunctionsService.getFileContent(siteResourceId, functionInfoResponse.data.properties.name, currentRuntimeVersion),
-      ]);
-      if (hostJsonResponse && hostJsonResponse.metadata.success) {
-        setHostJsonContent(hostJsonResponse.data);
-      } else {
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'getHostJson',
-          `Failed to get host json file: ${getErrorMessageOrStringify(hostJsonResponse.metadata.error)}`
-        );
-      }
-
-      if (fileListResponse && fileListResponse.metadata.success) {
-        setFileList(fileListResponse.data as VfsObject[]);
-      } else {
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'getFileContent',
-          `Failed to get file content: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
-        );
-      }
-    }
-
-    if (appKeysResponse.metadata.success) {
-      setHostKeys(appKeysResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'fetchAppKeys',
-        `Failed to fetch app keys: ${getErrorMessageOrStringify(appKeysResponse.metadata.error)}`
-      );
-    }
-
-    if (functionKeysResponse.metadata.success) {
-      setFunctionKeys(functionKeysResponse.data);
-    } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'fetchFunctionKeys',
-        `Failed to fetch function keys: ${getErrorMessageOrStringify(functionKeysResponse.metadata.error)}`
-      );
-    }
-
-    await getAndUpdateSiteConfig();
-
-    setInitialLoading(false);
-    setIsRefreshing(false);
-  };
-
-  const fetchAppSettings = async (siteResourceId: string) => {
-    const appSettingsResponse = await SiteService.fetchApplicationSettings(siteResourceId);
-
-    if (appSettingsResponse.metadata.success) {
-      const appSettingsProperties = appSettingsResponse.data.properties;
-      if (Object.prototype.hasOwnProperty.call(appSettingsProperties, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
-        setWorkerRuntime(appSettingsProperties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
-      }
-    } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'fetchAppSettings',
-        `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
-      );
-    }
   };
 
   const createAndGetFunctionInvokeUrlPath = (key?: string) => {
@@ -209,7 +91,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
         let clientId = '';
         const queryParams: string[] = [];
         const result = getResultFromHostJson();
-        const functionKey = key || functionKeys.default;
+        const functionKey = key || functionKeys?.default;
 
         code = functionKey ?? '';
 
@@ -387,7 +269,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
           /** @note (joechung): Treat invalid JSON as string input. */
         }
 
-        const functionKey = xFunctionKey ?? functionKeys.default;
+        const functionKey = xFunctionKey ?? functionKeys?.default;
         const code = [...functionUrls, ...hostUrls, ...systemUrls].find(urlObj => urlObj.key === functionKey)?.data;
         url = functionEditorData.getAuthenticationTriggerUrl(baseUrl, newFunctionInfo, code);
       }
@@ -629,21 +511,23 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
     };
   };
 
-  const refresh = async () => {
+  const refresh = useCallback(() => {
     if (site) {
       setIsRefreshing(true);
-      SiteService.fireSyncTrigger(site).then(r => {
-        fetchData();
-        if (!r.metadata.success) {
+
+      SiteService.fireSyncTrigger(site).then(response => {
+        refreshQueries();
+
+        if (!response.metadata.success) {
           LogService.error(
             LogCategories.FunctionEdit,
             'fireSyncTrigger',
-            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(response.metadata.error)}`
           );
         }
       });
     }
-  };
+  }, [refreshQueries, site]);
 
   const getDefaultXFunctionKey = (): string => {
     return hostKeys && hostKeys.masterKey ? `master - Host` : '';
@@ -726,10 +610,20 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
   };
 
   useEffect(() => {
-    fetchData();
+    refreshQueries();
+  }, [refreshQueries]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  useEffect(() => {
+    if (initialLoading && (status === 'error' || status === 'success')) {
+      setInitialLoading(false);
+    }
+  }, [initialLoading, status]);
+
+  useEffect(() => {
+    if (isRefreshing && (status === 'error' || status === 'success')) {
+      setIsRefreshing(false);
+    }
+  }, [isRefreshing, status]);
 
   useEffect(() => {
     if (!!site && !!functionInfo) {
@@ -750,10 +644,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [functionInfo, hostKeys]);
+
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
   if (initialLoading || !site) {
     return <LoadingComponent />;
   }
+
   return (
     <FunctionEditorContext.Provider value={functionEditorData}>
       {functionInfo ? (
@@ -786,6 +682,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = props 
       ) : (
         <CustomBanner message={t('functionInfoFetchError')} type={MessageBarType.error} />
       )}
+
       {isOverlayLoadingComponentVisible() && <LoadingComponent overlay={true} />}
     </FunctionEditorContext.Provider>
   );
