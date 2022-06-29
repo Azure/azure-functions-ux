@@ -11,7 +11,7 @@ export const dotnetStack: FunctionAppStack = {
       minorVersions: [
         {
           displayText: '.NET 7 Isolated (Preview)',
-          value: '7 Preview (non-LTS)',
+          value: '7 (non-LTS)',
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v7.0',
