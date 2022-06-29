@@ -11,7 +11,7 @@ export const dotnetStack: FunctionAppStack = {
       minorVersions: [
         {
           displayText: '.NET 7 Isolated (Preview)',
-          value: '7 Isolated',
+          value: '7 Preview (non-LTS)',
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v7.0',
@@ -156,57 +156,6 @@ export const dotnetStack: FunctionAppStack = {
                 linuxFxVersion: 'DOTNET-ISOLATED|6.0',
               },
               supportedFunctionsExtensionVersions: ['~4'],
-            },
-          },
-        },
-      ],
-    },
-    {
-      displayText: '.NET 5 (non-LTS)',
-      value: 'dotnet5',
-      minorVersions: [
-        {
-          displayText: '.NET 5 (non-LTS)',
-          value: '5 (non-LTS)',
-          stackSettings: {
-            windowsRuntimeSettings: {
-              runtimeVersion: 'v5.0',
-              isHidden: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '5.0.x',
-              },
-              appSettingsDictionary: {
-                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
-              },
-              siteConfigPropertiesDictionary: {
-                use32BitWorkerProcess: true,
-              },
-              supportedFunctionsExtensionVersions: ['~3'],
-            },
-            linuxRuntimeSettings: {
-              runtimeVersion: 'DOTNET-ISOLATED|5.0',
-              isHidden: true,
-              remoteDebuggingSupported: false,
-              appInsightsSettings: {
-                isSupported: true,
-              },
-              gitHubActionSettings: {
-                isSupported: true,
-                supportedVersion: '5.0.x',
-              },
-              appSettingsDictionary: {
-                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
-              },
-              siteConfigPropertiesDictionary: {
-                use32BitWorkerProcess: true,
-                linuxFxVersion: 'DOTNET-ISOLATED|5.0',
-              },
-              supportedFunctionsExtensionVersions: ['~3'],
             },
           },
         },
