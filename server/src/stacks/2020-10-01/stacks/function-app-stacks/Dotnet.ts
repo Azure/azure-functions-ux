@@ -6,15 +6,16 @@ export const dotnetStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
-      displayText: '.NET 7 Isolated (Preview)',
+      displayText: '.NET 7 Isolated',
       value: 'dotnet7isolated',
       minorVersions: [
         {
-          displayText: '.NET 7 Isolated (Preview)',
-          value: '7 Isolated',
+          displayText: '.NET 7 Isolated',
+          value: '7 (non-LTS)',
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v7.0',
+              isPreview: true,
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -35,6 +36,7 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNET-ISOLATED|7.0',
+              isPreview: true,
               isHidden: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
