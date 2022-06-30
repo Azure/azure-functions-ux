@@ -72,6 +72,7 @@ export interface FunctionEditorProps {
   workerRuntime?: string;
   enablePortalCall?: boolean;
   isFunctionLogsApiFlightingEnabled?: boolean;
+  addingCorsRules?: boolean;
 }
 
 export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEditorProps) => {
@@ -97,6 +98,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     addCorsRule,
     enablePortalCall,
     isFunctionLogsApiFlightingEnabled,
+    addingCorsRules,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -466,7 +468,9 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
 
   const getBanner = (): JSX.Element => {
     /* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */
-    if (isAppReadOnly(siteStateContext.siteAppEditState)) {
+    if (addingCorsRules) {
+      return <CustomBanner message={t('functionEditorCorsWarning')} type={MessageBarType.info} />;
+    } else if (isAppReadOnly(siteStateContext.siteAppEditState)) {
       return <EditModeBanner setBanner={setReadOnlyBanner} />;
     } else if (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) {
       return (
@@ -610,6 +614,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
           getFunctionUrl={getFunctionUrl}
           addCorsRule={addCorsRule}
           enablePortalCall={enablePortalCall}
+          addingCorsRules={addingCorsRules}
         />
       </CustomPanel>
       {isLoading() && <LoadingComponent />}
