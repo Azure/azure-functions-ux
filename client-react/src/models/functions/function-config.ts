@@ -6,5 +6,6 @@ export interface FunctionConfig {
   disabled?: boolean | string;
   entryPoint?: string;
   generatedBy?: string;
+  language?: string;
   scriptFile?: string;
 }
