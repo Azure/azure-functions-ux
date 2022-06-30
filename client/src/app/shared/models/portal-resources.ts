@@ -1881,6 +1881,7 @@ export class PortalResources {
   public static pricing_pv2FlexStampCheckboxLabel = 'pricing_pv2FlexStampCheckboxLabel';
   public static pricing_skuCheckWarning = 'pricing_skuCheckWarning';
   public static premiumToConsumptionWarning = 'premiumToConsumptionWarning';
+  public static premiumAndConsumptionLinuxInfoMessage = 'premiumAndConsumptionLinuxInfoMessage';
   public static githubActionWorkflowOption = 'githubActionWorkflowOption';
   public static githubActionWorkflowOptionOverwrite = 'githubActionWorkflowOptionOverwrite';
   public static githubActionWorkflowOptionUseExisting = 'githubActionWorkflowOptionUseExisting';

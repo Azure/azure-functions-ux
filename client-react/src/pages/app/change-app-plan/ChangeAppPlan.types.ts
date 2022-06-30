@@ -6,14 +6,6 @@ import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { Site } from '../../../models/site/site';
 import { CreateOrSelectPlanFormValues } from './CreateOrSelectPlan';
 
-export interface CompletionTelemetry {
-  success: boolean;
-  newResourceGroup: boolean;
-  newPlan: boolean;
-  resourceId?: string;
-  message?: string;
-}
-
 export interface ChangeAppPlanProps {
   site: ArmObj<Site>;
   currentServerFarm: ArmObj<ServerFarm>;

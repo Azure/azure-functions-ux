@@ -17,8 +17,6 @@ import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-e
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { LogCategories } from '../../../utils/LogCategories';
 import { PortalContext } from '../../../PortalContext';
-import Url from '../../../utils/url';
-import { CommonConstants } from '../../../utils/CommonConstants';
 import { ChangeAppPlanTierTypes } from './ChangeAppPlan.types';
 
 interface ChangeAppPlanDataLoaderProps {
@@ -155,9 +153,8 @@ export const consumptionToPremiumEnabled = (currentServerFarm: ArmObj<ServerFarm
   const isDynamicOrPremium =
     currentTier === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase() ||
     currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
-  const isNewChangeAspEnabled = Url.getFeatureValue(CommonConstants.FeatureFlags.enableFunctionsDynamicToPremium) === 'true';
   const isLinux = !!site && isLinuxApp(site);
-  return isNewChangeAspEnabled && isDynamicOrPremium && !isLinux;
+  return isDynamicOrPremium && !isLinux;
 };
 
 export default ChangeAppPlanDataLoader;

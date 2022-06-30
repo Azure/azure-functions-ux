@@ -8,14 +8,13 @@ import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
 import SiteService from '../../../ApiHelpers/SiteService';
 import { ArmObj, ArmSku } from '../../../models/arm-obj';
-import { BroadcastMessageId } from '../../../models/portal-models';
+import { BroadcastMessageId, KeyValue } from '../../../models/portal-models';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { Site } from '../../../models/site/site';
 import PortalCommunicator from '../../../portal-communicator';
 import { PortalContext } from '../../../PortalContext';
 import { LogCategories } from '../../../utils/LogCategories';
-import LogService from '../../../utils/LogService';
 import { ArmPlanDescriptor, ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
@@ -23,12 +22,13 @@ import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmVa
 import { CreateOrSelectPlanFormValues } from './CreateOrSelectPlan';
 import { Links } from '../../../utils/FwLinks';
 import { formStyle, wrapperStyle } from './ChangeAppPlan.styles';
-import { ChangeAppPlanFormValues, ChangeAppPlanProps, CompletionTelemetry } from './ChangeAppPlan.types';
+import { ChangeAppPlanFormValues, ChangeAppPlanProps } from './ChangeAppPlan.types';
 
 import { ChangeAppPlanFooter } from './ChangeAppPlanFooter';
 import { CurrentPlanDetails } from './ChangeAppPlanCurrentPlanDetails';
 import { DestinationPlanDetails } from './ChangeAppPlanDestinationPlanDetails';
 import { ChangeAppPlanHeader } from './ChangeAppPlanHeader';
+import { LogLevel, TelemetryInfo } from '../../../models/telemetry';
 
 export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const { serverFarms, resourceGroups, site, currentServerFarm, hostingEnvironment, onChangeComplete } = props;
@@ -155,14 +155,21 @@ const getCompletionTelemetry = (
   newResourceGroup: boolean,
   newPlan: boolean,
   resourceId?: string,
-  message?: string
-): CompletionTelemetry => {
+  message?: string,
+  currentServerFarmSkuTier?: string,
+  newServerFarmSkuTier?: string
+) => {
+  const trueString = 'true';
+  const falseString = 'false';
+
   return {
-    success,
-    newResourceGroup,
-    newPlan,
-    resourceId,
-    message,
+    success: success ? trueString : falseString,
+    newResourceGroup: newResourceGroup ? trueString : falseString,
+    newPlan: newPlan ? trueString : falseString,
+    resourceId: resourceId || '',
+    message: message || '',
+    currentServerFarmSkuTier: currentServerFarmSkuTier || '',
+    newServerFarmSkuTier: newServerFarmSkuTier || '',
   };
 };
 
@@ -205,28 +212,49 @@ const changeSiteToExistingPlan = async (
   let success = false;
 
   if (!serverFarmInfo.existingPlan) {
-    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemetry(false, false, false, '', 'existingPlan not set'));
-
+    portalCommunicator.log(
+      getTelemetryInfo('info', 'changeAppPlanSubmitted', 'submit', getCompletionTelemetry(false, false, false, '', 'existingPlan not set'))
+    );
     return success;
   }
 
   site.properties.serverFarmId = serverFarmInfo.existingPlan.id;
 
   const planDescriptor = new ArmPlanDescriptor(site.properties.serverFarmId);
+  const currentServerFarmSku = formValues.currentServerFarm.sku?.tier;
+  const existingPlanServerFarmSku = serverFarmInfo.existingPlan.sku?.tier;
 
   const siteResponse = await SiteService.updateSite(site.id, site);
   if (siteResponse.metadata.success) {
     portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
-    LogService.trackEvent(LogCategories.changeAppPlan, 'onSubmit', getCompletionTelemetry(true, false, false, site.id));
+    portalCommunicator.log(
+      getTelemetryInfo(
+        'info',
+        'changeAppPlanSubmitted',
+        'submit',
+        getCompletionTelemetry(true, false, false, site.id, '', currentServerFarmSku, existingPlanServerFarmSku)
+      )
+    );
 
     success = true;
   } else {
     const updateSiteError = getErrorMessage(siteResponse.metadata.error) || planDescriptor.name;
     portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
-    LogService.trackEvent(
-      LogCategories.changeAppPlan,
-      'onSubmit',
-      getCompletionTelemetry(false, false, false, site.id, `Failed to update site: '${updateSiteError}'`)
+    portalCommunicator.log(
+      getTelemetryInfo(
+        'info',
+        'changeAppPlanSubmitted',
+        'submit',
+        getCompletionTelemetry(
+          false,
+          false,
+          false,
+          site.id,
+          `Failed to update site: '${updateSiteError}'`,
+          currentServerFarmSku,
+          existingPlanServerFarmSku
+        )
+      )
     );
   }
 
@@ -242,6 +270,8 @@ const changeSiteToNewPlan = async (
   const { site, serverFarmInfo, currentServerFarm } = formValues;
   const siteDescriptor = new ArmSiteDescriptor(site.id);
   let rgName = serverFarmInfo.newPlanInfo.existingResourceGroup?.name ?? siteDescriptor.resourceGroup;
+  const currentServerFarmSku = currentServerFarm.sku?.tier;
+  const newPlanServerFarmSku = serverFarmInfo.newPlanInfo?.tier;
 
   if (serverFarmInfo.newPlanInfo.isNewResourceGroup) {
     const rgResponse = await ResourceGroupService.updateResourceGroup(
@@ -253,15 +283,20 @@ const changeSiteToNewPlan = async (
     if (!rgResponse.metadata.success) {
       const createRgError = getErrorMessage(rgResponse.metadata.error) || siteDescriptor.resourceGroup;
       portalCommunicator.stopNotification(notificationId, false, t('changePlanRgCreateFailureNotificationFormat').format(createRgError));
-      LogService.trackEvent(
-        LogCategories.changeAppPlan,
-        'onSubmit',
-        getCompletionTelemetry(
-          false,
-          true,
-          true,
-          `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${serverFarmInfo.newPlanInfo.newResourceGroupName}`,
-          `Failed to update resource group: ${createRgError}`
+      portalCommunicator.log(
+        getTelemetryInfo(
+          'info',
+          'changeAppPlanSubmitted',
+          'submit',
+          getCompletionTelemetry(
+            false,
+            true,
+            true,
+            `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${serverFarmInfo.newPlanInfo.newResourceGroupName}`,
+            `Failed to update resource group: ${createRgError}`,
+            currentServerFarmSku,
+            newPlanServerFarmSku
+          )
         )
       );
 
@@ -301,15 +336,20 @@ const changeSiteToNewPlan = async (
     const createPlanError = getErrorMessage(serverFarmResponse.metadata.error) || planDescriptor.name;
     portalCommunicator.stopNotification(notificationId, false, t('changePlanPlanCreateFailureNotificationFormat').format(createPlanError));
 
-    LogService.trackEvent(
-      'ChangeAppPlan',
-      'onSubmit',
-      getCompletionTelemetry(
-        false,
-        serverFarmInfo.newPlanInfo.isNewResourceGroup,
-        true,
-        newServerFarmId,
-        `Failed to create new serverfarm: '${createPlanError}'`
+    portalCommunicator.log(
+      getTelemetryInfo(
+        'info',
+        'changeAppPlanSubmitted',
+        'submit',
+        getCompletionTelemetry(
+          false,
+          serverFarmInfo.newPlanInfo.isNewResourceGroup,
+          true,
+          newServerFarmId,
+          `Failed to create new serverfarm: '${createPlanError}'`,
+          currentServerFarmSku,
+          newPlanServerFarmSku
+        )
       )
     );
 
@@ -323,15 +363,20 @@ const changeSiteToNewPlan = async (
     const updateSiteError = getErrorMessage(siteResponse.metadata.error) || planDescriptor.name;
     portalCommunicator.stopNotification(notificationId, false, t('changePlanFailureNotificationFormat').format(updateSiteError));
 
-    LogService.trackEvent(
-      'ChangeAppPlan',
-      'onSubmit',
-      getCompletionTelemetry(
-        false,
-        serverFarmInfo.newPlanInfo.isNewResourceGroup,
-        serverFarmInfo.isNewPlan,
-        site.id,
-        `Failed to update site: '${updateSiteError}'`
+    portalCommunicator.log(
+      getTelemetryInfo(
+        'info',
+        'changeAppPlanSubmitted',
+        'submit',
+        getCompletionTelemetry(
+          false,
+          serverFarmInfo.newPlanInfo.isNewResourceGroup,
+          serverFarmInfo.isNewPlan,
+          site.id,
+          `Failed to update site: '${updateSiteError}'`,
+          currentServerFarmSku,
+          newPlanServerFarmSku
+        )
       )
     );
 
@@ -339,11 +384,20 @@ const changeSiteToNewPlan = async (
   }
 
   portalCommunicator.stopNotification(notificationId, true, t('changePlanNotification'));
-
-  LogService.trackEvent(
-    'ChangeAppPlan',
-    'onSubmit',
-    getCompletionTelemetry(true, serverFarmInfo.newPlanInfo.isNewResourceGroup, serverFarmInfo.isNewPlan, site.id)
+  portalCommunicator.log(
+    getTelemetryInfo(
+      'info',
+      'changeAppPlanSubmitted',
+      'submit',
+      getCompletionTelemetry(
+        true,
+        serverFarmInfo.newPlanInfo.isNewResourceGroup,
+        serverFarmInfo.isNewPlan,
+        site.id,
+        currentServerFarmSku,
+        newPlanServerFarmSku
+      )
+    )
   );
 
   return true;
@@ -391,6 +445,36 @@ const getInitialFormValues = (
         newResourceGroupName: '',
         name: getDefaultServerFarmName(siteDescriptor.resourceName),
       },
+    },
+  };
+};
+
+export const getTelemetryInfo = (
+  logLevel: LogLevel,
+  action: string,
+  actionModifier: string,
+  data?: KeyValue<string | undefined>
+): TelemetryInfo => {
+  const identifiers = window.appsvc
+    ? {
+        resourceId: window.appsvc.resourceId,
+        version: window.appsvc.version,
+        sessionId: window.appsvc.sessionId,
+        feature: window.appsvc.feature,
+      }
+    : {};
+
+  const dataContent = data ? data : {};
+
+  return {
+    action,
+    actionModifier,
+    logLevel,
+    resourceId: identifiers.resourceId ? identifiers.resourceId : '',
+    data: {
+      category: LogCategories.changeAppPlan,
+      ...dataContent,
+      ...identifiers,
     },
   };
 };

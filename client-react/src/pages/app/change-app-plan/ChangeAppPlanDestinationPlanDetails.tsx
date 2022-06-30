@@ -8,7 +8,7 @@ import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
@@ -40,6 +40,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const isPremiumToConsumptionSelected = useMemo(() => {
     return skuTier === ChangeAppPlanTierTypes.Dynamic && currentServerFarm.sku?.tier === ChangeAppPlanTierTypes.ElasticPremium;
+  }, [skuTier, currentServerFarm.sku?.tier]);
+
+  const isLinuxPremium = useMemo(() => {
+    //(NOTE): stpelleg - Warning only for Premium since menu item disabled for Linux Consumption Apps
+    const isPremium = currentServerFarm?.sku?.tier.toLocaleLowerCase() === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
+    const isLinux = !!formProps.values.site && isLinuxApp(formProps.values.site);
+    return isPremium && isLinux;
   }, [skuTier, currentServerFarm.sku?.tier]);
 
   const getSelectedResourceGroupString = () => {
@@ -214,6 +221,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
       {isPremiumToConsumptionSelected && (
         <CustomBanner className={bannerStyle} type={MessageBarType.warning} message={t('premiumToConsumptionWarning')} />
+      )}
+
+      {isLinuxPremium && (
+        <CustomBanner className={bannerStyle} type={MessageBarType.info} message={t('premiumAndConsumptionLinuxInfoMessage')} />
       )}
 
       {isConsumptionToPremiumEnabled && (

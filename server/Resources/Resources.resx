@@ -5817,6 +5817,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="premiumToConsumptionWarning" xml:space="preserve">
         <value>WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.</value>
     </data>
+    <data name="premiumAndConsumptionLinuxInfoMessage" xml:space="preserve">
+        <value>Changing App Service Plan to a Consumption plan is only available for Windows plans.</value>
+    </data>
     <data name="githubActionWorkflowOption" xml:space="preserve">
         <value>Workflow Option</value>
     </data>
