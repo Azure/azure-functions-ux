@@ -68,9 +68,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (NationalCloudEnvironment.isBlackforest()) {
-      this.state = 'hidden';
-    } else if (input.planDetails) {
+    if (input.planDetails) {
       if (
         !input.planDetails.plan.properties.hostingEnvironmentProfile ||
         input.planDetails.plan.properties.hyperV ||
