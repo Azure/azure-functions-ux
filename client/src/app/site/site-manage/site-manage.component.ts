@@ -28,7 +28,6 @@ import { Url } from '../../shared/Utilities/url';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmUtil } from '../../shared/Utilities/arm-utils';
 import { OpenBladeInfo } from '../../shared/models/portal';
-import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 @Component({
   selector: 'site-manage',
