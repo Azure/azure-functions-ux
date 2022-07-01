@@ -6,7 +6,7 @@ import Url from '../url';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {
-    return this.isMooncake() || this.isFairFax() || this.isBlackforest() || this.isUSNat() || this.isUSSec();
+    return this.isMooncake() || this.isFairFax() || this.isUSNat() || this.isUSSec();
   }
 
   public static isFairFax() {
@@ -15,10 +15,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
   public static isMooncake() {
     return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.mooncake.toLowerCase();
-  }
-
-  public static isBlackforest() {
-    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.blackforest.toLowerCase();
   }
 
   public static isUSNat() {
@@ -151,7 +147,7 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       runCheck: () => {
         return {
           status:
-            NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec()
+            NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec()
               ? 'disabled'
               : 'enabled',
         };
