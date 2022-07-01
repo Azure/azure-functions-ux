@@ -2,7 +2,6 @@ import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { ServerFarmSkuConstants } from '../../../../../utils/scenario-checker/ServerFarmSku';
 import { AppKind } from '../../../../../utils/AppKind';
 import { PriceSpec, PriceSpecInput, SpecColorCodes } from '../PriceSpec';
-import { NationalCloudEnvironment } from '../../../../../utils/scenario-checker/national-cloud.environment';
 import { style } from 'typestyle';
 import { HttpResult } from '../../../../../models/HttpResult';
 import MakeArmCall from '../../../../../ApiHelpers/ArmHelper';
@@ -76,9 +75,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   }
 
   public async runInitialization(input: PriceSpecInput): Promise<void> {
-    if (NationalCloudEnvironment.isBlackforest()) {
-      this.state = 'hidden';
-    } else if (input.plan) {
+    if (input.plan) {
       if (
         !input.plan.properties.hostingEnvironmentProfile ||
         input.plan.properties.hyperV ||

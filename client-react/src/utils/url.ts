@@ -117,9 +117,6 @@ export default class Url {
     if (NationalCloudEnvironment.isMooncake()) {
       return CommonConstants.PortalUris.mooncake;
     }
-    if (NationalCloudEnvironment.isBlackforest()) {
-      return CommonConstants.PortalUris.blackforest;
-    }
     if (NationalCloudEnvironment.isUSNat()) {
       return CommonConstants.PortalUris.usNat;
     }
