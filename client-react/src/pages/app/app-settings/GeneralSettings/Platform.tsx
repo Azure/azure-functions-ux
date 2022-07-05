@@ -13,6 +13,9 @@ import { MinTlsVersion, SslState } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
+import Url from '../../../../utils/url';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { isLinuxApp } from '../../../../utils/arm-utils';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -42,6 +45,19 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         );
       })
     );
+  };
+
+  const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
+    // Set HTTP 2.0 Proxy to 'Off' if http 2.0 is not enabled.
+    if (option.key == false) {
+      props.setFieldValue('config.properties.http20ProxyFlag', 0);
+    }
+
+    props.setFieldValue('config.properties.http20Enabled', option.key);
+  };
+
+  const isHttp20ProxyVisible = () => {
+    return !!Url.getFeatureValue(CommonConstants.FeatureFlags.showHttps20Proxy) && isLinuxApp(site);
   };
 
   const disableFtp = () =>
@@ -153,6 +169,29 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             {
               key: false,
               text: '1.1',
+            },
+          ]}
+          onChange={onHttp20EnabledChange}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && isHttp20ProxyVisible() && (
+        <Field
+          name="config.properties.http20ProxyFlag"
+          dirty={values.config.properties.http20ProxyFlag !== initialValues.config.properties.http20ProxyFlag}
+          component={RadioButton}
+          label={t('http20Proxy')}
+          infoBubbleMessage={t('https20ProxyInfoBubbleMessage')}
+          id="app-settings-http20-proxy-enabled"
+          disabled={disableAllControls}
+          options={[
+            {
+              key: 1,
+              text: t('on'),
+              disabled: !values.config.properties.http20Enabled,
+            },
+            {
+              key: 0,
+              text: t('off'),
             },
           ]}
         />
