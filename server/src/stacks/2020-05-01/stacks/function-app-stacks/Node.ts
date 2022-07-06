@@ -6,6 +6,47 @@ export const nodeStack: FunctionAppStack = {
   value: 'node',
   versions: [
     {
+      sortOrder: 4,
+      displayText: '18',
+      value: '18',
+      isDefault: false,
+      supportedPlatforms: [
+        {
+          sortOrder: 0,
+          os: 'windows',
+          isPreview: true,
+          isDeprecated: false,
+          isHidden: true,
+          applicationInsightsEnabled: true,
+          runtimeVersion: '~18',
+          appSettingsDictionary: {
+            FUNCTIONS_WORKER_RUNTIME: 'node',
+            WEBSITE_NODE_DEFAULT_VERSION: '~18',
+          },
+          siteConfigPropertiesDictionary: {
+            use32BitWorkerProcess: true,
+            netFrameworkVersion: 'v6.0',
+          },
+        },
+        {
+          sortOrder: 1,
+          os: 'linux',
+          isPreview: true,
+          isDeprecated: false,
+          isHidden: true,
+          applicationInsightsEnabled: true,
+          runtimeVersion: 'Node|18',
+          appSettingsDictionary: {
+            FUNCTIONS_WORKER_RUNTIME: 'node',
+          },
+          siteConfigPropertiesDictionary: {
+            use32BitWorkerProcess: false,
+            linuxFxVersion: 'Node|18',
+          },
+        },
+      ],
+    },
+    {
       sortOrder: 0,
       displayText: '16',
       value: '16',
@@ -26,7 +67,7 @@ export const nodeStack: FunctionAppStack = {
           siteConfigPropertiesDictionary: {
             use32BitWorkerProcess: true,
             netFrameworkVersion: 'v6.0',
-          }
+          },
         },
         {
           sortOrder: 1,
@@ -159,6 +200,6 @@ export const nodeStack: FunctionAppStack = {
           },
         },
       ],
-    }
+    },
   ],
 };

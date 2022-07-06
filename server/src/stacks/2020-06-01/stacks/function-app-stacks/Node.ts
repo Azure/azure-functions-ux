@@ -6,6 +6,63 @@ export const nodeStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: 'Node.js 18',
+      value: '18',
+      minorVersions: [
+        {
+          displayText: 'Node.js 18',
+          value: '18 LTS',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '~18',
+              isPreview: true,
+              isHidden: true,
+              isDefault: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '18.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+                WEBSITE_NODE_DEFAULT_VERSION: '~18',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                netFrameworkVersion: 'v6.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'Node|18',
+              isPreview: true,
+              isHidden: true,
+              isDefault: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '18.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: false,
+                linuxFxVersion: 'Node|18',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Node.js 16',
       value: '16',
       minorVersions: [
@@ -30,7 +87,7 @@ export const nodeStack: FunctionAppStack = {
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
-                netFrameworkVersion: 'v6.0'
+                netFrameworkVersion: 'v6.0',
               },
               supportedFunctionsExtensionVersions: ['~4'],
             },
