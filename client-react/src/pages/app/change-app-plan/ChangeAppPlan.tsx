@@ -159,13 +159,10 @@ const getCompletionTelemetry = (
   currentServerFarmSkuTier?: string,
   newServerFarmSkuTier?: string
 ) => {
-  const trueString = 'true';
-  const falseString = 'false';
-
   return {
-    success: success ? trueString : falseString,
-    newResourceGroup: newResourceGroup ? trueString : falseString,
-    newPlan: newPlan ? trueString : falseString,
+    success: String(success),
+    newResourceGroup: String(newResourceGroup),
+    newPlan: String(newPlan),
     resourceId: resourceId || '',
     message: message || '',
     currentServerFarmSkuTier: currentServerFarmSkuTier || '',

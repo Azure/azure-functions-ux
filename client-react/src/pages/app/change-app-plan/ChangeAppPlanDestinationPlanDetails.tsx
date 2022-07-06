@@ -47,7 +47,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     const isPremium = currentServerFarm?.sku?.tier.toLocaleLowerCase() === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
     const isLinux = !!formProps.values.site && isLinuxApp(formProps.values.site);
     return isPremium && isLinux;
-  }, [skuTier, currentServerFarm.sku?.tier]);
+  }, [formProps.values.site, currentServerFarm.sku?.tier]);
 
   const getSelectedResourceGroupString = () => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
