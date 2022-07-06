@@ -1268,6 +1268,7 @@ export class PortalResources {
   public static communityTemplatesTitle = 'communityTemplatesTitle';
   public static communityTemplatesDescription = 'communityTemplatesDescription';
   public static scmPingFailedErrorMessage = 'scmPingFailedErrorMessage';
+  public static functionEditorCorsWarning = 'functionEditorCorsWarning';
   public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
   public static extensionInstallDocLink = 'extensionInstallDocLink';
   public static pricing_ACU = 'pricing_ACU';

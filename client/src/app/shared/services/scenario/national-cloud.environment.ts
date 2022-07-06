@@ -10,7 +10,7 @@ export class NationalCloudEnvironment extends AzureEnvironment {
   disabledBindings: string[] = ['apiHubFile', 'apiHubTable', 'apiHubFileTrigger'];
 
   public static isNationalCloud() {
-    return this.isMooncake() || this.isFairFax() || this.isBlackforest();
+    return this.isMooncake() || this.isFairFax();
   }
 
   public static isFairFax() {
@@ -19,10 +19,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
   public static isMooncake() {
     return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.mooncake.toLowerCase();
-  }
-
-  public static isBlackforest() {
-    return window.appsvc.env.azureResourceManagerEndpoint.toLowerCase() === NationalCloudArmUris.blackforest.toLowerCase();
   }
 
   public static isUSNat() {
@@ -70,7 +66,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
         if (
           NationalCloudEnvironment.isFairFax() ||
           NationalCloudEnvironment.isMooncake() ||
-          NationalCloudEnvironment.isBlackforest() ||
           NationalCloudEnvironment.isUSNat() ||
           NationalCloudEnvironment.isUSSec() ||
           !Url.getFeatureValue(FeatureFlags.EnableAIOnNationalCloud)

@@ -184,7 +184,6 @@ export class CommonConstants {
 
   public static readonly NationalCloudArmUris = {
     fairfax: 'https://management.usgovcloudapi.net',
-    blackforest: 'https://management.microsoftazure.de',
     mooncake: 'https://management.chinacloudapi.cn',
     usNat: 'https://management.azure.eaglex.ic.gov',
     usSec: 'https://management.azure.microsoft.scloud',
@@ -201,7 +200,6 @@ export class CommonConstants {
   public static readonly PortalUris = {
     public: 'https://portal.azure.com',
     fairfax: 'https://portal.azure.us',
-    blackforest: 'https://portal.microsoftazure.de',
     mooncake: 'https://portal.azure.cn',
     usNat: 'https://portal.azure.eaglex.ic.gov',
     usSec: 'https://portal.azure.microsoft.scloud',

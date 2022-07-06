@@ -3,7 +3,6 @@ import { Kinds, Links, Pricing } from './../../../shared/models/constants';
 import { Tier, SkuCode } from './../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AseService } from '../../../shared/services/ase.service';
-import { NationalCloudEnvironment } from './../../../shared/services/scenario/national-cloud.environment';
 import { AppKind } from './../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 
@@ -68,9 +67,7 @@ export abstract class IsolatedPlanPriceSpec extends PriceSpec {
   }
 
   runInitialization(input: PriceSpecInput) {
-    if (NationalCloudEnvironment.isBlackforest()) {
-      this.state = 'hidden';
-    } else if (input.planDetails) {
+    if (input.planDetails) {
       if (
         !input.planDetails.plan.properties.hostingEnvironmentProfile ||
         input.planDetails.plan.properties.hyperV ||

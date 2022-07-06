@@ -3941,6 +3941,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="scmPingFailedErrorMessage" xml:space="preserve">
         <value>Azure Functions Runtime is unreachable.</value>
     </data>
+    <data name="functionEditorCorsWarning" xml:space="preserve">
+        <value>We are setting up the environment to enable testing in the Portal. This will restart your Function App and may take a few minutes.</value>
+    </data>
     <data name="scmPingFailedLearnMore" xml:space="preserve">
         <value>Click here for details on storage configuration.</value>
     </data>

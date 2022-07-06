@@ -144,9 +144,6 @@ const appendEndpoint = () => {
   if (NationalCloudEnvironment.isMooncake()) {
     return ';EndpointSuffix=core.chinacloudapi.cn';
   }
-  if (NationalCloudEnvironment.isBlackforest()) {
-    return ';EndpointSuffix=core.cloudapi.de';
-  }
   if (NationalCloudEnvironment.isUSNat()) {
     return ';EndpointSuffix=core.eaglex.ic.gov';
   }

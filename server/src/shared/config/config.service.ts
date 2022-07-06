@@ -70,8 +70,6 @@ export class ConfigService implements OnModuleInit {
           return Constants.endpointSuffix.farifax;
         case CloudType.mooncake:
           return Constants.endpointSuffix.mooncake;
-        case CloudType.blackforest:
-          return Constants.endpointSuffix.blackforest;
         case CloudType.usnat:
           return Constants.endpointSuffix.usnat;
 
