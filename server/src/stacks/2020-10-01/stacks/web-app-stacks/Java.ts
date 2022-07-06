@@ -53,8 +53,8 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             },
           },
           {
-            displayText: 'Java 17.0.2',
-            value: '17.0.2',
+            displayText: 'Java 17.0.3',
+            value: '17.0.3',
             stackSettings: {
               linuxRuntimeSettings: {
                 // Note (jafreebe): Runtime on Linux Java is determined by the Java container
@@ -71,7 +71,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 endOfLifeDate: java17EOL,
               },
               windowsRuntimeSettings: {
-                runtimeVersion: '17.0.2',
+                runtimeVersion: '17.0.3',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,

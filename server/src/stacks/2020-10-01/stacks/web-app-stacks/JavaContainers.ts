@@ -27,12 +27,12 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Java SE 17.0.2',
-          value: '17.0.2',
+          displayText: 'Java SE 17.0.3',
+          value: '17.0.3',
           stackSettings: {
             linuxContainerSettings: {
               // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
-              java17Runtime: 'JAVA|17.0.2',
+              java17Runtime: 'JAVA|17.0.3',
             },
           },
         },
