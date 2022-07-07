@@ -63,6 +63,7 @@ export interface SiteConfig {
   managedPipelineMode: number;
   ftpsState?: 'AllAllowed' | 'FtpsOnly' | 'Disabled';
   http20Enabled?: boolean;
+  http20ProxyFlag?: number;
   virtualApplications: VirtualApplication[];
   winAuthAdminState: number;
   winAuthTenantState: number;
