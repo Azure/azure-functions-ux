@@ -12,10 +12,8 @@ import { ThemeContext } from '../../ThemeContext';
 import { isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { LogCategories } from '../../utils/LogCategories';
-import LogService from '../../utils/LogService';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import { SiteRouterData } from './SiteRouter.data';
-import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import { AppSettings } from '../../models/app-setting';
 import { resolveState } from '../../utils/app-state-utils';
@@ -92,21 +90,31 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
       if (siteResponse.metadata.success) {
         site = siteResponse.data;
       } else {
-        LogService.error(
-          LogCategories.siteRouter,
-          'fetchAppSetting',
-          `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
-        );
+        portalContext.log({
+          action: 'fetchSite',
+          actionModifier: 'failed',
+          resourceId: resourceId,
+          logLevel: 'error',
+          data: {
+            error: siteResponse.metadata.error,
+            message: 'Failed to fetch site data',
+          },
+        });
       }
 
       if (appSettingsResponse.metadata.success) {
         appSettings = appSettingsResponse.data;
       } else {
-        LogService.error(
-          LogCategories.siteRouter,
-          'fetchAppSetting',
-          `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
-        );
+        portalContext.log({
+          action: 'fetchAppSetting',
+          actionModifier: 'failed',
+          resourceId: resourceId,
+          logLevel: 'error',
+          data: {
+            error: appSettingsResponse.metadata.error,
+            message: 'Failed to fetch app settings',
+          },
+        });
       }
 
       if (site) {

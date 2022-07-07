@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
@@ -15,7 +15,7 @@ import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
-import { getKeyVaultReferenceFromList } from '../AppSettings.utils';
+import { PortalContext } from '../../../../PortalContext';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -33,19 +33,28 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
 
   const isLinux = isLinuxApp(site);
 
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
 
   const getKeyVaultReference = async () => {
     // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
     const allKeyVaultReferences = await getAllAppSettingReferences(site.id);
-    const keyVaultReference = getKeyVaultReferenceFromList(
-      allKeyVaultReferences,
-      currentAppSetting.name,
-      'getApplicationSettingKeyVaultReference'
-    );
-    if (keyVaultReference) {
-      setCurrentAppSettingReference(keyVaultReference);
+    if (allKeyVaultReferences.metadata.success) {
+      setCurrentAppSettingReference(allKeyVaultReferences.data.properties.keyToReferenceStatuses[currentAppSetting.name]);
+    } else {
+      setCurrentAppSettingReference(undefined);
+      portalContext.log({
+        action: 'getAllAppSettingReferences',
+        actionModifier: 'failed',
+        resourceId: site?.id,
+        logLevel: 'error',
+        data: {
+          error: allKeyVaultReferences?.metadata.error,
+          message: 'Failed to fetch key vault reference',
+        },
+      });
     }
   };
 
