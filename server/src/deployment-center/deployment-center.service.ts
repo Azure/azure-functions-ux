@@ -2,15 +2,13 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { HttpService } from '../shared/http/http.service';
 import { ConfigService } from '../shared/config/config.service';
 import { Constants } from '../constants';
-import { SourceControlProvider } from '../types/source-control-provider';
 import * as crypto from 'crypto';
 import { LoggingService } from '../shared/logging/logging.service';
-import { TokenData } from './deployment-center';
 import { HttpUtil } from '../utilities/http.util';
 
 @Injectable()
 export class DeploymentCenterService {
-  constructor(private logService: LoggingService, private config: ConfigService, private httpService: HttpService) { }
+  constructor(private logService: LoggingService, private config: ConfigService, private httpService: HttpService) {}
 
   async getSitePublishProfile(authToken: string, resourceId: string) {
     try {

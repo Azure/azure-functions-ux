@@ -1,4 +1,4 @@
-import { Controller, Post, Query, Req, Body, Header, Res, HttpException } from '@nestjs/common';
+import { Controller, Post, Query, Req, Body, HttpException } from '@nestjs/common';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
@@ -21,7 +21,7 @@ export class AzureDevOpsController {
   constructor(private dcService: DeploymentCenterService, private loggingService: LoggingService, private httpService: HttpService) {}
 
   @Post('setupvso')
-  async setupvso(@Query('accountName') accountName: string, @Body('githubToken') githubToken: string, @Body() body: any, @Req() req) {
+  async setupvso(@Query('accountName') accountName: string, @Body('githubToken') githubToken: string, @Body() body, @Req() req) {
     this.loggingService.trackEvent(
       '/api/setupvso/received-request',
       {
@@ -31,9 +31,7 @@ export class AzureDevOpsController {
       EventType.Info
     );
 
-    const uri = `https://${
-      req.query.accountName
-    }.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
+    const uri = `https://${req.query.accountName}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
 
     const passHeaders = req.headers;
 

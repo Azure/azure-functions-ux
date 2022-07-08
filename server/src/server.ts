@@ -9,7 +9,7 @@ import * as helmet from 'helmet';
 import * as requestIp from 'request-ip';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-function normalizePort(val: any) {
+function normalizePort(val) {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {

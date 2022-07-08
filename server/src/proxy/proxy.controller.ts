@@ -32,7 +32,7 @@ export class ProxyController {
     return this.makeCall(proxyMethod, proxyHeaders, proxyUrl, proxyBody, res);
   }
 
-  private async makeCall(method: Method, headers: KeyValue<string>, url: string, body: any, res: Response) {
+  private async makeCall(method: Method, headers: KeyValue<string>, url: string, body, res: Response) {
     try {
       Object.keys(headers).forEach(key => {
         if (key.toLocaleLowerCase() === 'content-type' && headers[key].toLocaleLowerCase() !== 'application/json') {

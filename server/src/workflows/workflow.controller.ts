@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Query, HttpException, HttpCode, Get } from '@nestjs/common';
+import { Controller, Post, Body, Query, HttpException, HttpCode } from '@nestjs/common';
 import { Versions } from './versions';
 import { WorkflowService20201201 } from './2020-12-01/WorkflowService';
 import { AppType, Os, PublishType } from './WorkflowModel';
