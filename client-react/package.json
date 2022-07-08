@@ -16,7 +16,7 @@
     "joi-browser": "^13.4.0",
     "lodash-es": "^4.17.21",
     "markdown-to-jsx": "^6.11.4",
-    "moment": "^2.29.2",
+    "moment": "^2.29.4",
     "monaco-editor": "^0.15.6",
     "re-resizable": "^6.2.0",
     "react": "17.0.2",
