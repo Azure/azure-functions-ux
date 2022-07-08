@@ -12,7 +12,7 @@ export class ACRController {
     @Body('loginServer') loginServer: string,
     @Body('encodedUserInfo') encodedUserInfo: string,
     @Res() res,
-    @Body('last') last?: any
+    @Body('last') last?
   ) {
     const url = !last ? `https://${loginServer}/v2/_catalog` : `https://${loginServer}/v2/_catalog?last=${last}&n=100&orderby=`;
     await this._makeGetCallWithLinkHeader(url, encodedUserInfo, res);
@@ -25,7 +25,7 @@ export class ACRController {
     @Body('repository') repository: string,
     @Body('encodedUserInfo') encodedUserInfo: string,
     @Res() res,
-    @Body('last') last?: any
+    @Body('last') last?
   ) {
     const url = !last
       ? `https://${loginServer}/v2/${repository}/tags/list`
@@ -105,7 +105,7 @@ export class ACRController {
     };
   }
 
-  private async _makeGetCallWithLinkHeader(url: string, encodedUserInfo: string, res: any) {
+  private async _makeGetCallWithLinkHeader(url: string, encodedUserInfo: string, res) {
     try {
       const response = await this.httpService.get(url, {
         headers: this._getACRAuthHeader(encodedUserInfo),
