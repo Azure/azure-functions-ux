@@ -1,6 +1,6 @@
 import { Link } from '@fluentui/react';
 import { FormikProps } from 'formik';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
@@ -14,109 +14,57 @@ import { Links } from '../../../../../utils/FwLinks';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
+import { useCreateFunctionFormBuilderFactory } from '../../common/useCreateFunctionFormBuilderFactory';
 import { getBindingDirection } from '../../function/integrate/FunctionIntegrate.utils';
 import FunctionCreateData from '../FunctionCreate.data';
 import { detailContainerStyle } from '../FunctionCreate.styles';
 import { FunctionCreateContext } from '../FunctionCreateContext';
 
 export interface TemplateDetailProps {
+  formProps: FormikProps<CreateFunctionFormValues>;
   resourceId: string;
   selectedTemplate: FunctionTemplate;
-  formProps: FormikProps<CreateFunctionFormValues>;
-  setBuilder: (builder?: CreateFunctionFormBuilder) => void;
-  builder?: CreateFunctionFormBuilder;
   armResources?: IArmResourceTemplate[];
+  builder?: CreateFunctionFormBuilder;
   setArmResources?: TSetArmResourceTemplates;
+  setBuilder: React.Dispatch<React.SetStateAction<CreateFunctionFormBuilder | undefined>>;
 }
 
-const TemplateDetail: React.FC<TemplateDetailProps> = (props: TemplateDetailProps) => {
-  const { resourceId, selectedTemplate, formProps, builder, setBuilder, armResources, setArmResources } = props;
+const TemplateDetail: React.FC<TemplateDetailProps> = ({
+  formProps,
+  resourceId,
+  selectedTemplate,
+  armResources,
+  builder,
+  setArmResources,
+  setBuilder,
+}: TemplateDetailProps) => {
   const { t } = useTranslation();
 
-  const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | undefined | null>(undefined);
-  const [bindings, setBindings] = useState<Binding[] | undefined | null>(undefined);
+  const [functionsInfo, setFunctionsInfo] = useState<ArmObj<FunctionInfo>[] | null>();
+  const [bindings, setBindings] = useState<Binding[] | null>();
 
   const functionCreateContext = useContext(FunctionCreateContext);
 
-  const fetchFunctionInfo = async () => {
-    const functionsInfoResponse = await FunctionsService.getFunctions(resourceId);
+  const factory = useCreateFunctionFormBuilderFactory(resourceId, selectedTemplate.id);
 
-    if (functionsInfoResponse.metadata.success) {
-      setFunctionsInfo(functionsInfoResponse.data.value);
-    } else {
-      setFunctionsInfo(null);
-      LogService.trackEvent(
-        LogCategories.localDevExperience,
-        'getFunctionsInfo',
-        `Failed to get functions info: ${getErrorMessageOrStringify(functionsInfoResponse.metadata.error)}`
-      );
-    }
-  };
-
-  const fetchBindings = async () => {
-    const bindingIds = getRequiredBindingIds(selectedTemplate);
-    const allBindings: Binding[] = [];
-    for (const bindingId of bindingIds) {
-      const bindingPromise = await FunctionCreateData.getBinding(resourceId, bindingId);
-      if (bindingPromise.metadata.success) {
-        allBindings.push(bindingPromise.data.properties[0]);
-      } else {
-        setBindings(null);
-        LogService.trackEvent(
-          LogCategories.localDevExperience,
-          'getBindings',
-          `Failed to get bindings: ${getErrorMessageOrStringify(bindingPromise.metadata.error)}`
-        );
+  const requiredBindingIds = useMemo(() => {
+    const bindingIds = new Set<string>();
+    for (const prompt of selectedTemplate.userPrompt ?? []) {
+      for (const binding of selectedTemplate.bindings ?? []) {
+        if (binding[prompt]) {
+          bindingIds.add(`${binding.type}-${getBindingDirection(binding)}`);
+        }
       }
     }
-    setBindings(
-      selectedTemplate.userPrompt && selectedTemplate.userPrompt.length > 0
-        ? getRequiredCreationBindings(allBindings, selectedTemplate.userPrompt)
-        : []
-    );
-  };
 
-  const getRequiredBindingIds = (template: FunctionTemplate): string[] => {
-    const requiredBindingIds: string[] = [];
-    if (template.userPrompt && template.userPrompt.length > 0) {
-      template.userPrompt.forEach(prompt => {
-        if (template.bindings) {
-          template.bindings.forEach(binding => {
-            if (binding[prompt]) {
-              const bindingDirection = getBindingDirection(binding);
-              const bindingId = `${binding.type}-${bindingDirection}`;
-              if (!requiredBindingIds.includes(bindingId)) {
-                requiredBindingIds.push(bindingId);
-              }
-            }
-          });
-        }
-      });
-    }
-    return requiredBindingIds;
-  };
+    return Array.from(bindingIds);
+  }, [selectedTemplate]);
 
-  // Not all bindings are required for function creation
-  // Only display bindings that are list in the function template 'userPrompt'
-  const getRequiredCreationBindings = (bindings: Binding[], userPrompt: string[]): Binding[] => {
-    const requiredBindings: Binding[] = [];
-    bindings.forEach(binding => {
-      const requiredBinding = binding;
-      requiredBinding.settings =
-        binding.settings &&
-        binding.settings.filter(setting => {
-          return userPrompt.find(prompt => prompt === setting.name);
-        });
-      requiredBindings.push(requiredBinding);
-    });
-    return requiredBindings;
-  };
-
-  const createBuilder = () => {
-    if (!!functionsInfo && !!bindings) {
-      /** @todo (joechung): Use CosmosDbFunctionFormBuilder instead for Cosmos DB triggers. */
+  useEffect(() => {
+    if (!!functionsInfo && !!bindings && !!factory) {
       setBuilder(
-        new CreateFunctionFormBuilder(
+        factory(
           selectedTemplate.bindings ?? [],
           bindings,
           resourceId,
@@ -126,48 +74,72 @@ const TemplateDetail: React.FC<TemplateDetailProps> = (props: TemplateDetailProp
         )
       );
     }
-  };
-
-  const getDetails = () => {
-    return !functionsInfo || !bindings || !builder ? (
-      <BasicShimmerLines />
-    ) : (
-      builder.getFields(formProps, !!functionCreateContext.creatingFunction, false, armResources, setArmResources)
-    );
-  };
-
-  useEffect(() => {
-    createBuilder();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [functionsInfo, bindings, resourceId]);
+  }, [bindings, functionsInfo, factory, resourceId, selectedTemplate.bindings, selectedTemplate.defaultFunctionName, setBuilder, t]);
 
   useEffect(() => {
     setBindings(undefined);
     setBuilder(undefined);
-    fetchBindings();
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedTemplate]);
+    Promise.all(
+      requiredBindingIds.map(bindingId =>
+        FunctionCreateData.getBinding(resourceId, bindingId).then(response => {
+          if (response.metadata.success) {
+            return response.data.properties[0];
+          } else {
+            LogService.trackEvent(
+              LogCategories.localDevExperience,
+              'getBindings',
+              `Failed to get bindings: ${getErrorMessageOrStringify(response.metadata.error)}`
+            );
+
+            return undefined;
+          }
+        })
+      )
+    ).then(allBindings => {
+      setBindings(allBindings.some(binding => !binding) ? null : getRequiredCreationBindings(allBindings, selectedTemplate.userPrompt));
+    });
+  }, [requiredBindingIds, resourceId, selectedTemplate.userPrompt, setBuilder]);
 
   useEffect(() => {
-    fetchFunctionInfo();
+    FunctionsService.getFunctions(resourceId).then(response => {
+      if (response.metadata.success) {
+        setFunctionsInfo(response.data.value);
+      } else {
+        setFunctionsInfo(null);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+        LogService.trackEvent(
+          LogCategories.localDevExperience,
+          'getFunctionsInfo',
+          `Failed to get functions info: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
+      }
+    });
+  }, [resourceId]);
 
-  return functionsInfo === null || bindings === null ? (
-    <>{/** TODO(krmitta): Add banner when call fails */}</>
-  ) : (
+  return functionsInfo === null || bindings === null ? /** TODO(krmitta): Add banner when call fails */ null : (
     <div className={detailContainerStyle}>
       <h3>{t('templateDetails')}</h3>
       <p>
         {t('detailDescription').format(selectedTemplate.name)}
-        <Link href={Links.functionCreateBindingsLearnMore}>{t('learnMore')}</Link>
+        <Link href={Links.functionCreateBindingsLearnMore} rel="noopener" target="_blank">
+          {t('learnMore')}
+        </Link>
       </p>
-      {getDetails()}
+      {!functionsInfo || !bindings || !builder ? (
+        <BasicShimmerLines />
+      ) : (
+        builder.getFields(formProps, !!functionCreateContext.creatingFunction, false, armResources, setArmResources)
+      )}
     </div>
   );
 };
+
+// Not all bindings are required for function creation. Only display bindings listed in 'userPrompt`.
+const getRequiredCreationBindings = (bindings: Binding[], userPrompt: string[] = []): Binding[] =>
+  bindings.map(binding => ({
+    ...binding,
+    settings: binding.settings?.filter(setting => !!userPrompt.find(prompt => prompt === setting.name)),
+  }));
 
 export default TemplateDetail;

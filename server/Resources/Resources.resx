@@ -7582,4 +7582,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerApp_console_cancel" xml:space="preserve">
         <value>Cancel</value>
     </data>
+    <data name="createFunctionDeploymentNotification" xml:space="preserve">
+        <value>Deploying function resources</value>
+    </data>
+    <data name="createFunctionDeploymentNotificationDetails" xml:space="preserve">
+        <value>Deploying resources for {0}</value>
+    </data>
+    <data name="createFunctionDeploymentNotificationSuccess" xml:space="preserve">
+        <value>Deployment '{0}' to resource group '{1}' was successful</value>
+    </data>
+    <data name="createFunctionDeploymentNotificationFailed" xml:space="preserve">
+        <value>Deployment '{0}' to resource group '{1}' failed</value>
+    </data>
 </root>

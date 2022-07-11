@@ -1,11 +1,21 @@
-import { CheckboxVisibility, DetailsListLayoutMode, IColumn, Link, MessageBarType, Selection, SelectionMode } from '@fluentui/react';
+import {
+  CheckboxVisibility,
+  DetailsListLayoutMode,
+  IColumn,
+  IDetailsRowProps,
+  IRenderFunction,
+  Link,
+  MessageBarType,
+  Selection,
+  SelectionMode,
+} from '@fluentui/react';
 import { FormikProps } from 'formik';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { getSearchFilter } from '../../../../../components/form-controls/SearchBox';
+import { SearchFilterWithResultAnnouncement } from '../../../../../components/form-controls/SearchBox';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionTemplate } from '../../../../../models/functions/function-template';
 import { HostStatus } from '../../../../../models/functions/host-status';
@@ -24,35 +34,34 @@ import { FunctionCreateContext } from '../FunctionCreateContext';
 import TemplateDetail from './TemplateDetail';
 
 export interface TemplateListProps {
-  resourceId: string;
   formProps: FormikProps<CreateFunctionFormValues>;
+  resourceId: string;
   setBuilder: (builder?: CreateFunctionFormBuilder) => void;
+  setHostStatus: (hostStatus?: ArmObj<HostStatus>) => void;
   setSelectedTemplate: (template?: FunctionTemplate) => void;
   setTemplates: (template?: FunctionTemplate[] | null) => void;
-  setHostStatus: (hostStatus?: ArmObj<HostStatus>) => void;
-  templates?: FunctionTemplate[] | null;
+  armResources?: IArmResourceTemplate[];
+  builder?: CreateFunctionFormBuilder;
   hostStatus?: ArmObj<HostStatus>;
   selectedTemplate?: FunctionTemplate;
-  builder?: CreateFunctionFormBuilder;
-  armResources?: IArmResourceTemplate[];
   setArmResources?: TSetArmResourceTemplates;
+  templates?: FunctionTemplate[] | null;
 }
 
-const TemplateList: React.FC<TemplateListProps> = (props: TemplateListProps) => {
-  const {
-    resourceId,
-    formProps,
-    setBuilder,
-    builder,
-    selectedTemplate,
-    setSelectedTemplate,
-    templates,
-    setTemplates,
-    hostStatus,
-    setHostStatus,
-    armResources,
-    setArmResources,
-  } = props;
+const TemplateList: React.FC<TemplateListProps> = ({
+  formProps,
+  resourceId,
+  setBuilder,
+  setHostStatus,
+  setSelectedTemplate,
+  setTemplates,
+  armResources,
+  builder,
+  hostStatus,
+  selectedTemplate,
+  setArmResources,
+  templates,
+}: TemplateListProps) => {
   const { t } = useTranslation();
 
   const [filterValue, setFilterValue] = useState('');
@@ -65,67 +74,33 @@ const TemplateList: React.FC<TemplateListProps> = (props: TemplateListProps) => 
       new Selection({
         onSelectionChanged: () => {
           const selectedItems = selection.getSelection();
-          if (selectedItems && selectedItems.length > 0) {
+          if (selectedItems[0]) {
             setSelectedTemplate(selectedItems[0] as FunctionTemplate);
           }
         },
         selectionMode: SelectionMode.single,
       }),
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [setSelectedTemplate]
   );
 
-  const fetchData = async () => {
-    await getHostStatus();
-    getTemplates();
-  };
+  const columns = useMemo(() => {
+    const onRenderItemColumn = (item: FunctionTemplate, _: number, column: IColumn): JSX.Element | null => {
+      if (!column || !item) {
+        return null;
+      }
 
-  const getHostStatus = async () => {
-    const hostStatusResponse = await FunctionCreateData.getHostStatus(resourceId);
-    if (hostStatusResponse.metadata.success) {
-      setHostStatus(hostStatusResponse.data);
-    } else {
-      LogService.trackEvent(
-        LogCategories.localDevExperience,
-        'getHostStatus',
-        `Failed to get hostStatus: ${getErrorMessageOrStringify(hostStatusResponse.metadata.error)}`
-      );
-    }
-  };
+      if (column.key === 'template') {
+        const runtimeVersion = hostStatus ? StringUtils.getRuntimeVersionString(hostStatus.properties.version) : '';
+        return (
+          <div className={templateListNameColumnStyle}>
+            {runtimeVersion === RuntimeExtensionMajorVersions.v1 ? `${item.name}: ${item.language}` : item.name}
+          </div>
+        );
+      }
 
-  const getTemplates = async () => {
-    const templateResponse = await FunctionCreateData.getTemplates(resourceId);
-    if (templateResponse.metadata.success) {
-      setTemplates(templateResponse.data.properties);
-    } else {
-      setTemplates(null);
-      LogService.trackEvent(
-        LogCategories.localDevExperience,
-        'getTemplates',
-        `Failed to get templates: ${getErrorMessageOrStringify(templateResponse.metadata.error)}`
-      );
-    }
-  };
+      return column.fieldName ? <div>{item[column.fieldName]}</div> : null;
+    };
 
-  const onRenderItemColumn = (item: FunctionTemplate, index: number, column: IColumn) => {
-    if (!column || !item) {
-      return null;
-    }
-
-    if (column.key === 'template') {
-      const runtimeVersion = hostStatus ? StringUtils.getRuntimeVersionString(hostStatus.properties.version) : '';
-      return (
-        <div className={templateListNameColumnStyle}>
-          {runtimeVersion === RuntimeExtensionMajorVersions.v1 ? `${item.name}: ${item.language}` : item.name}
-        </div>
-      );
-    }
-
-    return column.fieldName ? <div>{item[column.fieldName]}</div> : null;
-  };
-
-  const getColumns = () => {
     return [
       {
         key: 'template',
@@ -147,61 +122,102 @@ const TemplateList: React.FC<TemplateListProps> = (props: TemplateListProps) => 
         onRender: onRenderItemColumn,
       },
     ];
-  };
+  }, [hostStatus, t]);
 
-  const getItems = () => {
+  const items = useMemo(() => {
     return (
       templates
         ?.filter(template => {
           const lowerCasedFilterValue = filterValue?.toLocaleLowerCase() ?? '';
           return (
             template.name.toLocaleLowerCase().includes(lowerCasedFilterValue) ||
-            (template.description && template.description.toLocaleLowerCase().includes(lowerCasedFilterValue))
+            template.description?.toLocaleLowerCase().includes(lowerCasedFilterValue)
           );
         })
         .sort((templateA: FunctionTemplate, templateB: FunctionTemplate) => sortTemplate(templateA, templateB)) ?? []
     );
-  };
+  }, [filterValue, templates]);
 
-  const onItemInvoked = (item?: FunctionTemplate) => {
-    if (item) {
-      setSelectedTemplate(item);
-    }
-  };
+  const onItemInvoked = useCallback(
+    (item?: FunctionTemplate) => {
+      if (item) {
+        setSelectedTemplate(item);
+      }
+    },
+    [setSelectedTemplate]
+  );
 
-  const isDisabled = () => {
+  const isDisabled = useMemo(() => {
     return !!functionCreateContext.creatingFunction;
-  };
+  }, [functionCreateContext.creatingFunction]);
 
-  const onRenderRow = (rowProps, defaultRenderer) => {
-    return (
-      <div>
-        {defaultRenderer({
-          ...rowProps,
-          styles: tableRowStyle(theme, !!selectedTemplate && rowProps.item.id === selectedTemplate.id, isDisabled()),
-        })}
-      </div>
-    );
-  };
+  const onRenderRow = useCallback<IRenderFunction<IDetailsRowProps>>(
+    (rowProps, defaultRenderer) => {
+      return (
+        <>
+          {!!rowProps && (
+            <div>
+              {defaultRenderer?.({
+                ...rowProps,
+                styles: tableRowStyle(theme, !!selectedTemplate && rowProps.item.id === selectedTemplate.id, isDisabled),
+              })}
+            </div>
+          )}
+        </>
+      );
+    },
+    [isDisabled, selectedTemplate, theme]
+  );
 
   useEffect(() => {
-    fetchData();
+    FunctionCreateData.getHostStatus(resourceId).then(response => {
+      if (response.metadata.success) {
+        setHostStatus(response.data);
+      } else {
+        LogService.trackEvent(
+          LogCategories.localDevExperience,
+          'getHostStatus',
+          `Failed to get hostStatus: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
+      }
+    });
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    FunctionCreateData.getTemplates(resourceId).then(response => {
+      if (response.metadata.success) {
+        setTemplates(response.data.properties);
+      } else {
+        setTemplates(null);
+        LogService.trackEvent(
+          LogCategories.localDevExperience,
+          'getTemplates',
+          `Failed to get templates: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
+      }
+    });
+  }, [resourceId, setHostStatus, setTemplates]);
+
   return (
     <div className={containerStyle}>
       <h3>{t('selectTemplate')}</h3>
       <p>
         {t('selectTemplateDescription')}
-        <Link href={Links.functionCreateTemplateLearnMore}>{t('learnMore')}</Link>
+        <Link href={Links.functionCreateTemplateLearnMore} rel="noopener" target="_blank">
+          {t('learnMore')}
+        </Link>
       </p>
-      {getSearchFilter('filter-template-text-field', setFilterValue, t('filter'), isDisabled())}
+      <SearchFilterWithResultAnnouncement
+        id="filter-template-text-field"
+        disabled={isDisabled}
+        gridItemsCount={templates?.length ?? 0}
+        filter={filterValue}
+        placeHolder={t('filter')}
+        setFilterValue={setFilterValue}
+      />
       {templates !== null ? (
         <DisplayTableWithCommandBar
           commandBarItems={[]}
-          columns={getColumns()}
-          items={getItems()}
+          columns={columns}
+          items={items}
           isHeaderVisible={true}
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.single}
@@ -212,13 +228,10 @@ const TemplateList: React.FC<TemplateListProps> = (props: TemplateListProps) => 
           className={templateListStyle}
           onItemInvoked={onItemInvoked}
           shimmer={{ lines: 2, show: !templates }}
-          disableSelectionZone={isDisabled()}
+          disableSelectionZone={isDisabled}
           onRenderRow={onRenderRow}
         />
-      ) : (
-        <>{/**TODO (krmitta): Add Error Banner here**/}</>
-      )}
-
+      ) : /* TODO(krmitta): Add Error Banner here */ null}
       {!!hostStatus && !hostStatus.properties.version.startsWith('1') && !hostStatus.properties.extensionBundle && (
         <div>
           <CustomBanner

@@ -25,6 +25,7 @@ import { BindingEditorFormValues } from './BindingFormBuilder';
 import NewCosmosDbAccountCallout from './callout/NewCosmosDbAccountCallout';
 import { useStyles } from './CosmosDbResourceDropdown.styles';
 import { getTelemetryInfo } from './FunctionsUtility';
+import { useAppSettingsQuery } from './useAppSettingsQuery';
 
 interface Props {
   armResources: IArmResourceTemplate[];
@@ -49,6 +50,8 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [storedArmTemplate, setStoredArmTemplate] = useState<IArmResourceTemplate>();
+
+  const { appSettings } = useAppSettingsQuery(resourceId);
 
   useEffect(() => {
     setIsLoading(true);
@@ -137,12 +140,13 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
         // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
         formProps.setFieldValue('newAppSettings', {
           properties: {
+            ...appSettings?.properties,
             [dbAcctConnectionSettingKey]: `[listConnectionStrings(resourceId('${CommonConstants.ResourceTypes.cosmosDbAccount}', '${dbAcctName}'), '${CommonConstants.ApiVersions.documentDBApiVersion20191212}').connectionStrings[0].connectionString]`,
           },
         });
       }
     },
-    [armResources, selectedItem, setArmResources, storedArmTemplate, t]
+    [appSettings?.properties, armResources, selectedItem, setArmResources, storedArmTemplate, t]
   );
 
   const onLinkClick = useCallback(() => {

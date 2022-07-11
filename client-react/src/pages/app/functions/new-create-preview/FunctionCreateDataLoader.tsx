@@ -1,8 +1,8 @@
 import { Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
 import { Formik, FormikProps } from 'formik';
-import { useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessage, getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import ActionBar from '../../../../components/ActionBar';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
@@ -13,7 +13,6 @@ import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
-import { KeyValue } from '../../../../models/portal-models';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
 import { isElastic, isKubeApp, isLinuxApp } from '../../../../utils/arm-utils';
@@ -25,7 +24,6 @@ import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
 import Url from '../../../../utils/url';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
-import FunctionCreateData from './FunctionCreate.data';
 import {
   containerStyle,
   developInPortalIconStyle,
@@ -40,6 +38,7 @@ import { DevelopmentExperience } from './FunctionCreate.types';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
 import TemplateList from './portal-create/TemplateList';
+import { useCreateFunction } from './useCreateFunction';
 
 registerIcons({
   icons: {
@@ -53,170 +52,141 @@ export interface FunctionCreateDataLoaderProps {
   resourceId: string;
 }
 
-const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = (props: FunctionCreateDataLoaderProps) => {
-  const { resourceId } = props;
-
+const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ resourceId }: FunctionCreateDataLoaderProps) => {
   const siteStateContext = useContext(SiteStateContext);
+  const site = useMemo(() => siteStateContext.site, [siteStateContext]);
   const portalCommunicator = useContext(PortalContext);
-  const site = siteStateContext.site;
   const { t } = useTranslation();
 
-  const [initialFormValues, setInitialFormValues] = useState<CreateFunctionFormValues | undefined>(undefined);
-  const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<CreateFunctionFormBuilder | undefined>(undefined);
-  const [selectedDropdownKey, setSelectedDropdownKey] = useState<DevelopmentExperience | undefined>(undefined);
-  const [workerRuntime, setWorkerRuntime] = useState<string | undefined>(undefined);
-  const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate | undefined>(undefined);
-  const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
-  const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
+  const [initialFormValues, setInitialFormValues] = useState<CreateFunctionFormValues>();
+  const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<CreateFunctionFormBuilder>();
+  const [selectedDropdownKey, setSelectedDropdownKey] = useState<DevelopmentExperience>();
+  const [workerRuntime, setWorkerRuntime] = useState<string>();
+  const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate>();
+  const [templates, setTemplates] = useState<FunctionTemplate[] | null>();
+  const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus>>();
   const [creatingFunction, setCreatingFunction] = useState(false);
   const [armResources, setArmResources] = useState<IArmResourceTemplate[]>([]);
 
-  const onDevelopmentEnvironmentChange = (_: React.FormEvent<HTMLElement>, option: IDropdownOption) => {
-    setSelectedTemplate(undefined);
-    setTemplateDetailFormBuilder(undefined);
+  const createFunction = useCreateFunction(armResources, resourceId, setCreatingFunction, hostStatus, selectedTemplate);
 
-    const key = option.key as DevelopmentExperience;
+  const onDevelopmentEnvironmentChange = useCallback(
+    (_: React.FormEvent<HTMLElement>, option: IDropdownOption) => {
+      setSelectedTemplate(undefined);
+      setTemplateDetailFormBuilder(undefined);
 
-    // Log if option changed from DevelopInPortal Only
-    if (selectedDropdownKey === DevelopmentExperience.developInPortal) {
-      LogService.trackEvent(LogCategories.localDevExperience, 'FunctionCreateOptionChanged', {
-        resourceId,
-        sessionId: Url.getParameterByName(null, 'sessionId'),
-        optionSelected: key,
-      });
-    }
-    setSelectedDropdownKey(key);
-  };
+      const key = option.key as DevelopmentExperience;
 
-  const isVSOptionVisible = () => {
-    return !!site && !isLinuxApp(site) && workerRuntime === WorkerRuntimeLanguages.dotnet;
-  };
+      // Log if option changed from DevelopInPortal Only
+      if (selectedDropdownKey === DevelopmentExperience.developInPortal) {
+        LogService.trackEvent(LogCategories.localDevExperience, 'FunctionCreateOptionChanged', {
+          resourceId,
+          sessionId: Url.getParameterByName(null, 'sessionId'),
+          optionSelected: key,
+        });
+      }
+      setSelectedDropdownKey(key);
+    },
+    [resourceId, selectedDropdownKey]
+  );
 
-  const isVSCodeOptionVisible = () => {
-    return workerRuntime === WorkerRuntimeLanguages.java || (site && (!isLinuxApp(site) || !isElastic(site)));
-  };
-
-  const isCoreToolsOptionVisible = () => {
-    return workerRuntime !== WorkerRuntimeLanguages.java;
-  };
-
-  const isMavenToolsOptionVisible = () => {
-    return workerRuntime === WorkerRuntimeLanguages.java;
-  };
-
-  const isDevelopInPortalOptionVisible = () => {
-    return !!site && !SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) && !isKubeApp(site);
-  };
-
-  const getVSDropdownOption = (): IDropdownOption => {
+  const vsDropdownOption = useMemo<IDropdownOption>(() => {
     return {
       key: DevelopmentExperience.visualStudio,
       text: t('vsCardTitle'),
       data: {
         icon: <Icon iconName="visual-studio" />,
-        visible: isVSOptionVisible(),
+        visible: !!site && !isLinuxApp(site) && workerRuntime === WorkerRuntimeLanguages.dotnet,
       },
     };
-  };
+  }, [t, site, workerRuntime]);
 
-  const getVSCodeDropdownOption = (): IDropdownOption => {
+  const vsCodeDropdownOption = useMemo<IDropdownOption>(() => {
     return {
       key: DevelopmentExperience.visualStudioCode,
       text: t('vscodeCardTitle'),
       data: {
         icon: <Icon iconName="vs-code" />,
-        visible: isVSCodeOptionVisible(),
+        visible: workerRuntime === WorkerRuntimeLanguages.java || (site && (!isLinuxApp(site) || !isElastic(site))),
       },
     };
-  };
+  }, [t, site, workerRuntime]);
 
-  const getMavenDropdownOption = (): IDropdownOption => {
+  const mavenDropdownOption = useMemo<IDropdownOption>(() => {
     return {
       key: DevelopmentExperience.maven,
       text: t('mavenCardTitle'),
       data: {
         icon: <Icon iconName="terminal" />,
-        visible: isMavenToolsOptionVisible(),
+        visible: workerRuntime === WorkerRuntimeLanguages.java,
       },
     };
-  };
+  }, [t, workerRuntime]);
 
-  const getDevelopInPortalDropdownOption = (): IDropdownOption => {
+  const developInPortalDropdownOption = useMemo<IDropdownOption>(() => {
     return {
       key: DevelopmentExperience.developInPortal,
       text: t('developInPortal'),
       data: {
         icon: <Icon iconName="Globe" className={developInPortalIconStyle} />,
-        visible: isDevelopInPortalOptionVisible(),
+        visible: !!site && !SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) && !isKubeApp(site),
       },
     };
-  };
+  }, [t, site, siteStateContext]);
 
-  const getCoreToolsDropdownOption = (): IDropdownOption => {
+  const coreToolsDropdownOption = useMemo<IDropdownOption>(() => {
     return {
       key: DevelopmentExperience.coreTools,
       text: t('coretoolsCardTitle'),
       data: {
         icon: <Icon iconName="terminal" />,
-        visible: isCoreToolsOptionVisible(),
+        visible: workerRuntime !== WorkerRuntimeLanguages.java,
       },
     };
-  };
+  }, [t, workerRuntime]);
 
-  const getVisibleDropdownOptions = () => {
-    return [
-      getVSDropdownOption(),
-      getVSCodeDropdownOption(),
-      getCoreToolsDropdownOption(),
-      getMavenDropdownOption(),
-      getDevelopInPortalDropdownOption(),
-    ].filter(option => option.data && option.data.visible);
-  };
+  const visibleDropdownOptions = useMemo(() => {
+    return [vsDropdownOption, vsCodeDropdownOption, coreToolsDropdownOption, mavenDropdownOption, developInPortalDropdownOption].filter(
+      option => option.data?.visible
+    );
+  }, [vsDropdownOption, vsCodeDropdownOption, coreToolsDropdownOption, mavenDropdownOption, developInPortalDropdownOption]);
 
-  const onRenderOption = (option: IDropdownOption): JSX.Element => {
+  const onRenderOption = useCallback((option: IDropdownOption): JSX.Element => {
     return (
       <div>
         {option.data.icon}
         {option.text}
       </div>
     );
-  };
+  }, []);
 
-  const onRenderTitle = (selectedOptions: IDropdownOption[]): JSX.Element => {
-    return selectedOptions.length > 0 ? (
-      <div>
-        {selectedOptions[0].data.icon}
-        {selectedOptions[0].text}
-      </div>
-    ) : (
-      <></>
+  const onRenderTitle = useCallback((selectedOptions: IDropdownOption[]): JSX.Element => {
+    return (
+      selectedOptions[0] && (
+        <div>
+          {selectedOptions[0].data.icon}
+          {selectedOptions[0].text}
+        </div>
+      )
     );
-  };
+  }, []);
 
-  const cancel = () => {
+  const cancel = useCallback(() => {
     portalCommunicator.closeSelf();
-  };
+  }, [portalCommunicator]);
 
-  const fetchData = async () => {
-    const appSettingsResponse = await SiteService.fetchApplicationSettings(resourceId);
-    if (appSettingsResponse.metadata.success) {
-      const appSettings = appSettingsResponse.data.properties;
-      if (Object.prototype.hasOwnProperty.call(appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
-        setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
+  const onSubmit = useCallback(
+    (formValues?: CreateFunctionFormValues) => {
+      if (formValues) {
+        createFunction(formValues);
       }
-    } else {
-      LogService.trackEvent(
-        LogCategories.functionCreate,
-        'fetchAppSettings',
-        `Failed to fetch Application Settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
-      );
-    }
-  };
+    },
+    [createFunction]
+  );
 
-  const setDefaultDropdownKey = () => {
-    const options = getVisibleDropdownOptions();
-    if (options.length > 0) {
-      if (options.find(option => option.key === DevelopmentExperience.developInPortal)) {
+  useEffect(() => {
+    if (visibleDropdownOptions.length > 0) {
+      if (visibleDropdownOptions.find(option => option.key === DevelopmentExperience.developInPortal)) {
         LogService.trackEvent(LogCategories.localDevExperience, 'FunctionPortalCreateDefaulted', {
           resourceId,
           sessionId: Url.getParameterByName(null, 'sessionId'),
@@ -225,185 +195,49 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = (props
         });
         setSelectedDropdownKey(DevelopmentExperience.developInPortal);
       } else {
-        setSelectedDropdownKey(options[0].key as DevelopmentExperience);
+        setSelectedDropdownKey(visibleDropdownOptions[0].key as DevelopmentExperience);
       }
     }
-  };
-
-  const updateAppSettings = async (appSettings: ArmObj<KeyValue<string>>) => {
-    const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
-    const updateAppSettingsResponse = await FunctionCreateData.updateAppSettings(resourceId, appSettings);
-    if (updateAppSettingsResponse.metadata.success) {
-      portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
-    } else {
-      const errorMessage = getErrorMessage(updateAppSettingsResponse.metadata.error) || t('configUpdateFailure');
-      portalCommunicator.stopNotification(notificationId, false, errorMessage);
-      LogService.trackEvent(
-        LogCategories.localDevExperience,
-        'updateAppSettings',
-        `Failed to update Application Settings: ${getErrorMessageOrStringify(updateAppSettingsResponse.metadata.error)}`
-      );
-    }
-  };
-
-  const addFunction = async (formValues: CreateFunctionFormValues) => {
-    if (selectedTemplate) {
-      setCreatingFunction(true);
-      const config = FunctionCreateData.buildFunctionConfig(selectedTemplate.bindings || [], formValues);
-      const { functionName } = formValues;
-      const { files } = selectedTemplate;
-      const notificationId = portalCommunicator.startNotification(
-        t('createFunctionNotication'),
-        t('createFunctionNotificationDetails').format(functionName)
-      );
-
-      LogService.trackEvent(
-        LogCategories.localDevExperience,
-        'FunctionCreateClicked',
-        FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
-      );
-      const createFunctionResponse = await FunctionCreateData.createFunction(resourceId, functionName, files, config);
-      if (createFunctionResponse.metadata.success) {
-        LogService.trackEvent(
-          LogCategories.localDevExperience,
-          'FunctionCreateSucceeded',
-          FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
-        );
-        portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
-        const id = `${resourceId}/functions/${functionName}`;
-        portalCommunicator.closeSelf(id);
-      } else {
-        LogService.trackEvent(
-          LogCategories.localDevExperience,
-          'createFunction',
-          `Failed to create function ${getErrorMessageOrStringify(createFunctionResponse.metadata.error)}`
-        );
-        const errorMessage = getErrorMessage(createFunctionResponse.metadata.error);
-        portalCommunicator.stopNotification(
-          notificationId,
-          false,
-          errorMessage
-            ? t('createFunctionNotificationFailedDetails').format(functionName, errorMessage)
-            : t('createFunctionNotificationFailed').format(functionName)
-        );
-        portalCommunicator.closeSelf();
-      }
-    }
-  };
-
-  const onSubmit = (formValues?: CreateFunctionFormValues) => {
-    if (formValues) {
-      if (formValues.newAppSettings) {
-        updateAppSettings(formValues.newAppSettings);
-      }
-      addFunction(formValues);
-    }
-  };
-
-  const actionBarCloseButtonProps = {
-    id: 'close',
-    title: t('close'),
-    onClick: cancel,
-    disable: false,
-  };
-
-  const getLocalCreateComponent = (): JSX.Element => {
-    return (
-      <>
-        <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
-        <ActionBar fullPageHeight={true} id="add-function-footer" primaryButton={actionBarCloseButtonProps} />
-      </>
-    );
-  };
-
-  const getPortalCreateComponent = (): JSX.Element => {
-    return (
-      <Formik
-        initialValues={initialFormValues}
-        enableReinitialize={true}
-        isInitialValid={true} // Using deprecated option to allow pristine values to be valid.
-        onSubmit={onSubmit}>
-        {(formProps: FormikProps<CreateFunctionFormValues>) => {
-          const actionBarPrimaryButtonProps = {
-            id: 'add',
-            title: t('create'),
-            onClick: formProps.submitForm,
-            disable: !initialFormValues || creatingFunction,
-          };
-
-          const actionBarSecondaryButtonProps = {
-            id: 'cancel',
-            title: t('cancel'),
-            onClick: cancel,
-            disable: creatingFunction,
-          };
-
-          return (
-            <form className={formContainerStyle}>
-              <div className={formContainerDivStyle}>
-                <TemplateList
-                  resourceId={resourceId}
-                  formProps={formProps}
-                  setBuilder={setTemplateDetailFormBuilder}
-                  builder={templateDetailFormBuilder}
-                  selectedTemplate={selectedTemplate}
-                  setSelectedTemplate={setSelectedTemplate}
-                  templates={templates}
-                  setTemplates={setTemplates}
-                  hostStatus={hostStatus}
-                  setHostStatus={setHostStatus}
-                  armResources={armResources}
-                  setArmResources={setArmResources}
-                />
-              </div>
-              <ActionBar
-                fullPageHeight={true}
-                id="add-function-footer"
-                primaryButton={actionBarPrimaryButtonProps}
-                secondaryButton={actionBarSecondaryButtonProps}
-                validating={creatingFunction}
-                validationMessage={t('creatingFunction')}
-              />
-            </form>
-          );
-        }}
-      </Formik>
-    );
-  };
-
-  useEffect(() => {
-    setDefaultDropdownKey();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [site, workerRuntime]);
+  }, [hostStatus, resourceId, templates?.length, visibleDropdownOptions]);
 
   useEffect(() => {
     if (templateDetailFormBuilder) {
       setInitialFormValues(templateDetailFormBuilder.getInitialFormValues());
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [templateDetailFormBuilder]);
 
   useEffect(() => {
-    fetchData();
+    SiteService.fetchApplicationSettings(resourceId).then(response => {
+      if (response.metadata.success) {
+        const appSettings = response.data.properties;
+        if (Object.prototype.hasOwnProperty.call(appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+          setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
+        }
+      } else {
+        LogService.trackEvent(
+          LogCategories.functionCreate,
+          'fetchAppSettings',
+          `Failed to fetch Application Settings: ${getErrorMessageOrStringify(response.metadata.error)}`
+        );
+      }
+    });
+  }, [resourceId]);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  return getVisibleDropdownOptions().length > 0 && selectedDropdownKey ? (
+  return visibleDropdownOptions.length > 0 && !!selectedDropdownKey ? (
     <FunctionCreateContext.Provider value={{ creatingFunction } as IFunctionCreateContext}>
       <div>
         <div className={containerStyle}>
           <h3 className={selectDevelopmentEnvironmentHeaderStyle}>{t('selectDevelopmentEnvironment')}</h3>
           <p className={selectDevelopmentEnvironmentDescriptionStyle}>
             {t('selectDevelopmentEnvironmentDescription')}
-            <Link href={Links.functionCreateSummaryLearnMore}>{t('learnMore')}</Link>
+            <Link href={Links.functionCreateSummaryLearnMore} rel="noopener" target="_blank">
+              {t('learnMore')}
+            </Link>
           </p>
           <DropdownNoFormik
             label={t('developmentEnvironment')}
             id="function-create-development-environment"
-            options={getVisibleDropdownOptions()}
+            options={visibleDropdownOptions}
             onChange={onDevelopmentEnvironmentChange}
             responsiveMode={ResponsiveMode.large}
             onRenderOption={onRenderOption}
@@ -415,7 +249,66 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = (props
             disabled={creatingFunction}
           />
         </div>
-        {selectedDropdownKey === DevelopmentExperience.developInPortal ? getPortalCreateComponent() : getLocalCreateComponent()}
+        {selectedDropdownKey === DevelopmentExperience.developInPortal ? (
+          <Formik<CreateFunctionFormValues | undefined>
+            initialValues={initialFormValues}
+            enableReinitialize
+            isInitialValid // Using deprecated option to allow pristine values to be valid.
+            onSubmit={onSubmit}>
+            {(formProps: FormikProps<CreateFunctionFormValues>) => (
+              <form className={formContainerStyle}>
+                <div className={formContainerDivStyle}>
+                  <TemplateList
+                    resourceId={resourceId}
+                    formProps={formProps}
+                    setBuilder={setTemplateDetailFormBuilder}
+                    builder={templateDetailFormBuilder}
+                    selectedTemplate={selectedTemplate}
+                    setSelectedTemplate={setSelectedTemplate}
+                    templates={templates}
+                    setTemplates={setTemplates}
+                    hostStatus={hostStatus}
+                    setHostStatus={setHostStatus}
+                    armResources={armResources}
+                    setArmResources={setArmResources}
+                  />
+                </div>
+                <ActionBar
+                  fullPageHeight
+                  id="add-function-footer"
+                  primaryButton={{
+                    id: 'add',
+                    title: t('create'),
+                    onClick: formProps.submitForm,
+                    disable: !initialFormValues || creatingFunction,
+                  }}
+                  secondaryButton={{
+                    id: 'cancel',
+                    title: t('cancel'),
+                    onClick: cancel,
+                    disable: creatingFunction,
+                  }}
+                  validating={creatingFunction}
+                  validationMessage={t('creatingFunction')}
+                />
+              </form>
+            )}
+          </Formik>
+        ) : (
+          <>
+            <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />
+            <ActionBar
+              fullPageHeight
+              id="add-function-footer"
+              primaryButton={{
+                id: 'close',
+                title: t('close'),
+                onClick: cancel,
+                disable: false,
+              }}
+            />
+          </>
+        )}
       </div>
     </FunctionCreateContext.Provider>
   ) : null;

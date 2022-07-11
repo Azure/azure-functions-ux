@@ -2481,4 +2481,8 @@ export class PortalResources {
   public static cosmosDb_tooltip_partitionKeyPath = 'cosmosDb_tooltip_partitionKeyPath';
   public static containerApp_console_startUpCommandAriaLabel = 'containerApp_console_startUpCommandAriaLabel';
   public static containerApp_console_cancel = 'containerApp_console_cancel';
+  public static createFunctionDeploymentNotification = 'createFunctionDeploymentNotification';
+  public static createFunctionDeploymentNotificationDetails = 'createFunctionDeploymentNotificationDetails';
+  public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
+  public static createFunctionDeploymentNotificationFailed = 'createFunctionDeploymentNotificationFailed';
 }
