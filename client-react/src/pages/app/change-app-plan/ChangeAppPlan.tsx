@@ -22,13 +22,14 @@ import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmVa
 import { CreateOrSelectPlanFormValues } from './CreateOrSelectPlan';
 import { Links } from '../../../utils/FwLinks';
 import { formStyle, wrapperStyle } from './ChangeAppPlan.styles';
-import { ChangeAppPlanFormValues, ChangeAppPlanProps } from './ChangeAppPlan.types';
+import { ChangeAppPlanFormValues, ChangeAppPlanProps, ChangeAppPlanTierTypes, NewServerFarmInfo } from './ChangeAppPlan.types';
 
 import { ChangeAppPlanFooter } from './ChangeAppPlanFooter';
 import { CurrentPlanDetails } from './ChangeAppPlanCurrentPlanDetails';
 import { DestinationPlanDetails } from './ChangeAppPlanDestinationPlanDetails';
 import { ChangeAppPlanHeader } from './ChangeAppPlanHeader';
 import { LogLevel, TelemetryInfo } from '../../../models/telemetry';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const { serverFarms, resourceGroups, site, currentServerFarm, hostingEnvironment, onChangeComplete } = props;
@@ -309,7 +310,7 @@ const changeSiteToNewPlan = async (
   // This works because slots always have the same webspace as prod sites.
   const webSiteId = `/subscriptions/${siteDescriptor.subscription}/resourceGroups/${siteDescriptor.resourceGroup}/providers/Microsoft.Web/sites/${siteDescriptor.site}`;
 
-  const newServerFarm = {
+  const newServerFarm: NewServerFarmInfo = {
     id: newServerFarmId,
     name: serverFarmInfo.newPlanInfo.name,
     location: site.location,
@@ -325,6 +326,13 @@ const changeSiteToNewPlan = async (
       name: getSelectedSkuCode(formValues),
     },
   };
+
+  if (newPlanServerFarmSku?.toLocaleLowerCase() === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase()) {
+    newServerFarm.properties = {
+      ...newServerFarm.properties,
+      maximumElasticWorkerCount: CommonConstants.FunctionAppServicePlanConstants.defaultMaximumElasticWorkerCount,
+    };
+  }
 
   const planDescriptor = new ArmPlanDescriptor(newServerFarmId);
   const serverFarmResponse = await ServerFarmService.updateServerFarm(newServerFarmId, newServerFarm as ArmObj<ServerFarm>);

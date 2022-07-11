@@ -108,6 +108,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           styles={dropdownStyleOverrides(theme, fullpage)}
           ariaLabel={t('appServicePlan')}
           disabled={isUpdating}
+          placeholder={t('destinationPlanPlaceholder')}
         />
         <CreatePlan
           newPlanInfo={planInfo.newPlanInfo}

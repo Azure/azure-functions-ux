@@ -5146,7 +5146,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Change App Service plan</value>
     </data>
     <data name="changePlanDescription" xml:space="preserve">
-        <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.</value>
+        <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance. There may be a short amount of down time associated with changing your App Service Plan.</value>
     </data>
     <data name="changePlanLocationTooltip" xml:space="preserve">
         <value>The region that your app currently resides in cannot be changed for new or existing plans.</value>
@@ -5804,6 +5804,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="hostConfigurationLabel" xml:space="preserve">
         <value>Host configuration</value>
+    </data>
+     <data name="destinationPlanPlaceholder" xml:space="preserve">
+        <value>Select destination plan</value>
     </data>
     <data name="configureHostJson" xml:space="preserve">
         <value>Configure host.json</value>

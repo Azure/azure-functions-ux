@@ -1,6 +1,7 @@
 import { FormikProps } from 'formik';
 import { ArmObj } from '../../../models/arm-obj';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
+import { HostingEnvironmentProfile } from '../../../models/hostingEnvironment/hosting-environment-profile';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { Site } from '../../../models/site/site';
@@ -48,4 +49,25 @@ export interface DestinationPlanDetailsProps {
 
 export interface CurrentPlanDetailsProps {
   currentServerFarm: ArmObj<ServerFarm>;
+}
+
+export interface NewServerFarmInfo {
+  id: string;
+  name: string;
+  location: string;
+  properties: NewServerFarm;
+  kind?: string;
+  sku?: {
+    name: string;
+  };
+}
+
+export interface NewServerFarm {
+  reserved: boolean;
+  hyperV: boolean;
+  hostingEnvironmentId: string;
+  hostingEnvironmentProfile: HostingEnvironmentProfile;
+  maximumElasticWorkerCount?: number;
+  // The resourceId of a site that you want to match the webspace of during creation
+  webSiteId?: string;
 }

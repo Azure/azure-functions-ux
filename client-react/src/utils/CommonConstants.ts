@@ -83,6 +83,10 @@ export class CommonConstants {
     four: '~4',
   };
 
+  public static readonly FunctionAppServicePlanConstants = {
+    defaultMaximumElasticWorkerCount: 20,
+  };
+
   public static readonly AppSettingNames = {
     appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
     appInsightsInstrumentationKey: 'APPINSIGHTS_INSTRUMENTATIONKEY',
