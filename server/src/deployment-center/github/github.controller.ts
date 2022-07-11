@@ -699,7 +699,7 @@ export class GithubController {
     return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_SECRET');
   }
 
-  private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res: any) {
+  private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res) {
     try {
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
@@ -729,7 +729,7 @@ export class GithubController {
     }
   }
 
-  private async _makePostCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res: any) {
+  private async _makePostCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res) {
     try {
       const response = await this.httpService.post(
         url,

@@ -1,6 +1,6 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
-const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
+const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
   return {
     displayText: 'Go',
     value: 'go',

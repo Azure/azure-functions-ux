@@ -489,6 +489,7 @@ export class PortalResources {
   public static httpsOnlyInfoBoxText = 'httpsOnlyInfoBoxText';
   public static httpsOnlyLabel = 'httpsOnlyLabel';
   public static httpsOnlyInfoBubbleMessage = 'httpsOnlyInfoBubbleMessage';
+  public static https20ProxyInfoBubbleMessage = 'https20ProxyInfoBubbleMessage';
   public static minTlsVersionLabel = 'minTlsVersionLabel';
   public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
   public static clientAffinityInfoText = 'clientAffinityInfoText';
@@ -1204,6 +1205,7 @@ export class PortalResources {
   public static saveCredentials = 'saveCredentials';
   public static resetCredentials = 'resetCredentials';
   public static httpVersion = 'httpVersion';
+  public static http20Proxy = 'http20Proxy';
   public static dismiss = 'dismiss';
   public static provider = 'provider';
   public static newAccount = 'newAccount';

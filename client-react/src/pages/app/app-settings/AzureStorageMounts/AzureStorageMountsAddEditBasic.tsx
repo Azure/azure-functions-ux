@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
-import MakeArmCall, { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormikProps, Field } from 'formik';
 import ComboBox from '../../../../components/form-controls/ComboBox';
@@ -13,10 +13,9 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { StorageType } from '../../../../models/site/config';
 import StorageService from '../../../../ApiHelpers/StorageService';
+import { PortalContext } from '../../../../PortalContext';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -51,6 +50,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   );
   const storageAccounts = useContext(StorageAccountsContext);
   const site = useContext(SiteContext);
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
@@ -152,8 +153,16 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             const errorSchema: StorageContainerErrorSchema = initializeStorageContainerErrorSchemaValue();
 
             if (blobsFailure && supportsBlobStorage) {
-              const errorMessage = getErrorMessageOrStringify(!!blobsMetaData && !!blobsMetaData.error ? blobsMetaData.error : '');
-              LogService.error(LogCategories.appSettings, 'getStorageContainers', `Failed to get storage containers: ${errorMessage}`);
+              portalContext.log({
+                action: 'getStorageContainers',
+                actionModifier: 'failed',
+                resourceId: site?.id,
+                logLevel: 'error',
+                data: {
+                  error: blobsMetaData?.error,
+                  message: 'Failed to fetch storage containers',
+                },
+              });
               errorSchema.blobsContainerIsEmpty = true;
               errorSchema.getBlobsFailure = true;
             } else {
@@ -162,8 +171,16 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             }
 
             if (filesFailure) {
-              const errorMessage = getErrorMessageOrStringify(!!filesMetaData && !!filesMetaData.error ? filesMetaData.error : '');
-              LogService.error(LogCategories.appSettings, 'getStorageFileShares', `Failed to get storage file shares: ${errorMessage}`);
+              portalContext.log({
+                action: 'getStorageFileShares',
+                actionModifier: 'failed',
+                resourceId: site?.id,
+                logLevel: 'error',
+                data: {
+                  error: filesMetaData?.error,
+                  message: 'Failed to fetch storage file shares',
+                },
+              });
               errorSchema.filesContainerIsEmpty = true;
               errorSchema.getFilesFailure = true;
             } else {

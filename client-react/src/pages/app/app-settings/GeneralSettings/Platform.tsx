@@ -44,6 +44,15 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     );
   };
 
+  const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
+    // Set HTTP 2.0 Proxy to 'Off' if http 2.0 is not enabled.
+    if (!option.key) {
+      props.setFieldValue('config.properties.http20ProxyFlag', 0);
+    }
+
+    props.setFieldValue('config.properties.http20Enabled', option.key);
+  };
+
   const disableFtp = () =>
     props.values.basicPublishingCredentialsPolicies &&
     props.values.basicPublishingCredentialsPolicies.properties.ftp &&
@@ -137,25 +146,50 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           />
         ))}
       {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
-        <Field
-          name="config.properties.http20Enabled"
-          dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
-          component={Dropdown}
-          fullpage
-          label={t('httpVersion')}
-          id="app-settings-http-enabled"
-          disabled={disableAllControls}
-          options={[
-            {
-              key: true,
-              text: '2.0',
-            },
-            {
-              key: false,
-              text: '1.1',
-            },
-          ]}
-        />
+        <>
+          <Field
+            name="config.properties.http20Enabled"
+            dirty={values.config.properties.http20Enabled !== initialValues.config.properties.http20Enabled}
+            component={Dropdown}
+            fullpage
+            label={t('httpVersion')}
+            id="app-settings-http-enabled"
+            disabled={disableAllControls}
+            options={[
+              {
+                key: true,
+                text: '2.0',
+              },
+              {
+                key: false,
+                text: '1.1',
+              },
+            ]}
+            onChange={onHttp20EnabledChange}
+          />
+          {scenarioChecker.checkScenario(ScenarioIds.http20ProxySupported, { site }).status == 'enabled' && (
+            <Field
+              name="config.properties.http20ProxyFlag"
+              dirty={values.config.properties.http20ProxyFlag !== initialValues.config.properties.http20ProxyFlag}
+              component={RadioButton}
+              label={t('http20Proxy')}
+              infoBubbleMessage={t('https20ProxyInfoBubbleMessage')}
+              id="app-settings-http20-proxy-enabled"
+              disabled={disableAllControls}
+              options={[
+                {
+                  key: 1,
+                  text: t('on'),
+                  disabled: !values.config.properties.http20Enabled,
+                },
+                {
+                  key: 0,
+                  text: t('off'),
+                },
+              ]}
+            />
+          )}
+        </>
       )}
       {scenarioChecker.checkScenario(ScenarioIds.webSocketsSupported, { site }).status !== 'disabled' && (
         <Field
