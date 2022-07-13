@@ -1,11 +1,11 @@
 import i18next from 'i18next';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../models/functions/function-info';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import Url from '../../../../utils/url';
+import { PortalContext } from '../../../../PortalContext';
+import { ExperimentationConstants } from '../../../../utils/CommonConstants';
 import CosmosDbFunctionFormBuilder from './CosmosDbFunctionFormBuilder';
 import { CreateFunctionFormBuilder } from './CreateFunctionFormBuilder';
 import { usePermissions } from './usePermissions';
@@ -21,11 +21,10 @@ export type CreateFunctionFormBuilderFactory = (
 
 const COSMOS_DB_TRIGGER = BindingType.cosmosDBTrigger.toLowerCase();
 
-const showFunctionsCollateral = !!Url.getFeatureValue(CommonConstants.FeatureFlags.showFunctionsColleteral);
-
 export const useCreateFunctionFormBuilderFactory = (resourceId: string, templateId: string) => {
+  const portalCommunicator = useContext(PortalContext);
   const { hasAppSettingsPermissions, hasResourceGroupWritePermission, hasSubscriptionWritePermission } = usePermissions(resourceId);
-
+  const [hasFlightEnabled, setHasFlightEnabled] = useState(false);
   const [factory, setFactory] = useState<CreateFunctionFormBuilderFactory>();
 
   const cosmosDbFunctionFormBuilder = useCallback<() => CreateFunctionFormBuilderFactory>(
@@ -47,18 +46,22 @@ export const useCreateFunctionFormBuilderFactory = (resourceId: string, template
   );
 
   useEffect(() => {
+    portalCommunicator.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.functionsCollateral).then(setHasFlightEnabled);
+  }, [portalCommunicator]);
+
+  useEffect(() => {
     const [lowerTemplateIdWithoutLanguage] = templateId.toLowerCase().split('-');
 
     switch (lowerTemplateIdWithoutLanguage) {
       case COSMOS_DB_TRIGGER:
-        setFactory(showFunctionsCollateral ? cosmosDbFunctionFormBuilder : createFunctionFormBuilder);
+        setFactory(hasFlightEnabled ? cosmosDbFunctionFormBuilder : createFunctionFormBuilder);
         break;
 
       default:
         setFactory(createFunctionFormBuilder);
         break;
     }
-  }, [cosmosDbFunctionFormBuilder, createFunctionFormBuilder, templateId]);
+  }, [cosmosDbFunctionFormBuilder, createFunctionFormBuilder, hasFlightEnabled, templateId]);
 
   return factory;
 };
