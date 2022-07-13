@@ -1,7 +1,8 @@
 import { Link } from '@fluentui/react';
 import { Formik, FormikProps } from 'formik';
-import { useCallback, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PortalContext } from '../../../../../PortalContext';
 import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../utils/ArmTemplateHelper';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import {
@@ -13,6 +14,7 @@ import {
 } from '../../../../../utils/CosmosDbArmTemplateHelper';
 import BindingCalloutContent from '../callout-content/BindingCalloutContent';
 import { CosmosDbCreator, CreateCosmosDbFormValues } from '../callout-content/documentdb/CosmosDbCreator';
+import { getTelemetryInfo } from '../FunctionsUtility';
 
 interface SelectedItem {
   data: string;
@@ -44,6 +46,7 @@ const NewCosmosDbAccountCallout: React.FC<NewCosmosDBAccountCalloutProps> = (pro
   const [cosmosDbTemplate, setCosmosDbTemplate] = useState('');
   const formRef = useRef<Formik>(null);
   const { t } = useTranslation();
+  const portalCommunicator = useContext(PortalContext);
 
   const initialValues: CreateCosmosDbFormValues = {
     accountName: '',
@@ -76,11 +79,12 @@ const NewCosmosDbAccountCallout: React.FC<NewCosmosDBAccountCalloutProps> = (pro
 
     setIsDialogVisible(false);
 
-    /** @todo (joechung): #14260766 - Log telemetry when dialog is confirmed. */
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-database-account', 'create'));
   }, [
     armResources,
     cosmosDbTemplate,
     formProps,
+    portalCommunicator,
     setArmResources,
     setIsDialogVisible,
     setNewDatabaseAccountName,
@@ -93,8 +97,8 @@ const NewCosmosDbAccountCallout: React.FC<NewCosmosDBAccountCalloutProps> = (pro
 
     formRef.current?.resetForm();
 
-    /** @todo (joechung): #14260766 - Log telemetry when dialog is dismissed. */
-  }, [setIsDialogVisible]);
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-database-account', 'cancel'));
+  }, [portalCommunicator, setIsDialogVisible]);
 
   return (
     <BindingCalloutContent

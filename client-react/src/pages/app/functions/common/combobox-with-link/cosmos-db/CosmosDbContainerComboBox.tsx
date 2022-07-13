@@ -1,6 +1,6 @@
 import { Callout, DefaultButton, IComboBoxOption, Link, PrimaryButton } from '@fluentui/react';
 import { Field, FieldProps, Form, Formik, FormikProps, FormikValues } from 'formik';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import DocumentDBService from '../../../../../../ApiHelpers/DocumentDBService';
@@ -8,6 +8,7 @@ import ComboBox from '../../../../../../components/form-controls/ComboBox';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../../../components/form-controls/TextField';
 import { BindingSetting } from '../../../../../../models/functions/binding';
+import { PortalContext } from '../../../../../../PortalContext';
 import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../../utils/ArmTemplateHelper';
 import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
@@ -20,6 +21,7 @@ import {
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
 import { CreateFunctionFormValues } from '../../CreateFunctionFormBuilder';
+import { getTelemetryInfo } from '../../FunctionsUtility';
 import { useStyles } from '../ComboBoxWithLink.styles';
 
 interface CreateContainerFormValues {
@@ -51,6 +53,7 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
 
   const styles = useStyles(layout);
 
+  const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
 
   // Reset the container name for new database accounts.
@@ -170,8 +173,6 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
           setArmResources,
           armResource => armResource.type.toLowerCase().includes('containers') || armResource.type.toLowerCase().includes('collections')
         );
-
-        /** @todo (joechung): #14260766 - Log telemetry. */
       } else if (option.text.includes(t('new_parenthesized'))) {
         // If template already in armResources (should mean user generated new one) don't do anything, otherwise reinstate storedArmTemplate to armResources
         formProps.setStatus({ ...formProps.status, isNewContainer: true });
@@ -191,11 +192,7 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
               formProps.values.databaseName
             ),
           ]);
-
-          /** @todo (joechung): #14260766 - Log telemetry. */
         }
-      } else {
-        /** @todo (joechung): #14260766 - Log telemetry. */
       }
     }
   };
@@ -224,6 +221,11 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
     }
   };
 
+  const handleCalloutDismiss = useCallback(() => {
+    setIsDialogVisible(false);
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-container', 'cancel'));
+  }, [portalCommunicator]);
+
   const handleCalloutSubmit = (formValues: FormikValues) => {
     const { newContainerName } = formValues;
     setIsDialogVisible(false);
@@ -244,8 +246,13 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
       ),
     ]);
 
-    /** @todo (joechung): #14260766 - Log telemetry when dialog is confirmed. */
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-container', 'create'));
   };
+
+  const handleCreateContainerClick = useCallback(() => {
+    setIsDialogVisible(true);
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-container', 'show-callout'));
+  }, [portalCommunicator]);
 
   const validateContainerName = (value: string) => {
     if (!value) {
@@ -296,13 +303,13 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
           />
           {!isDisabled ? (
             <div className={styles.calloutContainer}>
-              <Link id="contComboBoxLink" onClick={() => setIsDialogVisible(true)}>
+              <Link id="contComboBoxLink" onClick={handleCreateContainerClick}>
                 {t('cosmosDb_label_createAContainer')}
               </Link>
               <Callout
                 className={styles.callout}
                 hidden={!isDialogVisible}
-                onDismiss={() => setIsDialogVisible(false)}
+                onDismiss={handleCalloutDismiss}
                 setInitialFocus
                 target="#contComboBoxLink">
                 <Formik initialValues={{ containerName: '' }} validateOnBlur={false} onSubmit={handleCalloutSubmit}>
@@ -324,7 +331,7 @@ const CosmosDbContainerComboBoxWithLink: React.FC<CosmosDbContainerComboBoxWithL
                           <PrimaryButton disabled={!formProps.isValid} onClick={formProps.submitForm}>
                             {t('create')}
                           </PrimaryButton>
-                          <DefaultButton onClick={() => setIsDialogVisible(false)}>{t('cancel')}</DefaultButton>
+                          <DefaultButton onClick={handleCalloutDismiss}>{t('cancel')}</DefaultButton>
                         </div>
                       </Form>
                     </section>

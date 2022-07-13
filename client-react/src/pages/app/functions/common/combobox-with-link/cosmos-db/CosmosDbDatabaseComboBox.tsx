@@ -1,6 +1,6 @@
 import { Callout, DefaultButton, IComboBoxOption, Link, PrimaryButton } from '@fluentui/react';
 import { Field, FieldProps, Form, Formik, FormikProps, FormikValues } from 'formik';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import DocumentDBService from '../../../../../../ApiHelpers/DocumentDBService';
@@ -8,6 +8,7 @@ import ComboBox from '../../../../../../components/form-controls/ComboBox';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../../../components/form-controls/TextField';
 import { BindingSetting } from '../../../../../../models/functions/binding';
+import { PortalContext } from '../../../../../../PortalContext';
 import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../../utils/ArmTemplateHelper';
 import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
@@ -22,6 +23,7 @@ import {
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import LogService from '../../../../../../utils/LogService';
 import { CreateFunctionFormValues } from '../../CreateFunctionFormBuilder';
+import { getTelemetryInfo } from '../../FunctionsUtility';
 import { useStyles } from '../ComboBoxWithLink.styles';
 
 interface CreateDatabaseFormValues {
@@ -53,6 +55,7 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
 
   const styles = useStyles(layout);
 
+  const portalCommunicator = useContext(PortalContext);
   const { t } = useTranslation();
 
   // If new DB account, automatically set new database/container
@@ -143,8 +146,6 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
           setArmResources,
           armResource => armResource.type.toLowerCase().includes('databases') && armResource.name.split('/').length === 2
         );
-
-        /** @todo (joechung): #14260766 - Log telemetry when a new database is created. */
       } else if (option.text.includes(t('new_parenthesized'))) {
         formProps.setStatus({ ...formProps.status, isNewDatabase: true, isNewContainer: true });
         formProps.setFieldValue('collectionName', CommonConstants.CosmosDbDefaults.containerName);
@@ -164,11 +165,7 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
             getNewDatabaseArmTemplate(databaseName, armResources, databaseAccountName),
             getNewContainerArmTemplate(CommonConstants.CosmosDbDefaults.containerName, armResources, databaseAccountName, databaseName),
           ]);
-
-          /** @todo (joechung): #14260766 - Log telemetry when a newly created database is selected. */
         }
-      } else {
-        /** @todo (joechung): #14260766 - Log telemetry when an existing database is selected. */
       }
     }
   };
@@ -196,6 +193,11 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
     }
   };
 
+  const handleCalloutDismiss = useCallback(() => {
+    setIsDialogVisible(false);
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-database', 'cancel'));
+  }, [portalCommunicator]);
+
   const handleCalloutSubmit = (formValues: FormikValues) => {
     const { newDatabaseName } = formValues;
     setIsDialogVisible(false);
@@ -215,8 +217,13 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
       getNewContainerArmTemplate(CommonConstants.CosmosDbDefaults.containerName, armResources, databaseAccountName, newDatabaseName),
     ]);
 
-    /** @todo (joechung): #14260766 - Log telemetry when dialog is confirmed. */
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-database', 'create'));
   };
+
+  const handleCreateDatabaseClick = useCallback(() => {
+    setIsDialogVisible(true);
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-database', 'show-callout'));
+  }, [portalCommunicator]);
 
   const validateDatabaseName = (value: string) => {
     if (!value) {
@@ -267,13 +274,13 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
           />
           {!isDisabled ? (
             <div className={styles.calloutContainer}>
-              <Link id="dbComboBoxLink" onClick={() => setIsDialogVisible(true)}>
+              <Link id="dbComboBoxLink" onClick={handleCreateDatabaseClick}>
                 {t('cosmosDb_label_createADatabase')}
               </Link>
               <Callout
                 className={styles.callout}
                 hidden={!isDialogVisible}
-                onDismiss={() => setIsDialogVisible(false)}
+                onDismiss={handleCalloutDismiss}
                 setInitialFocus
                 target="#dbComboBoxLink">
                 <Formik initialValues={{ databaseName: '' }} validateOnBlur={false} onSubmit={handleCalloutSubmit}>
@@ -295,7 +302,7 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
                           <PrimaryButton disabled={!formProps.isValid} onClick={formProps.submitForm}>
                             {t('create')}
                           </PrimaryButton>
-                          <DefaultButton onClick={() => setIsDialogVisible(false)}>{t('cancel')}</DefaultButton>
+                          <DefaultButton onClick={handleCalloutDismiss}>{t('cancel')}</DefaultButton>
                         </div>
                       </Form>
                     </section>
