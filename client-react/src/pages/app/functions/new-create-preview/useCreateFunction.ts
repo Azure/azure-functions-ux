@@ -4,6 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { StatusMessage } from '../../../../components/ActionBar';
 import { ArmObj } from '../../../../models/arm-obj';
+import { BindingType } from '../../../../models/functions/function-binding';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { PortalContext } from '../../../../PortalContext';
@@ -16,6 +17,8 @@ import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { getTelemetryInfo } from '../common/FunctionsUtility';
 import { usePermissions } from '../common/usePermissions';
 import FunctionCreateData from './FunctionCreate.data';
+
+const COSMOS_DB_TRIGGER = BindingType.cosmosDBTrigger.toLowerCase();
 
 export const useCreateFunction = (
   appSettings: ArmObj<Record<string, string>> | undefined,
@@ -63,6 +66,17 @@ export const useCreateFunction = (
         }
 
         setCreatingFunction(true);
+
+        /** @note (joechung): Record telemetry for Cosmos DB function creates. */
+        if (selectedTemplate.id.toLowerCase().startsWith(COSMOS_DB_TRIGGER)) {
+          portalCommunicator.log(
+            getTelemetryInfo('info', 'cosmos-db-create-function', 'start-create', {
+              connectionType: formValues.connectionType,
+              count: String(armResources.length),
+              customAppSettingKeyAdded: String(!!formValues.customAppSettingKey),
+            })
+          );
+        }
 
         // NOTE(nlayne): Handle manual Cosmos DB configuration by adding a custom app setting for the connection string.
         let newAppSettings = formValues.newAppSettings;
@@ -145,11 +159,21 @@ export const useCreateFunction = (
                       message: `Deployment of ${count} resources with function creation succeeded`,
                     })
                   );
+                  portalCommunicator.log(
+                    getTelemetryInfo('info', 'cosmos-db-create-function', 'succeeded', {
+                      existing: String(armResources.length > 0),
+                    })
+                  );
                 } else {
                   portalCommunicator.log(
                     getTelemetryInfo('info', LogCategories.functionCreate, 'ResourceDeploymentFailed', {
                       errorAsString: response.error ? JSON.stringify(response.error) : '',
                       message: getErrorMessage(response.error),
+                    })
+                  );
+                  portalCommunicator.log(
+                    getTelemetryInfo('info', 'cosmos-db-create-function', 'failed', {
+                      existing: String(armResources.length > 0),
                     })
                   );
                 }
