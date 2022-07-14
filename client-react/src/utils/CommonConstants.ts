@@ -70,7 +70,6 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    enableFunctionsDynamicToPremium: 'enableFunctionsDynamicToPremium', // websitesextension_ext=appsvc.enableFunctionsDynamicToPremium%3Dtrue
     showHttps20Proxy: 'showHttps20Proxy',
   };
 
@@ -83,6 +82,10 @@ export class CommonConstants {
 
   public static readonly FunctionsRuntimeVersions = {
     four: '~4',
+  };
+
+  public static readonly FunctionAppServicePlanConstants = {
+    defaultMaximumElasticWorkerCount: 20,
   };
 
   public static readonly AppSettingNames = {

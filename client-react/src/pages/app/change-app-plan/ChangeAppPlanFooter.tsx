@@ -5,7 +5,7 @@ import { ThemeContext } from '../../../ThemeContext';
 import { buttonFooterStyle, buttonPadding } from './ChangeAppPlan.styles';
 import { ChangeAppPlanFooterProps } from './ChangeAppPlan.types';
 
-export const ChangeAppPlanFooter: React.FC<ChangeAppPlanFooterProps> = ({ isUpdating, siteIsReadOnlyLocked, submitForm }) => {
+export const ChangeAppPlanFooter: React.FC<ChangeAppPlanFooterProps> = ({ formProps, isUpdating, siteIsReadOnlyLocked, submitForm }) => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
@@ -18,7 +18,7 @@ export const ChangeAppPlanFooter: React.FC<ChangeAppPlanFooterProps> = ({ isUpda
         data-automation-id="test"
         allowDisabledFocus={true}
         onClick={submitForm}
-        disabled={isUpdating || siteIsReadOnlyLocked}
+        disabled={!formProps.dirty || isUpdating || siteIsReadOnlyLocked}
       />
     </div>
   );
