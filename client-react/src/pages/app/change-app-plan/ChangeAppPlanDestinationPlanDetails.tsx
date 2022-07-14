@@ -12,9 +12,9 @@ import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
-import { ChangeAppPlanTierTypes, DestinationPlanDetailsProps } from './ChangeAppPlan.types';
+import { ChangeAppPlanTierTypes, CreateOrSelectPlanFormValues, DestinationPlanDetailsProps } from './ChangeAppPlan.types';
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
-import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
+import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 
 export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
@@ -58,8 +58,8 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       }
       return `${(newPlanInfo.existingResourceGroup as ArmObj<ResourceGroup>).name}`;
     }
-
-    const planDescriptor = new ArmPlanDescriptor((existingPlan as ArmObj<ServerFarm>).id);
+    const serverFarm = existingPlan ? existingPlan : formProps.values.currentServerFarm;
+    const planDescriptor = new ArmPlanDescriptor((serverFarm as ArmObj<ServerFarm>).id);
     return planDescriptor.resourceGroup;
   };
 
@@ -93,7 +93,8 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       skuCode = newPlanInfo.skuCode;
       tier = newPlanInfo.tier;
     } else {
-      const sku: ArmSku = (existingPlan as ArmObj<ServerFarm>).sku as ArmSku;
+      const serverFarm = existingPlan ? existingPlan : formProps.values.currentServerFarm;
+      const sku: ArmSku = (serverFarm as ArmObj<ServerFarm>).sku as ArmSku;
       skuCode = sku.name;
       tier = sku.tier;
     }
@@ -185,7 +186,6 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       : serverFarms;
 
     const options = getDropdownOptions(filteredServerFarmOptions);
-    addNewPlanToOptions(formProps.values.serverFarmInfo.newPlanInfo.name, options, t);
     if (options.length === 0) {
       options.unshift({
         key: formProps.values.serverFarmInfo.newPlanInfo.name,
@@ -258,6 +258,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
           hostingEnvironment={hostingEnvironment}
           skuTier={skuTier}
           isUpdating={isUpdating}
+          formProps={formProps}
         />
       </ReactiveFormControl>
 
@@ -290,7 +291,6 @@ const getDropdownOptions = (objs: ArmObj<any>[]) => {
           key: objs[i].id.toLowerCase(),
           text: objs[i].name,
           data: objs[i],
-          selected: i === 0,
         },
       ];
     }

@@ -19,10 +19,15 @@ import { ArmPlanDescriptor, ArmSiteDescriptor } from '../../../utils/resourceDes
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmValidator';
-import { CreateOrSelectPlanFormValues } from './CreateOrSelectPlan';
 import { Links } from '../../../utils/FwLinks';
 import { formStyle, wrapperStyle } from './ChangeAppPlan.styles';
-import { ChangeAppPlanFormValues, ChangeAppPlanProps, ChangeAppPlanTierTypes, NewServerFarmInfo } from './ChangeAppPlan.types';
+import {
+  ChangeAppPlanFormValues,
+  ChangeAppPlanProps,
+  ChangeAppPlanTierTypes,
+  CreateOrSelectPlanFormValues,
+  NewServerFarmInfo,
+} from './ChangeAppPlan.types';
 
 import { ChangeAppPlanFooter } from './ChangeAppPlanFooter';
 import { CurrentPlanDetails } from './ChangeAppPlanCurrentPlanDetails';
@@ -37,7 +42,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [siteIsReadOnlyLocked, setSiteIsReadOnlyLocked] = useState(false);
   const [showAppDensityWarning, setShowAppDensityWarning] = useState(false);
-  const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(getInitialFormValues(site, currentServerFarm, serverFarms));
+  const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(getInitialFormValues(site, currentServerFarm));
 
   const portalCommunicator = useContext(PortalContext);
 
@@ -91,6 +96,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                   </Stack>
                 </section>
                 <ChangeAppPlanFooter
+                  formProps={formProps}
                   submitForm={formProps.submitForm}
                   isUpdating={isUpdating}
                   siteIsReadOnlyLocked={siteIsReadOnlyLocked}
@@ -416,12 +422,7 @@ const getSelectedSkuCode = (values: ChangeAppPlanFormValues) => {
   return ((values.serverFarmInfo.existingPlan as ArmObj<ServerFarm>).sku as ArmSku).name;
 };
 
-const getInitialFormValues = (
-  site: ArmObj<Site>,
-  currentServerFarm: ArmObj<ServerFarm>,
-  serverFarms: ArmObj<ServerFarm>[]
-): ChangeAppPlanFormValues => {
-  const existingPlan = serverFarms.length > 0 ? serverFarms[0] : null;
+const getInitialFormValues = (site: ArmObj<Site>, currentServerFarm: ArmObj<ServerFarm>): ChangeAppPlanFormValues => {
   const planDescriptor = new ArmPlanDescriptor(currentServerFarm.id);
 
   const existingResourceGroup: ArmObj<ResourceGroup> = {
@@ -439,8 +440,8 @@ const getInitialFormValues = (
     site,
     currentServerFarm,
     serverFarmInfo: {
-      existingPlan,
-      isNewPlan: !existingPlan,
+      existingPlan: null,
+      isNewPlan: false,
       newPlanInfo: {
         existingResourceGroup,
         skuCode,

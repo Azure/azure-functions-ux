@@ -13,7 +13,7 @@ import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
 import { buttonFooterStyle, buttonPadding, textboxStyle } from './ChangeAppPlan.styles';
-import { NewPlanInfo } from './CreateOrSelectPlan';
+import { NewPlanInfo } from './ChangeAppPlan.types';
 import { CreateOrSelectResourceGroup, ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 
 export interface CreatePlanProps {
