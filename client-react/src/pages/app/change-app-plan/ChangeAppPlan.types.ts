@@ -95,6 +95,19 @@ export interface CreateOrSelectPlanProps {
   formProps: FormikProps<ChangeAppPlanFormValues>;
   onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void;
   isUpdating: boolean;
+  isConsumptionToPremiumEnabled: boolean;
+  hostingEnvironment?: ArmObj<HostingEnvironment>;
+  skuTier?: string;
+}
+
+export interface CreatePlanProps {
+  newPlanInfo: NewPlanInfo;
+  serverFarmsInWebspace: ArmObj<ServerFarm>[];
+  resourceGroupOptions: IDropdownOption[];
+  subscriptionId: string;
+  onCreatePanelClose: (newPlanInfo: NewPlanInfo) => void;
+  isUpdating: boolean;
+  isConsumptionToPremiumEnabled: boolean;
   hostingEnvironment?: ArmObj<HostingEnvironment>;
   skuTier?: string;
 }

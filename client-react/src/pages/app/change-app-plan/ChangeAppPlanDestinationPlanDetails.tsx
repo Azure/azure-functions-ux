@@ -12,7 +12,12 @@ import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
-import { ChangeAppPlanTierTypes, CreateOrSelectPlanFormValues, DestinationPlanDetailsProps } from './ChangeAppPlan.types';
+import {
+  ChangeAppPlanDefaultSkuCodes,
+  ChangeAppPlanTierTypes,
+  CreateOrSelectPlanFormValues,
+  DestinationPlanDetailsProps,
+} from './ChangeAppPlan.types';
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
@@ -92,11 +97,16 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     if (isNewPlan) {
       skuCode = newPlanInfo.skuCode;
       tier = newPlanInfo.tier;
-    } else {
-      const serverFarm = existingPlan ? existingPlan : formProps.values.currentServerFarm;
-      const sku: ArmSku = (serverFarm as ArmObj<ServerFarm>).sku as ArmSku;
+    } else if (existingPlan) {
+      const sku: ArmSku = (existingPlan as ArmObj<ServerFarm>).sku as ArmSku;
       skuCode = sku.name;
       tier = sku.tier;
+    } else {
+      tier = skuTier || ChangeAppPlanTierTypes.Dynamic;
+      skuCode =
+        skuTier === ChangeAppPlanTierTypes.ElasticPremium
+          ? ChangeAppPlanDefaultSkuCodes.ElasticPremium
+          : ChangeAppPlanDefaultSkuCodes.Dynamic;
     }
 
     return `${tier} (${skuCode}) `;
@@ -259,6 +269,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
           skuTier={skuTier}
           isUpdating={isUpdating}
           formProps={formProps}
+          isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
         />
       </ReactiveFormControl>
 

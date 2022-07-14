@@ -31,6 +31,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     serverFarmsInWebspace,
     skuTier,
     isUpdating,
+    isConsumptionToPremiumEnabled,
   } = props;
 
   const theme = useContext(ThemeContext);
@@ -103,6 +104,8 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           hostingEnvironment={hostingEnvironment}
           onCreatePanelClose={newPlan => onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, t, onPlanChange)}
           isUpdating={isUpdating}
+          skuTier={skuTier}
+          isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
         />
       </Stack>
     </>
