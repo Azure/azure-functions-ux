@@ -1,57 +1,59 @@
-import React, { useContext, useEffect, useState, useRef } from 'react';
+import { CommandBar, ICommandBarItemProps, IContextualMenuRenderItem, TooltipHost } from '@fluentui/react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
-import { PortalContext } from '../../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
-import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
-import { IButtonProps, IContextualMenuRenderItem, TooltipHost, CommandBar, ICommandBarItemProps } from '@fluentui/react';
-import { UrlObj, UrlType } from './FunctionEditor.types';
-import { toolTipStyle } from './FunctionEditor.styles';
-import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { PortalContext } from '../../../../../PortalContext';
 import { SiteStateContext } from '../../../../../SiteState';
+import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 import Url from '../../../../../utils/url';
+import { useCosmosDbExamples } from './function-test-integration/useCosmosDbExamples';
+import { toolTipStyle } from './FunctionEditor.styles';
+import { UrlObj, UrlType } from './FunctionEditor.types';
+import { FunctionEditorContext } from './FunctionEditorDataLoader';
+import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
 
 // Data for CommandBar
 interface FunctionEditorCommandBarProps {
-  saveFunction: () => void;
-  resetFunction: () => void;
-  testFunction: () => void;
-  refreshFunction: () => void;
-  upload: (file: any) => void;
-  setShowInvalidFileSelectedWarning: (isValid: boolean | undefined) => void;
-  setSelectedFileName: (fileName: string) => void;
-  resetInvalidFileSelectedWarningAndFileName: () => void;
-  isGetFunctionUrlVisible: boolean;
   dirty: boolean;
   disabled: boolean;
-  urlObjs: UrlObj[];
-  testDisabled: boolean;
   functionInfo: ArmObj<FunctionInfo>;
+  isGetFunctionUrlVisible: boolean;
+  refreshFunction: () => void;
+  resetFunction: () => void;
+  resetInvalidFileSelectedWarningAndFileName: () => void;
+  saveFunction: () => void;
+  setSelectedFileName: (fileName: string) => void;
+  setShowInvalidFileSelectedWarning: (isValid: boolean | undefined) => void;
+  testDisabled: boolean;
+  testFunction: () => void;
+  testIntegrationFunction: () => void;
+  upload: (file) => void;
+  urlObjs: UrlObj[];
   runtimeVersion?: string;
 }
 
-const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props => {
-  const {
-    saveFunction,
-    resetFunction,
-    testFunction,
-    isGetFunctionUrlVisible,
-    dirty,
-    disabled,
-    urlObjs,
-    testDisabled,
-    refreshFunction,
-    functionInfo,
-    runtimeVersion,
-    upload,
-    setShowInvalidFileSelectedWarning,
-    resetInvalidFileSelectedWarningAndFileName,
-    setSelectedFileName,
-  } = props;
+const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
+  dirty,
+  disabled,
+  functionInfo,
+  isGetFunctionUrlVisible,
+  refreshFunction,
+  resetFunction,
+  resetInvalidFileSelectedWarningAndFileName,
+  saveFunction,
+  setSelectedFileName,
+  setShowInvalidFileSelectedWarning,
+  testDisabled,
+  testFunction,
+  testIntegrationFunction,
+  upload,
+  urlObjs,
+  runtimeVersion,
+}: FunctionEditorCommandBarProps) => {
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
   const functionEditorContext = useContext(FunctionEditorContext);
@@ -59,50 +61,60 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
 
-  const onClickGetFunctionUrlCommand = () => {
+  const examples = useCosmosDbExamples(functionInfo);
+
+  const testIntegrationDisabled = useMemo<boolean>(() => {
+    return !Object.values(examples).some(value => !!value);
+  }, [examples]);
+
+  const onClickGetFunctionUrlCommand = useCallback(() => {
     resetInvalidFileSelectedWarningAndFileName();
     setIsDialogVisible(true);
-  };
+  }, [resetInvalidFileSelectedWarningAndFileName]);
 
   const getFunctionUrlButtonRef = useRef<IContextualMenuRenderItem | null>(null);
   const uploadFileRef = useRef<HTMLInputElement | null>(null);
 
-  const onUploadButtonClick = () => {
-    if (uploadFileRef && uploadFileRef.current) {
-      uploadFileRef.current.click();
-    }
-  };
+  const onUploadButtonClick = useCallback(() => {
+    uploadFileRef.current?.click();
+  }, []);
 
-  const uploadFile = e => {
-    const file = e.target && e.target.files && e.target.files.length > 0 && e.target.files[0];
-    const isValidFile = !!file && !!file.size;
-    if (isValidFile) {
-      upload(file);
-    }
+  const uploadFile = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const file = e.target.files?.[0];
+      const isValidFile = file?.size ?? 0 > 0;
+      if (isValidFile) {
+        upload(file);
+      }
 
-    setSelectedFileName((!!file && file.name) || '');
-    setShowInvalidFileSelectedWarning(!isValidFile);
-  };
+      setSelectedFileName(file?.name ?? '');
+      setShowInvalidFileSelectedWarning(!isValidFile);
+    },
+    [setSelectedFileName, setShowInvalidFileSelectedWarning, upload]
+  );
 
-  const onTestItemRender = (item: any) => {
-    const tooltipId = 'tooltip-id';
-    if (testDisabled) {
-      return (
-        <TooltipHost
-          content={t('disableFunctionTestTooltip')}
-          closeDelay={500}
-          id={tooltipId}
-          calloutProps={{ gapSpace: 0 }}
-          styles={toolTipStyle}>
-          <CustomCommandBarButton ariaDescribedBy={tooltipId} {...item} />
-        </TooltipHost>
-      );
-    } else {
-      return <CustomCommandBarButton {...item} />;
-    }
-  };
+  const onTestItemRender = useCallback(
+    item => {
+      const tooltipId = 'tooltip-id';
+      if (testDisabled) {
+        return (
+          <TooltipHost
+            content={t('disableFunctionTestTooltip')}
+            closeDelay={500}
+            id={tooltipId}
+            calloutProps={{ gapSpace: 0 }}
+            styles={toolTipStyle}>
+            <CustomCommandBarButton ariaDescribedBy={tooltipId} {...item} />
+          </TooltipHost>
+        );
+      } else {
+        return <CustomCommandBarButton {...item} />;
+      }
+    },
+    [testDisabled, t]
+  );
 
-  const getItems = (): ICommandBarItemProps[] => {
+  const items = useMemo<ICommandBarItemProps[]>(() => {
     const items: ICommandBarItemProps[] = [
       {
         key: 'save',
@@ -146,6 +158,16 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         onRender: onTestItemRender,
       },
       {
+        key: 'testIntegration',
+        text: t('testIntegration'),
+        iconProps: {
+          iconName: 'TestBeaker',
+        },
+        disabled: disabled || testIntegrationDisabled,
+        ariaLabel: t('functionEditorTestIntegrationAriaLabel'),
+        onClick: testIntegrationFunction,
+      },
+      {
         key: 'upload',
         text: t('fileExplorer_upload'),
         iconProps: {
@@ -178,21 +200,40 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     }
 
     return items;
-  };
+  }, [
+    dirty,
+    disabled,
+    isGetFunctionUrlVisible,
+    onClickGetFunctionUrlCommand,
+    onTestItemRender,
+    onUploadButtonClick,
+    refreshFunction,
+    resetFunction,
+    saveFunction,
+    t,
+    testDisabled,
+    testIntegrationDisabled,
+    testFunction,
+    testIntegrationFunction,
+    uploadFile,
+  ]);
 
-  const getEventGridSubscriptionUrl = (code: string) => {
-    const eventGridSubscriptionUrlEndPoint =
-      runtimeVersion === RuntimeExtensionMajorVersions.v1
-        ? CommonConstants.EventGridSubscriptionEndpoints.v1
-        : CommonConstants.EventGridSubscriptionEndpoints.v2;
-    return siteStateContext.site
-      ? `${Url.getMainUrl(siteStateContext.site)}/${eventGridSubscriptionUrlEndPoint}?functionName=${
-          functionInfo.properties.name
-        }&code=${code}`
-      : '';
-  };
+  const getEventGridSubscriptionUrl = useCallback(
+    (code: string) => {
+      const eventGridSubscriptionUrlEndPoint =
+        runtimeVersion === RuntimeExtensionMajorVersions.v1
+          ? CommonConstants.EventGridSubscriptionEndpoints.v1
+          : CommonConstants.EventGridSubscriptionEndpoints.v2;
+      return siteStateContext.site
+        ? `${Url.getMainUrl(siteStateContext.site)}/${eventGridSubscriptionUrlEndPoint}?functionName=${
+            functionInfo.properties.name
+          }&code=${code}`
+        : '';
+    },
+    [functionInfo.properties.name, runtimeVersion, siteStateContext.site]
+  );
 
-  const getUrlObjsForEventGridTriggerFunction = () => {
+  const urlObjsForEventGridTriggerFunction = useMemo<UrlObj[]>(() => {
     const eventGridKeyName =
       runtimeVersion === RuntimeExtensionMajorVersions.v1 ? CommonConstants.AppKeys.eventGridV1 : CommonConstants.AppKeys.eventGridV2;
 
@@ -210,17 +251,20 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         };
       })
       .sort((urlObj1, urlObj2) => urlObj1.text.localeCompare(urlObj2.text));
-  };
+  }, [getEventGridSubscriptionUrl, runtimeVersion, urlObjs]);
 
-  const getAuthenticationEventSubscriptionUrl = (code: string) => {
-    return siteStateContext.site
-      ? `${Url.getMainUrl(siteStateContext.site)}/runtime/webhooks/customauthenticationextension?functionName=${
-          functionInfo.properties.name
-        }&code=${code}`
-      : '';
-  };
+  const getAuthenticationEventSubscriptionUrl = useCallback(
+    (code: string) => {
+      return siteStateContext.site
+        ? `${Url.getMainUrl(siteStateContext.site)}/runtime/webhooks/customauthenticationextension?functionName=${
+            functionInfo.properties.name
+          }&code=${code}`
+        : '';
+    },
+    [functionInfo.properties.name, siteStateContext.site]
+  );
 
-  const getUrlObjsForAuthenticationEventTriggerFunction = () => {
+  const urlObjsForAuthenticationEventTriggerFunction = useMemo<UrlObj[]>(() => {
     return urlObjs
       .filter(urlObj => {
         return urlObj.type === UrlType.System && urlObj.text === CommonConstants.AppKeys.authenticationEvent;
@@ -232,19 +276,17 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
         };
       })
       .sort((urlObj1, urlObj2) => urlObj1.text.localeCompare(urlObj2.text));
-  };
+  }, [getAuthenticationEventSubscriptionUrl, urlObjs]);
 
-  const getFilteredUrlObj = (): UrlObj[] => {
+  const filteredUrlObj = useMemo<UrlObj[]>(() => {
     if (functionEditorContext.isEventGridTriggerFunction(functionInfo)) {
-      return getUrlObjsForEventGridTriggerFunction();
+      return urlObjsForEventGridTriggerFunction;
     } else if (functionEditorContext.isAuthenticationEventTriggerFunction(functionInfo)) {
-      return getUrlObjsForAuthenticationEventTriggerFunction();
+      return urlObjsForAuthenticationEventTriggerFunction;
     } else {
       return urlObjs;
     }
-  };
-
-  const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
+  }, [functionEditorContext, functionInfo, urlObjs, urlObjsForAuthenticationEventTriggerFunction, urlObjsForEventGridTriggerFunction]);
 
   useEffect(() => {
     portalCommunicator.updateDirtyState(dirty);
@@ -253,18 +295,18 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   return (
     <>
       <CommandBar
-        items={getItems()}
-        role="nav"
-        styles={CommandBarStyles}
         ariaLabel={t('functionEditorCommandBarAriaLabel')}
         buttonAs={CustomCommandBarButton}
-        overflowButtonProps={overflowButtonProps}
+        items={items}
+        overflowButtonProps={{ ariaLabel: t('moreCommands') }}
+        role="nav"
+        styles={CommandBarStyles}
       />
       {isDialogVisible && (
         <FunctionEditorGetFunctionUrlCallout
-          urlObjs={getFilteredUrlObj()}
-          setIsDialogVisible={setIsDialogVisible}
           dialogTarget={getFunctionUrlButtonRef.current}
+          setIsDialogVisible={setIsDialogVisible}
+          urlObjs={filteredUrlObj}
         />
       )}
     </>
