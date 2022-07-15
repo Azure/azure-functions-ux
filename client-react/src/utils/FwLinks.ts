@@ -47,6 +47,7 @@ export const Links = {
   staticSitePasswordProtectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2187127',
   configureNodeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2195169',
   staticSiteAllowConfigFileUpdatesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2198769',
+  staticSiteStagingEnvironmentsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2188987',
 };
 
 export const DeploymentCenterLinks = {

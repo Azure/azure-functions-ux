@@ -2003,6 +2003,9 @@ export class PortalResources {
   public static staticSite_applicationSettingInvalidProperty = 'staticSite_applicationSettingInvalidProperty';
   public static staticSite_applicationSettingValueMustBeAString = 'staticSite_applicationSettingValueMustBeAString';
   public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
+  public static staticSite_stagingEnvironments = 'staticSite_stagingEnvironments';
+  public static staticSite_stagingEnvironmentsDescription = 'staticSite_stagingEnvironmentsDescription';
+  public static staticSite_enableStagingEnvironments = 'staticSite_enableStagingEnvironments';
   public static deploymentCenterPivotItemLogsHeaderText = 'deploymentCenterPivotItemLogsHeaderText';
   public static deploymentCenterPivotItemContainerLogsHeaderText = 'deploymentCenterPivotItemContainerLogsHeaderText';
   public static deploymentCenterPivotItemBuildLogsHeaderText = 'deploymentCenterPivotItemBuildLogsHeaderText';

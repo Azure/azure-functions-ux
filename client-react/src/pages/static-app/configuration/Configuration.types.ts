@@ -44,6 +44,11 @@ export enum PasswordProtectionTypes {
   AllEnvironments = 'AllEnvironments',
 }
 
+export enum StagingEnvironmentPolicyTypes {
+  Disabled = 'Disabled',
+  Enabled = 'Enabled',
+}
+
 export enum SecretState {
   None = 'None',
   Password = 'Password',
@@ -69,6 +74,7 @@ export interface ConfigurationFormData {
   visitorPasswordConfirm: string;
   isAppSettingsDirty: boolean;
   isGeneralSettingsDirty: boolean;
+  stagingEnvironmentPolicy?: StagingEnvironmentPolicyTypes;
   selectedEnvironment?: ArmObj<Environment>;
   allowConfigFileUpdates?: boolean;
 }
