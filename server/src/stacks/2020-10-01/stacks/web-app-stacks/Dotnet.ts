@@ -31,7 +31,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 },
                 gitHubActionSettings: {
                   isSupported: true,
-                  supportedVersion: '7.0.x',
+                  supportedVersion: '7.0.100-preview.5.22307.18',
                 },
                 isPreview: true,
               },
@@ -43,7 +43,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 },
                 gitHubActionSettings: {
                   isSupported: true,
-                  supportedVersion: '7.0.x',
+                  supportedVersion: '7.0.100-preview.5.22307.18',
                 },
                 isPreview: true,
               },
