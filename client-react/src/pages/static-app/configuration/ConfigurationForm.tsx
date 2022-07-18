@@ -20,6 +20,7 @@ import {
   EnvironmentVariable,
   PasswordProtectionTypes,
   SecretState,
+  StagingEnvironmentPolicyTypes,
 } from './Configuration.types';
 import ConfigurationCommandBar from './ConfigurationCommandBar';
 import ConfigurationPivot from './ConfigurationPivot';
@@ -100,6 +101,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             location,
             properties: {
               allowConfigFileUpdates: values.allowConfigFileUpdates ?? false,
+              stagingEnvironmentPolicy: values.stagingEnvironmentPolicy ?? StagingEnvironmentPolicyTypes.Enabled,
             },
           }),
         ]);
