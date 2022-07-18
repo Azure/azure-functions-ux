@@ -1,6 +1,6 @@
 import { Callout, IDropdownOption, IDropdownProps, Link } from '@fluentui/react';
 import { FieldProps, FormikProps } from 'formik';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import DocumentDBService from '../../../../ApiHelpers/DocumentDBService';
@@ -9,6 +9,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmArray } from '../../../../models/arm-obj';
 import { DatabaseAccount } from '../../../../models/documentDB';
 import { BindingSetting } from '../../../../models/functions/binding';
+import { PortalContext } from '../../../../PortalContext';
 import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../utils/ArmTemplateHelper';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import {
@@ -23,6 +24,7 @@ import LogService from '../../../../utils/LogService';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import NewCosmosDbAccountCallout from './callout/NewCosmosDbAccountCallout';
 import { useStyles } from './CosmosDbResourceDropdown.styles';
+import { getTelemetryInfo } from './FunctionsUtility';
 
 interface Props {
   armResources: IArmResourceTemplate[];
@@ -38,6 +40,7 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
 
   const styles = useStyles(layout);
   const { t } = useTranslation();
+  const portalCommunicator = useContext(PortalContext);
 
   const [databaseAccounts, setDatabaseAccounts] = useState<ArmArray<DatabaseAccount>>();
   const [selectedItem, setSelectedItem] = useState<IDropdownOption>();
@@ -106,8 +109,6 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
           formProps.setFieldValue('collectionName', '');
 
           storeTemplateAndClearResources(armResources, setArmResources, setStoredArmTemplate);
-
-          /** @todo (joechung): #14260766 - Log telemetry. */
         } else if (option.text.includes(t('new_parenthesized')) && !!formProps.status && !formProps.status.isNewDbAcct) {
           formProps.setStatus({ ...formProps.status, isNewDbAcct: true, isNewDatabase: true, isNewContainer: true });
           formProps.setFieldValue('databaseName', CommonConstants.CosmosDbDefaults.databaseName);
@@ -130,11 +131,7 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
               getNewDatabaseArmTemplate(databaseName, armResources, databaseAccountName),
               getNewContainerArmTemplate(CommonConstants.CosmosDbDefaults.containerName, armResources, databaseAccountName, databaseName),
             ]);
-
-            /** @todo (joechung): #14260766 - Log telemetry. */
           }
-        } else {
-          /** @todo (joechung): #14260766 - Log telemetry. */
         }
 
         // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
@@ -150,7 +147,8 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
 
   const onLinkClick = useCallback(() => {
     setIsDialogVisible(true);
-  }, []);
+    portalCommunicator.log(getTelemetryInfo('info', 'cosmos-db-database-account', 'show-callout'));
+  }, [portalCommunicator]);
 
   useEffect(() => {
     // Set database account type (SQL or MongoDB)

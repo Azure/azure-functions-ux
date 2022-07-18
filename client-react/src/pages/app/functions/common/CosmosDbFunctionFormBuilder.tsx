@@ -242,7 +242,6 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
         name={setting.name}
         onChange={(_, option) => {
           formProps.setFieldValue(setting.name, option.key);
-          /** @todo (joechung): #14260766 - Log telemetry. */
         }}
         onPanel={true}
         options={setting.options}
