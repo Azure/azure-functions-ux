@@ -14,11 +14,11 @@ import { Guid } from '../../../../utils/Guid';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { getTelemetryInfo } from '../common/FunctionsUtility';
-import { useAppSettingsQuery } from '../common/useAppSettingsQuery';
 import { usePermissions } from '../common/usePermissions';
 import FunctionCreateData from './FunctionCreate.data';
 
 export const useCreateFunction = (
+  appSettings: ArmObj<Record<string, string>> | undefined,
   armResources: IArmResourceTemplate[],
   resourceId: string,
   setCreatingFunction: React.Dispatch<React.SetStateAction<boolean>>,
@@ -29,7 +29,6 @@ export const useCreateFunction = (
   const [createExperienceStatusMessage, setCreateExperienceStatusMessage] = useState<StatusMessage>();
   const { hasAppSettingsPermissions, hasResourceGroupWritePermission, hasSubscriptionWritePermission } = usePermissions(resourceId);
   const { t } = useTranslation();
-  const { appSettings } = useAppSettingsQuery(resourceId);
 
   const updateAppSettings = useCallback(
     (settings: Partial<ArmObj<Record<string, string>>>) => {

@@ -2,8 +2,6 @@ import { Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@flu
 import { Formik, FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import SiteService from '../../../../ApiHelpers/SiteService';
 import ActionBar from '../../../../components/ActionBar';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
@@ -24,6 +22,7 @@ import SiteHelper from '../../../../utils/SiteHelper';
 import Url from '../../../../utils/url';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { getTelemetryInfo } from '../common/FunctionsUtility';
+import { useAppSettingsQuery } from '../common/useAppSettingsQuery';
 import {
   containerStyle,
   developInPortalIconStyle,
@@ -61,14 +60,20 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
   const [initialFormValues, setInitialFormValues] = useState<CreateFunctionFormValues>();
   const [templateDetailFormBuilder, setTemplateDetailFormBuilder] = useState<CreateFunctionFormBuilder>();
   const [selectedDropdownKey, setSelectedDropdownKey] = useState<DevelopmentExperience>();
-  const [workerRuntime, setWorkerRuntime] = useState<string>();
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplate>();
   const [templates, setTemplates] = useState<FunctionTemplate[] | null>();
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus>>();
   const [creatingFunction, setCreatingFunction] = useState(false);
   const [armResources, setArmResources] = useState<IArmResourceTemplate[]>([]);
 
+  const { appSettings } = useAppSettingsQuery(resourceId);
+
+  const workerRuntime = useMemo<string>(() => {
+    return appSettings?.[CommonConstants.AppSettingNames.functionsWorkerRuntime]?.toLowerCase();
+  }, [appSettings]);
+
   const { createExperienceStatusMessage, createFunction } = useCreateFunction(
+    appSettings,
     armResources,
     resourceId,
     setCreatingFunction,
@@ -215,24 +220,6 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
       setInitialFormValues(templateDetailFormBuilder.getInitialFormValues());
     }
   }, [templateDetailFormBuilder]);
-
-  useEffect(() => {
-    SiteService.fetchApplicationSettings(resourceId).then(response => {
-      if (response.metadata.success) {
-        const appSettings = response.data.properties;
-        if (Object.prototype.hasOwnProperty.call(appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
-          setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
-        }
-      } else {
-        portalCommunicator.log(
-          getTelemetryInfo('error', LogCategories.functionCreate, 'fetchAppSettings', {
-            errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
-            message: getErrorMessage(response.metadata.error),
-          })
-        );
-      }
-    });
-  }, [portalCommunicator, resourceId]);
 
   return visibleDropdownOptions.length > 0 && !!selectedDropdownKey ? (
     <FunctionCreateContext.Provider value={{ creatingFunction } as IFunctionCreateContext}>
