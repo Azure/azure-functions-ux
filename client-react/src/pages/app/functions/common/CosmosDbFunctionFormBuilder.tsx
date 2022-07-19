@@ -18,6 +18,7 @@ import CosmosDbResourceDropdown from './CosmosDbResourceDropdown';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from './CreateFunctionFormBuilder';
 
 interface CreateCosmosDbFunctionFormBuilderOptions {
+  hasAppSettingsPermissions: boolean;
   hasResourceGroupWritePermission: boolean;
   hasSubscriptionWritePermission: boolean;
 }
@@ -257,7 +258,10 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
   }
 
   private _hasWritePermissions(): boolean {
-    return !!this.options?.hasResourceGroupWritePermission || !!this.options?.hasSubscriptionWritePermission;
+    return (
+      !!this.options?.hasAppSettingsPermissions &&
+      (!!this.options?.hasResourceGroupWritePermission || !!this.options?.hasSubscriptionWritePermission)
+    );
   }
 
   private _modifyMetadata() {
@@ -295,13 +299,14 @@ class CosmosDbFunctionFormBuilder extends CreateFunctionFormBuilder<CreateCosmos
       this.bindingList[0].settings.splice(3, 2);
 
       // Add new fields
+      const hasWritePermissions = this._hasWritePermissions();
       this.bindingList[0].settings.unshift({
-        defaultValue: 'automatic',
+        defaultValue: hasWritePermissions ? 'automatic' : 'manual',
         label: this.t('cosmosDb_label_connection'),
         name: 'connectionType',
         options: [
           {
-            disabled: !this._hasWritePermissions(),
+            disabled: !hasWritePermissions,
             key: 'automatic',
             text: this.t('automatic'),
           },

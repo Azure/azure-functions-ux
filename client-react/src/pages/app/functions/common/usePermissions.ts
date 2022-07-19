@@ -4,6 +4,7 @@ import RbacConstants from '../../../../utils/rbac-constants';
 
 export const usePermissions = (resourceId: string) => {
   const portalCommunicator = useContext(PortalContext);
+  const [hasAppSettingsPermissions, setHasAppSettingsPermissions] = useState(false);
   const [hasResourceGroupWritePermission, setHasResourceGroupWritePermission] = useState(false);
   const [hasSubscriptionWritePermission, setHasSubscriptionWritePermission] = useState(false);
 
@@ -19,7 +20,20 @@ export const usePermissions = (resourceId: string) => {
     });
   }, [portalCommunicator, resourceId]);
 
+  useEffect(() => {
+    portalCommunicator
+      .hasPermission(`${resourceId}/config/appsettings`, [
+        RbacConstants.configListActionScope,
+        RbacConstants.configReadScope,
+        RbacConstants.configWriteScope,
+      ])
+      .then(hasPermission => {
+        setHasAppSettingsPermissions(hasPermission);
+      });
+  }, [portalCommunicator, resourceId]);
+
   return {
+    hasAppSettingsPermissions,
     hasResourceGroupWritePermission,
     hasSubscriptionWritePermission,
   };

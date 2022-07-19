@@ -1,6 +1,8 @@
-import { useCallback, useContext } from 'react';
+import { MessageBarType } from '@fluentui/react';
+import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { StatusMessage } from '../../../../components/ActionBar';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
@@ -24,15 +26,16 @@ export const useCreateFunction = (
   selectedTemplate?: FunctionTemplate
 ) => {
   const portalCommunicator = useContext(PortalContext);
-  const { hasResourceGroupWritePermission, hasSubscriptionWritePermission } = usePermissions(resourceId);
+  const [createExperienceStatusMessage, setCreateExperienceStatusMessage] = useState<StatusMessage>();
+  const { hasAppSettingsPermissions, hasResourceGroupWritePermission, hasSubscriptionWritePermission } = usePermissions(resourceId);
   const { t } = useTranslation();
   const { appSettings } = useAppSettingsQuery(resourceId);
 
   const updateAppSettings = useCallback(
-    (appSettings: ArmObj<Record<string, string>>) => {
+    (settings: Partial<ArmObj<Record<string, string>>>) => {
       const notificationId = portalCommunicator.startNotification(t('configUpdating'), t('configUpdating'));
 
-      FunctionCreateData.updateAppSettings(resourceId, appSettings).then(response => {
+      FunctionCreateData.updateAppSettings(resourceId, settings).then(response => {
         if (response.metadata.success) {
           portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
         } else {
@@ -52,6 +55,14 @@ export const useCreateFunction = (
   const createFunction = useCallback(
     (formValues?: CreateFunctionFormValues) => {
       if (!!appSettings && !!formValues && !!selectedTemplate) {
+        if (!resourceId) {
+          setCreateExperienceStatusMessage({
+            level: MessageBarType.error,
+            message: t('createFunction_noResourceIdError'),
+          });
+          return;
+        }
+
         setCreatingFunction(true);
 
         // NOTE(nlayne): Handle manual Cosmos DB configuration by adding a custom app setting for the connection string.
@@ -61,6 +72,7 @@ export const useCreateFunction = (
 
           newAppSettings = {
             properties: {
+              ...appSettings?.properties,
               [formValues.customAppSettingKey]: formValues.customAppSettingValue,
             },
           };
@@ -69,7 +81,21 @@ export const useCreateFunction = (
         // NOTE(nlayne): Users without write permissions must use the REST API instead of deployments for app settings.
         if (!hasSubscriptionWritePermission || !hasResourceGroupWritePermission) {
           if (newAppSettings) {
-            updateAppSettings(newAppSettings);
+            if (!hasAppSettingsPermissions) {
+              setCreatingFunction(false);
+              setCreateExperienceStatusMessage({
+                level: MessageBarType.error,
+                message: t('createFunction_noAppSettingsPermissionsError'),
+              });
+              return;
+            }
+
+            updateAppSettings({
+              properties: {
+                ...appSettings?.properties,
+                ...newAppSettings?.properties,
+              },
+            });
           }
 
           newAppSettings = undefined;
@@ -174,6 +200,7 @@ export const useCreateFunction = (
     [
       appSettings,
       armResources,
+      hasAppSettingsPermissions,
       hasResourceGroupWritePermission,
       hasSubscriptionWritePermission,
       hostStatus,
@@ -186,5 +213,8 @@ export const useCreateFunction = (
     ]
   );
 
-  return createFunction;
+  return {
+    createExperienceStatusMessage,
+    createFunction,
+  };
 };

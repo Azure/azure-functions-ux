@@ -24,18 +24,19 @@ const COSMOS_DB_TRIGGER = BindingType.cosmosDBTrigger.toLowerCase();
 const showFunctionsCollateral = !!Url.getFeatureValue(CommonConstants.FeatureFlags.showFunctionsColleteral);
 
 export const useCreateFunctionFormBuilderFactory = (resourceId: string, templateId: string) => {
-  const { hasResourceGroupWritePermission, hasSubscriptionWritePermission } = usePermissions(resourceId);
+  const { hasAppSettingsPermissions, hasResourceGroupWritePermission, hasSubscriptionWritePermission } = usePermissions(resourceId);
 
   const [factory, setFactory] = useState<CreateFunctionFormBuilderFactory>();
 
   const cosmosDbFunctionFormBuilder = useCallback<() => CreateFunctionFormBuilderFactory>(
     () => (bindingInfo, bindings, resourceId, functionInfos, defaultName, t) => {
       return new CosmosDbFunctionFormBuilder(bindingInfo, bindings, resourceId, functionInfos, defaultName, t, {
+        hasAppSettingsPermissions,
         hasResourceGroupWritePermission,
         hasSubscriptionWritePermission,
       });
     },
-    [hasResourceGroupWritePermission, hasSubscriptionWritePermission]
+    [hasAppSettingsPermissions, hasResourceGroupWritePermission, hasSubscriptionWritePermission]
   );
 
   const createFunctionFormBuilder = useCallback<() => CreateFunctionFormBuilderFactory>(

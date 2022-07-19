@@ -41,7 +41,7 @@ export default class FunctionCreateData {
     return resultConfig;
   }
 
-  public static updateAppSettings(resourceId: string, appSettings: ArmObj<KeyValue<string>>) {
+  public static updateAppSettings(resourceId: string, appSettings: Partial<ArmObj<KeyValue<string>>>) {
     return SiteService.updateApplicationSettings(resourceId, appSettings);
   }
 

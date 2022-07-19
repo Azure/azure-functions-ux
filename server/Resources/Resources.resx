@@ -7582,6 +7582,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerApp_console_cancel" xml:space="preserve">
         <value>Cancel</value>
     </data>
+    <data name="createFunction_noAppSettingsPermissionsError" xml:space="preserve">
+        <value>You do not have sufficient permissions to update app settings.</value>
+    </data>
+    <data name="createFunction_noResourceIdError" xml:space="preserve">
+        <value>No resource ID</value>
+    </data>
     <data name="createFunctionDeploymentNotification" xml:space="preserve">
         <value>Deploying function resources</value>
     </data>

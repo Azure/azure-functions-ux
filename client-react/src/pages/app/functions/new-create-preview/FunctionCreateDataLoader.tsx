@@ -68,7 +68,13 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
   const [creatingFunction, setCreatingFunction] = useState(false);
   const [armResources, setArmResources] = useState<IArmResourceTemplate[]>([]);
 
-  const createFunction = useCreateFunction(armResources, resourceId, setCreatingFunction, hostStatus, selectedTemplate);
+  const { createExperienceStatusMessage, createFunction } = useCreateFunction(
+    armResources,
+    resourceId,
+    setCreatingFunction,
+    hostStatus,
+    selectedTemplate
+  );
 
   const onDevelopmentEnvironmentChange = useCallback(
     (_: React.FormEvent<HTMLElement>, option: IDropdownOption) => {
@@ -293,6 +299,7 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
                     onClick: cancel,
                     disable: creatingFunction,
                   }}
+                  statusMessage={createExperienceStatusMessage}
                   validating={creatingFunction}
                   validationMessage={t('creatingFunction')}
                 />
