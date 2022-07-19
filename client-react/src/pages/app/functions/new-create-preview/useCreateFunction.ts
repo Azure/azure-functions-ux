@@ -18,7 +18,7 @@ import { getTelemetryInfo } from '../common/FunctionsUtility';
 import { usePermissions } from '../common/usePermissions';
 import FunctionCreateData from './FunctionCreate.data';
 
-const COSMOS_DB_TRIGGER = BindingType.cosmosDBTrigger.toLowerCase();
+const COSMOS_DB_TRIGGER = new RegExp(`^${BindingType.cosmosDBTrigger}`, 'i');
 
 export const useCreateFunction = (
   appSettings: ArmObj<Record<string, string>> | undefined,
@@ -68,7 +68,7 @@ export const useCreateFunction = (
         setCreatingFunction(true);
 
         /** @note (joechung): Record telemetry for Cosmos DB function creates. */
-        if (selectedTemplate.id.toLowerCase().startsWith(COSMOS_DB_TRIGGER)) {
+        if (COSMOS_DB_TRIGGER.test(selectedTemplate.id)) {
           portalCommunicator.log(
             getTelemetryInfo('info', 'cosmos-db-create-function', 'start-create', {
               connectionType: formValues.connectionType,
