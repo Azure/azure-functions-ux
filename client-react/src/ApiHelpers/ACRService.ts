@@ -3,12 +3,15 @@ import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
 import { CommonConstants, RBACRoleId } from '../utils/CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { getLastItemFromLinks, getLinksFromLinkHeader, sendHttpRequest } from './HttpClient';
+import { sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
 import { Method } from 'axios';
 import { getArmEndpoint, getArmToken } from '../pages/app/deployment-center/utility/DeploymentCenterUtility';
 import { ACRManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
 import { KeyValue } from '../models/portal-models';
+import PortalCommunicator from '../portal-communicator';
+import { NetAjaxSettings } from '../models/ajax-request-model';
+import { isPortalCommunicationStatusSuccess } from '../utils/portal-utils';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -55,17 +58,30 @@ export default class ACRService {
     });
   }
 
-  public static getRepositories(loginServer: string, username: string, password: string, logger?: (page, error) => void) {
+  public static getRepositories(
+    portalContext: PortalCommunicator,
+    loginServer: string,
+    username: string,
+    password: string,
+    logger?: (page, error) => void
+  ) {
     const encodedUserInfo = btoa(`${username}:${password}`);
     const data = {
       loginServer,
       encodedUserInfo,
     };
-
-    return ACRService._dispatchSpecificPageableRequest<ACRRepositories>(data, 'getRepositories', 'POST', logger);
+    const url = `https://${loginServer}/v2/_catalog`;
+    return ACRService._dispatchSpecificPageableRequest<ACRRepositories>(portalContext, data, url, 'POST', logger);
   }
 
-  public static getTags(loginServer: string, repository: string, username: string, password: string, logger?: (page, error) => void) {
+  public static getTags(
+    portalCommunicator: PortalCommunicator,
+    loginServer: string,
+    repository: string,
+    username: string,
+    password: string,
+    logger?: (page, error) => void
+  ) {
     const encodedUserInfo = btoa(`${username}:${password}`);
     const data = {
       loginServer,
@@ -73,7 +89,8 @@ export default class ACRService {
       encodedUserInfo,
     };
 
-    return ACRService._dispatchSpecificPageableRequest<ACRTags>(data, 'getTags', 'POST', logger);
+    const url = `https://${loginServer}/v2/${repository}/tags/list`;
+    return ACRService._dispatchSpecificPageableRequest<ACRTags>(portalCommunicator, data, url, 'POST', logger);
   }
 
   public static async hasAcrPullPermission(acrResourceId: string, principalId: string) {
@@ -163,41 +180,48 @@ export default class ACRService {
   }
 
   private static async _dispatchSpecificPageableRequest<T>(
+    portalContext: PortalCommunicator,
     data: any,
-    apiName: string,
+    url: string,
     method: Method,
     logger?: (page, error) => void
   ): Promise<T[]> {
     const acrObjectList: T[] = [];
-    let nextLink = '';
-    do {
-      nextLink = '';
-      const pageResponse = await this._sendSpecificACRRequest<T>(data, apiName, method);
-      if (pageResponse.metadata.success) {
-        acrObjectList.push(pageResponse.data);
-
-        const linkHeader = pageResponse.metadata.headers.link;
-        if (linkHeader) {
-          const links = getLinksFromLinkHeader(linkHeader);
-          const lastItem = getLastItemFromLinks(links);
-          data.last = lastItem ?? '';
-          nextLink = links?.next ?? '';
-        }
-      } else if (logger) {
-        logger(nextLink, pageResponse);
-        break;
-      }
-    } while (nextLink);
+    const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, url, method);
+    if (isPortalCommunicationStatusSuccess(pageResponse.status)) {
+      //acrObjectList.push(pageResponse.data);
+      // const linkHeader = pageResponse.metadata.headers.link;
+      // if (linkHeader) {
+      //   const links = getLinksFromLinkHeader(linkHeader);
+      //   const lastItem = getLastItemFromLinks(links);
+      //   data.last = lastItem ?? '';
+      //   nextLink = links?.next ?? '';
+      // }
+    } else if (logger) {
+      logger(pageResponse.result, pageResponse);
+    }
 
     return acrObjectList;
   }
 
-  private static _sendSpecificACRRequest = <T>(data: any, apiName: string, method: Method) => {
-    return sendHttpRequest<T>({
+  private static _sendSpecificACRRequest = async <T>(portalContext: PortalCommunicator, data: any, url: string, method: Method) => {
+    const headers = {
+      Authorization: `Basic ${data.encodedUserInfo}`,
+    };
+
+    const request: NetAjaxSettings = {
       data,
-      url: `${Url.serviceHost}api/acr/${apiName}`,
-      method,
-    });
+      uri: url,
+      type: 'GET',
+      headers: { ...headers },
+    };
+
+    const result = await portalContext.makeHttpRequestsViaPortal(request);
+    // this.portalContext.makeHttpRequestsViaPortal(request);
+
+    console.log(`Done sending: ${result.status}`);
+
+    return result;
   };
 
   public static _getNextLink(loginServer: string, response: HttpResponseObject<unknown>): string {

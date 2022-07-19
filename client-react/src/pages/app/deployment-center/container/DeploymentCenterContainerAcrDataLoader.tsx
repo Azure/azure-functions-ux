@@ -222,6 +222,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
             portalContext.log(getTelemetryInfo('info', 'getAcrRepositories', 'submit'));
             const repositoriesResponse = await deploymentCenterData.getAcrRepositories(
+              portalContext,
               loginServer,
               username,
               password,
@@ -299,6 +300,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
             portalContext.log(getTelemetryInfo('info', 'getAcrTags', 'submit'));
             const tagsResponse = await deploymentCenterData.getAcrTags(
+              portalContext,
               loginServer,
               imageSelected,
               username,
