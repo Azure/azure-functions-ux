@@ -2,7 +2,7 @@ import { Callout, IDropdownOption, IDropdownProps, Link } from '@fluentui/react'
 import { FieldProps, FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DocumentDBService from '../../../../ApiHelpers/DocumentDBService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -20,11 +20,11 @@ import {
   storeTemplateAndClearResources,
 } from '../../../../utils/CosmosDbArmTemplateHelper';
 import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import NewCosmosDbAccountCallout from './callout/NewCosmosDbAccountCallout';
 import { useStyles } from './CosmosDbResourceDropdown.styles';
 import { getTelemetryInfo } from './FunctionsUtility';
+import { useAppSettingsQuery } from './useAppSettingsQuery';
 
 interface Props {
   armResources: IArmResourceTemplate[];
@@ -50,6 +50,8 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
   const [isLoading, setIsLoading] = useState(false);
   const [storedArmTemplate, setStoredArmTemplate] = useState<IArmResourceTemplate>();
 
+  const { appSettings } = useAppSettingsQuery(resourceId);
+
   useEffect(() => {
     setIsLoading(true);
     DocumentDBService.fetchDatabaseAccounts(resourceId)
@@ -57,17 +59,18 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
         if (r.metadata.success) {
           setDatabaseAccounts(r.data);
         } else {
-          LogService.error(
-            LogCategories.bindingResource,
-            'getCDbAccounts',
-            `Failed to get Cosmos DB accounts: ${getErrorMessageOrStringify(r.metadata.error)}`
+          portalCommunicator.log(
+            getTelemetryInfo('error', LogCategories.bindingResource, 'getCDbAccounts', {
+              errorAsString: r.metadata.error ? JSON.stringify(r.metadata.error) : '',
+              message: getErrorMessage(r.metadata.error),
+            })
           );
         }
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, [resourceId]);
+  }, [portalCommunicator, resourceId]);
 
   const options = useMemo((): IDropdownOption[] => {
     const result: IDropdownOption[] = newDatabaseAccountName
@@ -137,12 +140,13 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
         // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
         formProps.setFieldValue('newAppSettings', {
           properties: {
+            ...appSettings?.properties,
             [dbAcctConnectionSettingKey]: `[listConnectionStrings(resourceId('${CommonConstants.ResourceTypes.cosmosDbAccount}', '${dbAcctName}'), '${CommonConstants.ApiVersions.documentDBApiVersion20191212}').connectionStrings[0].connectionString]`,
           },
         });
       }
     },
-    [armResources, selectedItem, setArmResources, storedArmTemplate, t]
+    [appSettings?.properties, armResources, selectedItem, setArmResources, storedArmTemplate, t]
   );
 
   const onLinkClick = useCallback(() => {

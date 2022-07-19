@@ -41,7 +41,7 @@ export default class FunctionCreateData {
     return resultConfig;
   }
 
-  public static updateAppSettings(resourceId: string, appSettings: ArmObj<KeyValue<string>>) {
+  public static updateAppSettings(resourceId: string, appSettings: Partial<ArmObj<KeyValue<string>>>) {
     return SiteService.updateApplicationSettings(resourceId, appSettings);
   }
 
@@ -63,11 +63,11 @@ export default class FunctionCreateData {
       resourceId,
       functionName,
       language: functionTemplate.language,
-      category: functionTemplate.category,
+      category: String(functionTemplate.category ?? []),
       functionTemplateId: functionTemplate.id,
-      extensionBundle: hostStatus ? hostStatus.properties.extensionBundle : '',
-      runtimeVersion: hostStatus ? hostStatus.properties.version : '',
-      sessionId: Url.getParameterByName(null, 'sessionId'),
+      extensionBundle: String(hostStatus?.properties.extensionBundle ?? ''),
+      runtimeVersion: hostStatus?.properties.version ?? '',
+      sessionId: Url.getParameterByName(null, 'sessionId') ?? undefined,
     };
   }
 }

@@ -1,3 +1,4 @@
+import { IDetailsRowStyleProps, IDetailsRowStyles, IStyleFunctionOrObject } from '@fluentui/react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
@@ -56,7 +57,11 @@ export const developInPortalIconStyle = style({
   marginRight: '6px',
 });
 
-export const tableRowStyle = (theme: ThemeExtended, isSelected: boolean, isDisabled: boolean) => {
+export const tableRowStyle = (
+  theme: ThemeExtended,
+  isSelected: boolean,
+  isDisabled: boolean
+): IStyleFunctionOrObject<IDetailsRowStyleProps, IDetailsRowStyles> => {
   return {
     root: {
       background: isSelected ? theme.semanticColors.itemBackgroundOnSelect : theme.semanticColors.background,
