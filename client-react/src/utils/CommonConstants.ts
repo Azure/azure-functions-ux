@@ -71,7 +71,6 @@ export class CommonConstants {
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     showHttps20Proxy: 'showHttps20Proxy',
-    showFunctionsColleteral: 'showFunctionsCollateral',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -331,11 +330,13 @@ export class SubscriptionQuotaIds {
 // File - https://msazure.visualstudio.com/One/_git/AAPT-Antares-AntUX?path=/src/src/Ux/Extensions/Websites/TypeScript/ExtensionAssets/Constants.ts&version=GBdev&line=3444&lineEnd=3444&lineStartColumn=14&lineEndColumn=29&lineStyle=plain&_a=contents
 export class ExperimentationConstants {
   public static TreatmentFlight = {
+    functionsCollateral: '61fci236',
     portalCallOnEditor: 'enable-portal-call-editor',
     newFunctionLogsApi: 'use-new-function-logs-api',
   };
 
   public static ControlFlight = {
+    functionsCollateral: '3f3ej608',
     portalCallOnEditor: 'disable-portal-call-editor',
     newFunctionLogsApi: 'use-old-function-logs-api',
   };
