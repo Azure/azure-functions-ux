@@ -2,18 +2,19 @@ import { Link } from '@fluentui/react';
 import { FormikProps } from 'formik';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import BasicShimmerLines from '../../../../../components/shimmer/BasicShimmerLines';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding } from '../../../../../models/functions/binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { FunctionTemplate } from '../../../../../models/functions/function-template';
+import { PortalContext } from '../../../../../PortalContext';
 import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../utils/ArmTemplateHelper';
 import { Links } from '../../../../../utils/FwLinks';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
+import { getTelemetryInfo } from '../../common/FunctionsUtility';
 import { useCreateFunctionFormBuilderFactory } from '../../common/useCreateFunctionFormBuilderFactory';
 import { getBindingDirection } from '../../function/integrate/FunctionIntegrate.utils';
 import FunctionCreateData from '../FunctionCreate.data';
@@ -45,6 +46,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = ({
   const [bindings, setBindings] = useState<Binding[] | null>();
 
   const functionCreateContext = useContext(FunctionCreateContext);
+  const portalCommunicator = useContext(PortalContext);
 
   const factory = useCreateFunctionFormBuilderFactory(resourceId, selectedTemplate.id);
 
@@ -86,12 +88,12 @@ const TemplateDetail: React.FC<TemplateDetailProps> = ({
           if (response.metadata.success) {
             return response.data.properties[0];
           } else {
-            LogService.trackEvent(
-              LogCategories.localDevExperience,
-              'getBindings',
-              `Failed to get bindings: ${getErrorMessageOrStringify(response.metadata.error)}`
+            portalCommunicator.log(
+              getTelemetryInfo('info', LogCategories.localDevExperience, 'getBindings', {
+                errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+                message: getErrorMessage(response.metadata.error),
+              })
             );
-
             return undefined;
           }
         })
@@ -99,7 +101,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = ({
     ).then(allBindings => {
       setBindings(allBindings.some(binding => !binding) ? null : getRequiredCreationBindings(allBindings, selectedTemplate.userPrompt));
     });
-  }, [requiredBindingIds, resourceId, selectedTemplate.userPrompt, setBuilder]);
+  }, [portalCommunicator, requiredBindingIds, resourceId, selectedTemplate.userPrompt, setBuilder]);
 
   useEffect(() => {
     FunctionsService.getFunctions(resourceId).then(response => {
@@ -107,15 +109,15 @@ const TemplateDetail: React.FC<TemplateDetailProps> = ({
         setFunctionsInfo(response.data.value);
       } else {
         setFunctionsInfo(null);
-
-        LogService.trackEvent(
-          LogCategories.localDevExperience,
-          'getFunctionsInfo',
-          `Failed to get functions info: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalCommunicator.log(
+          getTelemetryInfo('info', LogCategories.localDevExperience, 'getFunctionsInfo', {
+            errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+            message: getErrorMessage(response.metadata.error),
+          })
         );
       }
     });
-  }, [resourceId]);
+  }, [portalCommunicator, resourceId]);
 
   return functionsInfo === null || bindings === null ? /** TODO(krmitta): Add banner when call fails */ null : (
     <div className={detailContainerStyle}>

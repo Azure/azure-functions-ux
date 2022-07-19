@@ -2,7 +2,7 @@ import { Callout, IDropdownOption, IDropdownProps, Link } from '@fluentui/react'
 import { FieldProps, FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DocumentDBService from '../../../../ApiHelpers/DocumentDBService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -20,7 +20,6 @@ import {
   storeTemplateAndClearResources,
 } from '../../../../utils/CosmosDbArmTemplateHelper';
 import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import NewCosmosDbAccountCallout from './callout/NewCosmosDbAccountCallout';
 import { useStyles } from './CosmosDbResourceDropdown.styles';
@@ -60,17 +59,18 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
         if (r.metadata.success) {
           setDatabaseAccounts(r.data);
         } else {
-          LogService.error(
-            LogCategories.bindingResource,
-            'getCDbAccounts',
-            `Failed to get Cosmos DB accounts: ${getErrorMessageOrStringify(r.metadata.error)}`
+          portalCommunicator.log(
+            getTelemetryInfo('error', LogCategories.bindingResource, 'getCDbAccounts', {
+              errorAsString: r.metadata.error ? JSON.stringify(r.metadata.error) : '',
+              message: getErrorMessage(r.metadata.error),
+            })
           );
         }
       })
       .finally(() => {
         setIsLoading(false);
       });
-  }, [resourceId]);
+  }, [portalCommunicator, resourceId]);
 
   const options = useMemo((): IDropdownOption[] => {
     const result: IDropdownOption[] = newDatabaseAccountName

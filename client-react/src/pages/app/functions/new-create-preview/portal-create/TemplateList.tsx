@@ -12,7 +12,7 @@ import {
 import { FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { SearchFilterWithResultAnnouncement } from '../../../../../components/form-controls/SearchBox';
@@ -20,13 +20,14 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionTemplate } from '../../../../../models/functions/function-template';
 import { HostStatus } from '../../../../../models/functions/host-status';
 import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
+import { PortalContext } from '../../../../../PortalContext';
 import { ThemeContext } from '../../../../../ThemeContext';
 import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../utils/ArmTemplateHelper';
 import { Links } from '../../../../../utils/FwLinks';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
 import StringUtils from '../../../../../utils/string';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
+import { getTelemetryInfo } from '../../common/FunctionsUtility';
 import FunctionCreateData from '../FunctionCreate.data';
 import { containerStyle, tableRowStyle, templateListNameColumnStyle, templateListStyle } from '../FunctionCreate.styles';
 import { sortTemplate } from '../FunctionCreate.types';
@@ -67,6 +68,7 @@ const TemplateList: React.FC<TemplateListProps> = ({
   const [filterValue, setFilterValue] = useState('');
 
   const functionCreateContext = useContext(FunctionCreateContext);
+  const portalCommunicator = useContext(PortalContext);
   const theme = useContext(ThemeContext);
 
   const selection = useMemo(
@@ -174,10 +176,11 @@ const TemplateList: React.FC<TemplateListProps> = ({
       if (response.metadata.success) {
         setHostStatus(response.data);
       } else {
-        LogService.trackEvent(
-          LogCategories.localDevExperience,
-          'getHostStatus',
-          `Failed to get hostStatus: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalCommunicator.log(
+          getTelemetryInfo('info', LogCategories.localDevExperience, 'getHostStatus', {
+            errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+            message: getErrorMessage(response.metadata.error),
+          })
         );
       }
     });
@@ -187,14 +190,15 @@ const TemplateList: React.FC<TemplateListProps> = ({
         setTemplates(response.data.properties);
       } else {
         setTemplates(null);
-        LogService.trackEvent(
-          LogCategories.localDevExperience,
-          'getTemplates',
-          `Failed to get templates: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalCommunicator.log(
+          getTelemetryInfo('info', LogCategories.localDevExperience, 'getTemplates', {
+            message: getErrorMessage(response.metadata.error),
+            errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+          })
         );
       }
     });
-  }, [resourceId, setHostStatus, setTemplates]);
+  }, [portalCommunicator, resourceId, setHostStatus, setTemplates]);
 
   return (
     <div className={containerStyle}>

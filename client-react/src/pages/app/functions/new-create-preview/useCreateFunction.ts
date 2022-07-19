@@ -1,6 +1,6 @@
 import { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessage, getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ArmObj } from '../../../../models/arm-obj';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
@@ -10,8 +10,8 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getDeploymentTemplate } from '../../../../utils/CosmosDbArmTemplateHelper';
 import { Guid } from '../../../../utils/Guid';
 import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
+import { getTelemetryInfo } from '../common/FunctionsUtility';
 import { useAppSettingsQuery } from '../common/useAppSettingsQuery';
 import { usePermissions } from '../common/usePermissions';
 import FunctionCreateData from './FunctionCreate.data';
@@ -37,11 +37,11 @@ export const useCreateFunction = (
           portalCommunicator.stopNotification(notificationId, true, t('configUpdateSuccess'));
         } else {
           portalCommunicator.stopNotification(notificationId, false, getErrorMessage(response.metadata.error) || t('configUpdateFailure'));
-
-          LogService.trackEvent(
-            LogCategories.localDevExperience,
-            'updateAppSettings',
-            `Failed to update Application Settings: ${getErrorMessageOrStringify(response.metadata.error)}`
+          portalCommunicator.log(
+            getTelemetryInfo('info', LogCategories.localDevExperience, 'updateAppSettings', {
+              errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+              message: getErrorMessage(response.metadata.error),
+            })
           );
         }
       });
@@ -80,10 +80,13 @@ export const useCreateFunction = (
         const { files } = selectedTemplate;
         const { functionName } = formValues;
 
-        LogService.trackEvent(
-          LogCategories.localDevExperience,
-          'FunctionCreateClicked',
-          FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
+        portalCommunicator.log(
+          getTelemetryInfo(
+            'info',
+            LogCategories.localDevExperience,
+            'FunctionCreateClicked',
+            FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
+          )
         );
 
         // NOTE(nlayne): Only do deployment stuff if we have resources or new app settings to deploy.
@@ -112,17 +115,17 @@ export const useCreateFunction = (
               })
               .then(response => {
                 if (response.isSuccessful) {
-                  LogService.trackEvent(
-                    LogCategories.functionCreate,
-                    'ResourceDeploymentSucceeded',
-                    `Deployment of ${count} resources with function creation succeeded`
+                  portalCommunicator.log(
+                    getTelemetryInfo('info', LogCategories.functionCreate, 'ResourceDeploymentSucceeded', {
+                      message: `Deployment of ${count} resources with function creation succeeded`,
+                    })
                   );
                 } else {
-                  const errorMessage = getErrorMessageOrStringify(response.error);
-                  LogService.trackEvent(
-                    LogCategories.functionCreate,
-                    'ResourceDeploymentFailed',
-                    `Deployment of ${count} resources with function creation failed: ${errorMessage}`
+                  portalCommunicator.log(
+                    getTelemetryInfo('info', LogCategories.functionCreate, 'ResourceDeploymentFailed', {
+                      errorAsString: response.error ? JSON.stringify(response.error) : '',
+                      message: getErrorMessage(response.error),
+                    })
                   );
                 }
               });
@@ -136,19 +139,23 @@ export const useCreateFunction = (
 
         FunctionCreateData.createFunction(resourceId, functionName, files, config).then(response => {
           if (response.metadata.success) {
-            LogService.trackEvent(
-              LogCategories.localDevExperience,
-              'FunctionCreateSucceeded',
-              FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
+            portalCommunicator.log(
+              getTelemetryInfo(
+                'info',
+                LogCategories.localDevExperience,
+                'FunctionCreateSucceeded',
+                FunctionCreateData.getDataForTelemetry(resourceId, functionName, selectedTemplate, hostStatus)
+              )
             );
 
             portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
             portalCommunicator.closeSelf(`${resourceId}/functions/${functionName}`);
           } else {
-            LogService.trackEvent(
-              LogCategories.localDevExperience,
-              'createFunction',
-              `Failed to create function ${getErrorMessageOrStringify(response.metadata.error)}`
+            portalCommunicator.log(
+              getTelemetryInfo('info', LogCategories.localDevExperience, 'createFunction', {
+                errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+                message: getErrorMessage(response.metadata.error),
+              })
             );
 
             const errorMessage = getErrorMessage(response.metadata.error);

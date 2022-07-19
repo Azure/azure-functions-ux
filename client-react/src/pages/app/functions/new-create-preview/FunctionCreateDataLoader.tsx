@@ -2,7 +2,7 @@ import { Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@flu
 import { Formik, FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import ActionBar from '../../../../components/ActionBar';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
@@ -20,10 +20,10 @@ import { IArmResourceTemplate } from '../../../../utils/ArmTemplateHelper';
 import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import { Links } from '../../../../utils/FwLinks';
 import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
 import Url from '../../../../utils/url';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
+import { getTelemetryInfo } from '../common/FunctionsUtility';
 import {
   containerStyle,
   developInPortalIconStyle,
@@ -79,15 +79,17 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
 
       // Log if option changed from DevelopInPortal Only
       if (selectedDropdownKey === DevelopmentExperience.developInPortal) {
-        LogService.trackEvent(LogCategories.localDevExperience, 'FunctionCreateOptionChanged', {
-          resourceId,
-          sessionId: Url.getParameterByName(null, 'sessionId'),
-          optionSelected: key,
-        });
+        portalCommunicator.log(
+          getTelemetryInfo('info', LogCategories.localDevExperience, 'FunctionCreateOptionChanged', {
+            resourceId,
+            sessionId: Url.getParameterByName(null, 'sessionId') ?? undefined,
+            optionSelected: key,
+          })
+        );
       }
       setSelectedDropdownKey(key);
     },
-    [resourceId, selectedDropdownKey]
+    [portalCommunicator, resourceId, selectedDropdownKey]
   );
 
   const vsDropdownOption = useMemo<IDropdownOption>(() => {
@@ -187,18 +189,20 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
   useEffect(() => {
     if (visibleDropdownOptions.length > 0) {
       if (visibleDropdownOptions.find(option => option.key === DevelopmentExperience.developInPortal)) {
-        LogService.trackEvent(LogCategories.localDevExperience, 'FunctionPortalCreateDefaulted', {
-          resourceId,
-          sessionId: Url.getParameterByName(null, 'sessionId'),
-          templateCount: templates?.length ?? 0,
-          bundleWarning: !!hostStatus && !hostStatus.properties.version.startsWith('1') && !hostStatus.properties.extensionBundle,
-        });
+        portalCommunicator.log(
+          getTelemetryInfo('info', LogCategories.localDevExperience, 'FunctionPortalCreateDefaulted', {
+            bundleWarning: String(!!hostStatus && !hostStatus.properties.version.startsWith('1') && !hostStatus.properties.extensionBundle),
+            resourceId,
+            sessionId: Url.getParameterByName(null, 'sessionId') ?? undefined,
+            templateCount: String(templates?.length ?? 0),
+          })
+        );
         setSelectedDropdownKey(DevelopmentExperience.developInPortal);
       } else {
         setSelectedDropdownKey(visibleDropdownOptions[0].key as DevelopmentExperience);
       }
     }
-  }, [hostStatus, resourceId, templates?.length, visibleDropdownOptions]);
+  }, [hostStatus, portalCommunicator, resourceId, templates?.length, visibleDropdownOptions]);
 
   useEffect(() => {
     if (templateDetailFormBuilder) {
@@ -214,14 +218,15 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
           setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
         }
       } else {
-        LogService.trackEvent(
-          LogCategories.functionCreate,
-          'fetchAppSettings',
-          `Failed to fetch Application Settings: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalCommunicator.log(
+          getTelemetryInfo('error', LogCategories.functionCreate, 'fetchAppSettings', {
+            errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+            message: getErrorMessage(response.metadata.error),
+          })
         );
       }
     });
-  }, [resourceId]);
+  }, [portalCommunicator, resourceId]);
 
   return visibleDropdownOptions.length > 0 && !!selectedDropdownKey ? (
     <FunctionCreateContext.Provider value={{ creatingFunction } as IFunctionCreateContext}>
