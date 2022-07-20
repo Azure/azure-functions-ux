@@ -10,7 +10,6 @@ import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
 import {
   ChangeAppPlanDefaultSkuCodes,
@@ -21,6 +20,11 @@ import {
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
+
+interface SpecPickerOutput {
+  skuCode: string; // Like "S1"
+  tier: string; // Like "Standard"
+}
 
 export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   formProps,

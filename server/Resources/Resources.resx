@@ -874,12 +874,6 @@
     <data name="fileExplorer_upload" xml:space="preserve">
         <value>Upload</value>
     </data>
-    <data name="seeAllOptions" xml:space="preserve">
-        <value>See additional options</value>
-    </data>
-    <data name="seeRecommendedOptions" xml:space="preserve">
-        <value>See only recommended options</value>
-    </data>
     <data name="storageLockNote" xml:space="preserve">
         <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
     </data>
@@ -3958,9 +3952,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="pricing_ACU" xml:space="preserve">
         <value>{0} total ACU</value>
-    </data>
-    <data name="pricing_availableFeatures" xml:space="preserve">
-        <value>Available features</value>
     </data>
     <data name="containerSettingsApplyLabel" xml:space="preserve">
         <value>Update container settings</value>
