@@ -256,8 +256,6 @@ export class PortalResources {
   public static fileExplorer_delete = 'fileExplorer_delete';
   public static fileExplorer_edit = 'fileExplorer_edit';
   public static fileExplorer_upload = 'fileExplorer_upload';
-  public static seeAllOptions = 'seeAllOptions';
-  public static seeRecommendedOptions = 'seeRecommendedOptions';
   public static storageLockNote = 'storageLockNote';
   public static fileExplorer_fileAlreadyExists = 'fileExplorer_fileAlreadyExists';
   public static functionNew_functionExists = 'functionNew_functionExists';
@@ -1274,7 +1272,6 @@ export class PortalResources {
   public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
   public static extensionInstallDocLink = 'extensionInstallDocLink';
   public static pricing_ACU = 'pricing_ACU';
-  public static pricing_availableFeatures = 'pricing_availableFeatures';
   public static containerSettingsApplyLabel = 'containerSettingsApplyLabel';
   public static containerQuickstart = 'containerQuickstart';
   public static containerACR = 'containerACR';
