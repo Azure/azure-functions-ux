@@ -1,4 +1,4 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react';
+import React, { useState, useContext, useCallback, useEffect, Dispatch, SetStateAction } from 'react';
 import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption, Stack } from '@fluentui/react';
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
@@ -102,7 +102,9 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           resourceGroupOptions={resourceGroupOptions}
           subscriptionId={subscriptionId}
           hostingEnvironment={hostingEnvironment}
-          onCreatePanelClose={newPlan => onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, t, onPlanChange)}
+          onCreatePanelClose={newPlan =>
+            onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, t, onPlanChange, setHasDropdownChanged)
+          }
           isUpdating={isUpdating}
           skuTier={skuTier}
           isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
@@ -112,7 +114,12 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
   );
 };
 
-export const addNewPlanToOptions = (planName: string, options: IDropdownOption[], t: i18next.TFunction) => {
+export const addNewPlanToOptions = (
+  planName: string,
+  options: IDropdownOption[],
+  t: i18next.TFunction,
+  setHasDropdownChanged: Dispatch<SetStateAction<boolean>>
+) => {
   if (planName) {
     const newItem = {
       key: planName,
@@ -124,6 +131,7 @@ export const addNewPlanToOptions = (planName: string, options: IDropdownOption[]
       options[0] = newItem;
     } else {
       options.unshift(newItem);
+      setHasDropdownChanged(true);
     }
   }
 };
@@ -134,7 +142,8 @@ const onCreatePanelClose = (
   newPlanInfo: NewPlanInfo,
   planOptions: IDropdownOption[],
   t: i18next.TFunction,
-  onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void
+  onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void,
+  setHasDropdownChanged: Dispatch<SetStateAction<boolean>>
 ) => {
   const info = {
     ...planInfo,
@@ -144,7 +153,7 @@ const onCreatePanelClose = (
     isNewPlan: true,
   };
 
-  addNewPlanToOptions(info.newPlanInfo.name, planOptions, t);
+  addNewPlanToOptions(info.newPlanInfo.name, planOptions, t, setHasDropdownChanged);
   setPlanInfo(info);
   onPlanChange(info);
 };
