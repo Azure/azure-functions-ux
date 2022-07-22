@@ -18,11 +18,10 @@ import { SiteStateContext } from '../../../../SiteState';
 import SiteHelper from '../../../../utils/SiteHelper';
 import { StartupInfoContext } from '../../../../StartupInfoContext';
 import { PortalTheme } from '../../../../models/portal-models';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
@@ -50,6 +49,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
 
   const siteStateContext = useContext(SiteStateContext);
   const startUpInfoContext = useContext(StartupInfoContext);
+  const portalContext = useContext(PortalContext);
 
   const save = async () => {
     if (!selectedFile) {
@@ -127,10 +127,8 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     } else {
       setFileContent({ default: '', latest: '' });
       setIsFileContentAvailable(false);
-      LogService.error(
-        LogCategories.appFiles,
-        'getFileContent',
-        `Failed to get file content: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getFileContent', 'failed', { error: fileResponse.metadata.error, message: 'Failed to get file content' })
       );
     }
   };

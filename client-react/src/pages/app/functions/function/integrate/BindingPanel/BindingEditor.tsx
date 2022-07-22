@@ -13,8 +13,6 @@ import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
 import { BindingManager } from '../../../../../../utils/BindingManager';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import LogService from '../../../../../../utils/LogService';
 import { ArmFunctionDescriptor } from '../../../../../../utils/resourceDescriptors';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { dialogModelStyle } from '../FunctionIntegrate.style';
@@ -22,6 +20,7 @@ import { getBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import { DeleteDialog } from './BindingPanel';
 import EditBindingCommandBar from './EditBindingCommandBar';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 
 export interface BindingEditorProps {
   allBindings: Binding[];
@@ -60,7 +59,11 @@ const BindingEditor: React.SFC<BindingEditorProps> = props => {
   ) as Binding;
 
   if (!currentBinding) {
-    LogService.error(LogCategories.bindingEditor, 'bindingEditorSetUp', 'Binding editor was unable to find binding information to edit');
+    portalContext.log(
+      getTelemetryInfo('error', 'bindingEditorSetup', 'failed', {
+        message: 'Binding editor was unable to find binding information to edit',
+      })
+    );
     return <div />;
   }
 

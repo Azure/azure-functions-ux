@@ -2,18 +2,17 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { IotHub, Key, KeyList } from '../../../../../../models/iothub';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import LogService from '../../../../../../utils/LogService';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { IoTHubPivotContext } from './IoTHubPivotDataLoader';
+import { PortalContext } from '../../../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 
 interface IoTHubPivotFormValues {
   iotHub: ArmObj<IotHub> | undefined;
@@ -22,6 +21,8 @@ interface IoTHubPivotFormValues {
 
 const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(IoTHubPivotContext);
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
   const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<IoTHubPivotFormValues>({ iotHub: undefined, endpoint: undefined });
@@ -32,27 +33,23 @@ const IotHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & F
   useEffect(() => {
     if (!iotHubs) {
       provider.fetchIotHubs(resourceId).then(r => {
-        if (!r.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'getIoTHubs',
-            `Failed to get IoTHubs: ${getErrorMessageOrStringify(r.metadata.error)}`
+        if (r.metadata.success) {
+          setIoTHubs(r.data.value);
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'fetchIotHubs', 'failed', { error: r.metadata.error, message: 'Failed to fetch iot hubs' })
           );
-          return;
         }
-        setIoTHubs(r.data.value);
       });
     } else if (formValues.iotHub && !keyList) {
       provider.fetchKeyList(formValues.iotHub.id).then(r => {
-        if (!r.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'getKeyList',
-            `Failed to get Key List: ${getErrorMessageOrStringify(r.metadata.error)}`
+        if (r.metadata.success) {
+          setKeyList(r.data);
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'fetchKeyList', 'failed', { error: r.metadata.error, message: 'Failed to fetch key list' })
           );
-          return;
         }
-        setKeyList(r.data);
       });
     }
 

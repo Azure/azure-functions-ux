@@ -2,7 +2,6 @@ import { Callout, DefaultButton, IComboBoxOption, Link, PrimaryButton } from '@f
 import { Field, FieldProps, Form, Formik, FormikProps, FormikValues } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import DocumentDBService from '../../../../../../ApiHelpers/DocumentDBService';
 import ComboBox from '../../../../../../components/form-controls/ComboBox';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
@@ -20,8 +19,6 @@ import {
   removeCurrentDatabaseArmTemplate,
   removeTemplateConditionally,
 } from '../../../../../../utils/CosmosDbArmTemplateHelper';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import LogService from '../../../../../../utils/LogService';
 import { CreateFunctionFormValues } from '../../CreateFunctionFormBuilder';
 import { getTelemetryInfo } from '../../FunctionsUtility';
 import { useStyles } from '../ComboBoxWithLink.styles';
@@ -75,10 +72,11 @@ const CosmosDbDatabaseComboBoxWithLink: React.FC<CosmosDbDatabaseComboBoxWithLin
 
       DocumentDBService.fetchDatabases(dbAcctId, dbAcctName, dbAcctType).then(r => {
         if (!r.metadata.success) {
-          LogService.error(
-            LogCategories.bindingResource,
-            'getCDbDatabases',
-            `Failed to get Cosmos DB databases: ${getErrorMessageOrStringify(r.metadata.error)}`
+          portalCommunicator.log(
+            getTelemetryInfo('error', 'getCDbDatabases', 'failed', {
+              error: r.metadata.error,
+              message: 'Failed to get Cosmos DB Databases',
+            })
           );
         } else {
           setDatabases(r.data.value.length === 0 ? undefined : r.data.value);

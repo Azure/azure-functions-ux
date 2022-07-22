@@ -2,7 +2,6 @@ import { FieldProps, FormikProps } from 'formik';
 import { Callout, DirectionalHint, IDropdownOption, IDropdownProps, Link } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -10,8 +9,6 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { BindingSetting, BindingSettingResource } from '../../../../models/functions/binding';
 import { KeyValue } from '../../../../models/portal-models';
 import { SiteStateContext } from '../../../../SiteState';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
 import SiteHelper from '../../../../utils/SiteHelper';
 import StringUtils from '../../../../utils/string';
 import { BindingEditorFormValues } from './BindingFormBuilder';
@@ -22,6 +19,8 @@ import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCal
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;
@@ -31,6 +30,8 @@ export interface ResourceDropdownProps {
 const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const { setting, resourceId, form: formProps, field, isDisabled, layout } = props;
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
 
   const [appSettings, setAppSettings] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
@@ -41,15 +42,13 @@ const ResourceDropdown: React.SFC<ResourceDropdownProps & CustomDropdownProps & 
 
   useEffect(() => {
     SiteService.fetchApplicationSettings(resourceId).then(r => {
-      if (!r.metadata.success) {
-        LogService.error(
-          LogCategories.bindingResource,
-          'getAppSettings',
-          `Failed to get appSettings: ${getErrorMessageOrStringify(r.metadata.error)}`
+      if (r.metadata.success) {
+        setAppSettings(r.data);
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'getAppSettings', 'failed', { error: r.metadata.error, message: 'Failed to get appSettings' })
         );
-        return;
       }
-      setAppSettings(r.data);
     });
   }, [resourceId]);
 

@@ -2,18 +2,17 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { AuthorizationRule, EventHub, KeyList, Namespace } from '../../../../../../models/eventhub';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import LogService from '../../../../../../utils/LogService';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { EventHubPivotContext } from './EventHubPivotDataLoader';
+import { PortalContext } from '../../../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 
 export interface EventHubPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
@@ -23,6 +22,8 @@ export interface EventHubPivotFormValues {
 
 const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(EventHubPivotContext);
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
   const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<EventHubPivotFormValues>({ namespace: undefined, eventHub: undefined, policy: undefined });
@@ -35,67 +36,57 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
   useEffect(() => {
     if (!namespaces) {
       provider.fetchNamespaces(resourceId).then(r => {
-        if (!r.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'getNamespaces',
-            `Failed to get Namespaces: ${getErrorMessageOrStringify(r.metadata.error)}`
+        if (r.metadata.success) {
+          setNamespaces(r.data.value);
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'fetchNamespaces', 'failed', { error: r.metadata.error, message: 'Failed to fetch namespaces' })
           );
-          return;
         }
-        setNamespaces(r.data.value);
       });
     } else if (formValues.namespace) {
       if (!eventHubs) {
         provider.fetchEventHubs(formValues.namespace.id).then(r => {
-          if (!r.metadata.success) {
-            LogService.trackEvent(
-              LogCategories.bindingResource,
-              'getEventHubs',
-              `Failed to get EventHubs: ${getErrorMessageOrStringify(r.metadata.error)}`
+          if (r.metadata.success) {
+            setEventHubs(r.data.value);
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'fetchEventHubs', 'failed', { error: r.metadata.error, message: 'Failed to fetch event-hubs' })
             );
-            return;
           }
-          setEventHubs(r.data.value);
         });
       }
       if (!namespaceAuthRules) {
         provider.fetchAuthRules(formValues.namespace.id).then(r => {
-          if (!r.metadata.success) {
-            LogService.trackEvent(
-              LogCategories.bindingResource,
-              'getAuthRules',
-              `Failed to get Authorization Rules: ${getErrorMessageOrStringify(r.metadata.error)}`
+          if (r.metadata.success) {
+            setNamespaceAuthRules(r.data.value);
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'fetchAuthRules', 'failed', { error: r.metadata.error, message: 'Failed to fetch auth rules' })
             );
-            return;
           }
-          setNamespaceAuthRules(r.data.value);
         });
       }
       if (formValues.eventHub && !eventHubAuthRules) {
         provider.fetchAuthRules(formValues.eventHub.id).then(r => {
-          if (!r.metadata.success) {
-            LogService.trackEvent(
-              LogCategories.bindingResource,
-              'getAuthRules',
-              `Failed to get Authorization Rules: ${getErrorMessageOrStringify(r.metadata.error)}`
+          if (r.metadata.success) {
+            setEventHubAuthRules(r.data.value);
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'fetchAuthRules', 'failed', { error: r.metadata.error, message: 'Failed to fetch auth rules' })
             );
-            return;
           }
-          setEventHubAuthRules(r.data.value);
         });
       }
       if (formValues.policy && !keyList) {
         provider.fetchKeyList(formValues.policy.id).then(r => {
-          if (!r.metadata.success) {
-            LogService.trackEvent(
-              LogCategories.bindingResource,
-              'getKeyList',
-              `Failed to get Key List: ${getErrorMessageOrStringify(r.metadata.error)}`
+          if (r.metadata.success) {
+            setKeyList(r.data);
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'fetchKeyList', 'failed', { error: r.metadata.error, message: 'Failed to fetch key list' })
             );
-            return;
           }
-          setKeyList(r.data);
         });
       }
     }
@@ -185,7 +176,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                       mouseOverToolTip={undefined}
                     />
                     {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
-                    {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) ? (
+                    {!!namespaceAuthRules && namespaceAuthRules.length === 0 && !!eventHubAuthRules && eventHubAuthRules.length === 0 ? (
                       <p>{t('eventHubPicker_noPolicies')}</p>
                     ) : (
                       <>

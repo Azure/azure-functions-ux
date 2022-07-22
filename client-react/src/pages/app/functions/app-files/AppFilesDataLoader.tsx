@@ -12,9 +12,8 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import { MessageBarType } from '@fluentui/react';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 
 interface AppFilesDataLoaderProps {
   resourceId: string;
@@ -33,6 +32,7 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
 
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
 
@@ -52,10 +52,11 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
       if (fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
-        LogService.error(
-          LogCategories.appFiles,
-          'getFileList',
-          `Failed to get file list: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'getFileContent', 'failed', {
+            error: fileListResponse.metadata.error,
+            message: 'Failed to get file list',
+          })
         );
       }
     }

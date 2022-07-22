@@ -4,10 +4,8 @@ import { FunctionKeysFormValues } from './FunctionKeys.types';
 import { PortalContext } from '../../../../../PortalContext';
 import FunctionKeys from './FunctionKeys';
 import SiteService from '../../../../../ApiHelpers/SiteService';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { SiteStateContext } from '../../../../../SiteState';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 
 const functionKeysData = new FunctionKeysData();
 export const FunctionKeysContext = React.createContext(functionKeysData);
@@ -32,10 +30,11 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
       SiteService.fireSyncTrigger(siteStateContext.site).then(r => {
         fetchData();
         if (!r.metadata.success) {
-          LogService.error(
-            LogCategories.functionKeys,
-            'fireSyncTrigger',
-            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+          portalContext.log(
+            getTelemetryInfo('error', 'fireSyncTrigger', 'failed', {
+              error: r.metadata.error,
+              message: 'Failed to fire sync-trigger',
+            })
           );
         }
       });

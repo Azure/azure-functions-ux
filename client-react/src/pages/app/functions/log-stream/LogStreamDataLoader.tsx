@@ -4,18 +4,17 @@ import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import AppInsightsService from '../../../../ApiHelpers/AppInsightsService';
 import { ArmObj } from '../../../../models/arm-obj';
 import { AppInsightsComponent } from '../../../../models/app-insights';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import AppInsightsSetup from '../../functions/function/monitor/AppInsightsSetup';
 import FunctionLogAppInsightsDataLoader from '../../functions/function/function-log/FunctionLogAppInsightsDataLoader';
 import { paddingStyle } from './LogStream.styles';
-import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
 import { minimumLogPanelHeight, logCommandBarHeight } from '../function/function-log/FunctionLog.styles';
 import { SiteStateContext } from '../../../../SiteState';
 import { isLinuxDynamic } from '../../../../utils/arm-utils';
 import { LoggingOptions } from '../function/function-editor/FunctionEditor.types';
 import FunctionLogFileStreamDataLoader from '../function/function-log/FunctionLogFileStreamDataLoader';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -26,6 +25,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
 
   const siteStateContext = useContext(SiteStateContext);
   const startupInfoContext = useContext(StartupInfoContext);
+  const portalContext = useContext(PortalContext);
 
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
   const [isFileSystemLoggingAvailable, setIsFileSystemLoggingAvailable] = useState<boolean | undefined>(undefined);
@@ -46,19 +46,21 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
         if (appInsightsResponse.metadata.success) {
           setAppInsightsComponent(appInsightsResponse.data);
         } else {
-          LogService.error(
-            LogCategories.functionAppLog,
-            'getAppInsights',
-            `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
+          portalContext.log(
+            getTelemetryInfo('error', 'getAppInsights', 'failed', {
+              error: appInsightsResponse.metadata.error,
+              message: 'Failed to get app insights',
+            })
           );
         }
       }
     } else {
       setAppInsightsComponent(null);
-      LogService.error(
-        LogCategories.functionAppLog,
-        'getAppInsightsResourceId',
-        `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getAppInsightsResourceId', 'failed', {
+          error: appInsightsResourceIdResponse.metadata.error,
+          message: 'Failed to get app insights resource id',
+        })
       );
     }
   };

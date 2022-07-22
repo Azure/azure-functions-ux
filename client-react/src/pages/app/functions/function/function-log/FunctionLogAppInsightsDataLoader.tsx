@@ -5,7 +5,6 @@ import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { CommonConstants, ExperimentationConstants } from '../../../../../utils/CommonConstants';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
-import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { SchemaDocument, QuickPulseQueryLayer } from '../../../../../QuickPulseQuery';
 import { LogLevel, LogEntry } from './FunctionLog.types';
@@ -15,11 +14,11 @@ import FunctionLog from './FunctionLog';
 import { getLogTextColor } from './FunctionLog.styles';
 import { SiteStateContext } from '../../../../../SiteState';
 import SiteHelper from '../../../../../utils/SiteHelper';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import { KeyValue } from '../../../../../models/portal-models';
 import { PortalContext } from '../../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -98,20 +97,22 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       setAppInsightsComponent(appInsightsDataResponse.data.data);
     } else {
       setAppInsightsComponent(null);
-      LogService.error(
-        LogCategories.functionLog,
-        'getAppInsights',
-        `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsDataResponse?.data?.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getAppInsights', 'failed', {
+          error: appInsightsDataResponse?.data?.metadata.error,
+          message: 'Failed to get app insights',
+        })
       );
     }
 
     if (fetchAppSettingsResponse.metadata.success && !!fetchAppSettingsResponse.data) {
       setFunctionsRuntimeVersion(getCurrentRuntimeVersionFromAppSetting(fetchAppSettingsResponse.data.properties));
     } else {
-      LogService.error(
-        LogCategories.functionLog,
-        'getAppSettings',
-        `Failed to get app settings: ${getErrorMessageOrStringify(fetchAppSettingsResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getAppSettings', 'failed', {
+          error: fetchAppSettingsResponse.metadata.error,
+          message: 'Failed to fetch app-settings',
+        })
       );
     }
   };
@@ -125,7 +126,11 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       if (quickPulseTokenResponse.metadata.success) {
         setQuickPulseToken(quickPulseTokenResponse.data);
       } else {
-        LogService.error(LogCategories.functionLog, 'getQuickPulseToken', `Failed to get Quick Pulse Token: ${component.name}`);
+        portalContext.log(
+          getTelemetryInfo('error', 'getQuickPulseToken', 'failed', {
+            message: `Failed to get Quick pulse token: ${component.name}`,
+          })
+        );
       }
     });
   };
@@ -169,10 +174,11 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         if (tokenExpirationTime > currentTime) {
           // Only log an error if the token has not yet expired
           const errorString = typeof error === 'string' ? error : JSON.stringify(error);
-          LogService.error(
-            LogCategories.functionLog,
-            'queryAppInsights',
-            `Error when attempting to Query Application Insights: ${errorString}`
+          portalContext.log(
+            getTelemetryInfo('error', 'queryAppInsights', 'failed', {
+              error: errorString,
+              message: 'Error when attempting to Query App Insights',
+            })
           );
         }
         resetAppInsightsToken();
