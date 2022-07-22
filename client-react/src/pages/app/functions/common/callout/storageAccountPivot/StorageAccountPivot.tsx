@@ -2,19 +2,18 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { StorageAccount, StorageAccountKeys } from '../../../../../../models/storage-account';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import LogService from '../../../../../../utils/LogService';
 import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingTopStyle } from '../Callout.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
+import { PortalContext } from '../../../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
@@ -22,6 +21,8 @@ interface StorageAccountPivotFormValues {
 
 const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(StorageAccountPivotContext);
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
   const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<StorageAccountPivotFormValues>({ storageAccount: undefined });
@@ -31,28 +32,29 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
   useEffect(() => {
     if (!storageAccounts) {
       provider.fetchAzureStorageAccounts(resourceId).then(r => {
-        if (!r.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'fetchAzureStorageAccounts',
-            `Failed to get Storage Accounts: ${getErrorMessageOrStringify(r.metadata.error)}`
+        if (r.metadata.success) {
+          setStorageAccounts(r.data.value);
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'fetchAzureStorageAccounts', 'failed', {
+              error: r.metadata.error,
+              message: 'Failed to fetch azure storage accounts',
+            })
           );
-          return;
         }
-        setStorageAccounts(r.data.value);
       });
     } else if (formValues.storageAccount && !keyList) {
       provider.fetchStorageAccountKeys(formValues.storageAccount.id).then(response => {
-        if (!response.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'fetchStorageAccountKeys',
-            `Failed to get storage account keys: ${getErrorMessageOrStringify(response.metadata.error)}`
+        if (response.metadata.success) {
+          setKeyList(response.data);
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'fetchStorageAccountKeys', 'failed', {
+              error: response.metadata.error,
+              message: 'Failed to fetch storage account keys',
+            })
           );
-          return;
         }
-
-        setKeyList(response.data);
       });
     }
 

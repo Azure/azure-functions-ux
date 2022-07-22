@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 
 const DeploymentCenterDevOpsKuduBuildConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -16,6 +15,8 @@ const DeploymentCenterDevOpsKuduBuildConfiguredView: React.FC<DeploymentCenterFi
   const [isSourceControlLoading, setIsSourceControlLoading] = useState(true);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const portalContext = useContext(PortalContext);
+
   const deploymentCenterData = new DeploymentCenterData();
 
   const fetchSourceControlDetails = async () => {
@@ -26,10 +27,11 @@ const DeploymentCenterDevOpsKuduBuildConfiguredView: React.FC<DeploymentCenterFi
     } else {
       setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
       setBranch(t('deploymentCenterErrorFetchingInfo'));
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSourceControls',
-        `Failed to get source control details with error: ${getErrorMessage(sourceControlDetailsResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'deploymentCenterSourceControls', 'failed', {
+          error: sourceControlDetailsResponse.metadata.error,
+          message: 'Failed to get source control details',
+        })
       );
     }
     setIsSourceControlLoading(false);

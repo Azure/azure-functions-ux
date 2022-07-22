@@ -1,6 +1,5 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppKeyService from '../../../../../ApiHelpers/AppKeysService';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import { ArmObj } from '../../../../../models/arm-obj';
@@ -11,10 +10,9 @@ import { SiteConfig } from '../../../../../models/site/config';
 import { Site } from '../../../../../models/site/site';
 import { PortalContext } from '../../../../../PortalContext';
 import { CommonConstants, ExperimentationConstants } from '../../../../../utils/CommonConstants';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import StringUtils from '../../../../../utils/string';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { SiteRouterContext } from '../../../SiteRouter';
 import { AppKeysInfo } from '../../app-keys/AppKeys.types';
 import FunctionEditorData from './FunctionEditor.data';
@@ -110,6 +108,8 @@ const useAppKeysQuery = (updated: number, siteResourceId: string) => {
   const [hostKeys, setHostKeys] = useState<AppKeysInfo>();
   const [status, setStatus] = useState<Status>('idle');
 
+  const portalContext = useContext(PortalContext);
+
   useEffect(() => {
     setStatus('loading');
 
@@ -119,11 +119,11 @@ const useAppKeysQuery = (updated: number, siteResourceId: string) => {
         setHostKeys(response.data);
       } else {
         setStatus('error');
-
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'fetchAppKeys',
-          `Failed to fetch app keys: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'fetchAppKeys', 'failed', {
+            error: response.metadata.error,
+            message: 'Failed to fetch app keys',
+          })
         );
       }
     });
@@ -139,6 +139,8 @@ const useAppSettingsQuery = (updated: number, siteResourceId: string) => {
   const [status, setStatus] = useState<Status>('idle');
   const [workerRuntime, setWorkerRuntime] = useState<string>();
 
+  const portalContext = useContext(PortalContext);
+
   useEffect(() => {
     setStatus('loading');
 
@@ -148,11 +150,11 @@ const useAppSettingsQuery = (updated: number, siteResourceId: string) => {
         setWorkerRuntime(response.data.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime]?.toLowerCase());
       } else {
         setStatus('error');
-
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'fetchAppSettings',
-          `Failed to fetch app settings: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'fetchAppSettings', 'failed', {
+            error: response.metadata.error,
+            message: 'Failed to fetch app settings',
+          })
         );
       }
     });
@@ -173,6 +175,8 @@ const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?
   const [fileList, setFileList] = useState<VfsObject[]>();
   const [status, setStatus] = useState<Status>('idle');
 
+  const portalContext = useContext(PortalContext);
+
   useEffect(() => {
     if (functionName !== undefined && runtimeVersion) {
       setStatus('loading');
@@ -183,11 +187,11 @@ const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?
           setFileList(response.data as VfsObject[]);
         } else {
           setStatus('error');
-
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'getFileContent',
-            `Failed to get file content: ${getErrorMessageOrStringify(response.metadata.error)}`
+          portalContext.log(
+            getTelemetryInfo('error', 'getFileContent', 'failed', {
+              error: response.metadata.error,
+              message: 'Failed to get file content',
+            })
           );
         }
       });
@@ -207,6 +211,8 @@ const useFunctionInfoQuery = (updated: number, resourceId: string, functionEdito
   const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>();
   const [status, setStatus] = useState<Status>('idle');
 
+  const portalContext = useContext(PortalContext);
+
   useEffect(() => {
     setStatus('loading');
 
@@ -216,11 +222,11 @@ const useFunctionInfoQuery = (updated: number, resourceId: string, functionEdito
         setFunctionInfo(response.data);
       } else {
         setStatus('error');
-
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'getFunction',
-          `Failed to get function info: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'getFunction', 'failed', {
+            error: response.metadata.error,
+            message: 'Failed to get function info',
+          })
         );
       }
     });
@@ -237,6 +243,8 @@ const useFunctionKeysQuery = (updated: number, resourceId: string) => {
   const [functionKeys, setFunctionKeys] = useState<Record<string, string>>();
   const [status, setStatus] = useState<Status>('idle');
 
+  const portalContext = useContext(PortalContext);
+
   useEffect(() => {
     setStatus('loading');
 
@@ -246,11 +254,11 @@ const useFunctionKeysQuery = (updated: number, resourceId: string) => {
         setFunctionKeys(response.data);
       } else {
         setStatus('error');
-
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'fetchFunctionKeys',
-          `Failed to fetch function keys: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'fetchFunctionKeys', 'failed', {
+            error: response.metadata.error,
+            message: 'Failed to fetch function keys',
+          })
         );
       }
     });
@@ -266,6 +274,8 @@ const useHostJsonQuery = (updated: number, siteResourceId: string, runtimeVersio
   const [hostJsonContent, setHostJsonContent] = useState<Host>();
   const [status, setStatus] = useState<Status>('idle');
 
+  const portalContext = useContext(PortalContext);
+
   useEffect(() => {
     setStatus('loading');
 
@@ -276,11 +286,11 @@ const useHostJsonQuery = (updated: number, siteResourceId: string, runtimeVersio
           setHostJsonContent(response.data);
         } else {
           setStatus('error');
-
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'getHostJson',
-            `Failed to get host json file: ${getErrorMessageOrStringify(response.metadata.error)}`
+          portalContext.log(
+            getTelemetryInfo('error', 'getHostJson', 'failed', {
+              error: response.metadata.error,
+              message: 'Failed to get host json file',
+            })
           );
         }
       });
@@ -299,6 +309,8 @@ const useHostStatusQuery = (updated: number, siteResourceId: string) => {
   const [runtimeVersion, setRuntimeVersion] = useState<string>();
   const [status, setStatus] = useState<Status>('idle');
 
+  const portalContext = useContext(PortalContext);
+
   useEffect(() => {
     setStatus('loading');
 
@@ -310,11 +322,11 @@ const useHostStatusQuery = (updated: number, siteResourceId: string) => {
         setRuntimeVersion(currentRuntimeVersion);
       } else {
         setStatus('error');
-
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'fetchFunctionsHostStatus',
-          `Failed to fetch host status: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'fetchFunctionHostStatus', 'failed', {
+            error: response.metadata.error,
+            message: 'Failed to fetch host status',
+          })
         );
       }
     });
@@ -361,6 +373,8 @@ const useSiteQuery = (updated: number, siteResourceId: string) => {
   const [site, setSite] = useState<ArmObj<Site>>();
   const [status, setStatus] = useState<Status>('idle');
 
+  const portalContext = useContext(PortalContext);
+
   useEffect(() => {
     setStatus('loading');
 
@@ -370,11 +384,11 @@ const useSiteQuery = (updated: number, siteResourceId: string) => {
         setSite(response.data);
       } else {
         setStatus('error');
-
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'fetchSite',
-          `Failed to fetch site: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'fetchSite', 'failed', {
+            error: response.metadata.error,
+            message: 'Failed to fetch site',
+          })
         );
       }
     });
@@ -389,6 +403,8 @@ const useSiteQuery = (updated: number, siteResourceId: string) => {
 const useSiteConfigQuery = (updated: number, siteResourceId: string, functionEditorData: FunctionEditorData) => {
   const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig>>();
   const [status, setStatus] = useState<Status>('idle');
+
+  const portalContext = useContext(PortalContext);
 
   useEffect(() => {
     setStatus('loading');
@@ -405,11 +421,11 @@ const useSiteConfigQuery = (updated: number, siteResourceId: string, functionEdi
         };
       } else {
         setStatus('error');
-
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'fetchSiteConfig',
-          `Failed to fetch site-config: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'fetchSiteConfig', 'failed', {
+            error: response.metadata.error,
+            message: 'Failed to fetch site-config',
+          })
         );
       }
     });

@@ -7,7 +7,6 @@ import SiteService from '../../../ApiHelpers/SiteService';
 import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
 import { ServerFarmSkuConstants } from '../../../utils/scenario-checker/ServerFarmSku';
-import LogService from '../../../utils/LogService';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
 import { ArmObj } from '../../../models/arm-obj';
@@ -15,9 +14,9 @@ import { Site } from '../../../models/site/site';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
-import { LogCategories } from '../../../utils/LogCategories';
 import { PortalContext } from '../../../PortalContext';
 import { ChangeAppPlanTierTypes } from './ChangeAppPlan.types';
+import { getTelemetryInfo } from '../../../utils/TelemetryUtils';
 
 interface ChangeAppPlanDataLoaderProps {
   resourceId: string;
@@ -63,10 +62,11 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
         })
         .then(responses => {
           if (!responses[0].metadata.success) {
-            LogService.error(
-              '/ChangeAppPlanDataLoader',
-              'getServerFarmFailed',
-              `Failed to get serverFarm with id ${siteResult.properties.serverFarmId}`
+            portalCommunicator.log(
+              getTelemetryInfo('error', 'getServerFarmFailed', 'failed', {
+                error: responses[0].metadata.error,
+                message: 'Failed to get server farm',
+              })
             );
             return;
           }
@@ -77,10 +77,11 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
               // We only use the ASE object to figure out if it's a V1 ASE, in which case we hide the
               // "create new" link for new plans.  If this call fails for any reason (most likely RBAC) then we'll just assume that this is
               // an ASE v2 and make a best effort to allow them to continue with the scenario.
-              LogService.error(
-                '/ChangeAppPlanDataLoader',
-                'getAseFailed',
-                `Failed to get ASE with id ${siteResult.properties.hostingEnvironmentId}`
+              portalCommunicator.log(
+                getTelemetryInfo('error', 'getAseFailed', 'failed', {
+                  error: aseResponse.metadata.error,
+                  message: 'Failed to get ase',
+                })
               );
             } else {
               setHostingEnvironment(aseResponse.data);
@@ -96,6 +97,39 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
 
   const refresh = () => {
     setInitializeData(true);
+  };
+
+  const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<ServerFarm>[], consumptionToPremiumEnabled: boolean) => {
+    return serverFarms.filter(serverFarm => {
+      if (site.properties.serverFarmId.toLowerCase() === serverFarm.id.toLowerCase()) {
+        return false;
+      }
+
+      if (!serverFarm.sku) {
+        portalCommunicator.log(
+          getTelemetryInfo('error', 'filterListToPotentialPlans', 'failed', {
+            message: `Server farm: ${serverFarm.name} did not have a SKU`,
+          })
+        );
+        return false;
+      }
+
+      if (
+        !consumptionToPremiumEnabled &&
+        (site.properties.sku === ServerFarmSkuConstants.Tier.dynamic ||
+          site.properties.sku === ServerFarmSkuConstants.Tier.elasticPremium) &&
+        serverFarm.sku.tier !== site.properties.sku
+      ) {
+        return false;
+      } else if (
+        !isFunctionApp(site) &&
+        (serverFarm.sku.tier === ServerFarmSkuConstants.Tier.dynamic || serverFarm.sku.tier === ServerFarmSkuConstants.Tier.elasticPremium)
+      ) {
+        return false;
+      }
+
+      return true;
+    });
   };
 
   useEffect(() => {
@@ -118,34 +152,6 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
       onChangeComplete={refresh}
     />
   );
-};
-
-const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<ServerFarm>[], consumptionToPremiumEnabled: boolean) => {
-  return serverFarms.filter(serverFarm => {
-    if (site.properties.serverFarmId.toLowerCase() === serverFarm.id.toLowerCase()) {
-      return false;
-    }
-
-    if (!serverFarm.sku) {
-      LogService.error(LogCategories.changeAppPlan, '/filterListToPotentialPlans', `Why did serverFarm ${serverFarm.name} not have a SKU?`);
-      return false;
-    }
-
-    if (
-      !consumptionToPremiumEnabled &&
-      (site.properties.sku === ServerFarmSkuConstants.Tier.dynamic || site.properties.sku === ServerFarmSkuConstants.Tier.elasticPremium) &&
-      serverFarm.sku.tier !== site.properties.sku
-    ) {
-      return false;
-    } else if (
-      !isFunctionApp(site) &&
-      (serverFarm.sku.tier === ServerFarmSkuConstants.Tier.dynamic || serverFarm.sku.tier === ServerFarmSkuConstants.Tier.elasticPremium)
-    ) {
-      return false;
-    }
-
-    return true;
-  });
 };
 
 export const consumptionToPremiumEnabled = (currentServerFarm: ArmObj<ServerFarm> | null, site: ArmObj<Site> | null) => {
