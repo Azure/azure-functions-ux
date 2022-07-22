@@ -20,11 +20,11 @@ import {
   storeTemplateAndClearResources,
 } from '../../../../utils/CosmosDbArmTemplateHelper';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 import { BindingEditorFormValues } from './BindingFormBuilder';
 import NewCosmosDbAccountCallout from './callout/NewCosmosDbAccountCallout';
 import { useStyles } from './CosmosDbResourceDropdown.styles';
 import { getTelemetryInfo } from './FunctionsUtility';
-import { useAppSettingsQuery } from './useAppSettingsQuery';
 
 interface Props {
   armResources: IArmResourceTemplate[];
@@ -49,8 +49,6 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
   const [isDialogVisible, setIsDialogVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [storedArmTemplate, setStoredArmTemplate] = useState<IArmResourceTemplate>();
-
-  const { appSettings } = useAppSettingsQuery(resourceId);
 
   useEffect(() => {
     setIsLoading(true);
@@ -101,7 +99,6 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
     (option: IDropdownOption | undefined, formProps: FormikProps<BindingEditorFormValues>, field: { name: string; value: unknown }) => {
       if (option) {
         const dbAcctConnectionSettingKey = option.key as string; // Format: `${dbAcctName}_COSMOSDB`
-        const dbAcctName = dbAcctConnectionSettingKey.split('_')[0];
         formProps.setFieldValue(field.name, dbAcctConnectionSettingKey);
         formProps.setStatus({ ...formProps.status, dbAcctId: option.data.id, dbAcctType: option.data.kind });
 
@@ -137,16 +134,26 @@ const CosmosDbResourceDropdown: React.FC<CosmosDbResourceDropdownProps> = (props
           }
         }
 
+        let resourceIdExpression: string;
+        if (option.data.id) {
+          // Set subscription and resource group for existing database accounts.
+          const { resourceGroup, resourceName, subscription } = new ArmResourceDescriptor(option.data.id);
+          resourceIdExpression = `resourceId('${subscription}', '${resourceGroup}', '${CommonConstants.ResourceTypes.cosmosDbAccount}', '${resourceName}')`;
+        } else {
+          // Default to current subscription and resource group for new database accounts.
+          const dbAcctName = dbAcctConnectionSettingKey.split('_')[0];
+          resourceIdExpression = `resourceId('${CommonConstants.ResourceTypes.cosmosDbAccount}', '${dbAcctName}')`;
+        }
+
         // Always add the appsetting for CDB to simplify between new/existing DB accounts (FunctionsService deploy handles setting overlaps)
         formProps.setFieldValue('newAppSettings', {
           properties: {
-            ...appSettings?.properties,
-            [dbAcctConnectionSettingKey]: `[listConnectionStrings(resourceId('${CommonConstants.ResourceTypes.cosmosDbAccount}', '${dbAcctName}'), '${CommonConstants.ApiVersions.documentDBApiVersion20191212}').connectionStrings[0].connectionString]`,
+            [dbAcctConnectionSettingKey]: `[listConnectionStrings(${resourceIdExpression}, '${CommonConstants.ApiVersions.documentDBApiVersion20191212}').connectionStrings[0].connectionString]`,
           },
         });
       }
     },
-    [appSettings?.properties, armResources, selectedItem, setArmResources, storedArmTemplate, t]
+    [armResources, selectedItem, setArmResources, storedArmTemplate, t]
   );
 
   const onLinkClick = useCallback(() => {
