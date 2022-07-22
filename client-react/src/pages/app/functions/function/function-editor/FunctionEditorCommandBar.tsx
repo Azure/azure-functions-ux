@@ -82,7 +82,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
   const uploadFile = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const file = e.target.files?.[0];
-      const isValidFile = file?.size ?? 0 > 0;
+      const isValidFile = !!file?.size;
       if (isValidFile) {
         upload(file);
       }
