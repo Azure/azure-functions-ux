@@ -2681,10 +2681,13 @@
       </Item>
       <Item ItemId=";changePlanDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.]]></Val>
+          <Val><![CDATA[Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance. There may be a short amount of down time associated with changing your App Service Plan.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Als u het plan wijzigt waarmee uw app wordt gehost, kunt u uw apps samenvoegen in één plan om VM-resources te delen of kunt u de apps verdelen over afzonderlijke plannen zodat de apps kunnen worden geschaald voor betere prestaties.]]></Val>
+            <Val><![CDATA[Als u het plan wijzigt waarop uw app wordt gehost, kunt u uw apps samenvoegen in één plan waarmee ze machinebronnen kunnen delen of ze naar afzonderlijke plannen spreiden, zodat ze afzonderlijk kunnen worden geschaald voor betere prestaties.Er kan een korte uitvaltijd verbonden zijn aan het wijzigen van uw App Service-plan.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -4383,6 +4386,42 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";createFunctionDeploymentNotification" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deploying function resources]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Functiebronnen implementeren]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunctionDeploymentNotificationDetails" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deploying resources for {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Resources implementeren voor {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunctionDeploymentNotificationFailed" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deployment '{0}' to resource group '{1}' failed]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Implementatie {0} naar resourcegroep {1} is mislukt]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunctionDeploymentNotificationSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deployment '{0}' to resource group '{1}' was successful]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Implementatie {0} naar resourcegroep {1} is geslaagd]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";createFunctionKeyNotification" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Creating function key]]></Val>
@@ -4439,6 +4478,24 @@
           <Val><![CDATA[Successfully created {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[{0} is gemaakt]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunction_noAppSettingsPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to update app settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[U beschikt niet over voldoende machtigingen om app-instellingen bij te werken.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunction_noResourceIdError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No resource ID]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Geen resource-id]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6953,6 +7010,15 @@
           <Val><![CDATA[Description]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Beschrijving]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";destinationPlanPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select destination plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Doelplan selecteren]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15984,6 +16050,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";premiumAndConsumptionLinuxInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Changing App Service Plan to a Consumption plan is only available for Windows plans.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Het wijzigen van App Service-plan in een Verbruiksabonnement is alleen beschikbaar voor Windows-abonnementen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";premiumToConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.]]></Val>
@@ -20190,6 +20265,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_enableStagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable staging environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Faseringsomgevingen inschakelen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_enterVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Enter visitor password]]></Val>
@@ -20370,6 +20454,24 @@
           <Prev Cat="Text">
             <Val><![CDATA[Refresh environment variables]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_stagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Staging environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Faseringsomgevingen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_stagingEnvironmentsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatically create new staging environments with pull requests.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Automatisch nieuwe faseringsomgevingen maken met pull-aanvragen.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
