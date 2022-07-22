@@ -3,13 +3,14 @@ import { useTranslation } from 'react-i18next';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { BindingDirection } from '../../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
+import { CommonConstants } from '../../../../../../utils/CommonConstants';
 import { COSMOS_DB, COSMOS_DB_TRIGGER } from '../../../common/BindingTypeRegex';
 import { getBindingDirection } from '../../integrate/FunctionIntegrate.utils';
 import { ExampleProps, Examples } from './Example.types';
 import code from './Examples';
 
 const onLinkClick = () => {
-  window.open('https://cosmosdb.azure.com', '_blank');
+  window.open(CommonConstants.cosmosUrl, '_blank');
 };
 
 export const useCosmosDbExamples = (functionInfo: ArmObj<FunctionInfo>): Examples<ExampleProps> => {

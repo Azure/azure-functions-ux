@@ -1,18 +1,13 @@
-import { ActionButton, IButtonStyles, Icon, IIconProps, Link } from '@fluentui/react';
+import { ActionButton, Icon, IIconProps, Link } from '@fluentui/react';
 import { useCallback, useMemo, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import MonacoEditor from '../../../../../../components/monaco-editor/monaco-editor';
-import { useStyles } from './Example.styles';
+import { IconConstants } from '../../../../../../utils/constants/IconConstants';
+import { copyStyles, useStyles } from './Example.styles';
 import { ExampleProps } from './Example.types';
 
 const copyIconProps: IIconProps = {
-  iconName: 'Copy',
-};
-
-const copyStyles: IButtonStyles = {
-  root: {
-    borderColor: 'transparent',
-  },
+  iconName: IconConstants.IconNames.Copy,
 };
 
 const options = {

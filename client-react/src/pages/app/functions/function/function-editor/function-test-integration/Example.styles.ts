@@ -1,3 +1,4 @@
+import { IButtonStyles } from '@fluentui/react';
 import { style } from 'typestyle';
 
 export const useStyles = () => {
@@ -34,4 +35,10 @@ export const useStyles = () => {
       gap: '12px',
     }),
   };
+};
+
+export const copyStyles: IButtonStyles = {
+  root: {
+    borderColor: 'transparent',
+  },
 };
