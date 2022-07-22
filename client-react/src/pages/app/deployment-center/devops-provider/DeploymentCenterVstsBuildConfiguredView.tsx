@@ -1,12 +1,11 @@
 import { Icon, Link, MessageBarType } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { KeyValue } from '../../../../models/portal-models';
-import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
+import { PortalContext } from '../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -22,6 +21,8 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deploymentCenterData = new DeploymentCenterData();
+  const portalContext = useContext(PortalContext);
+
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const fetchSiteConfig = async () => {
@@ -32,10 +33,11 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
     } else {
       setBranch(t('deploymentCenterErrorFetchingInfo'));
       setIsLoading(false);
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenterSiteConfigMetadata',
-        `Failed to get site config metadata with error: ${getErrorMessage(siteConfigMetadataResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getSiteConfig', 'failed', {
+          error: siteConfigMetadataResponse.metadata.error,
+          message: 'Failed to get site config metadata with error',
+        })
       );
     }
   };
@@ -70,10 +72,11 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
           setBranch(devOpsInfoResponse.data.repository.defaultBranch);
         } else {
           setBranch(t('deploymentCenterErrorFetchingInfo'));
-          LogService.error(
-            LogCategories.deploymentCenter,
-            'DeploymentCenterSiteConfigMetadata',
-            `Failed to get dev ops information with error: ${getErrorMessage(devOpsInfoResponse.metadata.error)}`
+          portalContext.log(
+            getTelemetryInfo('error', 'getAzureDevopsBuildDef', 'failed', {
+              error: devOpsInfoResponse.metadata.error,
+              message: 'Failed to get file content',
+            })
           );
         }
       } else {

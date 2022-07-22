@@ -27,10 +27,6 @@ import { learnMoreLinkStyle } from '../../../../components/form-controls/formCon
 import { Link } from '@fluentui/react';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
-export const getLogId = (component: string, event: string): string => {
-  return `${component}/${event}`;
-};
-
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
   isFunctionApp: boolean,

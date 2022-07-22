@@ -577,7 +577,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         deploymentCenterData,
         deploymentCenterContext.resourceId,
         payload,
-        deploymentCenterContext.gitHubToken
+        deploymentCenterContext.gitHubToken,
+        portalContext
       );
     } else {
       return updateSourceControlResponse;
