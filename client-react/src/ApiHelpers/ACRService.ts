@@ -156,7 +156,7 @@ export default class ACRService {
       method: 'PUT',
     });
 
-    return !!response;
+    return response.metadata.success;
   }
 
   public static async enableSystemAssignedIdentity(
