@@ -221,6 +221,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             let errorMessage = '';
 
             portalContext.log(getTelemetryInfo('info', 'getAcrRepositories', 'submit'));
+
             const repositoriesResponse = await deploymentCenterData.getAcrRepositories(
               portalContext,
               loginServer,
@@ -242,13 +243,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             );
 
             const repositoryOptions: IDropdownOption[] = [];
-            repositoriesResponse.forEach(response => {
-              const dropdownOptions =
-                response && response.repositories && response.repositories.length > 0
-                  ? response.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
-                  : [];
-              repositoryOptions.push(...dropdownOptions);
-            });
+            const dropdownOptions =
+              repositoriesResponse && repositoriesResponse.repositories && repositoriesResponse.repositories.length > 0
+                ? repositoriesResponse.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
+                : [];
+            repositoryOptions.push(...dropdownOptions);
 
             if (repositoryOptions.length === 0 && failedNetworkCall) {
               const statusMessage = errorMessage
@@ -299,6 +298,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             let errorMessage = '';
 
             portalContext.log(getTelemetryInfo('info', 'getAcrTags', 'submit'));
+
             const tagsResponse = await deploymentCenterData.getAcrTags(
               portalContext,
               loginServer,
@@ -321,11 +321,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             );
 
             const tagOptions: IDropdownOption[] = [];
-            tagsResponse.forEach(response => {
-              const dropdownOptions =
-                response && response.tags && response.tags.length > 0 ? response.tags.map(tag => ({ key: tag, text: tag })) : [];
-              tagOptions.push(...dropdownOptions);
-            });
+            const dropdownOptions =
+              tagsResponse && tagsResponse.tags && tagsResponse.tags.length > 0
+                ? tagsResponse.tags.map(tag => ({ key: tag, text: tag }))
+                : [];
+
+            tagOptions.push(...dropdownOptions);
 
             if (tagOptions.length === 0 && failedNetworkCall) {
               const statusMessage = errorMessage

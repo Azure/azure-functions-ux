@@ -3,15 +3,13 @@ import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
 import { CommonConstants, RBACRoleId } from '../utils/CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { sendHttpRequest } from './HttpClient';
-import Url from '../utils/url';
 import { Method } from 'axios';
-import { getArmEndpoint, getArmToken } from '../pages/app/deployment-center/utility/DeploymentCenterUtility';
 import { ACRManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
 import { KeyValue } from '../models/portal-models';
 import PortalCommunicator from '../portal-communicator';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { isPortalCommunicationStatusSuccess } from '../utils/portal-utils';
+import { Guid } from '../utils/Guid';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -71,7 +69,8 @@ export default class ACRService {
       encodedUserInfo,
     };
     const url = `https://${loginServer}/v2/_catalog`;
-    return ACRService._dispatchSpecificPageableRequest<ACRRepositories>(portalContext, data, url, 'POST', logger);
+    const headers = this._getBasicACRAuthHeader(encodedUserInfo);
+    return ACRService._dispatchSpecificPageableRequest<ACRRepositories>(portalContext, data, url, 'GET', headers, logger);
   }
 
   public static getTags(
@@ -90,14 +89,15 @@ export default class ACRService {
     };
 
     const url = `https://${loginServer}/v2/${repository}/tags/list`;
-    return ACRService._dispatchSpecificPageableRequest<ACRTags>(portalCommunicator, data, url, 'POST', logger);
+    const headers = this._getBasicACRAuthHeader(encodedUserInfo);
+    return ACRService._dispatchSpecificPageableRequest<ACRTags>(portalCommunicator, data, url, 'GET', headers, logger);
   }
 
   public static async hasAcrPullPermission(acrResourceId: string, principalId: string) {
     let hasAcrPullPermission = false;
     const roleAssignments = await this.getRoleAssignments(acrResourceId, principalId);
-    if (!!roleAssignments && roleAssignments.length > 0) {
-      roleAssignments.forEach(roleAssignment => {
+    if (!!roleAssignments && roleAssignments.data.value.length > 0) {
+      roleAssignments.data.value.forEach(roleAssignment => {
         const roleDefinitionSplit = roleAssignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash);
         const roleId = roleDefinitionSplit[roleDefinitionSplit.length - 1];
         if (roleId === RBACRoleId.acrPull) {
@@ -114,17 +114,18 @@ export default class ACRService {
     principalId: string,
     apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
   ) {
-    const armEndpoint = getArmEndpoint();
-    const armToken = getArmToken();
+    const urlString = `${scope}/providers/Microsoft.Authorization/roleAssignments?`;
+    const queryString = `$filter=atScope()+and+assignedTo('{${principalId}}')`;
+    const url = urlString + queryString;
 
-    const response = await sendHttpRequest<RoleAssignment[]>({
-      data: { armEndpoint, armToken, apiVersion, scope, principalId },
-      url: `${Url.serviceHost}api/acr/getRoleAssignments`,
-      method: 'POST',
+    const response = await MakeArmCall<ArmArray<RoleAssignment>>({
+      resourceId: url,
+      commandName: 'getRoleAssignments',
+      apiVersion: apiVersion,
     });
 
     if (response.metadata.success && !!response.data) {
-      return response.data;
+      return response;
     }
   }
 
@@ -133,17 +134,29 @@ export default class ACRService {
     principalId: string,
     apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
   ) {
-    const armEndpoint = getArmEndpoint();
-    const armToken = getArmToken();
     const roleId = RBACRoleId.acrPull;
+    const roleGuid = Guid.newGuid();
 
-    const response = await sendHttpRequest<RoleAssignment[]>({
-      data: { armEndpoint, armToken, apiVersion, scope: acrResourceId, principalId, roleId },
-      url: `${Url.serviceHost}api/acr/setRoleAssignment`,
-      method: 'POST',
+    const urlString = `${acrResourceId}/providers/Microsoft.Authorization/roleAssignments/${roleGuid}?`;
+    const queryString = `&$filter=atScope()+and+assignedTo('{${principalId}}')`;
+    const url = urlString + queryString;
+
+    const body = {
+      properties: {
+        roleDefinitionId: `${acrResourceId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`,
+        principalId: `${principalId}`,
+      },
+    };
+
+    const response = await MakeArmCall({
+      body,
+      resourceId: url,
+      commandName: 'setAcrPullPermissions',
+      apiVersion: apiVersion,
+      method: 'PUT',
     });
 
-    return response.metadata.success;
+    return !!response;
   }
 
   public static async enableSystemAssignedIdentity(
@@ -179,50 +192,48 @@ export default class ACRService {
     }
   }
 
+  // Sends http requests directly to the ACR (no ARM api) via portal.azure.com
   private static async _dispatchSpecificPageableRequest<T>(
     portalContext: PortalCommunicator,
     data: any,
     url: string,
     method: Method,
+    headers?: any,
     logger?: (page, error) => void
-  ): Promise<T[]> {
-    const acrObjectList: T[] = [];
-    const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, url, method);
+  ): Promise<T> {
+    let acrObject: T = {} as T;
+    const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, url, method, headers);
     if (isPortalCommunicationStatusSuccess(pageResponse.status)) {
-      //acrObjectList.push(pageResponse.data);
-      // const linkHeader = pageResponse.metadata.headers.link;
-      // if (linkHeader) {
-      //   const links = getLinksFromLinkHeader(linkHeader);
-      //   const lastItem = getLastItemFromLinks(links);
-      //   data.last = lastItem ?? '';
-      //   nextLink = links?.next ?? '';
-      // }
+      acrObject = pageResponse.result.content;
     } else if (logger) {
       logger(pageResponse.result, pageResponse);
     }
 
-    return acrObjectList;
+    return acrObject;
   }
 
-  private static _sendSpecificACRRequest = async <T>(portalContext: PortalCommunicator, data: any, url: string, method: Method) => {
-    const headers = {
-      Authorization: `Basic ${data.encodedUserInfo}`,
-    };
-
+  private static _sendSpecificACRRequest = async <T>(
+    portalContext: PortalCommunicator,
+    data: any,
+    url: string,
+    method: Method,
+    headers: any
+  ) => {
     const request: NetAjaxSettings = {
       data,
       uri: url,
-      type: 'GET',
+      type: method,
       headers: { ...headers },
     };
 
-    const result = await portalContext.makeHttpRequestsViaPortal(request);
-    // this.portalContext.makeHttpRequestsViaPortal(request);
-
-    console.log(`Done sending: ${result.status}`);
-
-    return result;
+    return await portalContext.makeHttpRequestsViaPortal(request);
   };
+
+  private static _getBasicACRAuthHeader(encodedUserInfo: string) {
+    return {
+      Authorization: `Basic ${encodedUserInfo}`,
+    };
+  }
 
   public static _getNextLink(loginServer: string, response: HttpResponseObject<unknown>): string {
     if (response && response.metadata.success) {
