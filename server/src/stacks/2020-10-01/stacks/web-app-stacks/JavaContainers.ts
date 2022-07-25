@@ -374,21 +374,6 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Apache Tomcat 9.0.54',
-          value: '9.0.54',
-          stackSettings: {
-            windowsContainerSettings: {
-              javaContainer: 'TOMCAT',
-              javaContainerVersion: '9.0.54',
-            },
-            linuxContainerSettings: {
-              java8Runtime: 'TOMCAT|9.0.54-java8',
-              java11Runtime: 'TOMCAT|9.0.54-java11',
-              java17Runtime: 'TOMCAT|9.0.54-java17'
-            },
-          },
-        },
-        {
           displayText: 'Apache Tomcat 9.0.62',
           value: '9.0.62',
           stackSettings: {
@@ -400,6 +385,21 @@ export const javaContainersStack: WebAppStack = {
               java8Runtime: 'TOMCAT|9.0.62-java8',
               java11Runtime: 'TOMCAT|9.0.62-java11',
               java17Runtime: 'TOMCAT|9.0.62-java17'
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 9.0.54',
+          value: '9.0.54',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '9.0.54',
+            },
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|9.0.54-java8',
+              java11Runtime: 'TOMCAT|9.0.54-java11',
+              java17Runtime: 'TOMCAT|9.0.54-java17'
             },
           },
         },
