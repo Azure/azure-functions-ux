@@ -215,9 +215,9 @@ export default class SiteService {
     });
   };
 
-  public static updateApplicationSettings = async (resourceId: string, appSettings: ArmObj<KeyValue<string>>) => {
+  public static updateApplicationSettings = async (resourceId: string, appSettings: Partial<ArmObj<KeyValue<string>>>) => {
     const id = `${resourceId}/config/appsettings`;
-    const result = await MakeArmCall<ArmObj<KeyValue<string>>>({
+    const result = await MakeArmCall<Partial<ArmObj<KeyValue<string>>>>({
       resourceId: id,
       commandName: 'updateApplicationSettings',
       method: 'PUT',
@@ -225,7 +225,7 @@ export default class SiteService {
     });
     LogService.trackEvent('site-service', 'appSettingsUpdated', {
       success: result.metadata.success,
-      resultCount: result.data && Object.keys(result.data.properties).length,
+      resultCount: result.data && Object.keys(result.data.properties ?? {}).length,
     });
     return result;
   };

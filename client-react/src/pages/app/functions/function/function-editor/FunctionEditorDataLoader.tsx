@@ -2,7 +2,6 @@ import { MessageBarType } from '@fluentui/react';
 import { Method } from 'axios';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import SiteService from '../../../../../ApiHelpers/SiteService';
@@ -19,11 +18,11 @@ import { SiteStateContext } from '../../../../../SiteState';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
 import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import Url from '../../../../../utils/url';
 import { FunctionEditor } from './FunctionEditor';
 import FunctionEditorData from './FunctionEditor.data';
@@ -122,10 +121,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
         return getFunctionInvokeUrlPath(result, queryParams);
       }
     } else {
-      LogService.error(
-        LogCategories.functionInvokeUrl,
-        'GetFunctionInvokeUrl',
-        `No function Info found for the site: ${JSON.stringify(site)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getFunctionInvokeUrl', 'failed', {
+          error: site,
+          message: 'No function info found for the site',
+        })
       );
     }
     return '';
@@ -336,10 +336,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       response.text = runFunctionResponse.data as string;
     } else {
       response.text = runFunctionResponse.metadata.error;
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'runFunction',
-        `Failed to runFunction: ${getErrorMessageOrStringify(runFunctionResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'runFunction', 'failed', {
+          error: runFunctionResponse.metadata.error,
+          message: 'Failed to run-function',
+        })
       );
     }
 
@@ -375,10 +376,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       response.text = runFunctionResponseResult.content;
       // This is the result of the API call
       if (response.code !== 200) {
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'makeHttpRequestForRunFunction',
-          `Failed to run function: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'makeHttpRequestForRunFunction', 'failed', {
+            error: runFunctionResponseResult.metadata.error,
+            message: 'Failed to run functions',
+          })
         );
       }
     } else {
@@ -387,10 +389,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       if (jqXHR) {
         response.text = jqXHR.statusText;
       }
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'makeHttpRequestForRunFunction',
-        `Http request from portal failed: ${getErrorMessageOrStringify(runFunctionResponseResult)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'makeHttpRequestForRunFunction', 'failed', {
+          error: runFunctionResponseResult.metadata.error,
+          message: 'Http request from portal failed',
+        })
       );
     }
 
@@ -448,10 +451,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
           testData = vfsArmTestDataResponse.data;
           testDataResponseSuccess = true;
         } else {
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'GetTestDataUsingVfsApi',
-            `Failed to get test data from VFS API: ${getErrorMessageOrStringify(vfsArmTestDataResponse.metadata.error)}`
+          portalContext.log(
+            getTelemetryInfo('error', 'getTestDataUsingVfsApi', 'failed', {
+              error: vfsArmTestDataResponse.metadata.error,
+              message: 'Failed to get test data from VFS API',
+            })
           );
         }
       }
@@ -466,7 +470,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
         try {
           testData = StringUtils.stringifyJsonForEditor(testData);
         } catch (err) {
-          LogService.error(LogCategories.FunctionEdit, 'invalid-test-data', err);
+          portalContext.log(
+            getTelemetryInfo('error', 'invalid-test-data', 'failed', {
+              error: err,
+            })
+          );
         }
         setTestData(testData as string);
       }
@@ -495,10 +503,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
       return !!result && !!result.content ? result.content : result;
     } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'GetTestDataUsingFunctionHref',
-        `Failed to get test data: ${getErrorMessageOrStringify(result)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getTestDataUsingFunctionHref', 'failed', {
+          error: result,
+          message: 'Failed to get test data',
+        })
       );
     }
     return undefined;
@@ -512,10 +521,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (functionHrefTestDataResponse.metadata.success) {
       return functionHrefTestDataResponse.data;
     } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'GetTestDataUsingFunctionHref',
-        `Failed to get test data: ${getErrorMessageOrStringify(functionHrefTestDataResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getTestDataUsingFunctionHref', 'failed', {
+          error: functionHrefTestDataResponse.metadata.error,
+          message: 'Failed to get test data',
+        })
       );
     }
     return undefined;
@@ -536,10 +546,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
         refreshQueries();
 
         if (!response.metadata.success) {
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'fireSyncTrigger',
-            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(response.metadata.error)}`
+          portalContext.log(
+            getTelemetryInfo('error', 'fireSyncTrigger', 'failed', {
+              error: response.metadata.error,
+              message: 'Failed to fire syncTrigger',
+            })
           );
         }
       });
@@ -574,10 +585,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       if (fileListResponse && fileListResponse.metadata.success) {
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'getFileContent',
-          `Failed to get file content: ${getErrorMessageOrStringify(fileListResponse.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'getFileContent', 'failed', {
+            error: fileListResponse.metadata.error,
+            message: 'Failed to get file content',
+          })
         );
       }
     }
@@ -590,10 +602,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
         siteConfig: siteConfigResponse.data,
       };
     } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'fetchSiteConfig',
-        `Failed to fetch site-config: ${getErrorMessageOrStringify(siteConfigResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'fetchSiteConfig', 'failed', {
+          error: siteConfigResponse.metadata.error,
+          message: 'Failed to fetch site config',
+        })
       );
     }
   };
@@ -617,10 +630,11 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (updateSiteConfigResponse.metadata.success) {
       await getAndUpdateSiteConfig();
     } else {
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'patchSiteConfig',
-        `Failed to get update site-config: ${getErrorMessageOrStringify(updateSiteConfigResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'patchSiteConfig', 'failed', {
+          error: updateSiteConfigResponse.metadata.error,
+          message: 'Failed to update site-config',
+        })
       );
     }
 

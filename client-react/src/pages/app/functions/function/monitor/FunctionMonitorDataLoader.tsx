@@ -3,17 +3,16 @@ import FunctionMonitor from './FunctionMonitor';
 import { AppInsightsComponent, AppInsightsKeyType } from '../../../../../models/app-insights';
 import { ArmObj } from '../../../../../models/arm-obj';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
-import LogService from '../../../../../utils/LogService';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { PortalContext } from '../../../../../PortalContext';
 import { SiteStateContext } from '../../../../../SiteState';
 import { FunctionAppEditMode } from '../../../../../models/portal-models';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 
 interface FunctionMonitorDataLoaderProps {
   resourceId: string;
@@ -37,10 +36,11 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     if (functionInfoResponse.metadata.success) {
       setFunctionInfo(functionInfoResponse.data);
     } else {
-      LogService.error(
-        LogCategories.functionLog,
-        'getFunction',
-        `Failed to get function info: ${getErrorMessageOrStringify(functionInfoResponse.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getFunction', 'failed', {
+          error: functionInfoResponse.metadata.error,
+          message: 'Failed to get function info',
+        })
       );
     }
   };
@@ -68,10 +68,11 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     } else {
       setErrorFetchingAppInsightsComponent(true);
       setAppInsightsComponent(null);
-      LogService.error(
-        LogCategories.functionLog,
-        'getAppInsights',
-        `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsData?.data?.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getAppInsights', 'failed', {
+          error: appInsightsData?.data?.metadata.error,
+          message: 'Failed to get app insights',
+        })
       );
     }
 
@@ -83,7 +84,11 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
       if (appInsightsTokenResponse) {
         setAppInsightsToken(appInsightsTokenResponse);
       } else {
-        LogService.error(LogCategories.FunctionMonitor, 'getAppInsightsToken', `Failed to get App Insights Component Token`);
+        portalContext.log(
+          getTelemetryInfo('error', 'getAppInsightsToken', 'failed', {
+            message: 'Failed to get App insights component token',
+          })
+        );
       }
     });
   };

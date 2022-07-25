@@ -22,12 +22,11 @@ import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWi
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
-import { getErrorMessageOrStringify, getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
+import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
 import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
 import { getSearchFilter } from '../../../../../components/form-controls/SearchBox';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -171,10 +170,11 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         refreshData();
       } else {
         portalCommunicator.stopNotification(notificationId, false, t('deleteFunctionKeyNotificationFailed').format(deletingKey));
-        LogService.error(
-          LogCategories.functionKeys,
-          'delete keys',
-          `Failed to delete keys: ${getErrorMessageOrStringify(response.metadata.error)}`
+        portalCommunicator.log(
+          getTelemetryInfo('error', 'deleteKeys', 'failed', {
+            error: response.metadata.error,
+            message: 'Failed to delete keys',
+          })
         );
       }
       setRefreshLoading(false);

@@ -2678,10 +2678,13 @@
       </Item>
       <Item ItemId=";changePlanDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.]]></Val>
+          <Val><![CDATA[Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance. There may be a short amount of down time associated with changing your App Service Plan.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[變更裝載應用程式的方案，可讓您將應用程式合併在單一方案中，讓它們共用電腦資源，或將其分散到不同方案，讓它們分別縮放以改進效能。]]></Val>
+            <Val><![CDATA[變更裝載應用程式的方案，可讓您將應用程式合併在單一方案中，讓它們共用電腦資源，或將其分散到不同方案，以便分別縮放來改進效能。變更您的 App Service 方案時可能會導致短暫的停用時間。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -4380,6 +4383,42 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";createFunctionDeploymentNotification" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deploying function resources]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[正在部署函式資源]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunctionDeploymentNotificationDetails" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deploying resources for {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[正在部署 {0} 的資源]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunctionDeploymentNotificationFailed" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deployment '{0}' to resource group '{1}' failed]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[對資源群組 '{1}' 的部署 '{0}' 失敗。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunctionDeploymentNotificationSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deployment '{0}' to resource group '{1}' was successful]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[對資源群組 '{1}' 的部署 '{0}' 成功。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";createFunctionKeyNotification" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Creating function key]]></Val>
@@ -4436,6 +4475,24 @@
           <Val><![CDATA[Successfully created {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[已成功建立 {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunction_noAppSettingsPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to update app settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[您的權限不足，無法更新應用程式設定。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createFunction_noResourceIdError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No resource ID]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[沒有資源識別碼]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6950,6 +7007,15 @@
           <Val><![CDATA[Description]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[描述]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";destinationPlanPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select destination plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[選取目的地方案]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15984,6 +16050,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";premiumAndConsumptionLinuxInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Changing App Service Plan to a Consumption plan is only available for Windows plans.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[將 App Service 方案變更為消費方案僅僅適用於 Windows 方案。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";premiumToConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.]]></Val>
@@ -20193,6 +20268,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_enableStagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable staging environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[啟用預備環境]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_enterVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Enter visitor password]]></Val>
@@ -20373,6 +20457,24 @@
           <Prev Cat="Text">
             <Val><![CDATA[Refresh environment variables]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_stagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Staging environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[預備環境]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_stagingEnvironmentsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatically create new staging environments with pull requests.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[使用提取要求自動建立新的預備環境。]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>

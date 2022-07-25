@@ -31,10 +31,9 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 },
                 gitHubActionSettings: {
                   isSupported: true,
-                  supportedVersion: '7.0.x',
+                  supportedVersion: '7.0.100-preview.5.22307.18',
                 },
-                isHidden: true,
-                isEarlyAccess: true,
+                isPreview: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|7.0',
@@ -44,10 +43,9 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 },
                 gitHubActionSettings: {
                   isSupported: true,
-                  supportedVersion: '7.0.x',
+                  supportedVersion: '7.0.100-preview.5.22307.18',
                 },
-                isHidden: true,
-                isEarlyAccess: true,
+                isPreview: true,
               },
             },
           },

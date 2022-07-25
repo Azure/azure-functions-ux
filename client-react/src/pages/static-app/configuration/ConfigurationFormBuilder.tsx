@@ -8,6 +8,7 @@ import {
   ConfigurationYupValidationSchemaType,
   EnvironmentVariable,
   PasswordProtectionTypes,
+  StagingEnvironmentPolicyTypes,
 } from './Configuration.types';
 
 export class ConfigurationFormBuilder {
@@ -22,10 +23,12 @@ export class ConfigurationFormBuilder {
     passwordProtection?: PasswordProtectionTypes,
     defaultEnvironment?: ArmObj<Environment>,
     defaultEnvironmentVariables?: EnvironmentVariable[],
+    stagingEnvironmentPolicy: StagingEnvironmentPolicyTypes = StagingEnvironmentPolicyTypes.Enabled,
     allowConfigFileUpdates: boolean = false
   ): ConfigurationFormData {
     return {
       allowConfigFileUpdates,
+      stagingEnvironmentPolicy,
       environments: environments || [],
       environmentVariables: defaultEnvironmentVariables || [],
       passwordProtectionEnvironments: '',
@@ -40,6 +43,7 @@ export class ConfigurationFormBuilder {
 
   public generateYupValidationSchema(): ConfigurationYupValidationSchemaType {
     return Yup.object().shape({
+      stagingEnvironmentPolicy: Yup.mixed().notRequired(),
       allowConfigFileUpdates: Yup.boolean().notRequired(),
       environmentVariables: Yup.mixed().notRequired(),
       isAppSettingsDirty: Yup.mixed().notRequired(),

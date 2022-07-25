@@ -256,8 +256,6 @@ export class PortalResources {
   public static fileExplorer_delete = 'fileExplorer_delete';
   public static fileExplorer_edit = 'fileExplorer_edit';
   public static fileExplorer_upload = 'fileExplorer_upload';
-  public static seeAllOptions = 'seeAllOptions';
-  public static seeRecommendedOptions = 'seeRecommendedOptions';
   public static storageLockNote = 'storageLockNote';
   public static fileExplorer_fileAlreadyExists = 'fileExplorer_fileAlreadyExists';
   public static functionNew_functionExists = 'functionNew_functionExists';
@@ -1274,7 +1272,6 @@ export class PortalResources {
   public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
   public static extensionInstallDocLink = 'extensionInstallDocLink';
   public static pricing_ACU = 'pricing_ACU';
-  public static pricing_availableFeatures = 'pricing_availableFeatures';
   public static containerSettingsApplyLabel = 'containerSettingsApplyLabel';
   public static containerQuickstart = 'containerQuickstart';
   public static containerACR = 'containerACR';
@@ -2003,6 +2000,9 @@ export class PortalResources {
   public static staticSite_applicationSettingInvalidProperty = 'staticSite_applicationSettingInvalidProperty';
   public static staticSite_applicationSettingValueMustBeAString = 'staticSite_applicationSettingValueMustBeAString';
   public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
+  public static staticSite_stagingEnvironments = 'staticSite_stagingEnvironments';
+  public static staticSite_stagingEnvironmentsDescription = 'staticSite_stagingEnvironmentsDescription';
+  public static staticSite_enableStagingEnvironments = 'staticSite_enableStagingEnvironments';
   public static deploymentCenterPivotItemLogsHeaderText = 'deploymentCenterPivotItemLogsHeaderText';
   public static deploymentCenterPivotItemContainerLogsHeaderText = 'deploymentCenterPivotItemContainerLogsHeaderText';
   public static deploymentCenterPivotItemBuildLogsHeaderText = 'deploymentCenterPivotItemBuildLogsHeaderText';
@@ -2478,4 +2478,10 @@ export class PortalResources {
   public static cosmosDb_tooltip_partitionKeyPath = 'cosmosDb_tooltip_partitionKeyPath';
   public static containerApp_console_startUpCommandAriaLabel = 'containerApp_console_startUpCommandAriaLabel';
   public static containerApp_console_cancel = 'containerApp_console_cancel';
+  public static createFunction_noAppSettingsPermissionsError = 'createFunction_noAppSettingsPermissionsError';
+  public static createFunction_noResourceIdError = 'createFunction_noResourceIdError';
+  public static createFunctionDeploymentNotification = 'createFunctionDeploymentNotification';
+  public static createFunctionDeploymentNotificationDetails = 'createFunctionDeploymentNotificationDetails';
+  public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
+  public static createFunctionDeploymentNotificationFailed = 'createFunctionDeploymentNotificationFailed';
 }

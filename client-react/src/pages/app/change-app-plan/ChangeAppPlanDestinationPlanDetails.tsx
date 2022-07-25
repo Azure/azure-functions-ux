@@ -10,7 +10,6 @@ import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
 import {
   ChangeAppPlanDefaultSkuCodes,
@@ -21,6 +20,11 @@ import {
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
+
+interface SpecPickerOutput {
+  skuCode: string; // Like "S1"
+  tier: string; // Like "Standard"
+}
 
 export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   formProps,
@@ -67,6 +71,15 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     const planDescriptor = new ArmPlanDescriptor((serverFarm as ArmObj<ServerFarm>).id);
     return planDescriptor.resourceGroup;
   };
+
+  const hidePricingTier = useMemo(() => {
+    const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
+    return (
+      (isNewPlan && newPlanInfo.tier === ChangeAppPlanTierTypes.Dynamic) ||
+      !existingPlan ||
+      existingPlan.sku?.tier === ChangeAppPlanTierTypes.Dynamic
+    );
+  }, [formProps.values.serverFarmInfo]);
 
   const getPricingTierValue = (currentServerFarmId: string, linkElement: React.MutableRefObject<ILink | null>) => {
     const skuString = getSelectedSkuString();
@@ -285,9 +298,11 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         </span>
       </ReactiveFormControl>
 
-      <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
-        {getPricingTierValue(currentServerFarm.id, changeSkuLinkElement)}
-      </ReactiveFormControl>
+      {!hidePricingTier && (
+        <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
+          {getPricingTierValue(currentServerFarm.id, changeSkuLinkElement)}
+        </ReactiveFormControl>
+      )}
     </>
   );
 };

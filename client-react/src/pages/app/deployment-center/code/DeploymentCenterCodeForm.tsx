@@ -97,7 +97,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           deploymentCenterData,
           deploymentCenterContext.resourceId,
           payload,
-          deploymentCenterContext.gitHubToken
+          deploymentCenterContext.gitHubToken,
+          portalContext
         );
       } else {
         if (!updateSourceControlResponse.metadata.success) {
@@ -178,7 +179,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       deploymentCenterData,
       deploymentCenterContext.resourceId,
       payload,
-      deploymentCenterContext.gitHubToken
+      deploymentCenterContext.gitHubToken,
+      portalContext
     );
   };
 
@@ -321,7 +323,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         const updateAppSettingsResponse = await updateGitHubActionAppSettingsForPython(
           deploymentCenterData,
           deploymentCenterContext.resourceId,
-          siteStateContext.isFunctionApp
+          siteStateContext.isFunctionApp,
+          portalContext
         );
 
         if (!updateAppSettingsResponse.metadata.success) {

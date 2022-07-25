@@ -20,6 +20,7 @@ import {
   ConfigurationYupValidationSchemaType,
   EnvironmentVariable,
   PasswordProtectionTypes,
+  StagingEnvironmentPolicyTypes,
 } from './Configuration.types';
 import ConfigurationForm from './ConfigurationForm';
 import { ConfigurationFormBuilder } from './ConfigurationFormBuilder';
@@ -40,6 +41,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   const [configurationFormData, setConfigurationFormData] = useState<ConfigurationFormData>();
   const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<ConfigurationYupValidationSchemaType>();
   const [staticSiteSku, setStaticSiteSku] = useState(StaticSiteSku.Standard);
+  const [enableStagingEnvironments, setEnableStagingEnvironments] = useState<StagingEnvironmentPolicyTypes>();
   const [allowConfigFileUpdates, setAllowConfigFileUpdates] = useState<boolean>();
   const [location, setLocation] = useState<string>();
 
@@ -83,6 +85,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
       basicAuth?: PasswordProtectionTypes,
       defaultEnvironment?: ArmObj<Environment>,
       defaultEnvironmentVariables?: EnvironmentVariable[],
+      stagingEnvironmentPolicy?: StagingEnvironmentPolicyTypes,
       allowConfigFileUpdates?: boolean
     ) => {
       const configurationFormBuilder = new ConfigurationFormBuilder(t);
@@ -92,6 +95,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
           basicAuth,
           defaultEnvironment,
           defaultEnvironmentVariables,
+          stagingEnvironmentPolicy,
           allowConfigFileUpdates
         )
       );
@@ -140,7 +144,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
           `Failed to get basic auth: ${getErrorMessageOrStringify(staticSiteAuthResponse.metadata.error)}`
         );
       }
-
+      let stagingEnvironmentPolicy: StagingEnvironmentPolicyTypes | undefined;
       if (staticSiteResponse.metadata.success) {
         setStaticSiteSku(
           staticSiteResponse.data.sku?.name.toLocaleLowerCase() === StaticSiteSku.Free.toLocaleLowerCase()
@@ -148,6 +152,11 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
             : StaticSiteSku.Standard
         );
         setAllowConfigFileUpdates(staticSiteResponse.data.properties.allowConfigFileUpdates ?? false);
+        stagingEnvironmentPolicy =
+          staticSiteResponse.data.properties.stagingEnvironmentPolicy === StagingEnvironmentPolicyTypes.Disabled
+            ? StagingEnvironmentPolicyTypes.Disabled
+            : StagingEnvironmentPolicyTypes.Enabled;
+        setEnableStagingEnvironments(stagingEnvironmentPolicy);
         setLocation(staticSiteResponse.data.location);
       } else {
         setApiFailure(true);
@@ -166,6 +175,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
           passwordProtection,
           defaultEnvironment,
           getInitialEnvironmentVariables(envVarResponse),
+          stagingEnvironmentPolicy,
           allowConfigFileUpdates
         );
       }
@@ -173,6 +183,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
       setInitialLoading(false);
     },
     [
+      enableStagingEnvironments,
       allowConfigFileUpdates,
       apiFailure,
       fetchEnvironmentVariables,
