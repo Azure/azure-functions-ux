@@ -13,7 +13,7 @@ import { Links } from '../../../utils/FwLinks';
 import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
 import { getTelemetryInfo, stringToPasswordProtectionType } from '../StaticSiteUtility';
 import { useStyles } from './Configuration.styles';
-import { ConfigurationGeneralSettingsProps, PasswordProtectionTypes } from './Configuration.types';
+import { ConfigurationGeneralSettingsProps, PasswordProtectionTypes, StagingEnvironmentPolicyTypes } from './Configuration.types';
 
 const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> = ({
   disabled,
@@ -58,6 +58,16 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
     [formProps, portalContext]
   );
 
+  const onStagingEnvironmentPolicyChange = useCallback(
+    (_: React.MouseEvent<HTMLElement>, checked: boolean = true) => {
+      formProps.setFieldValue(
+        'stagingEnvironmentPolicy',
+        checked ? StagingEnvironmentPolicyTypes.Enabled : StagingEnvironmentPolicyTypes.Disabled
+      );
+    },
+    [formProps]
+  );
+
   const onAllowConfigFileUpdatesChange = useCallback(
     (_: React.MouseEvent<HTMLElement>, checked: boolean = false) => {
       formProps.setFieldValue('allowConfigFileUpdates', checked);
@@ -84,7 +94,8 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
       !!formProps.values.visitorPassword ||
       !!formProps.values.visitorPasswordConfirm ||
       formProps.values.passwordProtection !== formProps.initialValues.passwordProtection ||
-      formProps.values.allowConfigFileUpdates !== formProps.initialValues.allowConfigFileUpdates;
+      formProps.values.allowConfigFileUpdates !== formProps.initialValues.allowConfigFileUpdates ||
+      formProps.values.stagingEnvironmentPolicy !== formProps.initialValues.stagingEnvironmentPolicy;
     formProps.setFieldValue('isGeneralSettingsDirty', isDirty);
 
     /** @note (joechung): Formik 1.x `formProps` do not work as a `useEffect` dependency. */
@@ -94,6 +105,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
     formProps.values.visitorPasswordConfirm,
     formProps.values.passwordProtection,
     formProps.values.allowConfigFileUpdates,
+    formProps.values.stagingEnvironmentPolicy,
   ]);
 
   useEffect(() => {
@@ -179,6 +191,38 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
               styles={styles.textField}
               type={TextFieldType.password}
               value={formProps.values.visitorPasswordConfirm}
+            />
+          </section>
+
+          <section className={styles.section}>
+            <h3 className={styles.header}>{t('staticSite_stagingEnvironments')}</h3>
+
+            <div className={styles.description}>
+              <span id="staging-env-description">{t('staticSite_stagingEnvironmentsDescription')} </span>
+              <Link
+                aria-labelledby="staging-env-description"
+                className={learnMoreLinkStyle}
+                href={Links.staticSiteStagingEnvironmentsLearnMore}
+                id="staging-env-description-learnMore"
+                target="_blank">
+                {t('learnMore')}
+              </Link>
+            </div>
+
+            <Field
+              checked={formProps.values.stagingEnvironmentPolicy === StagingEnvironmentPolicyTypes.Enabled}
+              component={Toggle}
+              customLabelClassName={styles.customLabel}
+              customLabelStackClassName={styles.customLabelStack}
+              disabled={disabled}
+              id="enable-staging-environment-updates"
+              label={t('staticSite_enableStagingEnvironments')}
+              name="stagingEnvironmentPolicy"
+              offText={t('no')}
+              onChange={onStagingEnvironmentPolicyChange}
+              onText={t('yes')}
+              required
+              styles={styles.toggle}
             />
           </section>
 

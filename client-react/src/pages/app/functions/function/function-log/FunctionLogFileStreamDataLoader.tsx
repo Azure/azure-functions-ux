@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { LogEntry } from './FunctionLog.types';
 import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
@@ -8,9 +8,8 @@ import { LoggingOptions } from '../function-editor/FunctionEditor.types';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Site } from '../../../../../models/site/site';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import { PortalContext } from '../../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 
 interface FunctionLogFileStreamDataLoaderProps {
   site: ArmObj<Site>;
@@ -35,6 +34,8 @@ interface FunctionLogFileStreamDataLoaderProps {
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {
   const { site, functionName } = props;
+
+  const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
 
@@ -76,10 +77,11 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       setStartTime(new Date().getTime());
     } else {
       setErrorMessage(t('logStreamingHostStatusError'));
-      LogService.error(
-        LogCategories.functionLog,
-        'getHostStatus',
-        `Failed to get host status: ${getErrorMessageOrStringify(hostStatusResult.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getHostStatus', 'failed', {
+          error: hostStatusResult.metadata.error,
+          message: 'Failed to get host status',
+        })
       );
     }
   };
@@ -109,10 +111,11 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       }
     } else {
       setErrorMessage(t('logStreamingHostStatusError'));
-      LogService.error(
-        LogCategories.functionLog,
-        'getHostStatus',
-        `Failed to get host status: ${getErrorMessageOrStringify(hostStatusResult.metadata.error)}`
+      portalContext.log(
+        getTelemetryInfo('error', 'getHostStatus', 'failed', {
+          error: hostStatusResult.metadata.error,
+          message: 'Failed to get host status',
+        })
       );
     }
   };

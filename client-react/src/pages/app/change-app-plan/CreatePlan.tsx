@@ -1,11 +1,10 @@
-import { DefaultButton, IDropdownOption, Link, MessageBar, MessageBarType, Panel, PanelType, PrimaryButton } from '@fluentui/react';
+import { DefaultButton, Link, MessageBar, MessageBarType, Panel, PanelType, PrimaryButton } from '@fluentui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Layout } from '../../../components/form-controls/ReactiveFormControl';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import { ArmObj } from '../../../models/arm-obj';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
 import { ThemeContext } from '../../../ThemeContext';
 import { AppKind } from '../../../utils/AppKind';
@@ -13,21 +12,20 @@ import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
 import { buttonFooterStyle, buttonPadding, textboxStyle } from './ChangeAppPlan.styles';
-import { NewPlanInfo } from './CreateOrSelectPlan';
+import { ChangeAppPlanDefaultSkuCodes, ChangeAppPlanTierTypes, CreatePlanProps, NewPlanInfo } from './ChangeAppPlan.types';
 import { CreateOrSelectResourceGroup, ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 
-export interface CreatePlanProps {
-  newPlanInfo: NewPlanInfo;
-  serverFarmsInWebspace: ArmObj<ServerFarm>[];
-  resourceGroupOptions: IDropdownOption[];
-  subscriptionId: string;
-  onCreatePanelClose: (newPlanInfo: NewPlanInfo) => void;
-  isUpdating: boolean;
-  hostingEnvironment?: ArmObj<HostingEnvironment>;
-}
-
 export const CreatePlan = (props: CreatePlanProps) => {
-  const { resourceGroupOptions, serverFarmsInWebspace, subscriptionId, onCreatePanelClose, hostingEnvironment, isUpdating } = props;
+  const {
+    resourceGroupOptions,
+    serverFarmsInWebspace,
+    subscriptionId,
+    onCreatePanelClose,
+    hostingEnvironment,
+    isUpdating,
+    skuTier,
+    isConsumptionToPremiumEnabled,
+  } = props;
 
   const [showPanel, setShowPanel] = useState(false);
   const [hasSubscriptionWritePermission, setHasSubscriptionWritePermission] = useState(true);
@@ -86,7 +84,18 @@ export const CreatePlan = (props: CreatePlanProps) => {
 
   const onClosePanel = (newPlanInfo: NewPlanInfo) => {
     toggleShowPanel(false);
-    onCreatePanelClose(newPlanInfo);
+    if (isConsumptionToPremiumEnabled) {
+      onCreatePanelClose({
+        ...newPlanInfo,
+        tier: skuTier || ChangeAppPlanTierTypes.Dynamic,
+        skuCode:
+          skuTier === ChangeAppPlanTierTypes.ElasticPremium
+            ? ChangeAppPlanDefaultSkuCodes.ElasticPremium
+            : ChangeAppPlanDefaultSkuCodes.Dynamic,
+      });
+    } else {
+      onCreatePanelClose(newPlanInfo);
+    }
   };
 
   const getNewLink = (hostingEnvironment?: ArmObj<HostingEnvironment>) => {

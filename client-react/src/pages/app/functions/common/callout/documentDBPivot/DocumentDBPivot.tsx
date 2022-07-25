@@ -2,17 +2,16 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { DatabaseAccount, KeyList } from '../../../../../../models/documentDB';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import LogService from '../../../../../../utils/LogService';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { DocumentDBPivotContext } from './DocumentDBDataLoader';
+import { PortalContext } from '../../../../../../PortalContext';
+import { getTelemetryInfo } from '../../FunctionsUtility';
 
 interface DocumentDBPivotFormValues {
   databaseAccount: ArmObj<DatabaseAccount> | undefined;
@@ -20,6 +19,8 @@ interface DocumentDBPivotFormValues {
 
 const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(DocumentDBPivotContext);
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
   const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<DocumentDBPivotFormValues>({ databaseAccount: undefined });
@@ -29,27 +30,26 @@ const DocumentDBPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps
   useEffect(() => {
     if (!databaseAccounts) {
       provider.fetchDatabaseAccounts(resourceId).then(r => {
-        if (!r.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'getDatabaseAccounts',
-            `Failed to get Database Accounts: ${getErrorMessageOrStringify(r.metadata.error)}`
+        if (r.metadata.success) {
+          setDatabaseAccounts(r.data.value);
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'fetchDatabaseAccounts', 'failed', {
+              error: r.metadata.error,
+              message: 'Failed to fetch databaseAccounts',
+            })
           );
-          return;
         }
-        setDatabaseAccounts(r.data.value);
       });
     } else if (formValues.databaseAccount && !keyList) {
       provider.fetchKeyList(formValues.databaseAccount.id).then(r => {
-        if (!r.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'getKeyList',
-            `Failed to get Key List: ${getErrorMessageOrStringify(r.metadata.error)}`
+        if (r.metadata.success) {
+          setKeyList(r.data);
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'fetchKeyList', 'failed', { error: r.metadata.error, message: 'Failed to fetch key list' })
           );
-          return;
         }
-        setKeyList(r.data);
       });
     }
 
@@ -124,9 +124,7 @@ const setDocumentDBConnection = (
 ) => {
   if (formValues.databaseAccount && keyList) {
     const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.databaseAccount.name}_DOCUMENTDB`);
-    const appSettingValue = `AccountEndpoint=${formValues.databaseAccount.properties.documentEndpoint};AccountKey=${
-      keyList.primaryMasterKey
-    };`;
+    const appSettingValue = `AccountEndpoint=${formValues.databaseAccount.properties.documentEndpoint};AccountKey=${keyList.primaryMasterKey};`;
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setIsDialogVisible(false);

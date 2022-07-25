@@ -105,7 +105,11 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     if (deleteWorkflowFileStatus.isSuccessful) {
       portalContext.log(getTelemetryInfo('info', 'clearMetadataAndConfig', 'submit'));
 
-      const response = await clearGitHubActionSourceControlPropertiesManually(deploymentCenterData, deploymentCenterContext.resourceId);
+      const response = await clearGitHubActionSourceControlPropertiesManually(
+        deploymentCenterData,
+        deploymentCenterContext.resourceId,
+        portalContext
+      );
 
       if (!response.metadata.success) {
         portalContext.log(

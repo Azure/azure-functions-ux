@@ -874,12 +874,6 @@
     <data name="fileExplorer_upload" xml:space="preserve">
         <value>Upload</value>
     </data>
-    <data name="seeAllOptions" xml:space="preserve">
-        <value>See additional options</value>
-    </data>
-    <data name="seeRecommendedOptions" xml:space="preserve">
-        <value>See only recommended options</value>
-    </data>
     <data name="storageLockNote" xml:space="preserve">
         <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
     </data>
@@ -3959,9 +3953,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_ACU" xml:space="preserve">
         <value>{0} total ACU</value>
     </data>
-    <data name="pricing_availableFeatures" xml:space="preserve">
-        <value>Available features</value>
-    </data>
     <data name="containerSettingsApplyLabel" xml:space="preserve">
         <value>Update container settings</value>
     </data>
@@ -5152,7 +5143,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Change App Service plan</value>
     </data>
     <data name="changePlanDescription" xml:space="preserve">
-        <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.</value>
+        <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance. There may be a short amount of down time associated with changing your App Service Plan.</value>
     </data>
     <data name="changePlanLocationTooltip" xml:space="preserve">
         <value>The region that your app currently resides in cannot be changed for new or existing plans.</value>
@@ -5490,6 +5481,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditorTestAriaLabel" xml:space="preserve">
         <value>Open test panel to test run your function.</value>
     </data>
+    <data name="functionEditorTestIntegrationAriaLabel" xml:space="preserve">
+        <value>Open test integration panel for code and data samples.</value>
+    </data>
     <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
         <value>Open popup to get function URL for your function.</value>
     </data>
@@ -5811,6 +5805,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="hostConfigurationLabel" xml:space="preserve">
         <value>Host configuration</value>
     </data>
+     <data name="destinationPlanPlaceholder" xml:space="preserve">
+        <value>Select destination plan</value>
+    </data>
     <data name="configureHostJson" xml:space="preserve">
         <value>Configure host.json</value>
     </data>
@@ -5825,6 +5822,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="premiumToConsumptionWarning" xml:space="preserve">
         <value>WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.</value>
+    </data>
+    <data name="premiumAndConsumptionLinuxInfoMessage" xml:space="preserve">
+        <value>Changing App Service Plan to a Consumption plan is only available for Windows plans.</value>
     </data>
     <data name="githubActionWorkflowOption" xml:space="preserve">
         <value>Workflow Option</value>
@@ -6173,6 +6173,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_readOnlyRbac" xml:space="preserve">
         <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
+    </data>
+    <data name="staticSite_stagingEnvironments" xml:space="preserve">
+        <value>Staging environments</value>
+    </data>
+    <data name="staticSite_stagingEnvironmentsDescription" xml:space="preserve">
+        <value>Automatically create new staging environments with pull requests.</value>
+    </data>
+    <data name="staticSite_enableStagingEnvironments" xml:space="preserve">
+        <value>Enable staging environments</value>
     </data>
     <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
         <value>Logs</value>
@@ -6554,6 +6563,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="testAndRun" xml:space="preserve">
         <value>Test/Run</value>
+    </data>
+    <data name="testIntegration" xml:space="preserve">
+        <value>Test integration</value>
     </data>
     <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
         <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
@@ -7555,6 +7567,29 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="cosmosDb_placeholder_selectAnAccount" xml:space="preserve">
         <value>Select an account</value>
     </data>
+    <data name="cosmosDb_testIntegration_description" xml:space="preserve">
+        <value>Modify or replace the existing code contained within your function's entry point with the code snippet provided below.</value>
+    </data>
+    <data name="cosmosDb_testIntegration_input_headerText" xml:space="preserve">
+        <value>{0} input</value>
+        <comment>{0} = "Cosmos DB" (or other product)</comment>
+    </data>
+    <data name="cosmosDb_testIntegration_linkText" xml:space="preserve">
+        <value>Go to {0}</value>
+        <comment>{0} = "Cosmos DB" (or other product)</comment>
+    </data>
+    <data name="cosmosDb_testIntegration_output_headerText" xml:space="preserve">
+        <value>{0} output</value>
+        <comment>{0} = "Cosmos DB" (or other product)</comment>
+    </data>
+    <data name="cosmosDb_testIntegration_trigger_description" xml:space="preserve">
+        <value>Test the {0} trigger on your function app by copy and pasting the following JSON object into Data Explorer for {1}. You can follow the link below to go to your {0} account.</value>
+        <comment>{0} = "Cosmos DB" (or other product). {1} = "Azure Cosmos DB" (or other Azure-prefixed product).</comment>
+    </data>
+    <data name="cosmosDb_testIntegration_trigger_headerText" xml:space="preserve">
+        <value>{0} trigger</value>
+        <comment>{0} = "Cosmos DB" (or other product)</comment>
+    </data>
     <data name="cosmosDb_tooltip_customAppSettingKey" xml:space="preserve">
         <value>Enter the key/value pair for the Cosmos DB custom app setting.</value>
     </data>
@@ -7566,5 +7601,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="containerApp_console_cancel" xml:space="preserve">
         <value>Cancel</value>
+    </data>
+    <data name="createFunction_noAppSettingsPermissionsError" xml:space="preserve">
+        <value>You do not have sufficient permissions to update app settings.</value>
+    </data>
+    <data name="createFunction_noResourceIdError" xml:space="preserve">
+        <value>No resource ID</value>
+    </data>
+    <data name="createFunctionDeploymentNotification" xml:space="preserve">
+        <value>Deploying function resources</value>
+    </data>
+    <data name="createFunctionDeploymentNotificationDetails" xml:space="preserve">
+        <value>Deploying resources for {0}</value>
+    </data>
+    <data name="createFunctionDeploymentNotificationSuccess" xml:space="preserve">
+        <value>Deployment '{0}' to resource group '{1}' was successful</value>
+    </data>
+    <data name="createFunctionDeploymentNotificationFailed" xml:space="preserve">
+        <value>Deployment '{0}' to resource group '{1}' failed</value>
     </data>
 </root>

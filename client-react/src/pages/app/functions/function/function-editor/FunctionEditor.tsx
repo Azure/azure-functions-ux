@@ -1,7 +1,6 @@
 import { IDropdownOption, MessageBarType, PanelType } from '@fluentui/react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -24,15 +23,15 @@ import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManage
 import FunctionAppService from '../../../../../utils/FunctionAppService';
 import { Links } from '../../../../../utils/FwLinks';
 import { Guid } from '../../../../../utils/Guid';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import SiteHelper from '../../../../../utils/SiteHelper';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import Url from '../../../../../utils/url';
 import { logCommandBarHeight, minimumLogPanelHeight } from '../function-log/FunctionLog.styles';
 import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
 import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
+import FunctionTestIntegration from './function-test-integration/FunctionTestIntegration';
 import FunctionTest from './function-test/FunctionTest';
 import {
   commandBarSticky,
@@ -56,7 +55,9 @@ export interface FunctionEditorProps {
   functionRunning: boolean;
   urlObjs: UrlObj[];
   showTestPanel: boolean;
+  showTestIntegrationPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
+  setShowTestIntegrationPanel: React.Dispatch<React.SetStateAction<boolean>>;
   refresh: () => void;
   isRefreshing: boolean;
   getFunctionUrl: (key?: string) => string;
@@ -85,7 +86,9 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     functionRunning,
     urlObjs,
     showTestPanel,
+    showTestIntegrationPanel,
     setShowTestPanel,
+    setShowTestIntegrationPanel,
     testData,
     refresh,
     isRefreshing,
@@ -181,9 +184,17 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     setShowTestPanel(true);
   };
 
+  const testIntegration = useCallback(() => {
+    setShowTestIntegrationPanel(true);
+  }, [setShowTestIntegrationPanel]);
+
   const onCloseTest = () => {
     setShowTestPanel(false);
   };
+
+  const onCloseTestIntegration = useCallback(() => {
+    setShowTestIntegrationPanel(false);
+  }, [setShowTestIntegrationPanel]);
 
   const isDirty = () => {
     return fileContent.default !== fileContent.latest;
@@ -277,11 +288,11 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
           setFileContent({ default: fileText, latest: fileText });
         } else {
           setFileContent({ default: '', latest: '' });
-
-          LogService.error(
-            LogCategories.FunctionEdit,
-            'getFileContent',
-            `Failed to get file content: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
+          portalCommunicator.log(
+            getTelemetryInfo('error', 'getFileContent', 'failed', {
+              error: fileResponse.metadata.error,
+              message: 'Failed to get file content',
+            })
           );
         }
       });
@@ -390,18 +401,12 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
 
   const expandLogPanel = () => {
     setLogPanelExpanded(true);
-    LogService.trackEvent(LogCategories.functionLog, 'functionEditor-logPanelExpanded', {
-      resourceId: siteStateContext.resourceId,
-      sessionId: Url.getParameterByName(null, 'sessionId'),
-    });
+    portalCommunicator.log(getTelemetryInfo('info', 'functionEditor', 'logPanelExpaned'));
   };
 
   const closeLogPanel = () => {
     setLogPanelExpanded(false);
-    LogService.trackEvent(LogCategories.functionLog, 'functionEditor-logPanelClosed', {
-      resourceId: siteStateContext.resourceId,
-      sessionId: Url.getParameterByName(null, 'sessionId'),
-    });
+    portalCommunicator.log(getTelemetryInfo('info', 'functionEditor', 'logPanelClosed'));
   };
 
   const uploadFile = async file => {
@@ -436,10 +441,11 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
         portalCommunicator.stopNotification(notificationId, true, t('uploadingFileSuccessWithName').format(fileName));
       } else {
         portalCommunicator.stopNotification(notificationId, false, t('uploadingFileFailureWithName').format(fileName));
-        LogService.error(
-          LogCategories.FunctionEdit,
-          'functionEditorFileUpload',
-          `Failed to upload file: ${loadEndEvent.target && loadEndEvent.target['response']}`
+        portalCommunicator.log(
+          getTelemetryInfo('error', 'functionEditorFileUpload', 'failed', {
+            error: loadEndEvent.target && loadEndEvent.target['response'],
+            message: 'Failed to upload file',
+          })
         );
       }
     };
@@ -540,6 +546,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
           saveFunction={save}
           resetFunction={() => setShowDiscardConfirmDialog(true)}
           testFunction={test}
+          testIntegrationFunction={testIntegration}
           refreshFunction={refresh}
           isGetFunctionUrlVisible={isGetFunctionUrlVisible()}
           dirty={isDirty()}
@@ -616,6 +623,16 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
           enablePortalCall={enablePortalCall}
           addingCorsRules={addingCorsRules}
         />
+      </CustomPanel>
+      <CustomPanel
+        customStyle={testPanelStyle}
+        headerText={t('testIntegration')}
+        isBlocking={false}
+        isOpen={showTestIntegrationPanel}
+        overlay={isRefreshing}
+        onDismiss={onCloseTestIntegration}
+        type={PanelType.medium}>
+        <FunctionTestIntegration functionInfo={functionInfo} />
       </CustomPanel>
       {isLoading() && <LoadingComponent />}
       {!logPanelFullscreen && (

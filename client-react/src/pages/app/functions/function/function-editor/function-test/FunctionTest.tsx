@@ -8,8 +8,6 @@ import { InputFormValues, HttpMethods, ResponseContent, PivotType, UrlObj, urlPa
 import { Form, FormikProps, Formik, FormikActions } from 'formik';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
-import LogService from '../../../../../../utils/LogService';
-import { LogCategories } from '../../../../../../utils/LogCategories';
 import { functionTestBodyStyle } from './FunctionTest.styles';
 import { MessageBarType, Pivot, PivotItem } from '@fluentui/react';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
@@ -18,6 +16,8 @@ import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
 import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
 import Url from '../../../../../../utils/url';
+import { PortalContext } from '../../../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -46,6 +46,8 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     headers: [],
   });
   const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
+
+  const portalContext = useContext(PortalContext);
 
   const {
     run,
@@ -114,7 +116,11 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
       } catch (err) {
         localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
-        LogService.error(LogCategories.FunctionEdit, 'invalid-json', err);
+        portalContext.log(
+          getTelemetryInfo('error', 'invalid-json', 'failed', {
+            error: err,
+          })
+        );
       }
     } else {
       localTestData = testData || functionInfo.properties.test_data || '';

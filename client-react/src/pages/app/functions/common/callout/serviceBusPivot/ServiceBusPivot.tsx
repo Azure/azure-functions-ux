@@ -2,18 +2,17 @@ import { FieldProps, Formik, FormikProps } from 'formik';
 import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { AuthorizationRule, KeyList, Namespace } from '../../../../../../models/servicebus';
-import { LogCategories } from '../../../../../../utils/LogCategories';
-import LogService from '../../../../../../utils/LogService';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 import { ServiceBusPivotContext } from './ServiceBusPivotDataLoader';
+import { PortalContext } from '../../../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 
 export interface ServiceBusPivotFormValues {
   namespace: ArmObj<Namespace> | undefined;
@@ -22,6 +21,8 @@ export interface ServiceBusPivotFormValues {
 
 const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & FieldProps & CustomDropdownProps> = props => {
   const provider = useContext(ServiceBusPivotContext);
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
   const { resourceId, appSettingKeys } = props;
   const [formValues, setFormValues] = useState<ServiceBusPivotFormValues>({ namespace: undefined, policy: undefined });
@@ -32,41 +33,35 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & IDropdownProps & Fiel
   useEffect(() => {
     if (!namespaces) {
       provider.fetchNamespaces(resourceId).then(r => {
-        if (!r.metadata.success) {
-          LogService.trackEvent(
-            LogCategories.bindingResource,
-            'getNamespaces',
-            `Failed to get Namespaces: ${getErrorMessageOrStringify(r.metadata.error)}`
+        if (r.metadata.success) {
+          setNamespaces(r.data.value);
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'fetchNamespaces', 'failed', { error: r.metadata.error, message: 'Failed to fetch namespaces' })
           );
-          return;
         }
-        setNamespaces(r.data.value);
       });
     } else if (formValues.namespace) {
       if (!namespaceAuthRules) {
         provider.fetchAuthRules(formValues.namespace.id).then(r => {
-          if (!r.metadata.success) {
-            LogService.trackEvent(
-              LogCategories.bindingResource,
-              'getAuthRules',
-              `Failed to get Authorization Rules: ${getErrorMessageOrStringify(r.metadata.error)}`
+          if (r.metadata.success) {
+            setNamespaceAuthRules(r.data.value);
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'fetchAuthRules', 'failed', { error: r.metadata.error, message: 'Failed to fetch auth rules' })
             );
-            return;
           }
-          setNamespaceAuthRules(r.data.value);
         });
       }
       if (formValues.policy && !keyList) {
         provider.fetchKeyList(formValues.policy.id).then(r => {
-          if (!r.metadata.success) {
-            LogService.trackEvent(
-              LogCategories.bindingResource,
-              'getKeyList',
-              `Failed to get Key List: ${getErrorMessageOrStringify(r.metadata.error)}`
+          if (r.metadata.success) {
+            setKeyList(r.data);
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'fetchKeyList', 'failed', { error: r.metadata.error, message: 'Failed to fetch key list' })
             );
-            return;
           }
-          setKeyList(r.data);
         });
       }
     }

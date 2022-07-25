@@ -256,8 +256,6 @@ export class PortalResources {
   public static fileExplorer_delete = 'fileExplorer_delete';
   public static fileExplorer_edit = 'fileExplorer_edit';
   public static fileExplorer_upload = 'fileExplorer_upload';
-  public static seeAllOptions = 'seeAllOptions';
-  public static seeRecommendedOptions = 'seeRecommendedOptions';
   public static storageLockNote = 'storageLockNote';
   public static fileExplorer_fileAlreadyExists = 'fileExplorer_fileAlreadyExists';
   public static functionNew_functionExists = 'functionNew_functionExists';
@@ -1274,7 +1272,6 @@ export class PortalResources {
   public static scmPingFailedLearnMore = 'scmPingFailedLearnMore';
   public static extensionInstallDocLink = 'extensionInstallDocLink';
   public static pricing_ACU = 'pricing_ACU';
-  public static pricing_availableFeatures = 'pricing_availableFeatures';
   public static containerSettingsApplyLabel = 'containerSettingsApplyLabel';
   public static containerQuickstart = 'containerQuickstart';
   public static containerACR = 'containerACR';
@@ -1773,6 +1770,7 @@ export class PortalResources {
   public static functionEditorSaveAriaLabel = 'functionEditorSaveAriaLabel';
   public static functionEditorDiscardAriaLabel = 'functionEditorDiscardAriaLabel';
   public static functionEditorTestAriaLabel = 'functionEditorTestAriaLabel';
+  public static functionEditorTestIntegrationAriaLabel = 'functionEditorTestIntegrationAriaLabel';
   public static functionEditorGetFunctionUrlAriaLabel = 'functionEditorGetFunctionUrlAriaLabel';
   public static functionEditorCommandBarAriaLabel = 'functionEditorCommandBarAriaLabel';
   public static localGitDescription = 'localGitDescription';
@@ -1879,11 +1877,13 @@ export class PortalResources {
   public static githubActionStackNotSupportedMessage = 'githubActionStackNotSupportedMessage';
   public static githubActionStackMismatchMessage = 'githubActionStackMismatchMessage';
   public static hostConfigurationLabel = 'hostConfigurationLabel';
+  public static destinationPlanPlaceholder = 'destinationPlanPlaceholder';
   public static configureHostJson = 'configureHostJson';
   public static pricing_pv2FlexStampInfoMessage = 'pricing_pv2FlexStampInfoMessage';
   public static pricing_pv2FlexStampCheckboxLabel = 'pricing_pv2FlexStampCheckboxLabel';
   public static pricing_skuCheckWarning = 'pricing_skuCheckWarning';
   public static premiumToConsumptionWarning = 'premiumToConsumptionWarning';
+  public static premiumAndConsumptionLinuxInfoMessage = 'premiumAndConsumptionLinuxInfoMessage';
   public static githubActionWorkflowOption = 'githubActionWorkflowOption';
   public static githubActionWorkflowOptionOverwrite = 'githubActionWorkflowOptionOverwrite';
   public static githubActionWorkflowOptionUseExisting = 'githubActionWorkflowOptionUseExisting';
@@ -2001,6 +2001,9 @@ export class PortalResources {
   public static staticSite_applicationSettingInvalidProperty = 'staticSite_applicationSettingInvalidProperty';
   public static staticSite_applicationSettingValueMustBeAString = 'staticSite_applicationSettingValueMustBeAString';
   public static staticSite_readOnlyRbac = 'staticSite_readOnlyRbac';
+  public static staticSite_stagingEnvironments = 'staticSite_stagingEnvironments';
+  public static staticSite_stagingEnvironmentsDescription = 'staticSite_stagingEnvironmentsDescription';
+  public static staticSite_enableStagingEnvironments = 'staticSite_enableStagingEnvironments';
   public static deploymentCenterPivotItemLogsHeaderText = 'deploymentCenterPivotItemLogsHeaderText';
   public static deploymentCenterPivotItemContainerLogsHeaderText = 'deploymentCenterPivotItemContainerLogsHeaderText';
   public static deploymentCenterPivotItemBuildLogsHeaderText = 'deploymentCenterPivotItemBuildLogsHeaderText';
@@ -2131,6 +2134,7 @@ export class PortalResources {
   public static clickToShowValue = 'clickToShowValue';
   public static clickToHideValue = 'clickToHideValue';
   public static testAndRun = 'testAndRun';
+  public static testIntegration = 'testIntegration';
   public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
   public static clickToUpdateSettings = 'clickToUpdateSettings';
   public static deploymentCenterCodeLogsCICDNotConfiguredHeader = 'deploymentCenterCodeLogsCICDNotConfiguredHeader';
@@ -2472,8 +2476,20 @@ export class PortalResources {
   public static cosmosDb_placeholder_selectAContainer = 'cosmosDb_placeholder_selectAContainer';
   public static cosmosDb_placeholder_selectADatabase = 'cosmosDb_placeholder_selectADatabase';
   public static cosmosDb_placeholder_selectAnAccount = 'cosmosDb_placeholder_selectAnAccount';
+  public static cosmosDb_testIntegration_description = 'cosmosDb_testIntegration_description';
+  public static cosmosDb_testIntegration_input_headerText = 'cosmosDb_testIntegration_input_headerText';
+  public static cosmosDb_testIntegration_linkText = 'cosmosDb_testIntegration_linkText';
+  public static cosmosDb_testIntegration_output_headerText = 'cosmosDb_testIntegration_output_headerText';
+  public static cosmosDb_testIntegration_trigger_description = 'cosmosDb_testIntegration_trigger_description';
+  public static cosmosDb_testIntegration_trigger_headerText = 'cosmosDb_testIntegration_trigger_headerText';
   public static cosmosDb_tooltip_customAppSettingKey = 'cosmosDb_tooltip_customAppSettingKey';
   public static cosmosDb_tooltip_partitionKeyPath = 'cosmosDb_tooltip_partitionKeyPath';
   public static containerApp_console_startUpCommandAriaLabel = 'containerApp_console_startUpCommandAriaLabel';
   public static containerApp_console_cancel = 'containerApp_console_cancel';
+  public static createFunction_noAppSettingsPermissionsError = 'createFunction_noAppSettingsPermissionsError';
+  public static createFunction_noResourceIdError = 'createFunction_noResourceIdError';
+  public static createFunctionDeploymentNotification = 'createFunctionDeploymentNotification';
+  public static createFunctionDeploymentNotificationDetails = 'createFunctionDeploymentNotificationDetails';
+  public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
+  public static createFunctionDeploymentNotificationFailed = 'createFunctionDeploymentNotificationFailed';
 }

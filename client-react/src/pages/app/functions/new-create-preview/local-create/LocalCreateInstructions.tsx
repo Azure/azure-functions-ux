@@ -6,15 +6,14 @@ import FunctionCreateData from '../FunctionCreate.data';
 import StringUtils from '../../../../../utils/string';
 import { ArmResourceDescriptor, ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { SiteStateContext } from '../../../../../SiteState';
-import LogService from '../../../../../utils/LogService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import Markdown from 'markdown-to-jsx';
 import { MarkdownHighlighter, SlotComponent, StackInstructions } from '../../../../../components/MarkdownComponents/MarkdownComponents';
 import { ChevronUp } from './CustomMarkdownComponents';
 import { linkStyle } from './LocalCreateInstructions.style';
 import { localCreateContainerStyle } from '../FunctionCreate.styles';
 import CustomElementsShimmer from '../../../../../components/shimmer/CustomElementsShimmer';
+import { PortalContext } from '../../../../../PortalContext';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 
 export interface LocalCreateInstructionsProps {
   resourceId: string;
@@ -29,6 +28,7 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
   const startupInfoContext = useContext(StartupInfoContext);
   const theme = useContext(ThemeContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const site = siteStateContext.site;
 
@@ -55,10 +55,11 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
         // setInstructions(undefined);
       } else {
         setInstructions(null);
-        LogService.trackEvent(
-          LogCategories.localDevExperience,
-          'getLocalDevExperienceInstructions',
-          `Failed to fetch instructions: ${getErrorMessageOrStringify(localDevExperienceResponse.metadata.error)}`
+        portalContext.log(
+          getTelemetryInfo('error', 'getLocalDevExperienceInstructions', 'failed', {
+            error: localDevExperienceResponse.metadata.error,
+            message: 'Failed to fetch instructions',
+          })
         );
       }
     }

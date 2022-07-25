@@ -8,14 +8,23 @@ import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import { SpecPickerOutput } from '../spec-picker/specs/PriceSpec';
 import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
-import { ChangeAppPlanTierTypes, DestinationPlanDetailsProps } from './ChangeAppPlan.types';
+import {
+  ChangeAppPlanDefaultSkuCodes,
+  ChangeAppPlanTierTypes,
+  CreateOrSelectPlanFormValues,
+  DestinationPlanDetailsProps,
+} from './ChangeAppPlan.types';
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
-import { CreateOrSelectPlan, CreateOrSelectPlanFormValues, NEW_PLAN, addNewPlanToOptions } from './CreateOrSelectPlan';
+import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
+
+interface SpecPickerOutput {
+  skuCode: string; // Like "S1"
+  tier: string; // Like "Standard"
+}
 
 export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   formProps,
@@ -42,6 +51,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     return skuTier === ChangeAppPlanTierTypes.Dynamic && currentServerFarm.sku?.tier === ChangeAppPlanTierTypes.ElasticPremium;
   }, [skuTier, currentServerFarm.sku?.tier]);
 
+  const isLinuxPremium = useMemo(() => {
+    //(NOTE): stpelleg - Warning only for Premium since menu item disabled for Linux Consumption Apps
+    const isPremium = currentServerFarm?.sku?.tier.toLocaleLowerCase() === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
+    const isLinux = !!formProps.values.site && isLinuxApp(formProps.values.site);
+    return isPremium && isLinux;
+  }, [formProps.values.site, currentServerFarm.sku?.tier]);
+
   const getSelectedResourceGroupString = () => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
 
@@ -51,10 +67,19 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       }
       return `${(newPlanInfo.existingResourceGroup as ArmObj<ResourceGroup>).name}`;
     }
-
-    const planDescriptor = new ArmPlanDescriptor((existingPlan as ArmObj<ServerFarm>).id);
+    const serverFarm = existingPlan ? existingPlan : formProps.values.currentServerFarm;
+    const planDescriptor = new ArmPlanDescriptor((serverFarm as ArmObj<ServerFarm>).id);
     return planDescriptor.resourceGroup;
   };
+
+  const hidePricingTier = useMemo(() => {
+    const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
+    return (
+      (isNewPlan && newPlanInfo.tier === ChangeAppPlanTierTypes.Dynamic) ||
+      !existingPlan ||
+      existingPlan.sku?.tier === ChangeAppPlanTierTypes.Dynamic
+    );
+  }, [formProps.values.serverFarmInfo]);
 
   const getPricingTierValue = (currentServerFarmId: string, linkElement: React.MutableRefObject<ILink | null>) => {
     const skuString = getSelectedSkuString();
@@ -85,10 +110,16 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     if (isNewPlan) {
       skuCode = newPlanInfo.skuCode;
       tier = newPlanInfo.tier;
-    } else {
+    } else if (existingPlan) {
       const sku: ArmSku = (existingPlan as ArmObj<ServerFarm>).sku as ArmSku;
       skuCode = sku.name;
       tier = sku.tier;
+    } else {
+      tier = skuTier || ChangeAppPlanTierTypes.Dynamic;
+      skuCode =
+        skuTier === ChangeAppPlanTierTypes.ElasticPremium
+          ? ChangeAppPlanDefaultSkuCodes.ElasticPremium
+          : ChangeAppPlanDefaultSkuCodes.Dynamic;
     }
 
     return `${tier} (${skuCode}) `;
@@ -178,7 +209,6 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       : serverFarms;
 
     const options = getDropdownOptions(filteredServerFarmOptions);
-    addNewPlanToOptions(formProps.values.serverFarmInfo.newPlanInfo.name, options, t);
     if (options.length === 0) {
       options.unshift({
         key: formProps.values.serverFarmInfo.newPlanInfo.name,
@@ -216,6 +246,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         <CustomBanner className={bannerStyle} type={MessageBarType.warning} message={t('premiumToConsumptionWarning')} />
       )}
 
+      {isLinuxPremium && (
+        <CustomBanner className={bannerStyle} type={MessageBarType.info} message={t('premiumAndConsumptionLinuxInfoMessage')} />
+      )}
+
       {isConsumptionToPremiumEnabled && (
         <div className={planTypeStyle}>
           <ReactiveFormControl id="planType" label={t('planType')}>
@@ -247,6 +281,8 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
           hostingEnvironment={hostingEnvironment}
           skuTier={skuTier}
           isUpdating={isUpdating}
+          formProps={formProps}
+          isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
         />
       </ReactiveFormControl>
 
@@ -262,9 +298,11 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         </span>
       </ReactiveFormControl>
 
-      <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
-        {getPricingTierValue(currentServerFarm.id, changeSkuLinkElement)}
-      </ReactiveFormControl>
+      {!hidePricingTier && (
+        <ReactiveFormControl id="currentPricingTier" label={t('pricingTier')}>
+          {getPricingTierValue(currentServerFarm.id, changeSkuLinkElement)}
+        </ReactiveFormControl>
+      )}
     </>
   );
 };
@@ -279,7 +317,6 @@ const getDropdownOptions = (objs: ArmObj<any>[]) => {
           key: objs[i].id.toLowerCase(),
           text: objs[i].name,
           data: objs[i],
-          selected: i === 0,
         },
       ];
     }

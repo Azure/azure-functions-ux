@@ -1,42 +1,22 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react';
+import React, { useState, useContext, useCallback, useEffect, Dispatch, SetStateAction } from 'react';
 import { Dropdown as OfficeDropdown, IDropdownProps, IDropdownOption, Stack } from '@fluentui/react';
 import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { ThemeContext } from '../../../ThemeContext';
 import { useWindowSize } from 'react-use';
-import { ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 import { CreatePlan } from './CreatePlan';
 import { useTranslation } from 'react-i18next';
 import i18next from 'i18next';
 import { ArmObj } from '../../../models/arm-obj';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
-import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import { ChangeAppPlanDefaultSkuCodes, ChangeAppPlanTierTypes } from './ChangeAppPlan.types';
+import {
+  ChangeAppPlanDefaultSkuCodes,
+  ChangeAppPlanTierTypes,
+  CreateOrSelectPlanFormValues,
+  CreateOrSelectPlanProps,
+  NewPlanInfo,
+} from './ChangeAppPlan.types';
 
 export const NEW_PLAN = '__NEWPLAN__';
-
-interface NewPlan {
-  name: string;
-  skuCode: string;
-  tier: string;
-}
-
-export type NewPlanInfo = NewPlan & ResourceGroupInfo;
-
-export interface CreateOrSelectPlanFormValues {
-  isNewPlan: boolean;
-  newPlanInfo: NewPlanInfo;
-  existingPlan: ArmObj<ServerFarm> | null;
-}
-
-export interface CreateOrSelectPlanProps {
-  subscriptionId: string;
-  resourceGroupOptions: IDropdownOption[];
-  serverFarmsInWebspace: ArmObj<ServerFarm>[];
-  hostingEnvironment?: ArmObj<HostingEnvironment>;
-  onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void;
-  isUpdating: boolean;
-  skuTier?: string;
-}
 
 export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateOrSelectPlanProps & IDropdownProps) => {
   const {
@@ -51,6 +31,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     serverFarmsInWebspace,
     skuTier,
     isUpdating,
+    isConsumptionToPremiumEnabled,
   } = props;
 
   const theme = useContext(ThemeContext);
@@ -62,6 +43,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     newPlanInfo,
     existingPlan,
   });
+  const [hasDropDownChanged, setHasDropdownChanged] = useState<boolean>(false);
 
   const onChangeDropdown = useCallback(
     (_e: unknown, option: IDropdownOption) => {
@@ -86,6 +68,10 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
 
       setPlanInfo(info);
       onPlanChange(info);
+
+      if (!hasDropDownChanged) {
+        setHasDropdownChanged(true);
+      }
     },
     [options]
   );
@@ -93,7 +79,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
   const fullpage = width > 1000;
 
   useEffect(() => {
-    if (options?.[0]) {
+    if (hasDropDownChanged && options?.[0]) {
       onChangeDropdown(null, options[0]);
     }
   }, [options]);
@@ -102,12 +88,13 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     <>
       <Stack>
         <OfficeDropdown
-          selectedKey={planInfo.isNewPlan ? planInfo.newPlanInfo.name : (planInfo.existingPlan as ArmObj<ServerFarm>).id.toLowerCase()}
+          selectedKey={planInfo.isNewPlan ? planInfo.newPlanInfo.name : (planInfo.existingPlan as ArmObj<ServerFarm>)?.id.toLowerCase()}
           options={options}
           onChange={onChangeDropdown}
           styles={dropdownStyleOverrides(theme, fullpage)}
           ariaLabel={t('appServicePlan')}
           disabled={isUpdating}
+          placeholder={t('destinationPlanPlaceholder')}
         />
         <CreatePlan
           newPlanInfo={planInfo.newPlanInfo}
@@ -115,15 +102,24 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
           resourceGroupOptions={resourceGroupOptions}
           subscriptionId={subscriptionId}
           hostingEnvironment={hostingEnvironment}
-          onCreatePanelClose={newPlan => onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, t, onPlanChange)}
+          onCreatePanelClose={newPlan =>
+            onCreatePanelClose(planInfo, setPlanInfo, newPlan, options, t, onPlanChange, setHasDropdownChanged)
+          }
           isUpdating={isUpdating}
+          skuTier={skuTier}
+          isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
         />
       </Stack>
     </>
   );
 };
 
-export const addNewPlanToOptions = (planName: string, options: IDropdownOption[], t: i18next.TFunction) => {
+export const addNewPlanToOptions = (
+  planName: string,
+  options: IDropdownOption[],
+  t: i18next.TFunction,
+  setHasDropdownChanged: Dispatch<SetStateAction<boolean>>
+) => {
   if (planName) {
     const newItem = {
       key: planName,
@@ -135,6 +131,7 @@ export const addNewPlanToOptions = (planName: string, options: IDropdownOption[]
       options[0] = newItem;
     } else {
       options.unshift(newItem);
+      setHasDropdownChanged(true);
     }
   }
 };
@@ -145,7 +142,8 @@ const onCreatePanelClose = (
   newPlanInfo: NewPlanInfo,
   planOptions: IDropdownOption[],
   t: i18next.TFunction,
-  onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void
+  onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void,
+  setHasDropdownChanged: Dispatch<SetStateAction<boolean>>
 ) => {
   const info = {
     ...planInfo,
@@ -155,7 +153,7 @@ const onCreatePanelClose = (
     isNewPlan: true,
   };
 
-  addNewPlanToOptions(info.newPlanInfo.name, planOptions, t);
+  addNewPlanToOptions(info.newPlanInfo.name, planOptions, t, setHasDropdownChanged);
   setPlanInfo(info);
   onPlanChange(info);
 };

@@ -5,23 +5,27 @@ import {
   SiteSourceControlRequestBody,
 } from '../DeploymentCenter.types';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
-import { getWorkflowFileName, getLogId } from './DeploymentCenterUtility';
+import { getWorkflowFileName } from './DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import PortalCommunicator from '../../../../portal-communicator';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 
 export const updateGitHubActionAppSettingsForPython = async (
   deploymentCenterData: DeploymentCenterData,
   resourceId: string,
-  isFunctionApp: boolean
+  isFunctionApp: boolean,
+  portalContext: PortalCommunicator
 ) => {
   const fetchExistingAppSettingsResponse = await deploymentCenterData.fetchApplicationSettings(resourceId);
 
   if (!fetchExistingAppSettingsResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionAppSettingsForPython'), {
-      error: fetchExistingAppSettingsResponse.metadata.error,
-    });
+    portalContext.log(
+      getTelemetryInfo('error', 'fetchApplicationSettings', 'failed', {
+        error: fetchExistingAppSettingsResponse.metadata.error,
+        message: 'Failed to get app-settings',
+      })
+    );
 
     return fetchExistingAppSettingsResponse;
   }
@@ -49,9 +53,12 @@ export const updateGitHubActionAppSettingsForPython = async (
     );
 
     if (!updateAppSettingsResponse.metadata.success) {
-      LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionAppSettingsForPython'), {
-        error: updateAppSettingsResponse.metadata.error,
-      });
+      portalContext.log(
+        getTelemetryInfo('error', 'updateGitHubActionAppSettingsForPython', 'failed', {
+          error: updateAppSettingsResponse.metadata.error,
+          message: 'Failed to update app-settings',
+        })
+      );
     }
 
     return updateAppSettingsResponse;
@@ -64,7 +71,8 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
   resourceId: string,
   payload: SiteSourceControlRequestBody,
-  gitHubToken: string
+  gitHubToken: string,
+  portalContext: PortalCommunicator
 ) => {
   // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
   // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
@@ -73,9 +81,12 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   const fetchExistingMetadataResponse = await deploymentCenterData.getConfigMetadata(resourceId);
 
   if (!fetchExistingMetadataResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
-      error: fetchExistingMetadataResponse.metadata.error,
-    });
+    portalContext.log(
+      getTelemetryInfo('error', 'getSiteConfig', 'failed', {
+        error: fetchExistingMetadataResponse.metadata.error,
+        message: 'Failed to get site config data',
+      })
+    );
 
     return fetchExistingMetadataResponse;
   }
@@ -97,9 +108,12 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
 
   if (!updateMetadataResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
-      error: updateMetadataResponse.metadata.error,
-    });
+    portalContext.log(
+      getTelemetryInfo('error', 'updateGitHubActionSourceControlPropertiesManually', 'failed', {
+        error: updateMetadataResponse.metadata.error,
+        message: 'Failed to update metadata',
+      })
+    );
 
     return updateMetadataResponse;
   }
@@ -111,15 +125,22 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   });
 
   if (!patchSiteConfigResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'updateGitHubActionSourceControlPropertiesManually'), {
-      error: patchSiteConfigResponse.metadata.error,
-    });
+    portalContext.log(
+      getTelemetryInfo('error', 'updateGitHubActionSourceControlPropertiesManually', 'failed', {
+        error: patchSiteConfigResponse.metadata.error,
+        message: 'Failed to patch site config',
+      })
+    );
   }
 
   return patchSiteConfigResponse;
 };
 
-export const clearGitHubActionSourceControlPropertiesManually = async (deploymentCenterData: DeploymentCenterData, resourceId: string) => {
+export const clearGitHubActionSourceControlPropertiesManually = async (
+  deploymentCenterData: DeploymentCenterData,
+  resourceId: string,
+  portalContext: PortalCommunicator
+) => {
   // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
   // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
   // the /sourcecontrols API GET will start failing.
@@ -127,9 +148,12 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
   const fetchExistingMetadataResponse = await deploymentCenterData.getConfigMetadata(resourceId);
 
   if (!fetchExistingMetadataResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
-      error: fetchExistingMetadataResponse.metadata.error,
-    });
+    portalContext.log(
+      getTelemetryInfo('error', 'getConfigMetadata', 'failed', {
+        error: fetchExistingMetadataResponse.metadata.error,
+        message: 'Failed to get source control',
+      })
+    );
 
     return fetchExistingMetadataResponse;
   }
@@ -146,9 +170,12 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
   const updateMetadataResponse = await deploymentCenterData.updateConfigMetadata(resourceId, properties);
 
   if (!updateMetadataResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
-      error: updateMetadataResponse.metadata.error,
-    });
+    portalContext.log(
+      getTelemetryInfo('error', 'clearGitHubActionSourceControlPropertiesManually', 'failed', {
+        error: updateMetadataResponse.metadata.error,
+        message: 'Failed to update config',
+      })
+    );
 
     return updateMetadataResponse;
   }
@@ -160,9 +187,12 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
   });
 
   if (!patchSiteConfigResponse.metadata.success) {
-    LogService.error(LogCategories.deploymentCenter, getLogId('GitHubActionUtility', 'clearGitHubActionSourceControlPropertiesManually'), {
-      error: patchSiteConfigResponse.metadata.error,
-    });
+    portalContext.log(
+      getTelemetryInfo('error', 'clearGitHubActionSourceControlPropertiesManually', 'failed', {
+        error: patchSiteConfigResponse.metadata.error,
+        message: 'Failed to patch config',
+      })
+    );
   }
 
   return patchSiteConfigResponse;

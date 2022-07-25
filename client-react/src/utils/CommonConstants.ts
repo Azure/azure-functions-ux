@@ -70,7 +70,6 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    enableFunctionsDynamicToPremium: 'enableFunctionsDynamicToPremium', // websitesextension_ext=appsvc.enableFunctionsDynamicToPremium%3Dtrue
     showHttps20Proxy: 'showHttps20Proxy',
   };
 
@@ -83,6 +82,10 @@ export class CommonConstants {
 
   public static readonly FunctionsRuntimeVersions = {
     four: '~4',
+  };
+
+  public static readonly FunctionAppServicePlanConstants = {
+    defaultMaximumElasticWorkerCount: 20,
   };
 
   public static readonly AppSettingNames = {
@@ -198,6 +201,8 @@ export class CommonConstants {
   public static readonly Hyphen = '-';
 
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
+
+  public static readonly cosmosUrl = 'https://cosmos.azure.com/';
 
   public static readonly PortalUris = {
     public: 'https://portal.azure.com',
@@ -327,11 +332,13 @@ export class SubscriptionQuotaIds {
 // File - https://msazure.visualstudio.com/One/_git/AAPT-Antares-AntUX?path=/src/src/Ux/Extensions/Websites/TypeScript/ExtensionAssets/Constants.ts&version=GBdev&line=3444&lineEnd=3444&lineStartColumn=14&lineEndColumn=29&lineStyle=plain&_a=contents
 export class ExperimentationConstants {
   public static TreatmentFlight = {
+    functionsCollateral: '61fci236',
     portalCallOnEditor: 'enable-portal-call-editor',
     newFunctionLogsApi: 'use-new-function-logs-api',
   };
 
   public static ControlFlight = {
+    functionsCollateral: '3f3ej608',
     portalCallOnEditor: 'disable-portal-call-editor',
     newFunctionLogsApi: 'use-old-function-logs-api',
   };
