@@ -202,6 +202,8 @@ export class CommonConstants {
 
   public static readonly serviceBmxUrl = 'https://service.bmx.azure.com';
 
+  public static readonly cosmosUrl = 'https://cosmos.azure.com/';
+
   public static readonly PortalUris = {
     public: 'https://portal.azure.com',
     fairfax: 'https://portal.azure.us',

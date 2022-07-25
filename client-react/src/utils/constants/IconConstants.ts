@@ -5,5 +5,6 @@ export class IconConstants {
     ErrorBadge: 'ErrorBadge',
     InfoBadge: 'Info',
     Filter: 'Filter',
+    Copy: 'Copy',
   };
 }

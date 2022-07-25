@@ -1770,6 +1770,7 @@ export class PortalResources {
   public static functionEditorSaveAriaLabel = 'functionEditorSaveAriaLabel';
   public static functionEditorDiscardAriaLabel = 'functionEditorDiscardAriaLabel';
   public static functionEditorTestAriaLabel = 'functionEditorTestAriaLabel';
+  public static functionEditorTestIntegrationAriaLabel = 'functionEditorTestIntegrationAriaLabel';
   public static functionEditorGetFunctionUrlAriaLabel = 'functionEditorGetFunctionUrlAriaLabel';
   public static functionEditorCommandBarAriaLabel = 'functionEditorCommandBarAriaLabel';
   public static localGitDescription = 'localGitDescription';
@@ -2133,6 +2134,7 @@ export class PortalResources {
   public static clickToShowValue = 'clickToShowValue';
   public static clickToHideValue = 'clickToHideValue';
   public static testAndRun = 'testAndRun';
+  public static testIntegration = 'testIntegration';
   public static appInsightsKeyVaultWarningMessage = 'appInsightsKeyVaultWarningMessage';
   public static clickToUpdateSettings = 'clickToUpdateSettings';
   public static deploymentCenterCodeLogsCICDNotConfiguredHeader = 'deploymentCenterCodeLogsCICDNotConfiguredHeader';
@@ -2474,6 +2476,12 @@ export class PortalResources {
   public static cosmosDb_placeholder_selectAContainer = 'cosmosDb_placeholder_selectAContainer';
   public static cosmosDb_placeholder_selectADatabase = 'cosmosDb_placeholder_selectADatabase';
   public static cosmosDb_placeholder_selectAnAccount = 'cosmosDb_placeholder_selectAnAccount';
+  public static cosmosDb_testIntegration_description = 'cosmosDb_testIntegration_description';
+  public static cosmosDb_testIntegration_input_headerText = 'cosmosDb_testIntegration_input_headerText';
+  public static cosmosDb_testIntegration_linkText = 'cosmosDb_testIntegration_linkText';
+  public static cosmosDb_testIntegration_output_headerText = 'cosmosDb_testIntegration_output_headerText';
+  public static cosmosDb_testIntegration_trigger_description = 'cosmosDb_testIntegration_trigger_description';
+  public static cosmosDb_testIntegration_trigger_headerText = 'cosmosDb_testIntegration_trigger_headerText';
   public static cosmosDb_tooltip_customAppSettingKey = 'cosmosDb_tooltip_customAppSettingKey';
   public static cosmosDb_tooltip_partitionKeyPath = 'cosmosDb_tooltip_partitionKeyPath';
   public static containerApp_console_startUpCommandAriaLabel = 'containerApp_console_startUpCommandAriaLabel';
