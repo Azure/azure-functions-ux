@@ -322,7 +322,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
             const tagOptions: IDropdownOption[] = [];
             const dropdownOptions =
-              tagsResponse && tagsResponse.tags && tagsResponse.tags.length > 0
+              tagsResponse?.tags && tagsResponse.tags.length > 0
                 ? tagsResponse.tags.map(tag => ({ key: tag, text: tag }))
                 : [];
 
