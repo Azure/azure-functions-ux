@@ -12,14 +12,15 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { IComboBoxOption, IDropdownOption, MessageBarType, SelectableOptionMenuItemType } from '@fluentui/react';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { ACRCredential, ACRRepositories, ACRTags } from '../../../../models/acr';
+import { ACRCredential } from '../../../../models/acr';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
-import { HttpResponseObject } from '../../../../ArmHelper.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { AcrDependency } from '../../../../utils/dependency/Dependency';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { IDataMessageResult } from '../../../../models/portal-models';
+import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
 interface RegistryIdentifiers {
   resourceId: string;
   location: string;
@@ -227,18 +228,18 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
               loginServer,
               username,
               password,
-              (page, response: HttpResponseObject<ACRRepositories>) => {
+              (page, response: IDataMessageResult<any>) => {
                 portalContext.log(
                   // NOTE(michinoy): 2021-02-04, Generally a bad idea to log the entire response object. But I am unable to identify what error is being returned,
                   // thus logging the entire response object.
                   getTelemetryInfo('error', 'getAcrRepositoriesResponse', 'failed', {
                     page: page,
-                    error: response.metadata.error,
+                    error: response.status,
                   })
                 );
 
-                failedNetworkCall = response.metadata.success;
-                errorMessage = getErrorMessage(response.metadata.error);
+                failedNetworkCall = !isPortalCommunicationStatusSuccess(response.status);
+                errorMessage = getErrorMessage(response.status);
               }
             );
 
@@ -247,6 +248,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
               repositoriesResponse?.repositories && repositoriesResponse.repositories.length > 0
                 ? repositoriesResponse.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
                 : [];
+
             repositoryOptions.push(...dropdownOptions);
 
             if (repositoryOptions.length === 0 && failedNetworkCall) {
@@ -305,26 +307,24 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
               imageSelected,
               username,
               password,
-              (page, response: HttpResponseObject<ACRTags>) => {
+              (page, response: IDataMessageResult<any>) => {
                 portalContext.log(
                   // NOTE(michinoy): 2021-02-04, Generally a bad idea to log the entire response object. But I am unable to identify what error is being returned,
                   // thus logging the entire response object.
                   getTelemetryInfo('error', 'getAcrTagsResponse', 'failed', {
                     page: page,
-                    error: response.metadata.error,
+                    error: response.status,
                   })
                 );
 
-                failedNetworkCall = response.metadata.success;
-                errorMessage = getErrorMessage(response.metadata.error);
+                failedNetworkCall = !isPortalCommunicationStatusSuccess(response.status);
+                errorMessage = getErrorMessage(response.status);
               }
             );
 
             const tagOptions: IDropdownOption[] = [];
             const dropdownOptions =
-              tagsResponse?.tags && tagsResponse.tags.length > 0
-                ? tagsResponse.tags.map(tag => ({ key: tag, text: tag }))
-                : [];
+              tagsResponse?.tags && tagsResponse.tags.length > 0 ? tagsResponse.tags.map(tag => ({ key: tag, text: tag })) : [];
 
             tagOptions.push(...dropdownOptions);
 

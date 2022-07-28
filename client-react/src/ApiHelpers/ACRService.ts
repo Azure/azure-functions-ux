@@ -200,8 +200,8 @@ export default class ACRService {
     method: Method,
     headers?: any,
     logger?: (page, error) => void
-  ): Promise<T> {
-    let acrObject: T = {} as T;
+  ): Promise<T | undefined> {
+    let acrObject: T | undefined;
     const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, url, method, headers);
     if (isPortalCommunicationStatusSuccess(pageResponse.status)) {
       acrObject = pageResponse.result.content;
