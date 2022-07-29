@@ -294,11 +294,15 @@ export enum WorkerRuntimeLanguages {
   php = 'php',
   custom = 'custom',
   dotnetIsolated = 'dotnet-isolated',
+  dotnetframework4 = 'dotnetframework4',
+  dotnetcore2 = 'dotnetcore2',
+  dotnetcore3 = 'dotnetcore3',
 }
 
 export enum FunctionsDotnetVersion {
   v4 = 'v4.0',
   v3 = '3.1',
+  v2 = '2.2',
 }
 
 export enum OverflowBehavior {

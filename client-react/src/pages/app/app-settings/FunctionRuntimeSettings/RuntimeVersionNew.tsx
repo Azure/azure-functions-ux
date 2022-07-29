@@ -18,6 +18,7 @@ import { addOrUpdateFormAppSetting, removeFromAppSetting } from '../AppSettingsF
 import { FunctionAppStacksContext, PermissionsContext } from '../Contexts';
 import { runtimeVersionDirty } from '../Sections/FunctionRuntimeSettingsPivot';
 
+// NOTE(krmitta): Please try and not depend on a specific runtime version and instead let this be driven by the stacks api
 const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
@@ -99,13 +100,27 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   };
 
   const getSupportedExtensionVersions = (): RuntimeExtensionMajorVersions[] => {
-    const currentStack = values.currentlySelectedStack;
+    let currentStack = values.currentlySelectedStack;
     const isLinux = siteStateContext.isLinuxApp;
     let currentStackVersion = getFunctionAppStackVersion(values, isLinux, currentStack);
 
-    //(note): stpelleg -- Need to handle this version of dotnet bc it will not appear in stacks API call as v4.0. it will be 3.1
-    if (currentStack === WorkerRuntimeLanguages.dotnet && currentStackVersion === FunctionsDotnetVersion.v4) {
-      currentStackVersion = FunctionsDotnetVersion.v3;
+    //(note): krmitta -- Need to handle this .net specifically because backend treats every version as dotnet but,
+    // the api categorizes different .net version into 'dotnet', 'dotnetcore', 'dotnetframework'
+    if (currentStack === WorkerRuntimeLanguages.dotnet) {
+      switch (currentStackVersion) {
+        case FunctionsDotnetVersion.v4: {
+          currentStack = WorkerRuntimeLanguages.dotnetframework4;
+          break;
+        }
+        case FunctionsDotnetVersion.v3: {
+          currentStack = WorkerRuntimeLanguages.dotnetcore3;
+          break;
+        }
+        case FunctionsDotnetVersion.v2: {
+          currentStack = WorkerRuntimeLanguages.dotnetcore2;
+          break;
+        }
+      }
     }
 
     const filteredStacks = filterFunctionAppStack(functionAppStacksContext, values, isLinux, currentStack);
