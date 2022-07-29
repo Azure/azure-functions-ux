@@ -44,6 +44,8 @@ export class WorkflowService20201201 {
         return this.readWorkflowFile('function-app-configs/node-linux.config.yml');
       case RuntimeStacks.Python:
         return this.readWorkflowFile('function-app-configs/python-linux.config.yml');
+      case RuntimeStacks.Powershell:
+        return this.readWorkflowFile('function-app-configs/powershell-linux.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
     }
