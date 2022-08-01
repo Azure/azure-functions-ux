@@ -16,7 +16,7 @@ export const javaStack: FunctionAppStack = {
             windowsRuntimeSettings: {
               runtimeVersion: '17',
               isPreview: true,
-              isHidden: false,
+              isHidden: true,
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
@@ -39,7 +39,7 @@ export const javaStack: FunctionAppStack = {
             linuxRuntimeSettings: {
               runtimeVersion: 'Java|17',
               isPreview: true,
-              isHidden: false,
+              isHidden: true,
               isAutoUpdate: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
