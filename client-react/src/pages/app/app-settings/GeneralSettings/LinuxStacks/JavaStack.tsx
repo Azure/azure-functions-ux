@@ -272,6 +272,11 @@ const JavaStack: React.SFC<StackProps> = props => {
 
   useEffect(() => {
     setInitialData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues.config.properties.linuxFxVersion]);
+
+  useEffect(() => {
     setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
