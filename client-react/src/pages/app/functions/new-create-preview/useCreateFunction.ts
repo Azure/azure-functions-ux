@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { StatusMessage } from '../../../../components/ActionBar';
 import { ArmObj } from '../../../../models/arm-obj';
-import { BindingType } from '../../../../models/functions/function-binding';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
 import { PortalContext } from '../../../../PortalContext';
@@ -15,10 +14,9 @@ import { Guid } from '../../../../utils/Guid';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { getTelemetryInfo } from '../common/FunctionsUtility';
+import { COSMOS_DB_TRIGGER } from '../common/BindingTypeRegex';
 import { usePermissions } from '../common/usePermissions';
 import FunctionCreateData from './FunctionCreate.data';
-
-const COSMOS_DB_TRIGGER = new RegExp(`^${BindingType.cosmosDBTrigger}`, 'i');
 
 export const useCreateFunction = (
   appSettings: ArmObj<Record<string, string>> | undefined,

@@ -9,7 +9,7 @@ export class WorkflowService20201201 {
     let workflowFile: string =
       publishType.toLocaleLowerCase() === PublishType.Code
         ? this.getCodeWorkflowFile(appType, os, runtimeStack, variables)
-        : this.getContainerWorkflowFile(os);
+        : this.getContainerWorkflowFile(appType, os);
 
     Object.keys(variables).forEach(variableKey => {
       const replaceKey = `__${variableKey}__`;
@@ -44,6 +44,8 @@ export class WorkflowService20201201 {
         return this.readWorkflowFile('function-app-configs/node-linux.config.yml');
       case RuntimeStacks.Python:
         return this.readWorkflowFile('function-app-configs/python-linux.config.yml');
+      case RuntimeStacks.Powershell:
+        return this.readWorkflowFile('function-app-configs/powershell-linux.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
     }
@@ -137,13 +139,15 @@ export class WorkflowService20201201 {
     return !!variables && !!variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() === JavaContainers.JavaSE;
   }
 
-  getContainerWorkflowFile(os: string) {
-    if (os.toLocaleLowerCase() === Os.Linux) {
-      return this.readWorkflowFile('container-configs/container-linux.config.yml');
-    } else if (os.toLocaleLowerCase() === Os.Windows) {
-      return this.readWorkflowFile('container-configs/container-windows.config.yml');
+  getContainerWorkflowFile(appType: string, os: string) {
+    if (appType.toLocaleLowerCase() === AppType.WebApp && os.toLocaleLowerCase() === Os.Linux) {
+      return this.readWorkflowFile('container-configs/container-webapp-linux.config.yml');
+    } else if (appType.toLocaleLowerCase() === AppType.FunctionApp && os.toLocaleLowerCase() == Os.Linux) {
+      return this.readWorkflowFile('container-configs/container-functions-linux.config.yml');
+    } else if (appType.toLocaleLowerCase() === AppType.WebApp && os.toLocaleLowerCase() === Os.Windows) {
+      return this.readWorkflowFile('container-configs/container-webapp-windows.config.yml');
     } else {
-      throw new HttpException(`The workflow file for containers and OS '${os}' does not exist.`, 404);
+      throw new HttpException(`The workflow file for containers with app type ${appType} and OS '${os}' does not exist.`, 404);
     }
   }
 

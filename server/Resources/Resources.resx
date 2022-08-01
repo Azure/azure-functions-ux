@@ -5481,6 +5481,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionEditorTestAriaLabel" xml:space="preserve">
         <value>Open test panel to test run your function.</value>
     </data>
+    <data name="functionEditorTestIntegrationAriaLabel" xml:space="preserve">
+        <value>Open test integration panel for code and data samples.</value>
+    </data>
     <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
         <value>Open popup to get function URL for your function.</value>
     </data>
@@ -6561,6 +6564,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="testAndRun" xml:space="preserve">
         <value>Test/Run</value>
     </data>
+    <data name="testIntegration" xml:space="preserve">
+        <value>Test integration</value>
+    </data>
     <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
         <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
     </data>
@@ -7560,6 +7566,29 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="cosmosDb_placeholder_selectAnAccount" xml:space="preserve">
         <value>Select an account</value>
+    </data>
+    <data name="cosmosDb_testIntegration_description" xml:space="preserve">
+        <value>Modify or replace the existing code contained within your function's entry point with the code snippet provided below.</value>
+    </data>
+    <data name="cosmosDb_testIntegration_input_headerText" xml:space="preserve">
+        <value>{0} input</value>
+        <comment>{0} = "Cosmos DB" (or other product)</comment>
+    </data>
+    <data name="cosmosDb_testIntegration_linkText" xml:space="preserve">
+        <value>Go to {0}</value>
+        <comment>{0} = "Cosmos DB" (or other product)</comment>
+    </data>
+    <data name="cosmosDb_testIntegration_output_headerText" xml:space="preserve">
+        <value>{0} output</value>
+        <comment>{0} = "Cosmos DB" (or other product)</comment>
+    </data>
+    <data name="cosmosDb_testIntegration_trigger_description" xml:space="preserve">
+        <value>Test the {0} trigger on your function app by copy and pasting the following JSON object into Data Explorer for {1}. You can follow the link below to go to your {0} account.</value>
+        <comment>{0} = "Cosmos DB" (or other product). {1} = "Azure Cosmos DB" (or other Azure-prefixed product).</comment>
+    </data>
+    <data name="cosmosDb_testIntegration_trigger_headerText" xml:space="preserve">
+        <value>{0} trigger</value>
+        <comment>{0} = "Cosmos DB" (or other product)</comment>
     </data>
     <data name="cosmosDb_tooltip_customAppSettingKey" xml:space="preserve">
         <value>Enter the key/value pair for the Cosmos DB custom app setting.</value>
