@@ -1,4 +1,5 @@
 node_modules
+src/public/ng-full/assets/monaco/monaco.d.ts
 src/tests
 .eslintrc.js
 gulpfile.js
