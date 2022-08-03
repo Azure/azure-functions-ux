@@ -188,7 +188,9 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               errorSchema.filesContainerIsEmpty = true;
               errorSchema.getFilesFailure = true;
             } else {
-              filesData = (files.data.value || []).filter(file => file.properties.enabledProtocols === FileShareEnabledProtocols.SMB);
+              filesData = (files.data.value || []).filter(
+                file => file.properties.enabledProtocols.toLocaleLowerCase() === FileShareEnabledProtocols.SMB.toLocaleLowerCase()
+              );
               errorSchema.filesContainerIsEmpty = filesData.length === 0;
             }
 

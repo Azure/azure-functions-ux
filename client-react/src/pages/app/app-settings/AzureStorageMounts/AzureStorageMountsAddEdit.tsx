@@ -20,6 +20,11 @@ import { StorageType } from '../../../../models/site/config';
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
 
+enum ConfigurationOption {
+  Basic = 'basic',
+  Advanced = 'advanced',
+}
+
 export interface AzureStorageMountsAddEditProps {
   updateAzureStorageMount: (item: FormAzureStorageMounts) => any;
   otherAzureStorageMounts: FormAzureStorageMounts[];
@@ -34,7 +39,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
   const { closeBlade, otherAzureStorageMounts, azureStorageMount, updateAzureStorageMount, enableValidation } = props;
   const storageAccounts = useContext(StorageAccountsContext);
   const siteState = useContext(SiteStateContext);
-  const [configurationOption, setConfigurationOption] = useState('basic');
+  const [configurationOption, setConfigurationOption] = useState<string>(ConfigurationOption.Basic);
   const { t } = useTranslation();
   const [basicDisabled, setBasicDisabled] = useState(false);
   const [initialName] = useState(azureStorageMount.name);
@@ -166,14 +171,12 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     mountPath: mountPathValidation,
   });
 
-  useEffect(() => {}, []);
-
   useEffect(() => {
     if (storageAccounts.value.length === 0) {
-      setConfigurationOption('advanced');
+      setConfigurationOption(ConfigurationOption.Advanced);
       setBasicDisabled(true);
     } else if (azureStorageMount.accountName && !storageAccounts.value.find(x => x.name === azureStorageMount.accountName)) {
-      setConfigurationOption('advanced');
+      setConfigurationOption(ConfigurationOption.Advanced);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -221,12 +224,12 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               component={RadioButton}
               options={[
                 {
-                  key: 'basic',
+                  key: ConfigurationOption.Basic,
                   text: t('basic'),
                   disabled: basicDisabled,
                 },
                 {
-                  key: 'advanced',
+                  key: ConfigurationOption.Advanced,
                   text: t('advanced'),
                 },
               ]}
@@ -278,10 +281,10 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
 
   return (
     <>
-      {configurationOption === 'basic' && (
+      {configurationOption === ConfigurationOption.Basic && (
         <AzureStorageMountsAddEditBasic {...rest} fileShareInfoBubbleMessage={fileShareInfoBubbleMessage} />
       )}
-      {configurationOption === 'advanced' && (
+      {configurationOption === ConfigurationOption.Advanced && (
         <AzureStorageMountsAddEditAdvanced {...rest} fileShareInfoBubbleMessage={fileShareInfoBubbleMessage} />
       )}
     </>
