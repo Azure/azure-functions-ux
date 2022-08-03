@@ -15,6 +15,7 @@ import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
+import { StorageType } from '../../../../models/site/config';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -165,6 +166,8 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     mountPath: mountPathValidation,
   });
 
+  useEffect(() => {}, []);
+
   useEffect(() => {
     if (storageAccounts.value.length === 0) {
       setConfigurationOption('advanced');
@@ -231,8 +234,7 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
                 setConfigurationOption(configOptions.key);
               }}
             />
-            {configurationOption === 'basic' && <AzureStorageMountsAddEditBasic {...props} {...formProps} />}
-            {configurationOption === 'advanced' && <AzureStorageMountsAddEditAdvanced {...props} {...formProps} />}
+            <AzureStorageMountsAddEditSubForm {...props} {...formProps} configurationOption={configurationOption} />
             <Field
               name={'mountPath'}
               label={t('mountPath')}
@@ -255,6 +257,34 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
         );
       }}
     />
+  );
+};
+
+type AzureStorageMountsAddEdtSubFormProps = FormikProps<FormAzureStorageMounts> &
+  AzureStorageMountsAddEditPropsCombined & {
+    configurationOption: string;
+  };
+const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubFormProps> = props => {
+  const { configurationOption, ...rest } = props;
+
+  const [fileShareInfoBubbleMessage, setFileShareInfoBubbleMessage] = useState<string>();
+  const { t } = useTranslation();
+
+  React.useEffect(() => {
+    setFileShareInfoBubbleMessage(rest.values.type === StorageType.azureFiles ? t('shareNameInfoBubbleMessage') : undefined);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [rest.values.type]);
+
+  return (
+    <>
+      {configurationOption === 'basic' && (
+        <AzureStorageMountsAddEditBasic {...rest} fileShareInfoBubbleMessage={fileShareInfoBubbleMessage} />
+      )}
+      {configurationOption === 'advanced' && (
+        <AzureStorageMountsAddEditAdvanced {...rest} fileShareInfoBubbleMessage={fileShareInfoBubbleMessage} />
+      )}
+    </>
   );
 };
 

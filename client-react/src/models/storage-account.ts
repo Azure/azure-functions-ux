@@ -31,6 +31,12 @@ export interface FileShareContainer {
   deleted: true;
   deletedTime: string;
   remainingRetentionDays: number;
+  enabledProtocols: FileShareEnabledProtocols;
+}
+
+export enum FileShareEnabledProtocols {
+  NFS = 'NFS',
+  SMB = 'SMB',
 }
 
 export interface ImmutableStorageWithVersioning {
