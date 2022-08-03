@@ -16,6 +16,7 @@ import { Links } from '../../../../utils/FwLinks';
 import { StorageType } from '../../../../models/site/config';
 import StorageService from '../../../../ApiHelpers/StorageService';
 import { PortalContext } from '../../../../PortalContext';
+import { FileShareEnabledProtocols } from '../../../../models/storage-account';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -39,8 +40,11 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
   };
 };
 
-const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values, initialValues, setValues, setFieldValue, validateForm } = props;
+const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> &
+  AzureStorageMountsAddEditPropsCombined & {
+    fileShareInfoBubbleMessage?: string;
+  }> = props => {
+  const { errors, values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
@@ -184,7 +188,9 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               errorSchema.filesContainerIsEmpty = true;
               errorSchema.getFilesFailure = true;
             } else {
-              filesData = files.data.value || [];
+              filesData = (files.data.value || []).filter(
+                file => file.properties.enabledProtocols.toLocaleLowerCase() === FileShareEnabledProtocols.SMB.toLocaleLowerCase()
+              );
               errorSchema.filesContainerIsEmpty = filesData.length === 0;
             }
 
@@ -281,6 +287,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         validate={(value: any) => {
           return validateStorageContainer(value);
         }}
+        infoBubbleMessage={fileShareInfoBubbleMessage}
         errorMessage={errors.shareName}
         required={true}
       />
