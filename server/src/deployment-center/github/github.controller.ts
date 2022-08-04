@@ -98,6 +98,13 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
+  @Post('api/github/createOrgRepository')
+  @HttpCode(200)
+  async createOrgRepository(@Body('gitHubToken') gitHubToken: string, @Body('org') org: string, @Body('repo') repo: string, @Res() res) {
+    const url = `${this.githubApiUrl}/orgs/${org}/repos`;
+    await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, { name: repo });
+  }
+
   @Post('api/github/getOrgRepositories')
   @HttpCode(200)
   async getOrgRepositories(@Body('gitHubToken') gitHubToken: string, @Body('org') org: string, @Body('page') page: number, @Res() res) {
@@ -729,15 +736,11 @@ export class GithubController {
     }
   }
 
-  private async _makePostCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res) {
+  private async _makePostCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res, body = {}) {
     try {
-      const response = await this.httpService.post(
-        url,
-        {},
-        {
-          headers: this._getAuthorizationHeader(gitHubToken),
-        }
-      );
+      const response = await this.httpService.post(url, body, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
       if (response.headers.link) {
         res.setHeader('link', response.headers.link);
       }
