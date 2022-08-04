@@ -91,6 +91,13 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
+  @Post('api/github/createUserRepository')
+  @HttpCode(200)
+  async createUserRepository(@Body('gitHubToken') gitHubToken: string, @Body('repo') repo: string, @Res() res) {
+    const url = `${this.githubApiUrl}/user/repos`;
+    await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, { name: repo });
+  }
+
   @Post('api/github/getOrganizations')
   @HttpCode(200)
   async getOrganizations(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
