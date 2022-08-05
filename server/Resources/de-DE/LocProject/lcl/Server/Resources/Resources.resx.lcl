@@ -3484,7 +3484,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Azure Container Registry]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Azure-Containerregistrierung]]></Val>
+            <Val><![CDATA[Azure Container Registry]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3511,7 +3511,7 @@
         <Str Cat="Text">
           <Val><![CDATA[To get started, first create an Azure Container Registry and add an image.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Erstellen Sie für den Einstieg zuerst eine Azure Container Registry-Instanz, und fügen Sie ein Image hinzu.]]></Val>
+            <Val><![CDATA[Erstellen Sie für den Einstieg zuerst eine Azure-Containerregistrierung, und fügen Sie ein Image hinzu.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4316,6 +4316,60 @@
           <Val><![CDATA[Select an account]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Konto auswählen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_description" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Modify or replace the existing code contained within your function's entry point with the code snippet provided below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ändern oder ersetzen Sie den vorhandenen Code, der im Einstiegspunkt Ihrer Funktion enthalten ist, durch den unten angegebenen Codeschnipsel.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_input_headerText" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} input]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}-Eingabe]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_linkText" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Go to {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Zu {0} wechseln]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_output_headerText" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} output]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}-Ausgabe]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_trigger_description" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Test the {0} trigger on your function app by copy and pasting the following JSON object into Data Explorer for {1}. You can follow the link below to go to your {0} account.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Testen Sie den {0}-Trigger für Ihre Funktions-App, indem Sie das folgende JSON-Objekt für {1} kopieren und in Data Explorer einfügen. Über den Link unten können Sie Ihr {0}-Konto aufrufen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_trigger_headerText" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} trigger]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}-Trigger]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5824,7 +5878,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Container Registry]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Containerregistrierung]]></Val>
+            <Val><![CDATA[Container Registry]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11058,6 +11112,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionEditorTestIntegrationAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Open test integration panel for code and data samples.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Öffnen Sie den Testintegrationsbereich für Code- und Datenbeispiele.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionEditor_appInsightsLogs" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Insights Logs]]></Val>
@@ -16176,15 +16239,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";pricing_availableFeatures" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Available features]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Verfügbare Features]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";pricing_computeDedicatedAcu" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Dedicated compute resources used to run applications deployed in the App Service Plan.]]></Val>
@@ -18285,24 +18339,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";seeAllOptions" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[See additional options]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Alle Optionen anzeigen]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";seeRecommendedOptions" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[See only recommended options]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nur empfohlene Optionen anzeigen]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";select" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select]]></Val>
@@ -18563,6 +18599,15 @@
           <Val><![CDATA[Share name]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Freigabename]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";shareNameInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Azure storage mount supports only SMB file shares]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Die Azure Storage-Einbindung unterstützt nur SMB-Dateifreigaben.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -21869,6 +21914,15 @@
           <Val><![CDATA[Testing is not supported for GitHub webhook functions.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Das Testen wird für die GitHub-Webhookfunktionen nicht unterstützt.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";testIntegration" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Test integration]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Testintegration]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
