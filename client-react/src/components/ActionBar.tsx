@@ -33,7 +33,7 @@ const elementWrapperStyle = (theme: ThemeExtended, fullPageHeight?: boolean) =>
   style({
     position: fullPageHeight ? 'fixed' : 'absolute',
     bottom: '0px',
-    height: '57px',
+    minHeight: '57px',
     left: '0px',
     right: '0px',
     overflow: 'hidden',

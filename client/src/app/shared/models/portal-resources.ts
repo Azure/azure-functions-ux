@@ -1527,6 +1527,7 @@ export class PortalResources {
   public static chooseContainer = 'chooseContainer';
   public static mountPath = 'mountPath';
   public static shareName = 'shareName';
+  public static shareNameInfoBubbleMessage = 'shareNameInfoBubbleMessage';
   public static accessKey = 'accessKey';
   public static chooseFileShare = 'chooseFileShare';
   public static storageType = 'storageType';
