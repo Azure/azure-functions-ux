@@ -13,8 +13,11 @@ import { SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
-const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined> = props => {
-  const { errors, values, setFieldValue, validateField } = props;
+const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> &
+  AzureStorageMountsAddEditPropsCombined & {
+    fileShareInfoBubbleMessage?: string;
+  }> = props => {
+  const { errors, values, fileShareInfoBubbleMessage, setFieldValue, validateField } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
   const scenarioService = new ScenarioService(t);
@@ -77,6 +80,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('shareName')}
         id="azure-storage-mounts-share-name"
         errorMessage={errors.shareName}
+        infoBubbleMessage={fileShareInfoBubbleMessage}
         required={true}
         validate={validateShareName}
       />

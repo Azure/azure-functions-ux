@@ -743,11 +743,9 @@ export interface SearchTermObserverInfo {
 }
 
 export interface RoleAssignment {
-  properties: {
-    roleDefinitionId: string;
-    principalId: string;
-    scope: string;
-  };
+  roleDefinitionId: string;
+  principalId: string;
+  scope: string;
   id: string;
   type: string;
   name: string;
