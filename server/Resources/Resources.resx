@@ -874,6 +874,12 @@
     <data name="fileExplorer_upload" xml:space="preserve">
         <value>Upload</value>
     </data>
+    <data name="seeAllOptions" xml:space="preserve">
+        <value>See additional options</value>
+    </data>
+    <data name="seeRecommendedOptions" xml:space="preserve">
+        <value>See only recommended options</value>
+    </data>
     <data name="storageLockNote" xml:space="preserve">
         <value>One or more function apps were linked to this storage account. You can see all the function apps linked to the account under 'files' or 'Shares'.</value>
     </data>
