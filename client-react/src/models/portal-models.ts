@@ -351,6 +351,10 @@ export enum BladeCloseReason {
   childClosedSelf = 'childClosedSelf',
 }
 
+export enum BladeCloseData {
+  openArchiveSetting = 'openArchiveSetting',
+}
+
 export enum OpenBladeSource {
   appSettings = 'app-settings',
 }
