@@ -18,6 +18,7 @@ import DropboxService from '../../../ApiHelpers/DropboxService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import AzureDevOpsService from '../../../AzureDevOpsService';
 import PortalCommunicator from '../../../portal-communicator';
+import AuthService from '../../../ApiHelpers/AuthService';
 
 export default class DeploymentCenterData {
   private _azureDevOpsService = new AzureDevOpsService();
@@ -285,15 +286,15 @@ export default class DeploymentCenterData {
   };
 
   public hasAcrPullPermission = (acrResourceId: string, principalId: string) => {
-    return ACRService.hasAcrPullPermission(acrResourceId, principalId);
+    return AuthService.hasAcrPullPermission(acrResourceId, principalId);
   };
 
   public setAcrPullPermission = (acrResourceId: string, principalId: string) => {
-    return ACRService.setAcrPullPermission(acrResourceId, principalId);
+    return AuthService.setAcrPullPermission(acrResourceId, principalId);
   };
 
   public enableSystemAssignedIdentity = (resourceId: string, userAssignedIdentities?: KeyValue<KeyValue<string>>) => {
-    return ACRService.enableSystemAssignedIdentity(resourceId, userAssignedIdentities);
+    return AuthService.enableSystemAssignedIdentity(resourceId, userAssignedIdentities);
   };
 
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {
