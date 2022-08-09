@@ -7,19 +7,13 @@ import { ArmArray } from '../models/arm-obj';
 
 export default class AuthService {
   public static async hasAcrPullPermission(acrResourceId: string, principalId: string) {
-    let hasAcrPullPermission = false;
     const roleAssignments = await this.getRoleAssignments(acrResourceId, principalId);
-    if (!!roleAssignments && roleAssignments.data.value.length > 0) {
-      roleAssignments.data.value.forEach(roleAssignment => {
-        const roleDefinitionSplit = roleAssignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash);
-        const roleId = roleDefinitionSplit[roleDefinitionSplit.length - 1];
-        if (roleId === RBACRoleId.acrPull) {
-          hasAcrPullPermission = true;
-        }
+    if (roleAssignments) {
+      return roleAssignments.data.value.some(assignment => {
+        const roleDefinitionId = assignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash).pop();
+        return roleDefinitionId === RBACRoleId.acrPull;
       });
     }
-
-    return hasAcrPullPermission;
   }
 
   public static async getRoleAssignments(
