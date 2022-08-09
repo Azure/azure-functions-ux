@@ -6,7 +6,7 @@
 jobs:
   - job: ReactBuild
     pool:
-      vmImage: 'macOS-1015'
+      vmImage: 'macOS-latest'
     steps:
       - task: NodeTool@0
         inputs:
@@ -46,7 +46,7 @@ jobs:
 
   - job: AngularFull
     pool:
-      vmImage: 'macOS-1015'
+      vmImage: 'macOS-latest'
 
     steps:
       - task: NodeTool@0
@@ -77,7 +77,7 @@ jobs:
 
   - job: AngularMin
     pool:
-      vmImage: 'macOS-1015'
+      vmImage: 'macOS-latest'
 
     steps:
       - task: NodeTool@0
@@ -140,7 +140,7 @@ jobs:
 
   - job: Server
     pool:
-      vmImage: 'macOS-1015'
+      vmImage: 'macOS-latest'
     dependsOn:
       - AngularFull
       - AngularMin
