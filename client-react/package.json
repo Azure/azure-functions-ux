@@ -8,7 +8,7 @@
     "applicationinsights-js": "^1.0.20",
     "axios": "^0.21.4",
     "csx": "^9.1.0",
-    "formik": "^1.5.0",
+    "formik": "^2.2.9",
     "i18next": "^15.0.0",
     "i18next-chained-backend": "^1.0.0",
     "i18next-localstorage-backend": "^2.0.0",
@@ -23,8 +23,8 @@
     "react-app-polyfill": "^0.2.0",
     "react-app-rewired": "^2.1.8",
     "react-dom": "17.0.2",
-    "react-i18next": "^10.0.4",
-    "react-scripts": "^4.0.3",
+    "react-i18next": "^11.18.3",
+    "react-scripts": "^5.0.1",
     "react-svg": "^7.2.6",
     "react-use": "^5.4.1",
     "rxjs": "^6.4.0",
@@ -32,7 +32,7 @@
     "ws": "^8.5.0",
     "xterm-for-react": "^1.0.4",
     "yaml-lint": "^1.2.4",
-    "yup": "^0.26.10"
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-app-rewired start",
