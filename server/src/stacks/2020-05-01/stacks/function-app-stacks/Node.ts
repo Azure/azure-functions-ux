@@ -16,7 +16,7 @@ export const nodeStack: FunctionAppStack = {
           os: 'windows',
           isPreview: true,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: '~18',
           appSettingsDictionary: {
@@ -33,7 +33,7 @@ export const nodeStack: FunctionAppStack = {
           os: 'linux',
           isPreview: true,
           isDeprecated: false,
-          isHidden: true,
+          isHidden: false,
           applicationInsightsEnabled: true,
           runtimeVersion: 'Node|18',
           appSettingsDictionary: {
