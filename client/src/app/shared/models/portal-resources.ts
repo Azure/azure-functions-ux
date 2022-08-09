@@ -256,6 +256,8 @@ export class PortalResources {
   public static fileExplorer_delete = 'fileExplorer_delete';
   public static fileExplorer_edit = 'fileExplorer_edit';
   public static fileExplorer_upload = 'fileExplorer_upload';
+  public static seeAllOptions = 'seeAllOptions';
+  public static seeRecommendedOptions = 'seeRecommendedOptions';
   public static storageLockNote = 'storageLockNote';
   public static fileExplorer_fileAlreadyExists = 'fileExplorer_fileAlreadyExists';
   public static functionNew_functionExists = 'functionNew_functionExists';
