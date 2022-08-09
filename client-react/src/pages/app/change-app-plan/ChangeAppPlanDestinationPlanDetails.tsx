@@ -219,7 +219,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     return options;
-  }, [skuTier, serverFarms, t]);
+  }, [skuTier, serverFarms, isConsumptionToPremiumEnabled, t]);
 
   const rgOptions = useMemo(() => {
     const options = getDropdownOptions(resourceGroups);
