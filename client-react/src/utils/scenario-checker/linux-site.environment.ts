@@ -1,8 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 import { isLinuxApp } from '../arm-utils';
-import Url from '../url';
-import { CommonConstants } from '../CommonConstants';
 
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
@@ -119,8 +117,7 @@ export class LinuxSiteEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
       id: ScenarioIds.http20ProxySupported,
       runCheck: () => {
-        const state = !!Url.getFeatureValue(CommonConstants.FeatureFlags.showHttps20Proxy) ? 'enabled' : 'disabled';
-        return { status: state };
+        return { status: 'enabled' };
       },
     };
 
