@@ -142,14 +142,20 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       runCheck: () => ({ status: 'disabled' }),
     };
 
+    this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
+      id: ScenarioIds.http20ProxySupported,
+      runCheck: () => {
+        return {
+          status: NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec() ? 'disabled' : 'enabled',
+        };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.showAppInsightsLogs] = {
       id: ScenarioIds.showAppInsightsLogs,
       runCheck: () => {
         return {
-          status:
-            NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec()
-              ? 'disabled'
-              : 'enabled',
+          status: NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec() ? 'disabled' : 'enabled',
         };
       },
     };

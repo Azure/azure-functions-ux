@@ -3484,7 +3484,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Azure Container Registry]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Azure コンテナー レジストリ]]></Val>
+            <Val><![CDATA[Azure Container Registry]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4316,6 +4316,60 @@
           <Val><![CDATA[Select an account]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[アカウントを選択してください]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_description" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Modify or replace the existing code contained within your function's entry point with the code snippet provided below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[関数のエントリ ポイントに含まれる既存のコードを、以下に示すコード スニペットに変更または置き換えます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_input_headerText" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} input]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} 入力]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_linkText" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Go to {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} に移動]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_output_headerText" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} output]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} 出力]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_trigger_description" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Test the {0} trigger on your function app by copy and pasting the following JSON object into Data Explorer for {1}. You can follow the link below to go to your {0} account.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[次の JSON オブジェクトをコピーして {1} の Data Explorer に貼り付けることにより、関数アプリで {0} トリガーをテストします。以下のリンクに従うと、{0} アカウントに移動できます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_testIntegration_trigger_headerText" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} trigger]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} トリガー]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5824,7 +5878,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Container Registry]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[コンテナー レジストリ]]></Val>
+            <Val><![CDATA[Container Registry]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11058,6 +11112,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionEditorTestIntegrationAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Open test integration panel for code and data samples.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コードとデータ サンプル用のテスト統合パネルを開きます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionEditor_appInsightsLogs" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Insights Logs]]></Val>
@@ -16176,15 +16239,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";pricing_availableFeatures" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Available features]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[使用可能な機能]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";pricing_computeDedicatedAcu" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Dedicated compute resources used to run applications deployed in the App Service Plan.]]></Val>
@@ -18282,27 +18336,6 @@
           <Prev Cat="Text">
             <Val><![CDATA[Search Function apps]]></Val>
           </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";seeAllOptions" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[See additional options]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[その他のオプションを参照する]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[See all options]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";seeRecommendedOptions" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[See only recommended options]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[推奨オプションのみを参照する]]></Val>
-          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21881,6 +21914,15 @@
           <Val><![CDATA[Testing is not supported for GitHub webhook functions.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[テストは GitHub webhook 関数でサポートされていません。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";testIntegration" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Test integration]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[テスト統合]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

@@ -17,6 +17,7 @@ import { SourceControlOptions } from './DeploymentCenter.types';
 import DropboxService from '../../../ApiHelpers/DropboxService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import AzureDevOpsService from '../../../AzureDevOpsService';
+import PortalCommunicator from '../../../portal-communicator';
 
 export default class DeploymentCenterData {
   private _azureDevOpsService = new AzureDevOpsService();
@@ -262,12 +263,25 @@ export default class DeploymentCenterData {
     return ACRService.deleteAcrWebhook(resourceId);
   };
 
-  public getAcrRepositories = (loginServer: string, username: string, password: string, logger?: (page, error) => void) => {
-    return ACRService.getRepositories(loginServer, username, password, logger);
+  public getAcrRepositories = (
+    portalContext: PortalCommunicator,
+    loginServer: string,
+    username: string,
+    password: string,
+    logger?: (page, error) => void
+  ) => {
+    return ACRService.getRepositories(portalContext, loginServer, username, password, logger);
   };
 
-  public getAcrTags = (loginServer: string, repository: string, username: string, password: string, logger?: (page, error) => void) => {
-    return ACRService.getTags(loginServer, repository, username, password, logger);
+  public getAcrTags = (
+    portalContext: PortalCommunicator,
+    loginServer: string,
+    repository: string,
+    username: string,
+    password: string,
+    logger?: (page, error) => void
+  ) => {
+    return ACRService.getTags(portalContext, loginServer, repository, username, password, logger);
   };
 
   public hasAcrPullPermission = (acrResourceId: string, principalId: string) => {
