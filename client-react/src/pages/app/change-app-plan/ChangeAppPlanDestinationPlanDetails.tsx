@@ -74,11 +74,11 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const hidePricingTier = useMemo(() => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
-    return (
-      (isNewPlan && newPlanInfo.tier === ChangeAppPlanTierTypes.Dynamic) ||
-      !existingPlan ||
-      existingPlan.sku?.tier === ChangeAppPlanTierTypes.Dynamic
-    );
+    if (isNewPlan) {
+      return newPlanInfo.tier === ChangeAppPlanTierTypes.Dynamic;
+    }
+
+    return !existingPlan || existingPlan.sku?.tier === ChangeAppPlanTierTypes.Dynamic;
   }, [formProps.values.serverFarmInfo]);
 
   const getPricingTierValue = (currentServerFarmId: string, linkElement: React.MutableRefObject<ILink | null>) => {
@@ -219,7 +219,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     return options;
-  }, [formProps.values.serverFarmInfo.newPlanInfo?.name, skuTier, serverFarms, t]);
+  }, [skuTier, serverFarms, isConsumptionToPremiumEnabled, t]);
 
   const rgOptions = useMemo(() => {
     const options = getDropdownOptions(resourceGroups);
