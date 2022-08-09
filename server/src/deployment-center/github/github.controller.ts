@@ -35,7 +35,7 @@ export class GithubController {
     private configService: ConfigService,
     private loggingService: LoggingService,
     private httpService: HttpService
-  ) {}
+  ) { }
 
   @Post('api/github/passthrough')
   @HttpCode(200)
@@ -96,6 +96,25 @@ export class GithubController {
   async createUserRepository(@Body('gitHubToken') gitHubToken: string, @Body('repo') repo: string, @Res() res) {
     const url = `${this.githubApiUrl}/user/repos`;
     await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, { name: repo });
+  }
+
+  @Post('api/github/createRepoFromGitHubTemplate')
+  @HttpCode(200)
+  async createRepoFromGitHubTemplate(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('templateOwner') templateOwner: string,
+    @Body('templateRepo') templateRepo: string,
+    @Body('gitHubUserName') gitHubUserName: string,
+    @Body('gitHubRepositoryName') gitHubRepositoryName: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${templateOwner}/${templateRepo}/generate`;
+    await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, {
+      template_owner: templateOwner,
+      template_repo: templateRepo,
+      owner: gitHubUserName,
+      name: gitHubRepositoryName,
+    });
   }
 
   @Post('api/github/getOrganizations')
