@@ -1,15 +1,12 @@
 import MakeArmCall from './ArmHelper';
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
-import { CommonConstants, RBACRoleId } from '../utils/CommonConstants';
+import { CommonConstants } from '../utils/CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { Method } from 'axios';
-import { ACRManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
-import { KeyValue } from '../models/portal-models';
 import PortalCommunicator from '../portal-communicator';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { isPortalCommunicationStatusSuccess } from '../utils/portal-utils';
-import { Guid } from '../utils/Guid';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -91,105 +88,6 @@ export default class ACRService {
     const url = `https://${loginServer}/v2/${repository}/tags/list`;
     const headers = this._getBasicACRAuthHeader(encodedUserInfo);
     return ACRService._dispatchSpecificPageableRequest<ACRTags>(portalCommunicator, data, url, 'GET', headers, logger);
-  }
-
-  public static async hasAcrPullPermission(acrResourceId: string, principalId: string) {
-    let hasAcrPullPermission = false;
-    const roleAssignments = await this.getRoleAssignments(acrResourceId, principalId);
-    if (!!roleAssignments && roleAssignments.data.value.length > 0) {
-      roleAssignments.data.value.forEach(roleAssignment => {
-        const roleDefinitionSplit = roleAssignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash);
-        const roleId = roleDefinitionSplit[roleDefinitionSplit.length - 1];
-        if (roleId === RBACRoleId.acrPull) {
-          hasAcrPullPermission = true;
-        }
-      });
-    }
-
-    return hasAcrPullPermission;
-  }
-
-  public static async getRoleAssignments(
-    scope: string,
-    principalId: string,
-    apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
-  ) {
-    const urlString = `${scope}/providers/Microsoft.Authorization/roleAssignments?`;
-    const queryString = `$filter=atScope()+and+assignedTo('{${principalId}}')`;
-    const url = urlString + queryString;
-
-    const response = await MakeArmCall<ArmArray<RoleAssignment>>({
-      resourceId: url,
-      commandName: 'getRoleAssignments',
-      apiVersion: apiVersion,
-    });
-
-    if (response.metadata.success && !!response.data) {
-      return response;
-    }
-  }
-
-  public static async setAcrPullPermission(
-    acrResourceId: string,
-    principalId: string,
-    apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
-  ) {
-    const roleId = RBACRoleId.acrPull;
-    const roleGuid = Guid.newGuid();
-
-    const urlString = `${acrResourceId}/providers/Microsoft.Authorization/roleAssignments/${roleGuid}?`;
-    const queryString = `&$filter=atScope()+and+assignedTo('{${principalId}}')`;
-    const url = urlString + queryString;
-
-    const body = {
-      properties: {
-        roleDefinitionId: `${acrResourceId}/providers/Microsoft.Authorization/roleDefinitions/${roleId}`,
-        principalId: `${principalId}`,
-      },
-    };
-
-    const response = await MakeArmCall({
-      body,
-      resourceId: url,
-      commandName: 'setAcrPullPermissions',
-      apiVersion: apiVersion,
-      method: 'PUT',
-    });
-
-    return response.metadata.success;
-  }
-
-  public static async enableSystemAssignedIdentity(
-    resourceId: string,
-    userAssignedIdentities?: KeyValue<KeyValue<string>>,
-    apiVersion: string = CommonConstants.ApiVersions.enableSystemAssignedIdentityApiVersion20210201
-  ) {
-    return MakeArmCall({
-      resourceId: resourceId,
-      commandName: 'enableSystemAssignedIdentity',
-      method: 'PATCH',
-      apiVersion: apiVersion,
-      body: {
-        identity: this._getIdentity(userAssignedIdentities),
-      },
-    });
-  }
-
-  private static _getIdentity(userAssignedIdentities?: KeyValue<KeyValue<string>>) {
-    if (userAssignedIdentities) {
-      const userAssignedIdentitiesObj = {};
-      for (const identity in userAssignedIdentities) {
-        userAssignedIdentitiesObj[identity] = {};
-      }
-      return {
-        type: ACRManagedIdentityType.systemAssigned + ', ' + ACRManagedIdentityType.userAssigned,
-        userAssignedIdentities: userAssignedIdentitiesObj,
-      };
-    } else {
-      return {
-        type: ACRManagedIdentityType.systemAssigned,
-      };
-    }
   }
 
   // Sends http requests directly to the ACR (no ARM api) via portal.azure.com
