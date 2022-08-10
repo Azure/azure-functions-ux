@@ -6075,6 +6075,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterBrowseCommandAriaLabel" xml:space="preserve">
         <value>Deployment center browse command</value>
     </data>
+    <data name="deploymentCenterDownloadCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center download logs command</value>
+    </data>
     <data name="deploymentCenterPublishProfileCommandAriaLabel" xml:space="preserve">
         <value>Deployment center manage publish profile command</value>
     </data>

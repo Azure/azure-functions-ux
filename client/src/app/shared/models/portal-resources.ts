@@ -1968,6 +1968,7 @@ export class PortalResources {
   public static deploymentCenterSaveCommandAriaLabel = 'deploymentCenterSaveCommandAriaLabel';
   public static deploymentCenterDiscardCommandAriaLabel = 'deploymentCenterDiscardCommandAriaLabel';
   public static deploymentCenterBrowseCommandAriaLabel = 'deploymentCenterBrowseCommandAriaLabel';
+  public static deploymentCenterDownloadCommandAriaLabel = 'deploymentCenterDownloadCommandAriaLabel';
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static deploymentCenterSyncCommandAriaLabel = 'deploymentCenterSyncCommandAriaLabel';
