@@ -35,7 +35,7 @@ export class GithubController {
     private configService: ConfigService,
     private loggingService: LoggingService,
     private httpService: HttpService
-  ) { }
+  ) {}
 
   @Post('api/github/passthrough')
   @HttpCode(200)
