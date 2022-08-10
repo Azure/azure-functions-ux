@@ -98,6 +98,25 @@ export class GithubController {
     await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, { name: repo });
   }
 
+  @Post('api/github/createRepoFromGitHubTemplate')
+  @HttpCode(200)
+  async createRepoFromGitHubTemplate(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('templateOwner') templateOwner: string,
+    @Body('templateRepo') templateRepo: string,
+    @Body('gitHubUserName') gitHubUserName: string,
+    @Body('gitHubRepositoryName') gitHubRepositoryName: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${templateOwner}/${templateRepo}/generate`;
+    await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, {
+      template_owner: templateOwner,
+      template_repo: templateRepo,
+      owner: gitHubUserName,
+      name: gitHubRepositoryName,
+    });
+  }
+
   @Post('api/github/getOrganizations')
   @HttpCode(200)
   async getOrganizations(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
