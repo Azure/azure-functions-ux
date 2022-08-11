@@ -7632,4 +7632,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="createFunctionDeploymentNotificationFailed" xml:space="preserve">
         <value>Deployment '{0}' to resource group '{1}' failed</value>
     </data>
+    <data name="functionHostKeyDeleteConfirmMessage" xml:space="preserve">
+        <value>Are you sure you want to delete?</value>
+    </data>
 </root>
