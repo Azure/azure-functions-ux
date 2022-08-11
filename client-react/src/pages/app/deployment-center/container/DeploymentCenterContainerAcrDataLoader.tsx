@@ -429,11 +429,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const setManagedIdentityType = () => {
     if (!!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties) {
       if (acrUseManagedIdentities) {
-        formProps.values.acrManagedIdentityType =
+        formProps.values.acrManagedIdentityClientId =
           deploymentCenterContext.siteConfig.properties.acrUserManagedIdentityID || ACRManagedIdentityType.systemAssigned;
         setManagedIdentityPrincipalId();
       } else {
-        formProps.values.acrManagedIdentityType = '';
+        formProps.values.acrManagedIdentityClientId = '';
       }
     }
   };
@@ -482,8 +482,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   };
 
   const setManagedIdentityPrincipalId = () => {
-    if (!!formProps.values.acrManagedIdentityType && managedIdentityInfo.current[formProps.values.acrManagedIdentityType]) {
-      formProps.values.acrManagedIdentityPrincipalId = managedIdentityInfo.current[formProps.values.acrManagedIdentityType].principalId;
+    if (!!formProps.values.acrManagedIdentityClientId && managedIdentityInfo.current[formProps.values.acrManagedIdentityClientId]) {
+      formProps.values.acrManagedIdentityPrincipalId = managedIdentityInfo.current[formProps.values.acrManagedIdentityClientId].principalId;
     }
   };
 
@@ -537,7 +537,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   useEffect(() => {
     setManagedIdentityPrincipalId();
-  }, [formProps.values.acrManagedIdentityType]);
+  }, [formProps.values.acrManagedIdentityClientId]);
 
   useEffect(() => {
     fetchRegistries();

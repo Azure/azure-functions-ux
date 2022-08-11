@@ -1,5 +1,5 @@
 import ContainerLogsService from '../../../ApiHelpers/ContainerLogsService';
-import { ArmObj } from '../../../models/arm-obj';
+import { ArmObj, MsiIdentity } from '../../../models/arm-obj';
 import { PublishingUser } from '../../../models/site/publish';
 import ProviderService from '../../../ApiHelpers/ProviderService';
 import SiteService from '../../../ApiHelpers/SiteService';
@@ -13,7 +13,7 @@ import ACRService from '../../../ApiHelpers/ACRService';
 import { ACRWebhookPayload } from '../../../models/acr';
 import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
-import { SourceControlOptions } from './DeploymentCenter.types';
+import { RoleAssignment, SourceControlOptions } from './DeploymentCenter.types';
 import DropboxService from '../../../ApiHelpers/DropboxService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import AzureDevOpsService from '../../../AzureDevOpsService';
@@ -285,16 +285,20 @@ export default class DeploymentCenterData {
     return ACRService.getTags(portalContext, loginServer, repository, username, password, logger);
   };
 
-  public hasAcrPullPermission = (acrResourceId: string, principalId: string) => {
-    return AuthService.hasAcrPullPermission(acrResourceId, principalId);
+  public hasRoleAssignment = (roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) => {
+    return AuthService.hasRoleAssignment(roleDefinitionId, roleAssignments);
   };
 
-  public setAcrPullPermission = (acrResourceId: string, principalId: string) => {
-    return AuthService.setAcrPullPermission(acrResourceId, principalId);
+  public getRoleAssignmentsWithScope = (scope: string, principalId: string) => {
+    return AuthService.getRoleAssignmentsWithScope(scope, principalId);
   };
 
-  public enableSystemAssignedIdentity = (resourceId: string, userAssignedIdentities?: KeyValue<KeyValue<string>>) => {
-    return AuthService.enableSystemAssignedIdentity(resourceId, userAssignedIdentities);
+  public putRoleAssignmentWithScope = (roleDefinitionId: string, scope: string, principalId: string, principalType?: string) => {
+    return AuthService.putRoleAssignmentWithScope(roleDefinitionId, scope, principalId, principalType);
+  };
+
+  public enableSystemAssignedIdentity = (resourceId: string, identity?: MsiIdentity) => {
+    return AuthService.enableSystemAssignedIdentity(resourceId, identity);
   };
 
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {

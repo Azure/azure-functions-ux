@@ -125,9 +125,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
       />
       {acrUseManagedIdentities && (
         <Field
-          id="container-acr-managed-identities-type"
+          id="container-acr-managed-identities-client-id"
           label={t('identity')}
-          name="acrManagedIdentityType"
+          name="acrManagedIdentityClientId"
           component={ComboBox}
           placeholder={t('managedIdentityTypePlaceholder')}
           options={managedIdentityOptions}
