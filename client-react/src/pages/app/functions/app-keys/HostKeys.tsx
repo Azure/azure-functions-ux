@@ -218,6 +218,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       if (item.name === '_master') {
         return <></>;
       }
+      const appSettingsDeleteIconButtonId = `app-settings-application-settings-delete-${index}`;
       return (
         <div>
           <TooltipHost
@@ -228,17 +229,17 @@ const HostKeys: React.FC<HostKeysProps> = props => {
             <IconButton
               className={defaultCellStyle}
               disabled={readOnlyPermission}
-              id={`app-settings-application-settings-delete-${index}`}
+              id={appSettingsDeleteIconButtonId}
               iconProps={{ iconName: 'Delete' }}
               ariaLabel={t('delete')}
-              onClick={() => deleteHostKey()}
+              onClick={deleteHostKey}
             />
           </TooltipHost>
           <Callout
             hidden={!isDeleteConfirmationDialogVisible}
             onDismiss={() => onCalloutDismiss(itemKey)}
             setInitialFocus={true}
-            target={`#${`app-settings-application-settings-delete-${index}`}`}>
+            target={`#${appSettingsDeleteIconButtonId}`}>
             <div className={hostKeyDeleteConfirmDialogInnerDivStyle}>
               {t('functionHostKeyDeleteConfirmMessage')}
               <div>
@@ -248,7 +249,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
                   onClick={() => onCalloutDismiss(itemKey)}>
                   {t('continue')}
                 </PrimaryButton>
-                <DefaultButton text={t('cancel')} onClick={() => onCancelDelete()} />
+                <DefaultButton text={t('cancel')} onClick={onCancelDelete} />
               </div>
             </div>
           </Callout>
