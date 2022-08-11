@@ -79,3 +79,15 @@ export const tableValueFormFieldStyle = style({
 export const tableValueTextFieldStyle = style({
   width: '100%',
 });
+
+export const hostKeyDeleteConfirmDialogInnerDivStyle = style({
+  width: '250px',
+  display: 'block',
+  justifyContent: 'center',
+  margin: '10px',
+});
+
+export const hostKeyDeleteConfirmButtonStyle = style({
+  marginRight: '10px',
+  marginTop: '10px',
+});

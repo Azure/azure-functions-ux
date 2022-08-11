@@ -1,12 +1,25 @@
 import React, { useState, useContext } from 'react';
 import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
-import { ActionButton, DetailsListLayoutMode, SelectionMode, IColumn, TooltipHost, ICommandBarItemProps, PanelType } from '@fluentui/react';
+import {
+  ActionButton,
+  DetailsListLayoutMode,
+  SelectionMode,
+  IColumn,
+  TooltipHost,
+  ICommandBarItemProps,
+  PanelType,
+  Callout,
+  PrimaryButton,
+  DefaultButton,
+} from '@fluentui/react';
 import {
   renewTextStyle,
   tableValueComponentStyle,
   tableValueIconStyle,
   tableValueFormFieldStyle,
   tableValueTextFieldStyle,
+  hostKeyDeleteConfirmDialogInnerDivStyle,
+  hostKeyDeleteConfirmButtonStyle,
 } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
@@ -41,6 +54,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
+  const [isDeleteConfirmationDialogVisible, setIsDeleteConfirmationDialogVisible] = useState(false);
 
   const { t } = useTranslation();
   const appKeysContext = useContext(AppKeysContext);
@@ -135,9 +149,18 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteHostKey = (itemKey: string) => {
+  const deleteHostKey = () => {
+    setIsDeleteConfirmationDialogVisible(true);
+  };
+
+  const onCalloutDismiss = (itemKey: string) => {
+    setIsDeleteConfirmationDialogVisible(false);
     appKeysContext.deleteKey(resourceId, itemKey, AppKeysTypes.functionKeys);
     refreshData();
+  };
+
+  const onCancelDelete = () => {
+    setIsDeleteConfirmationDialogVisible(false);
   };
 
   const onRenderColumnItem = (item: AppKeysModel, index: number, column: IColumn) => {
@@ -195,21 +218,42 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       if (item.name === '_master') {
         return <></>;
       }
+      const appSettingsDeleteIconButtonId = `app-settings-application-settings-delete-${index}`;
       return (
-        <TooltipHost
-          content={t('delete')}
-          id={`app-keys-host-keys-delete-tooltip-${index}`}
-          calloutProps={{ gapSpace: 0 }}
-          closeDelay={500}>
-          <IconButton
-            className={defaultCellStyle}
-            disabled={readOnlyPermission}
-            id={`app-settings-application-settings-delete-${index}`}
-            iconProps={{ iconName: 'Delete' }}
-            ariaLabel={t('delete')}
-            onClick={() => deleteHostKey(itemKey)}
-          />
-        </TooltipHost>
+        <div>
+          <TooltipHost
+            content={t('delete')}
+            id={`app-keys-host-keys-delete-tooltip-${index}`}
+            calloutProps={{ gapSpace: 0 }}
+            closeDelay={500}>
+            <IconButton
+              className={defaultCellStyle}
+              disabled={readOnlyPermission}
+              id={appSettingsDeleteIconButtonId}
+              iconProps={{ iconName: 'Delete' }}
+              ariaLabel={t('delete')}
+              onClick={deleteHostKey}
+            />
+          </TooltipHost>
+          <Callout
+            hidden={!isDeleteConfirmationDialogVisible}
+            onDismiss={() => onCalloutDismiss(itemKey)}
+            setInitialFocus={true}
+            target={`#${appSettingsDeleteIconButtonId}`}>
+            <div className={hostKeyDeleteConfirmDialogInnerDivStyle}>
+              {t('functionHostKeyDeleteConfirmMessage')}
+              <div>
+                <PrimaryButton
+                  id={`confirmDeleteButton`}
+                  className={hostKeyDeleteConfirmButtonStyle}
+                  onClick={() => onCalloutDismiss(itemKey)}>
+                  {t('continue')}
+                </PrimaryButton>
+                <DefaultButton text={t('cancel')} onClick={onCancelDelete} />
+              </div>
+            </div>
+          </Callout>
+        </div>
       );
     }
     if (column.key === 'renew') {
