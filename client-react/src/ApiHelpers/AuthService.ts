@@ -19,7 +19,7 @@ export default class AuthService {
   ) {
     const resourceString = `${scope}/providers/Microsoft.Authorization/roleAssignments?`;
     const queryString = `$filter=atScope()+and+assignedTo('{${principalId}}')`;
-    const resourceId = resourceString.concat(queryString);
+    const resourceId = resourceString + queryString;
 
     return await MakeArmCall<ArmArray<RoleAssignment>>({
       resourceId,
@@ -38,7 +38,7 @@ export default class AuthService {
     const roleGuid = Guid.newGuid();
     const resourceString = `${scope}/providers/Microsoft.Authorization/roleAssignments/${roleGuid}?`;
     const queryString = `&$filter=atScope()+and+assignedTo('{${principalId}}')`;
-    const resourceId = resourceString.concat(queryString);
+    const resourceId = resourceString + queryString;
 
     const body = {
       properties: {
@@ -76,7 +76,7 @@ export default class AuthService {
   private static _getIdentity(identity?: MsiIdentity) {
     if (identity?.userAssignedIdentities) {
       return {
-        type: ACRManagedIdentityType.systemAssigned.concat(', ', ACRManagedIdentityType.userAssigned),
+        type: ACRManagedIdentityType.systemAssigned + ', ' + ACRManagedIdentityType.userAssigned,
         userAssignedIdentities: identity.userAssignedIdentities,
       };
     } else {

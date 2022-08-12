@@ -38,9 +38,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const portalContext = useContext(PortalContext);
   const [subscription, setSubscription] = useState<string>(deploymentCenterContext.siteDescriptor?.subscription ?? '');
   const [acrUseManagedIdentities, setAcrUseManagedIdentities] = useState<boolean>(
-    !!deploymentCenterContext.siteConfig && !!deploymentCenterContext.siteConfig.properties
-      ? deploymentCenterContext.siteConfig.properties.acrUseManagedIdentityCreds
-      : false
+    deploymentCenterContext.siteConfig?.properties.acrUseManagedIdentityCreds ?? false
   );
   const [acrRegistryOptions, setAcrRegistryOptions] = useState<IDropdownOption[]>([]);
   const [acrImageOptions, setAcrImageOptions] = useState<IDropdownOption[]>([]);
