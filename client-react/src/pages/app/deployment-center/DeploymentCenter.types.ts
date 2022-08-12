@@ -327,7 +327,7 @@ export interface AcrFormData {
   acrResourceId: string;
   acrLocation: string;
   acrCredentialType: string;
-  acrManagedIdentityType: string | null;
+  acrManagedIdentityClientId: string | null;
   acrManagedIdentityPrincipalId: string;
 }
 

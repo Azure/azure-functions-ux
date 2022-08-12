@@ -47,6 +47,7 @@ export class CommonConstants {
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
     roleAssignmentApiVersion20180701: '2018-07-01',
+    roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
     containerAppApiVersion20220101preview: '2022-01-01-preview',
   };
@@ -311,6 +312,10 @@ export enum TextFieldType {
 
 export enum RBACRoleId {
   acrPull = '7f951dda-4ed3-4680-a7ca-43fe172d538d',
+}
+
+export enum PrincipalType {
+  servicePrincipal = 'ServicePrincipal',
 }
 
 export class SubscriptionQuotaIds {
