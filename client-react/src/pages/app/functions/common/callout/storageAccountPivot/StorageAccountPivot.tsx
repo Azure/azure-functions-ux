@@ -110,6 +110,12 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
               <PrimaryButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
                 {t('ok')}
               </PrimaryButton>
+              <PrimaryButton
+                onClick={() => {
+                  props.setIsDialogVisible(false);
+                }}>
+                {t('cancel')}
+              </PrimaryButton>
             </footer>
           </form>
         );
