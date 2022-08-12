@@ -33,7 +33,7 @@ import {
   isFtpsDirty,
 } from '../utility/DeploymentCenterUtility';
 import { ACRWebhookPayload } from '../../../../models/acr';
-import { ScmType } from '../../../../models/site/config';
+import { ScmType, SiteConfig } from '../../../../models/site/config';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import {
@@ -45,7 +45,7 @@ import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../mo
 import { AppOs } from '../../../../models/site/site';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
 
 interface ResponseResult {
   success: boolean;
@@ -299,7 +299,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     const resourceId = siteContext.resourceId || '';
     const responseResult = {
       success: true,
-      error: null,
+      error: '',
     };
 
     portalContext.log(getTelemetryInfo('info', 'getSiteConfig', 'submit'));
@@ -310,61 +310,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       siteConfigResponse.data.properties.appCommandLine = values.command;
 
       if (values.registrySource === ContainerRegistrySources.acr) {
-        siteConfigResponse.data.properties.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
-
-        if (!siteConfigResponse.data.properties.acrUseManagedIdentityCreds) {
-          siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
-        } else if (values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned) {
-          const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
-          if (siteResponse.metadata.success && !!siteResponse.data) {
-            const site = siteResponse.data;
-            if (!!site.identity && !!site.identity.type) {
-              const types = site.identity.type.replace(CommonConstants.space, '').split(CommonConstants.comma);
-
-              if (!types.includes(ACRManagedIdentityType.systemAssigned)) {
-                portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentityWithUserAssignedIdentities', 'submit'));
-
-                const response = await deploymentCenterData.enableSystemAssignedIdentity(
-                  deploymentCenterContext.resourceId,
-                  site.identity.userAssignedIdentities
-                );
-                if (!response.metadata.success) {
-                  portalContext.log(
-                    getTelemetryInfo('error', 'enableSystemAssignedIdentityWithUserAssignedIdentities', 'failed', {
-                      resourceId: deploymentCenterContext.resourceId,
-                    })
-                  );
-                }
-              }
-            } else {
-              portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
-              const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId);
-              if (!response.metadata.success) {
-                portalContext.log(
-                  getTelemetryInfo('error', 'enableSystemAssignedIdentity', 'failed', {
-                    resourceId: deploymentCenterContext.resourceId,
-                  })
-                );
-              }
-            }
-          }
-
-          siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
-        } else {
-          const acrResourceId = values.acrResourceId;
-          const identityPrincipalId = values.acrManagedIdentityPrincipalId;
-
-          const hasAcrPullPermissions = await deploymentCenterData.hasAcrPullPermission(acrResourceId, identityPrincipalId);
-          if (!hasAcrPullPermissions) {
-            portalContext.log(getTelemetryInfo('info', 'setAcrPullPermission', 'submit', { resourceId: identityPrincipalId }));
-
-            const setPermissionSuccess = await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
-            if (!setPermissionSuccess) {
-              portalContext.log(getTelemetryInfo('error', 'setAcrPullPermission', 'failed', { resourceId: identityPrincipalId }));
-            }
-          }
-
-          siteConfigResponse.data.properties.acrUserManagedIdentityID = values.acrManagedIdentityType;
+        const updateSiteConfigForACRResponse = await updateSiteConfigForACR(siteConfigResponse.data.properties, values);
+        if (!updateSiteConfigForACRResponse.success) {
+          responseResult.success = false;
+          responseResult.error = updateSiteConfigForACRResponse.error;
         }
       }
 
@@ -376,7 +325,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         }
       }
 
-      portalContext.log(getTelemetryInfo('info', 'getSitupdateSiteConfigeConfig', 'submit'));
+      portalContext.log(getTelemetryInfo('info', 'saveSiteConfig', 'submit'));
       const saveSiteConfigResponse = await deploymentCenterData.updateSiteConfig(resourceId, siteConfigResponse.data);
       if (!saveSiteConfigResponse.metadata.success) {
         responseResult.success = false;
@@ -402,6 +351,74 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     }
 
     return responseResult;
+  };
+
+  const updateSiteConfigForACR = async (siteConfig: SiteConfig, values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
+    let setSiteConfigForACR = false;
+    let errorMessage = '';
+
+    if (values.acrCredentialType === ACRCredentialType.adminCredentials) {
+      setSiteConfigForACR = true;
+    } else {
+      let principalId = '';
+      const acrResourceId = values.acrResourceId;
+      const siteIdentityResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+
+      if (values.acrManagedIdentityClientId === ACRManagedIdentityType.systemAssigned) {
+        portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
+        const response = await deploymentCenterData.enableSystemAssignedIdentity(
+          deploymentCenterContext.resourceId,
+          siteIdentityResponse.data.identity
+        );
+        if (response.metadata.success) {
+          principalId = response.data.identity.principalId;
+        } else {
+          portalContext.log(getTelemetryInfo('error', 'enableSystemAssignedIdentity', 'failed'));
+          errorMessage = response.metadata.error;
+        }
+      } else {
+        principalId = values.acrManagedIdentityPrincipalId;
+      }
+
+      const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(acrResourceId, principalId);
+      if (getRoleAssignmentsResponse.metadata.success) {
+        const hasAcrPullRoleAssignment = await deploymentCenterData.hasRoleAssignment(
+          RBACRoleId.acrPull,
+          getRoleAssignmentsResponse.data.value
+        );
+        if (hasAcrPullRoleAssignment) {
+          setSiteConfigForACR = true;
+        } else {
+          portalContext.log(getTelemetryInfo('info', 'setAcrPullRoleAssignment', 'submit'));
+          const putRoleAssignmentResponse = await deploymentCenterData.putRoleAssignmentWithScope(
+            RBACRoleId.acrPull,
+            acrResourceId,
+            principalId,
+            PrincipalType.servicePrincipal
+          );
+          if (putRoleAssignmentResponse.metadata.success) {
+            setSiteConfigForACR = true;
+          } else {
+            portalContext.log(getTelemetryInfo('error', 'setAcrPullRoleAssignment', 'failed'));
+            errorMessage = putRoleAssignmentResponse.metadata.error;
+          }
+        }
+      } else {
+        portalContext.log(getTelemetryInfo('error', 'getRoleAssignmentsWithScope', 'failed'));
+        errorMessage = getRoleAssignmentsResponse.metadata.error;
+      }
+    }
+
+    if (setSiteConfigForACR) {
+      siteConfig.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
+      siteConfig.acrUserManagedIdentityID =
+        values.acrManagedIdentityClientId !== ACRManagedIdentityType.systemAssigned ? values.acrManagedIdentityClientId : '';
+    }
+
+    return {
+      success: setSiteConfigForACR,
+      error: errorMessage,
+    };
   };
 
   const saveDirectRegistrySettings = async (
