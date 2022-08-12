@@ -41,8 +41,6 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   const [configurationFormData, setConfigurationFormData] = useState<ConfigurationFormData>();
   const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<ConfigurationYupValidationSchemaType>();
   const [staticSiteSku, setStaticSiteSku] = useState(StaticSiteSku.Standard);
-  const [enableStagingEnvironments, setEnableStagingEnvironments] = useState<StagingEnvironmentPolicyTypes>();
-  const [allowConfigFileUpdates, setAllowConfigFileUpdates] = useState<boolean>();
   const [location, setLocation] = useState<string>();
 
   const portalContext = useContext(PortalContext);
@@ -144,6 +142,8 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
           `Failed to get basic auth: ${getErrorMessageOrStringify(staticSiteAuthResponse.metadata.error)}`
         );
       }
+
+      let allowConfigFileUpdates: boolean | undefined;
       let stagingEnvironmentPolicy: StagingEnvironmentPolicyTypes | undefined;
       if (staticSiteResponse.metadata.success) {
         setStaticSiteSku(
@@ -151,12 +151,11 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
             ? StaticSiteSku.Free
             : StaticSiteSku.Standard
         );
-        setAllowConfigFileUpdates(staticSiteResponse.data.properties.allowConfigFileUpdates ?? false);
+        allowConfigFileUpdates = staticSiteResponse.data.properties.allowConfigFileUpdates ?? false;
         stagingEnvironmentPolicy =
           staticSiteResponse.data.properties.stagingEnvironmentPolicy === StagingEnvironmentPolicyTypes.Disabled
             ? StagingEnvironmentPolicyTypes.Disabled
             : StagingEnvironmentPolicyTypes.Enabled;
-        setEnableStagingEnvironments(stagingEnvironmentPolicy);
         setLocation(staticSiteResponse.data.location);
       } else {
         setApiFailure(true);
@@ -182,17 +181,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
 
       setInitialLoading(false);
     },
-    [
-      enableStagingEnvironments,
-      allowConfigFileUpdates,
-      apiFailure,
-      fetchEnvironmentVariables,
-      generateForm,
-      getDefaultEnvironment,
-      getInitialEnvironmentVariables,
-      portalContext,
-      resourceId,
-    ]
+    [apiFailure, fetchEnvironmentVariables, generateForm, getDefaultEnvironment, getInitialEnvironmentVariables, portalContext, resourceId]
   );
 
   const fetchDataOnEnvironmentChange = useCallback(
