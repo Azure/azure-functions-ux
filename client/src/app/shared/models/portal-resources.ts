@@ -2496,4 +2496,5 @@ export class PortalResources {
   public static createFunctionDeploymentNotificationDetails = 'createFunctionDeploymentNotificationDetails';
   public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
   public static createFunctionDeploymentNotificationFailed = 'createFunctionDeploymentNotificationFailed';
+  public static functionHostKeyDeleteConfirmMessage = 'functionHostKeyDeleteConfirmMessage';
 }
