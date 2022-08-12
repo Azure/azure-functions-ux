@@ -110,8 +110,6 @@ export class GithubController {
   ) {
     const url = `${this.githubApiUrl}/repos/${templateOwner}/${templateRepo}/generate`;
     await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, {
-      template_owner: templateOwner,
-      template_repo: templateRepo,
       owner: gitHubUserName,
       name: gitHubRepositoryName,
     });
