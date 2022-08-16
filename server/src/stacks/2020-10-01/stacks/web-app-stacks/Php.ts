@@ -20,6 +20,25 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
         value: '8',
         minorVersions: [
           {
+            displayText: 'PHP 8.2',
+            value: '8.2',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'PHP|8.2',
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.2',
+                  notSupportedInCreates: true,
+                },
+              },
+            },
+          },
+          {
             displayText: 'PHP 8.1',
             value: '8.1',
             stackSettings: {

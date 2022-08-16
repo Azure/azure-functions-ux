@@ -18,6 +18,26 @@ export const phpStack: WebAppStack = {
       value: '8',
       minorVersions: [
         {
+          displayText: 'PHP 8.2',
+          value: '8.2',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'PHP|8.2',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8.2',
+                notSupportedInCreates: true,
+              },
+              endOfLifeDate: php8Point0EOL,
+            },
+          },
+        },
+        {
           displayText: 'PHP 8.0',
           value: '8.0',
           stackSettings: {
