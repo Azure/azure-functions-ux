@@ -362,14 +362,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else {
       let principalId = '';
       const acrResourceId = values.acrResourceId;
-      const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+      const siteIdentity = siteContext.site?.identity;
 
       if (values.acrManagedIdentityClientId === ACRManagedIdentityType.systemAssigned) {
         portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
-        const response = await deploymentCenterData.enableSystemAssignedIdentity(
-          deploymentCenterContext.resourceId,
-          siteResponse.data.identity
-        );
+        const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId, siteIdentity);
         if (response.metadata.success) {
           principalId = response.data.identity.principalId;
         } else {
@@ -430,7 +427,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     });
 
     if (!updateSiteResponse.metadata.success) {
-      portalContext.log(getTelemetryInfo('error', 'settingVnetImagePullEnabledTrue', 'failed'));
+      portalContext.log(getTelemetryInfo('error', 'settingVnetImagePullEnabledTrue', 'failed', updateSiteResponse.metadata.error));
     }
   };
 
