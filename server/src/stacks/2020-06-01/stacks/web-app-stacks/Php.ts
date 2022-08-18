@@ -1,5 +1,6 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
+const php8Point2EOL = new Date(2023, 11, 26).toString();
 const php8Point0EOL = new Date(2023, 11, 26).toString();
 const php7Point4EOL = new Date(2022, 11, 28).toString();
 const php7Point3EOL = new Date(2021, 12, 6).toString();
@@ -33,7 +34,7 @@ export const phpStack: WebAppStack = {
                 supportedVersion: '8.2',
                 notSupportedInCreates: true,
               },
-              endOfLifeDate: php8Point0EOL,
+              endOfLifeDate: php8Point2EOL,
             },
           },
         },
