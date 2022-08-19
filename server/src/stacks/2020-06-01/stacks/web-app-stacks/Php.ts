@@ -1,8 +1,9 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
-const php8Point2EOL = new Date(2023, 11, 26).toString();
-const php8Point0EOL = new Date(2023, 11, 26).toString();
-const php7Point4EOL = new Date(2022, 11, 28).toString();
+const php8Point2EOL = new Date(2025, 11, 30).toString();
+const php8Point1EOL = new Date(2024, 11, 30).toString();
+const php8Point0EOL = new Date(2023, 11, 30).toString();
+const php7Point4EOL = new Date(2022, 11, 30).toString();
 const php7Point3EOL = new Date(2021, 12, 6).toString();
 const php7Point2EOL = new Date(2020, 11, 30).toString();
 const php7Point1EOL = new Date(2020, 2, 1).toString();
@@ -35,6 +36,26 @@ export const phpStack: WebAppStack = {
                 notSupportedInCreates: true,
               },
               endOfLifeDate: php8Point2EOL,
+            },
+          },
+        },
+        {
+          displayText: 'PHP 8.1',
+          value: '8.1',
+          stackSettings: {
+            linuxRuntimeSettings: {
+              runtimeVersion: 'PHP|8.1',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '8.1',
+                notSupportedInCreates: true,
+              },
+              endOfLifeDate: php8Point1EOL,
             },
           },
         },

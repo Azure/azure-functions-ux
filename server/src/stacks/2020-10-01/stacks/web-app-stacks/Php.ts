@@ -2,7 +2,9 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
-  const php8Point0EOL = getDateString(new Date(2023, 11, 26), useIsoDateFormat);
+  const php8Point2EOL = getDateString(new Date(2025, 11, 30), useIsoDateFormat);
+  const php8Point1EOL = getDateString(new Date(2024, 11, 30), useIsoDateFormat);
+  const php8Point0EOL = getDateString(new Date(2023, 11, 30), useIsoDateFormat);
   const php7Point4EOL = getDateString(new Date(2022, 11, 28), useIsoDateFormat);
   const php7Point3EOL = getDateString(new Date(2021, 12, 6), useIsoDateFormat);
   const php7Point2EOL = getDateString(new Date(2020, 11, 30), useIsoDateFormat);
