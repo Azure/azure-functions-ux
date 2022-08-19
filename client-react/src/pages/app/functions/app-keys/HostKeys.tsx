@@ -55,6 +55,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [isDeleteConfirmationDialogVisible, setIsDeleteConfirmationDialogVisible] = useState(false);
+  const [calloutTargetId, setCalloutTargetId] = useState('');
+  const [deleteItemKey, setDeleteItemKey] = useState('');
 
   const { t } = useTranslation();
   const appKeysContext = useContext(AppKeysContext);
@@ -149,7 +151,9 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteHostKey = () => {
+  const deleteHostKey = (itemKey: string, calloutTargetId: string) => {
+    setCalloutTargetId(calloutTargetId);
+    setDeleteItemKey(itemKey);
     setIsDeleteConfirmationDialogVisible(true);
   };
 
@@ -224,40 +228,20 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       }
       const appSettingsDeleteIconButtonId = `app-settings-application-settings-delete-${index}`;
       return (
-        <div>
-          <TooltipHost
-            content={t('delete')}
-            id={`app-keys-host-keys-delete-tooltip-${index}`}
-            calloutProps={{ gapSpace: 0 }}
-            closeDelay={500}>
-            <IconButton
-              className={defaultCellStyle}
-              disabled={readOnlyPermission}
-              id={appSettingsDeleteIconButtonId}
-              iconProps={{ iconName: 'Delete' }}
-              ariaLabel={t('delete')}
-              onClick={deleteHostKey}
-            />
-          </TooltipHost>
-          <Callout
-            hidden={!isDeleteConfirmationDialogVisible}
-            onDismiss={() => onCalloutDismiss()}
-            setInitialFocus={true}
-            target={`#${appSettingsDeleteIconButtonId}`}>
-            <div className={appKeyDeleteConfirmDialogInnerDivStyle}>
-              {t('functionHostKeyDeleteConfirmMessage')}
-              <div>
-                <PrimaryButton
-                  id={`confirmDeleteButton`}
-                  className={appKeyDeleteConfirmButtonStyle}
-                  onClick={() => onConfirmDelete(itemKey)}>
-                  {t('continue')}
-                </PrimaryButton>
-                <DefaultButton text={t('cancel')} onClick={onCancelDelete} />
-              </div>
-            </div>
-          </Callout>
-        </div>
+        <TooltipHost
+          content={t('delete')}
+          id={`app-keys-host-keys-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={readOnlyPermission}
+            id={appSettingsDeleteIconButtonId}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => deleteHostKey(itemKey, appSettingsDeleteIconButtonId)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'renew') {
@@ -376,6 +360,26 @@ const HostKeys: React.FC<HostKeysProps> = props => {
           readOnlyPermission={readOnlyPermission}
         />
       </CustomPanel>
+      {!!calloutTargetId && (
+        <Callout
+          hidden={!isDeleteConfirmationDialogVisible}
+          onDismiss={() => onCalloutDismiss()}
+          setInitialFocus={true}
+          target={`#${calloutTargetId}`}>
+          <div className={appKeyDeleteConfirmDialogInnerDivStyle}>
+            {t('functionHostKeyDeleteConfirmMessage')}
+            <div>
+              <PrimaryButton
+                id={`confirmDeleteButton`}
+                className={appKeyDeleteConfirmButtonStyle}
+                onClick={() => onConfirmDelete(deleteItemKey)}>
+                {t('continue')}
+              </PrimaryButton>
+              <DefaultButton text={t('cancel')} onClick={onCancelDelete} />
+            </div>
+          </div>
+        </Callout>
+      )}
     </>
   );
 };
