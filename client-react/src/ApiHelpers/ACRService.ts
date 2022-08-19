@@ -123,7 +123,6 @@ export default class ACRService {
         }
       } else if (logger) {
         logger(nextLink, pageResponse);
-        break;
       }
     } while (nextLink);
 
