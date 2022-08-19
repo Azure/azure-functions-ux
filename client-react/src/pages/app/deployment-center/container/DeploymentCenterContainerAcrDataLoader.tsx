@@ -243,10 +243,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
             const repositoryOptions: IDropdownOption[] = [];
             repositoriesResponse.forEach(response => {
-              const dropdownOptions =
-                response && response.repositories && response.repositories.length > 0
-                  ? response.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
-                  : [];
+              const dropdownOptions = response?.repositories?.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository })) ?? [];
               repositoryOptions.push(...dropdownOptions);
             });
 
