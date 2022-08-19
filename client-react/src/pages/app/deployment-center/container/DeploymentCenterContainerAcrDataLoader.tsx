@@ -242,12 +242,13 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             );
 
             const repositoryOptions: IDropdownOption[] = [];
-            const dropdownOptions =
-              repositoriesResponse?.repositories && repositoriesResponse.repositories.length > 0
-                ? repositoriesResponse.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
-                : [];
-
-            repositoryOptions.push(...dropdownOptions);
+            repositoriesResponse.forEach(response => {
+              const dropdownOptions =
+                response && response.repositories && response.repositories.length > 0
+                  ? response.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
+                  : [];
+              repositoryOptions.push(...dropdownOptions);
+            });
 
             if (repositoryOptions.length === 0 && failedNetworkCall) {
               const statusMessage = errorMessage
@@ -321,10 +322,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             );
 
             const tagOptions: IDropdownOption[] = [];
-            const dropdownOptions =
-              tagsResponse?.tags && tagsResponse.tags.length > 0 ? tagsResponse.tags.map(tag => ({ key: tag, text: tag })) : [];
-
-            tagOptions.push(...dropdownOptions);
+            tagsResponse.forEach(response => {
+              const dropdownOptions =
+                response && response.tags && response.tags.length > 0 ? response.tags.map(tag => ({ key: tag, text: tag })) : [];
+              tagOptions.push(...dropdownOptions);
+            });
 
             if (tagOptions.length === 0 && failedNetworkCall) {
               const statusMessage = errorMessage
