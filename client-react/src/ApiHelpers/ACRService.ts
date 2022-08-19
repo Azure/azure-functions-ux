@@ -111,7 +111,7 @@ export default class ACRService {
       const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, requestUrl, method, headers);
       if (isPortalCommunicationStatusSuccess(pageResponse.status)) {
         acrObjectList.push(pageResponse.result.content);
-        const headers: string[] = pageResponse.result.headers.split(/\r?\n/);
+        const headers: string[] = pageResponse.result?.headers?.split(/\r?\n/) ?? [];
         const linkHeader = headers.find(header => header.startsWith('link'));
 
         if (linkHeader) {
