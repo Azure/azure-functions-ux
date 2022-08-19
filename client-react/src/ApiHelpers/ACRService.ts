@@ -10,6 +10,7 @@ import PortalCommunicator from '../portal-communicator';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { isPortalCommunicationStatusSuccess } from '../utils/portal-utils';
 import { Guid } from '../utils/Guid';
+import { getLastItemFromLinks, getLinksFromLinkHeader } from './HttpClient';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -200,16 +201,34 @@ export default class ACRService {
     method: Method,
     headers?: any,
     logger?: (page, error) => void
-  ): Promise<T | undefined> {
-    let acrObject: T | undefined;
-    const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, url, method, headers);
-    if (isPortalCommunicationStatusSuccess(pageResponse.status)) {
-      acrObject = pageResponse.result.content;
-    } else if (logger) {
-      logger(pageResponse.result, pageResponse);
-    }
+  ): Promise<T[]> {
+    const acrObjectList: T[] = [];
+    let nextLink = '';
 
-    return acrObject;
+    const getNextPageableRequest = (lastLink: string) => `?last=${lastLink}&n=100&orderby=`;
+    let pageableRequest = '';
+    do {
+      nextLink = '';
+      const requestUrl = `${url} ${pageableRequest}`;
+      const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, requestUrl, method, headers);
+      if (isPortalCommunicationStatusSuccess(pageResponse.status)) {
+        acrObjectList.push(pageResponse.result.content);
+        const headers: string[] = pageResponse.result?.headers?.split(/\r?\n/) ?? [];
+        const linkHeader = headers.find(header => header.startsWith('link'));
+
+        if (linkHeader) {
+          const links = getLinksFromLinkHeader(linkHeader);
+          const lastItem = getLastItemFromLinks(links);
+          data.last = lastItem ?? '';
+          nextLink = links?.next ?? '';
+          pageableRequest = getNextPageableRequest(lastItem);
+        }
+      } else if (logger) {
+        logger(nextLink, pageResponse);
+      }
+    } while (nextLink);
+
+    return acrObjectList;
   }
 
   private static _sendSpecificACRRequest = async <T>(
