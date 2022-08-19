@@ -182,6 +182,8 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   };
 
   const onCalloutDismiss = () => {
+    setCalloutTargetId('');
+    setDeleteItemKey('');
     setIsDeleteConfirmationDialogVisible(false);
   };
 

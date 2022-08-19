@@ -158,6 +158,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   };
 
   const onCalloutDismiss = () => {
+    setCalloutTargetId('');
+    setDeleteItemKey('');
     setIsDeleteConfirmationDialogVisible(false);
   };
 
@@ -362,7 +364,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       </CustomPanel>
       {!!calloutTargetId && (
         <Callout
-          hidden={!isDeleteConfirmationDialogVisible}
+          hidden={!isDeleteConfirmationDialogVisible && !calloutTargetId}
           onDismiss={() => onCalloutDismiss()}
           setInitialFocus={true}
           target={`#${calloutTargetId}`}>
