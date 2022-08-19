@@ -107,7 +107,7 @@ export default class ACRService {
     let pageableRequest = '';
     do {
       nextLink = '';
-      const requestUrl = url + pageableRequest;
+      const requestUrl = `${url} ${pageableRequest}`;
       const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, requestUrl, method, headers);
       if (isPortalCommunicationStatusSuccess(pageResponse.status)) {
         acrObjectList.push(pageResponse.result.content);
