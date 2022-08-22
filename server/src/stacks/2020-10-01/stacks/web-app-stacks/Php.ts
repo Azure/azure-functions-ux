@@ -2,8 +2,10 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
-  const php8Point0EOL = getDateString(new Date(2023, 11, 26), useIsoDateFormat);
-  const php7Point4EOL = getDateString(new Date(2022, 11, 28), useIsoDateFormat);
+  const php8Point2EOL = getDateString(new Date(2025, 11, 30), useIsoDateFormat);
+  const php8Point1EOL = getDateString(new Date(2024, 11, 30), useIsoDateFormat);
+  const php8Point0EOL = getDateString(new Date(2023, 11, 30), useIsoDateFormat);
+  const php7Point4EOL = getDateString(new Date(2022, 11, 30), useIsoDateFormat);
   const php7Point3EOL = getDateString(new Date(2021, 12, 6), useIsoDateFormat);
   const php7Point2EOL = getDateString(new Date(2020, 11, 30), useIsoDateFormat);
   const php7Point1EOL = getDateString(new Date(2020, 2, 1), useIsoDateFormat);
@@ -20,6 +22,26 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
         value: '8',
         minorVersions: [
           {
+            displayText: 'PHP 8.2',
+            value: '8.2',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'PHP|8.2',
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.2',
+                  notSupportedInCreates: true,
+                },
+                endOfLifeDate: php8Point2EOL,
+              },
+            },
+          },
+          {
             displayText: 'PHP 8.1',
             value: '8.1',
             stackSettings: {
@@ -35,6 +57,7 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
                   supportedVersion: '8.1',
                   notSupportedInCreates: true,
                 },
+                endOfLifeDate: php8Point1EOL,
               },
             },
           },
