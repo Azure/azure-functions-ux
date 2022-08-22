@@ -134,12 +134,12 @@ const setStorageAccountConnection = (
   setKeyList: React.Dispatch<React.SetStateAction<StorageAccountKeys | undefined>>
 ) => {
   if (formValues.storageAccount && keyList) {
-    var appSettingName = generateAppSettingName(appSettingKeys, `${formValues.storageAccount.name}_STORAGE`);
+    let appSettingName = generateAppSettingName(appSettingKeys, `${formValues.storageAccount.name}_STORAGE`);
     const appSettingValue = `DefaultEndpointsProtocol=https;AccountName=${formValues.storageAccount.name};AccountKey=${
       keyList.keys[0].value
     }${appendEndpoint()}`;
 
-    if (appSettingName != `${formValues.storageAccount.name}_STORAGE`) {
+    if (appSettingName !== `${formValues.storageAccount.name}_STORAGE`) {
       appSettingName = `${formValues.storageAccount.name}_STORAGE`;
     } else {
       setNewAppSetting({ key: appSettingName, value: appSettingValue });
