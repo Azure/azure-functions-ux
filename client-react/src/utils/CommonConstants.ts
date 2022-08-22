@@ -268,6 +268,8 @@ export class CommonConstants {
   //min length is 8, must contain uppercase, lowercase, number, and symbol
   public static readonly passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
 
+  public static newlineRegex = new RegExp(/\r?\n/);
+
   public static readonly CosmosDbDefaults = {
     containerName: 'CosmosContainer',
     databaseName: 'CosmosDatabase',
