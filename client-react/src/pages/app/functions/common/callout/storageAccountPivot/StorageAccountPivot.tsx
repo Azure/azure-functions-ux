@@ -134,11 +134,17 @@ const setStorageAccountConnection = (
   setKeyList: React.Dispatch<React.SetStateAction<StorageAccountKeys | undefined>>
 ) => {
   if (formValues.storageAccount && keyList) {
-    const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.storageAccount.name}_STORAGE`);
+    let appSettingName = generateAppSettingName(appSettingKeys, `${formValues.storageAccount.name}_STORAGE`);
     const appSettingValue = `DefaultEndpointsProtocol=https;AccountName=${formValues.storageAccount.name};AccountKey=${
       keyList.keys[0].value
     }${appendEndpoint()}`;
-    setNewAppSetting({ key: appSettingName, value: appSettingValue });
+
+    if (appSettingName !== `${formValues.storageAccount.name}_STORAGE`) {
+      appSettingName = `${formValues.storageAccount.name}_STORAGE`;
+    } else {
+      setNewAppSetting({ key: appSettingName, value: appSettingValue });
+    }
+
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setKeyList(undefined);
     setIsDialogVisible(false);
