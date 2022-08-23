@@ -720,7 +720,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             />
           </>
           <div className={pivotContent}>
-            <DeploymentCenterCodePivot {...props} formProps={formProps} />
+            <DeploymentCenterCodePivot {...props} tab={props.tab} formProps={formProps} />
           </div>
         </form>
       )}

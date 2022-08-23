@@ -20,9 +20,9 @@ import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
-  const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing } = props;
+  const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing, tab } = props;
   const { t } = useTranslation();
-  const [selectedKey, setSelectedKey] = useState<string>('settings');
+  const [selectedKey, setSelectedKey] = useState<string>(tab ?? 'settings');
   const [showLogsTab, setShowLogsTab] = useState(true);
   const [showFtpsTab, setShowFtpsTab] = useState(false);
 
