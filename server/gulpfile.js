@@ -150,7 +150,6 @@ gulp.task('resx-to-typescript-models', function(cb) {
   Object.keys(resources).forEach(function(stringName) {
     typescriptFileContent += `    public static ${stringName} = '${stringName}';\r\n`;
   });
-  console.log('make it');
   typescriptFileContent += `}`;
   let writePath = path.normalize(path.join(__dirname, '..', 'client', 'src', 'app', 'shared', 'models'));
   let writeFile = path.join(writePath, 'portal-resources.ts');

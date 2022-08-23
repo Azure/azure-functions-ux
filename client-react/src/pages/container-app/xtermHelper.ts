@@ -13,7 +13,7 @@ export function getTerminalFallbackDimensions(width: number, height: number): xt
 }
 
 export function getTerminalDimensions(width: number, height: number, terminal?: Terminal): xtermDimensions {
-  if (!!terminal?.element) {
+  if (terminal?.element) {
     const core = (terminal as any)._core;
     const { actualCellWidth, actualCellHeight } = core?._renderService?.dimensions || {};
 

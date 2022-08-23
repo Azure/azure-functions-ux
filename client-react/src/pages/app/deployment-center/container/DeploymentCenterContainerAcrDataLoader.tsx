@@ -64,7 +64,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setAcrStatusMessage(undefined);
     setAcrStatusMessageType(undefined);
     setLearnMoreLink(undefined);
-    fetchRegistries();
   };
 
   const fetchRegistries = async () => {
@@ -242,12 +241,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             );
 
             const repositoryOptions: IDropdownOption[] = [];
-            const dropdownOptions =
-              repositoriesResponse?.repositories && repositoriesResponse.repositories.length > 0
-                ? repositoriesResponse.repositories.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository }))
-                : [];
-
-            repositoryOptions.push(...dropdownOptions);
+            repositoriesResponse.forEach(response => {
+              const dropdownOptions =
+                response?.repositories?.map(repository => ({ key: repository.toLocaleLowerCase(), text: repository })) ?? [];
+              repositoryOptions.push(...dropdownOptions);
+            });
 
             if (repositoryOptions.length === 0 && failedNetworkCall) {
               const statusMessage = errorMessage
@@ -321,10 +319,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             );
 
             const tagOptions: IDropdownOption[] = [];
-            const dropdownOptions =
-              tagsResponse?.tags && tagsResponse.tags.length > 0 ? tagsResponse.tags.map(tag => ({ key: tag, text: tag })) : [];
-
-            tagOptions.push(...dropdownOptions);
+            tagsResponse.forEach(response => {
+              const dropdownOptions = response?.tags?.map(tag => ({ key: tag, text: tag })) ?? [];
+              tagOptions.push(...dropdownOptions);
+            });
 
             if (tagOptions.length === 0 && failedNetworkCall) {
               const statusMessage = errorMessage
@@ -495,38 +493,24 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     if (deploymentCenterContext.siteDescriptor && deploymentCenterContext.applicationSettings) {
       fetchData();
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.siteDescriptor, deploymentCenterContext.applicationSettings]);
+
+  useEffect(() => {
+    fetchRegistries();
+  }, [subscription]);
 
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer]) {
       fetchRepositories(formProps.values.acrLoginServer);
       setAcrResourceId();
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.acrLoginServer]);
 
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer] && formProps.values.acrImage) {
       fetchTags(formProps.values.acrImage);
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.acrLoginServer, formProps.values.acrImage]);
-
-  useEffect(() => {
-    fetchRegistries();
-    if (acrUseManagedIdentities) {
-      portalContext.log(
-        getTelemetryInfo('info', 'acrUseManagedIdentityCredsConfigured', 'submit', {
-          resourceId: deploymentCenterContext.resourceId,
-        })
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [subscription]);
 
   useEffect(() => {
     setAcrUseManagedIdentities(formProps.values.acrCredentialType === ACRCredentialType.managedIdentity);
@@ -536,10 +520,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   useEffect(() => {
     setManagedIdentityPrincipalId();
   }, [formProps.values.acrManagedIdentityClientId]);
-
-  useEffect(() => {
-    fetchRegistries();
-  }, [acrUseManagedIdentities]);
 
   return (
     <DeploymentCenterContainerAcrSettings

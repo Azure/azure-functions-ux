@@ -18,8 +18,8 @@ import {
   tableValueIconStyle,
   tableValueFormFieldStyle,
   tableValueTextFieldStyle,
-  hostKeyDeleteConfirmDialogInnerDivStyle,
-  hostKeyDeleteConfirmButtonStyle,
+  appKeyDeleteConfirmDialogInnerDivStyle,
+  appKeyDeleteConfirmButtonStyle,
 } from './AppKeys.styles';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
@@ -55,6 +55,8 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [isDeleteConfirmationDialogVisible, setIsDeleteConfirmationDialogVisible] = useState(false);
+  const [calloutTargetId, setCalloutTargetId] = useState('');
+  const [deleteItemKey, setDeleteItemKey] = useState('');
 
   const { t } = useTranslation();
   const appKeysContext = useContext(AppKeysContext);
@@ -149,11 +151,19 @@ const HostKeys: React.FC<HostKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteHostKey = () => {
+  const deleteHostKey = (itemKey: string, calloutTargetId: string) => {
+    setCalloutTargetId(calloutTargetId);
+    setDeleteItemKey(itemKey);
     setIsDeleteConfirmationDialogVisible(true);
   };
 
-  const onCalloutDismiss = (itemKey: string) => {
+  const onCalloutDismiss = () => {
+    setCalloutTargetId('');
+    setDeleteItemKey('');
+    setIsDeleteConfirmationDialogVisible(false);
+  };
+
+  const onConfirmDelete = (itemKey: string) => {
     setIsDeleteConfirmationDialogVisible(false);
     appKeysContext.deleteKey(resourceId, itemKey, AppKeysTypes.functionKeys);
     refreshData();
@@ -220,40 +230,20 @@ const HostKeys: React.FC<HostKeysProps> = props => {
       }
       const appSettingsDeleteIconButtonId = `app-settings-application-settings-delete-${index}`;
       return (
-        <div>
-          <TooltipHost
-            content={t('delete')}
-            id={`app-keys-host-keys-delete-tooltip-${index}`}
-            calloutProps={{ gapSpace: 0 }}
-            closeDelay={500}>
-            <IconButton
-              className={defaultCellStyle}
-              disabled={readOnlyPermission}
-              id={appSettingsDeleteIconButtonId}
-              iconProps={{ iconName: 'Delete' }}
-              ariaLabel={t('delete')}
-              onClick={deleteHostKey}
-            />
-          </TooltipHost>
-          <Callout
-            hidden={!isDeleteConfirmationDialogVisible}
-            onDismiss={() => onCalloutDismiss(itemKey)}
-            setInitialFocus={true}
-            target={`#${appSettingsDeleteIconButtonId}`}>
-            <div className={hostKeyDeleteConfirmDialogInnerDivStyle}>
-              {t('functionHostKeyDeleteConfirmMessage')}
-              <div>
-                <PrimaryButton
-                  id={`confirmDeleteButton`}
-                  className={hostKeyDeleteConfirmButtonStyle}
-                  onClick={() => onCalloutDismiss(itemKey)}>
-                  {t('continue')}
-                </PrimaryButton>
-                <DefaultButton text={t('cancel')} onClick={onCancelDelete} />
-              </div>
-            </div>
-          </Callout>
-        </div>
+        <TooltipHost
+          content={t('delete')}
+          id={`app-keys-host-keys-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={readOnlyPermission}
+            id={appSettingsDeleteIconButtonId}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => deleteHostKey(itemKey, appSettingsDeleteIconButtonId)}
+          />
+        </TooltipHost>
       );
     }
     if (column.key === 'renew') {
@@ -372,6 +362,26 @@ const HostKeys: React.FC<HostKeysProps> = props => {
           readOnlyPermission={readOnlyPermission}
         />
       </CustomPanel>
+      {!!calloutTargetId && (
+        <Callout
+          hidden={!isDeleteConfirmationDialogVisible}
+          onDismiss={() => onCalloutDismiss()}
+          setInitialFocus={true}
+          target={`#${calloutTargetId}`}>
+          <div className={appKeyDeleteConfirmDialogInnerDivStyle}>
+            {t('functionHostKeyDeleteConfirmMessage')}
+            <div>
+              <PrimaryButton
+                id={`confirmDeleteButton`}
+                className={appKeyDeleteConfirmButtonStyle}
+                onClick={() => onConfirmDelete(deleteItemKey)}>
+                {t('continue')}
+              </PrimaryButton>
+              <DefaultButton text={t('cancel')} onClick={onCancelDelete} />
+            </div>
+          </div>
+        </Callout>
+      )}
     </>
   );
 };

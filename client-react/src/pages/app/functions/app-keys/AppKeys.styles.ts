@@ -80,14 +80,14 @@ export const tableValueTextFieldStyle = style({
   width: '100%',
 });
 
-export const hostKeyDeleteConfirmDialogInnerDivStyle = style({
+export const appKeyDeleteConfirmDialogInnerDivStyle = style({
   width: '250px',
   display: 'block',
   justifyContent: 'center',
   margin: '10px',
 });
 
-export const hostKeyDeleteConfirmButtonStyle = style({
+export const appKeyDeleteConfirmButtonStyle = style({
   marginRight: '10px',
   marginTop: '10px',
 });
