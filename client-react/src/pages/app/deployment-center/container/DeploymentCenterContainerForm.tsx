@@ -825,7 +825,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
             />
           </>
           <div className={pivotContent}>
-            <DeploymentCenterContainerPivot {...props} tab={props.tab} formProps={formProps} />
+            <DeploymentCenterContainerPivot {...props} formProps={formProps} />
           </div>
         </form>
       )}
