@@ -90,7 +90,6 @@ export const deploymentCenterInfoBannerDiv = style({
 
 export const deploymentCenterAcrBannerDiv = style({
   maxWidth: maxElementWidth,
-  marginTop: '1em',
   marginBottom: '1em',
 });
 
