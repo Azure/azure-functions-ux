@@ -31,11 +31,11 @@ const LogStream: React.FC<LogStreamProps> = props => {
   }, [portalCommunicator]);
 
   useEffect(() => {
-    if (!!terminalRef.current?.terminal) {
+    if (terminalRef.current?.terminal) {
       terminalRef.current.terminal.attachCustomKeyEventHandler((key: KeyboardEvent) => {
         const textToCopy =
           key.code === 'KeyC' && key.ctrlKey && !key.altKey && !key.metaKey && terminalRef.current?.terminal.getSelection();
-        if (!!textToCopy) {
+        if (textToCopy) {
           TextUtilitiesService.copyContentToClipboard(textToCopy);
         }
         return true;

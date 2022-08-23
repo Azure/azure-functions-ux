@@ -1,6 +1,17 @@
 import React, { useState, useContext } from 'react';
 import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
-import { ActionButton, DetailsListLayoutMode, SelectionMode, IColumn, TooltipHost, ICommandBarItemProps, PanelType } from '@fluentui/react';
+import {
+  ActionButton,
+  DetailsListLayoutMode,
+  SelectionMode,
+  IColumn,
+  TooltipHost,
+  ICommandBarItemProps,
+  PanelType,
+  Callout,
+  PrimaryButton,
+  DefaultButton,
+} from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
   renewTextStyle,
@@ -8,6 +19,8 @@ import {
   tableValueIconStyle,
   tableValueFormFieldStyle,
   tableValueTextFieldStyle,
+  appKeyDeleteConfirmDialogInnerDivStyle,
+  appKeyDeleteConfirmButtonStyle,
 } from './AppKeys.styles';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { emptyKey } from './AppKeys';
@@ -41,6 +54,9 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
+  const [isDeleteConfirmationDialogVisible, setIsDeleteConfirmationDialogVisible] = useState(false);
+  const [calloutTargetId, setCalloutTargetId] = useState('');
+  const [deleteItemKey, setDeleteItemKey] = useState('');
 
   const { t } = useTranslation();
   const appKeysContext = useContext(AppKeysContext);
@@ -159,9 +175,26 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
     setShownValues([...newShownValues]);
   };
 
-  const deleteSystemKey = (itemKey: string) => {
+  const deleteSystemKey = (itemKey: string, calloutTargetId: string) => {
+    setCalloutTargetId(calloutTargetId);
+    setDeleteItemKey(itemKey);
+    setIsDeleteConfirmationDialogVisible(true);
+  };
+
+  const onCalloutDismiss = () => {
+    setCalloutTargetId('');
+    setDeleteItemKey('');
+    setIsDeleteConfirmationDialogVisible(false);
+  };
+
+  const onConfirmDelete = (itemKey: string) => {
+    setIsDeleteConfirmationDialogVisible(false);
     appKeysContext.deleteKey(resourceId, itemKey, AppKeysTypes.systemKeys);
     refreshData();
+  };
+
+  const onCancelDelete = () => {
+    setIsDeleteConfirmationDialogVisible(false);
   };
 
   const onRenderColumnItem = (item: AppKeysModel, index: number, column: IColumn) => {
@@ -216,6 +249,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
       );
     }
     if (column.key === 'delete') {
+      const appSettingsDeleteIconButtonId = `app-settings-application-settings-system-delete-${index}`;
       return (
         <TooltipHost
           content={t('delete')}
@@ -225,10 +259,10 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
           <IconButton
             className={defaultCellStyle}
             disabled={readOnlyPermission}
-            id={`app-settings-application-settings-delete-${index}`}
+            id={appSettingsDeleteIconButtonId}
             iconProps={{ iconName: 'Delete' }}
             ariaLabel={t('delete')}
-            onClick={() => deleteSystemKey(itemKey)}
+            onClick={() => deleteSystemKey(itemKey, appSettingsDeleteIconButtonId)}
           />
         </TooltipHost>
       );
@@ -317,6 +351,26 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
           readOnlyPermission={readOnlyPermission}
         />
       </CustomPanel>
+      {!!calloutTargetId && (
+        <Callout
+          hidden={!isDeleteConfirmationDialogVisible}
+          onDismiss={() => onCalloutDismiss()}
+          setInitialFocus={true}
+          target={`#${calloutTargetId}`}>
+          <div className={appKeyDeleteConfirmDialogInnerDivStyle}>
+            {t('functionHostKeyDeleteConfirmMessage')}
+            <div>
+              <PrimaryButton
+                id={`confirmDeleteButton`}
+                className={appKeyDeleteConfirmButtonStyle}
+                onClick={() => onConfirmDelete(deleteItemKey)}>
+                {t('continue')}
+              </PrimaryButton>
+              <DefaultButton text={t('cancel')} onClick={onCancelDelete} />
+            </div>
+          </div>
+        </Callout>
+      )}
     </>
   );
 };

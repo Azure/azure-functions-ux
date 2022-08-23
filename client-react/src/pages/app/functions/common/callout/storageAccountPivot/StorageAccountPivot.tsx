@@ -10,7 +10,7 @@ import { StorageAccount, StorageAccountKeys } from '../../../../../../models/sto
 import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { style } from 'typestyle';
+import { primaryButtonStyle } from './StorageAccountPivot.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
 import { PortalContext } from '../../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
@@ -18,10 +18,6 @@ import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
 }
-
-const primaryButtonStyle = style({
-  marginRight: '8px',
-});
 
 const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(StorageAccountPivotContext);

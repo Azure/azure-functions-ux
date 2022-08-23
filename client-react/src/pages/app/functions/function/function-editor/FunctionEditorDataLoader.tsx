@@ -379,7 +379,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       if (response.code !== 200) {
         portalContext.log(
           getTelemetryInfo('error', 'makeHttpRequestForRunFunction', 'failed', {
-            error: runFunctionResponseResult.metadata.error,
+            error: runFunctionResponseResult,
             message: 'Failed to run functions',
           })
         );
