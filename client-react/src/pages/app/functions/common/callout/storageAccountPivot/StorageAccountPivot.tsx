@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
+import { IDropdownOption, IDropdownProps, PrimaryButton, DefaultButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
@@ -10,7 +10,7 @@ import { StorageAccount, StorageAccountKeys } from '../../../../../../models/sto
 import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { paddingTopStyle } from '../Callout.styles';
+import { style } from 'typestyle';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
 import { PortalContext } from '../../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
@@ -18,6 +18,10 @@ import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;
 }
+
+const primaryButtonStyle = style({
+  marginRight: '8px',
+});
 
 const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps> = props => {
   const provider = useContext(StorageAccountPivotContext);
@@ -106,11 +110,17 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
                 mouseOverToolTip={undefined}
               />
             )}
-            <footer style={paddingTopStyle}>
-              <PrimaryButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
+            <div>
+              <PrimaryButton className={primaryButtonStyle} disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
                 {t('ok')}
               </PrimaryButton>
-            </footer>
+              <DefaultButton
+                onClick={() => {
+                  props.setIsDialogVisible(false);
+                }}>
+                {t('cancel')}
+              </DefaultButton>
+            </div>
           </form>
         );
       }}
@@ -128,11 +138,17 @@ const setStorageAccountConnection = (
   setKeyList: React.Dispatch<React.SetStateAction<StorageAccountKeys | undefined>>
 ) => {
   if (formValues.storageAccount && keyList) {
-    const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.storageAccount.name}_STORAGE`);
+    let appSettingName = generateAppSettingName(appSettingKeys, `${formValues.storageAccount.name}_STORAGE`);
     const appSettingValue = `DefaultEndpointsProtocol=https;AccountName=${formValues.storageAccount.name};AccountKey=${
       keyList.keys[0].value
     }${appendEndpoint()}`;
-    setNewAppSetting({ key: appSettingName, value: appSettingValue });
+
+    if (appSettingName !== `${formValues.storageAccount.name}_STORAGE`) {
+      appSettingName = `${formValues.storageAccount.name}_STORAGE`;
+    } else {
+      setNewAppSetting({ key: appSettingName, value: appSettingValue });
+    }
+
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setKeyList(undefined);
     setIsDialogVisible(false);
