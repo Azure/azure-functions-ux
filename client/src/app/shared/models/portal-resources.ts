@@ -2392,6 +2392,9 @@ export class PortalResources {
   public static managedIdentityInfoMessage = 'managedIdentityInfoMessage';
   public static acrCredentialsWarningMessage = 'acrCredentialsWarningMessage';
   public static addIdentity = 'addIdentity';
+  public static deploymentCenterAcrComboBoxPlaceholder = 'deploymentCenterAcrComboBoxPlaceholder';
+  public static deploymentCenterImageComboBoxPlaceholder = 'deploymentCenterImageComboBoxPlaceholder';
+  public static deploymentCenterTagComboBoxPlaceholder = 'deploymentCenterTagComboBoxPlaceholder';
   public static staticSite_generalSettings = 'staticSite_generalSettings';
   public static staticSite_passwordProtection = 'staticSite_passwordProtection';
   public static staticSite_passwordProtectionDescription = 'staticSite_passwordProtectionDescription';

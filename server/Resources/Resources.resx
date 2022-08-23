@@ -7320,6 +7320,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="addIdentity" xml:space="preserve">
         <value>Add identity</value>
     </data>
+    <data name="deploymentCenterAcrComboBoxPlaceholder" xml:space="preserve">
+        <value>Select Azure Container Registry</value>
+    </data>
+    <data name="deploymentCenterImageComboBoxPlaceholder" xml:space="preserve">
+        <value>Select or type image</value>
+    </data>
+    <data name="deploymentCenterTagComboBoxPlaceholder" xml:space="preserve">
+        <value>Select or type tag</value>
+    </data>
     <data name="staticSite_generalSettings" xml:space="preserve">
         <value>General settings</value>
     </data>

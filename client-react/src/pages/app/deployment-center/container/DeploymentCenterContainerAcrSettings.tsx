@@ -152,49 +152,73 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         displayInVerticalLayout={true}
         isLoading={loadingAcrRegistryOptions}
         required={true}
+        placeholder={t('deploymentCenterAcrComboBoxPlaceholder')}
       />
 
       {!isComposeOptionSelected && (
         <>
           {!isGitHubActionSelected && (
             <>
-              {acrUseManagedIdentities && (
-                <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
-                  <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
-                    {t('managedIdentityInfoMessage')}
-                  </MessageBar>
-                </div>
+              {acrUseManagedIdentities ? (
+                <>
+                  <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
+                    <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
+                      {t('managedIdentityInfoMessage')}
+                    </MessageBar>
+                  </div>
+                  <div>
+                    <Field
+                      id="container-acr-image"
+                      label={t('containerACRImage')}
+                      name="acrImage"
+                      component={TextField}
+                      displayInVerticalLayout={true}
+                      required={true}
+                    />
+                    <Field
+                      id="container-acr-tag"
+                      label={t('containerACRTag')}
+                      name="acrTag"
+                      component={TextField}
+                      displayInVerticalLayout={true}
+                      required={true}
+                    />
+                  </div>
+                </>
+              ) : (
+                <>
+                  <Field
+                    id="container-acr-image"
+                    label={t('containerACRImage')}
+                    name="acrImage"
+                    selectedKey={formProps.values.acrImage}
+                    component={ComboBox}
+                    allowFreeform
+                    autoComplete="on"
+                    options={aCRImageOptions}
+                    setOptions={setACRImageOptions}
+                    displayInVerticalLayout={true}
+                    isLoading={loadingImageOptions}
+                    required={true}
+                    placeholder={t('deploymentCenterImageComboBoxPlaceholder')}
+                  />
+                  <Field
+                    id="container-acr-tag"
+                    label={t('containerACRTag')}
+                    name="acrTag"
+                    selectedKey={formProps.values.acrTag}
+                    component={ComboBox}
+                    allowFreeform
+                    autoComplete="on"
+                    options={aCRTagOptions}
+                    setOptions={setACRTagOptions}
+                    displayInVerticalLayout={true}
+                    isLoading={loadingTagOptions}
+                    required={true}
+                    placeholder={t('deploymentCenterTagComboBoxPlaceholder')}
+                  />
+                </>
               )}
-
-              <Field
-                id="container-acr-image"
-                label={t('containerACRImage')}
-                name="acrImage"
-                selectedKey={formProps.values.acrImage}
-                component={ComboBox}
-                allowFreeform
-                autoComplete="on"
-                options={aCRImageOptions}
-                setOptions={setACRImageOptions}
-                displayInVerticalLayout={true}
-                isLoading={loadingImageOptions}
-                required={true}
-              />
-
-              <Field
-                id="container-acr-tag"
-                label={t('containerACRTag')}
-                name="acrTag"
-                selectedKey={formProps.values.acrTag}
-                component={ComboBox}
-                allowFreeform
-                autoComplete="on"
-                options={aCRTagOptions}
-                setOptions={setACRTagOptions}
-                displayInVerticalLayout={true}
-                isLoading={loadingTagOptions}
-                required={true}
-              />
             </>
           )}
 
