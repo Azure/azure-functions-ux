@@ -63,7 +63,14 @@ const WindowsStacks: React.FC<StackProps> = props => {
     setFieldValue('currentlySelectedStack', selectedDropdownValue);
 
     // NOTE(krmitta): We need to set the node version if the user switches to node
-    if (selectedDropdownValue && selectedDropdownValue.toLowerCase() === RuntimeStacks.node && app_write) {
+    if (
+      !values.appSettings.find(
+        appSetting => appSetting.name.toLowerCase() === CommonConstants.AppSettingNames.websiteNodeDefaultVersion.toLocaleLowerCase()
+      ) &&
+      selectedDropdownValue &&
+      selectedDropdownValue.toLowerCase() === RuntimeStacks.node &&
+      app_write
+    ) {
       const nodeStackResponse = supportedStacks.find(stack => stack.value.toLocaleLowerCase() === RuntimeStacks.node);
 
       if (nodeStackResponse) {
@@ -73,8 +80,6 @@ const WindowsStacks: React.FC<StackProps> = props => {
             if (version) {
               let appSettings: FormAppSetting[] = [...values.appSettings];
 
-              // Remove AZUREJOBS_EXTENSION_VERSION app setting (if present)
-              appSettings = removeFromAppSetting(values.appSettings, CommonConstants.AppSettingNames.websiteNodeDefaultVersion);
               appSettings = addOrUpdateFormAppSetting(
                 values.appSettings,
                 CommonConstants.AppSettingNames.websiteNodeDefaultVersion,
