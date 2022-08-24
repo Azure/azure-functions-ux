@@ -12,7 +12,7 @@ import { RuntimeStacks } from '../../../../../utils/stacks-utils';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { Links } from '../../../../../utils/FwLinks';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
-import { addOrUpdateFormAppSetting, removeFromAppSetting } from '../../AppSettingsFormData';
+import { addOrUpdateFormAppSetting } from '../../AppSettingsFormData';
 
 export type StackProps = FormikProps<AppSettingsFormValues>;
 
