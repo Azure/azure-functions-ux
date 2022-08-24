@@ -140,7 +140,8 @@ const getRuntimeStackSettingForWindows = (
     ? getFunctionAppRuntimeStackForWindows(applicationSettings)
     : getWebAppRuntimeStackForWindows(configMetadata);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForWindows(stackData.runtimeStack, configMetadata, siteConfig, applicationSettings);
+  stackData.runtimeVersion =
+    getRuntimeStackVersionForWindows(stackData.runtimeStack, configMetadata, siteConfig, applicationSettings) ?? '';
 
   return stackData;
 };

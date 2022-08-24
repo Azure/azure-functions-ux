@@ -154,6 +154,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
   };
 
   const onCalloutDismiss = () => {
+    console.log('clicked here');
     setIsDeleteConfirmationDialogVisible(false);
   };
 
@@ -244,7 +245,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
             onDismiss={() => onCalloutDismiss()}
             setInitialFocus={true}
             target={`#${appSettingsDeleteIconButtonId}`}>
-            <div className={appKeyDeleteConfirmDialogInnerDivStyle}>
+            <div className={appKeyDeleteConfirmDialogInnerDivStyle} tabIndex={0}>
               {t('functionHostKeyDeleteConfirmMessage')}
               <div>
                 <PrimaryButton
