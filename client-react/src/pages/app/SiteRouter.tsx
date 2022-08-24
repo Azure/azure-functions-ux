@@ -170,7 +170,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
                     <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
                     <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
                     <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
-                    <DeploymentCenter resourceId={value.resourceId} path="/deploymentcenter" />
+                    <DeploymentCenter resourceId={value.resourceId} tab={value.featureInfo?.data?.tab} path="/deploymentcenter" />
                   </Router>
                 </SiteStateContext.Provider>
               ) : (

@@ -19,7 +19,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId, isDataRefreshing } = props;
+  const { resourceId, isDataRefreshing, tab } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -126,6 +126,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
 
   return (
     <DeploymentCenterCodeForm
+      tab={tab}
       deployments={deployments}
       deploymentsError={deploymentsError}
       formData={codeFormData}

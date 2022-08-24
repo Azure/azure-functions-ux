@@ -16,7 +16,7 @@ import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 
 const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId, isDataRefreshing } = props;
+  const { resourceId, isDataRefreshing, tab } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
@@ -123,6 +123,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
 
   return (
     <DeploymentCenterContainerForm
+      tab={tab}
       logs={logs}
       formData={containerFormData}
       formValidationSchema={containerFormValidationSchema}
