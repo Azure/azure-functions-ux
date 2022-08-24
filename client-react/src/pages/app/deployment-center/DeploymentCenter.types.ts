@@ -273,7 +273,7 @@ export interface Properties {
   Account: unknown;
 }
 
-export interface DeploymentCenterDataLoaderProps {
+export interface DeploymentCenterDataLoaderProps extends TabbedComponent {
   resourceId: string;
   isDataRefreshing: boolean;
 }
@@ -284,9 +284,16 @@ export interface RefreshableComponent {
   isLogsDataRefreshing: boolean;
 }
 
-export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
+export interface TabbedComponent {
+  tab?: string;
+}
 
-export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps & RefreshableComponent;
+export type DeploymentCenterContainerProps = DeploymentCenterContainerLogsProps &
+  DeploymentCenterFtpsProps &
+  RefreshableComponent &
+  TabbedComponent;
+
+export type DeploymentCenterCodeProps = DeploymentCenterCodeLogsProps & DeploymentCenterFtpsProps & RefreshableComponent & TabbedComponent;
 
 export type DeploymentCenterYupValidationSchemaType<
   T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData

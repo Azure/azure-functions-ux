@@ -140,7 +140,8 @@ const getRuntimeStackSettingForWindows = (
     ? getFunctionAppRuntimeStackForWindows(applicationSettings)
     : getWebAppRuntimeStackForWindows(configMetadata);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForWindows(stackData.runtimeStack, configMetadata, siteConfig, applicationSettings);
+  stackData.runtimeVersion =
+    getRuntimeStackVersionForWindows(stackData.runtimeStack, configMetadata, siteConfig, applicationSettings) ?? '';
 
   return stackData;
 };
@@ -191,7 +192,7 @@ const getRuntimeStackSettingForLinux = (isFunctionApp: boolean, siteConfig: ArmO
 
   stackData.runtimeStack = isFunctionApp ? getFunctionAppRuntimeStackForLinux(siteConfig) : getWebAppRuntimeStackForLinux(siteConfig);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp);
+  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp) ?? '';
 
   return stackData;
 };

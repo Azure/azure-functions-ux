@@ -18,9 +18,8 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
-  const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh } = props;
+  const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh, tab } = props;
   const { t } = useTranslation();
-
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const theme = useContext(ThemeContext);
@@ -53,7 +52,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
   return (
     <>
-      <Pivot onLinkClick={onLinkClick}>
+      <Pivot onLinkClick={onLinkClick} defaultSelectedKey={tab ?? 'settings'}>
         <PivotItem
           itemKey="settings"
           headerText={t('deploymentCenterPivotItemSettingsHeaderText')}
