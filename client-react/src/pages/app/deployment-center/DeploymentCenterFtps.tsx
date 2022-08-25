@@ -101,9 +101,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
         {deploymentCenterContext && disableFtp() && showBlockedBanner && (
           <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
-              id="deployment-center-ftps-write-permissions-required"
-              message={t('deploymentCenterFtpsWritePermissionRequired')}
-              type={MessageBarType.blocked}
+              id="deployment-center-ftps-permission-warning"
+              message={t('deploymentCenterFtpsPermissionWarning')}
+              type={MessageBarType.warning}
               onDismiss={closeBlockedBanner}
             />
           </div>
