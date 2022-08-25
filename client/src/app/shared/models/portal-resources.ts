@@ -2049,7 +2049,7 @@ export class PortalResources {
   public static deploymentCenterFtpsPasswordLabel = 'deploymentCenterFtpsPasswordLabel';
   public static deploymentCenterFtpsConfirmPasswordLabel = 'deploymentCenterFtpsConfirmPasswordLabel';
   public static deploymentCenterFtpsWritePermissionRequired = 'deploymentCenterFtpsWritePermissionRequired';
-  public static deploymentCenterFtpsPermissionWarning = 'deployment-center-ftps-permission-warning';
+  public static deploymentCenterFtpsPermissionWarning = 'deploymentCenterFtpsPermissionWarning';
   public static deploymentCenterPublishingUserLoadingMessage = 'deploymentCenterPublishingUserLoadingMessage';
   public static deploymentCenterPublishingUserLoadingAriaLabel = 'deploymentCenterPublishingUserLoadingAriaLabel';
   public static publishingUserFetchFailedMessage = 'publishingUserFetchFailedMessage';
