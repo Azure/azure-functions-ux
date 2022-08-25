@@ -28,9 +28,8 @@ import { PortalContext } from '../../../PortalContext';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { TextFieldType } from '../../../utils/CommonConstants';
 
-const DeploymentCenterFtps: React.FC<
-  DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-> = props => {
+const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
+  DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
@@ -92,6 +91,17 @@ const DeploymentCenterFtps: React.FC<
           <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
               id="deployment-center-ftps-write-permission-required"
+              message={t('deploymentCenterFtpsWritePermissionRequired')}
+              type={MessageBarType.blocked}
+              onDismiss={closeBlockedBanner}
+            />
+          </div>
+        )}
+
+        {deploymentCenterContext && disableFtp() && showBlockedBanner && (
+          <div className={deploymentCenterInfoBannerDiv}>
+            <CustomBanner
+              id="deployment-center-ftps-write-permissions-required"
               message={t('deploymentCenterFtpsWritePermissionRequired')}
               type={MessageBarType.blocked}
               onDismiss={closeBlockedBanner}
