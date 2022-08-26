@@ -180,7 +180,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
           portalContext.log(getTelemetryInfo('info', 'listAcrCredentials', 'submit'));
           const credentialsResponse = await deploymentCenterData.listAcrCredentials(selectedRegistryIdentifier.resourceId);
 
-          if (credentialsResponse.metadata.success && credentialsResponse.data.passwords && credentialsResponse.data.passwords.length > 0) {
+          if (credentialsResponse.metadata.success && credentialsResponse.data.passwords.length > 0) {
             registryIdentifiers.current[serverUrl].credential = credentialsResponse.data;
           } else {
             const errorMessage = getErrorMessage(credentialsResponse.metadata.error);
@@ -380,10 +380,10 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     // NOTE(yoonaoh): Have to call fetchSite instead of using siteStateContext to refresh the list of identities
     const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
     if (siteResponse.metadata.success && siteResponse.data.identity?.userAssignedIdentities) {
-      for (const [id, identity] of Object.entries(siteResponse.data.identity?.userAssignedIdentities)) {
+      for (const [id, identity] of Object.entries(siteResponse.data.identity.userAssignedIdentities)) {
         const clientId = identity.clientId;
         const principalId = identity.principalId;
-        const name = id.split(CommonConstants.singleForwardSlash).pop() || '';
+        const name = id.split(CommonConstants.singleForwardSlash).pop() || clientId;
         managedIdentityInfo.current[clientId] = { clientId, principalId, name };
         userAssignedIdentitiesOptions.push({ key: clientId, text: name });
       }
