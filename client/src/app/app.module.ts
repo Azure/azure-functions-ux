@@ -61,12 +61,6 @@ export const routes = RouterModule.forRoot([
     loadChildren: 'app/ibiza-feature/ibiza-feature.module#IbizaFeatureModule',
     resolve: { info: InitResolver },
   },
-
-  // /devguide
-  {
-    path: 'devguide',
-    loadChildren: 'app/dev-guide/dev-guide.module#DevGuideModule',
-  },
 ]);
 
 @NgModule(AppModule.moduleDefinition)
