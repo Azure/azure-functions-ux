@@ -66,7 +66,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     functionKeys,
     hostJsonContent,
     hostKeys,
-    isFunctionLogsApiFlightingEnabled,
     refreshQueries,
     runtimeVersion,
     setFileList,
@@ -724,7 +723,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
             workerRuntime={workerRuntime}
             addCorsRule={addCorsRule}
             enablePortalCall={enablePortalCall}
-            isFunctionLogsApiFlightingEnabled={isFunctionLogsApiFlightingEnabled}
             addingCorsRules={addingCorsRules}
           />
         </div>
