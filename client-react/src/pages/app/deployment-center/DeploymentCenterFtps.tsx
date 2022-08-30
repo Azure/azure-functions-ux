@@ -19,7 +19,7 @@ import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoForm
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
-import { DeploymentCenterLinks, Links } from '../../../utils/FwLinks';
+import { DeploymentCenterLinks } from '../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import { ScmType } from '../../../models/site/config';
 import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtility';
