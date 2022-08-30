@@ -115,6 +115,17 @@ export class FunctionAppEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
+      id: ScenarioIds.http20ProxySupported,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isLinuxApp(input.site)) {
+          return { status: 'enabled' };
+        } else {
+          return { status: 'disabled' };
+        }
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.dropboxSource] = {
       id: ScenarioIds.dropboxSource,
       runCheck: (input: ScenarioCheckInput) => {
