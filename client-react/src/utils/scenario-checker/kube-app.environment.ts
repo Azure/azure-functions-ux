@@ -20,11 +20,6 @@ export class KubeApp extends Environment {
       runCheck: () => ({ status: 'disabled' }),
     };
 
-    this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
-      id: ScenarioIds.http20ProxySupported,
-      runCheck: () => ({ status: 'disabled' }),
-    };
-
     this.scenarioChecks[ScenarioIds.externalSource] = {
       id: ScenarioIds.externalSource,
       runCheck: () => ({ status: 'disabled' }),
