@@ -1,4 +1,4 @@
-import { ACRManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { ManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
 import { Guid } from '../utils/Guid';
 import { CommonConstants } from '../utils/CommonConstants';
 import MakeArmCall from './ArmHelper';
@@ -76,12 +76,12 @@ export default class AuthService {
   private static _getIdentity(identity?: MsiIdentity) {
     if (identity?.userAssignedIdentities) {
       return {
-        type: ACRManagedIdentityType.systemAssigned + ', ' + ACRManagedIdentityType.userAssigned,
+        type: ManagedIdentityType.systemAssigned + ', ' + ManagedIdentityType.userAssigned,
         userAssignedIdentities: identity.userAssignedIdentities,
       };
     } else {
       return {
-        type: ACRManagedIdentityType.systemAssigned,
+        type: ManagedIdentityType.systemAssigned,
       };
     }
   }
