@@ -11,7 +11,7 @@ import {
   WorkflowOption,
   ContainerDockerAccessTypes,
   ACRCredentialType,
-  ACRManagedIdentityType,
+  ManagedIdentityType,
 } from '../DeploymentCenter.types';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
@@ -364,7 +364,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       const acrResourceId = values.acrResourceId;
       const siteIdentity = siteContext.site?.identity;
 
-      if (values.acrManagedIdentityClientId === ACRManagedIdentityType.systemAssigned) {
+      if (values.acrManagedIdentityClientId === ManagedIdentityType.systemAssigned) {
         portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
         const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId, siteIdentity);
         if (response.metadata.success) {
@@ -409,7 +409,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (setSiteConfigForACR) {
       siteConfig.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
       siteConfig.acrUserManagedIdentityID =
-        values.acrManagedIdentityClientId !== ACRManagedIdentityType.systemAssigned ? values.acrManagedIdentityClientId : '';
+        values.acrManagedIdentityClientId !== ManagedIdentityType.systemAssigned ? values.acrManagedIdentityClientId : '';
     }
 
     return {

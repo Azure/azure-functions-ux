@@ -1,6 +1,7 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 import { isLinuxApp } from '../arm-utils';
+import { NationalCloudEnvironment } from './national-cloud.environment';
 
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';
@@ -117,7 +118,9 @@ export class LinuxSiteEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
       id: ScenarioIds.http20ProxySupported,
       runCheck: () => {
-        return { status: 'enabled' };
+        return {
+          status: NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec() ? 'disabled' : 'enabled',
+        };
       },
     };
 
