@@ -345,8 +345,7 @@ const usePortalContextQuery = (updated: number) => {
   useEffect(() => {
     setStatus('loading');
 
-    Promise.all([context.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor)])
-      .then(([portalCallOnEditor]) => {
+    context.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor).then(portalCallOnEditor => {
         setStatus('success');
         setEnablePortalCall(portalCallOnEditor);
       })
