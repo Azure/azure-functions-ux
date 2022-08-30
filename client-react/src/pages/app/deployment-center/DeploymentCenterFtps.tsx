@@ -94,7 +94,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
               message={t('deploymentCenterFtpsPermissionWarning')}
               type={MessageBarType.warning}
               onDismiss={closeBlockedBanner}
-              learnMoreLink={Links.ftpDisabledByPolicyLink}
+              learnMoreLink={DeploymentCenterLinks.configureFTPSSettingsDeploy}
             />
           </div>
         )}
