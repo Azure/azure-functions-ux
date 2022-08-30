@@ -73,10 +73,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
     setShowWarningBanner(false);
   };
 
-  const disableFtp = () =>
-    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies &&
-    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp &&
-    !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp.allow;
+  const disableFtp = () => !deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.ftp?.allow;
 
   const getCredentialsControls = () => {
     return (
@@ -92,7 +89,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           </div>
         )}
 
-        {deploymentCenterContext && disableFtp() && showWarningBanner && (
+        {deploymentCenterPublishingContext && disableFtp() && showWarningBanner && (
           <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
               id="deployment-center-ftps-permission-warning"
