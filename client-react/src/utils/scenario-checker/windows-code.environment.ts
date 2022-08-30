@@ -27,15 +27,6 @@ export class WindowsCode extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
-      id: ScenarioIds.http20ProxySupported,
-      runCheck: () => {
-        return {
-          status: 'disabled',
-        };
-      },
-    };
-
     this.scenarioChecks[ScenarioIds.azureBlobMount] = {
       id: ScenarioIds.azureBlobMount,
       runCheck: () => {
