@@ -22,7 +22,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     acrStatusMessage,
     acrStatusMessageType,
     formProps,
-    loadingRegistryOptions: loadingAcrRegistryOptions,
+    loadingRegistryOptions,
     loadingImageOptions,
     loadingTagOptions,
     acrSubscription,
@@ -140,7 +140,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         />
       )}
       <Field
-        id="container-acr-repository"
+        id="container-acr-registry"
         label={t('containerACRRegistry')}
         name="acrLoginServer"
         selectedKey={formProps.values.acrLoginServer?.toLocaleLowerCase() ?? ''}
@@ -150,7 +150,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         options={aCRRegistryOptions}
         setOptions={setACRRegistryOptions}
         displayInVerticalLayout={true}
-        isLoading={loadingAcrRegistryOptions}
+        isLoading={loadingRegistryOptions}
         required={true}
         placeholder={t('deploymentCenterAcrComboBoxPlaceholder')}
       />
