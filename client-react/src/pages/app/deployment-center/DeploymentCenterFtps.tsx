@@ -19,7 +19,7 @@ import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoForm
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
-import { DeploymentCenterLinks } from '../../../utils/FwLinks';
+import { DeploymentCenterLinks, Links } from '../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import { ScmType } from '../../../models/site/config';
 import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtility';
@@ -73,17 +73,6 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
     deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp &&
     !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp.allow;
 
-  // const getDisabledByFTPPolicyMessage = () => (
-  //   <div className={deploymentCenterContent}>
-  //     <CustomBanner
-  //       id="ftp-disabled-by-policy"
-  //       message={t('ftpDisabledByPolicy')}
-  //       type={MessageBarType.info}
-  //       learnMoreLink={Links.ftpDisabledByPolicyLink}
-  //     />
-  //   </div>
-  // );
-
   const getCredentialsControls = () => {
     return (
       <div className={deploymentCenterContent}>
@@ -105,15 +94,8 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
               message={t('deploymentCenterFtpsPermissionWarning')}
               type={MessageBarType.warning}
               onDismiss={closeBlockedBanner}
+              learnMoreLink={Links.ftpDisabledByPolicyLink}
             />
-            <Link
-              id="deployment-center-settings-ftps-learnMore"
-              href={DeploymentCenterLinks.configureFTPSSettingsDeploy}
-              target="_blank"
-              className={learnMoreLinkStyle}
-              aria-labelledby="deployment-center-settings-ftps-message">
-              {` ${t('learnMore')}`}
-            </Link>
           </div>
         )}
 
