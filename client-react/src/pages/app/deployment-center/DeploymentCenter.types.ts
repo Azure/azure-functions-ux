@@ -154,14 +154,9 @@ export enum ACRCredentialType {
   managedIdentity = 'managedIdentity',
 }
 
-export enum ACRManagedIdentityType {
+export enum ManagedIdentityType {
   systemAssigned = 'SystemAssigned',
   userAssigned = 'UserAssigned',
-}
-
-export enum ManagedIdentityInfo {
-  clientId = 'clientId',
-  principalId = 'principalId',
 }
 
 export interface AzureDevOpsUrl {
@@ -334,7 +329,7 @@ export interface AcrFormData {
   acrResourceId: string;
   acrLocation: string;
   acrCredentialType: string;
-  acrManagedIdentityClientId: string | null;
+  acrManagedIdentityClientId: string;
   acrManagedIdentityPrincipalId: string;
 }
 
@@ -757,6 +752,7 @@ export interface RoleAssignment {
   type: string;
   name: string;
 }
+
 export interface UserAssignedIdentity {
   clientId: string;
   principalId: string;
