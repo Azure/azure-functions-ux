@@ -40,6 +40,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
 
   const [isResetCalloutHidden, setIsResetCalloutHidden] = useState<boolean>(true);
   const [showBlockedBanner, setShowBlockedBanner] = useState(true);
+  const [showWarningBanner, setShowWarningBanner] = useState(true);
 
   const ftpsEndpoint = publishingProfile && publishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
@@ -68,6 +69,10 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
     setShowBlockedBanner(false);
   };
 
+  const closeWarningBanner = () => {
+    setShowWarningBanner(false);
+  };
+
   const disableFtp = () =>
     deploymentCenterPublishingContext.basicPublishingCredentialsPolicies &&
     deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp &&
@@ -87,13 +92,13 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           </div>
         )}
 
-        {deploymentCenterContext && disableFtp() && showBlockedBanner && (
+        {deploymentCenterContext && disableFtp() && showWarningBanner && (
           <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
               id="deployment-center-ftps-permission-warning"
               message={t('deploymentCenterFtpsPermissionWarning')}
               type={MessageBarType.warning}
-              onDismiss={closeBlockedBanner}
+              onDismiss={closeWarningBanner}
               learnMoreLink={DeploymentCenterLinks.configureFTPSSettingsDeploy}
             />
           </div>
