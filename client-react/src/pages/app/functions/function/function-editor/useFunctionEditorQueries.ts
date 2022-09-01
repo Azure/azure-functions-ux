@@ -34,7 +34,7 @@ export const useFunctionEditorQueries = (resourceId: string, functionEditorData:
 
   const [updated, setUpdated] = useState(() => performance.now());
 
-  const { enablePortalCall, isFunctionLogsApiFlightingEnabled, status: portalContextQueryStatus } = usePortalContextQuery(updated);
+  const { enablePortalCall, status: portalContextQueryStatus } = usePortalContextQuery(updated);
   const { status: appSettingsQueryStatus, workerRuntime } = useAppSettingsQuery(updated, siteResourceId);
   const { site, status: siteQueryStatus } = useSiteQuery(updated, siteResourceId);
   const { functionInfo, setFunctionInfo, status: functionInfoQueryStatus } = useFunctionInfoQuery(updated, resourceId, functionEditorData);
@@ -92,7 +92,6 @@ export const useFunctionEditorQueries = (resourceId: string, functionEditorData:
     functionKeys,
     hostJsonContent,
     hostKeys,
-    isFunctionLogsApiFlightingEnabled,
     refreshQueries,
     runtimeVersion,
     setFileList,
@@ -341,19 +340,13 @@ const useHostStatusQuery = (updated: number, siteResourceId: string) => {
 const usePortalContextQuery = (updated: number) => {
   const context = useContext(PortalContext);
   const [enablePortalCall, setEnablePortalCall] = useState<boolean>();
-  const [isFunctionLogsApiFlightingEnabled, setIsFunctionLogsApiFlightingEnabled] = useState<boolean>();
   const [status, setStatus] = useState<Status>('idle');
 
   useEffect(() => {
     setStatus('loading');
 
-    Promise.all([
-      context.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.newFunctionLogsApi),
-      context.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor),
-    ])
-      .then(([newFunctionLogicApi, portalCallOnEditor]) => {
+    context.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor).then(portalCallOnEditor => {
         setStatus('success');
-        setIsFunctionLogsApiFlightingEnabled(newFunctionLogicApi);
         setEnablePortalCall(portalCallOnEditor);
       })
       .catch(() => {
@@ -363,7 +356,6 @@ const usePortalContextQuery = (updated: number) => {
 
   return {
     enablePortalCall,
-    isFunctionLogsApiFlightingEnabled,
     status,
   };
 };

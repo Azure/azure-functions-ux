@@ -72,7 +72,6 @@ export interface FunctionEditorProps {
   testData?: string;
   workerRuntime?: string;
   enablePortalCall?: boolean;
-  isFunctionLogsApiFlightingEnabled?: boolean;
   addingCorsRules?: boolean;
 }
 
@@ -100,7 +99,6 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     workerRuntime,
     addCorsRule,
     enablePortalCall,
-    isFunctionLogsApiFlightingEnabled,
     addingCorsRules,
   } = props;
   const [reqBody, setReqBody] = useState('');
@@ -529,7 +527,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
   useEffect(() => {
     fetchData();
     setLiveLogsSessionId(Guid.newGuid());
-    if (isFunctionLogsApiFlightingEnabled && runtimeVersion === CommonConstants.FunctionsRuntimeVersions.four) {
+    if (runtimeVersion === CommonConstants.FunctionsRuntimeVersions.four) {
       setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
       expandLogPanel();
     } else {
