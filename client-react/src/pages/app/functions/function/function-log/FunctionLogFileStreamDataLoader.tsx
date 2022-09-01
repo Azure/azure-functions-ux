@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { LogEntry } from './FunctionLog.types';
 import { useTranslation } from 'react-i18next';
 import FunctionLog from './FunctionLog';
@@ -47,6 +47,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [logStreamIndex, setLogStreamIndex] = useState(0);
   const [startTime, setStartTime] = useState(0);
   const [xhReqResponseText, setXhReqResponseText] = useState('');
+  const [intervalId, setIntervalId] = useState<NodeJS.Timeout | undefined>(undefined);
 
   const msInMin = 60000;
 
@@ -91,12 +92,16 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       xhReq.abort();
       setLogStreamIndex(0);
       setXhReq(undefined);
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
     }
   };
 
   const listenToStream = () => {
     setLoadingMessage(undefined);
-    setInterval(() => keepFunctionsHostAlive(), msInMin); // ping functions host every minute
+    const id = setInterval(() => keepFunctionsHostAlive(), msInMin); // ping functions host every minute
+    setIntervalId(id);
     listenForErrors();
     listenForUpdates();
   };
@@ -120,7 +125,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
     }
   };
 
-  const listenForErrors = () => {
+  const listenForErrors = useCallback(() => {
     if (xhReq) {
       xhReq.onerror = () => {
         setErrorMessage(t('feature_logStreamingConnectionError'));
@@ -132,26 +137,29 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
         }
       };
     }
-  };
+  }, [xhReq?.onerror]);
 
-  const listenForUpdates = () => {
+  const listenForUpdates = useCallback(() => {
     if (xhReq) {
       xhReq.onprogress = () => {
         setXhReqResponseText(xhReq.responseText);
       };
     }
-  };
+  }, [xhReq?.onprogress]);
 
-  const printNewLogs = (responseText: string) => {
-    const newLogStream = responseText.substring(logStreamIndex);
-    if (started) {
-      setLogStreamIndex(responseText.length);
-      if (newLogStream) {
-        const newLogs = processLogs(newLogStream, allLogEntries);
-        setAllLogEntries(newLogs);
+  const printNewLogs = useCallback(
+    (responseText: string) => {
+      const newLogStream = responseText.substring(logStreamIndex);
+      if (started) {
+        setLogStreamIndex(responseText.length);
+        if (newLogStream) {
+          const newLogs = processLogs(newLogStream, allLogEntries);
+          setAllLogEntries(newLogs);
+        }
       }
-    }
-  };
+    },
+    [xhReqResponseText]
+  );
 
   const startLogs = () => {
     setStarted(true);
@@ -166,29 +174,17 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   };
 
   useEffect(() => {
-    openStream();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    if (started) {
-      if (xhReq) {
-        listenToStream();
-      } else {
-        openStream();
-      }
-    } else {
+    if (started && xhReq) {
+      listenToStream();
+    } else if (started && !xhReq) {
+      openStream();
+    } else if (!started && xhReq) {
       closeStream();
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [started, xhReq]);
 
   useEffect(() => {
     printNewLogs(xhReqResponseText);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [xhReqResponseText]);
 
   return (

@@ -391,7 +391,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       }
       portalContext.log(
         getTelemetryInfo('error', 'makeHttpRequestForRunFunction', 'failed', {
-          error: runFunctionResponseResult.metadata.error,
+          error: runFunctionResponseResult,
           message: 'Http request from portal failed',
         })
       );
