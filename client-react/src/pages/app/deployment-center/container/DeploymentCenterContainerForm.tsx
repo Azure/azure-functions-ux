@@ -315,6 +315,9 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
           responseResult.success = false;
           responseResult.error = updateSiteConfigForACRResponse.error;
         }
+      } else {
+        siteConfigResponse.data.properties.acrUseManagedIdentityCreds = false;
+        siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
       }
 
       if (values.scmType !== ScmType.GitHubAction) {

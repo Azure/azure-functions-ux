@@ -66,7 +66,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     functionKeys,
     hostJsonContent,
     hostKeys,
-    isFunctionLogsApiFlightingEnabled,
     refreshQueries,
     runtimeVersion,
     setFileList,
@@ -392,7 +391,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       }
       portalContext.log(
         getTelemetryInfo('error', 'makeHttpRequestForRunFunction', 'failed', {
-          error: runFunctionResponseResult.metadata.error,
+          error: runFunctionResponseResult,
           message: 'Http request from portal failed',
         })
       );
@@ -724,7 +723,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
             workerRuntime={workerRuntime}
             addCorsRule={addCorsRule}
             enablePortalCall={enablePortalCall}
-            isFunctionLogsApiFlightingEnabled={isFunctionLogsApiFlightingEnabled}
             addingCorsRules={addingCorsRules}
           />
         </div>

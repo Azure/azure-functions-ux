@@ -3,7 +3,7 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { AppInsightsComponent, QuickPulseToken } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { CommonConstants, ExperimentationConstants } from '../../../../../utils/CommonConstants';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { SchemaDocument, QuickPulseQueryLayer } from '../../../../../QuickPulseQuery';
@@ -69,7 +69,6 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [callCount, setCallCount] = useState(0);
   const [showFilteredLogsMessage, setShowFilteredLogsMessage] = useState<boolean>(false);
-  const [isFunctionLogsApiFlightingEnabled, setIsFunctionLogsApiFlightingEnabled] = useState(false);
 
   const fetchComponent = async () => {
     const tagsProperty = site?.tags;
@@ -85,13 +84,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
       hasWritePermission
     );
 
-    const [appInsightsDataResponse, fetchAppSettingsResponse, newFunctionLogsApiResponse] = await Promise.all([
-      appInsightsDataPromise,
-      appSettingsPromise,
-      portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.newFunctionLogsApi),
-    ]);
-
-    setIsFunctionLogsApiFlightingEnabled(newFunctionLogsApiResponse);
+    const [appInsightsDataResponse, fetchAppSettingsResponse] = await Promise.all([appInsightsDataPromise, appSettingsPromise]);
 
     if (appInsightsDataResponse?.data?.metadata.success) {
       setAppInsightsComponent(appInsightsDataResponse.data.data);
@@ -273,8 +266,8 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   };
 
   const useNewFunctionLogsApi = useMemo(() => {
-    return isFunctionLogsApiFlightingEnabled && functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four;
-  }, [functionsRuntimeVersion, liveLogsSessionId, isFunctionLogsApiFlightingEnabled]);
+    return functionsRuntimeVersion === CommonConstants.FunctionsRuntimeVersions.four;
+  }, [functionsRuntimeVersion]);
 
   useEffect(() => {
     fetchComponent();
@@ -286,7 +279,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     setShowFilteredLogsMessage(useNewFunctionLogsApi && !!liveLogsSessionId);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [functionsRuntimeVersion, liveLogsSessionId, isFunctionLogsApiFlightingEnabled]);
+  }, [functionsRuntimeVersion, liveLogsSessionId]);
 
   useEffect(() => {
     if (!appInsightsComponent) {
