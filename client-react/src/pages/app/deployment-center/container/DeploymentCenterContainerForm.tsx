@@ -365,14 +365,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else {
       let principalId = '';
       const acrResourceId = values.acrResourceId;
-      const siteIdentityResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+      const siteIdentity = siteContext.site?.identity;
 
       if (values.acrManagedIdentityClientId === ManagedIdentityType.systemAssigned) {
         portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
-        const response = await deploymentCenterData.enableSystemAssignedIdentity(
-          deploymentCenterContext.resourceId,
-          siteIdentityResponse.data.identity
-        );
+        const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId, siteIdentity);
+
         if (response.metadata.success) {
           principalId = response.data.identity.principalId;
         } else {
@@ -442,9 +440,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
       logSaveConclusion(true, deploymentProperties);
     } else {
-      let errorMessage = !updateAppSettingsResponse.success ? getErrorMessage(updateAppSettingsResponse.error) : '';
-
-      errorMessage = !errorMessage && !updateSiteConfigResponse.success ? getErrorMessage(updateSiteConfigResponse.error) : '';
+      let errorMessage = '';
+      if (!updateAppSettingsResponse.success) {
+        errorMessage = getErrorMessage(updateAppSettingsResponse.error);
+      } else if (!updateSiteConfigResponse.success) {
+        errorMessage = getErrorMessage(updateSiteConfigResponse.error);
+      }
 
       if (errorMessage) {
         portalContext.stopNotification(
