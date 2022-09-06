@@ -51,10 +51,6 @@ export default class DeploymentCenterData {
     return SiteService.fetchSite(resourceId);
   };
 
-  public patchSite = (resourceId: string, body: any) => {
-    return SiteService.patchSite(resourceId, body);
-  };
-
   public getSiteConfig = (resourceId: string) => {
     return SiteService.fetchWebConfig(resourceId);
   };

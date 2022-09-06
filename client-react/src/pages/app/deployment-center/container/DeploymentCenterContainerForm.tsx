@@ -365,11 +365,14 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     } else {
       let principalId = '';
       const acrResourceId = values.acrResourceId;
-      const siteIdentity = siteContext.site?.identity;
+      const siteIdentityResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
 
       if (values.acrManagedIdentityClientId === ManagedIdentityType.systemAssigned) {
         portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
-        const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId, siteIdentity);
+        const response = await deploymentCenterData.enableSystemAssignedIdentity(
+          deploymentCenterContext.resourceId,
+          siteIdentityResponse.data.identity
+        );
         if (response.metadata.success) {
           principalId = response.data.identity.principalId;
         } else {
@@ -421,19 +424,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     };
   };
 
-  const setVnetImagePullEnabledTrue = async () => {
-    portalContext.log(getTelemetryInfo('info', 'settingVnetImagePullEnabledTrue', 'submit'));
-    const updateSiteResponse = await deploymentCenterData.patchSite(deploymentCenterContext.resourceId, {
-      properties: {
-        vnetImagePullEnabled: true,
-      },
-    });
-
-    if (!updateSiteResponse.metadata.success) {
-      portalContext.log(getTelemetryInfo('error', 'settingVnetImagePullEnabledTrue', 'failed', updateSiteResponse.metadata.error));
-    }
-  };
-
   const saveDirectRegistrySettings = async (
     values: DeploymentCenterFormData<DeploymentCenterContainerFormData>,
     deploymentProperties: KeyValue<any>
@@ -452,12 +442,9 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       portalContext.stopNotification(notificationId, true, t('savingContainerConfigurationSuccess'));
       logSaveConclusion(true, deploymentProperties);
     } else {
-      let errorMessage = '';
-      if (!updateAppSettingsResponse.success) {
-        errorMessage = getErrorMessage(updateAppSettingsResponse.error);
-      } else if (!updateSiteConfigResponse.success) {
-        errorMessage = getErrorMessage(updateSiteConfigResponse.error);
-      }
+      let errorMessage = !updateAppSettingsResponse.success ? getErrorMessage(updateAppSettingsResponse.error) : '';
+
+      errorMessage = !errorMessage && !updateSiteConfigResponse.success ? getErrorMessage(updateSiteConfigResponse.error) : '';
 
       if (errorMessage) {
         portalContext.stopNotification(
@@ -733,12 +720,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       startTime: new Date().getTime(),
     };
     portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
-
-    // Setting site property vnetImagePullEnabled true always when pulling image from ACR
-    // Property set to false on few occasions, so in those cases, we'll route customers to CLI/ARM
-    if (values.registrySource === ContainerRegistrySources.acr) {
-      await setVnetImagePullEnabledTrue();
-    }
 
     // Only do the save if scmType in the config is set to none.
     // If the scmType in the config is not none, the user should be doing a disconnect operation first.
