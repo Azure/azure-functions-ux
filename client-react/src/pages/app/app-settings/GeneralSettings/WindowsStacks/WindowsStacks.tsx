@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppSettingsFormValues } from '../../AppSettings.types';
+import { AppSettingsFormValues, FormAppSetting } from '../../AppSettings.types';
 import DotNetStack from './DotNetStack';
 import JavaStack from './JavaStack';
 import PhpStack from './PhpStack';
@@ -12,11 +12,12 @@ import { RuntimeStacks } from '../../../../../utils/stacks-utils';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { Links } from '../../../../../utils/FwLinks';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { addOrUpdateFormAppSetting } from '../../AppSettingsFormData';
 
 export type StackProps = FormikProps<AppSettingsFormValues>;
 
 const WindowsStacks: React.FC<StackProps> = props => {
-  const { values, initialValues } = props;
+  const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const readonly = !app_write;
@@ -59,7 +60,38 @@ const WindowsStacks: React.FC<StackProps> = props => {
   const onStackDropdownChange = (e: any, option: IDropdownOption) => {
     const selectedDropdownValue = option.key as string;
     setStackDropdownValue(selectedDropdownValue);
-    props.setFieldValue('currentlySelectedStack', selectedDropdownValue);
+    setFieldValue('currentlySelectedStack', selectedDropdownValue);
+
+    // NOTE(krmitta): We need to set the node version if the user switches to node
+    if (
+      !values.appSettings.find(
+        appSetting => appSetting.name.toLowerCase() === CommonConstants.AppSettingNames.websiteNodeDefaultVersion.toLocaleLowerCase()
+      ) &&
+      selectedDropdownValue?.toLowerCase() === RuntimeStacks.node &&
+      app_write
+    ) {
+      const nodeStackResponse = supportedStacks.find(stack => stack.value.toLocaleLowerCase() === RuntimeStacks.node);
+
+      if (nodeStackResponse) {
+        for (const majorVersion of nodeStackResponse.majorVersions) {
+          for (const minorVersion of majorVersion.minorVersions) {
+            const version = minorVersion.stackSettings.windowsRuntimeSettings?.runtimeVersion;
+            if (version) {
+              let appSettings: FormAppSetting[] = [...values.appSettings];
+
+              appSettings = addOrUpdateFormAppSetting(
+                values.appSettings,
+                CommonConstants.AppSettingNames.websiteNodeDefaultVersion,
+                version
+              );
+              setFieldValue('appSettings', appSettings);
+
+              return;
+            }
+          }
+        }
+      }
+    }
   };
 
   const getInfoBubleObject = useCallback(() => {
