@@ -67,8 +67,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
       !values.appSettings.find(
         appSetting => appSetting.name.toLowerCase() === CommonConstants.AppSettingNames.websiteNodeDefaultVersion.toLocaleLowerCase()
       ) &&
-      selectedDropdownValue &&
-      selectedDropdownValue.toLowerCase() === RuntimeStacks.node &&
+      selectedDropdownValue?.toLowerCase() === RuntimeStacks.node &&
       app_write
     ) {
       const nodeStackResponse = supportedStacks.find(stack => stack.value.toLocaleLowerCase() === RuntimeStacks.node);
