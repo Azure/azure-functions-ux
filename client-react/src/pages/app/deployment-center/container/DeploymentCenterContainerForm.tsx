@@ -418,19 +418,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     };
   };
 
-  const setVnetImagePullEnabledTrue = async () => {
-    portalContext.log(getTelemetryInfo('info', 'settingVnetImagePullEnabledTrue', 'submit'));
-    const updateSiteResponse = await deploymentCenterData.patchSite(deploymentCenterContext.resourceId, {
-      properties: {
-        vnetImagePullEnabled: true,
-      },
-    });
-
-    if (!updateSiteResponse.metadata.success) {
-      portalContext.log(getTelemetryInfo('error', 'settingVnetImagePullEnabledTrue', 'failed', updateSiteResponse.metadata.error));
-    }
-  };
-
   const saveDirectRegistrySettings = async (
     values: DeploymentCenterFormData<DeploymentCenterContainerFormData>,
     deploymentProperties: KeyValue<any>
@@ -730,12 +717,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       startTime: new Date().getTime(),
     };
     portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
-
-    // Setting site property vnetImagePullEnabled true always when pulling image from ACR
-    // Property set to false on few occasions, so in those cases, we'll route customers to CLI/ARM
-    if (values.registrySource === ContainerRegistrySources.acr) {
-      await setVnetImagePullEnabledTrue();
-    }
 
     // Only do the save if scmType in the config is set to none.
     // If the scmType in the config is not none, the user should be doing a disconnect operation first.
