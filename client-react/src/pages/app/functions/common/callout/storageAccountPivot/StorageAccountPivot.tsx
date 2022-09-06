@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
+import { IDropdownOption, IDropdownProps, PrimaryButton, DefaultButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
@@ -10,7 +10,7 @@ import { StorageAccount, StorageAccountKeys } from '../../../../../../models/sto
 import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
-import { paddingTopStyle } from '../Callout.styles';
+import { primaryButtonStyle } from './StorageAccountPivot.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
 import { PortalContext } from '../../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
@@ -106,17 +106,17 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
                 mouseOverToolTip={undefined}
               />
             )}
-            <footer style={paddingTopStyle}>
-              <PrimaryButton disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
+            <div>
+              <PrimaryButton className={primaryButtonStyle} disabled={!formValues.storageAccount} onClick={formProps.submitForm}>
                 {t('ok')}
               </PrimaryButton>
-              <PrimaryButton
+              <DefaultButton
                 onClick={() => {
                   props.setIsDialogVisible(false);
                 }}>
                 {t('cancel')}
-              </PrimaryButton>
-            </footer>
+              </DefaultButton>
+            </div>
           </form>
         );
       }}
@@ -146,7 +146,6 @@ const setStorageAccountConnection = (
     }
 
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
-    setKeyList(undefined);
     setIsDialogVisible(false);
   }
 };

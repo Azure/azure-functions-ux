@@ -11,7 +11,7 @@ import {
   WorkflowOption,
   ContainerDockerAccessTypes,
   ACRCredentialType,
-  ACRManagedIdentityType,
+  ManagedIdentityType,
 } from '../DeploymentCenter.types';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
@@ -315,6 +315,9 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
           responseResult.success = false;
           responseResult.error = updateSiteConfigForACRResponse.error;
         }
+      } else {
+        siteConfigResponse.data.properties.acrUseManagedIdentityCreds = false;
+        siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
       }
 
       if (values.scmType !== ScmType.GitHubAction) {
@@ -364,7 +367,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       const acrResourceId = values.acrResourceId;
       const siteIdentity = siteContext.site?.identity;
 
-      if (values.acrManagedIdentityClientId === ACRManagedIdentityType.systemAssigned) {
+      if (values.acrManagedIdentityClientId === ManagedIdentityType.systemAssigned) {
         portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
         const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId, siteIdentity);
         if (response.metadata.success) {
@@ -409,26 +412,13 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     if (setSiteConfigForACR) {
       siteConfig.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
       siteConfig.acrUserManagedIdentityID =
-        values.acrManagedIdentityClientId !== ACRManagedIdentityType.systemAssigned ? values.acrManagedIdentityClientId : '';
+        values.acrManagedIdentityClientId !== ManagedIdentityType.systemAssigned ? values.acrManagedIdentityClientId : '';
     }
 
     return {
       success: setSiteConfigForACR,
       error: errorMessage,
     };
-  };
-
-  const setVnetImagePullEnabledTrue = async () => {
-    portalContext.log(getTelemetryInfo('info', 'settingVnetImagePullEnabledTrue', 'submit'));
-    const updateSiteResponse = await deploymentCenterData.patchSite(deploymentCenterContext.resourceId, {
-      properties: {
-        vnetImagePullEnabled: true,
-      },
-    });
-
-    if (!updateSiteResponse.metadata.success) {
-      portalContext.log(getTelemetryInfo('error', 'settingVnetImagePullEnabledTrue', 'failed', updateSiteResponse.metadata.error));
-    }
   };
 
   const saveDirectRegistrySettings = async (
@@ -730,12 +720,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       startTime: new Date().getTime(),
     };
     portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
-
-    // Setting site property vnetImagePullEnabled true always when pulling image from ACR
-    // Property set to false on few occasions, so in those cases, we'll route customers to CLI/ARM
-    if (values.registrySource === ContainerRegistrySources.acr) {
-      await setVnetImagePullEnabledTrue();
-    }
 
     // Only do the save if scmType in the config is set to none.
     // If the scmType in the config is not none, the user should be doing a disconnect operation first.

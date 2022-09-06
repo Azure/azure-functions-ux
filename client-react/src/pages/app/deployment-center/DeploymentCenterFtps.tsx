@@ -19,7 +19,7 @@ import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoForm
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
-import { DeploymentCenterLinks, Links } from '../../../utils/FwLinks';
+import { DeploymentCenterLinks } from '../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
 import { ScmType } from '../../../models/site/config';
 import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtility';
@@ -28,9 +28,8 @@ import { PortalContext } from '../../../PortalContext';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { TextFieldType } from '../../../utils/CommonConstants';
 
-const DeploymentCenterFtps: React.FC<
-  DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-> = props => {
+const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
+  DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
@@ -41,6 +40,7 @@ const DeploymentCenterFtps: React.FC<
 
   const [isResetCalloutHidden, setIsResetCalloutHidden] = useState<boolean>(true);
   const [showBlockedBanner, setShowBlockedBanner] = useState(true);
+  const [showWarningBanner, setShowWarningBanner] = useState(true);
 
   const ftpsEndpoint = publishingProfile && publishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
@@ -69,21 +69,11 @@ const DeploymentCenterFtps: React.FC<
     setShowBlockedBanner(false);
   };
 
-  const disableFtp = () =>
-    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies &&
-    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp &&
-    !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies.ftp.allow;
+  const closeWarningBanner = () => {
+    setShowWarningBanner(false);
+  };
 
-  const getDisabledByFTPPolicyMessage = () => (
-    <div className={deploymentCenterContent}>
-      <CustomBanner
-        id="ftp-disabled-by-policy"
-        message={t('ftpDisabledByPolicy')}
-        type={MessageBarType.info}
-        learnMoreLink={Links.ftpDisabledByPolicyLink}
-      />
-    </div>
-  );
+  const disableFtp = () => !deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.ftp?.allow;
 
   const getCredentialsControls = () => {
     return (
@@ -95,6 +85,18 @@ const DeploymentCenterFtps: React.FC<
               message={t('deploymentCenterFtpsWritePermissionRequired')}
               type={MessageBarType.blocked}
               onDismiss={closeBlockedBanner}
+            />
+          </div>
+        )}
+
+        {deploymentCenterPublishingContext && disableFtp() && showWarningBanner && (
+          <div className={deploymentCenterInfoBannerDiv}>
+            <CustomBanner
+              id="deployment-center-ftps-permission-warning"
+              message={t('deploymentCenterFtpsPermissionWarning')}
+              type={MessageBarType.warning}
+              onDismiss={closeWarningBanner}
+              learnMoreLink={DeploymentCenterLinks.configureFTPSSettingsDeploy}
             />
           </div>
         )}
@@ -189,8 +191,6 @@ const DeploymentCenterFtps: React.FC<
 
   if (isDataRefreshing) {
     return getProgressIndicator();
-  } else if (disableFtp()) {
-    return getDisabledByFTPPolicyMessage();
   } else {
     return getCredentialsControls();
   }

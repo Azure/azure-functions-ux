@@ -340,13 +340,11 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     functionsCollateral: '61fci236',
     portalCallOnEditor: 'enable-portal-call-editor',
-    newFunctionLogsApi: 'use-new-function-logs-api',
   };
 
   public static ControlFlight = {
     functionsCollateral: '3f3ej608',
     portalCallOnEditor: 'disable-portal-call-editor',
-    newFunctionLogsApi: 'use-old-function-logs-api',
   };
 }
 

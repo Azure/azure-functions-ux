@@ -37,7 +37,7 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   powerShellVersion: '7.2',
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4']
+                supportedFunctionsExtensionVersions: ['~4'],
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'PowerShell|7.2',

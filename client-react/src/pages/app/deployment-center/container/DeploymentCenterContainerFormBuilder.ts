@@ -11,6 +11,7 @@ import {
   DockerHubFormData,
   PrivateRegistryFormData,
   ACRCredentialType,
+  ManagedIdentityType,
 } from '../DeploymentCenter.types';
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
@@ -359,7 +360,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       acrCredentialType = this._siteConfig.properties.acrUseManagedIdentityCreds
         ? ACRCredentialType.managedIdentity
         : ACRCredentialType.adminCredentials;
-      acrManagedIdentityClientId = this._siteConfig.properties.acrUserManagedIdentityID || '';
+      acrManagedIdentityClientId = this._siteConfig.properties.acrUserManagedIdentityID || ManagedIdentityType.systemAssigned;
     }
 
     if (this._isAcrConfigured(serverUrl)) {
