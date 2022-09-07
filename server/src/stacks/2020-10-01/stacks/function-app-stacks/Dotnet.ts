@@ -3,11 +3,7 @@ import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   const dotnet5EOL = getDateString(new Date(2022, 5, 8), useIsoDateFormat);
-  const dotnetCore3Point0EOL = getDateString(new Date(2020, 3, 3), useIsoDateFormat);
-  const dotnetCore3Point1EOL = getDateString(new Date(2022, 12, 3), useIsoDateFormat);
-  const dotnetCore2Point2EOL = getDateString(new Date(2019, 12, 23), useIsoDateFormat);
-  const dotnetCore2Point1EOL = getDateString(new Date(2021, 7, 21), useIsoDateFormat);
-  const dotnetCore2Point0EOL = getDateString(new Date(2018, 10, 1), useIsoDateFormat);
+  const dotnetCore3EOL = getDateString(new Date(2022, 12, 3), useIsoDateFormat);
 
   return {
     displayText: '.NET',
@@ -269,6 +265,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'dotnet|3.1',
                 },
                 supportedFunctionsExtensionVersions: ['~3'],
+                endOfLifeDate: dotnetCore3EOL
               },
             },
           },
