@@ -4,7 +4,10 @@ import { FunctionAppStack, FunctionAppStackValue } from '../models/FunctionAppSt
 import { WebAppStack, WebAppStackValue } from '../models/WebAppStackModel';
 import { filterFunctionAppStacks } from './FunctionAppUtility';
 import { filterWebAppStacks } from './WebAppUtility';
-import { dotnetStack as dotnetFunctionAppStack } from '../stacks/function-app-stacks/Dotnet';
+import {
+  dotnetStack as dotnetFunctionAppStack,
+  dotnetStackNonIsoDates as dotnetFunctionAppStackNonIsoDates,
+} from '../stacks/function-app-stacks/Dotnet';
 import { nodeStack as nodeFunctionAppStack } from '../stacks/function-app-stacks/Node';
 import { pythonStack as pythonFunctionAppStack } from '../stacks/function-app-stacks/Python';
 import { javaStack as javaFunctionAppStack } from '../stacks/function-app-stacks/Java';
@@ -34,7 +37,7 @@ export class StacksService20201001 {
     removeNonGitHubActionStacks?: boolean,
     useIsoDateFormat: boolean = true
   ): FunctionAppStack[] {
-    const dotnetStackCopy = JSON.parse(JSON.stringify(dotnetFunctionAppStack));
+    const dotnetStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? dotnetFunctionAppStack : dotnetFunctionAppStackNonIsoDates));
     const nodeStackCopy = JSON.parse(JSON.stringify(nodeFunctionAppStack));
     const pythonStackCopy = JSON.parse(JSON.stringify(pythonFunctionAppStack));
     const javaStackCopy = JSON.parse(JSON.stringify(javaFunctionAppStack));
