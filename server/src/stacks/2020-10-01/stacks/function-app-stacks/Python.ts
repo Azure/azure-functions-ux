@@ -3,6 +3,10 @@ import { getDateString } from '../date-utilities';
 
 const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   const python36EOL = getDateString(new Date(2021, 12, 23), useIsoDateFormat);
+  const python37EOL = getDateString(new Date(2023, 6, 30), useIsoDateFormat);
+  const python38EOL = getDateString(new Date(2024, 10, 31), useIsoDateFormat);
+  const python39EOL = getDateString(new Date(2025, 10, 31), useIsoDateFormat);
+  const python310EOL = getDateString(new Date(2026, 10, 31), useIsoDateFormat);
 
   return {
     displayText: 'Python',
@@ -38,6 +42,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.10',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: python310EOL
               },
             },
           },
@@ -65,6 +70,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.9',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                endOfLifeDate: python39EOL
               },
             },
           },
@@ -90,6 +96,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.8',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                endOfLifeDate: python38EOL
               },
             },
           },
@@ -115,6 +122,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.7',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
+                endOfLifeDate: python37EOL
               },
             },
           },
