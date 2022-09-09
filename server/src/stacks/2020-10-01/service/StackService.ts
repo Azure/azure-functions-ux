@@ -8,9 +8,18 @@ import {
   dotnetStack as dotnetFunctionAppStack,
   dotnetStackNonIsoDates as dotnetFunctionAppStackNonIsoDates,
 } from '../stacks/function-app-stacks/Dotnet';
-import { nodeStack as nodeFunctionAppStack } from '../stacks/function-app-stacks/Node';
-import { pythonStack as pythonFunctionAppStack } from '../stacks/function-app-stacks/Python';
-import { javaStack as javaFunctionAppStack } from '../stacks/function-app-stacks/Java';
+import {
+  nodeStack as nodeFunctionAppStack,
+  nodeStackNonIsoDates as nodeFunctionAppStackNonIsoDates,
+} from '../stacks/function-app-stacks/Node';
+import {
+  pythonStack as pythonFunctionAppStack,
+  pythonStackNonIsoDates as pythonFunctionAppStackNonIsoDates,
+} from '../stacks/function-app-stacks/Python';
+import {
+  javaStack as javaFunctionAppStack,
+  javaStackNonIsoDates as javaFunctionAppStackNonIsoDates,
+} from '../stacks/function-app-stacks/Java';
 import {
   powershellStack as powershellFunctionappStack,
   powershellStackNonIsoDates as powershellFunctionappStackNonIsoDates,
@@ -38,9 +47,9 @@ export class StacksService20201001 {
     useIsoDateFormat: boolean = true
   ): FunctionAppStack[] {
     const dotnetStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? dotnetFunctionAppStack : dotnetFunctionAppStackNonIsoDates));
-    const nodeStackCopy = JSON.parse(JSON.stringify(nodeFunctionAppStack));
-    const pythonStackCopy = JSON.parse(JSON.stringify(pythonFunctionAppStack));
-    const javaStackCopy = JSON.parse(JSON.stringify(javaFunctionAppStack));
+    const nodeStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? nodeFunctionAppStack : nodeFunctionAppStackNonIsoDates));
+    const pythonStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? pythonFunctionAppStack : pythonFunctionAppStackNonIsoDates));
+    const javaStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? javaFunctionAppStack : javaFunctionAppStackNonIsoDates));
     const powershellStackCopy = JSON.parse(
       JSON.stringify(useIsoDateFormat ? powershellFunctionappStack : powershellFunctionappStackNonIsoDates)
     );
