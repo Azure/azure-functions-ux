@@ -6,6 +6,9 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
   const node10EOL = getDateString(new Date(2021, 4, 30), useIsoDateFormat);
   const node8EOL = getDateString(new Date(2019, 12, 31), useIsoDateFormat);
   const node6EOL = getDateString(new Date(2019, 4, 30), useIsoDateFormat);
+  const node18EOL = getDateString(new Date(2025, 4, 30), useIsoDateFormat);
+  const node16EOL = getDateString(new Date(2023, 9, 11), useIsoDateFormat);
+  const node14EOL = getDateString(new Date(2023, 4, 30), useIsoDateFormat);
 
   return {
     displayText: 'Node.js',
@@ -40,6 +43,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: node18EOL
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|18',
@@ -60,6 +64,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|18',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: node18EOL
               },
             },
           },
@@ -93,6 +98,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: node16EOL
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|16',
@@ -113,6 +119,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|16',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: node16EOL
               },
             },
           },
@@ -145,6 +152,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                endOfLifeDate: node14EOL
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|14',
@@ -164,6 +172,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|14',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                endOfLifeDate: node14EOL
               },
             },
           },
