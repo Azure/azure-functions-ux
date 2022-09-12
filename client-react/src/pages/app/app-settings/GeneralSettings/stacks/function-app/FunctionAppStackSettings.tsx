@@ -93,7 +93,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
         );
       }
     },
-    [siteStateContext, values, runtimeStack, setSelectedStackVersion, options]
+    [siteStateContext, values, runtimeStack, setSelectedStackVersion, setEolDate, options]
   );
 
   useEffect(() => {
