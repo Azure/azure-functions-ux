@@ -11,7 +11,7 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
         value: 'go1',
         minorVersions: [
           {
-            displayText: 'Go 1.19',
+            displayText: 'Go 1.19 (Experimental)',
             value: 'go1.19',
             stackSettings: {
               linuxRuntimeSettings: {
@@ -24,6 +24,7 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
                   isSupported: true,
                 },
                 isHidden: true,
+                isEarlyAccess: false,
               },
             },
           },
@@ -41,7 +42,7 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
                   isSupported: false,
                 },
                 isHidden: true,
-                isEarlyAccess: true,
+                isEarlyAccess: false,
               },
             },
           },
