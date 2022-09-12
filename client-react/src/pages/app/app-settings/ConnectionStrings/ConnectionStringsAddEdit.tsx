@@ -42,21 +42,33 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
 
   const portalContext = useContext(PortalContext);
 
-  const updateConnectionStringName = (e: any, name: string) => {
-    setCurrentConnectionString({ ...currentConnectionString, name });
-  };
+  const updateConnectionStringName = React.useCallback(
+    (_e: any, name: string) => {
+      setCurrentConnectionString({ ...currentConnectionString, name });
+    },
+    [currentConnectionString, setCurrentConnectionString]
+  );
 
-  const updateConnectionStringValue = (e: any, value: string) => {
-    setCurrentConnectionString({ ...currentConnectionString, value });
-  };
+  const updateConnectionStringValue = React.useCallback(
+    (_e: any, value: string) => {
+      setCurrentConnectionString({ ...currentConnectionString, value });
+    },
+    [currentConnectionString, setCurrentConnectionString]
+  );
 
-  const updateConnectionStringType = (e: any, typeOption: IDropdownOption) => {
-    setCurrentConnectionString({ ...currentConnectionString, type: typeOption.key as string });
-  };
+  const updateConnectionStringType = React.useCallback(
+    (e: any, typeOption: IDropdownOption) => {
+      setCurrentConnectionString({ ...currentConnectionString, type: typeOption.key as string });
+    },
+    [currentConnectionString, setCurrentConnectionString]
+  );
 
-  const updateConnectionStringSticky = (e: any, sticky: boolean) => {
-    setCurrentConnectionString({ ...currentConnectionString, sticky });
-  };
+  const updateConnectionStringSticky = React.useCallback(
+    (e: any, sticky: boolean) => {
+      setCurrentConnectionString({ ...currentConnectionString, sticky });
+    },
+    [currentConnectionString, setCurrentConnectionString]
+  );
 
   const save = () => {
     updateConnectionString(currentConnectionString);
