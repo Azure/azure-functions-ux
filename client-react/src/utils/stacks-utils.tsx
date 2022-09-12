@@ -78,7 +78,7 @@ export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings | Windo
 
 export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
   try {
-    return !!endOfLifeDate && Date.parse(endOfLifeDate) <= getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).getSeconds();
+    return !!endOfLifeDate && Date.parse(endOfLifeDate) <= Date.parse(getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).toString());
   } catch (err) {
     LogService.error(LogCategories.appSettings, 'StackSettings', err);
     return false;
