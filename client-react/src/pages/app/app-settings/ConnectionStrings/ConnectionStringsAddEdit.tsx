@@ -42,27 +42,11 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
 
   const portalContext = useContext(PortalContext);
 
-  const validateConnectionStringName = (value: string) => {
-    if (!value) {
-      return t('connectionStringPropIsRequired').format('name');
-    }
-    if (isLinux && ValidationRegex.appSettingName.test(value)) {
-      return t('validation_linuxConnectionStringNameError');
-    }
-    return otherConnectionStrings.filter(v => v.name === value).length >= 1 ? t('connectionStringNamesUnique') : '';
-  };
   const updateConnectionStringName = (e: any, name: string) => {
-    const error = validateConnectionStringName(name);
-    setNameError(error);
     setCurrentConnectionString({ ...currentConnectionString, name });
   };
 
-  const validateConnectionStringValue = (value: string) => {
-    return !value ? t('connectionStringPropIsRequired').format('value') : '';
-  };
   const updateConnectionStringValue = (e: any, value: string) => {
-    const error = validateConnectionStringValue(value);
-    setValueError(error);
     setCurrentConnectionString({ ...currentConnectionString, value });
   };
 
@@ -126,7 +110,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     id: 'save',
     title: t('ok'),
     onClick: save,
-    disable: !!nameError || !currentConnectionString.name,
+    disable: !!nameError || !!valueError,
   };
 
   const actionBarSecondaryButtonProps = {
@@ -135,6 +119,21 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     onClick: cancel,
     disable: false,
   };
+
+  useEffect(() => {
+    let nameErrorMessage = '';
+    const { name, value } = currentConnectionString;
+
+    if (!name) {
+      nameErrorMessage = t('connectionStringPropIsRequired').format('Name');
+    } else if (isLinux && ValidationRegex.appSettingName.test(name)) {
+      nameErrorMessage = t('validation_linuxConnectionStringNameError');
+    } else {
+      nameErrorMessage = otherConnectionStrings.filter(v => v.name === name).length >= 1 ? t('connectionStringNamesUnique') : '';
+    }
+    setNameError(nameErrorMessage);
+    setValueError(!value ? t('connectionStringPropIsRequired').format('Value') : '');
+  }, [otherConnectionStrings, currentConnectionString.name, currentConnectionString.value]);
 
   useEffect(() => {
     if (isValidKeyVaultReference()) {
@@ -151,9 +150,9 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
           widthOverride="100%"
           id="connection-strings-form-name"
           value={currentConnectionString.name}
-          errorMessage={nameError}
           onChange={updateConnectionStringName}
           copyButton={true}
+          errorMessage={nameError}
           autoFocus
         />
         <TextFieldNoFormik
@@ -161,10 +160,10 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
           widthOverride="100%"
           id="connection-strings-form-value"
           value={currentConnectionString.value}
-          errorMessage={valueError}
           onChange={updateConnectionStringValue}
           copyButton={true}
           autoComplete={'off'}
+          errorMessage={valueError}
         />
         <DropdownNoFormik
           label={t('type')}
