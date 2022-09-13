@@ -18,9 +18,12 @@ export class WorkflowService20221001 {
         ? this.getCodeWorkflowFile(appType, os, runtimeStack, variables)
         : this.getContainerWorkflowFile(appType, os);
 
-    const loginPlaceHolder = '__login-to-azure-step__';
+    const loginToAzureStepPlaceholder = '__login-to-azure-step__';
     const publishProfilePlaceholder = '__publishing-profile__';
+    const permissionsPlaceholder = '__permissions__';
     if (authType === AuthType.Oidc) {
+      //NOTE (stpelleg): OIDC with GitHub Actions requires the id-token permissions to be set to write
+      // and the addition of a login to Azure step
       const loginToAzureStep = `
       - name: Login to Azure
         uses: azure/login@v1
@@ -28,14 +31,18 @@ export class WorkflowService20221001 {
           client-id: \${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: \${{ secrets.AZURE_TENANT_ID }}
           subscription-id: \${{ secrets.AZURE_SUBSCRIPTION_ID }}\n`;
+      const permssions = `permissions:
+      id-token: write #This is required for requesting the JWT\n`;
       workflowFile = workflowFile.replace(new RegExp(publishProfilePlaceholder, 'gi'), '');
-      workflowFile = workflowFile.replace(new RegExp(loginPlaceHolder, 'gi'), loginToAzureStep);
+      workflowFile = workflowFile.replace(new RegExp(loginToAzureStepPlaceholder, 'gi'), loginToAzureStep);
+      workflowFile = workflowFile.replace(new RegExp(permissionsPlaceholder, 'gi'), permssions);
     } else {
       workflowFile = workflowFile.replace(
         new RegExp(publishProfilePlaceholder, 'gi'),
         'publish-profile: ${{ secrets.__publishingprofilesecretname__ }}'
       );
-      workflowFile = workflowFile.replace(new RegExp(loginPlaceHolder, 'gi'), '');
+      workflowFile = workflowFile.replace(new RegExp(loginToAzureStepPlaceholder, 'gi'), '');
+      workflowFile = workflowFile.replace(new RegExp(permissionsPlaceholder, 'gi'), '');
     }
 
     Object.keys(variables).forEach(variableKey => {

@@ -46,7 +46,7 @@ jobs:
     environment:
       name: '__slotname__'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
-
+    __permissions__
     steps:
       - name: Download artifact from build job
         uses: actions/download-artifact@v2

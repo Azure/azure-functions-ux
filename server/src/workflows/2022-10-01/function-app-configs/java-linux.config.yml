@@ -17,6 +17,7 @@ env:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+    __permissions__
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v2

@@ -15,6 +15,7 @@ env:
 jobs:
   deploy:
     runs-on: windows-latest
+    __permissions__
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v2
