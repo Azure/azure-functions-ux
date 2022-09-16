@@ -5902,7 +5902,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>You are not able to view app files while your function app is stopped</value>
     </data>
     <data name="noAppKeysWhileFunctionAppStopped" xml:space="preserve">
-        <value>You are not able to view app keys while your function app is stopped</value>
+        <value>You may not be able to view app keys while your function app is stopped</value>
     </data>
     <data name="functionIntegrateRefreshAriaLabel" xml:space="preserve">
         <value>Refresh all bindings for your function</value>
