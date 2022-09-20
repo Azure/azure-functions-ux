@@ -1,5 +1,5 @@
 import { RouteComponentProps, Router } from '@reach/router';
-import React, { createContext, lazy, useContext, useEffect, useState } from 'react';
+import React, { createContext, lazy, useContext, useCallback, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
 import { ArmObj } from '../../models/arm-obj';
 import { FunctionAppEditMode } from '../../models/portal-models';
@@ -65,7 +65,6 @@ const DeploymentCenter: any = lazy(() =>
 const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
-  const [resourceId, setResourceId] = useState<string | undefined>(undefined);
   const [site, setSite] = useState<ArmObj<Site> | undefined>(undefined);
   const [stopped, setStopped] = useState(false);
   const [siteAppEditState, setSiteAppEditState] = useState<FunctionAppEditMode>(FunctionAppEditMode.ReadWrite);
@@ -74,7 +73,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
-  const fetchDataAndSetState = async () => {
+  const fetchDataAndSetState = useCallback(async (resourceId?: string) => {
     if (resourceId) {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
       const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
@@ -128,22 +127,17 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
         setSiteAppEditState(editMode);
       }
     }
-  };
-
-  useEffect(() => {
-    fetchDataAndSetState();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [resourceId]);
+  }, []);
 
   return (
     <main className={iconStyles(theme)}>
       <SiteRouterContext.Provider value={siteRouterData}>
         <StartupInfoContext.Consumer>
           {value => {
-            setResourceId(value.token && value.resourceId);
-            return (
-              value.token &&
-              (site ? (
+            if (value.token) {
+              const resourceId = value.resourceId;
+              fetchDataAndSetState(resourceId);
+              return site ? (
                 <SiteStateContext.Provider
                   value={{
                     site,
@@ -157,26 +151,27 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
                   }}>
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
-
-                    <AppSettingsLoadable resourceId={value.resourceId} tab={value.featureInfo?.data?.tab} path="/settings" />
-                    <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
-                    <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
-                    <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />
-                    <FunctionBindingLoadable resourceId={value.resourceId} path="/bindingeditor" />
-                    <FunctionNewCreatePreviewLoadable resourceId={value.resourceId} path="/newcreatepreview" />
-                    <FunctionAppKeysLoadable resourceId={value.resourceId} path="/appkeys" />
-                    <FunctionKeysLoadable resourceId={value.resourceId} path="/functionkeys" />
-                    <FunctionEditorLoadable resourceId={value.resourceId} path="/functioneditor" />
-                    <FunctionQuickstart resourceId={value.resourceId} path="/functionquickstart" />
-                    <AppFilesLoadable resourceId={value.resourceId} path="/appfiles" />
-                    <FunctionMonitor resourceId={value.resourceId} path="/monitor" />
-                    <DeploymentCenter resourceId={value.resourceId} tab={value.featureInfo?.data?.tab} path="/deploymentcenter" />
+                    <AppSettingsLoadable resourceId={resourceId} tab={value.featureInfo?.data?.tab} path="/settings" />
+                    <LogStreamLoadable resourceId={resourceId} path="/log-stream" />
+                    <ChangeAppPlanLoadable resourceId={resourceId} path="/changeappplan" />
+                    <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
+                    <FunctionBindingLoadable resourceId={resourceId} path="/bindingeditor" />
+                    <FunctionNewCreatePreviewLoadable resourceId={resourceId} path="/newcreatepreview" />
+                    <FunctionAppKeysLoadable resourceId={resourceId} path="/appkeys" />
+                    <FunctionKeysLoadable resourceId={resourceId} path="/functionkeys" />
+                    <FunctionEditorLoadable resourceId={resourceId} path="/functioneditor" />
+                    <FunctionQuickstart resourceId={resourceId} path="/functionquickstart" />
+                    <AppFilesLoadable resourceId={resourceId} path="/appfiles" />
+                    <FunctionMonitor resourceId={resourceId} path="/monitor" />
+                    <DeploymentCenter resourceId={resourceId} tab={value.featureInfo?.data?.tab} path="/deploymentcenter" />
                   </Router>
                 </SiteStateContext.Provider>
               ) : (
                 <LoadingComponent />
-              ))
-            );
+              );
+            } else {
+              return null;
+            }
           }}
         </StartupInfoContext.Consumer>
       </SiteRouterContext.Provider>
