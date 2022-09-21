@@ -21,6 +21,7 @@ export interface ChangeAppPlanFormValues {
   site: ArmObj<Site>;
   currentServerFarm: ArmObj<ServerFarm>;
   serverFarmInfo: CreateOrSelectPlanFormValues;
+  deletePreviousPlan: boolean;
 }
 
 export enum ChangeAppPlanTierTypes {

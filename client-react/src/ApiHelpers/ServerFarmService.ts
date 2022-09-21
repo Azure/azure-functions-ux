@@ -64,6 +64,15 @@ export default class ServerFarmService {
     });
   };
 
+  public static deleteServerFarm = (resourceId: string) => {
+    return MakeArmCall<ArmObj<ServerFarm>>({
+      resourceId,
+      commandName: 'DeleteAppServicePlan',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+      method: 'DELETE',
+    });
+  };
+
   public static getTotalSitesIncludingSlotsInServerFarm = (subscriptionId: string, resourceId: string) => {
     const queryString =
       `where type == 'microsoft.web/sites' or type == 'microsoft.web/sites/slots'` +

@@ -36,6 +36,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 }) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
+  const [deletePreviousPlan, setDeletePreviousPlan] = useState(false);
 
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -196,6 +197,11 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   }, [currentServerFarm, forbiddenSkus, formProps.values.site]);
 
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
+    const appPlanSiteCount = formProps.values.currentServerFarm.properties.numberOfSites;
+    if (appPlanSiteCount <= 1) {
+      setDeletePreviousPlan(true);
+    }
+
     formProps.setFieldValue('serverFarmInfo', planInfo);
   };
 
@@ -285,6 +291,38 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
           isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
         />
       </ReactiveFormControl>
+
+      {deletePreviousPlan && (
+        <CustomBanner
+          className={bannerStyle}
+          type={MessageBarType.warning}
+          message={`'${currentServerFarm.name}' will be unused if you change to '${
+            formProps.values.serverFarmInfo.isNewPlan
+              ? formProps.values.serverFarmInfo.newPlanInfo?.name
+              : formProps.values.serverFarmInfo.existingPlan?.name
+          }'. Would you like to delete '${currentServerFarm.name}'?`}
+        />
+      )}
+
+      {deletePreviousPlan && (
+        <RadioButtonNoFormik
+          id="deleteAppPlan"
+          aria-label={'deleteAppPlan'}
+          defaultSelectedKey={skuTier}
+          disabled={isUpdating}
+          options={[
+            { key: 'Delete', text: `Delete '${currentServerFarm.name}'` },
+            { key: 'Keep', text: `Keep '${currentServerFarm.name}'` },
+          ]}
+          onChange={(o, e) => {
+            if (e) {
+              e.key === 'Delete'
+                ? formProps.setFieldValue('deletePreviousPlan', true)
+                : formProps.setFieldValue('deletePreviousPlan', false);
+            }
+          }}
+        />
+      )}
 
       <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
         <div tabIndex={0} aria-label={`${t('resourceGroup')} ${getSelectedResourceGroupString()}`}>

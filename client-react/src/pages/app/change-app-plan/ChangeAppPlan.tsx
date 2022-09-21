@@ -42,7 +42,7 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const [isUpdating, setIsUpdating] = useState(false);
   const [siteIsReadOnlyLocked, setSiteIsReadOnlyLocked] = useState(false);
   const [showAppDensityWarning, setShowAppDensityWarning] = useState(false);
-  const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(getInitialFormValues(site, currentServerFarm));
+  const [formValues, setFormValues] = useState<ChangeAppPlanFormValues>(getInitialFormValues(site, currentServerFarm, false));
 
   const portalCommunicator = useContext(PortalContext);
 
@@ -187,7 +187,7 @@ const onSubmit = async (
 ) => {
   const { serverFarmInfo } = values;
   const notificationId = portalCommunicator.startNotification(t('changePlanNotification'), t('changePlanNotification'));
-
+  const previousAppPlanId = values.currentServerFarm.id;
   setFormValues(values);
   setIsUpdating(true);
 
@@ -199,10 +199,13 @@ const onSubmit = async (
   }
 
   if (success) {
+    if (values.deletePreviousPlan) {
+      await ServerFarmService.deleteServerFarm(previousAppPlanId);
+    }
+
     changeComplete();
     portalCommunicator.broadcastMessage(BroadcastMessageId.siteUpdated, values.site.id);
   }
-
   setIsUpdating(false);
 };
 
@@ -422,7 +425,11 @@ const getSelectedSkuCode = (values: ChangeAppPlanFormValues) => {
   return ((values.serverFarmInfo.existingPlan as ArmObj<ServerFarm>).sku as ArmSku).name;
 };
 
-const getInitialFormValues = (site: ArmObj<Site>, currentServerFarm: ArmObj<ServerFarm>): ChangeAppPlanFormValues => {
+const getInitialFormValues = (
+  site: ArmObj<Site>,
+  currentServerFarm: ArmObj<ServerFarm>,
+  deletePreviousPlan: boolean
+): ChangeAppPlanFormValues => {
   const planDescriptor = new ArmPlanDescriptor(currentServerFarm.id);
 
   const existingResourceGroup: ArmObj<ResourceGroup> = {
@@ -439,6 +446,7 @@ const getInitialFormValues = (site: ArmObj<Site>, currentServerFarm: ArmObj<Serv
   return {
     site,
     currentServerFarm,
+    deletePreviousPlan,
     serverFarmInfo: {
       existingPlan: null,
       isNewPlan: false,
