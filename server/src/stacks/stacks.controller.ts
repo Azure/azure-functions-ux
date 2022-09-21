@@ -45,6 +45,7 @@ export class StacksController {
       Versions.version20210115,
       Versions.version20210201,
       Versions.version20210301,
+      Versions.version20220301,
     ]);
     validateOs(os);
     validateFunctionAppStack(apiVersion, stack);
@@ -83,7 +84,8 @@ export class StacksController {
       case Versions.version20210101:
       case Versions.version20210115:
       case Versions.version20210201:
-      case Versions.version20210301: {
+      case Versions.version20210301:
+      case Versions.version20220301: {
         return this._stackService20201001.getFunctionAppStacks(
           os,
           stack as FunctionAppStack20201001Value,
@@ -114,6 +116,7 @@ export class StacksController {
       Versions.version20210115,
       Versions.version20210201,
       Versions.version20210301,
+      Versions.version20220301,
     ]);
     validateOs(os);
     validateWebAppStack(apiVersion, stack);
@@ -152,7 +155,8 @@ export class StacksController {
       case Versions.version20210101:
       case Versions.version20210115:
       case Versions.version20210201:
-      case Versions.version20210301: {
+      case Versions.version20210301:
+      case Versions.version20220301: {
         return this._stackService20201001.getWebAppStacks(
           os,
           stack as WebAppStack20201001Value,
