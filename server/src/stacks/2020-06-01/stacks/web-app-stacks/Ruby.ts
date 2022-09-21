@@ -1,10 +1,10 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
-const ruby2Point7EOL = new Date(2023, 3, 31).toString();
-const ruby2Point6EOL = new Date(2022, 3, 31).toString();
-const ruby2Point5EOL = new Date(2021, 3, 31).toString();
-const ruby2Point4EOL = new Date(2020, 4, 1).toString();
-const ruby2Point3EOL = new Date(2019, 3, 31).toString();
+const ruby2Point7EOL = new Date(2023, 2, 31).toString();
+const ruby2Point6EOL = new Date(2022, 2, 31).toString();
+const ruby2Point5EOL = new Date(2021, 2, 31).toString();
+const ruby2Point4EOL = new Date(2020, 3, 1).toString();
+const ruby2Point3EOL = new Date(2019, 2, 31).toString();
 
 export const rubyStack: WebAppStack = {
   displayText: 'Ruby',
