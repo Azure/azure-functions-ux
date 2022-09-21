@@ -1,14 +1,14 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
-const node16EOL = new Date(2024, 4, 30).toString();
-const node14EOL = new Date(2023, 4, 30).toString();
-const node12EOL = new Date(2022, 4, 1).toString();
-const node10EOL = new Date(2021, 4, 1).toString();
-const node9EOL = new Date(2019, 6, 30).toString();
-const node8EOL = new Date(2019, 12, 31).toString();
-const node7EOL = new Date(2017, 6, 30).toString();
-const node6EOL = new Date(2019, 4, 30).toString();
-const node4EOL = new Date(2018, 4, 30).toString();
+const node16EOL = new Date(2024, 3, 30).toString();
+const node14EOL = new Date(2023, 3, 30).toString();
+const node12EOL = new Date(2022, 3, 1).toString();
+const node10EOL = new Date(2021, 3, 1).toString();
+const node9EOL = new Date(2019, 5, 30).toString();
+const node8EOL = new Date(2019, 11, 31).toString();
+const node7EOL = new Date(2017, 5, 30).toString();
+const node6EOL = new Date(2019, 3, 30).toString();
+const node4EOL = new Date(2018, 3, 30).toString();
 
 export const nodeStack: WebAppStack = {
   displayText: 'Node',
