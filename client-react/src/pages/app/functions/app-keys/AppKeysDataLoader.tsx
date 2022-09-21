@@ -1,13 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
-import AppKeysData from './AppKeys.data';
-import AppKeys from './AppKeys';
-import { AppKeysFormValues } from './AppKeys.types';
-import { PortalContext } from '../../../../PortalContext';
-import { SiteRouterContext } from '../../SiteRouter';
-import { SiteStateContext } from '../../../../SiteState';
-import { useTranslation } from 'react-i18next';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { HttpResponseObject } from '../../../../ArmHelper.types';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import { SiteRouterContext } from '../../SiteRouter';
+import AppKeys from './AppKeys';
+import AppKeysData from './AppKeys.data';
+import { AppKeysFormValues, AppKeysInfo } from './AppKeys.types';
 
 const appKeysData = new AppKeysData();
 export const AppKeysContext = React.createContext(appKeysData);
@@ -21,6 +22,7 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
   const [initialValues, setInitialValues] = useState<AppKeysFormValues | null>(null);
   const [refreshLoading, setRefreshLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(true);
+  const [fetchKeysSuccess, setFetchKeysSuccess] = useState<boolean>();
 
   const portalContext = useContext(PortalContext);
   const siteContext = useContext(SiteRouterContext);
@@ -33,30 +35,37 @@ const AppKeysDataLoader: React.FC<AppKeysDataLoaderProps> = props => {
     fetchData();
   };
 
-  const fetchData = async () => {
+  const fetchData = useCallback(async () => {
     const site = await siteContext.fetchSite(resourceId);
-    const appKeys = await appKeysData.fetchKeys(resourceId);
+
+    let appKeys: HttpResponseObject<AppKeysInfo> | undefined;
+    try {
+      appKeys = await appKeysData.fetchKeys(resourceId);
+      setFetchKeysSuccess(appKeys.metadata.success);
+    } catch {
+      setFetchKeysSuccess(false);
+    }
 
     setInitialValues(
       appKeysData.convertStateToForm({
         site: site.data,
-        keys: appKeys.metadata.success ? appKeys.data : null,
+        keys: appKeys?.metadata.success ? appKeys.data : null,
       })
     );
     portalContext.loadComplete();
     setInitialLoading(false);
     setRefreshLoading(false);
-  };
+  }, [portalContext, resourceId, siteContext]);
 
   useEffect(() => {
     fetchData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [fetchData]);
 
   return (
     <AppKeysContext.Provider value={appKeysData}>
-      {siteStateContext.stopped && <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />}
+      {siteStateContext.stopped && fetchKeysSuccess === false && (
+        <CustomBanner message={t('noAppKeysWhileFunctionAppStopped')} type={MessageBarType.warning} />
+      )}
       <AppKeys
         resourceId={resourceId}
         initialValues={initialValues}
