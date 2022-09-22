@@ -28,9 +28,9 @@ export class WorkflowService20221001 {
       - name: Login to Azure
         uses: azure/login@v1
         with:
-          client-id: \${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: \${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: \${{ secrets.AZURE_SUBSCRIPTION_ID }}\n`;
+          client-id: \${{ secrets.__clientidsecretname__ }}
+          tenant-id: \${{ secrets.__tenantidsecretname__ }}
+          subscription-id: \${{ secrets.__subscriptionidsecretname__ }}\n`;
       const permssions = `permissions:
       id-token: write #This is required for requesting the JWT\n`;
       workflowFile = workflowFile.replace(new RegExp(publishProfilePlaceholder, 'gi'), '');
