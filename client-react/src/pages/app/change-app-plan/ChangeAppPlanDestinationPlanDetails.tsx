@@ -10,7 +10,7 @@ import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
+import { bannerStyle, checkBoxStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
 import {
   ChangeAppPlanDefaultSkuCodes,
   ChangeAppPlanTierTypes,
@@ -301,11 +301,12 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
               undocked={true}
               className={bannerStyle}
               type={MessageBarType.info}
-              message={`After changing plans, ${currentServerFarm.name} will have no more apps. Delete ${currentServerFarm.name} to prevent unexpected charges.`}
+              message={`After changing plans, ${currentServerFarm.name} will have no more apps. Would you like to delete ${currentServerFarm.name} to prevent unexpected charges?`}
             />
           )}
           {deletePreviousPlanFlag && (
             <Checkbox
+              className={checkBoxStyle}
               boxSide="end"
               label={`Delete ${currentServerFarm.name}:`}
               id="delete-previous-plan-checkbox"
