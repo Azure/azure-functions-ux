@@ -20,6 +20,7 @@ import {
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
+import { Checkbox } from '@fluentui/react';
 
 interface SpecPickerOutput {
   skuCode: string; // Like "S1"
@@ -36,8 +37,8 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 }) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
-  const [deletePreviousPlan, setDeletePreviousPlan] = useState(false);
 
+  const [deletePreviousPlanFlag, setDeletePreviousPlanFlag] = useState(false);
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
 
@@ -199,7 +200,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
     const appPlanSiteCount = formProps.values.currentServerFarm.properties.numberOfSites;
     if (appPlanSiteCount <= 1) {
-      setDeletePreviousPlan(true);
+      setDeletePreviousPlanFlag(true);
     }
 
     formProps.setFieldValue('serverFarmInfo', planInfo);
@@ -207,6 +208,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const onPlanTierChange = (planTier: ChangeAppPlanTierTypes) => {
     setSkuTier(planTier);
+  };
+
+  const onChecked = checked => {
+    formProps.setFieldValue('deletePreviousPlan', checked);
   };
 
   const serverFarmOptions = useMemo(() => {
@@ -275,54 +280,42 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       )}
 
       <ReactiveFormControl id="destinationAppServicePlan" label={t('appServicePlan')} required={true}>
-        <CreateOrSelectPlan
-          subscriptionId={subscriptionId}
-          isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
-          newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
-          existingPlan={formProps.values.serverFarmInfo.existingPlan}
-          options={serverFarmOptions}
-          resourceGroupOptions={rgOptions}
-          onPlanChange={onPlanChange}
-          serverFarmsInWebspace={serverFarms}
-          hostingEnvironment={hostingEnvironment}
-          skuTier={skuTier}
-          isUpdating={isUpdating}
-          formProps={formProps}
-          isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
-        />
+        <>
+          <CreateOrSelectPlan
+            subscriptionId={subscriptionId}
+            isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
+            newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
+            existingPlan={formProps.values.serverFarmInfo.existingPlan}
+            options={serverFarmOptions}
+            resourceGroupOptions={rgOptions}
+            onPlanChange={onPlanChange}
+            serverFarmsInWebspace={serverFarms}
+            hostingEnvironment={hostingEnvironment}
+            skuTier={skuTier}
+            isUpdating={isUpdating}
+            formProps={formProps}
+            isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
+          />
+          {deletePreviousPlanFlag && (
+            <CustomBanner
+              undocked={true}
+              className={bannerStyle}
+              type={MessageBarType.info}
+              message={`After changing plans, ${currentServerFarm.name} will have no more apps. Delete ${currentServerFarm.name} to prevent unexpected charges.`}
+            />
+          )}
+          {deletePreviousPlanFlag && (
+            <Checkbox
+              boxSide="end"
+              label={`Delete ${currentServerFarm.name}:`}
+              id="delete-previous-plan-checkbox"
+              onChange={(e, isChecked) => {
+                onChecked(isChecked);
+              }}
+            />
+          )}
+        </>
       </ReactiveFormControl>
-
-      {deletePreviousPlan && (
-        <CustomBanner
-          className={bannerStyle}
-          type={MessageBarType.warning}
-          message={`'${currentServerFarm.name}' will be unused if you change to '${
-            formProps.values.serverFarmInfo.isNewPlan
-              ? formProps.values.serverFarmInfo.newPlanInfo?.name
-              : formProps.values.serverFarmInfo.existingPlan?.name
-          }'. Would you like to delete '${currentServerFarm.name}'?`}
-        />
-      )}
-
-      {deletePreviousPlan && (
-        <RadioButtonNoFormik
-          id="deleteAppPlan"
-          aria-label={'deleteAppPlan'}
-          defaultSelectedKey={skuTier}
-          disabled={isUpdating}
-          options={[
-            { key: 'Delete', text: `Delete '${currentServerFarm.name}'` },
-            { key: 'Keep', text: `Keep '${currentServerFarm.name}'` },
-          ]}
-          onChange={(o, e) => {
-            if (e) {
-              e.key === 'Delete'
-                ? formProps.setFieldValue('deletePreviousPlan', true)
-                : formProps.setFieldValue('deletePreviousPlan', false);
-            }
-          }}
-        />
-      )}
 
       <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
         <div tabIndex={0} aria-label={`${t('resourceGroup')} ${getSelectedResourceGroupString()}`}>
