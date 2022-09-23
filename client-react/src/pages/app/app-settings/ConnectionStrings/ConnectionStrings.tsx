@@ -410,7 +410,11 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>
         <ConnectionStringsAddEdit
           connectionString={currentConnectionString!}
-          otherConnectionStrings={values.connectionStrings}
+          otherConnectionStrings={
+            currentConnectionString
+              ? values.connectionStrings.filter(val => val.name.toLowerCase() !== currentConnectionString.name.toLowerCase())
+              : values.connectionStrings
+          }
           updateConnectionString={onClosePanel}
           disableSlotSetting={!production_write}
           closeBlade={onCancel}
