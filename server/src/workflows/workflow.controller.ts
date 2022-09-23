@@ -2,10 +2,11 @@ import { Controller, Post, Body, Query, HttpException, HttpCode } from '@nestjs/
 import { Versions } from './versions';
 import { WorkflowService20201201 } from './2020-12-01/WorkflowService';
 import { AppType, Os, PublishType } from './WorkflowModel';
+import { WorkflowService20221001 } from './2022-10-01/WorkflowService';
 
 @Controller('workflows')
 export class WorkflowController {
-  constructor(private _workflowService20201201: WorkflowService20201201) {}
+  constructor(private _workflowService20201201: WorkflowService20201201, private _workflowService20221001: WorkflowService20221001) {}
 
   @Post('generate')
   @HttpCode(200)
@@ -15,14 +16,19 @@ export class WorkflowController {
     @Body('publishType') publishType: string,
     @Body('os') os: string,
     @Body('variables') variables: { [key: string]: string },
-    @Body('runtimeStack') runtimeStack?: string
+    @Body('runtimeStack') runtimeStack?: string,
+    @Body('authType') authType?: string
   ) {
-    this._validateApiVersion(apiVersion, [Versions.version20201201]);
+    this._validateApiVersion(apiVersion, [Versions.version20201201, Versions.version20221001]);
     this._validateAppType(appType);
     this._validatePublishType(publishType);
     this._validateOs(os);
     this._validateVariables(variables, publishType);
     this._validateRuntimeStack(runtimeStack, publishType);
+
+    if (apiVersion === Versions.version20221001) {
+      return this._workflowService20221001.getWorkflowFile(appType, publishType, os, runtimeStack, variables, authType);
+    }
 
     return this._workflowService20201201.getWorkflowFile(appType, publishType, os, runtimeStack, variables);
   }
@@ -88,7 +94,7 @@ export class WorkflowController {
     }
 
     if (publishType.toLocaleLowerCase() === PublishType.Code) {
-      const codeRequiredVariables = ['sitename', 'slotname', 'runtimeversion', 'publishingprofilesecretname', 'branch'];
+      const codeRequiredVariables = ['sitename', 'slotname', 'runtimeversion', 'branch'];
       this._validateRequiredVariables(codeRequiredVariables, variables);
     } else {
       const containerRequiredVariables = [
@@ -100,7 +106,6 @@ export class WorkflowController {
         'image',
         'containerusersecretname',
         'containerpasswordsecretname',
-        'publishingprofilesecretname',
       ];
       this._validateRequiredVariables(containerRequiredVariables, variables);
     }

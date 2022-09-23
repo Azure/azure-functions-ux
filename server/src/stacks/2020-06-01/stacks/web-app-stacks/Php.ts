@@ -1,14 +1,14 @@
 import { WebAppStack } from '../../models/WebAppStackModel';
 
-const php8Point2EOL = new Date(2025, 11, 30).toString();
-const php8Point1EOL = new Date(2024, 11, 30).toString();
-const php8Point0EOL = new Date(2023, 11, 30).toString();
-const php7Point4EOL = new Date(2022, 11, 30).toString();
-const php7Point3EOL = new Date(2021, 12, 6).toString();
-const php7Point2EOL = new Date(2020, 11, 30).toString();
-const php7Point1EOL = new Date(2020, 2, 1).toString();
-const php7Point0EOL = new Date(2020, 2, 1).toString();
-const php5Point6EOL = new Date(2021, 2, 1).toString();
+const php8Point2EOL = new Date(2025, 10, 30).toString();
+const php8Point1EOL = new Date(2024, 10, 30).toString();
+const php8Point0EOL = new Date(2023, 10, 30).toString();
+const php7Point4EOL = new Date(2022, 10, 30).toString();
+const php7Point3EOL = new Date(2021, 11, 6).toString();
+const php7Point2EOL = new Date(2020, 10, 30).toString();
+const php7Point1EOL = new Date(2020, 1, 1).toString();
+const php7Point0EOL = new Date(2020, 1, 1).toString();
+const php5Point6EOL = new Date(2021, 1, 1).toString();
 
 export const phpStack: WebAppStack = {
   displayText: 'PHP',

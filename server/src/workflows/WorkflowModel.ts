@@ -28,3 +28,8 @@ export enum JavaContainers {
   Tomcat = 'tomcat',
   JBoss = 'jbosseap',
 }
+
+export enum AuthType {
+  Oidc = 'oidc',
+  PublishProfile = 'publishprofile',
+}

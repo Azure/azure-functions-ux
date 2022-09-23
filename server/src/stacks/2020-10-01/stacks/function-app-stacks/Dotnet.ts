@@ -2,8 +2,8 @@ import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
-  const dotnet5EOL = getDateString(new Date(2022, 5, 8), useIsoDateFormat);
-  const dotnetCore3EOL = getDateString(new Date(2022, 12, 3), useIsoDateFormat);
+  const dotnet5EOL = getDateString(new Date(2022, 4, 8), useIsoDateFormat);
+  const dotnetCore3EOL = getDateString(new Date(2022, 11, 3), useIsoDateFormat);
 
   return {
     displayText: '.NET',
