@@ -414,7 +414,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
           site={values.site}
           appSetting={currentAppSetting!}
           disableSlotSetting={!production_write}
-          otherAppSettings={values.appSettings}
+          otherAppSettings={values.appSettings.filter(val => val.name.toLowerCase() !== (currentAppSetting?.name ?? '').toLowerCase())}
           updateAppSetting={onClosePanel}
           closeBlade={onCancel}
         />
