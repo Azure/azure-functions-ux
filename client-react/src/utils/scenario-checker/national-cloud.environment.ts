@@ -6,7 +6,8 @@ import Url from '../url';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {
-    return this.isMooncake() || this.isFairFax() || this.isUSNat() || this.isUSSec();
+    // return this.isMooncake() || this.isFairFax() || this.isUSNat() || this.isUSSec();
+    return true;
   }
 
   public static isFairFax() {
