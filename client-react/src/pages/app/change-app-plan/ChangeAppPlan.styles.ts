@@ -36,9 +36,11 @@ export const bannerStyle = style({
   maxWidth: '725px',
   marginBottom: '5px',
 });
+
 export const checkBoxStyle = style({
   paddingTop: '10px',
 });
+
 export const textboxStyle = style({
   maxWidth: '275px',
   paddingRight: '0px',

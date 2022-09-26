@@ -38,7 +38,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
 
-  const [deletePreviousPlanFlag, setDeletePreviousPlanFlag] = useState(false);
+  const [showDeletePlanOption, setshowDeletePlanOption] = useState(false);
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
 
@@ -200,7 +200,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
     const appPlanSiteCount = formProps.values.currentServerFarm.properties.numberOfSites;
     if (appPlanSiteCount <= 1) {
-      setDeletePreviousPlanFlag(true);
+      setshowDeletePlanOption(true);
     }
 
     formProps.setFieldValue('serverFarmInfo', planInfo);
@@ -208,10 +208,6 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const onPlanTierChange = (planTier: ChangeAppPlanTierTypes) => {
     setSkuTier(planTier);
-  };
-
-  const onChecked = checked => {
-    formProps.setFieldValue('deletePreviousPlan', checked);
   };
 
   const serverFarmOptions = useMemo(() => {
@@ -296,24 +292,31 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
             formProps={formProps}
             isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
           />
-          {deletePreviousPlanFlag && (
-            <CustomBanner
-              undocked={true}
-              className={bannerStyle}
-              type={MessageBarType.info}
-              message={`After changing plans, ${currentServerFarm.name} will have no more apps. Would you like to delete ${currentServerFarm.name} to prevent unexpected charges?`}
-            />
-          )}
-          {deletePreviousPlanFlag && (
-            <Checkbox
-              className={checkBoxStyle}
-              boxSide="end"
-              label={`Delete ${currentServerFarm.name}:`}
-              id="delete-previous-plan-checkbox"
-              onChange={(e, isChecked) => {
-                onChecked(isChecked);
-              }}
-            />
+
+          {showDeletePlanOption && (
+            <>
+              <CustomBanner
+                undocked={true}
+                className={bannerStyle}
+                type={MessageBarType.info}
+                message={t('deletePreviousPlanMessage').format(
+                  currentServerFarm.name,
+                  formProps.values.serverFarmInfo.isNewPlan
+                    ? formProps.values.serverFarmInfo.newPlanInfo.name
+                    : formProps.values.serverFarmInfo.existingPlan?.name
+                )}
+              />
+
+              <Checkbox
+                className={checkBoxStyle}
+                boxSide="end"
+                label={t('deletePreviousPlanCheckBoxText').format(currentServerFarm.name)}
+                id="delete-previous-plan-checkbox"
+                onChange={(_, isChecked) => {
+                  formProps.setFieldValue('deletePreviousPlan', isChecked);
+                }}
+              />
+            </>
           )}
         </>
       </ReactiveFormControl>
