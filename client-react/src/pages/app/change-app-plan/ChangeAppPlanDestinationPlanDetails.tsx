@@ -38,7 +38,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
 
-  const [showDeletePlanOption, setshowDeletePlanOption] = useState(false);
+  const [showDeletePlanOption, setShowDeletePlanOption] = useState(false);
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
 
@@ -200,7 +200,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
     const appPlanSiteCount = formProps.values.currentServerFarm.properties.numberOfSites;
     if (appPlanSiteCount <= 1) {
-      setshowDeletePlanOption(true);
+      setShowDeletePlanOption(true);
     }
 
     formProps.setFieldValue('serverFarmInfo', planInfo);
