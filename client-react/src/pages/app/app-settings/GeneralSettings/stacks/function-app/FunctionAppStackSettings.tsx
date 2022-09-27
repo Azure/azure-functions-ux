@@ -21,6 +21,7 @@ import {
   getFunctionAppStackObject,
   getFunctionAppStackVersion,
   getStackVersionConfigPropertyName,
+  isStackVersionEndOfLife,
   isWindowsNodeApp,
 } from '../../../../../../utils/stacks-utils';
 
@@ -61,11 +62,13 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     (_, option: IDropdownOption) => {
       const selectedOptionKey = option.key as string;
       const selectedOption = options.find(option => option.key === selectedStackVersion);
-      setEolDate(
-        siteStateContext.isLinuxApp
-          ? selectedOption?.data?.stackSettings?.linuxRuntimeSettings?.endOfLifeDate
-          : selectedOption?.data?.stackSettings?.windowsRuntimeSettings?.endOfLifeDate
-      );
+      const eolDate = siteStateContext.isLinuxApp
+        ? selectedOption?.data?.stackSettings?.linuxRuntimeSettings?.endOfLifeDate
+        : selectedOption?.data?.stackSettings?.windowsRuntimeSettings?.endOfLifeDate;
+      if (isStackVersionEndOfLife(eolDate)) {
+        setEolDate(eolDate);
+      }
+
       setSelectedStackVersion(selectedOptionKey);
 
       // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
