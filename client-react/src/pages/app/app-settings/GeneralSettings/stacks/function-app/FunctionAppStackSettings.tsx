@@ -38,12 +38,10 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     [functionAppStackContext, initialValues, siteStateContext]
   );
 
-  const [runtimeStack, setRuntimeStack] = useState<string | undefined>(undefined);
   const [currentStackData, setCurrentStackData] = useState<FunctionAppStack | undefined>(undefined);
   const [initialStackVersion, setInitialStackVersion] = useState<string | undefined>(undefined);
   const [selectedStackVersion, setSelectedStackVersion] = useState<string | undefined>(undefined);
   const [dirtyState, setDirtyState] = useState(false);
-  const [eolDate, setEolDate] = useState<string | undefined>(undefined);
 
   const options = React.useMemo(() => {
     const runtimeVersion = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) ?? '';
@@ -58,17 +56,13 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
       : [];
   }, [values, siteStateContext, currentStackData]);
 
+  const runtimeStack = React.useMemo(() => {
+    return functionAppFilteredStacks.length > 0 ? initialValues.currentlySelectedStack : undefined;
+  }, [functionAppFilteredStacks, initialValues]);
+
   const onMajorVersionChange = React.useCallback(
     (_, option: IDropdownOption) => {
       const selectedOptionKey = option.key as string;
-      const selectedOption = options.find(option => option.key === selectedStackVersion);
-      const eolDate = siteStateContext.isLinuxApp
-        ? selectedOption?.data?.stackSettings?.linuxRuntimeSettings?.endOfLifeDate
-        : selectedOption?.data?.stackSettings?.windowsRuntimeSettings?.endOfLifeDate;
-      if (isStackVersionEndOfLife(eolDate)) {
-        setEolDate(eolDate);
-      }
-
       setSelectedStackVersion(selectedOptionKey);
 
       // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
@@ -96,13 +90,24 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
         );
       }
     },
-    [siteStateContext, values, runtimeStack, setSelectedStackVersion, setEolDate, options]
+    [siteStateContext, values, runtimeStack, setSelectedStackVersion, options]
   );
 
-  useEffect(() => {
-    const version = getFunctionAppStackVersion(values, siteStateContext.isLinuxApp, runtimeStack);
-    setSelectedStackVersion(version);
+  const getEolBanner = React.useCallback(() => {
+    const data = options.find(option => option.key === selectedStackVersion)?.data;
+    if (data) {
+      const eolDate = siteStateContext.isLinuxApp
+        ? data?.stackSettings?.linuxRuntimeSettings?.endOfLifeDate
+        : data?.stackSettings?.windowsRuntimeSettings?.endOfLifeDate;
+      if (isStackVersionEndOfLife(eolDate)) {
+        return checkAndGetStackEOLOrDeprecatedBanner(t, data?.displayText ?? '', eolDate);
+      }
+    }
 
+    return null;
+  }, [selectedStackVersion, options, siteStateContext]);
+
+  useEffect(() => {
     let isDirty = false;
     // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
     if (isWindowsNodeApp(siteStateContext.isLinuxApp, runtimeStack)) {
@@ -115,23 +120,20 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     setDirtyState(isDirty);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, values, runtimeStack, initialStackVersion]);
+  }, [siteStateContext, initialValues, values, runtimeStack]);
 
   useEffect(() => {
     const isLinux = siteStateContext.isLinuxApp;
-    const runtimeStack = initialValues.currentlySelectedStack;
-    if (runtimeStack && functionAppFilteredStacks.length > 0) {
-      setRuntimeStack(runtimeStack);
-      setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, isLinux, runtimeStack));
-    }
+    setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, isLinux, runtimeStack));
 
     const initialStackVersion = getFunctionAppStackVersion(initialValues, isLinux, runtimeStack);
     setInitialStackVersion(initialStackVersion);
+    console.log(initialStackVersion);
     setSelectedStackVersion(initialStackVersion);
     setDirtyState(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, initialValues, functionAppFilteredStacks]);
+  }, [siteStateContext, initialValues, functionAppFilteredStacks, runtimeStack]);
 
   return currentStackData &&
     siteStateContext.site &&
@@ -163,7 +165,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
             />
           </>
         )}
-        {checkAndGetStackEOLOrDeprecatedBanner(t, currentStackData?.displayText ?? '', eolDate)}
+        {getEolBanner()}
       </div>
     </>
   ) : null;
