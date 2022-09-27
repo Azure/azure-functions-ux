@@ -15440,12 +15440,12 @@
       </Item>
       <Item ItemId=";noAppKeysWhileFunctionAppStopped" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You are not able to view app keys while your function app is stopped]]></Val>
+          <Val><![CDATA[You may not be able to view app keys while your function app is stopped]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Não pode ver chaves da aplicação enquanto a aplicação de funções estiver parada]]></Val>
+            <Val><![CDATA[Pode não poder ver chaves da aplicação enquanto a sua aplicação de funções estiver parada]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You are not able to view app keys while your Function App is stopped]]></Val>
+            <Val><![CDATA[You are not able to view app keys while your function app is stopped]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />

@@ -15449,12 +15449,12 @@
       </Item>
       <Item ItemId=";noAppKeysWhileFunctionAppStopped" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You are not able to view app keys while your function app is stopped]]></Val>
+          <Val><![CDATA[You may not be able to view app keys while your function app is stopped]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[无法在函数应用停止时查看应用密钥]]></Val>
+            <Val><![CDATA[可能无法在函数应用停止时查看应用密钥]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You are not able to view app keys while your Function App is stopped]]></Val>
+            <Val><![CDATA[You are not able to view app keys while your function app is stopped]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />

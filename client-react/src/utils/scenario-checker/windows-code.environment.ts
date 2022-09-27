@@ -1,7 +1,4 @@
 import { isWindowsCode } from '../arm-utils';
-import { CommonConstants } from '../CommonConstants';
-import Url from '../url';
-import { NationalCloudEnvironment } from './national-cloud.environment';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
 
@@ -22,7 +19,7 @@ export class WindowsCode extends Environment {
       id: ScenarioIds.azureStorageMount,
       runCheck: () => {
         return {
-          status: this._getAzureStorageMountAvailability(),
+          status: 'enabled',
         };
       },
     };
@@ -36,12 +33,6 @@ export class WindowsCode extends Environment {
       },
     };
   }
-
-  private _getAzureStorageMountAvailability = () => {
-    return Url.getFeatureValue(CommonConstants.FeatureFlags.enableAzureMount) || !NationalCloudEnvironment.isNationalCloud()
-      ? 'enabled'
-      : 'disabled';
-  };
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     return !!input && !!input.site && !!input.site.kind && isWindowsCode(input.site);

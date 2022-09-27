@@ -15470,12 +15470,12 @@
       </Item>
       <Item ItemId=";noAppKeysWhileFunctionAppStopped" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You are not able to view app keys while your function app is stopped]]></Val>
+          <Val><![CDATA[You may not be able to view app keys while your function app is stopped]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Dokud je aplikace funkcí pozastavená, není možné si zobrazit klíče aplikací.]]></Val>
+            <Val><![CDATA[Dokud je aplikace funkcí pozastavená, nemusí být možné si zobrazovat klíče aplikací.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You are not able to view app keys while your Function App is stopped]]></Val>
+            <Val><![CDATA[You are not able to view app keys while your function app is stopped]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
