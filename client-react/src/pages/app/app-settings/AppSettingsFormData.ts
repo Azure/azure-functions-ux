@@ -209,10 +209,11 @@ export function getStickySettings(
     : [];
   appSettingNames = appSettingNames.concat(oldAppSettingNamesToKeep);
 
+  const oldAzureStorageMountNames = oldSlotConfigNames.properties.azureStorageConfigNames || [];
   const azureStorageConfigNames = Url.getFeatureValue(CommonConstants.FeatureFlags.enableBYOSSlotSetting)
     ? azureStorageMounts.filter(x => x.sticky).map(x => x.name)
-    : oldSlotConfigNames.properties.azureStorageConfigNames || [];
-  const oldAzureStorageMountNamesToKeep = (oldSlotConfigNames.properties.azureStorageConfigNames || []).filter(x => {
+    : oldAzureStorageMountNames;
+  const oldAzureStorageMountNamesToKeep = oldAzureStorageMountNames.filter(x => {
     return !azureStorageMounts.find(y => y.name === x);
   });
   azureStorageConfigNames.push(...oldAzureStorageMountNamesToKeep);
@@ -257,11 +258,11 @@ export function getFormAzureStorageMount(
   if (!storageData) {
     return [];
   }
-  const appSettingNames = slotConfigNames?.properties.azureStorageConfigNames;
+  const appSettingNames = slotConfigNames?.properties.azureStorageConfigNames || [];
   return sortBy(
     Object.keys(storageData.properties).map(key => ({
       name: key,
-      sticky: (appSettingNames || []).indexOf(key) > -1,
+      sticky: appSettingNames.indexOf(key) > -1,
       ...storageData.properties[key],
     })),
     o => o.name.toLowerCase()
