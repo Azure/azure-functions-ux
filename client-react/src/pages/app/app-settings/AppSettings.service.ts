@@ -54,7 +54,6 @@ export const updateWebConfig = (resourceId: string, siteConfig: ArmObj<SiteConfi
 };
 
 export const updateSlotConfigNames = (resourceId: string, slotConfigNames: ArmObj<SlotConfigNames>) => {
-  console.log(slotConfigNames);
   return SiteService.updateSlotConfigNames(resourceId, slotConfigNames);
 };
 

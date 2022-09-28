@@ -205,7 +205,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         name: t('type'),
         fieldName: 'type',
         minWidth: 100,
-        maxWidth: 300,
+        maxWidth: 100,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
