@@ -48,6 +48,7 @@ export const Links = {
   configureNodeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2195169',
   staticSiteAllowConfigFileUpdatesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2198769',
   staticSiteStagingEnvironmentsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2188987',
+  aspInfoPlanInfo: 'https://docs.microsoft.com/en-us/azure/app-service/app-service-plan-manage#move-an-app-to-another-app-service-plan',
 };
 
 export const DeploymentCenterLinks = {

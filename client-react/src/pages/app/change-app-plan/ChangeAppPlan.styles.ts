@@ -41,6 +41,11 @@ export const checkBoxStyle = style({
   paddingTop: '10px',
 });
 
+export const infoBoxStyle = style({
+  marginBottom: '5px',
+  width: 'fit-content',
+});
+
 export const textboxStyle = style({
   maxWidth: '275px',
   paddingRight: '0px',
