@@ -20,6 +20,7 @@ import { KeyValue } from '../../../models/portal-models';
 import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
+import Url from '../../../utils/url';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -83,7 +84,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site), isWindowsCode(site), appPermissions),
-    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
+    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts, slotConfigNames),
   };
 };
 
@@ -146,7 +147,7 @@ export const convertFormToState = (
   oldSlotConfigNames: ArmObj<SlotConfigNames>
 ): ApiSetupReturn => {
   const site = { ...values.site };
-  const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, oldSlotConfigNames);
+  const slotConfigNames = getStickySettings(values.appSettings, values.connectionStrings, values.azureStorageMounts, oldSlotConfigNames);
   const slotConfigNamesModified = isSlotConfigNamesModified(oldSlotConfigNames, slotConfigNames);
 
   let config = { ...values.config.properties };
@@ -199,6 +200,7 @@ export const isStorageMountsModified = (initialValues: AppSettingsFormValues | n
 export function getStickySettings(
   appSettings: FormAppSetting[],
   connectionStrings: FormConnectionString[],
+  azureStorageMounts: FormAzureStorageMounts[],
   oldSlotConfigNames: ArmObj<SlotConfigNames>
 ): ArmObj<SlotConfigNames> {
   let appSettingNames = appSettings.filter(x => x.sticky).map(x => x.name);
@@ -206,6 +208,15 @@ export function getStickySettings(
     ? oldSlotConfigNames.properties.appSettingNames.filter(x => appSettings.filter(y => y.name === x).length === 0)
     : [];
   appSettingNames = appSettingNames.concat(oldAppSettingNamesToKeep);
+
+  const oldAzureStorageMountNames = oldSlotConfigNames.properties.azureStorageConfigNames || [];
+  const azureStorageConfigNames = Url.getFeatureValue(CommonConstants.FeatureFlags.enableBYOSSlotSetting)
+    ? azureStorageMounts.filter(x => x.sticky).map(x => x.name)
+    : oldAzureStorageMountNames;
+  const oldAzureStorageMountNamesToKeep = oldAzureStorageMountNames.filter(x => {
+    return !azureStorageMounts.find(y => y.name === x);
+  });
+  azureStorageConfigNames.push(...oldAzureStorageMountNamesToKeep);
 
   let connectionStringNames = connectionStrings.filter(x => x.sticky).map(x => x.name);
   const oldConnectionStringNamesToKeep = oldSlotConfigNames.properties.connectionStringNames
@@ -220,7 +231,7 @@ export function getStickySettings(
     properties: {
       appSettingNames,
       connectionStringNames,
-      azureStorageConfigNames: oldSlotConfigNames.properties.azureStorageConfigNames,
+      azureStorageConfigNames,
     },
   };
 }
@@ -240,13 +251,18 @@ export function getFormAppSetting(settingsData: ArmObj<KeyValue<string>> | null,
   );
 }
 
-export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMount> | null) {
+export function getFormAzureStorageMount(
+  storageData: ArmObj<ArmAzureStorageMount> | null,
+  slotConfigNames?: ArmObj<SlotConfigNames> | null
+) {
   if (!storageData) {
     return [];
   }
+  const appSettingNames = slotConfigNames?.properties.azureStorageConfigNames || [];
   return sortBy(
     Object.keys(storageData.properties).map(key => ({
       name: key,
+      sticky: appSettingNames.indexOf(key) > -1,
       ...storageData.properties[key],
     })),
     o => o.name.toLowerCase()
@@ -256,7 +272,7 @@ export function getFormAzureStorageMount(storageData: ArmObj<ArmAzureStorageMoun
 export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
   const storageMountFromForm: ArmAzureStorageMount = {};
   storageData.forEach(store => {
-    const { name, ...rest } = store;
+    const { name, sticky, ...rest } = store;
     storageMountFromForm[name] = rest;
   });
   return storageMountFromForm;

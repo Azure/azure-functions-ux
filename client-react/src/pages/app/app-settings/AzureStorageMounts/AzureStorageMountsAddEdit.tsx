@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { FormAzureStorageMounts } from '../AppSettings.types';
-import { IChoiceGroupOption } from '@fluentui/react';
+import { Checkbox, IChoiceGroupOption } from '@fluentui/react';
 import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
 import { Formik, FormikProps, Field, Form } from 'formik';
@@ -16,6 +16,8 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
 import { StorageType } from '../../../../models/site/config';
+import { formElementStyle } from '../AppSettings.styles';
+import Url from '../../../../utils/url';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -250,6 +252,21 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               validate={validateMountPath}
               styles={textFieldPrefixStylesOverride(!isLinuxOrContainer())}
             />
+            {Url.getFeatureValue(CommonConstants.FeatureFlags.enableBYOSSlotSetting) ? (
+              <Field
+                name={'sticky'}
+                label={t('sticky')}
+                component={Checkbox}
+                id={'azure-storage-mounts-sticky'}
+                checked={!!formProps.values.sticky}
+                onChange={(_?: React.FormEvent<HTMLElement | HTMLInputElement>, checked = false) => {
+                  formProps.setFieldValue('sticky', checked);
+                }}
+                styles={{
+                  root: formElementStyle,
+                }}
+              />
+            ) : null}
             <ActionBar
               id="handler-mappings-edit-footer"
               primaryButton={actionBarPrimaryButtonProps}
