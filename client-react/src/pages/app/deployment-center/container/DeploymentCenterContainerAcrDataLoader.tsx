@@ -165,10 +165,14 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setLoadingRegistryOptions(false);
   };
 
-  const fetchRepositories = async (loginServer: string) => {
+  const fetchRepositories = async (loginServer: string, clearValues?: boolean) => {
     setLoadingImageOptions(true);
-    setAcrImageOptions([]);
-    setAcrTagOptions([]);
+    if (clearValues) {
+      formProps.values.acrImage = '';
+      formProps.values.acrTag = '';
+      setAcrImageOptions([]);
+      setAcrTagOptions([]);
+    }
     clearStatusBanner();
     const serverUrl = loginServer?.toLocaleLowerCase() ?? '';
 
@@ -251,7 +255,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             setAcrImageOptions(repositoryOptions);
 
             if (formProps.values.acrImage && !acrUseManagedIdentities) {
-              fetchTags(formProps.values.acrImage);
+              fetchTags(formProps.values.acrImage, clearValues);
             }
           }
         }
@@ -266,9 +270,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setLoadingImageOptions(false);
   };
 
-  const fetchTags = async (imageSelected: string) => {
+  const fetchTags = async (imageSelected: string, clearValues?: boolean) => {
     setLoadingTagOptions(true);
-    setAcrTagOptions([]);
+    if (clearValues) {
+      formProps.values.acrTag = '';
+      setAcrTagOptions([]);
+    }
     clearStatusBanner();
     const loginServer = formProps.values.acrLoginServer?.toLocaleLowerCase() ?? '';
     const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
@@ -476,7 +483,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   useEffect(() => {
     if (registryIdentifiers.current[formProps.values.acrLoginServer]) {
       if (!acrUseManagedIdentities) {
-        fetchRepositories(formProps.values.acrLoginServer);
+        fetchRepositories(formProps.values.acrLoginServer, true);
       } else {
         setAcrResourceId(formProps.values.acrLoginServer);
       }
@@ -484,8 +491,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   }, [formProps.values.acrLoginServer, acrUseManagedIdentities]);
 
   useEffect(() => {
-    if (formProps.values.acrImage && !acrUseManagedIdentities) {
-      fetchTags(formProps.values.acrImage);
+    if (registryIdentifiers.current[formProps.values.acrLoginServer] && formProps.values.acrImage && !acrUseManagedIdentities) {
+      fetchTags(formProps.values.acrImage, true);
     }
   }, [formProps.values.acrImage]);
 
