@@ -54,13 +54,26 @@ export default class ServerFarmService {
     }
   };
 
-  public static updateServerFarm = (resourceId: string, serverFarm: ArmObj<ServerFarm>) => {
+  public static updateServerFarm = (
+    resourceId: string,
+    serverFarm: ArmObj<ServerFarm>,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20181101
+  ) => {
     return MakeArmCall<ArmObj<ServerFarm>>({
       resourceId,
       commandName: 'UpdateServerFarm',
-      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+      apiVersion: apiVersion,
       method: 'PUT',
       body: serverFarm,
+    });
+  };
+
+  public static deleteServerFarm = (resourceId: string, apiVersion = CommonConstants.ApiVersions.antaresApiVersion20181101) => {
+    return MakeArmCall<ArmObj<ServerFarm>>({
+      resourceId,
+      commandName: 'DeleteAppServicePlan',
+      apiVersion: apiVersion,
+      method: 'DELETE',
     });
   };
 
