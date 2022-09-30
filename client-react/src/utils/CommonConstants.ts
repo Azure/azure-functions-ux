@@ -70,6 +70,7 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
+    enableBYOSSlotSetting: 'enableBYOSSlotSetting',
   };
 
   public static readonly AppDensityLimit = 8;

@@ -2,7 +2,7 @@ import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
-  const python36EOL = getDateString(new Date(2021, 11, 23), useIsoDateFormat);
+  const python36EOL = getDateString(new Date(2022, 8, 30), useIsoDateFormat);
   const python37EOL = getDateString(new Date(2023, 5, 30), useIsoDateFormat);
   const python38EOL = getDateString(new Date(2024, 9, 31), useIsoDateFormat);
   const python39EOL = getDateString(new Date(2025, 9, 31), useIsoDateFormat);

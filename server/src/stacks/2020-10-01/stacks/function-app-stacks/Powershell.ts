@@ -2,7 +2,7 @@ import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
-  const powershell6point2EOL = getDateString(new Date(2020, 8, 4), useIsoDateFormat);
+  const powershell6point2EOL = getDateString(new Date(2022, 8, 30), useIsoDateFormat);
 
   return {
     displayText: 'PowerShell Core',
