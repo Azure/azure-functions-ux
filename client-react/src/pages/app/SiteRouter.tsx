@@ -136,39 +136,41 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
           {value => {
             if (value.token) {
               const resourceId = value.resourceId;
-              fetchDataAndSetState(resourceId);
-              return site ? (
-                <SiteStateContext.Provider
-                  value={{
-                    site,
-                    siteAppEditState,
-                    stopped,
-                    resourceId,
-                    isLinuxApp: isLinuxApplication,
-                    isContainerApp: isContainerApplication,
-                    isFunctionApp: isFunctionApplication,
-                    isKubeApp: isKubeApplication,
-                  }}>
-                  <Router>
-                    {/* NOTE(michinoy): The paths should be always all lowercase. */}
-                    <AppSettingsLoadable resourceId={resourceId} tab={value.featureInfo?.data?.tab} path="/settings" />
-                    <LogStreamLoadable resourceId={resourceId} path="/log-stream" />
-                    <ChangeAppPlanLoadable resourceId={resourceId} path="/changeappplan" />
-                    <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
-                    <FunctionBindingLoadable resourceId={resourceId} path="/bindingeditor" />
-                    <FunctionNewCreatePreviewLoadable resourceId={resourceId} path="/newcreatepreview" />
-                    <FunctionAppKeysLoadable resourceId={resourceId} path="/appkeys" />
-                    <FunctionKeysLoadable resourceId={resourceId} path="/functionkeys" />
-                    <FunctionEditorLoadable resourceId={resourceId} path="/functioneditor" />
-                    <FunctionQuickstart resourceId={resourceId} path="/functionquickstart" />
-                    <AppFilesLoadable resourceId={resourceId} path="/appfiles" />
-                    <FunctionMonitor resourceId={resourceId} path="/monitor" />
-                    <DeploymentCenter resourceId={resourceId} tab={value.featureInfo?.data?.tab} path="/deploymentcenter" />
-                  </Router>
-                </SiteStateContext.Provider>
-              ) : (
-                <LoadingComponent />
-              );
+              if (site) {
+                return (
+                  <SiteStateContext.Provider
+                    value={{
+                      site,
+                      siteAppEditState,
+                      stopped,
+                      resourceId,
+                      isLinuxApp: isLinuxApplication,
+                      isContainerApp: isContainerApplication,
+                      isFunctionApp: isFunctionApplication,
+                      isKubeApp: isKubeApplication,
+                    }}>
+                    <Router>
+                      {/* NOTE(michinoy): The paths should be always all lowercase. */}
+                      <AppSettingsLoadable resourceId={resourceId} tab={value.featureInfo?.data?.tab} path="/settings" />
+                      <LogStreamLoadable resourceId={resourceId} path="/log-stream" />
+                      <ChangeAppPlanLoadable resourceId={resourceId} path="/changeappplan" />
+                      <FunctionIntegrateLoadable resourceId={resourceId} path="/integrate" />
+                      <FunctionBindingLoadable resourceId={resourceId} path="/bindingeditor" />
+                      <FunctionNewCreatePreviewLoadable resourceId={resourceId} path="/newcreatepreview" />
+                      <FunctionAppKeysLoadable resourceId={resourceId} path="/appkeys" />
+                      <FunctionKeysLoadable resourceId={resourceId} path="/functionkeys" />
+                      <FunctionEditorLoadable resourceId={resourceId} path="/functioneditor" />
+                      <FunctionQuickstart resourceId={resourceId} path="/functionquickstart" />
+                      <AppFilesLoadable resourceId={resourceId} path="/appfiles" />
+                      <FunctionMonitor resourceId={resourceId} path="/monitor" />
+                      <DeploymentCenter resourceId={resourceId} tab={value.featureInfo?.data?.tab} path="/deploymentcenter" />
+                    </Router>
+                  </SiteStateContext.Provider>
+                );
+              } else {
+                fetchDataAndSetState(resourceId);
+                return <LoadingComponent />;
+              }
             } else {
               return null;
             }

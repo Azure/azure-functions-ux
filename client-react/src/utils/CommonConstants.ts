@@ -62,7 +62,6 @@ export class CommonConstants {
     showHiddenStacks: 'showHiddenStacks',
     targetAzDevDeployment: 'targetAzDevDeployment',
     authTokenOverride: 'authTokenOverride',
-    enableAzureMount: 'enableAzureMount',
     showServiceLinkerConnector: 'showServiceLinkerConnector',
     enableGitHubOnNationalCloud: 'enableGitHubOnNationalCloud',
     treatAsKubeApp: 'treatAsKubeApp', // websitesextension_ext=appsvc.treatAsKubeApp%3Dtrue
@@ -71,6 +70,7 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
+    enableBYOSSlotSetting: 'enableBYOSSlotSetting',
   };
 
   public static readonly AppDensityLimit = 8;

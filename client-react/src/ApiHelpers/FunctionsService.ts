@@ -62,18 +62,14 @@ export default class FunctionsService {
     const headers = settings.headers || {};
     const data = settings.data;
 
-    return sendHttpRequest({ url, method, headers, data }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, data);
-    });
+    return this.tryPassThroughController(url, method, headers, data);
   }
 
   public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
-    });
+    return this.tryPassThroughController(url, method, headers, body);
   }
 
-  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
+  private static tryPassThroughController(url: string, method: Method, headers: KeyValue<string>, body: any) {
     const passthroughBody = {
       url,
       headers,

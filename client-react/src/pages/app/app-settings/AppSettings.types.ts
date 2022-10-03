@@ -26,6 +26,7 @@ export interface FormConnectionString {
 
 export interface FormAzureStorageMounts extends AzureStorageMount {
   name: string;
+  sticky?: boolean;
 }
 export interface AppSettingsFormValues {
   site: ArmObj<Site>;
