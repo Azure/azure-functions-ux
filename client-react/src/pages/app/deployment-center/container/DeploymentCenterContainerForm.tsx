@@ -795,6 +795,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
                 title: t('ok'),
                 onClick: () => {
                   formProps.resetForm();
+                  deploymentCenterContext.refresh();
                   hideDiscardConfirmDialog();
                 },
               }}
