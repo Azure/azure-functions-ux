@@ -1762,6 +1762,7 @@ export class PortalResources {
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
   public static azureKeyVault = 'azureKeyVault';
   public static azureAppConfigValue = 'azureAppConfigValue';
+  public static azureAppConfigRefValue = 'azureAppConfigRefValue';
   public static appSettingKeyvaultAPIError = 'appSettingKeyvaultAPIError';
   public static containerSettingsNotConfigured = 'containerSettingsNotConfigured';
   public static containerSettingsTitle = 'containerSettingsTitle';
