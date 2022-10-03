@@ -39,7 +39,6 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 }) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
-
   const [showDeletePlanOption, setShowDeletePlanOption] = useState(false);
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
