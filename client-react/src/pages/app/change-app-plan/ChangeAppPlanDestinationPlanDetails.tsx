@@ -11,6 +11,8 @@ import { PortalContext } from '../../../PortalContext';
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { bannerStyle, checkBoxStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
+import { Links } from '../../../utils/FwLinks';
+
 import {
   ChangeAppPlanDefaultSkuCodes,
   ChangeAppPlanTierTypes,
@@ -37,7 +39,6 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 }) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
-
   const [showDeletePlanOption, setShowDeletePlanOption] = useState(false);
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -248,6 +249,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       <Stack className={headerStyle}>
         <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
       </Stack>
+
+      <CustomBanner
+        className={bannerStyle}
+        type={MessageBarType.info}
+        learnMoreLink={Links.aspInfoPlanInfo}
+        message={t('changeAppPlanInfoBox')}
+      />
 
       {isPremiumToConsumptionSelected && (
         <CustomBanner className={bannerStyle} type={MessageBarType.warning} message={t('premiumToConsumptionWarning')} />
