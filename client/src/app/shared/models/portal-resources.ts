@@ -90,6 +90,7 @@ export class PortalResources {
   public static region = 'region';
   public static deletePreviousPlanMessage = 'deletePreviousPlanMessage';
   public static deletePreviousPlanCheckBoxText = 'deletePreviousPlanCheckBoxText';
+  public static changeAppPlanInfoBox = 'changeAppPlanInfoBox';
   public static run = 'run';
   public static refresh = 'refresh';
   public static save = 'save';
