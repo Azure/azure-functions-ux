@@ -52,7 +52,8 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
   };
 
   const validatePhysicalPath = () => {
-    return !currentVirtualApplication.physicalPath.startsWith('site\\') ? t('physicalPathLocationError') : '';
+    const physicalPath = currentVirtualApplication.physicalPath;
+    return physicalPath.startsWith('site\\') || physicalPath.startsWith('mount\\') ? '' : t('physicalPathLocationError');
   };
 
   // validation
