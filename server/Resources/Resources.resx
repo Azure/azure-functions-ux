@@ -376,6 +376,9 @@
     <data name="deletePreviousPlanCheckBoxText" xml:space="preserve">
         <value>Delete '{0}':</value>
     </data>
+    <data name="changeAppPlanInfoBox" xml:space="preserve">
+        <value>Some plans may not show up due to resource group or geographical restrictions.</value>
+    </data>
     <data name="run" xml:space="preserve">
         <value>Run</value>
     </data>
