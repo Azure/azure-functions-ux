@@ -11,6 +11,7 @@ import {
   getKeyVaultReferenceStatusIconProps,
   getKeyVaultReferenceStatusIconColor,
 } from './AppSettingsFormData';
+import { ConfigReferenceStart } from '../../../utils/CommonConstants';
 
 export interface SettingSourceColumnProps {
   name: string;
@@ -26,13 +27,12 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
   const updatedName = name.toLowerCase();
   const updatedValue = value?.toLowerCase();
   const filteredReference = references.filter(ref => ref.name.toLowerCase() === updatedName);
-  if (updatedValue?.startsWith('@microsoft.appconfiguration')) {
+  if (updatedValue?.startsWith(ConfigReferenceStart)) {
     return (
       <div className={defaultCellStyle} aria-label={t('azureAppConfigValue')}>
         {t('azureAppConfigRefValue')}
       </div>
     );
-    // NOTE (krmitta): This value is shown only with the flag, and is currently for the private preview
   } else if (filteredReference.length > 0) {
     return (
       <div
@@ -46,6 +46,7 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
         <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
       </div>
     );
+    // NOTE (krmitta): This value is shown only with the flag, and is currently for the private preview
   } else if (isServiceLinkerVisible() && isSettingServiceLinker(updatedName)) {
     return (
       <div className={defaultCellStyle} aria-label={t('resourceConnector')}>
