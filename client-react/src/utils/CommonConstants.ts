@@ -358,3 +358,5 @@ export const ScmHosts = ['.scm.azurewebsites.net', '.scm.azurewebsites.us', '.sc
 export const KeyBoard = {
   shiftTab: '\x1B[Z',
 };
+
+export const azureAppConfigRefStart = '@microsoft.appconfiguration';
