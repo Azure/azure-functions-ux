@@ -47,6 +47,7 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
       </div>
     );
     // NOTE (krmitta): This value is shown only with the flag, and is currently for the private preview
+    // NOTE (krmitta): This value is shown only with the flag, and is currently for the private preview
   } else if (isServiceLinkerVisible() && isSettingServiceLinker(updatedName)) {
     return (
       <div className={defaultCellStyle} aria-label={t('resourceConnector')}>
