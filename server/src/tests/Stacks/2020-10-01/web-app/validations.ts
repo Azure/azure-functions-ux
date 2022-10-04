@@ -56,7 +56,7 @@ export function validateNotHiddenStacks(stacks) {
 
 function validateNotHiddenStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksAreNotHidden(stacks) {
