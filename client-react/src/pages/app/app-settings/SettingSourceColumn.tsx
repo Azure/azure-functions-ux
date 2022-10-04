@@ -12,7 +12,6 @@ import {
   getKeyVaultReferenceStatusIconColor,
 } from './AppSettingsFormData';
 import { ConfigReferenceStart } from '../../../utils/CommonConstants';
-
 export interface SettingSourceColumnProps {
   name: string;
   value?: string;
@@ -56,7 +55,7 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
   } else {
     return (
       <div className={defaultCellStyle} aria-label={t('azureAppConfigValue')}>
-        {t('azureAppConfigValue')}
+        {t('azureAppServiceValue')}
       </div>
     );
   }
