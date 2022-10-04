@@ -11,21 +11,30 @@ import {
   getKeyVaultReferenceStatusIconProps,
   getKeyVaultReferenceStatusIconColor,
 } from './AppSettingsFormData';
+import { azureAppConfigRefStart } from '../../../utils/CommonConstants';
 
 export interface SettingSourceColumnProps {
   name: string;
+  value?: string;
   references: KeyVaultReferenceSummary[];
 }
 
 const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
-  const { name, references } = props;
+  const { name, value, references } = props;
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
   const updatedName = name.toLowerCase();
+  const updatedValue = value?.toLowerCase();
   const filteredReference = references.filter(ref => ref.name.toLowerCase() === updatedName);
 
-  if (filteredReference.length > 0) {
+  if (updatedValue?.startsWith(azureAppConfigRefStart)) {
+    return (
+      <div className={defaultCellStyle} aria-label={t('azureAppConfigValue')}>
+        {t('azureAppConfigRefValue')}
+      </div>
+    );
+  } else if (filteredReference.length > 0) {
     return (
       <div
         className={defaultCellStyle}
@@ -47,8 +56,8 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
     );
   } else {
     return (
-      <div className={defaultCellStyle} aria-label={t('azureAppConfigValue')}>
-        {t('azureAppConfigValue')}
+      <div className={defaultCellStyle} aria-label={t('azureAppServiceValue')}>
+        {t('azureAppServiceValue')}
       </div>
     );
   }
