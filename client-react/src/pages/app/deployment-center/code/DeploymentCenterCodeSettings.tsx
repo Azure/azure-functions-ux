@@ -24,7 +24,7 @@ import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCode
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { SiteStateContext } from '../../../../SiteState';
-import { Link, ProgressIndicator } from '@fluentui/react';
+import { Link, ProgressIndicator, MessageBarType } from '@fluentui/react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
 import DeploymentCenterExternalConfiguredView from '../external-provider/DeploymentCenterExternalConfiguredView';
@@ -42,7 +42,7 @@ import { AppOs } from '../../../../models/site/site';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
   const { t } = useTranslation();
@@ -254,6 +254,15 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {` ${t('learnMore')}`}
             </Link>
           </p>
+          {(isOneDriveSetup || isDropboxSetup) && (
+            <CustomBanner
+              id="deployment-center-oneDrive-warning"
+              message={t('deploymentCenterOneDriveDropboxWarning')}
+              type={MessageBarType.info}
+              learnMoreLink={DeploymentCenterLinks.onedriveDropoxRetirement}
+              learnMoreLinkAriaLabel={t('deploymentCenterOnedriveDropboxLinkAriaLabel')}
+            />
+          )}
           {!isGitHubActionsSetup && !isVstsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
           {isGitHubSourceSetup && <DeploymentCenterGitHubConfiguredView formProps={formProps} />}
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView formProps={formProps} />}

@@ -6756,6 +6756,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
         <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
+    <data name="deploymentCenterOneDriveDropboxWarning" xml:space="preserve">
+        <value>Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.</value>
+    </data>
     <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
         <value>GitHub Token not found, click authorize to set up GitHub token.</value>
     </data>
@@ -7094,6 +7097,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about why CI/CD is not recommended for production slots.</value>
+    </data>
+    <data name="deploymentCenterOnedriveDropboxLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about this integrations retirement.</value>
     </data>
     <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
         <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
