@@ -252,7 +252,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
     }
     if (column.key === 'source') {
       if (values.references && values.references.appSettings) {
-        return <SettingSourceColumn name={item.name} references={values.references.appSettings} />;
+        return <SettingSourceColumn name={item.name} value={item.value} references={values.references.appSettings} />;
       }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
