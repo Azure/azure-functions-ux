@@ -77,8 +77,6 @@ export class ScenarioIds {
   public static readonly githubSource = 'githubSource';
   public static readonly bitbucketSource = 'bitbucketSource';
   public static readonly localGitSource = 'localGitSource';
-  public static readonly onedriveSource = 'onedriveSource';
-  public static readonly dropboxSource = 'dropboxSource';
   public static readonly externalSource = 'externalSource';
   public static readonly ftpSource = 'ftpSource';
   public static readonly canScaleForSlots = 'canScaleForSlots';

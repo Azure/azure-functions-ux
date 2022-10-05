@@ -66,28 +66,6 @@ export class StepSourceControlComponent {
       deploymentType: 'continuous',
     },
     {
-      id: 'onedrive',
-      name: 'OneDrive',
-      icon: 'image/deployment-center/onedrive.svg',
-      color: '#0A4BB3',
-      description: this._translateService.instant(PortalResources.onedriveDesc),
-      authorizedStatus: 'none',
-      enabled: true,
-      scenarioId: ScenarioIds.onedriveSource,
-      deploymentType: 'manual',
-    },
-    {
-      id: 'dropbox',
-      name: 'Dropbox',
-      icon: 'image/deployment-center/Dropbox.svg',
-      color: '#007EE5',
-      description: this._translateService.instant(PortalResources.dropboxDesc),
-      authorizedStatus: 'none',
-      enabled: true,
-      scenarioId: ScenarioIds.dropboxSource,
-      deploymentType: 'manual',
-    },
-    {
       id: 'external',
       name: 'External',
       icon: 'image/deployment-center/ExternalGit.svg',
@@ -280,13 +258,9 @@ export class StepSourceControlComponent {
       .subscribe(
         response => {
           if (response.isSuccessful) {
-            const oneDriveSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'onedrive');
-            const dropBoxSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'dropbox');
             const bitBucketSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'bitbucket');
             const gitHubSourceControl = response.result.value.find(item => item.name.toLocaleLowerCase() == 'github');
 
-            this._wizardService.oneDriveToken$.next(oneDriveSourceControl && oneDriveSourceControl.properties.token);
-            this._wizardService.dropBoxToken$.next(dropBoxSourceControl && dropBoxSourceControl.properties.token);
             this._wizardService.bitBucketToken$.next(bitBucketSourceControl && bitBucketSourceControl.properties.token);
             this._wizardService.gitHubToken$.next(gitHubSourceControl && gitHubSourceControl.properties.token);
           } else {
@@ -356,15 +330,11 @@ export class StepSourceControlComponent {
   private _shouldFetchSourceControlTokens(): boolean {
     // NOTE(michinoy): Only attempt to fetch the source control token if at least one source control provider
     // is supported.
-    const oneDriveSourceScenario = this._scenarioService.checkScenario(ScenarioIds.onedriveSource);
-    const dropboxSourceScenario = this._scenarioService.checkScenario(ScenarioIds.dropboxSource);
     const gitHubSourceScenario = this._scenarioService.checkScenario(ScenarioIds.githubSource);
     const bitBucketSourceScenario = this._scenarioService.checkScenario(ScenarioIds.bitbucketSource);
     const vstsSourceScenario = this._scenarioService.checkScenario(ScenarioIds.vstsSource);
 
     return (
-      oneDriveSourceScenario.status !== 'disabled' ||
-      dropboxSourceScenario.status !== 'disabled' ||
       gitHubSourceScenario.status !== 'disabled' ||
       bitBucketSourceScenario.status !== 'disabled' ||
       vstsSourceScenario.status !== 'disabled'

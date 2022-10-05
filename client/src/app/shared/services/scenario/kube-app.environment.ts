@@ -9,16 +9,6 @@ export class KubeAppEnvironment extends Environment {
   constructor() {
     super();
 
-    this.scenarioChecks[ScenarioIds.onedriveSource] = {
-      id: ScenarioIds.onedriveSource,
-      runCheck: () => ({ status: 'disabled' }),
-    };
-
-    this.scenarioChecks[ScenarioIds.dropboxSource] = {
-      id: ScenarioIds.dropboxSource,
-      runCheck: () => ({ status: 'disabled' }),
-    };
-
     this.scenarioChecks[ScenarioIds.externalSource] = {
       id: ScenarioIds.externalSource,
       runCheck: () => ({ status: 'disabled' }),
