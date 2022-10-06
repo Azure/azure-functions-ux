@@ -309,6 +309,10 @@ export default class DeploymentCenterData {
     return SiteService.updateApplicationSettings(resourceId, appSettings);
   };
 
+  public patchSite = (resourceId: string, body: any) => {
+    return SiteService.patchSite(resourceId, body);
+  };
+
   public getAccounts = () => {
     return this._azureDevOpsService.getAccounts();
   };
