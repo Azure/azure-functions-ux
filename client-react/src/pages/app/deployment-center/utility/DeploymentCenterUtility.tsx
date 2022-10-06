@@ -356,7 +356,8 @@ const isAcrSettingsDirty = (formProps: FormikProps<DeploymentCenterFormData<Depl
     formProps.values.acrTag !== formProps.initialValues.acrTag ||
     formProps.values.acrComposeYml !== formProps.initialValues.acrComposeYml ||
     formProps.values.acrCredentialType !== formProps.initialValues.acrCredentialType ||
-    formProps.values.acrManagedIdentityClientId !== formProps.initialValues.acrManagedIdentityClientId
+    formProps.values.acrManagedIdentityClientId !== formProps.initialValues.acrManagedIdentityClientId ||
+    formProps.values.acrVnetImagePullSetting !== formProps.initialValues.acrVnetImagePullSetting
   );
 };
 

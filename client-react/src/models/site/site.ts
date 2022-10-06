@@ -123,6 +123,7 @@ export interface Site {
   possibleInboundIpAddresses?: string;
   virtualNetworkSubnetId?: string;
   identity: MsiIdentity;
+  vnetImagePullEnabled: boolean;
 }
 
 export interface HostNameSslState {

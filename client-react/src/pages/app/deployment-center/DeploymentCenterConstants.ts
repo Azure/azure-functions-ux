@@ -64,6 +64,7 @@ export class DeploymentCenterConstants {
   public static readonly appServiceStorageSetting = 'WEBSITES_ENABLE_APP_SERVICE_STORAGE';
   public static readonly enableCISetting = 'DOCKER_ENABLE_CI';
   public static readonly containerWinRmEnabled = 'CONTAINER_WINRM_ENABLED';
+  public static readonly vnetImagePullSetting = 'WEBSITE_PULL_IMAGE_OVER_VNET';
   public static readonly createAcrFwLink = 'https://go.microsoft.com/fwlink/?linkid=852293';
   public static readonly singleContainerQSLink = 'https://go.microsoft.com/fwlink/?linkid=873144';
   public static readonly dockerComposeQSLink = 'https://go.microsoft.com/fwlink/?linkid=873149';
