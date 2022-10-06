@@ -370,6 +370,15 @@
     <data name="region" xml:space="preserve">
         <value>Region</value>
     </data>
+    <data name="deletePreviousPlanMessage" xml:space="preserve">
+        <value>'{0}' will be unused if you change to '{1}'. Delete '{0}' to prevent unexpected charges.</value>
+    </data>
+    <data name="deletePreviousPlanCheckBoxText" xml:space="preserve">
+        <value>Delete '{0}':</value>
+    </data>
+    <data name="changeAppPlanInfoBox" xml:space="preserve">
+        <value>Some plans may not show up due to resource group or geographical restrictions.</value>
+    </data>
     <data name="run" xml:space="preserve">
         <value>Run</value>
     </data>
@@ -5004,7 +5013,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Advanced edit lets you bulk edit your app settings. Keys and values can be edited in plain text JSON format</value>
     </data>
     <data name="physicalPathLocationError" xml:space="preserve">
-        <value>Physical path must be a location within site\</value>
+        <value>Physical path must be a location within site\ or mounts\</value>
     </data>
     <data name="virtualDirectoryPathError" xml:space="preserve">
         <value>Virtual Directory path must exist within an application path</value>
@@ -5448,8 +5457,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="azureKeyVault" xml:space="preserve">
         <value>Key vault Reference</value>
     </data>
-    <data name="azureAppConfigValue" xml:space="preserve">
-        <value>App Service Config</value>
+    <data name="azureAppServiceValue" xml:space="preserve">
+        <value>App Service</value>
+    </data>
+    <data name="azureAppConfigRefValue" xml:space="preserve">
+        <value>App Configuration Reference</value>
     </data>
     <data name="appSettingKeyvaultAPIError" xml:space="preserve">
         <value>Error: Could not access key vault reference metadata</value>
@@ -5814,7 +5826,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="hostConfigurationLabel" xml:space="preserve">
         <value>Host configuration</value>
     </data>
-     <data name="destinationPlanPlaceholder" xml:space="preserve">
+    <data name="destinationPlanPlaceholder" xml:space="preserve">
         <value>Select destination plan</value>
     </data>
     <data name="configureHostJson" xml:space="preserve">
@@ -7386,7 +7398,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_generalSettingsUpdateWithSuccess" xml:space="preserve">
         <value>Successfully updated general settings.</value>
     </data>
-     <data name="staticSite_generalSettingsUpdateWithFailure" xml:space="preserve">
+    <data name="staticSite_generalSettingsUpdateWithFailure" xml:space="preserve">
         <value>Failed to update general settings with message: {0}</value>
     </data>
     <data name="staticSite_generalSettingsUpdateWithFailureNoMessage" xml:space="preserve">
@@ -7394,7 +7406,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_passwordProtectionSkuWarning" xml:space="preserve">
         <value>Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.</value>
-    </data> 
+    </data>
     <data name="functionSupportedRuntimeVersionNotConfiguredMessage" xml:space="preserve">
         <value>Your app is pinned to an unsupported runtime version for '{0}'. For better performance, we recommend using one of our supported versions instead: {1}.</value>
     </data>

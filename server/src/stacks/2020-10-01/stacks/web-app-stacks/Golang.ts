@@ -23,7 +23,7 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
                 gitHubActionSettings: {
                   isSupported: true,
                 },
-                isHidden: true,
+                isHidden: false,
                 isEarlyAccess: false,
               },
             },
@@ -41,7 +41,7 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
                 gitHubActionSettings: {
                   isSupported: false,
                 },
-                isHidden: true,
+                isHidden: false,
                 isEarlyAccess: false,
               },
             },

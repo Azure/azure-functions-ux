@@ -88,6 +88,9 @@ export class PortalResources {
   public static or = 'or';
   public static readOnlySourceControlled = 'readOnlySourceControlled';
   public static region = 'region';
+  public static deletePreviousPlanMessage = 'deletePreviousPlanMessage';
+  public static deletePreviousPlanCheckBoxText = 'deletePreviousPlanCheckBoxText';
+  public static changeAppPlanInfoBox = 'changeAppPlanInfoBox';
   public static run = 'run';
   public static refresh = 'refresh';
   public static save = 'save';
@@ -1759,7 +1762,8 @@ export class PortalResources {
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
   public static azureKeyVault = 'azureKeyVault';
-  public static azureAppConfigValue = 'azureAppConfigValue';
+  public static azureAppServiceValue = 'azureAppServiceValue';
+  public static azureAppConfigRefValue = 'azureAppConfigRefValue';
   public static appSettingKeyvaultAPIError = 'appSettingKeyvaultAPIError';
   public static containerSettingsNotConfigured = 'containerSettingsNotConfigured';
   public static containerSettingsTitle = 'containerSettingsTitle';

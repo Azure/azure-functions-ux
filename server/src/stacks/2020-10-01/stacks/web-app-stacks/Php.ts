@@ -47,7 +47,7 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'PHP|8.1',
-                isHidden: true,
+                isHidden: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,

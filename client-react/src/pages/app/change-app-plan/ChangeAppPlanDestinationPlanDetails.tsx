@@ -10,7 +10,9 @@ import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import { bannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
+import { bannerStyle, checkBoxStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
+import { Links } from '../../../utils/FwLinks';
+
 import {
   ChangeAppPlanDefaultSkuCodes,
   ChangeAppPlanTierTypes,
@@ -20,6 +22,7 @@ import {
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
+import { Checkbox } from '@fluentui/react';
 
 interface SpecPickerOutput {
   skuCode: string; // Like "S1"
@@ -36,7 +39,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 }) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
-
+  const [showDeletePlanOption, setShowDeletePlanOption] = useState(false);
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
 
@@ -196,6 +199,11 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   }, [currentServerFarm, forbiddenSkus, formProps.values.site]);
 
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
+    const appPlanSiteCount = formProps.values.currentServerFarm.properties.numberOfSites;
+    if (appPlanSiteCount <= 1) {
+      setShowDeletePlanOption(true);
+    }
+
     formProps.setFieldValue('serverFarmInfo', planInfo);
   };
 
@@ -242,6 +250,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         <h4 className={labelSectionStyle}>{t('changePlanDestPlanDetails')}</h4>
       </Stack>
 
+      <CustomBanner
+        className={bannerStyle}
+        type={MessageBarType.info}
+        learnMoreLink={Links.aspInfoPlanInfo}
+        message={t('changeAppPlanInfoBox')}
+      />
+
       {isPremiumToConsumptionSelected && (
         <CustomBanner className={bannerStyle} type={MessageBarType.warning} message={t('premiumToConsumptionWarning')} />
       )}
@@ -269,21 +284,49 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       )}
 
       <ReactiveFormControl id="destinationAppServicePlan" label={t('appServicePlan')} required={true}>
-        <CreateOrSelectPlan
-          subscriptionId={subscriptionId}
-          isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
-          newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
-          existingPlan={formProps.values.serverFarmInfo.existingPlan}
-          options={serverFarmOptions}
-          resourceGroupOptions={rgOptions}
-          onPlanChange={onPlanChange}
-          serverFarmsInWebspace={serverFarms}
-          hostingEnvironment={hostingEnvironment}
-          skuTier={skuTier}
-          isUpdating={isUpdating}
-          formProps={formProps}
-          isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
-        />
+        <>
+          <CreateOrSelectPlan
+            subscriptionId={subscriptionId}
+            isNewPlan={formProps.values.serverFarmInfo.isNewPlan}
+            newPlanInfo={formProps.values.serverFarmInfo.newPlanInfo}
+            existingPlan={formProps.values.serverFarmInfo.existingPlan}
+            options={serverFarmOptions}
+            resourceGroupOptions={rgOptions}
+            onPlanChange={onPlanChange}
+            serverFarmsInWebspace={serverFarms}
+            hostingEnvironment={hostingEnvironment}
+            skuTier={skuTier}
+            isUpdating={isUpdating}
+            formProps={formProps}
+            isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
+          />
+
+          {showDeletePlanOption && (
+            <>
+              <CustomBanner
+                undocked={true}
+                className={bannerStyle}
+                type={MessageBarType.info}
+                message={t('deletePreviousPlanMessage').format(
+                  currentServerFarm.name,
+                  formProps.values.serverFarmInfo.isNewPlan
+                    ? formProps.values.serverFarmInfo.newPlanInfo.name
+                    : formProps.values.serverFarmInfo.existingPlan?.name
+                )}
+              />
+
+              <Checkbox
+                className={checkBoxStyle}
+                boxSide="end"
+                label={t('deletePreviousPlanCheckBoxText').format(currentServerFarm.name)}
+                id="delete-previous-plan-checkbox"
+                onChange={(_, isChecked) => {
+                  formProps.setFieldValue('deletePreviousPlan', isChecked);
+                }}
+              />
+            </>
+          )}
+        </>
       </ReactiveFormControl>
 
       <ReactiveFormControl id="currentResourceGroup" label={t('resourceGroup')}>
