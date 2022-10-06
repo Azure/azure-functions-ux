@@ -786,6 +786,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               isDataRefreshing={props.isDataRefreshing}
               isDirty={isSettingsDirty(formProps, deploymentCenterContext) || isFtpsDirty(formProps, deploymentCenterPublishingContext)}
+              isValid={formProps.isValid}
               isVstsBuildProvider={formProps.values.scmType === ScmType.Vsts}
             />
           </div>
