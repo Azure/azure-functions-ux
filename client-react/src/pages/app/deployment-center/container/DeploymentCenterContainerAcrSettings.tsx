@@ -11,12 +11,7 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
-import {
-  addIdentityLinkStyle,
-  deploymentCenterAcrBannerDiv,
-  deploymentCenterInfoBannerDiv,
-  vnetImagePullLabelStyle,
-} from '../DeploymentCenter.styles';
+import { addIdentityLinkStyle, deploymentCenterAcrBannerDiv, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { SiteStateContext } from '../../../../SiteState';
@@ -288,7 +283,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
                 component={RadioButton}
                 options={acrVnetImagePullOptions}
                 defaultSelectedKey={getDefaultVnetImagePullOption()}
-                customLabelClassName={vnetImagePullLabelStyle}
               />
             </>
           )}
