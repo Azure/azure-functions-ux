@@ -40,32 +40,31 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
-  const isVnetConfigured = siteStateContext.site?.properties.virtualNetworkSubnetId;
-  const legacyVnetAppSetting = deploymentCenterContext.applicationSettings?.properties[DeploymentCenterConstants.vnetImagePullSetting];
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
   const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
   const [aCRSubscriptionOptions, setACRSubscriptionOptions] = useState<IDropdownOption[]>(acrSubscriptionOptions);
   const [aCRRegistryOptions, setACRRegistryOptions] = useState<IDropdownOption[]>(acrRegistryOptions);
   const [aCRImageOptions, setACRImageOptions] = useState<IDropdownOption[]>(acrImageOptions);
   const [aCRTagOptions, setACRTagOptions] = useState<IDropdownOption[]>(acrTagOptions);
-  const acrCredentialsOptions = useMemo(
-    () => [
-      { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
-      { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
-    ],
-    []
-  );
-  const acrVnetImagePullOptions = useMemo(
-    () => [
-      { key: SettingOption.on, text: t('on') },
-      { key: SettingOption.off, text: t('off') },
-    ],
-    []
+  const acrCredentialsOptions = [
+    { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
+    { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
+  ];
+  const acrVnetImagePullOptions = [
+    { key: SettingOption.on, text: t('on') },
+    { key: SettingOption.off, text: t('off') },
+  ];
+  const isVnetConfigured = useMemo(() => siteStateContext.site?.properties.virtualNetworkSubnetId, [
+    siteStateContext.site?.properties.virtualNetworkSubnetId,
+  ]);
+  const legacyVnetAppSetting = useMemo(
+    () => deploymentCenterContext.applicationSettings?.properties[DeploymentCenterConstants.vnetImagePullSetting],
+    [deploymentCenterContext.applicationSettings?.properties[DeploymentCenterConstants.vnetImagePullSetting]]
   );
 
   const getDefaultVnetImagePullOption = () => {
     if (isVnetConfigured) {
-      if (!!legacyVnetAppSetting) {
+      if (legacyVnetAppSetting) {
         return legacyVnetAppSetting === 'true' ? SettingOption.on : SettingOption.off;
       }
       return siteStateContext.site?.properties.vnetImagePullEnabled ? SettingOption.on : SettingOption.off;
@@ -271,7 +270,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
 
           {isVnetConfigured && (
             <>
-              {!!legacyVnetAppSetting && (
+              {legacyVnetAppSetting && (
                 <MessageBar messageBarType={MessageBarType.info} className={deploymentCenterInfoBannerDiv}>
                   {t('vnetImagePullLegacyAppSettingInfo')}
                 </MessageBar>
