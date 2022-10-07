@@ -21,6 +21,13 @@ export class WebJobsController {
     @Res() res: Response
   ) {
     const { fileName, fileContent } = data;
+    if (!this.isValidString(fileName)) {
+      throw new HttpException('File name is not valid', 400);
+    }
+
+    if (!this.isValidString(fileContent)) {
+      throw new HttpException('File content is not valid', 400);
+    }
 
     const byteString = atob(fileContent);
     const arrayBuffer = new ArrayBuffer(byteString.length);
@@ -46,7 +53,7 @@ export class WebJobsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    const headers: KeyValue<string> = {
+    const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'Cache-Control': 'no-cache',
       Authorization: authToken,
@@ -55,7 +62,7 @@ export class WebJobsController {
     return this.makeCall('PUT', headers, proxyUrl, data, res, ['application/json']);
   }
 
-  private async makeCall(method: Method, headers: KeyValue<string>, url: string, body, res: Response, allowedContentType: string[]) {
+  private async makeCall(method: Method, headers: Record<string, string>, url: string, body, res: Response, allowedContentType: string[]) {
     try {
       Object.keys(headers).forEach(key => {
         if (key.toLocaleLowerCase() === 'content-type') {
@@ -90,5 +97,9 @@ export class WebJobsController {
       }
       this.loggingService.error('', err, 'proxy-webJobs');
     }
+  }
+
+  private isValidString(input) {
+    return !!input && typeof input === 'string';
   }
 }
