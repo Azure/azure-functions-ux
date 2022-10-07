@@ -2506,4 +2506,6 @@ export class PortalResources {
   public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
   public static createFunctionDeploymentNotificationFailed = 'createFunctionDeploymentNotificationFailed';
   public static functionHostKeyDeleteConfirmMessage = 'functionHostKeyDeleteConfirmMessage';
+  public static vnetImagePullOptionLabel = 'vnetImagePullOptionLabel';
+  public static vnetImagePullLegacyAppSettingInfo = 'vnetImagePullLegacyAppSettingInfo';
 }

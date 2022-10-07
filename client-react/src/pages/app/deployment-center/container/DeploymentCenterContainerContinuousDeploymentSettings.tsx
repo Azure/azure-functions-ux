@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData, ContinuousDeploymentOption } from '../DeploymentCenter.types';
+import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData, SettingOption } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../../components/form-controls/RadioButton';
@@ -17,11 +17,11 @@ const DeploymentCenterContainerContinuousDeploymentSettings: React.FC<Deployment
 
   const continuousDeploymentOptions = [
     {
-      key: ContinuousDeploymentOption.on,
+      key: SettingOption.on,
       text: t('on'),
     },
     {
-      key: ContinuousDeploymentOption.off,
+      key: SettingOption.off,
       text: t('off'),
     },
   ];
