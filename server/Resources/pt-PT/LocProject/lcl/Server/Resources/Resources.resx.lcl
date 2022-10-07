@@ -1941,11 +1941,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";azureAppConfigValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";azureAppConfigRefValue" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service Config]]></Val>
+          <Val><![CDATA[App Configuration Reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Configuração do Serviço de Aplicações]]></Val>
+            <Val><![CDATA[Referência do App Configuration]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";azureAppServiceValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Serviço de Aplicações]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -2651,6 +2660,15 @@
           <Val><![CDATA[Certificate exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Caminhos de exclusão do certificado]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";changeAppPlanInfoBox" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some plans may not show up due to resource group or geographical restrictions.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alguns planos podem não aparecer devido a restrições geográficas ou de grupos de recursos.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4931,6 +4949,24 @@
           <Val><![CDATA[Succeeded in deleting {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[{0} eliminada com êxito]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deletePreviousPlanCheckBoxText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Delete '{0}':]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Eliminar "{0}":]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deletePreviousPlanMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA['{0}' will be unused if you change to '{1}'. Delete '{0}' to prevent unexpected charges.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA["{0}" ficará por usar se mudar para "{1}". Elimine "{0}" para evitar custos inesperados.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16046,10 +16082,13 @@
       </Item>
       <Item ItemId=";physicalPathLocationError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[O caminho físico tem de ser uma localização no site\]]></Val>
+            <Val><![CDATA[O caminho físico tem de ser uma localização dentro de site\ ou mounts\]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
