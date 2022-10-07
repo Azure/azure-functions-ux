@@ -256,7 +256,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       <h3 className={titleWithPaddingStyle}>{t('deploymentCenterSettingsBuildTitle')}</h3>
 
       {!defaultStack || !defaultVersion ? (
-        <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')}>
+        <ReactiveFormControl id="deployment-center-code-settings-runtime-stack" label={t('deploymentCenterSettingsRuntimeLabel')} required>
           <div>
             {t('deploymentCenterConfigureRuntimeMessage')}
             <Link id="deployment-center-code-settings-configure-runtime-link" onClick={openConfigurationBlade}>

@@ -71,6 +71,7 @@ export class CommonConstants {
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableBYOSSlotSetting: 'enableBYOSSlotSetting',
+    allowMountsAsVirtualDirectoryPrefix: 'allowMountsAsVirtualDirectoryPrefix',
   };
 
   public static readonly AppDensityLimit = 8;
