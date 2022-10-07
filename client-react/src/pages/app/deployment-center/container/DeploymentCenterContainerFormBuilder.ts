@@ -6,7 +6,7 @@ import {
   ContainerDockerAccessTypes,
   DeploymentCenterYupValidationSchemaType,
   DeploymentCenterContainerFormData,
-  ContinuousDeploymentOption,
+  SettingOption,
   AcrFormData,
   DockerHubFormData,
   PrivateRegistryFormData,
@@ -113,6 +113,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       acrCredentialType: Yup.mixed().notRequired(),
       acrManagedIdentityClientId: Yup.mixed().notRequired(),
       acrManagedIdentityPrincipalId: Yup.mixed().notRequired(),
+      acrVnetImagePullSetting: Yup.mixed().notRequired(),
     };
   }
 
@@ -502,9 +503,9 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
     });
   }
 
-  private _getContinuousDeploymentOption(): ContinuousDeploymentOption {
+  private _getContinuousDeploymentOption(): SettingOption {
     const value = this._applicationSettings && this._applicationSettings.properties[DeploymentCenterConstants.enableCISetting];
-    return value && value.toLocaleLowerCase() === 'true' ? ContinuousDeploymentOption.on : ContinuousDeploymentOption.off;
+    return value && value.toLocaleLowerCase() === 'true' ? SettingOption.on : SettingOption.off;
   }
 
   private _isAcrConfigured(serverUrl: string): boolean {

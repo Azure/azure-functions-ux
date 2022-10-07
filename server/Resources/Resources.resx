@@ -5013,6 +5013,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Advanced edit lets you bulk edit your app settings. Keys and values can be edited in plain text JSON format</value>
     </data>
     <data name="physicalPathLocationError" xml:space="preserve">
+        <value>Physical path must be a location within site\</value>
+    </data>
+    <data name="physicalPathLocationErrorWithMounts" xml:space="preserve">
         <value>Physical path must be a location within site\ or mounts\</value>
     </data>
     <data name="virtualDirectoryPathError" xml:space="preserve">
@@ -7658,5 +7661,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionHostKeyDeleteConfirmMessage" xml:space="preserve">
         <value>Are you sure you want to delete?</value>
+    </data>
+    <data name="vnetImagePullOptionLabel" xml:space="preserve">
+        <value>Pull image over VNet</value>
+    </data>
+    <data name="vnetImagePullLegacyAppSettingInfo" xml:space="preserve">
+        <value>Pulling images over a virtual network is currently controlled by the legacy app setting 'WEBSITE_PULL_IMAGE_OVER_VNET'. Legacy app setting will be replaced with site property 'vnetImagePullEnabled'.</value>
     </data>
 </root>

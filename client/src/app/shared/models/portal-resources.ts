@@ -1616,6 +1616,7 @@ export class PortalResources {
   public static aCoachmarkHasAppearedAriaAlert = 'aCoachmarkHasAppearedAriaAlert';
   public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
   public static physicalPathLocationError = 'physicalPathLocationError';
+  public static physicalPathLocationErrorWithMounts = 'physicalPathLocationErrorWithMounts';
   public static virtualDirectoryPathError = 'virtualDirectoryPathError';
   public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
   public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
@@ -2505,4 +2506,6 @@ export class PortalResources {
   public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
   public static createFunctionDeploymentNotificationFailed = 'createFunctionDeploymentNotificationFailed';
   public static functionHostKeyDeleteConfirmMessage = 'functionHostKeyDeleteConfirmMessage';
+  public static vnetImagePullOptionLabel = 'vnetImagePullOptionLabel';
+  public static vnetImagePullLegacyAppSettingInfo = 'vnetImagePullLegacyAppSettingInfo';
 }

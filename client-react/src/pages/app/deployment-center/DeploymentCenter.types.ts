@@ -38,7 +38,7 @@ export enum ContainerDockerAccessTypes {
   private = 'private',
 }
 
-export enum ContinuousDeploymentOption {
+export enum SettingOption {
   on = 'on',
   off = 'off',
 }
@@ -331,6 +331,7 @@ export interface AcrFormData {
   acrCredentialType: string;
   acrManagedIdentityClientId: string;
   acrManagedIdentityPrincipalId: string;
+  acrVnetImagePullSetting?: SettingOption;
 }
 
 export interface DockerHubFormData {
@@ -356,7 +357,7 @@ export interface DeploymentCenterContainerFormData extends AcrFormData, DockerHu
   command: string;
   gitHubContainerUsernameSecretGuid: string;
   gitHubContainerPasswordSecretGuid: string;
-  continuousDeploymentOption: ContinuousDeploymentOption;
+  continuousDeploymentOption: SettingOption;
 }
 
 export interface DeploymentCenterCodeFormData {

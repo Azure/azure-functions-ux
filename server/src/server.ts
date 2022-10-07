@@ -8,6 +8,8 @@ import * as cookieParser from 'cookie-parser';
 import * as helmet from 'helmet';
 import * as requestIp from 'request-ip';
 import { NestExpressApplication } from '@nestjs/platform-express';
+import * as bodyParser from 'body-parser';
+import express = require('express');
 
 function normalizePort(val) {
   const port = parseInt(val, 10);
@@ -67,6 +69,8 @@ async function bootstrap() {
       },
     })
   );
+  app.use(bodyParser.json({ limit: '1mb' }));
+  app.use(express.urlencoded({ extended: false, limit: '1mb' }));
   app.enable('trust proxy');
   const port = normalizePort(process.env.PORT || '3000');
   await app.listen(port);
