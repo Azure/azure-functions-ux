@@ -35,7 +35,7 @@ export class WebJobsController {
       'Cache-Control': 'no-cache',
       Authorization: authToken,
     };
-    console.log(headers);
+
     return this.makeCall('PUT', headers, proxyUrl, content, res, ['application/zip', 'application/octet-stream']);
   }
 
