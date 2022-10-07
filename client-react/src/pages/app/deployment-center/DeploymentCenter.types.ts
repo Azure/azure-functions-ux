@@ -433,6 +433,7 @@ export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & Dep
 export interface DeploymentCenterCommandBarProps {
   isDataRefreshing: boolean;
   isDirty: boolean;
+  isValid: boolean;
   isVstsBuildProvider: boolean;
   saveFunction: () => void;
   discardFunction: () => void;

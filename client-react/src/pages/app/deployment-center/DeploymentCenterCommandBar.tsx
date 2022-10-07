@@ -11,7 +11,16 @@ import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
-  const { saveFunction, discardFunction, showPublishProfilePanel, redeploy, isDataRefreshing, isDirty, isVstsBuildProvider } = props;
+  const {
+    saveFunction,
+    discardFunction,
+    showPublishProfilePanel,
+    redeploy,
+    isDataRefreshing,
+    isDirty,
+    isValid,
+    isVstsBuildProvider,
+  } = props;
   const { t } = useTranslation();
 
   const portalContext = useContext(PortalContext);
@@ -48,7 +57,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   };
 
   const isSaveDisabled = () => {
-    return isDisabledOnReload() || !isDirty || isVstsBuildProvider || hasNoWritePermission;
+    return isDisabledOnReload() || !(isDirty && isValid) || isVstsBuildProvider || hasNoWritePermission;
   };
 
   const isDiscardDisabled = () => {

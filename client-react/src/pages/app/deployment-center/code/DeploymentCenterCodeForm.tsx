@@ -669,13 +669,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       onSubmit={onSubmit}
       enableReinitialize={true}
       validateOnBlur={false}
-      validateOnChange={false}
       validationSchema={props.formValidationSchema}>
       {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterCodeFormData>>) => (
         <form onKeyDown={onKeyDown}>
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
               isDirty={formProps.dirty}
+              isValid={formProps.isValid}
               isDataRefreshing={props.isDataRefreshing}
               isVstsBuildProvider={formProps.values.buildProvider === BuildProvider.Vsts}
               saveFunction={formProps.submitForm}
