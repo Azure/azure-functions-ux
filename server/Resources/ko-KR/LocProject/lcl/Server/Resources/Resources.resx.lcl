@@ -1941,11 +1941,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";azureAppConfigValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";azureAppConfigRefValue" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service Config]]></Val>
+          <Val><![CDATA[App Configuration Reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[App Service 구성]]></Val>
+            <Val><![CDATA[App Configuration 참조]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";azureAppServiceValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -2651,6 +2660,15 @@
           <Val><![CDATA[Certificate exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[인증서 제외 경로]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";changeAppPlanInfoBox" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some plans may not show up due to resource group or geographical restrictions.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[리소스 그룹 또는 지리적 제한으로 인해 일부 계획이 표시되지 않을 수 있습니다.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4934,6 +4952,24 @@
           <Val><![CDATA[Succeeded in deleting {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[{0} 삭제 성공]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deletePreviousPlanCheckBoxText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Delete '{0}':]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[‘{0}’ 삭제:]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deletePreviousPlanMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA['{0}' will be unused if you change to '{1}'. Delete '{0}' to prevent unexpected charges.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA['{0}'을(를) '{1}'(으)로 변경하면 사용되지 않습니다. 예기치 않은 요금을 방지하려면 '{0}'을(를) 삭제합니다.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16040,10 +16076,13 @@
       </Item>
       <Item ItemId=";physicalPathLocationError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[실제 경로는 site\에 있어야 합니다.]]></Val>
+            <Val><![CDATA[실제 경로는 사이트\ 또는 탑재\ 내의 위치여야 합니다.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

@@ -1935,11 +1935,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";azureAppConfigValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";azureAppConfigRefValue" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service Config]]></Val>
+          <Val><![CDATA[App Configuration Reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Configuration App Service]]></Val>
+            <Val><![CDATA[Référence App Configuration]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";azureAppServiceValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -2645,6 +2654,15 @@
           <Val><![CDATA[Certificate exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Chemins d’accès d’exclusion de certificat]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";changeAppPlanInfoBox" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some plans may not show up due to resource group or geographical restrictions.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Certains plans peuvent ne pas s’afficher en raison de restrictions géographiques ou du groupe de ressources.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4928,6 +4946,24 @@
           <Val><![CDATA[Succeeded in deleting {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[{0} a été supprimé]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deletePreviousPlanCheckBoxText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Delete '{0}':]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Supprimer « {0} » :]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deletePreviousPlanMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA['{0}' will be unused if you change to '{1}'. Delete '{0}' to prevent unexpected charges.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[« {0} » sera inutilisé si vous passez à « {1} ». Supprimez « {0} » pour éviter des frais inattendus.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16049,10 +16085,13 @@
       </Item>
       <Item ItemId=";physicalPathLocationError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Le chemin d’accès physique doit être un emplacement situé au sein du site\]]></Val>
+            <Val><![CDATA[Le chemin d’accès physique doit être un emplacement situé au sein d’un site\ ou de montages\]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
