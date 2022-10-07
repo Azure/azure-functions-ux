@@ -4,7 +4,6 @@ import { LoggingService } from '../shared/logging/logging.service';
 import { Response } from 'express';
 import { Method } from 'axios';
 
-export type KeyValue<T> = Record<string, T>;
 export type WebJobData = {
   fileName: string;
   fileContent: string;
@@ -30,7 +29,7 @@ export class WebJobsController {
       content[i] = byteString.charCodeAt(i);
     }
 
-    const headers: KeyValue<string> = {
+    const headers: Record<string, string> = {
       'Content-Disposition': `attachement; filename="${fileName}"`,
       'Content-Type': fileName.endsWith('.zip') ? 'application/zip' : 'application/octet-stream',
       'Cache-Control': 'no-cache',
