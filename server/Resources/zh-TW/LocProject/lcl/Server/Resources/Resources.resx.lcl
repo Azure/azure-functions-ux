@@ -1941,11 +1941,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";azureAppConfigValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";azureAppConfigRefValue" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service Config]]></Val>
+          <Val><![CDATA[App Configuration Reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[App Service 設定]]></Val>
+            <Val><![CDATA[應用程式組態參考]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";azureAppServiceValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -2651,6 +2660,15 @@
           <Val><![CDATA[Certificate exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[憑證排除路徑]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";changeAppPlanInfoBox" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some plans may not show up due to resource group or geographical restrictions.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[由於資源群組或地理限制，某些方案可能無法顯示。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4934,6 +4952,24 @@
           <Val><![CDATA[Succeeded in deleting {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[已成功刪除 {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deletePreviousPlanCheckBoxText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Delete '{0}':]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[刪除 '{0}':]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deletePreviousPlanMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA['{0}' will be unused if you change to '{1}'. Delete '{0}' to prevent unexpected charges.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[如果您變更為 '{1}'，則將不會使用 '{0}'。刪除 '{0}' 以避免產生非預期的費用。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16061,10 +16097,13 @@
       </Item>
       <Item ItemId=";physicalPathLocationError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[實體路徑必須是網站中的位置\]]></Val>
+            <Val><![CDATA[實體路徑必須是 site\ 或 mounts\ 內的位置]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
