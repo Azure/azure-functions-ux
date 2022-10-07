@@ -22,13 +22,22 @@ export class WebJobsController {
     @Res() res: Response
   ) {
     const { fileName, fileContent } = data;
+
+    const byteString = atob(fileContent);
+    const arrayBuffer = new ArrayBuffer(byteString.length);
+    const content = new Uint8Array(arrayBuffer);
+    for (let i = 0; i < byteString.length; i++) {
+      content[i] = byteString.charCodeAt(i);
+    }
+
     const headers: KeyValue<string> = {
       'Content-Disposition': `attachement; filename="${fileName}"`,
       'Content-Type': fileName.endsWith('.zip') ? 'application/zip' : 'application/octet-stream',
       'Cache-Control': 'no-cache',
       Authorization: authToken,
     };
-    return this.makeCall('PUT', headers, proxyUrl, fileContent, res, ['application/zip', 'application/octet-stream']);
+    console.log(headers);
+    return this.makeCall('PUT', headers, proxyUrl, content, res, ['application/zip', 'application/octet-stream']);
   }
 
   @Post('updateWebJobSetting')
