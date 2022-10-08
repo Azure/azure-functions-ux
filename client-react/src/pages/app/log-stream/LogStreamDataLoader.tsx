@@ -35,7 +35,6 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   constructor(props) {
     super(props);
     this.state = {
-      isScmHostNameWhiteListed: false,
       isStreaming: true,
       logEntries: [],
       clearLogs: false,
