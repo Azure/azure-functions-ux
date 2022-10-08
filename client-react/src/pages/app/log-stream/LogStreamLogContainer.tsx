@@ -70,6 +70,8 @@ const fieldStyle = style({
 
 export const DisableLogInfo = React.memo(() => {
   const { t } = useTranslation();
+  const githubLink = 'https://github.com/projectkudu/kudu/wiki/Diagnostic-Log-Stream';
+
   return (
     <div
       key={'logBlockingMessage'}
@@ -80,8 +82,8 @@ export const DisableLogInfo = React.memo(() => {
       }}>
       <p>
         <span id="disableLogInfoMessage">{t('disableLogInfoMessage')}</span>
-        <Link id="disableLogInfoLink" href={''} target="_blank" className={learnMoreLinkStyle}>
-          {`here`}
+        <Link id="disableLogInfoLink" href={githubLink} target="_blank" className={learnMoreLinkStyle}>
+          {t('disableLogInfoMessageLinkText')}
         </Link>
       </p>
     </div>

@@ -5028,8 +5028,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Web server logs are switched off. You can turn them on using the 'App Service logs' settings.</value>
     </data>
     <data name="disableLogInfoMessage" xml:space="preserve">
-        <value>We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.  To learn how to view real-time logs, click </value>
+        <value>We are unable to fetch logs for apps hosted on an App Service Environment with custom domains. To learn how to view real-time logs, click </value>
         <comment>'here' will be a link text follwing the string</comment>
+    </data>
+    <data name="disableLogInfoMessageLinkText" xml:space="preserve">
+        <value>here</value>
     </data>
     <data name="remoteDebuggingNotAvailableForRuntimeStack" xml:space="preserve">
         <value>Your selected runtime stack does not currently support remote debugging.</value>
