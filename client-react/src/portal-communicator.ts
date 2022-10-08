@@ -574,6 +574,7 @@ export default class PortalCommunicator {
         window.appsvc.resourceId = startupInfo.resourceId;
         window.appsvc.feature = startupInfo.featureInfo && startupInfo.featureInfo.feature;
         window.appsvc.frameId = this.frameId;
+        window.appsvc.trustedDomains = startupInfo.trustedDomains;
       }
     } else if (methodName === Verbs.sendToken2) {
       this.setArmTokenInternal(data && data.token);

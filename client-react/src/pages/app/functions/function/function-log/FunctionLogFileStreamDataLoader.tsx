@@ -34,7 +34,6 @@ interface FunctionLogFileStreamDataLoaderProps {
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {
   const { site, functionName } = props;
-
   const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
@@ -50,6 +49,13 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | undefined>(undefined);
 
   const msInMin = 60000;
+
+  const isScmHostNameWhiteListed = React.useMemo<boolean | undefined>(() => {
+    if (site) {
+      const scmHostName = Url.getScmUrl(site);
+      return Url.isScmHostNameWhitelisted(scmHostName, window.appsvc?.trustedDomains);
+    }
+  }, [site]);
 
   const openStream = async () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
@@ -174,14 +180,16 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   };
 
   useEffect(() => {
-    if (started && xhReq) {
-      listenToStream();
-    } else if (started && !xhReq) {
-      openStream();
-    } else if (!started && xhReq) {
-      closeStream();
+    if (isScmHostNameWhiteListed) {
+      if (started && xhReq) {
+        listenToStream();
+      } else if (started && !xhReq) {
+        openStream();
+      } else if (!started && xhReq) {
+        closeStream();
+      }
     }
-  }, [started, xhReq]);
+  }, [started, xhReq, isScmHostNameWhiteListed]);
 
   useEffect(() => {
     printNewLogs(xhReqResponseText);
@@ -196,6 +204,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       allLogEntries={allLogEntries}
       errorMessage={errorMessage}
       loadingMessage={loadingMessage}
+      isScmHostNameWhiteListed={isScmHostNameWhiteListed}
       {...props}
     />
   );

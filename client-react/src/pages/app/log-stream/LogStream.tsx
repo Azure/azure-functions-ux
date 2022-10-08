@@ -19,6 +19,7 @@ export interface LogStreamProps {
   connectionError: boolean;
   logType: LogType;
   logsEnabled: LogsEnabled;
+  isScmHostNameWhiteListed?: boolean;
 }
 
 const LogStream: React.SFC<LogStreamProps> = props => {
@@ -35,11 +36,14 @@ const LogStream: React.SFC<LogStreamProps> = props => {
     connectionError,
     logType,
     logsEnabled,
+    isScmHostNameWhiteListed,
   } = props;
   const portalCommunicator = useContext(PortalContext);
+
   useEffect(() => {
     portalCommunicator.loadComplete();
   }, [portalCommunicator]);
+
   return (
     <>
       <LogStreamCommandBar
@@ -51,6 +55,7 @@ const LogStream: React.SFC<LogStreamProps> = props => {
         logEntries={logEntries}
         logType={logType}
         logsEnabled={logsEnabled}
+        isScmHostNameWhiteListed={isScmHostNameWhiteListed}
       />
       <LogStreamLogContainer
         clearLogs={clearLogs}
@@ -60,6 +65,7 @@ const LogStream: React.SFC<LogStreamProps> = props => {
         connectionError={connectionError}
         logType={logType}
         logsEnabled={logsEnabled}
+        isScmHostNameWhiteListed={isScmHostNameWhiteListed}
       />
     </>
   );
