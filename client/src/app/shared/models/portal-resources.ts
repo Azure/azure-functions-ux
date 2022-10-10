@@ -2201,6 +2201,7 @@ export class PortalResources {
   public static deploymentCenterConfigureGitHubPermissionsKudu = 'deploymentCenterConfigureGitHubPermissionsKudu';
   public static deploymentCenterConfigureGitHubPermissionsGHA = 'deploymentCenterConfigureGitHubPermissionsGHA';
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
+  public static deploymentCenterOneDriveDropboxWarning = 'deploymentCenterOneDriveDropboxWarning';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static deploymentCenterSettingsWorkflowConfigTitle = 'deploymentCenterSettingsWorkflowConfigTitle';
   public static deploymentCenterSettingsWorkflowConfigPreviewDescription = 'deploymentCenterSettingsWorkflowConfigPreviewDescription';
@@ -2319,6 +2320,7 @@ export class PortalResources {
   public static deploymentCenterContainerAcrFailedToLoadTags = 'deploymentCenterContainerAcrFailedToLoadTags';
   public static moreCommands = 'moreCommands';
   public static deploymentCenterProdSlotWarningLinkAriaLabel = 'deploymentCenterProdSlotWarningLinkAriaLabel';
+  public static deploymentCenterOnedriveDropboxLinkAriaLabel = 'deploymentCenterOnedriveDropboxLinkAriaLabel';
   public static deploymentCenterCodeRedeployCommitRequestSubmittedDesc = 'deploymentCenterCodeRedeployCommitRequestSubmittedDesc';
   public static deploymentCenterCodeRedeployCommitSuccess = 'deploymentCenterCodeRedeployCommitSuccess';
   public static deploymentCenterCodeRedeployCommitFailed = 'deploymentCenterCodeRedeployCommitFailed';
