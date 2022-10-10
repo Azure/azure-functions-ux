@@ -1,11 +1,12 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
-import { AbstractConsoleComponent } from '../shared/components/abstract.console.component';
+import { AbstractConsoleComponent, KuduRequestBody } from '../shared/components/abstract.console.component';
 import { ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
 import { HostType } from '../../../shared/models/arm/site';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalService } from '../../../shared/services/portal.service';
+import { NoCorsHttpService } from '../../../shared/no-cors-http-service';
 
 @Component({
   selector: 'app-bash',
@@ -18,9 +19,10 @@ export class BashComponent extends AbstractConsoleComponent {
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService,
     private _translateService: TranslateService,
-    portalService: PortalService
+    portalService: PortalService,
+    noCorsHttpService: NoCorsHttpService
   ) {
-    super(componentFactoryResolver, consoleService, portalService);
+    super(componentFactoryResolver, consoleService, portalService, noCorsHttpService);
     this.dir = this._defaultDirectory;
     this.consoleType = ConsoleTypes.BASH;
   }
@@ -54,13 +56,11 @@ export class BashComponent extends AbstractConsoleComponent {
     this.unFocusConsoleManually();
     if (this.listOfDir.length === 0) {
       this.dirIndex = -1;
-      const uri = this.getKuduUri();
-      const header = this.getHeader();
       const body = {
         command: `bash -c ' ${this.getTabKeyCommand()} '`,
         dir: this.dir,
       };
-      const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
+      const res = this._sendRequestToKudu(body);
       res.subscribe(
         data => {
           const { Output, ExitCode } = data.json();
@@ -91,14 +91,12 @@ export class BashComponent extends AbstractConsoleComponent {
    * both incase of an error or a valid response
    */
   protected connectToKudu() {
-    const uri = this.getKuduUri();
-    const header = this.getHeader();
     const cmd = this.command;
     const body = {
       command: `bash -c " ${cmd} && echo '' && pwd"`,
       dir: this.dir,
     };
-    const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
+    const res = this._sendRequestToKudu(body);
     this.lastAPICall = res.subscribe(
       data => {
         const { Output, ExitCode, Error } = data.json();
@@ -160,5 +158,9 @@ export class BashComponent extends AbstractConsoleComponent {
    */
   protected getConsoleLeft() {
     return `${this.appName}:~$ `;
+  }
+
+  private _sendRequestToKudu(body: KuduRequestBody) {
+    return super.sendRequestToKudu(this.getKuduUri(), body, this.site);
   }
 }
