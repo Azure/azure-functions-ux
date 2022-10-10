@@ -192,7 +192,7 @@ export class NoCorsHttpService {
           if (content && content.reason && content.reason === 'PassThrough') {
             // this means there was a /passthrough specific error, so log it and throw the original error.
             this._aiService.trackEvent(errorIds.passThroughApiError, content);
-            throw error;
+            throw e;
           }
         } else if (e.status === 403 && e.text().indexOf('This web app is stopped')) {
           e.isHandled = true;
