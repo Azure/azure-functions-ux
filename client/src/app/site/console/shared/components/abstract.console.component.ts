@@ -588,7 +588,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   protected sendRequestToKudu(uri: string, body: KuduRequestBody, site: ArmObj<Site>) {
     const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
     const header = this.getHeader();
-    return this._isScmHostNameWhitelisted(scmHostName)
+    return this._isScmHostNameWhitelisted(scmHostName, window.appsvc.trustedDomains)
       ? this._noCorsHttpService.passThrough(HttpMethods.POST, uri, body, { headers: header })
       : this._consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
   }
