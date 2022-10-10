@@ -10,6 +10,7 @@ import { Site } from '../../../../../models/site/site';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { PortalContext } from '../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import { isScmHostNameInTrustedDomains } from '../../../log-stream/LogStreamDataLoader';
 
 interface FunctionLogFileStreamDataLoaderProps {
   site: ArmObj<Site>;
@@ -51,10 +52,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const msInMin = 60000;
 
   const isScmHostNameWhiteListed = React.useMemo<boolean | undefined>(() => {
-    if (site) {
-      const scmHostName = Url.getScmUrl(site);
-      return Url.isScmHostNameWhitelisted(scmHostName, window.appsvc?.trustedDomains);
-    }
+    return isScmHostNameInTrustedDomains(site);
   }, [site]);
 
   const openStream = async () => {

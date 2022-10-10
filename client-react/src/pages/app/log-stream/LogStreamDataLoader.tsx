@@ -25,6 +25,13 @@ export interface LogStreamDataLoaderState {
   isScmHostNameWhiteListed?: boolean;
 }
 
+export const isScmHostNameInTrustedDomains = (site: ArmObj<Site>): boolean | undefined => {
+  if (site) {
+    const scmHostName = Url.getScmUrl(site);
+    return Url.isScmHostNameWhitelisted(scmHostName, window.appsvc?.trustedDomains);
+  }
+};
+
 class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogStreamDataLoaderState> {
   private _currentSiteId = '';
   private _xhReq: XMLHttpRequest;
@@ -59,7 +66,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
           this.setState({
             site: siteCall.data,
             logsEnabled: processLogConfig(siteCall.data.properties, logsConfigCall.data.properties),
-            isScmHostNameWhiteListed: Url.isScmHostNameWhitelisted(Url.getScmUrl(siteCall.data), window.appsvc?.trustedDomains),
+            isScmHostNameWhiteListed: isScmHostNameInTrustedDomains(siteCall.data),
           });
         }
       })
