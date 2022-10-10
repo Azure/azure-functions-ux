@@ -15,9 +15,10 @@ const getItems = (
   logEntries: LogEntry[],
   logType: LogType,
   logsEnabled: LogsEnabled,
-  t: (string) => string
+  t: (string) => string,
+  isScmHostNameWhiteListed?: boolean
 ): ICommandBarItemProps[] => {
-  const disableCommand = !logStreamEnabled(logType, logsEnabled);
+  const disableCommand = !logStreamEnabled(logType, logsEnabled, isScmHostNameWhiteListed);
   return [
     {
       key: 'reconnect',
@@ -70,6 +71,7 @@ interface LogStreamCommandBarProps {
   logEntries: LogEntry[];
   logType: LogType;
   logsEnabled: LogsEnabled;
+  isScmHostNameWhiteListed?: boolean;
 }
 
 type LogStreamCommandBarPropsCombined = LogStreamCommandBarProps;
@@ -77,7 +79,7 @@ type LogStreamCommandBarPropsCombined = LogStreamCommandBarProps;
 export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
-  const { reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled } = props;
+  const { reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled, isScmHostNameWhiteListed } = props;
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
 
   const customButton = (buttonProps: IButtonProps) => {
@@ -101,7 +103,7 @@ export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = p
 
   return (
     <CommandBar
-      items={getItems(reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled, t)}
+      items={getItems(reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled, t, isScmHostNameWhiteListed)}
       role="nav"
       buttonAs={customButton}
       overflowButtonProps={overflowButtonProps}
