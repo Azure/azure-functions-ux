@@ -30,6 +30,8 @@ export const isScmHostNameInTrustedDomains = (site: ArmObj<Site>): boolean | und
     const scmHostName = Url.getScmUrl(site);
     return Url.isScmHostNameWhitelisted(scmHostName, window.appsvc?.trustedDomains);
   }
+
+  return undefined;
 };
 
 class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogStreamDataLoaderState> {
