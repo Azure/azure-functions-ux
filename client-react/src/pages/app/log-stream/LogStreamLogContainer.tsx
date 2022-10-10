@@ -64,6 +64,10 @@ const logEntryDivStyle = style({
   paddingBottom: '5px',
 });
 
+const disableLogInfoMessageStyle = style({
+  paddingRight: '4px',
+});
+
 const fieldStyle = style({
   marginRight: '10px',
 });
@@ -81,9 +85,11 @@ export const DisableLogInfo = React.memo(() => {
         el?.scrollIntoView({ behavior: 'smooth' });
       }}>
       <p>
-        <span id="disableLogInfoMessage">{t('disableLogInfoMessage')}</span>
+        <span id="disableLogInfoMessage" className={disableLogInfoMessageStyle}>
+          {t('disableLogInfoMessage')}
+        </span>
         <Link id="disableLogInfoLink" href={githubLink} target="_blank" className={learnMoreLinkStyle}>
-          {t('disableLogInfoMessageLinkText')}
+          {t('learnMore')}
         </Link>
       </p>
     </div>
