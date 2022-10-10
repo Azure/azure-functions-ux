@@ -10,6 +10,7 @@ import { Site } from '../../../../../models/site/site';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { PortalContext } from '../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import { isScmHostNameInTrustedDomains } from '../../../log-stream/LogStreamDataLoader';
 
 interface FunctionLogFileStreamDataLoaderProps {
   site: ArmObj<Site>;
@@ -34,7 +35,6 @@ interface FunctionLogFileStreamDataLoaderProps {
 
 const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderProps> = props => {
   const { site, functionName } = props;
-
   const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
@@ -50,6 +50,10 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | undefined>(undefined);
 
   const msInMin = 60000;
+
+  const isScmHostNameWhiteListed = React.useMemo<boolean | undefined>(() => {
+    return isScmHostNameInTrustedDomains(site);
+  }, [site]);
 
   const openStream = async () => {
     setLoadingMessage(t('feature_logStreamingConnecting'));
@@ -174,14 +178,16 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
   };
 
   useEffect(() => {
-    if (started && xhReq) {
-      listenToStream();
-    } else if (started && !xhReq) {
-      openStream();
-    } else if (!started && xhReq) {
-      closeStream();
+    if (isScmHostNameWhiteListed) {
+      if (started && xhReq) {
+        listenToStream();
+      } else if (started && !xhReq) {
+        openStream();
+      } else if (!started && xhReq) {
+        closeStream();
+      }
     }
-  }, [started, xhReq]);
+  }, [started, xhReq, isScmHostNameWhiteListed]);
 
   useEffect(() => {
     printNewLogs(xhReqResponseText);
@@ -196,6 +202,7 @@ const FunctionLogFileStreamDataLoader: React.FC<FunctionLogFileStreamDataLoaderP
       allLogEntries={allLogEntries}
       errorMessage={errorMessage}
       loadingMessage={loadingMessage}
+      isScmHostNameWhiteListed={isScmHostNameWhiteListed}
       {...props}
     />
   );

@@ -22,7 +22,17 @@ export interface LogStreamDataLoaderState {
   logType: LogType;
   site: ArmObj<Site>;
   logsEnabled: LogsEnabled;
+  isScmHostNameWhiteListed?: boolean;
 }
+
+export const isScmHostNameInTrustedDomains = (site: ArmObj<Site>): boolean | undefined => {
+  if (site) {
+    const scmHostName = Url.getScmUrl(site);
+    return Url.isScmHostNameWhitelisted(scmHostName, window.appsvc?.trustedDomains);
+  }
+
+  return undefined;
+};
 
 class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogStreamDataLoaderState> {
   private _currentSiteId = '';
@@ -55,8 +65,11 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     Promise.all([SiteService.fetchSite(resourceId), SiteService.fetchLogsConfig(resourceId)])
       .then(([siteCall, logsConfigCall]) => {
         if (siteCall.metadata.success && logsConfigCall.metadata.success) {
-          this.setState({ site: siteCall.data });
-          this.setState({ logsEnabled: processLogConfig(siteCall.data.properties, logsConfigCall.data.properties) });
+          this.setState({
+            site: siteCall.data,
+            logsEnabled: processLogConfig(siteCall.data.properties, logsConfigCall.data.properties),
+            isScmHostNameWhiteListed: isScmHostNameInTrustedDomains(siteCall.data),
+          });
         }
       })
       .catch(reason => {
@@ -65,7 +78,10 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   }
 
   public componentDidUpdate() {
-    if (this.props.resourceId !== this._currentSiteId && logStreamEnabled(this.state.logType, this.state.logsEnabled)) {
+    if (
+      this.props.resourceId !== this._currentSiteId &&
+      logStreamEnabled(this.state.logType, this.state.logsEnabled, this.state.isScmHostNameWhiteListed)
+    ) {
       this._currentSiteId = this.props.resourceId;
       this._reconnectFunction();
     }
@@ -87,6 +103,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
           connectionError={this.state.connectionError}
           logType={this.state.logType}
           logsEnabled={this.state.logsEnabled}
+          isScmHostNameWhiteListed={this.state.isScmHostNameWhiteListed}
         />
       </>
     );
@@ -141,7 +158,7 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
   };
 
   private _openStream = () => {
-    if (!this.state.site || !logStreamEnabled(this._logType, this.state.logsEnabled)) {
+    if (!this.state.site || !logStreamEnabled(this._logType, this.state.logsEnabled, this.state.isScmHostNameWhiteListed)) {
       return;
     }
     const logUrl = this._setLogUrl();

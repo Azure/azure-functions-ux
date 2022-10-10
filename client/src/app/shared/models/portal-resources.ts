@@ -1616,6 +1616,7 @@ export class PortalResources {
   public static virtualDirectoryPathError = 'virtualDirectoryPathError';
   public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
   public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
+  public static disableLogInfoMessage = 'disableLogInfoMessage';
   public static remoteDebuggingNotAvailableForRuntimeStack = 'remoteDebuggingNotAvailableForRuntimeStack';
   public static appSettingsUpsellBannerMessage = 'appSettingsUpsellBannerMessage';
   public static appInsightsNotConfigured = 'appInsightsNotConfigured';
