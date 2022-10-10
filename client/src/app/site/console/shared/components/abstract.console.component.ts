@@ -20,6 +20,7 @@ import { PromptComponent } from './prompt.component';
 import { Headers } from '@angular/http';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { NoCorsHttpService } from '../../../../shared/no-cors-http-service';
+import { Subject } from 'rxjs/Subject';
 
 export interface KuduRequestBody {
   command: string;
