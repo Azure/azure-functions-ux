@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
 import { AbstractConsoleComponent, KuduRequestBody } from '../shared/components/abstract.console.component';
-import { ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
+import { ConsoleConstants } from '../../../shared/models/constants';
 import { HostType } from '../../../shared/models/arm/site';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
