@@ -587,7 +587,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   protected sendRequestToKudu(uri: string, body: KuduRequestBody, site: ArmObj<Site>) {
     const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
     const header = this.getHeader();
-    const passThroughHeaders = {};
+    const passThroughHeaders: Record<string, string> = {};
     header.forEach((v, n) => {
       passThroughHeaders[n] = v.join(',');
     });

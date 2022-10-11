@@ -104,7 +104,7 @@ export class ConsoleService {
   /**
    * using passthrough to proxy API calls
    */
-  passThrough(method: string, url: string, body: any, headers?: Headers) {
+  passThrough(method: string, url: string, body: any, headers?: Record<string, string>) {
     const passThroughBody = {
       method: method,
       url: url,
