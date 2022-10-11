@@ -104,7 +104,7 @@ export class ConsoleService {
   /**
    * using passthrough to proxy API calls
    */
-  passThrough(method: string, url: string, body: any, headers: Record<string, string>) {
+  passThrough(method: string, url: string, body: any, headers?: Headers) {
     const passThroughBody = {
       method: method,
       url: url,
@@ -112,6 +112,6 @@ export class ConsoleService {
       headers: headers,
     };
 
-    return this.send('POST', `${Constants.serviceHost}api/passthrough`, passThroughBody, headers);
+    return this.send('POST', `${Constants.serviceHost}api/passthrough`, passThroughBody);
   }
 }
