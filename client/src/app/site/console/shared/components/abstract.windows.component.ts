@@ -6,7 +6,6 @@ import { HostType } from '../../../../shared/models/arm/site';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalService } from '../../../../shared/services/portal.service';
-import { NoCorsHttpService } from '../../../../shared/no-cors-http-service';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
   private _defaultDirectory = 'D:\\home\\site\\wwwroot';
@@ -15,10 +14,9 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService,
     private _translateService: TranslateService,
-    portalService: PortalService,
-    noCorsHttpService: NoCorsHttpService
+    portalService: PortalService
   ) {
-    super(componentFactoryResolver, consoleService, portalService, noCorsHttpService);
+    super(componentFactoryResolver, consoleService, portalService);
     this.dir = this._defaultDirectory;
   }
 

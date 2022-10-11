@@ -19,7 +19,6 @@ import { MessageComponent } from './message.component';
 import { PromptComponent } from './prompt.component';
 import { Headers } from '@angular/http';
 import { PortalService } from '../../../../shared/services/portal.service';
-import { NoCorsHttpService } from '../../../../shared/no-cors-http-service';
 import { Subject } from 'rxjs/Subject';
 
 export interface KuduRequestBody {
@@ -72,8 +71,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   constructor(
     private _componentFactoryResolver: ComponentFactoryResolver,
     private _consoleService: ConsoleService,
-    private _portalService: PortalService,
-    private _noCorsHttpService: NoCorsHttpService
+    private _portalService: PortalService
   ) {}
 
   ngOnInit() {
@@ -590,7 +588,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
     const header = this.getHeader();
     return this._isScmHostNameWhitelisted(scmHostName, window.appsvc.trustedDomains)
-      ? this._noCorsHttpService.passThrough(HttpMethods.POST, uri, body, { headers: header })
+      ? this._consoleService.passThrough(HttpMethods.POST, uri, body, { headers: header })
       : this._consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
   }
 }

@@ -3,7 +3,6 @@ import { ConsoleService, ConsoleTypes } from './../shared/services/console.servi
 import { AbstractWindowsComponent } from '../shared/components/abstract.windows.component';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalService } from '../../../shared/services/portal.service';
-import { NoCorsHttpService } from '../../../shared/no-cors-http-service';
 
 @Component({
   selector: 'app-powershell',
@@ -16,10 +15,9 @@ export class PowershellComponent extends AbstractWindowsComponent {
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService,
     translateService: TranslateService,
-    portalService: PortalService,
-    noCorsHttpService: NoCorsHttpService
+    portalService: PortalService
   ) {
-    super(componentFactoryResolver, consoleService, translateService, portalService, noCorsHttpService);
+    super(componentFactoryResolver, consoleService, translateService, portalService);
     this.consoleType = ConsoleTypes.PS;
   }
 

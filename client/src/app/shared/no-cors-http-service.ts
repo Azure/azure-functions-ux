@@ -119,13 +119,7 @@ export class NoCorsHttpService {
       .catch(e => this.tryPassThroughController(e, 'OPTIONS', url, null, options));
   }
 
-  tryPassThroughController(
-    error: FunctionsResponse,
-    method: string,
-    url: string,
-    body: any,
-    options?: RequestOptionsArgs
-  ): Observable<any> {
+  tryPassThroughController(error: FunctionsResponse, method: string, url: string, body: any, options: RequestOptionsArgs): Observable<any> {
     if (error.status === 0 && error.type === ResponseType.Error) {
       return this._http
         .get('/api/ping')
@@ -141,64 +135,60 @@ export class NoCorsHttpService {
           throw error;
         })
         .mergeMap(_ => {
-          return this.passThrough(method, url, body, options);
+          const headers = {};
+          if (options && options.headers) {
+            options.headers.forEach((v, n) => {
+              headers[n] = v.join(',');
+            });
+          }
+          const passThroughBody = {
+            method: method,
+            url: url,
+            body: body,
+            headers: headers,
+          };
+          const startTime = performance.now();
+          const logDependency = (success: boolean, status: number) => {
+            const endTime = performance.now();
+            this._aiService.trackDependency(
+              Guid.newGuid(),
+              passThroughBody.method,
+              passThroughBody.url,
+              passThroughBody.url,
+              endTime - startTime,
+              success,
+              status
+            );
+          };
+          return this._armService
+            .send('POST', NoCorsHttpService.passThroughUrl, passThroughBody, null, this.portalHeadersCallback())
+            .do(
+              r => logDependency(true, r.status),
+              e => logDependency(false, e.status)
+            )
+            .catch((e: FunctionsResponse) => {
+              if (e.status === 400) {
+                let content: { reason: string; exception: any } = null;
+                try {
+                  content = e.json();
+                } catch (e) {
+                  content = null;
+                }
+
+                if (content && content.reason && content.reason === 'PassThrough') {
+                  // this means there was a /passthrough specific error, so log it and throw the original error.
+                  this._aiService.trackEvent(errorIds.passThroughApiError, content);
+                  throw error;
+                }
+              } else if (e.status === 403 && e.text().indexOf('This web app is stopped')) {
+                e.isHandled = true;
+              }
+              throw e;
+            });
         });
     } else {
       throw error;
     }
-  }
-
-  passThrough(method: string, url: string, body: any, options?: RequestOptionsArgs): Observable<any> {
-    const headers = {};
-    if (options && options.headers) {
-      options.headers.forEach((v, n) => {
-        headers[n] = v.join(',');
-      });
-    }
-    const passThroughBody = {
-      method: method,
-      url: url,
-      body: body,
-      headers: headers,
-    };
-    const startTime = performance.now();
-    const logDependency = (success: boolean, status: number) => {
-      const endTime = performance.now();
-      this._aiService.trackDependency(
-        Guid.newGuid(),
-        passThroughBody.method,
-        passThroughBody.url,
-        passThroughBody.url,
-        endTime - startTime,
-        success,
-        status
-      );
-    };
-    return this._armService
-      .send('POST', NoCorsHttpService.passThroughUrl, passThroughBody, null, this.portalHeadersCallback())
-      .do(
-        r => logDependency(true, r.status),
-        e => logDependency(false, e.status)
-      )
-      .catch((e: FunctionsResponse) => {
-        if (e.status === 400) {
-          let content: { reason: string; exception: any } = null;
-          try {
-            content = e.json();
-          } catch (e) {
-            content = null;
-          }
-
-          if (content && content.reason && content.reason === 'PassThrough') {
-            // this means there was a /passthrough specific error, so log it and throw the original error.
-            this._aiService.trackEvent(errorIds.passThroughApiError, content);
-            throw e;
-          }
-        } else if (e.status === 403 && e.text().indexOf('This web app is stopped')) {
-          e.isHandled = true;
-        }
-        throw e;
-      });
   }
 
   private _getBaseUrl(url: string) {

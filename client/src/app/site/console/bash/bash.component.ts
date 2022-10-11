@@ -6,7 +6,6 @@ import { HostType } from '../../../shared/models/arm/site';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalService } from '../../../shared/services/portal.service';
-import { NoCorsHttpService } from '../../../shared/no-cors-http-service';
 
 @Component({
   selector: 'app-bash',
@@ -19,10 +18,9 @@ export class BashComponent extends AbstractConsoleComponent {
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService,
     private _translateService: TranslateService,
-    portalService: PortalService,
-    noCorsHttpService: NoCorsHttpService
+    portalService: PortalService
   ) {
-    super(componentFactoryResolver, consoleService, portalService, noCorsHttpService);
+    super(componentFactoryResolver, consoleService, portalService);
     this.dir = this._defaultDirectory;
     this.consoleType = ConsoleTypes.BASH;
   }

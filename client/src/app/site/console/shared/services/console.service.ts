@@ -5,6 +5,7 @@ import { Site } from '../../../../shared/models/arm/site';
 import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Observable } from 'rxjs/Observable';
+import { Constants } from '../../../../shared/models/constants';
 
 export enum ConsoleTypes {
   CMD = 1,
@@ -98,5 +99,19 @@ export class ConsoleService {
       }
     });
     return ltOfDir;
+  }
+
+  /**
+   * using passthrough to proxy API calls
+   */
+  passThrough(method: string, url: string, body: any, headers: Record<string, string>) {
+    const passThroughBody = {
+      method: method,
+      url: url,
+      body: body,
+      headers: headers,
+    };
+
+    this.send('POST', `${Constants.serviceHost}api/passthrough`, passThroughBody, headers);
   }
 }
