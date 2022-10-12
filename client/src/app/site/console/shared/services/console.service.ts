@@ -112,6 +112,6 @@ export class ConsoleService {
       headers: headers,
     };
 
-    return this.send('POST', `${Constants.serviceHost}api/passthrough`, JSON.stringify(passThroughBody));
+    return this.send('POST', `${Constants.serviceHost}api/passthrough`, passThroughBody);
   }
 }

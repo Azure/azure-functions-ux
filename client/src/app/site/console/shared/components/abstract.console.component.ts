@@ -592,7 +592,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
       passThroughHeaders[n] = v.join(',');
     });
     return this._isScmHostNameWhitelisted(scmHostName, window.appsvc.trustedDomains)
-      ? this._consoleService.passThrough(HttpMethods.POST, uri, body, passThroughHeaders)
-      : this._consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
+      ? this._consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header)
+      : this._consoleService.passThrough(HttpMethods.POST, uri, body, passThroughHeaders);
   }
 }
