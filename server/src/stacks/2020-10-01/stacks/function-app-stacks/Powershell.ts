@@ -3,7 +3,7 @@ import { getDateString } from '../date-utilities';
 
 const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   // EOL source: https://learn.microsoft.com/en-us/powershell/scripting/install/powershell-support-lifecycle?view=powershell-7.2#powershell-end-of-support-dates
-  const powershell62EOL = getDateString(new Date(2022, 8, 30), useIsoDateFormat);
+  const powershell62EOL = getDateString(new Date(2022, 9, 30), useIsoDateFormat);
   const powershell70EOL = getDateString(new Date(2022, 12, 3), useIsoDateFormat);
   const powershell72EOL = getDateString(new Date(2024, 11, 8), useIsoDateFormat);
 
