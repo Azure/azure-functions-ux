@@ -56,7 +56,7 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
   const validatePhysicalPath = () => {
     const physicalPath = currentVirtualApplication.physicalPath;
     const allowMountsAsPrefix = Url.getFeatureValue(CommonConstants.FeatureFlags.allowMountsAsVirtualDirectoryPrefix);
-    const isValid = physicalPath.startsWith('site\\') || (allowMountsAsPrefix && physicalPath.startsWith('mounts\\'));
+    const isValid = physicalPath.startsWith('site\\') || (allowMountsAsPrefix && physicalPath.startsWith('\\mounts\\'));
     const errorMessage = allowMountsAsPrefix ? t('physicalPathLocationErrorWithMounts') : t('physicalPathLocationError');
     return isValid ? '' : errorMessage;
   };
