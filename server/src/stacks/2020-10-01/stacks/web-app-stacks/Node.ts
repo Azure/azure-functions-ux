@@ -58,7 +58,6 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                   isSupported: true,
                   supportedVersion: '18.x',
                 },
-                isHidden: false,
               },
               windowsRuntimeSettings: {
                 runtimeVersion: '~18',
@@ -70,7 +69,6 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                   isSupported: true,
                   supportedVersion: '18.x',
                 },
-                isHidden: true,
               },
             },
           },
