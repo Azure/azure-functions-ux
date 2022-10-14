@@ -1947,6 +1947,9 @@
       <Item ItemId=";azureAppConfigRefValue" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Configuration Reference]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Odkaz na App Configuration]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6483,6 +6486,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Váš web momentálně k nasazení kódu používá OneDrive nebo Dropbox. Tato integrace se 30. září 2023 vyřadí z provozu. Migrujte na jiný zdroj nasazení.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOnedriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about this integrations retirement.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kliknutím sem získáte další informace o vyřazení těchto integrací.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterPivotItemBuildLogsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Deployment center build logs]]></Val>
@@ -7337,6 +7358,15 @@
           <Val><![CDATA[Test is only supported for HTTP triggered functions]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Test se podporuje jen pro funkce aktivované protokolem HTTP.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";disableLogInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nepovedlo se nám načíst protokoly pro aplikace hostované na App Service Environment s vlastními doménami.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16109,13 +16139,22 @@
       </Item>
       <Item ItemId=";physicalPathLocationError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
+          <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Fyzická cesta musí představovat umístění v rámci site\.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Physical path must be a location within site\]]></Val>
+            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";physicalPathLocationErrorWithMounts" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Fyzická cesta musí být umístění v rámci sítě\ nebo připojení\]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -23183,6 +23222,24 @@
           <Val><![CDATA[Virtual paths must be unique]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Virtuální cesty musí být jedinečné.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetImagePullLegacyAppSettingInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pulling images over a virtual network is currently controlled by the legacy app setting 'WEBSITE_PULL_IMAGE_OVER_VNET'. Legacy app setting will be replaced with site property 'vnetImagePullEnabled'.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Načítání imagí přes virtuální síť se v současné době řídí nastavením starší verze aplikace WEBSITE_PULL_IMAGE_OVER_VNET. Nastavení starší verze aplikace se nahradí vlastností webu vnetImagePullEnabled.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetImagePullOptionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pull image over VNet]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vyžádat image přes virtuální síť]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

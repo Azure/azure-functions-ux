@@ -6486,6 +6486,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il sito usa attualmente OneDrive o Dropbox per distribuire il codice. Questa integrazione verrà ritirata il 30 settembre 2023. Eseguire la migrazione a un'origine di distribuzione diversa.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOnedriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about this integrations retirement.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Fare clic qui per altre informazioni sul ritiro delle integrazioni.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterPivotItemBuildLogsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Deployment center build logs]]></Val>
@@ -7340,6 +7358,15 @@
           <Val><![CDATA[Test is only supported for HTTP triggered functions]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[I test solo sono supportati solo per le funzioni attivate da HTTP]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";disableLogInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non è possibile recuperare i log per le app ospitate in un ambiente del servizio app con domini personalizzati.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16100,13 +16127,22 @@
       </Item>
       <Item ItemId=";physicalPathLocationError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
+          <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il percorso fisico deve essere una posizione all'interno del sito\]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";physicalPathLocationErrorWithMounts" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
           <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Il percorso fisico deve essere un percorso all'interno del sito\ o dei montaggi\]]></Val>
           </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[Physical path must be a location within site\]]></Val>
-          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -23183,6 +23219,24 @@
           <Val><![CDATA[Virtual paths must be unique]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[I percorsi virtuali devono essere univoci]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetImagePullLegacyAppSettingInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pulling images over a virtual network is currently controlled by the legacy app setting 'WEBSITE_PULL_IMAGE_OVER_VNET'. Legacy app setting will be replaced with site property 'vnetImagePullEnabled'.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[L'esecuzione del pull delle immagini su una rete virtuale è al momento controllata dall'impostazione 'WEBSITE_PULL_IMAGE_OVER_VNET' dell'app legacy. Tale impostazione verrà sostituita con la proprietà del sito 'vnetImagePullEnabled'.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetImagePullOptionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pull image over VNet]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Esegui pull dell'immagine nella rete virtuale]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

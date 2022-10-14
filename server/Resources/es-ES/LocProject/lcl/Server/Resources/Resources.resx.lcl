@@ -1947,6 +1947,9 @@
       <Item ItemId=";azureAppConfigRefValue" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Configuration Reference]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referencia de App Configuration]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6483,6 +6486,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[El sitio está usando actualmente OneDrive o Dropbox para implementar código. Esta integración se retirará el 30 de septiembre de 2023. Migre a otro proveedor de origen de implementación.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOnedriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about this integrations retirement.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Haga clic aquí para obtener más información sobre la retirada de estas integraciones.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterPivotItemBuildLogsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Deployment center build logs]]></Val>
@@ -7337,6 +7358,15 @@
           <Val><![CDATA[Test is only supported for HTTP triggered functions]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[La prueba solo se admite para las funciones desencadenadas por HTTP]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";disableLogInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[No se pueden capturar los registros de las aplicaciones hospedadas en un App Service Environment con dominios personalizados.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16094,13 +16124,22 @@
       </Item>
       <Item ItemId=";physicalPathLocationError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
+          <Val><![CDATA[Physical path must be a location within site\]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[La ruta de acceso física debe ser una ubicación dentro del sitio\]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Physical path must be a location within site\]]></Val>
+            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";physicalPathLocationErrorWithMounts" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La ruta de acceso física debe ser una ubicación dentro del sitio\ o los montajes\]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -23171,6 +23210,24 @@
           <Val><![CDATA[Virtual paths must be unique]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Las rutas de acceso virtuales deben ser únicas.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetImagePullLegacyAppSettingInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pulling images over a virtual network is currently controlled by the legacy app setting 'WEBSITE_PULL_IMAGE_OVER_VNET'. Legacy app setting will be replaced with site property 'vnetImagePullEnabled'.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La extracción de imágenes a través de una red virtual se controla actualmente mediante la configuración de aplicación heredada "WEBSITE_PULL_IMAGE_OVER_VNET". La configuración de la aplicación heredada se reemplazará por la propiedad de sitio "vnetImagePullEnabled".]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetImagePullOptionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pull image over VNet]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Extracción de una imagen a través de una red virtual]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
