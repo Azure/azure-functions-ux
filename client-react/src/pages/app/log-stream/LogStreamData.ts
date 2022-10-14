@@ -91,8 +91,8 @@ export function processLogConfig(site: Site, logsConfig: SiteLogsConfig): LogsEn
   return { applicationLogs: appLogs, webServerLogs: webLogs };
 }
 
-export function logStreamEnabled(logType: LogType, logsEnabled: LogsEnabled, isScmHostNameWhitelisted?: boolean): boolean {
-  return (logType === LogType.Application ? logsEnabled.applicationLogs : logsEnabled.webServerLogs) && !!isScmHostNameWhitelisted;
+export function logStreamEnabled(logType: LogType, logsEnabled: LogsEnabled): boolean {
+  return logType === LogType.Application ? logsEnabled.applicationLogs : logsEnabled.webServerLogs;
 }
 
 export function copyLogEntries(logs: LogEntry[]) {

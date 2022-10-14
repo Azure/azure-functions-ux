@@ -14,7 +14,6 @@ import { Resizable } from 're-resizable';
 import { LogLevel, LogEntry } from './FunctionLog.types';
 import { useTranslation } from 'react-i18next';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
-import { DisableLogInfo } from '../../../log-stream/LogStreamLogContainer';
 
 interface FunctionLogProps {
   isExpanded: boolean;
@@ -43,7 +42,6 @@ interface FunctionLogProps {
   setSelectedLoggingOption?: (options: LoggingOptions) => void;
   showFilteredLogsMessage?: boolean;
   useNewFunctionLogsApi?: boolean;
-  isScmHostNameWhiteListed?: boolean;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -74,16 +72,12 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     setSelectedLoggingOption,
     showFilteredLogsMessage,
     useNewFunctionLogsApi,
-    isScmHostNameWhiteListed,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
   const [scrollHeight, setScrollHeight] = useState(0);
   const [visibleLogEntries, setVisibleLogEntries] = useState<LogEntry[]>([]);
   const [logLevel, setLogLevel] = useState<LogLevel>(LogLevel.Verbose);
-  const [showLogs, setShowLogs] = useState<boolean>(false);
-  const [showNull, setShowNull] = useState<boolean>(false);
-  const [showDisableLogInfo, setShowDisableLogInfo] = useState<boolean>(false);
 
   const { t } = useTranslation();
 
@@ -168,15 +162,8 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
 
   useEffect(() => {
     setVisibleLogEntries(allLogEntries ? filterEntriesByLogLevel(allLogEntries) : []);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logLevel, allLogEntries]);
-
-  useEffect(() => {
-    setShowLogs(selectedLoggingOption === LoggingOptions.appInsights || !!isScmHostNameWhiteListed);
-    setShowNull(selectedLoggingOption === LoggingOptions.fileBased && isScmHostNameWhiteListed === undefined);
-    setShowDisableLogInfo(selectedLoggingOption === LoggingOptions.fileBased && isScmHostNameWhiteListed === false);
-  }, [selectedLoggingOption, isScmHostNameWhiteListed]);
 
   const getLogsMessage = useCallback(() => {
     return showFilteredLogsMessage ? t('connectedAndFilteredMessage') : t('connected');
@@ -227,41 +214,31 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
               setScrollHeight(container.scrollHeight);
             }
           }}>
-          {showNull ? null : (
-            <div>
-              {/*Error Message*/}
-              {errorMessage && showLogs && <div className={logErrorDivStyle}>{errorMessage}</div>}
+          {/*Error Message*/}
+          {errorMessage && <div className={logErrorDivStyle}>{errorMessage}</div>}
 
-              {/*Loading Message*/}
-              {!errorMessage && started && showLogs && (
-                <div className={logConnectingDivStyle}>{loadingMessage ? loadingMessage : getLogsMessage()}</div>
-              )}
+          {/*Loading Message*/}
+          {!errorMessage && started && <div className={logConnectingDivStyle}>{loadingMessage ? loadingMessage : getLogsMessage()}</div>}
 
-              {/*Log Entries*/}
-              {showDisableLogInfo ? (
-                <DisableLogInfo />
-              ) : (
-                visibleLogEntries.map((logEntry: LogEntry, logIndex: number) => {
-                  return (
-                    <div
-                      key={logIndex}
-                      className={logEntryDivStyle}
-                      style={{ color: logEntry.color }}
-                      /*Last Log Entry needs to be scrolled into focus*/
-                      ref={log => {
-                        if (logIndex + 1 === visibleLogEntries.length && logsContainer && !!log) {
-                          if (Math.floor(scrollHeight - logsContainer.scrollTop) === Math.floor(logsContainer.clientHeight)) {
-                            log.scrollIntoView({ behavior: 'smooth' });
-                          }
-                        }
-                      }}>
-                      {logEntry.message}
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          )}
+          {/*Log Entries*/}
+          {visibleLogEntries.map((logEntry: LogEntry, logIndex: number) => {
+            return (
+              <div
+                key={logIndex}
+                className={logEntryDivStyle}
+                style={{ color: logEntry.color }}
+                /*Last Log Entry needs to be scrolled into focus*/
+                ref={log => {
+                  if (logIndex + 1 === visibleLogEntries.length && logsContainer && !!log) {
+                    if (Math.floor(scrollHeight - logsContainer.scrollTop) === Math.floor(logsContainer.clientHeight)) {
+                      log.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }
+                }}>
+                {logEntry.message}
+              </div>
+            );
+          })}
         </div>
       )}
     </Resizable>
