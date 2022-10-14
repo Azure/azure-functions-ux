@@ -40,7 +40,6 @@ export interface IStartupInfo<T> {
   userInfo: IUserInfo;
   theme: string;
   armEndpoint: string;
-  trustedDomains: string[];
   featureInfo: IFeatureInfo<T>;
   highContrastKey: HighContrastTheme;
 }

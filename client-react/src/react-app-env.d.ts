@@ -22,7 +22,6 @@ interface AppSvc {
   env: Environment;
   version: string;
   sessionId: string;
-  trustedDomains?: string[];
   resourceId?: string;
   feature?: string;
   cdn?: string;
