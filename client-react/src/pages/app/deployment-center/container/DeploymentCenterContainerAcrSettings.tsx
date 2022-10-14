@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps, SettingOption } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
@@ -12,9 +12,6 @@ import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/rea
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { addIdentityLinkStyle, deploymentCenterAcrBannerDiv, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -35,11 +32,12 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     learnMoreLink,
     fetchRegistriesInSub,
     openIdentityBlade,
+    isVnetConfigured,
+    legacyVnetAppSetting,
+    defaultVnetImagePullSetting,
   } = props;
   const { t } = useTranslation();
 
-  const deploymentCenterContext = useContext(DeploymentCenterContext);
-  const siteStateContext = useContext(SiteStateContext);
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
   const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
   const [aCRSubscriptionOptions, setACRSubscriptionOptions] = useState<IDropdownOption[]>(acrSubscriptionOptions);
@@ -54,23 +52,6 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     { key: SettingOption.on, text: t('on') },
     { key: SettingOption.off, text: t('off') },
   ];
-  const isVnetConfigured = useMemo(() => siteStateContext.site?.properties.virtualNetworkSubnetId, [
-    siteStateContext.site?.properties.virtualNetworkSubnetId,
-  ]);
-  const legacyVnetAppSetting = useMemo(
-    () => deploymentCenterContext.applicationSettings?.properties[DeploymentCenterConstants.vnetImagePullSetting],
-    [deploymentCenterContext.applicationSettings?.properties[DeploymentCenterConstants.vnetImagePullSetting]]
-  );
-
-  const getDefaultVnetImagePullOption = () => {
-    if (isVnetConfigured) {
-      if (legacyVnetAppSetting) {
-        return legacyVnetAppSetting === 'true' ? SettingOption.on : SettingOption.off;
-      }
-      return siteStateContext.site?.properties.vnetImagePullEnabled ? SettingOption.on : SettingOption.off;
-    }
-    return undefined;
-  };
 
   useEffect(() => {
     setIsComposeOptionSelected(formProps.values.option === ContainerOptions.compose);
@@ -281,7 +262,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
                 name="acrVnetImagePullSetting"
                 component={RadioButton}
                 options={acrVnetImagePullOptions}
-                defaultSelectedKey={getDefaultVnetImagePullOption()}
+                defaultSelectedKey={defaultVnetImagePullSetting}
               />
             </>
           )}

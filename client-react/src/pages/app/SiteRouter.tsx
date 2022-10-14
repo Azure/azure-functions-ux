@@ -148,6 +148,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
                       isContainerApp: isContainerApplication,
                       isFunctionApp: isFunctionApplication,
                       isKubeApp: isKubeApplication,
+                      refresh: () => fetchDataAndSetState(resourceId),
                     }}>
                     <Router>
                       {/* NOTE(michinoy): The paths should be always all lowercase. */}

@@ -651,6 +651,9 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   loadingManagedIdentities: boolean;
   learnMoreLink?: string;
   openIdentityBlade: () => void;
+  isVnetConfigured?: boolean;
+  legacyVnetAppSetting?: string;
+  defaultVnetImagePullSetting?: SettingOption;
 }
 
 export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>

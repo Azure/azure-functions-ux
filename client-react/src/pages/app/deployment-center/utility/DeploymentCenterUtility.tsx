@@ -24,7 +24,7 @@ import { IDeploymentCenterContext } from '../DeploymentCenterContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { Link } from '@fluentui/react';
+import { ISelectableOption, Link } from '@fluentui/react';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 export const getRuntimeStackSetting = (
@@ -470,3 +470,5 @@ export const getDescriptionSection = (source: string, description: string, learn
     </p>
   );
 };
+
+export const optionsSortingFunction = (a: ISelectableOption, b: ISelectableOption) => a.text.localeCompare(b.text);

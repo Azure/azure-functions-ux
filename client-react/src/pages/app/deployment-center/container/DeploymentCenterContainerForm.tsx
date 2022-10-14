@@ -726,8 +726,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     portalContext.log(getTelemetryInfo('info', 'onSubmitContainer', 'submit'));
 
     await Promise.all([updateDeploymentConfigurations(values), updatePublishingUser(values)]);
-    deploymentCenterContext.refresh();
     props.refresh();
+    siteContext.refresh();
   };
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
