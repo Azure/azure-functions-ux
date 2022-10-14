@@ -506,7 +506,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   useEffect(() => {
     setManagedIdentityPrincipalId(formProps.values.acrManagedIdentityClientId);
-  }, [formProps.values.acrManagedIdentityClientId]);
+  }, [formProps.values.acrManagedIdentityClientId, managedIdentityInfo.current[formProps.values.acrManagedIdentityClientId]]);
 
   return (
     <DeploymentCenterContainerAcrSettings
