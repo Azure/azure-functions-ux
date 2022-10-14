@@ -1,7 +1,7 @@
 import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
-import { AbstractConsoleComponent, KuduRequestBody } from '../shared/components/abstract.console.component';
-import { ConsoleConstants } from '../../../shared/models/constants';
+import { AbstractConsoleComponent } from '../shared/components/abstract.console.component';
+import { ConsoleConstants, HttpMethods } from '../../../shared/models/constants';
 import { HostType } from '../../../shared/models/arm/site';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
@@ -54,11 +54,13 @@ export class BashComponent extends AbstractConsoleComponent {
     this.unFocusConsoleManually();
     if (this.listOfDir.length === 0) {
       this.dirIndex = -1;
+      const uri = this.getKuduUri();
+      const header = this.getHeader();
       const body = {
         command: `bash -c ' ${this.getTabKeyCommand()} '`,
         dir: this.dir,
       };
-      const res = this._sendRequestToKudu(body);
+      const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       res.subscribe(
         data => {
           const { Output, ExitCode } = data.json();
@@ -89,12 +91,14 @@ export class BashComponent extends AbstractConsoleComponent {
    * both incase of an error or a valid response
    */
   protected connectToKudu() {
+    const uri = this.getKuduUri();
+    const header = this.getHeader();
     const cmd = this.command;
     const body = {
       command: `bash -c " ${cmd} && echo '' && pwd"`,
       dir: this.dir,
     };
-    const res = this._sendRequestToKudu(body);
+    const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
     this.lastAPICall = res.subscribe(
       data => {
         const { Output, ExitCode, Error } = data.json();
@@ -156,9 +160,5 @@ export class BashComponent extends AbstractConsoleComponent {
    */
   protected getConsoleLeft() {
     return `${this.appName}:~$ `;
-  }
-
-  private _sendRequestToKudu(body: KuduRequestBody) {
-    return super.sendRequestToKudu(this.getKuduUri(), body, this.site);
   }
 }

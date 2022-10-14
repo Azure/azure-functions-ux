@@ -1,15 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-import { LogEntry, LogType, LogsEnabled, LogLevel } from './LogStream.types';
-import { ChoiceGroup, IChoiceGroupOption, Link } from '@fluentui/react';
+import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
+import { ChoiceGroup, IChoiceGroupOption } from '@fluentui/react';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { getLogTextColor } from './LogStreamData';
 import { ChoiceGroupStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 
 interface LogStreamLogContainerProps {
   clearLogs: boolean;
@@ -19,7 +18,6 @@ interface LogStreamLogContainerProps {
   connectionError: boolean;
   logType: LogType;
   logsEnabled: LogsEnabled;
-  isScmHostNameWhiteListed?: boolean;
 }
 
 const containerDivStyle = style({
@@ -64,43 +62,13 @@ const logEntryDivStyle = style({
   paddingBottom: '5px',
 });
 
-const disableLogInfoMessageStyle = style({
-  paddingRight: '4px',
-});
-
 const fieldStyle = style({
   marginRight: '10px',
 });
 
-export const DisableLogInfo = React.memo(() => {
-  const { t } = useTranslation();
-  const githubLink = 'https://github.com/projectkudu/kudu/wiki/Diagnostic-Log-Stream';
-
-  return (
-    <div
-      key={'logBlockingMessage'}
-      className={logEntryDivStyle}
-      style={{ color: getLogTextColor(LogLevel.Normal) }}
-      ref={el => {
-        el?.scrollIntoView({ behavior: 'smooth' });
-      }}>
-      <p>
-        <span id="disableLogInfoMessage" className={disableLogInfoMessageStyle}>
-          {t('disableLogInfoMessage')}
-        </span>
-        <Link id="disableLogInfoLink" href={githubLink} target="_blank" className={learnMoreLinkStyle}>
-          {t('learnMore')}
-        </Link>
-      </p>
-    </div>
-  );
-});
-
-DisableLogInfo.displayName = 'DisableLogInfo';
-
 type LogStreamLogContainerPropsCombined = LogStreamLogContainerProps;
 const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = props => {
-  const { clearLogs, logEntries, connectionError, site, logType, logsEnabled, isScmHostNameWhiteListed } = props;
+  const { clearLogs, logEntries, connectionError, site, logType, logsEnabled } = props;
   const { t } = useTranslation();
   const scenarioChecker = new ScenarioService(t);
   const showWebServerOption = !!site.id && scenarioChecker.checkScenario(ScenarioIds.addWebServerLogging, { site }).status !== 'disabled';
@@ -139,54 +107,45 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
         </div>
       )}
 
-      {isScmHostNameWhiteListed === undefined ? null : (
-        <div className={bodyDivStyle} style={{ height: showWebServerOption ? 'calc(100% - 50px)' : 'calc(100% - 20px)' }}>
-          {/*Logs Disabled Message or Connecting*/}
-          {isScmHostNameWhiteListed &&
-            !!site.id &&
-            ((logType === LogType.Application && !logsEnabled.applicationLogs && (
-              <div className={connectionErrorDivStyle}>{t('logStreamingApplicationLogsDisabled')}</div>
+      <div className={bodyDivStyle} style={{ height: showWebServerOption ? 'calc(100% - 50px)' : 'calc(100% - 20px)' }}>
+        {/*Logs Disabled Message or Connecting*/}
+        {!!site.id &&
+          ((logType === LogType.Application && !logsEnabled.applicationLogs && (
+            <div className={connectionErrorDivStyle}>{t('logStreamingApplicationLogsDisabled')}</div>
+          )) ||
+            (logType === LogType.WebServer && !logsEnabled.webServerLogs && (
+              <div className={connectionErrorDivStyle}>{t('logStreamingWebServerLogsDisabled')}</div>
             )) ||
-              (logType === LogType.WebServer && !logsEnabled.webServerLogs && (
-                <div className={connectionErrorDivStyle}>{t('logStreamingWebServerLogsDisabled')}</div>
-              )) ||
-              (!clearLogs && <div className={connectingDivStyle}>{t('feature_logStreamingConnecting')}</div>))}
+            (!clearLogs && <div className={connectingDivStyle}>{t('feature_logStreamingConnecting')}</div>))}
 
-          {/*Connection Error*/}
-          {isScmHostNameWhiteListed && connectionError && !clearLogs && (
-            <div className={connectionErrorDivStyle}>{t('feature_logStreamingConnectionError')}</div>
-          )}
+        {/*Connection Error*/}
+        {connectionError && !clearLogs && <div className={connectionErrorDivStyle}>{t('feature_logStreamingConnectionError')}</div>}
 
-          {/*Log Entries*/}
-          {isScmHostNameWhiteListed ? (
-            !!logEntries &&
-            logEntries.map((logEntry, logIndex) => {
-              if (logIndex + 1 !== totalNumberOfLogs) {
-                return (
-                  <div key={logEntry.message} className={logEntryDivStyle} style={{ color: getLogTextColor(logEntry.level) }}>
-                    {logEntry.message}
-                  </div>
-                );
-              }
-
-              /*Last Log Entry needs to be scrolled into focus*/
+        {/*Log Entries*/}
+        {!!logEntries &&
+          logEntries.map((logEntry, logIndex) => {
+            if (logIndex + 1 !== totalNumberOfLogs) {
               return (
-                <div
-                  key={logEntry.message}
-                  className={logEntryDivStyle}
-                  style={{ color: getLogTextColor(logEntry.level) }}
-                  ref={el => {
-                    el?.scrollIntoView({ behavior: 'smooth' });
-                  }}>
+                <div key={logEntry.message} className={logEntryDivStyle} style={{ color: getLogTextColor(logEntry.level) }}>
                   {logEntry.message}
                 </div>
               );
-            })
-          ) : (
-            <DisableLogInfo />
-          )}
-        </div>
-      )}
+            }
+
+            /*Last Log Entry needs to be scrolled into focus*/
+            return (
+              <div
+                key={logEntry.message}
+                className={logEntryDivStyle}
+                style={{ color: getLogTextColor(logEntry.level) }}
+                ref={el => {
+                  el?.scrollIntoView({ behavior: 'smooth' });
+                }}>
+                {logEntry.message}
+              </div>
+            );
+          })}
+      </div>
     </div>
   );
 };
