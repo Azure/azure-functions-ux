@@ -27,7 +27,6 @@ export interface StartupInfo<T> {
   crmInfo?: CrmInfo;
   featureInfo?: T;
   armEndpoint?: string;
-  trustedDomains?: string[];
 }
 
 export interface SendToken2 {
