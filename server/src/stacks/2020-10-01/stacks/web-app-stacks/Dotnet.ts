@@ -143,7 +143,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 appInsightsSettings: {
                   isSupported: true,
                   isDefaultOff: false,
-                  isDefaultOff: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -157,7 +156,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 appInsightsSettings: {
                   isSupported: true,
                   isDefaultOff: false,
-                  isDefaultOff: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
