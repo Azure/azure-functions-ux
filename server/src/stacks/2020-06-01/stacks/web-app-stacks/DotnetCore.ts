@@ -55,6 +55,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -93,6 +94,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -106,6 +108,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -124,6 +127,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -136,6 +140,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -155,6 +160,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -168,6 +174,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -193,6 +200,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -206,6 +214,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -225,6 +234,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
+                isDefaultOff: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -237,6 +247,7 @@ export const dotnetCoreStack: WebAppStack = {
               isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
+                isDefaultOff: true,
                 isSupported: false,
               },
               gitHubActionSettings: {
