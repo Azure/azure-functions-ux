@@ -18,7 +18,6 @@ interface AppSvc {
   feature?: string;
   cdn?: string;
   frameId?: string;
-  trustedDomains?: string[];
 }
 
 declare global {

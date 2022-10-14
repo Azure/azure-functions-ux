@@ -106,13 +106,6 @@ export default class Url {
     return scmHost ? `https://${scmHost.name}` : this.getMainUrl(site);
   }
 
-  public static isScmHostNameWhitelisted(scmHostName: string, trustedDomains: string[] = []): boolean {
-    return trustedDomains.some(domain => {
-      const trustedDomain = domain.startsWith('*.') ? domain.substring(1) : domain;
-      return scmHostName.endsWith(trustedDomain);
-    });
-  }
-
   public static getSyncTriggerUrl(site: ArmObj<Site>) {
     return `${this.getScmUrl(site)}/api/functions/synctriggers`;
   }
