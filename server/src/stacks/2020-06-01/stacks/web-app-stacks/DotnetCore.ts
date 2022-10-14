@@ -24,6 +24,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
+                isDefaultOff: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -35,6 +36,7 @@ export const dotnetCoreStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
+                isDefaultOff: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
