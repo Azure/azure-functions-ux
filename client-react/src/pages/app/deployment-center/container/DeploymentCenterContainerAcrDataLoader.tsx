@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useContext, useRef } from 'react';
+import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
 import {
   DeploymentCenterFieldProps,
   DeploymentCenterContainerFormData,
   ACRCredentialType,
   ManagedIdentityType,
   UserAssignedIdentity,
+  SettingOption,
 } from '../DeploymentCenter.types';
 import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
@@ -12,7 +13,7 @@ import { IComboBoxOption, IDropdownOption, MessageBarType, SelectableOptionMenuI
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential } from '../../../../models/acr';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
@@ -20,6 +21,7 @@ import { AcrDependency } from '../../../../utils/dependency/Dependency';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { IDataMessageResult } from '../../../../models/portal-models';
 import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
+import { SiteStateContext } from '../../../../SiteState';
 interface RegistryIdentifiers {
   resourceId: string;
   location: string;
@@ -34,6 +36,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const [subscription, setSubscription] = useState<string>(deploymentCenterContext.siteDescriptor?.subscription ?? '');
   const [subscriptionOptions, setSubscriptionOptions] = useState<IDropdownOption[]>([]);
@@ -53,19 +56,34 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
   const [learnMoreLink, setLearnMoreLink] = useState<string | undefined>(undefined);
   const registryIdentifiers = useRef<{ [key: string]: RegistryIdentifiers }>({});
   const managedIdentityInfo = useRef<{ [key: string]: UserAssignedIdentity }>({});
+  const isVnetConfigured = useMemo(() => !!siteStateContext.site?.properties.virtualNetworkSubnetId, [
+    siteStateContext.site?.properties.virtualNetworkSubnetId,
+  ]);
+  const legacyVnetAppSetting = useMemo(
+    () => deploymentCenterContext.applicationSettings?.properties[DeploymentCenterConstants.vnetImagePullSetting],
+    [deploymentCenterContext.applicationSettings?.properties[DeploymentCenterConstants.vnetImagePullSetting]]
+  );
+  const defaultVnetImagePullSetting = useMemo(() => {
+    if (isVnetConfigured) {
+      if (legacyVnetAppSetting) {
+        return legacyVnetAppSetting === 'true' ? SettingOption.on : SettingOption.off;
+      }
+      return siteStateContext.site?.properties.vnetImagePullEnabled ? SettingOption.on : SettingOption.off;
+    }
+    return undefined;
+  }, [isVnetConfigured, legacyVnetAppSetting, siteStateContext.site?.properties.vnetImagePullEnabled]);
 
   const fetchData = () => {
-    fetchAllSubscriptions();
-    registryIdentifiers.current = {};
-    setAcrRegistryOptions([]);
-    setAcrImageOptions([]);
-    setAcrTagOptions([]);
     clearStatusBanner();
+    fetchAllSubscriptions();
   };
 
   const fetchRegistries = async () => {
     if (deploymentCenterContext.siteDescriptor) {
       setLoadingRegistryOptions(true);
+      setAcrRegistryOptions([]);
+      registryIdentifiers.current = {};
+      clearStatusBanner();
 
       const appSettingServerUrl =
         deploymentCenterContext.applicationSettings &&
@@ -175,7 +193,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     }
     clearStatusBanner();
     const serverUrl = loginServer?.toLocaleLowerCase() ?? '';
-
     const selectedRegistryIdentifier = registryIdentifiers.current[serverUrl];
 
     if (selectedRegistryIdentifier) {
@@ -347,6 +364,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       subscriptionArray.forEach(subscription =>
         subscriptionDropdownOptions.push({ key: subscription.subscriptionId, text: subscription.displayName })
       );
+      subscriptionDropdownOptions.sort(optionsSortingFunction);
       setSubscriptionOptions(subscriptionDropdownOptions);
       setSubscription(subscription);
     });
@@ -382,9 +400,11 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
 
   const fetchManagedIdentityOptions = async () => {
     setLoadingManagedIdentities(true);
+    clearStatusBanner();
 
     const userAssignedIdentitiesOptions: IComboBoxOption[] = [];
     // NOTE(yoonaoh): Have to call fetchSite instead of using siteStateContext to refresh the list of identities
+    portalContext.log(getTelemetryInfo('info', 'getManagedIdentities', 'submit'));
     const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
     if (siteResponse.metadata.success && siteResponse.data.identity?.userAssignedIdentities) {
       for (const [id, identity] of Object.entries(siteResponse.data.identity.userAssignedIdentities)) {
@@ -396,7 +416,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       }
     }
 
-    userAssignedIdentitiesOptions.sort((a, b) => a.text.localeCompare(b.text));
+    userAssignedIdentitiesOptions.sort(optionsSortingFunction);
 
     const identities: IComboBoxOption[] = [
       { key: ManagedIdentityType.systemAssigned, text: t('systemAssigned') },
@@ -529,6 +549,9 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       loadingManagedIdentities={loadingManagedIdentities}
       learnMoreLink={learnMoreLink}
       openIdentityBlade={openIdentityBlade}
+      isVnetConfigured={isVnetConfigured}
+      legacyVnetAppSetting={legacyVnetAppSetting}
+      defaultVnetImagePullSetting={defaultVnetImagePullSetting}
     />
   );
 };
