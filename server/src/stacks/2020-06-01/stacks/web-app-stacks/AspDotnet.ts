@@ -56,6 +56,7 @@ export const aspDotnetStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
+                isDefaultOff: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -69,6 +70,7 @@ export const aspDotnetStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
+                isDefaultOff: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -130,6 +132,7 @@ export const aspDotnetStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
+                isDefaultOff: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -153,6 +156,7 @@ export const aspDotnetStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
+                isDefaultOff: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
