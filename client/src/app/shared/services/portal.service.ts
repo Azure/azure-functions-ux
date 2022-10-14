@@ -525,6 +525,7 @@ export class PortalService implements IPortalService {
       window.appsvc.env.armToken = this.startupInfo.token;
       window.appsvc.resourceId = this.startupInfo.resourceId;
       window.appsvc.feature = this.startupInfo.featureInfo && this.startupInfo.featureInfo.feature;
+      window.appsvc.trustedDomains = this.startupInfo.trustedDomains;
       window.appsvc.frameId = this.frameId;
 
       this.startupInfoObservable.next(this.startupInfo);

@@ -10,16 +10,21 @@ import {
   Input,
 } from '@angular/core';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
-import { Site } from '../../../../shared/models/arm/site';
+import { HostType, Site } from '../../../../shared/models/arm/site';
 import { Subscription } from 'rxjs/Subscription';
 import { ConsoleService } from './../services/console.service';
-import { KeyCodes, ConsoleConstants } from '../../../../shared/models/constants';
+import { KeyCodes, ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
 import { ErrorComponent } from './error.component';
 import { MessageComponent } from './message.component';
 import { PromptComponent } from './prompt.component';
 import { Headers } from '@angular/http';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Subject } from 'rxjs/Subject';
+
+export interface KuduRequestBody {
+  command: string;
+  dir: string;
+}
 
 export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   public resourceId: string;
@@ -564,5 +569,30 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
       this.currentPrompt.instance.commandInParts = this.commandInParts;
       this.currentPrompt.instance.isFocused = this.isFocused;
     }
+  }
+
+  /**
+   * Check if the scm is in the trusted domain list
+   * @param scmHostName
+   * @param trustedDomains
+   * @returns
+   */
+  private _isScmHostNameWhitelisted(scmHostName: string, trustedDomains: string[] = []): boolean {
+    return trustedDomains.some(domain => {
+      const trustedDomain = domain.startsWith('*.') ? domain.substring(1) : domain;
+      return scmHostName.endsWith(trustedDomain);
+    });
+  }
+
+  protected sendRequestToKudu(uri: string, body: KuduRequestBody, site: ArmObj<Site>) {
+    const scmHostName = site.properties.hostNameSslStates.find(h => h.hostType === HostType.Repository).name;
+    const header = this.getHeader();
+    const passThroughHeaders: Record<string, string> = {};
+    header.forEach((v, n) => {
+      passThroughHeaders[n] = v.join(',');
+    });
+    return this._isScmHostNameWhitelisted(scmHostName, window.appsvc.trustedDomains)
+      ? this._consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header)
+      : this._consoleService.passThrough(HttpMethods.POST, uri, body, passThroughHeaders);
   }
 }

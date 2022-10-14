@@ -162,7 +162,10 @@ export class NoCorsHttpService {
           };
           return this._armService
             .send('POST', NoCorsHttpService.passThroughUrl, passThroughBody, null, this.portalHeadersCallback())
-            .do(r => logDependency(true, r.status), e => logDependency(false, e.status))
+            .do(
+              r => logDependency(true, r.status),
+              e => logDependency(false, e.status)
+            )
             .catch((e: FunctionsResponse) => {
               if (e.status === 400) {
                 let content: { reason: string; exception: any } = null;

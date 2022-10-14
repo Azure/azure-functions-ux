@@ -5016,7 +5016,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Physical path must be a location within site\</value>
     </data>
     <data name="physicalPathLocationErrorWithMounts" xml:space="preserve">
-        <value>Physical path must be a location within site\ or mounts\</value>
+        <value>Physical path must be a location within site\ or \mounts\</value>
     </data>
     <data name="virtualDirectoryPathError" xml:space="preserve">
         <value>Virtual Directory path must exist within an application path</value>
