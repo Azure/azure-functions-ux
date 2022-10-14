@@ -1,7 +1,7 @@
-import { AbstractConsoleComponent, KuduRequestBody } from './abstract.console.component';
+import { AbstractConsoleComponent } from './abstract.console.component';
 import { ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService } from '../services/console.service';
-import { ConsoleConstants } from '../../../../shared/models/constants';
+import { ConsoleConstants, HttpMethods } from '../../../../shared/models/constants';
 import { HostType } from '../../../../shared/models/arm/site';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { TranslateService } from '@ngx-translate/core';
@@ -32,11 +32,13 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
 
   protected updateDefaultDirectory() {
     if (this.site) {
+      const uri = this.getKuduUri();
+      const header = this.getHeader();
       const body = {
         command: 'cd',
         dir: this.site.properties.hyperV ? '\\' : 'site\\wwwroot',
       };
-      const res = this._sendRequestToKudu(body);
+      const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       res.subscribe(data => {
         const { Output } = data.json();
         this._defaultDirectory = Output.trim();
@@ -63,11 +65,13 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
     this.unFocusConsoleManually();
     if (this.listOfDir.length === 0) {
       this.dirIndex = -1;
+      const uri = this.getKuduUri();
+      const header = this.getHeader();
       const body = {
         command: `${this.getCommandPrefix()}${this.getTabKeyCommand()}`,
         dir: this.dir + ConsoleConstants.singleBackslash,
       };
-      const res = this._sendRequestToKudu(body);
+      const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
       res.subscribe(
         data => {
           const { Output, ExitCode } = data.json();
@@ -98,12 +102,14 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
    * both incase of an error or a valid response
    */
   protected connectToKudu() {
+    const uri = this.getKuduUri();
+    const header = this.getHeader();
     const cmd = this.command;
     const body = {
       command: `${this.getCommandPrefix()}${cmd} & echo. & cd`,
       dir: this.dir,
     };
-    const res = this._sendRequestToKudu(body);
+    const res = this.consoleService.send(HttpMethods.POST, uri, JSON.stringify(body), header);
     this.lastAPICall = res.subscribe(
       data => {
         const { Output, ExitCode, Error } = data.json();
@@ -135,10 +141,6 @@ export abstract class AbstractWindowsComponent extends AbstractConsoleComponent 
   private _updateDirectoryAfterCommand(cmd: string) {
     const result = cmd.split(ConsoleConstants.windowsNewLine);
     this.dir = result[result.length - 1];
-  }
-
-  private _sendRequestToKudu(body: KuduRequestBody) {
-    return super.sendRequestToKudu(this.getKuduUri(), body, this.site);
   }
 
   /**
