@@ -2510,4 +2510,5 @@ export class PortalResources {
   public static functionHostKeyDeleteConfirmMessage = 'functionHostKeyDeleteConfirmMessage';
   public static vnetImagePullOptionLabel = 'vnetImagePullOptionLabel';
   public static vnetImagePullLegacyAppSettingInfo = 'vnetImagePullLegacyAppSettingInfo';
+  public static unauthorizedMessageFunctionEditor = 'unauthorizedMessageFunctionEditor';
 }

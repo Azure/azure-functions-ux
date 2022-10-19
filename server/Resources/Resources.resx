@@ -7674,4 +7674,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="vnetImagePullLegacyAppSettingInfo" xml:space="preserve">
         <value>Pulling images over a virtual network is currently controlled by the legacy app setting 'WEBSITE_PULL_IMAGE_OVER_VNET'. Legacy app setting will be replaced with site property 'vnetImagePullEnabled'.</value>
     </data>
+    <data name="unauthorizedMessageFunctionEditor" xml:space="preserve">
+        <value>You are not authorized to view or edit function code.</value>
+    </data>
+    <data name="fetchFileContentUnAuthorizedFailureMessage" xml:space="preserve">
+        <value>You are not authorized to view or edit the file content</value>
+    </data>
 </root>

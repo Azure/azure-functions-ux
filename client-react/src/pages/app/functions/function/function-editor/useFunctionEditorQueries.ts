@@ -17,7 +17,7 @@ import { SiteRouterContext } from '../../../SiteRouter';
 import { AppKeysInfo } from '../../app-keys/AppKeys.types';
 import FunctionEditorData from './FunctionEditor.data';
 
-type Status = 'idle' | 'loading' | 'success' | 'error';
+export type Status = 'idle' | 'loading' | 'success' | 'error' | 'unauthorized';
 
 export const isNewPythonProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   const properties = functionInfo?.properties;
@@ -185,7 +185,11 @@ const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?
           setStatus('success');
           setFileList(response.data as VfsObject[]);
         } else {
-          setStatus('error');
+          if (response.metadata.status === 401) {
+            setStatus('unauthorized');
+          } else {
+            setStatus('error');
+          }
           portalContext.log(
             getTelemetryInfo('error', 'getFileContent', 'failed', {
               error: response.metadata.error,
@@ -284,7 +288,11 @@ const useHostJsonQuery = (updated: number, siteResourceId: string, runtimeVersio
           setStatus('success');
           setHostJsonContent(response.data);
         } else {
-          setStatus('error');
+          if (response.metadata.status === 401) {
+            setStatus('unauthorized');
+          } else {
+            setStatus('error');
+          }
           portalContext.log(
             getTelemetryInfo('error', 'getHostJson', 'failed', {
               error: response.metadata.error,
@@ -345,7 +353,9 @@ const usePortalContextQuery = (updated: number) => {
   useEffect(() => {
     setStatus('loading');
 
-    context.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor).then(portalCallOnEditor => {
+    context
+      .hasFlightEnabled(ExperimentationConstants.TreatmentFlight.portalCallOnEditor)
+      .then(portalCallOnEditor => {
         setStatus('success');
         setEnablePortalCall(portalCallOnEditor);
       })

@@ -22,17 +22,19 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+import { Status } from './AppFilesDataLoader';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
   refreshFunction: () => void;
   isRefreshing: boolean;
+  fileContentStatus: Status;
   fileList?: VfsObject[];
   runtimeVersion?: string;
 }
 
 const AppFiles: React.FC<AppFilesProps> = props => {
-  const { site, fileList, runtimeVersion, refreshFunction, isRefreshing } = props;
+  const { site, fileList, runtimeVersion, refreshFunction, isRefreshing, fileContentStatus } = props;
 
   const [initialLoading, setInitialLoading] = useState(true);
   const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
@@ -180,57 +182,72 @@ const AppFiles: React.FC<AppFilesProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div className={commandBarSticky}>
-      <AppFilesCommandBar dirty={isDirty()} disabled={isRefreshing} saveFile={save} resetFile={discard} refreshFunction={refreshFunction} />
-      <ConfirmDialog
-        primaryActionButton={{
-          title: t('ok'),
-          onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
-        }}
-        defaultActionButton={{
-          title: t('cancel'),
-          onClick: closeConfirmDialog,
-        }}
-        title={t('editor_changeFile')}
-        content={t('editor_changeFileConfirmMessage')}
-        hidden={!selectedDropdownOption}
-        onDismiss={closeConfirmDialog}
-      />
-      <FunctionEditorFileSelectorBar
-        functionAppNameLabel={site.name}
-        fileDropdownOptions={getDropdownOptions()}
-        fileDropdownSelectedKey={(selectedFile?.key as string) ?? ''}
-        disabled={isRefreshing}
-        onChangeDropdown={onFileSelectorChange}
-      />
-      {(isLoading() || savingFile) && <LoadingComponent />}
-      {!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
-        <CustomBanner
-          message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
-          type={MessageBarType.error}
+    <>
+      {siteStateContext.stopped && <CustomBanner message={t('noAppFilesWhileFunctionAppStopped')} type={MessageBarType.warning} />}
+      <div className={commandBarSticky}>
+        <AppFilesCommandBar
+          dirty={isDirty()}
+          disabled={isRefreshing}
+          saveFile={save}
+          resetFile={discard}
+          refreshFunction={refreshFunction}
         />
-      ) : (
-        <EditModeBanner setBanner={setReadOnlyBanner} />
-      )}
-      <div className={editorStyle}>
-        <MonacoEditor
-          value={fileContent.latest}
-          language={editorLanguage}
-          onChange={onChange}
-          height={monacoHeight}
-          disabled={initialLoading || !isFileContentAvailable || !isRuntimeReachable()}
-          options={{
-            minimap: { enabled: false },
-            scrollBeyondLastLine: false,
-            cursorBlinking: true,
-            renderWhitespace: 'all',
-            readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState),
+        <ConfirmDialog
+          primaryActionButton={{
+            title: t('ok'),
+            onClick: () => !!selectedDropdownOption && changeDropdownOption(selectedDropdownOption),
           }}
-          theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
+          defaultActionButton={{
+            title: t('cancel'),
+            onClick: closeConfirmDialog,
+          }}
+          title={t('editor_changeFile')}
+          content={t('editor_changeFileConfirmMessage')}
+          hidden={!selectedDropdownOption}
+          onDismiss={closeConfirmDialog}
         />
+        <FunctionEditorFileSelectorBar
+          functionAppNameLabel={site.name}
+          fileDropdownOptions={getDropdownOptions()}
+          fileDropdownSelectedKey={(selectedFile?.key as string) ?? ''}
+          disabled={isRefreshing}
+          onChangeDropdown={onFileSelectorChange}
+        />
+        {(isLoading() || savingFile) && <LoadingComponent />}
+        {!isRuntimeReachable() || (isFileContentAvailable !== undefined && !isFileContentAvailable) ? (
+          <CustomBanner
+            message={
+              fileContentStatus === 'unauthorized'
+                ? t('fetchFileContentUnAuthorizedFailureMessage')
+                : !isRuntimeReachable()
+                ? t('scmPingFailedErrorMessage')
+                : t('fetchFileContentFailureMessage')
+            }
+            type={fileContentStatus === 'unauthorized' ? MessageBarType.warning : MessageBarType.error}
+          />
+        ) : (
+          <EditModeBanner setBanner={setReadOnlyBanner} />
+        )}
+        <div className={editorStyle}>
+          <MonacoEditor
+            value={fileContent.latest}
+            language={editorLanguage}
+            onChange={onChange}
+            height={monacoHeight}
+            disabled={initialLoading || !isFileContentAvailable || !isRuntimeReachable()}
+            options={{
+              minimap: { enabled: false },
+              scrollBeyondLastLine: false,
+              cursorBlinking: true,
+              renderWhitespace: 'all',
+              readOnly: SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState),
+            }}
+            theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
+          />
+        </div>
+        {isRefreshing && <LoadingComponent overlay={true} />}
       </div>
-      {isRefreshing && <LoadingComponent overlay={true} />}
-    </div>
+    </>
   );
 };
 
