@@ -62,6 +62,7 @@ export default class PortalCommunicator {
     'portal.azure.us',
     'portal.azure.eaglex.ic.gov',
     'portal.azure.microsoft.scloud',
+    'ms.portal.azure.net',
   ];
 
   private static postMessage(verb: string, data: string | null) {
