@@ -2511,4 +2511,5 @@ export class PortalResources {
   public static vnetImagePullOptionLabel = 'vnetImagePullOptionLabel';
   public static vnetImagePullLegacyAppSettingInfo = 'vnetImagePullLegacyAppSettingInfo';
   public static unauthorizedMessageFunctionEditor = 'unauthorizedMessageFunctionEditor';
+  public static fetchFileContentUnAuthorizedFailureMessage = 'fetchFileContentUnAuthorizedFailureMessage';
 }
