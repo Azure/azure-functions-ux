@@ -46,7 +46,7 @@ import { FileContent, InputFormValues, LoggingOptions, ResponseContent, UrlObj }
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { isNewPythonProgrammingModel } from './useFunctionEditorQueries';
+import { isNewPythonProgrammingModel, Status } from './useFunctionEditorQueries';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -65,6 +65,7 @@ export interface FunctionEditorProps {
   setIsUploadingFile: (isUploadingFile: boolean) => void;
   refreshFileList: () => void;
   addCorsRule: (corsRule: string) => void;
+  status: Status;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
@@ -100,6 +101,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     addCorsRule,
     enablePortalCall,
     addingCorsRules,
+    status,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -471,8 +473,10 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
   };
 
   const getBanner = (): JSX.Element => {
-    /* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */
-    if (addingCorsRules) {
+    /* NOTE (shimedh): Show unauthorized banner first, if not present then show the read-only banner, instead of showing the Generic Runtime failure method */
+    if (status === 'unauthorized') {
+      return <CustomBanner message={t('unauthorizedMessageFunctionEditor')} type={MessageBarType.warning} />;
+    } else if (addingCorsRules) {
       return <CustomBanner message={t('functionEditorCorsWarning')} type={MessageBarType.info} />;
     } else if (isAppReadOnly(siteStateContext.siteAppEditState)) {
       return <EditModeBanner setBanner={setReadOnlyBanner} />;

@@ -659,13 +659,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
   }, [refreshQueries]);
 
   useEffect(() => {
-    if (initialLoading && (status === 'error' || status === 'success')) {
+    if (initialLoading && (status === 'error' || status === 'success' || status === 'unauthorized')) {
       setInitialLoading(false);
     }
   }, [initialLoading, status]);
 
   useEffect(() => {
-    if (isRefreshing && (status === 'error' || status === 'success')) {
+    if (isRefreshing && (status === 'error' || status === 'success' || status === 'unauthorized')) {
       setIsRefreshing(false);
     }
   }, [isRefreshing, status]);
@@ -724,6 +724,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
             addCorsRule={addCorsRule}
             enablePortalCall={enablePortalCall}
             addingCorsRules={addingCorsRules}
+            status={status}
           />
         </div>
       ) : (
