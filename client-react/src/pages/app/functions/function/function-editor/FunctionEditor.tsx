@@ -473,7 +473,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
   };
 
   const getBanner = (): JSX.Element => {
-    /* NOTE (krmitta): Show unauthorized banner first, if not present then show the read-only banner, instead of showing the Generic Runtime failure method */
+    /* NOTE (shimedh): Show unauthorized banner first, if not present then show the read-only banner, instead of showing the Generic Runtime failure method */
     if (status === 'unauthorized') {
       return <CustomBanner message={t('unauthorizedMessageFunctionEditor')} type={MessageBarType.warning} />;
     } else if (addingCorsRules) {
