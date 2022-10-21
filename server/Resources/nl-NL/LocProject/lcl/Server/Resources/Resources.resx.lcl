@@ -16136,10 +16136,13 @@
       </Item>
       <Item ItemId=";physicalPathLocationErrorWithMounts" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          <Val><![CDATA[Physical path must be a location within site\ or \mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Het fysieke pad moet een locatie zijn binnen de site\ of koppelingen\]]></Val>
+            <Val><![CDATA[Het fysieke pad moet een locatie zijn binnen de site\ of \koppelingen\]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

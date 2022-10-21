@@ -7362,15 +7362,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";disableLogInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Non è possibile recuperare i log per le app ospitate in un ambiente del servizio app con domini personalizzati.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";disabled" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Disabled]]></Val>
@@ -16139,10 +16130,13 @@
       </Item>
       <Item ItemId=";physicalPathLocationErrorWithMounts" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          <Val><![CDATA[Physical path must be a location within site\ or \mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Il percorso fisico deve essere un percorso all'interno del sito\ o dei montaggi\]]></Val>
+            <Val><![CDATA[Il percorso fisico deve essere un percorso all'interno di site\ o \mounts\]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

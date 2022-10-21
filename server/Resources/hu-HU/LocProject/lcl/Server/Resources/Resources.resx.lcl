@@ -7359,15 +7359,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";disableLogInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Az egyéni tartományokkal rendelkező App Service Environmentben üzemeltetett alkalmazások naplóit nem lehetséges beolvasni.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";disabled" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Disabled]]></Val>
@@ -16130,10 +16121,13 @@
       </Item>
       <Item ItemId=";physicalPathLocationErrorWithMounts" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          <Val><![CDATA[Physical path must be a location within site\ or \mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A fizikai elérési útnak a következőn belüli helynek kell lennie: site\ vagy mounts\]]></Val>
+            <Val><![CDATA[A fizikai elérési útnak a következőn belüli helynek kell lennie: site\ vagy \mounts\]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

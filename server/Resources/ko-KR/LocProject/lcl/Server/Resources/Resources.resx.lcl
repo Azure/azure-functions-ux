@@ -16115,10 +16115,13 @@
       </Item>
       <Item ItemId=";physicalPathLocationErrorWithMounts" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          <Val><![CDATA[Physical path must be a location within site\ or \mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[실제 경로는 사이트\ 또는 탑재\ 내의 위치여야 합니다.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
