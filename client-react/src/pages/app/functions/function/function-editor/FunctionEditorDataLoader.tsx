@@ -264,7 +264,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
 
       let data: unknown = { input };
       let url = `${baseUrl}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
-      if (functionEditorData.isAuthenticationEventTriggerFunction(newFunctionInfo)) {
+      if (functionEditorData.isAuthenticationEventsTriggerFunction(newFunctionInfo)) {
         try {
           data = JSON.parse(input);
         } catch {

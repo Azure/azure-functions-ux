@@ -264,7 +264,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
     [functionInfo.properties.name, siteStateContext.site]
   );
 
-  const urlObjsForAuthenticationEventTriggerFunction = useMemo<UrlObj[]>(() => {
+  const urlObjsForAuthenticationEventsTriggerFunction = useMemo<UrlObj[]>(() => {
     return urlObjs
       .filter(urlObj => {
         return urlObj.type === UrlType.System && urlObj.text === CommonConstants.AppKeys.authenticationEvent;
@@ -281,12 +281,12 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
   const filteredUrlObj = useMemo<UrlObj[]>(() => {
     if (functionEditorContext.isEventGridTriggerFunction(functionInfo)) {
       return urlObjsForEventGridTriggerFunction;
-    } else if (functionEditorContext.isAuthenticationEventTriggerFunction(functionInfo)) {
-      return urlObjsForAuthenticationEventTriggerFunction;
+    } else if (functionEditorContext.isAuthenticationEventsTriggerFunction(functionInfo)) {
+      return urlObjsForAuthenticationEventsTriggerFunction;
     } else {
       return urlObjs;
     }
-  }, [functionEditorContext, functionInfo, urlObjs, urlObjsForAuthenticationEventTriggerFunction, urlObjsForEventGridTriggerFunction]);
+  }, [functionEditorContext, functionInfo, urlObjs, urlObjsForAuthenticationEventsTriggerFunction, urlObjsForEventGridTriggerFunction]);
 
   useEffect(() => {
     portalCommunicator.updateDirtyState(dirty);
