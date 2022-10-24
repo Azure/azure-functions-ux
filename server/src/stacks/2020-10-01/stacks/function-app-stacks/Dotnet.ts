@@ -11,6 +11,37 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
     preferredOs: 'windows',
     majorVersions: [
       {
+        displayText: '.NET Framework 4.8',
+        value: 'dotnetframework48',
+        minorVersions: [
+          {
+            displayText: '.NET Framework 4.8',
+            value: '4.8',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: 'v4.8',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '4.8.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  netFrameworkVersion: 'v4.8',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+              },
+            },
+          },
+        ],
+      },
+      {
         displayText: '.NET 7 Isolated',
         value: 'dotnet7isolated',
         minorVersions: [
