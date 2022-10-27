@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import { FunctionAppStacksContext, PermissionsContext } from '../../../Contexts';
 import { FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
 import { CommonConstants, WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';
-import { addOrUpdateFormAppSetting, findFormAppSettingValue, findFormAppSettingIndex } from '../../../AppSettingsFormData';
+import { addOrUpdateFormAppSetting, findFormAppSettingValue } from '../../../AppSettingsFormData';
 import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/FunctionsRuntimeVersionHelper';
 import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
@@ -105,40 +105,29 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   }, [selectedStackVersion, options, siteStateContext]);
 
   useEffect(() => {
-    let isDirty = false;
-    // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
-    if (isWindowsNodeApp(siteStateContext.isLinuxApp, runtimeStack)) {
-      const index = findFormAppSettingIndex([...(values.appSettings ?? [])], CommonConstants.AppSettingNames.websiteNodeDefaultVersion);
-      isDirty = index >= 0 && values.appSettings[index].value !== initialStackVersion;
-    } else {
-      const stackVersionProperty = getStackVersionConfigPropertyName(siteStateContext.isLinuxApp, runtimeStack);
-      isDirty = values.config?.properties[stackVersionProperty] !== initialStackVersion;
-    }
-    setDirtyState(isDirty);
+    setDirtyState(initialStackVersion !== selectedStackVersion);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, initialValues, values, runtimeStack]);
+  }, [setDirtyState, selectedStackVersion, initialStackVersion]);
 
   useEffect(() => {
     const isLinux = siteStateContext.isLinuxApp;
     setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, isLinux, runtimeStack));
+  }, [siteStateContext, functionAppFilteredStacks, runtimeStack, setCurrentStackData]);
 
-    const initialStackVersion = getFunctionAppStackVersion(values, isLinux, runtimeStack);
+  useEffect(() => {
+    const initialStackVersion = getFunctionAppStackVersion(initialValues, siteStateContext.isLinuxApp, runtimeStack);
     setInitialStackVersion(initialStackVersion);
-    setSelectedStackVersion(initialStackVersion);
-    setDirtyState(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    siteStateContext,
-    values,
-    functionAppFilteredStacks,
-    runtimeStack,
-    setSelectedStackVersion,
-    setInitialStackVersion,
-    setCurrentStackData,
-    setDirtyState,
-  ]);
+  }, [siteStateContext, initialValues, runtimeStack, setInitialStackVersion]);
+
+  useEffect(() => {
+    const stackVersion = getFunctionAppStackVersion(values, siteStateContext.isLinuxApp, runtimeStack);
+    setSelectedStackVersion(stackVersion);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [siteStateContext, values, runtimeStack, setSelectedStackVersion]);
 
   return currentStackData &&
     siteStateContext.site &&
