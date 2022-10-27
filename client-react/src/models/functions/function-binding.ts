@@ -50,7 +50,7 @@ export enum BindingType {
   signalR = 'signalR',
   signalRConnectionInfo = 'signalRConnectionInfo',
   entityTrigger = 'entityTrigger',
-  authenticationEventTrigger = 'authenticationEventTrigger',
+  authenticationEventsTrigger = 'authenticationEventsTrigger',
 }
 
 export interface BindingInfo {
