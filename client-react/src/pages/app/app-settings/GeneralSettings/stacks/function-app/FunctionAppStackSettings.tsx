@@ -62,9 +62,6 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const onMajorVersionChange = React.useCallback(
     (_, option: IDropdownOption) => {
-      const selectedOptionKey = option.key as string;
-      setSelectedStackVersion(selectedOptionKey);
-
       // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
       if (isWindowsNodeApp(siteStateContext.isLinuxApp, runtimeStack)) {
         const versionData = option.data;
@@ -90,7 +87,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
         );
       }
     },
-    [siteStateContext, values, runtimeStack, setSelectedStackVersion, options]
+    [siteStateContext, values, runtimeStack, options]
   );
 
   const getEolBanner = React.useCallback(() => {
@@ -126,14 +123,22 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     const isLinux = siteStateContext.isLinuxApp;
     setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, isLinux, runtimeStack));
 
-    const initialStackVersion = getFunctionAppStackVersion(initialValues, isLinux, runtimeStack);
+    const initialStackVersion = getFunctionAppStackVersion(values, isLinux, runtimeStack);
     setInitialStackVersion(initialStackVersion);
-    console.log(initialStackVersion);
     setSelectedStackVersion(initialStackVersion);
     setDirtyState(false);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, initialValues, functionAppFilteredStacks, runtimeStack]);
+  }, [
+    siteStateContext,
+    values,
+    functionAppFilteredStacks,
+    runtimeStack,
+    setSelectedStackVersion,
+    setInitialStackVersion,
+    setCurrentStackData,
+    setDirtyState,
+  ]);
 
   return currentStackData &&
     siteStateContext.site &&
