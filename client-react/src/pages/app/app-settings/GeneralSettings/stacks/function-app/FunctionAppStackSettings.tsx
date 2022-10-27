@@ -116,18 +116,15 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   }, [siteStateContext, functionAppFilteredStacks, runtimeStack, setCurrentStackData]);
 
   useEffect(() => {
-    const initialStackVersion = getFunctionAppStackVersion(initialValues, siteStateContext.isLinuxApp, runtimeStack);
+    const isLinux = siteStateContext.isLinuxApp;
+    const initialStackVersion = getFunctionAppStackVersion(initialValues, isLinux, runtimeStack);
     setInitialStackVersion(initialStackVersion);
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, initialValues, runtimeStack, setInitialStackVersion]);
-
-  useEffect(() => {
-    const stackVersion = getFunctionAppStackVersion(values, siteStateContext.isLinuxApp, runtimeStack);
+    const stackVersion = getFunctionAppStackVersion(values, isLinux, runtimeStack);
     setSelectedStackVersion(stackVersion);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, values, runtimeStack, setSelectedStackVersion]);
+  }, [siteStateContext, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
 
   return currentStackData &&
     siteStateContext.site &&
