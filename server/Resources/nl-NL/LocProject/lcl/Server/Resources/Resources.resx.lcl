@@ -7362,15 +7362,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";disableLogInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Logboeken kunnen niet worden opgehaald voor apps die worden gehost op een App Service Environment met aangepaste domeinen.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";disabled" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Disabled]]></Val>
@@ -10364,6 +10355,15 @@
           <Val><![CDATA[Failed to fetch the file content]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kan de bestandsinhoud niet ophalen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";fetchFileContentUnAuthorizedFailureMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit the file content]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[U bent niet gemachtigd om de bestandsinhoud weer te geven of te bewerken]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22631,6 +22631,15 @@
           <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kan geen verbinding maken met de Azure-pijplijn die is verbonden met deze web-app. Dit kan betekenen dat deze is verwijderd uit de Azure Dev Ops-portal. Als dit het geval is, kunt u de verbinding met deze pijplijn verbreken en een nieuwe implementatiepijplijn instellen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";unauthorizedMessageFunctionEditor" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit function code.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[U bent niet gemachtigd om functiecode weer te geven of te bewerken.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
