@@ -255,7 +255,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     return (
       !!BindingManager.getHttpTriggerTypeInfo(properties) ||
       !!BindingManager.getEventGridTriggerInfo(properties) ||
-      !!BindingManager.getAuthenticationEventTriggerTypeInfo(properties)
+      !!BindingManager.getAuthenticationEventsTriggerTypeInfo(properties)
     );
   };
 
