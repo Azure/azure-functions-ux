@@ -10359,6 +10359,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";fetchFileContentUnAuthorizedFailureMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit the file content]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nie masz uprawnień do wyświetlania lub edytowania zawartości pliku]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";fetchingDeploymentData" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Fetching deployment data ...]]></Val>
@@ -22628,6 +22637,15 @@
           <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Nie mogliśmy nawiązać połączenia z potokiem platformy Azure połączonym z tą aplikacją internetową. Może to oznaczać, że został on usunięty z portalu usługi Azure DevOps. Jeśli tak się stało, możesz odłączyć ten potok i skonfigurować nowy potok wdrażania.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";unauthorizedMessageFunctionEditor" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit function code.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nie masz uprawnień do wyświetlania ani edytowania kodu funkcji.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

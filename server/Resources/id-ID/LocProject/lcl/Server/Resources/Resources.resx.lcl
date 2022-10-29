@@ -7095,15 +7095,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";disableLogInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kami tidak dapat mengambil log untuk aplikasi yang dihosting di Lingkungan App Service dengan domain kustom.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";disabled" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Disabled]]></Val>
@@ -9902,6 +9893,15 @@
           <Val><![CDATA[Failed to fetch the file content]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Gagal mengambil file konten file]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";fetchFileContentUnAuthorizedFailureMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit the file content]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anda tidak memiliki izin untuk melihat atau mengedit konten file]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -21635,6 +21635,15 @@
           <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kami tidak dapat menghubungkan ke Alur Azure yang terhubung ke Aplikasi Web ini. Hal ini dapat berarti telah dihapus dari portal Azure dev Ops. Jika hal ini terjadi, Anda dapat memutuskan sambungan alur dan menyiapkan jalur penyebaran baru.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";unauthorizedMessageFunctionEditor" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit function code.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anda tidak memiliki izin untuk melihat atau mengedit kode fungsi.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
