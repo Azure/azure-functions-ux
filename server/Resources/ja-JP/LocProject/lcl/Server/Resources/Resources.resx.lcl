@@ -7362,15 +7362,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";disableLogInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[We are unable to fetch logs for apps hosted on an App Service Environment with custom domains.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[カスタム ドメインを持つ App Service Environment でホストされているアプリのログをフェッチすることはできません。]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";disabled" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Disabled]]></Val>
@@ -10364,6 +10355,15 @@
           <Val><![CDATA[Failed to fetch the file content]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[ファイル コンテンツをフェッチできませんでした]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";fetchFileContentUnAuthorizedFailureMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit the file content]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ファイルのコンテンツを表示または編集する権限がありません。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22649,6 +22649,15 @@
           <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[この Web アプリに接続されている Azure パイプラインに接続できませんでした。Azure Dev Ops ポータルから削除された可能性があります。これが発生した場合は、このパイプラインを切断し、新しいデプロイ パイプラインを設定できます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";unauthorizedMessageFunctionEditor" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit function code.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[関数コードを表示または編集する権限がありません。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

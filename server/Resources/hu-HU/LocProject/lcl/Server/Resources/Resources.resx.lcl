@@ -10356,6 +10356,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";fetchFileContentUnAuthorizedFailureMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit the file content]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nem jogosult a fájl tartalmának megtekintésére vagy szerkesztésére.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";fetchingDeploymentData" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Fetching deployment data ...]]></Val>
@@ -22607,6 +22616,15 @@
           <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Nem sikerült csatlakozni a webalkalmazáshoz csatlakoztatott Azure Pipelines-folyamathoz. Ez azt is jelentheti, hogy az el lett távolítva az Azure DevOps-portálról. Ha ez történt, leválaszthatja a folyamatot, és beállíthat egy új üzembe helyezési folyamatot.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";unauthorizedMessageFunctionEditor" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You are not authorized to view or edit function code.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nem jogosult a függvénykód megtekintésére vagy szerkesztésére.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
