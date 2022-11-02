@@ -65,7 +65,7 @@ export const nodeStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
-                isDefaultOff: true,
+                isDefaultOff: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -103,7 +103,7 @@ export const nodeStack: WebAppStack = {
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
-                isDefaultOff: true,
+                isDefaultOff: false,
               },
               gitHubActionSettings: {
                 isSupported: true,
