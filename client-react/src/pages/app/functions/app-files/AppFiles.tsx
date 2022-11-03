@@ -23,6 +23,7 @@ import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 import { Status } from './AppFilesDataLoader';
+import { Links } from '../../../../utils/FwLinks';
 
 interface AppFilesProps {
   site: ArmObj<Site>;
@@ -224,6 +225,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
                 : t('fetchFileContentFailureMessage')
             }
             type={fileContentStatus === 'unauthorized' ? MessageBarType.warning : MessageBarType.error}
+            learnMoreLink={Links.functionUnreachableLearnMore}
           />
         ) : (
           <EditModeBanner setBanner={setReadOnlyBanner} />
