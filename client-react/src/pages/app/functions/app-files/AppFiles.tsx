@@ -225,7 +225,7 @@ const AppFiles: React.FC<AppFilesProps> = props => {
                 : t('fetchFileContentFailureMessage')
             }
             type={fileContentStatus === 'unauthorized' ? MessageBarType.warning : MessageBarType.error}
-            learnMoreLink={Links.functionUnreachableLearnMore}
+            learnMoreLink={!isRuntimeReachable() ? Links.functionUnreachableLearnMore : undefined}
           />
         ) : (
           <EditModeBanner setBanner={setReadOnlyBanner} />
