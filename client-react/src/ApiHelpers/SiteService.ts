@@ -32,7 +32,8 @@ export default class SiteService {
   public static updateSite = (
     resourceId: string,
     site: ArmObj<Site>,
-    configSettingsToIgnore: string[] = SiteService._configSettingsToIgnore
+    configSettingsToIgnore: string[] = SiteService._configSettingsToIgnore,
+    usePatch?: boolean
   ) => {
     const rest: ArmObj<Site> = { ...site };
     delete rest.identity;
@@ -53,7 +54,12 @@ export default class SiteService {
       },
     };
 
-    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'updateSite', method: 'PUT', body: payload });
+    return MakeArmCall<ArmObj<Site>>({
+      resourceId,
+      commandName: usePatch ? 'patchSite' : 'updateSite',
+      method: usePatch ? 'PATCH' : 'PUT',
+      body: payload,
+    });
   };
 
   public static fetchWebConfig = (resourceId: string) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
+import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps, SettingOption } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -11,7 +11,7 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
-import { addIdentityLinkStyle, deploymentCenterAcrBannerDiv } from '../DeploymentCenter.styles';
+import { addIdentityLinkStyle, deploymentCenterAcrBannerDiv, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -32,6 +32,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     learnMoreLink,
     fetchRegistriesInSub,
     openIdentityBlade,
+    isVnetConfigured,
+    legacyVnetAppSetting,
+    defaultVnetImagePullSetting,
   } = props;
   const { t } = useTranslation();
 
@@ -41,6 +44,14 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   const [aCRRegistryOptions, setACRRegistryOptions] = useState<IDropdownOption[]>(acrRegistryOptions);
   const [aCRImageOptions, setACRImageOptions] = useState<IDropdownOption[]>(acrImageOptions);
   const [aCRTagOptions, setACRTagOptions] = useState<IDropdownOption[]>(acrTagOptions);
+  const acrCredentialsOptions = [
+    { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
+    { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
+  ];
+  const acrVnetImagePullOptions = [
+    { key: SettingOption.on, text: t('on') },
+    { key: SettingOption.off, text: t('off') },
+  ];
 
   useEffect(() => {
     setIsComposeOptionSelected(formProps.values.option === ContainerOptions.compose);
@@ -117,10 +128,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         label={t('authentication')}
         name="acrCredentialType"
         component={RadioButton}
-        options={[
-          { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
-          { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
-        ]}
+        options={acrCredentialsOptions}
         displayInVerticalLayout={true}
       />
       {acrUseManagedIdentities && (
@@ -240,6 +248,24 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
           )}
 
           <Field id="container-acr-startUpFileOrCommand" name="command" component={TextField} label={t('containerStartupFileOrCommand')} />
+
+          {isVnetConfigured && (
+            <>
+              {legacyVnetAppSetting && (
+                <MessageBar messageBarType={MessageBarType.info} className={deploymentCenterInfoBannerDiv}>
+                  {t('vnetImagePullLegacyAppSettingInfo')}
+                </MessageBar>
+              )}
+              <Field
+                id="vnet-image-pull-setting"
+                label={t('vnetImagePullOptionLabel')}
+                name="acrVnetImagePullSetting"
+                component={RadioButton}
+                options={acrVnetImagePullOptions}
+                defaultSelectedKey={defaultVnetImagePullSetting}
+              />
+            </>
+          )}
         </>
       )}
 

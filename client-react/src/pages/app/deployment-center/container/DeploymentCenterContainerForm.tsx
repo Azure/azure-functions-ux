@@ -4,7 +4,7 @@ import {
   DeploymentCenterFormData,
   DeploymentCenterContainerFormProps,
   DeploymentCenterContainerFormData,
-  ContinuousDeploymentOption,
+  SettingOption,
   ContainerRegistrySources,
   ContainerOptions,
   SiteSourceControlRequestBody,
@@ -160,7 +160,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   };
 
   const manageAcrWebhook = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
-    if (values.continuousDeploymentOption === ContinuousDeploymentOption.on) {
+    if (values.continuousDeploymentOption === SettingOption.on) {
       return updateAcrWebhook(values);
     } else {
       return deleteAcrWebhook(values);
@@ -228,7 +228,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
   const getAppSettings = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): { [name: string]: string } => {
     const appSettings = {};
 
-    if (values.scmType !== ScmType.GitHubAction && values.continuousDeploymentOption === ContinuousDeploymentOption.on) {
+    if (values.scmType !== ScmType.GitHubAction && values.continuousDeploymentOption === SettingOption.on) {
       appSettings[DeploymentCenterConstants.enableCISetting] = 'true';
     }
 
@@ -257,6 +257,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     delete existingAppSettings[DeploymentCenterConstants.usernameSetting];
     delete existingAppSettings[DeploymentCenterConstants.passwordSetting];
     delete existingAppSettings[DeploymentCenterConstants.enableCISetting];
+
+    if (values.acrVnetImagePullSetting) {
+      delete existingAppSettings[DeploymentCenterConstants.vnetImagePullSetting];
+    }
 
     return { ...existingAppSettings, ...containerAppSettings };
   };
@@ -421,13 +425,41 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     };
   };
 
+  const updateSite = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): Promise<ResponseResult> => {
+    const responseResult = {
+      success: true,
+      error: null,
+    };
+
+    if (values.acrVnetImagePullSetting) {
+      portalContext.log(getTelemetryInfo('info', 'settingVnetImagePullEnabled', 'submit'));
+      const updateSiteResponse = await deploymentCenterData.patchSite(deploymentCenterContext.resourceId, {
+        properties: {
+          vnetImagePullEnabled: values.acrVnetImagePullSetting === SettingOption.on,
+        },
+      });
+
+      if (!updateSiteResponse.metadata.success) {
+        portalContext.log(getTelemetryInfo('error', 'settingVnetImagePullEnabled', 'failed', updateSiteResponse.metadata.error));
+        responseResult.success = false;
+        responseResult.error = updateSiteResponse.metadata.error;
+      }
+    }
+
+    return responseResult;
+  };
+
   const saveDirectRegistrySettings = async (
     values: DeploymentCenterFormData<DeploymentCenterContainerFormData>,
     deploymentProperties: KeyValue<any>
   ) => {
     const notificationId = portalContext.startNotification(t('savingContainerConfiguration'), t('savingContainerConfiguration'));
 
-    const [updateAppSettingsResponse, updateSiteConfigResponse] = await Promise.all([updateAppSettings(values), updateSiteConfig(values)]);
+    const [updateAppSettingsResponse, updateSiteConfigResponse] = await Promise.all([
+      updateAppSettings(values),
+      updateSiteConfig(values),
+      updateSite(values),
+    ]);
 
     if (updateAppSettingsResponse.success && updateSiteConfigResponse.success) {
       if (values.registrySource === ContainerRegistrySources.acr) {
@@ -694,8 +726,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     portalContext.log(getTelemetryInfo('info', 'onSubmitContainer', 'submit'));
 
     await Promise.all([updateDeploymentConfigurations(values), updatePublishingUser(values)]);
-    deploymentCenterContext.refresh();
     props.refresh();
+    siteContext.refresh();
   };
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
@@ -786,6 +818,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
               showPublishProfilePanel={deploymentCenterPublishingContext.showPublishProfilePanel}
               isDataRefreshing={props.isDataRefreshing}
               isDirty={isSettingsDirty(formProps, deploymentCenterContext) || isFtpsDirty(formProps, deploymentCenterPublishingContext)}
+              isValid={formProps.isValid}
               isVstsBuildProvider={formProps.values.scmType === ScmType.Vsts}
             />
           </div>

@@ -2,8 +2,6 @@ import { Field } from 'formik';
 import React, { useState, useEffect, useContext } from 'react';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import {
-  getJavaStack,
-  getJavaContainers,
   getJavaMajorMinorVersion,
   getJavaContainersOptions,
   getFrameworkVersionOptions,
@@ -23,176 +21,182 @@ import {
   isStackVersionEndOfLife,
   isJBossWarningBannerShown,
 } from '../../../../../utils/stacks-utils';
-import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType, IDropdownOption } from '@fluentui/react';
 import { Links } from '../../../../../utils/FwLinks';
+import { WorkerRuntimeLanguages } from '../../../../../utils/CommonConstants';
 
-const JavaStack: React.SFC<StackProps> = props => {
-  const [currentJavaMajorVersion, setCurrentJavaMajorVersion] = useState('');
-  const [currentJavaContainer, setCurrentJavaContainer] = useState('');
-  const [javaStack, setJavaStack] = useState<WebAppStack | undefined>(undefined);
-  const [javaContainers, setJavaContainers] = useState<WebAppStack | undefined>(undefined);
+const JavaStack: React.FC<StackProps> = props => {
   const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);
   const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
 
   const { values, initialValues, setFieldValue } = props;
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  const disableAllControls = !app_write || !editable || saving;
-
   const allStacks = useContext(WebAppStacksContext);
 
-  const setJavaStacksAndContainers = () => {
-    let javaStack = getJavaStack([...allStacks]);
-    let javaContainers = getJavaContainers([...allStacks]);
+  const disableAllControls = React.useMemo(() => !app_write || !editable || saving, [app_write, editable, saving]);
 
-    if (javaStack) {
-      const filteredJavaStacks = filterDeprecatedWebAppStack([javaStack], 'java', initialValues.config.properties.javaVersion);
-      if (filteredJavaStacks.length > 0) {
-        javaStack = filteredJavaStacks[0];
-        setCurrentJavaMajorVersion(getJavaMajorMinorVersion(javaStack, values.config).majorVersion);
-        setJavaStack(javaStack);
-      }
-    }
+  const javaStack = React.useMemo(() => {
+    const filteredStack = filterDeprecatedWebAppStack(
+      allStacks.filter(stack => stack.value === WorkerRuntimeLanguages.java),
+      WorkerRuntimeLanguages.java,
+      initialValues.config.properties.javaVersion
+    );
 
-    if (javaContainers) {
-      const filteredJavaContainers = filterDeprecatedWebAppStack(
-        [javaContainers],
-        'javacontainers',
-        initialValues.config.properties.javaVersion
-      );
-      if (filteredJavaContainers.length > 0) {
-        javaContainers = filteredJavaContainers[0];
-        setCurrentJavaContainer(getJavaContainerKey(javaContainers, values.config));
-        setJavaContainers(javaContainers);
-      }
-    }
-  };
+    return filteredStack.length > 0 ? filteredStack[0] : null;
+  }, [allStacks, initialValues.config.properties.javaVersion]);
 
-  const setStackBannerAndInfoMessage = () => {
-    setEarlyAccessInfoVisible(false);
-    setEolStackDate(undefined);
+  const javaContainers = React.useMemo(() => {
+    const filteredStack = filterDeprecatedWebAppStack(
+      allStacks.filter(stack => stack.value === WorkerRuntimeLanguages.javaContainers),
+      WorkerRuntimeLanguages.javaContainers,
+      initialValues.config.properties.javaVersion
+    );
 
-    if (!!currentJavaMajorVersion && !!javaStack) {
-      const stackVersions = getJavaMinorVersionAsDropdownOptions(currentJavaMajorVersion, javaStack, t);
-      const selectionVersion = (values.config.properties.javaVersion || '').toLowerCase();
-      for (const stackVersion of stackVersions) {
-        if (
-          stackVersion.key === selectionVersion &&
-          !!stackVersion.data &&
-          !!stackVersion.data.stackSettings &&
-          !!stackVersion.data.stackSettings.windowsRuntimeSettings
-        ) {
-          const settings = stackVersion.data.stackSettings.windowsRuntimeSettings;
-          setEarlyAccessInfoVisible(!!settings.isEarlyAccess);
-
-          if (isStackVersionDeprecated(settings)) {
-            setEolStackDate(null);
-          } else if (isStackVersionEndOfLife(settings.endOfLifeDate)) {
-            setEolStackDate(settings.endOfLifeDate);
-          }
-          break;
-        }
-      }
-    }
-  };
-
-  useEffect(() => {
-    setStackBannerAndInfoMessage();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.config.properties.javaVersion]);
-  useEffect(() => {
-    setJavaStacksAndContainers();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+    return filteredStack.length > 0 ? filteredStack[0] : null;
+  }, [allStacks, initialValues.config.properties.javaVersion]);
 
   if (!javaStack || !javaContainers) {
     return null;
   }
 
-  const isJavaMajorVersionDirty = () => {
-    return (
+  const isJavaMajorVersionDirty = React.useMemo(
+    () =>
       values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
-      currentJavaMajorVersion !== getJavaMajorMinorVersion(javaStack, initialValues.config).majorVersion
-    );
-  };
+      getJavaMajorMinorVersion(javaStack, values.config).majorVersion !==
+        getJavaMajorMinorVersion(javaStack, initialValues.config).majorVersion,
+    [
+      values.config.properties.javaVersion,
+      values.currentlySelectedStack,
+      initialValues.currentlySelectedStack,
+      initialValues.config.properties.javaVersion,
+    ]
+  );
 
-  const isJavaMinorVersionDirty = () => {
-    return isJavaMajorVersionDirty() || values.config.properties.javaVersion !== initialValues.config.properties.javaVersion;
-  };
+  const isJavaMinorVersionDirty = React.useMemo(
+    () => isJavaMajorVersionDirty || values.config.properties.javaVersion !== initialValues.config.properties.javaVersion,
+    [initialValues.config.properties.javaVersion, values.config.properties.javaVersion, isJavaMajorVersionDirty]
+  );
 
-  const isJavaContainerDirty = () => {
-    return isJavaMinorVersionDirty() || currentJavaContainer !== getJavaContainerKey(javaContainers, initialValues.config);
-  };
+  const isJavaContainerDirty = React.useMemo(
+    () => getJavaContainerKey(javaContainers, values.config) !== getJavaContainerKey(javaContainers, initialValues.config),
+    [
+      values.config.properties.javaContainer,
+      values.config.properties.javaContainerVersion,
+      initialValues.config.properties.javaContainer,
+      initialValues.config.properties.javaContainerVersion,
+    ]
+  );
 
-  const isJavaContainerVersionDirty = () => {
-    return isJavaContainerDirty() || values.config.properties.javaContainerVersion !== initialValues.config.properties.javaContainerVersion;
-  };
+  const isJavaContainerVersionDirty = React.useMemo(
+    () => isJavaContainerDirty || values.config.properties.javaContainerVersion !== initialValues.config.properties.javaContainerVersion,
+    [isJavaContainerDirty, values.config.properties.javaContainerVersion, initialValues.config.properties.javaContainerVersion]
+  );
 
-  // Java Versions
-  const javaMajorVersionOptions = getJavaMajorVersionAsDropdownOptions(javaStack);
-  const javaMinorVersionOptions = getJavaMinorVersionAsDropdownOptions(currentJavaMajorVersion, javaStack, t);
+  const selectedContainerKey = React.useMemo(() => getJavaContainerKey(javaContainers, values.config), [
+    values.config.properties.javaContainer,
+    values.config.properties.javaContainerVersion,
+    javaContainers,
+  ]);
 
-  // container versions
-  const frameworks = getJavaContainersOptions(javaContainers);
-  const javaFrameworkVersionOptions = getFrameworkVersionOptions(javaContainers, currentJavaContainer, t);
-  const onMajorVersionChange = (e: unknown, option: IDropdownOption) => {
-    setCurrentJavaMajorVersion(option.key as string);
-  };
-  const onJavaContainerChange = (e: unknown, option: IDropdownOption) => {
-    setFieldValue('config.properties.javaContainer', option.data ?? '');
-    setCurrentJavaContainer(option.key as string);
-  };
+  const selectedMajorVersion = React.useMemo(() => getJavaMajorMinorVersion(javaStack, values.config).majorVersion, [
+    values.config.properties.javaVersion,
+    javaStack,
+  ]);
 
+  const onJavaContainerChange = React.useCallback(
+    (_, option: IDropdownOption) => {
+      const containerVersionOptions = getFrameworkVersionOptions(javaContainers, option.key as string, t);
+
+      setFieldValue('config.properties.javaContainer', option.data ?? '');
+      setFieldValue(
+        'config.properties.javaContainerVersion',
+        containerVersionOptions.length > 0 ? (containerVersionOptions[0].key as string) : ''
+      );
+    },
+    [setFieldValue, javaContainers, t]
+  );
+
+  const onMajorVersionChange = React.useCallback(
+    (_, option: IDropdownOption) => {
+      const minorVersionOptions = getJavaMinorVersionAsDropdownOptions(option.key as string, javaStack, t);
+      setFieldValue('config.properties.javaVersion', minorVersionOptions.length > 0 ? (minorVersionOptions[0].key as string) : '');
+    },
+    [setFieldValue, javaStack, t]
+  );
+
+  useEffect(() => {
+    const currentMajorVersion = getJavaMajorMinorVersion(javaStack, values.config).majorVersion;
+    setEarlyAccessInfoVisible(false);
+    setEolStackDate(undefined);
+
+    if (currentMajorVersion) {
+      if (currentMajorVersion) {
+        const stackVersions = getJavaMinorVersionAsDropdownOptions(currentMajorVersion, javaStack, t);
+        const selectionVersion = (values.config.properties.javaVersion ?? '').toLowerCase();
+
+        for (const stackVersion of stackVersions) {
+          const windowsRuntimeSettings = stackVersion.data?.stackSettings?.windowsRuntimeSettings;
+
+          if (stackVersion.key === selectionVersion && windowsRuntimeSettings) {
+            setEarlyAccessInfoVisible(!!windowsRuntimeSettings.isEarlyAccess);
+
+            if (isStackVersionDeprecated(windowsRuntimeSettings)) {
+              setEolStackDate(null);
+            } else if (isStackVersionEndOfLife(windowsRuntimeSettings.endOfLifeDate)) {
+              setEolStackDate(windowsRuntimeSettings.endOfLifeDate);
+            }
+            return;
+          }
+        }
+      }
+    }
+  }, [values.config.properties.javaVersion, setEarlyAccessInfoVisible, setEolStackDate, javaStack]);
   return (
     <div>
       <DropdownNoFormik
         label={t('javaVersionLabel')}
-        dirty={isJavaMajorVersionDirty()}
-        selectedKey={currentJavaMajorVersion}
+        dirty={isJavaMajorVersionDirty}
+        selectedKey={selectedMajorVersion}
         id="app-settings-java-major-verison"
         disabled={disableAllControls}
-        options={javaMajorVersionOptions}
+        options={getJavaMajorVersionAsDropdownOptions(javaStack)}
         onChange={onMajorVersionChange}
       />
       <Field
         name="config.properties.javaVersion"
-        dirty={isJavaMinorVersionDirty()}
+        dirty={isJavaMinorVersionDirty}
         component={Dropdown}
         fullpage
         required
         disabled={disableAllControls}
         label={t('javaMinorVersion')}
         id="app-settings-java-minor-verison"
-        options={javaMinorVersionOptions}
+        options={getJavaMinorVersionAsDropdownOptions(selectedMajorVersion, javaStack, t)}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
       />
       {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.javaVersion, eolStackDate)}
       <DropdownNoFormik
         label={t('javaWebServer')}
-        dirty={isJavaContainerDirty()}
-        selectedKey={currentJavaContainer}
+        dirty={isJavaContainerDirty}
+        selectedKey={selectedContainerKey}
         id="app-settings-java-container-runtime"
         disabled={disableAllControls}
-        options={frameworks}
+        options={getJavaContainersOptions(javaContainers)}
         onChange={onJavaContainerChange}
       />
-      {javaFrameworkVersionOptions.length > 0 && (
-        <Field
-          name="config.properties.javaContainerVersion"
-          dirty={isJavaContainerVersionDirty()}
-          component={Dropdown}
-          fullpage
-          required
-          disabled={disableAllControls}
-          label={t('javaWebServerVersion')}
-          id="app-settings-java-container-version"
-          options={javaFrameworkVersionOptions}
-        />
-      )}
+      <Field
+        name="config.properties.javaContainerVersion"
+        dirty={isJavaContainerVersionDirty}
+        component={Dropdown}
+        fullpage
+        required
+        disabled={disableAllControls}
+        label={t('javaWebServerVersion')}
+        id="app-settings-java-container-version"
+        options={getFrameworkVersionOptions(javaContainers, selectedContainerKey, t)}
+      />
       {isJBossWarningBannerShown(values.config.properties.javaVersion, initialValues.config.properties.javaVersion) && (
         <CustomBanner
           type={MessageBarType.warning}

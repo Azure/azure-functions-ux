@@ -38,7 +38,7 @@ export enum ContainerDockerAccessTypes {
   private = 'private',
 }
 
-export enum ContinuousDeploymentOption {
+export enum SettingOption {
   on = 'on',
   off = 'off',
 }
@@ -331,6 +331,7 @@ export interface AcrFormData {
   acrCredentialType: string;
   acrManagedIdentityClientId: string;
   acrManagedIdentityPrincipalId: string;
+  acrVnetImagePullSetting?: SettingOption;
 }
 
 export interface DockerHubFormData {
@@ -356,7 +357,7 @@ export interface DeploymentCenterContainerFormData extends AcrFormData, DockerHu
   command: string;
   gitHubContainerUsernameSecretGuid: string;
   gitHubContainerPasswordSecretGuid: string;
-  continuousDeploymentOption: ContinuousDeploymentOption;
+  continuousDeploymentOption: SettingOption;
 }
 
 export interface DeploymentCenterCodeFormData {
@@ -432,6 +433,7 @@ export type DeploymentCenterCodePivotProps = DeploymentCenterCodeFormProps & Dep
 export interface DeploymentCenterCommandBarProps {
   isDataRefreshing: boolean;
   isDirty: boolean;
+  isValid: boolean;
   isVstsBuildProvider: boolean;
   saveFunction: () => void;
   discardFunction: () => void;
@@ -649,6 +651,9 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   loadingManagedIdentities: boolean;
   learnMoreLink?: string;
   openIdentityBlade: () => void;
+  isVnetConfigured?: boolean;
+  legacyVnetAppSetting?: string;
+  defaultVnetImagePullSetting?: SettingOption;
 }
 
 export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>

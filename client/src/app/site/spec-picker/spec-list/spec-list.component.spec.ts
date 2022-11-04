@@ -6,7 +6,9 @@ import { By } from '@angular/platform-browser';
 
 @Component({
   selector: `spec-list-host-component`,
-  template: `<spec-list [specGroup]='specGroup' [isRecommendedList]='isRecommendedList'></spec-list>`,
+  template: `
+    <spec-list [specGroup]="specGroup" [isRecommendedList]="isRecommendedList"></spec-list>
+  `,
 })
 class TestSpecListComponent {
   @ViewChild(SpecListComponent)
@@ -43,6 +45,7 @@ class TestSpecListComponent {
 
 describe('SpecList', () => {
   let hostComponent: TestSpecListComponent;
+  // @ts-ignore: error TS6133: 'specListComponent' is declared but its value is never read.
   let specListComponent: SpecListComponent;
   let testFixture: ComponentFixture<TestSpecListComponent>;
 

@@ -12,6 +12,7 @@ export interface ISiteState {
   isKubeApp: boolean;
   resourceId?: string;
   site?: ArmObj<Site>;
+  refresh: () => Promise<void>;
 }
 
 export const SiteStateContext = React.createContext<ISiteState>({} as ISiteState);

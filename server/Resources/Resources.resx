@@ -376,6 +376,9 @@
     <data name="deletePreviousPlanCheckBoxText" xml:space="preserve">
         <value>Delete '{0}':</value>
     </data>
+    <data name="changeAppPlanInfoBox" xml:space="preserve">
+        <value>Some plans may not show up due to resource group or geographical restrictions.</value>
+    </data>
     <data name="run" xml:space="preserve">
         <value>Run</value>
     </data>
@@ -5012,6 +5015,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="physicalPathLocationError" xml:space="preserve">
         <value>Physical path must be a location within site\</value>
     </data>
+    <data name="physicalPathLocationErrorWithMounts" xml:space="preserve">
+        <value>Physical path must be a location within site\ or \mounts\</value>
+    </data>
     <data name="virtualDirectoryPathError" xml:space="preserve">
         <value>Virtual Directory path must exist within an application path</value>
     </data>
@@ -5454,8 +5460,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="azureKeyVault" xml:space="preserve">
         <value>Key vault Reference</value>
     </data>
-    <data name="azureAppConfigValue" xml:space="preserve">
-        <value>App Service Config</value>
+    <data name="azureAppServiceValue" xml:space="preserve">
+        <value>App Service</value>
+    </data>
+    <data name="azureAppConfigRefValue" xml:space="preserve">
+        <value>App Configuration Reference</value>
     </data>
     <data name="appSettingKeyvaultAPIError" xml:space="preserve">
         <value>Error: Could not access key vault reference metadata</value>
@@ -6750,6 +6759,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
         <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
+    <data name="deploymentCenterOneDriveDropboxWarning" xml:space="preserve">
+        <value>Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.</value>
+    </data>
     <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
         <value>GitHub Token not found, click authorize to set up GitHub token.</value>
     </data>
@@ -7088,6 +7100,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about why CI/CD is not recommended for production slots.</value>
+    </data>
+    <data name="deploymentCenterOnedriveDropboxLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about this integrations retirement.</value>
     </data>
     <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
         <value>The redeploy operation of commit {0} for web app {1} is being submitted.</value>
@@ -7652,5 +7667,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionHostKeyDeleteConfirmMessage" xml:space="preserve">
         <value>Are you sure you want to delete?</value>
+    </data>
+    <data name="vnetImagePullOptionLabel" xml:space="preserve">
+        <value>Pull image over VNet</value>
+    </data>
+    <data name="vnetImagePullLegacyAppSettingInfo" xml:space="preserve">
+        <value>Pulling images over a virtual network is currently controlled by the legacy app setting 'WEBSITE_PULL_IMAGE_OVER_VNET'. Legacy app setting will be replaced with site property 'vnetImagePullEnabled'.</value>
+    </data>
+    <data name="unauthorizedMessageFunctionEditor" xml:space="preserve">
+        <value>You are not authorized to view or edit function code.</value>
+    </data>
+    <data name="fetchFileContentUnAuthorizedFailureMessage" xml:space="preserve">
+        <value>You are not authorized to view or edit the file content</value>
     </data>
 </root>

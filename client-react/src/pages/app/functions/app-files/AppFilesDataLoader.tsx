@@ -8,10 +8,7 @@ import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import { VfsObject } from '../../../../models/functions/vfs';
 import { SiteStateContext } from '../../../../SiteState';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { useTranslation } from 'react-i18next';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
-import { MessageBarType } from '@fluentui/react';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 
@@ -21,6 +18,7 @@ interface AppFilesDataLoaderProps {
 
 const appFilesData = new AppFilesData();
 export const AppFilesContext = React.createContext(appFilesData);
+export type Status = 'loading' | 'success' | 'error' | 'unauthorized';
 
 const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const { resourceId } = props;
@@ -30,11 +28,10 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   const [isRefreshing, setIsRefreshing] = useState(false);
 
   const [fileList, setFileList] = useState<VfsObject[] | undefined>(undefined);
+  const [fileContentsStatus, setFileContentStatus] = useState<Status>('success');
 
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
-
-  const { t } = useTranslation();
 
   const fetchData = async () => {
     const [siteResponse, hostStatusResponse] = await Promise.all([
@@ -48,10 +45,19 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
       const hostStatusData = hostStatusResponse.data;
       const currentRuntimeVersion = getRuntimeVersionString(hostStatusData.properties.version);
       setRuntimeVersion(currentRuntimeVersion);
+      setFileContentStatus('loading');
       const fileListResponse = await FunctionsService.getFileContent(resourceId, undefined, currentRuntimeVersion);
       if (fileListResponse.metadata.success) {
+        setFileContentStatus('success');
         setFileList(fileListResponse.data as VfsObject[]);
       } else {
+        if (fileListResponse.metadata.status === 401) {
+          setFileContentStatus('unauthorized');
+        } else {
+          setFileContentStatus('error');
+        }
+
+        setFileList(undefined);
         portalContext.log(
           getTelemetryInfo('error', 'getFileContent', 'failed', {
             error: fileListResponse.metadata.error,
@@ -90,8 +96,14 @@ const AppFilesDataLoader: React.FC<AppFilesDataLoaderProps> = props => {
   }
   return (
     <AppFilesContext.Provider value={appFilesData}>
-      {siteStateContext.stopped && <CustomBanner message={t('noAppFilesWhileFunctionAppStopped')} type={MessageBarType.warning} />}
-      <AppFiles site={site} fileList={fileList} runtimeVersion={runtimeVersion} refreshFunction={refresh} isRefreshing={isRefreshing} />
+      <AppFiles
+        site={site}
+        fileList={fileList}
+        runtimeVersion={runtimeVersion}
+        refreshFunction={refresh}
+        isRefreshing={isRefreshing}
+        fileContentStatus={fileContentsStatus}
+      />
     </AppFilesContext.Provider>
   );
 };

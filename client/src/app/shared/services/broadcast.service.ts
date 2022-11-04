@@ -47,6 +47,7 @@ export class BroadcastService implements IBroadcastService {
   private trialExpired: EventEmitter<void>;
   private resetKeySelection: EventEmitter<FunctionInfo>;
   private clearErrorEvent: EventEmitter<string>;
+  // @ts-ignore: error TS6133: 'refreshMonitorEvent' is declared but its value is never read.
   private refreshMonitorEvent: EventEmitter<FunctionMonitorInfo>;
   private dirtyStateMap: { [key: string]: string } = {};
   private defaultDirtyReason = 'global';

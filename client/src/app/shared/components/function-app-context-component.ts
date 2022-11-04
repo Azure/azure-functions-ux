@@ -33,6 +33,7 @@ export abstract class FunctionAppContextComponent extends ErrorableComponent imp
   private timeout: number;
 
   @Input('viewInfo')
+  // @ts-ignore: error TS6133: 'viewInfoComponent_viewInfo' is declared but its value is never read.
   private set viewInfoComponent_viewInfo(viewInfo: TreeViewInfo<any>) {
     this.viewInfoSubject.next(viewInfo);
   }

@@ -48,6 +48,7 @@ export const Links = {
   configureNodeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2195169',
   staticSiteAllowConfigFileUpdatesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2198769',
   staticSiteStagingEnvironmentsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2188987',
+  aspInfoPlanInfo: 'https://go.microsoft.com/fwlink/?linkid=2210300',
 };
 
 export const DeploymentCenterLinks = {
@@ -64,4 +65,5 @@ export const DeploymentCenterLinks = {
   publishingUserDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2082375',
   bitbucketDeployment: 'https://go.microsoft.com/fwlink/?linkid=2185671',
   cloudFolderDeployment: 'https://go.microsoft.com/fwlink/?linkid=2185768',
+  onedriveDropoxRetirement: 'https://go.microsoft.com/fwlink/?linkid=2209891',
 };

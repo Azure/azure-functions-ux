@@ -74,6 +74,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
   private _siteId: string;
   private _slotsArm: ArmObj<Site>[];
   private _functionAppContext: FunctionAppContext;
+  // @ts-ignore: error TS6133: '_isKubeApp' is declared but its value is never read.
   private _isKubeApp = false;
   private _customLocationId = '';
 

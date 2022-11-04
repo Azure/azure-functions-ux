@@ -90,6 +90,7 @@ export class PortalResources {
   public static region = 'region';
   public static deletePreviousPlanMessage = 'deletePreviousPlanMessage';
   public static deletePreviousPlanCheckBoxText = 'deletePreviousPlanCheckBoxText';
+  public static changeAppPlanInfoBox = 'changeAppPlanInfoBox';
   public static run = 'run';
   public static refresh = 'refresh';
   public static save = 'save';
@@ -1615,6 +1616,7 @@ export class PortalResources {
   public static aCoachmarkHasAppearedAriaAlert = 'aCoachmarkHasAppearedAriaAlert';
   public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
   public static physicalPathLocationError = 'physicalPathLocationError';
+  public static physicalPathLocationErrorWithMounts = 'physicalPathLocationErrorWithMounts';
   public static virtualDirectoryPathError = 'virtualDirectoryPathError';
   public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
   public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
@@ -1761,7 +1763,8 @@ export class PortalResources {
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
   public static azureKeyVault = 'azureKeyVault';
-  public static azureAppConfigValue = 'azureAppConfigValue';
+  public static azureAppServiceValue = 'azureAppServiceValue';
+  public static azureAppConfigRefValue = 'azureAppConfigRefValue';
   public static appSettingKeyvaultAPIError = 'appSettingKeyvaultAPIError';
   public static containerSettingsNotConfigured = 'containerSettingsNotConfigured';
   public static containerSettingsTitle = 'containerSettingsTitle';
@@ -2197,6 +2200,7 @@ export class PortalResources {
   public static deploymentCenterConfigureGitHubPermissionsKudu = 'deploymentCenterConfigureGitHubPermissionsKudu';
   public static deploymentCenterConfigureGitHubPermissionsGHA = 'deploymentCenterConfigureGitHubPermissionsGHA';
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
+  public static deploymentCenterOneDriveDropboxWarning = 'deploymentCenterOneDriveDropboxWarning';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static deploymentCenterSettingsWorkflowConfigTitle = 'deploymentCenterSettingsWorkflowConfigTitle';
   public static deploymentCenterSettingsWorkflowConfigPreviewDescription = 'deploymentCenterSettingsWorkflowConfigPreviewDescription';
@@ -2315,6 +2319,7 @@ export class PortalResources {
   public static deploymentCenterContainerAcrFailedToLoadTags = 'deploymentCenterContainerAcrFailedToLoadTags';
   public static moreCommands = 'moreCommands';
   public static deploymentCenterProdSlotWarningLinkAriaLabel = 'deploymentCenterProdSlotWarningLinkAriaLabel';
+  public static deploymentCenterOnedriveDropboxLinkAriaLabel = 'deploymentCenterOnedriveDropboxLinkAriaLabel';
   public static deploymentCenterCodeRedeployCommitRequestSubmittedDesc = 'deploymentCenterCodeRedeployCommitRequestSubmittedDesc';
   public static deploymentCenterCodeRedeployCommitSuccess = 'deploymentCenterCodeRedeployCommitSuccess';
   public static deploymentCenterCodeRedeployCommitFailed = 'deploymentCenterCodeRedeployCommitFailed';
@@ -2503,4 +2508,8 @@ export class PortalResources {
   public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
   public static createFunctionDeploymentNotificationFailed = 'createFunctionDeploymentNotificationFailed';
   public static functionHostKeyDeleteConfirmMessage = 'functionHostKeyDeleteConfirmMessage';
+  public static vnetImagePullOptionLabel = 'vnetImagePullOptionLabel';
+  public static vnetImagePullLegacyAppSettingInfo = 'vnetImagePullLegacyAppSettingInfo';
+  public static unauthorizedMessageFunctionEditor = 'unauthorizedMessageFunctionEditor';
+  public static fetchFileContentUnAuthorizedFailureMessage = 'fetchFileContentUnAuthorizedFailureMessage';
 }

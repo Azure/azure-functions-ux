@@ -71,6 +71,7 @@ export class CommonConstants {
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableBYOSSlotSetting: 'enableBYOSSlotSetting',
+    allowMountsAsVirtualDirectoryPrefix: 'allowMountsAsVirtualDirectoryPrefix',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -296,6 +297,7 @@ export enum WorkerRuntimeLanguages {
   php = 'php',
   custom = 'custom',
   dotnetIsolated = 'dotnet-isolated',
+  javaContainers = 'javacontainers',
 }
 
 export enum FunctionsDotnetVersion {
@@ -340,11 +342,13 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     functionsCollateral: '61fci236',
     portalCallOnEditor: 'enable-portal-call-editor',
+    patchCallOnConfig: 'enable-patch-call-config',
   };
 
   public static ControlFlight = {
     functionsCollateral: '3f3ej608',
     portalCallOnEditor: 'disable-portal-call-editor',
+    patchCallOnConfig: 'disable-patch-call-config',
   };
 }
 
@@ -358,3 +362,5 @@ export const ScmHosts = ['.scm.azurewebsites.net', '.scm.azurewebsites.us', '.sc
 export const KeyBoard = {
   shiftTab: '\x1B[Z',
 };
+
+export const azureAppConfigRefStart = '@microsoft.appconfiguration';

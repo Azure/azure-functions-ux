@@ -10,11 +10,11 @@ export class HighlightService {
 
   highlightString(s: string, l: 'typescript' | 'scss' | 'html'): string {
     if (l === 'typescript') {
-      return Prism.highlight(s, Prism.languages.typescript);
+      return Prism.highlight(s, Prism.languages.typescript, 'ts');
     } else if (l === 'scss') {
-      return Prism.highlight(s, Prism.languages.scss);
+      return Prism.highlight(s, Prism.languages.scss, 'scss');
     } else {
-      return Prism.highlight(s, Prism.languages.html);
+      return Prism.highlight(s, Prism.languages.html, 'html');
     }
   }
 }
