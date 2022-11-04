@@ -17,7 +17,6 @@ import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
 import { StorageType } from '../../../../models/site/config';
 import { formElementStyle } from '../AppSettings.styles';
-import Url from '../../../../utils/url';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
