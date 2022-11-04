@@ -16,11 +16,11 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
     preferredOs: 'windows',
     majorVersions: [
       {
-        displayText: '.NET 7',
+        displayText: '.NET 7 (STS)',
         value: 'dotnet7',
         minorVersions: [
           {
-            displayText: '.NET 7',
+            displayText: '.NET 7 (STS)',
             value: '7',
             stackSettings: {
               windowsRuntimeSettings: {
@@ -34,7 +34,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '7.0.100-preview.5.22307.18',
                 },
-                isPreview: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|7.0',
@@ -47,7 +46,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '7.0.100-preview.5.22307.18',
                 },
-                isPreview: true,
               },
             },
           },
