@@ -16,7 +16,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 7 Isolated',
-            value: '7 (non-LTS)',
+            value: '7 (STS)',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v7.0',
