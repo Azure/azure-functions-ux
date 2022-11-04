@@ -252,21 +252,19 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
               validate={validateMountPath}
               styles={textFieldPrefixStylesOverride(!isLinuxOrContainer())}
             />
-            {Url.getFeatureValue(CommonConstants.FeatureFlags.enableBYOSSlotSetting) ? (
-              <Field
-                name={'sticky'}
-                label={t('sticky')}
-                component={Checkbox}
-                id={'azure-storage-mounts-sticky'}
-                checked={!!formProps.values.sticky}
-                onChange={(_?: React.FormEvent<HTMLElement | HTMLInputElement>, checked = false) => {
-                  formProps.setFieldValue('sticky', checked);
-                }}
-                styles={{
-                  root: formElementStyle,
-                }}
-              />
-            ) : null}
+            <Field
+              name={'sticky'}
+              label={t('sticky')}
+              component={Checkbox}
+              id={'azure-storage-mounts-sticky'}
+              checked={!!formProps.values.sticky}
+              onChange={(_?: React.FormEvent<HTMLElement | HTMLInputElement>, checked = false) => {
+                formProps.setFieldValue('sticky', checked);
+              }}
+              styles={{
+                root: formElementStyle,
+              }}
+            />
             <ActionBar
               id="handler-mappings-edit-footer"
               primaryButton={actionBarPrimaryButtonProps}

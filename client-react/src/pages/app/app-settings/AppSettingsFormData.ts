@@ -210,9 +210,7 @@ export function getStickySettings(
   appSettingNames = appSettingNames.concat(oldAppSettingNamesToKeep);
 
   const oldAzureStorageMountNames = oldSlotConfigNames.properties.azureStorageConfigNames || [];
-  const azureStorageConfigNames = Url.getFeatureValue(CommonConstants.FeatureFlags.enableBYOSSlotSetting)
-    ? azureStorageMounts.filter(x => x.sticky).map(x => x.name)
-    : oldAzureStorageMountNames;
+  const azureStorageConfigNames = azureStorageMounts.filter(x => x.sticky).map(x => x.name);
   const oldAzureStorageMountNamesToKeep = oldAzureStorageMountNames.filter(x => {
     return !azureStorageMounts.find(y => y.name === x);
   });
