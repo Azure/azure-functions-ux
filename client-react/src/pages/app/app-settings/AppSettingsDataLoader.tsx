@@ -45,6 +45,7 @@ import { WebAppStack } from '../../../models/stacks/web-app-stacks';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
+import { ExperimentationConstants } from '../../../utils/CommonConstants';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -116,6 +117,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     functionsHostStatus: { loadingState: LoadingStates.loading },
     functionsCount: { loadingState: LoadingStates.loading },
   });
+
+  const [usePatchOnSubmit, setUsePatchOnSubmit] = useState<boolean>();
 
   const armCallFailed = (response: HttpResponseObject<any>, ignoreRbacAndLocks?: boolean) => {
     if (response.metadata.success) {
@@ -354,6 +357,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   useEffect(() => {
     loadData();
+    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.patchCallOnConfig).then(setUsePatchOnSubmit);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -416,7 +420,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
 
     const [siteUpdate, slotConfigNamesUpdate] = [
-      updateSite(resourceId, site, configSettingToIgnore),
+      updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
     ];
 
