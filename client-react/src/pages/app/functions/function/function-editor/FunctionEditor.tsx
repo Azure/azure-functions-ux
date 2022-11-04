@@ -485,7 +485,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
         <CustomBanner
           message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
           type={MessageBarType.error}
-          learnMoreLink={Links.functionUnreachableLearnMore}
+          learnMoreLink={ !isRuntimeReachable() ? Links.functionUnreachableLearnMore : undefined}
         />
       );
     } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
