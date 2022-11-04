@@ -107,7 +107,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
     setMajorVersionRuntime(getSelectedMajorVersion(supportedStacks, values.config.properties.linuxFxVersion));
   };
 
-  const setStackBannerAndInfoMessage = () => {
+  const setEolDate = () => {
     setEarlyAccessInfoVisible(false);
     setEolStackDate(undefined);
 
@@ -130,8 +130,13 @@ const LinuxStacks: React.FC<PropsType> = props => {
   };
 
   useEffect(() => {
+    setEolDate();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.config.properties.linuxFxVersion, runtimeStack, majorVersionRuntime]);
+
+  useEffect(() => {
     setRuntimeStackAndMajorVersion();
-    setStackBannerAndInfoMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);

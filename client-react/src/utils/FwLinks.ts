@@ -49,6 +49,7 @@ export const Links = {
   staticSiteAllowConfigFileUpdatesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2198769',
   staticSiteStagingEnvironmentsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2188987',
   aspInfoPlanInfo: 'https://go.microsoft.com/fwlink/?linkid=2210300',
+  endOfLifeStackLink: 'https://go.microsoft.com/fwlink/?linkid=2202628',
 };
 
 export const DeploymentCenterLinks = {
