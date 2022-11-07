@@ -35,7 +35,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: true,
                   netFrameworkVersion: 'v7.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4']
+                supportedFunctionsExtensionVersions: ['~4'],
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|7.0',
@@ -54,7 +54,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: true,
                   linuxFxVersion: 'DOTNET-ISOLATED|7.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4']
+                supportedFunctionsExtensionVersions: ['~4'],
               },
             },
           },
@@ -259,7 +259,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'dotnet|3.1',
                 },
                 supportedFunctionsExtensionVersions: ['~3'],
-                endOfLifeDate: dotnetCore3EOL
+                endOfLifeDate: dotnetCore3EOL,
               },
             },
           },
@@ -342,7 +342,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         ],
       },
     ],
-  }
+  };
 };
 
 export const dotnetStackNonIsoDates: FunctionAppStack = getDotnetStack(false);
