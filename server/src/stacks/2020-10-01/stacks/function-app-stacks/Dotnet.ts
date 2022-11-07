@@ -16,11 +16,10 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 7 Isolated',
-            value: '7 (non-LTS)',
+            value: '7 (STS)',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v7.0',
-                isPreview: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
@@ -40,7 +39,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|7.0',
-                isPreview: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
