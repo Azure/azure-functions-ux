@@ -1,16 +1,14 @@
 import React, { useContext, useState } from 'react';
 import { AppInsightsEntityTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
 import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
-import CustomBanner from '../../../../../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
-import { MessageBarType, DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn, Link, PanelType } from '@fluentui/react';
+import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn, Link, PanelType } from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { FunctionEntitiesContext } from './FunctionEntitiesDataLoader';
 import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
 import FunctionEntityDetails from './FunctionEntityDetails';
-import { Links } from '../../../../../../../utils/FwLinks';
 import { getSearchFilter } from '../../../../../../../components/form-controls/SearchBox';
 
 interface FunctionEntitiesProps {
@@ -105,15 +103,6 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
 
   return (
     <div id="entities-tab" className={tabStyle}>
-      {/**Durable Functions Extension Message Banner/ */}
-      {!!entityTraces && entityTraces.length === 0 && (
-        <CustomBanner
-          message={t('durableFunctionNoDataFound')}
-          type={MessageBarType.info}
-          learnMoreLink={Links.durableFunctionExtensionLearnMore}
-        />
-      )}
-
       {/*Orchestration Traces Table*/}
       <div>
         <h3>{t('entityTracesTableTitle')}</h3>

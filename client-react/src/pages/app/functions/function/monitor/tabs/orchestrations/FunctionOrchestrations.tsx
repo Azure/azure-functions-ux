@@ -1,16 +1,14 @@
 import React, { useState, useContext } from 'react';
 import { AppInsightsOrchestrationTrace, AppInsightsOrchestrationTraceDetail } from '../../../../../../../models/app-insights';
 import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
-import CustomBanner from '../../../../../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
-import { MessageBarType, DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn, Link, PanelType } from '@fluentui/react';
+import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn, Link, PanelType } from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { FunctionOrchestrationsContext } from './FunctionOrchestrationsDataLoader';
 import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
 import FunctionOrchestrationDetails from './FunctionOrchestrationDetails';
-import { Links } from '../../../../../../../utils/FwLinks';
 import { getSearchFilter } from '../../../../../../../components/form-controls/SearchBox';
 
 interface FunctionOrchestrationsProps {
@@ -118,15 +116,6 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
 
   return (
     <div id="orchestrations-tab" className={tabStyle}>
-      {/**Durable Functions Extension Message Banner/ */}
-      {!!orchestrationTraces && orchestrationTraces.length === 0 && (
-        <CustomBanner
-          message={t('durableFunctionNoDataFound')}
-          type={MessageBarType.info}
-          learnMoreLink={Links.durableFunctionExtensionLearnMore}
-        />
-      )}
-
       {/*Orchestration Traces Table*/}
       <div>
         <h3>{t('orchestrationTracesTableTitle')}</h3>

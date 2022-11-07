@@ -50,6 +50,7 @@ export const Links = {
   staticSiteStagingEnvironmentsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2188987',
   aspInfoPlanInfo: 'https://go.microsoft.com/fwlink/?linkid=2210300',
   functionUnreachableLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2214718',
+  endOfLifeStackLink: 'https://go.microsoft.com/fwlink/?linkid=2202628',
 };
 
 export const DeploymentCenterLinks = {
