@@ -127,6 +127,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java SE 8u332',
+          // note (jafreebe): Java SE 8u312 is pinned version that maps to the below value
+          value: '1.8.332',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JAVA|8u332',
+            },
+          },
+        },
+        {
           displayText: 'Java SE 8u322',
           // note (jafreebe): Java SE 8u312 is pinned version that maps to the below value
           value: '1.8.322',
