@@ -140,7 +140,7 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
         <>
           <Field
             className={textboxStyle}
-            id="deployment-center-ftps-provider-username"
+            id="publishingUsername"
             name="publishingUsername"
             component={TextField}
             label={t('deploymentCenterFtpsUsernameLabel')}
@@ -150,7 +150,7 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
           <div className={ftpsPasswordTextboxStyle}>
             <Field
               className={textboxStyle}
-              id="deployment-center-ftps-provider-password"
+              id="publishingPassword"
               name="publishingPassword"
               component={TextField}
               label={t('deploymentCenterFtpsPasswordLabel')}
@@ -171,7 +171,7 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
 
             <Field
               className={textboxStyle}
-              id="deployment-center-ftps-provider-confirm-password"
+              id="publishingConfirmPassword"
               name="publishingConfirmPassword"
               component={TextField}
               label={t('deploymentCenterFtpsConfirmPasswordLabel')}
