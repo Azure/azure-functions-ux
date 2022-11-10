@@ -16,7 +16,7 @@ export const pythonStack: FunctionAppStack = {
           os: 'linux',
           isPreview: true,
           isDeprecated: false,
-          isHidden: false,
+          isHidden: true,
           applicationInsightsEnabled: true,
           runtimeVersion: 'Python|3.10',
           appSettingsDictionary: {
