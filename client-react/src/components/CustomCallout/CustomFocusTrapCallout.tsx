@@ -48,7 +48,7 @@ const CustomFocusTrapCallout: React.FC<CustomFocusTrapCalloutProps> = props => {
       </div>
 
       <FocusZone>
-        <Stack className={focusTrapCalloutStyle.buttons} gap={8} horizontal>
+        <Stack className={focusTrapCalloutStyle.buttons} tokens={{ childrenGap: 8 }} horizontal>
           <PrimaryButton onClick={primaryButtonFunction}>{primaryButtonTitle}</PrimaryButton>
           <DefaultButton onClick={defaultButtonFunction}>{defaultButtonTitle}</DefaultButton>
         </Stack>
