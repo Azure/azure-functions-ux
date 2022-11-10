@@ -26,7 +26,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 remoteDebuggingSupported: false,
                 isPreview: true,
                 isDefault: false,
-                isHidden: false,
+                isHidden: true,
                 appInsightsSettings: {
                   isSupported: true,
                 },
