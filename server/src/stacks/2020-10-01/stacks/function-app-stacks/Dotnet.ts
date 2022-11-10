@@ -34,7 +34,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
-                  netFrameworkVersion: 'v4.8',
+                  netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
               },
