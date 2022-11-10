@@ -77,6 +77,14 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
 
       if (resetResponse.metadata.success) {
         portalContext.stopNotification(notificationId, true, t('ftpsUserScopeCredentialsResetNotifSuccess'));
+        deploymentCenterPublishingContext.publishingUser = {
+          ...publishingUser,
+          properties: {
+            ...publishingUser.properties,
+            publishingUserName: '',
+            publishingPassword: '',
+          },
+        };
         formProps.setFieldValue('publishingUsername', '');
         formProps.setFieldValue('publishingPassword', '');
         formProps.setFieldValue('publishingConfirmPassword', '');
