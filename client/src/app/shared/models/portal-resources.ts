@@ -2511,4 +2511,10 @@ export class PortalResources {
   public static vnetImagePullLegacyAppSettingInfo = 'vnetImagePullLegacyAppSettingInfo';
   public static unauthorizedMessageFunctionEditor = 'unauthorizedMessageFunctionEditor';
   public static fetchFileContentUnAuthorizedFailureMessage = 'fetchFileContentUnAuthorizedFailureMessage';
+  public static ftpsUserScopeCredentialsResetNotifTitle = 'ftpsUserScopeCredentialsResetNotifTitle';
+  public static ftpsUserScopeCredentialsResetNotifSuccess = 'ftpsUserScopeCredentialsResetNotifSuccess';
+  public static ftpsUserScopeCredentialsResetNotifFailure = 'ftpsUserScopeCredentialsResetNotifFailure';
+  public static resetUserScopeCredentialsAriaLabel = 'resetUserScopeCredentialsAriaLabel';
+  public static resetUserScopeCredentialsConfirmationTitle = 'resetUserScopeCredentialsConfirmationTitle';
+  public static resetUserScopeCredentialsConfirmationDescription = 'resetUserScopeCredentialsConfirmationDescription';
 }

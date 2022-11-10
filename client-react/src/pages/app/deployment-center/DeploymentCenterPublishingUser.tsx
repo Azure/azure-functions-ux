@@ -6,9 +6,16 @@ import {
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
 } from './DeploymentCenter.types';
-import { Link, MessageBarType, ProgressIndicator } from '@fluentui/react';
+import { ActionButton, Link, MessageBarType, ProgressIndicator } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterInfoBannerDiv, descriptionStyle, textboxStyle, userHeaderStyle } from './DeploymentCenter.styles';
+import {
+  additionalTextFieldControl,
+  deploymentCenterInfoBannerDiv,
+  descriptionStyle,
+  ftpsPasswordTextboxStyle,
+  textboxStyle,
+  userHeaderStyle,
+} from './DeploymentCenter.styles';
 import TextField from '../../../components/form-controls/TextField';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
@@ -16,17 +23,21 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { DeploymentCenterLinks } from '../../../utils/FwLinks';
 import { TextFieldType } from '../../../utils/CommonConstants';
+import { PortalContext } from '../../../PortalContext';
+import DeploymentCenterData from './DeploymentCenter.data';
+import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
 
-const DeploymentCenterPublishingUser: React.FC<
-  DeploymentCenterFtpsProps & DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-> = props => {
+const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
+  DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {
   const { t } = useTranslation();
   const { formProps } = props;
+  const deploymentCenterData = new DeploymentCenterData();
+  const portalContext = useContext(PortalContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
-
-  const [textFieldPassword, setTextFieldPassword] = useState<string>('');
-  const [textFieldConfirmPassword, setTextFieldConfirmPassword] = useState<string>('');
+  const [isResetUserCalloutHidden, setIsResetUserCalloutHidden] = useState<boolean>(true);
 
   const { publishingUser, publishingUserFetchFailedMessage } = deploymentCenterPublishingContext;
 
@@ -48,14 +59,52 @@ const DeploymentCenterPublishingUser: React.FC<
 
   const sampleWebProviderUsername = webProviderUsername ? webProviderUsername : t('deploymentCenterFtpsUserScopeSampleUsername');
 
-  const changeTextFieldPassword = (e: any, newPassword: string) => {
-    setTextFieldPassword(newPassword);
-    formProps.setFieldValue('publishingPassword', newPassword);
+  const resetPublishingUser = async () => {
+    if (publishingUser) {
+      const notificationId = portalContext.startNotification(
+        t('ftpsUserScopeCredentialsResetNotifTitle'),
+        t('ftpsUserScopeCredentialsResetNotifTitle')
+      );
+      const emptyPublishingUser = {
+        ...publishingUser,
+        properties: {
+          ...publishingUser.properties,
+          publishingUserName: '',
+          publishingPassword: '',
+        },
+      };
+      const resetResponse = await deploymentCenterData.updatePublishingUser(emptyPublishingUser);
+
+      if (resetResponse.metadata.success) {
+        portalContext.stopNotification(notificationId, true, t('ftpsUserScopeCredentialsResetNotifSuccess'));
+        deploymentCenterPublishingContext.publishingUser = emptyPublishingUser;
+        formProps.setFieldValue('publishingUsername', '');
+        formProps.setFieldValue('publishingPassword', '');
+        formProps.setFieldValue('publishingConfirmPassword', '');
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'resetUserScopeCredentialsResponse', 'failed', {
+            message: getErrorMessage(resetResponse.metadata.error),
+            errorAsString: resetResponse.metadata.error ? JSON.stringify(resetResponse.metadata.error) : '',
+          })
+        );
+        portalContext.stopNotification(notificationId, false, t('ftpsUserScopeCredentialsResetNotifFailure'));
+      }
+    }
   };
 
-  const changeTextFieldConfirmPassword = (e: any, newConfirmPassword: string) => {
-    setTextFieldConfirmPassword(newConfirmPassword);
-    formProps.setFieldValue('publishingConfirmPassword', newConfirmPassword);
+  const toggleResetCalloutVisibility = () => {
+    setIsResetUserCalloutHidden(!isResetUserCalloutHidden);
+  };
+
+  const resetPublishingUserFromCallout = () => {
+    portalContext.log(
+      getTelemetryInfo('info', 'resetUserScopeCredentials', 'submit', {
+        location: 'ftpsTab',
+      })
+    );
+    resetPublishingUser();
+    setIsResetUserCalloutHidden(true);
   };
 
   return (
@@ -96,33 +145,52 @@ const DeploymentCenterPublishingUser: React.FC<
             component={TextField}
             label={t('deploymentCenterFtpsUsernameLabel')}
             widthOverride={'100%'}
-            resizable={true}
           />
 
-          <Field
-            className={textboxStyle}
-            id="deployment-center-ftps-provider-password"
-            name="publishingPassword"
-            component={TextField}
-            label={t('deploymentCenterFtpsPasswordLabel')}
-            value={textFieldPassword}
-            onChange={changeTextFieldPassword}
-            type={TextFieldType.password}
-            widthOverride={'100%'}
-            resizable={true}
-          />
+          <div className={ftpsPasswordTextboxStyle}>
+            <Field
+              className={textboxStyle}
+              id="deployment-center-ftps-provider-password"
+              name="publishingPassword"
+              component={TextField}
+              label={t('deploymentCenterFtpsPasswordLabel')}
+              type={TextFieldType.password}
+              widthOverride={'100%'}
+              additionalControls={[
+                <ActionButton
+                  id="deployment-center-ftps-provider-password-reset"
+                  key="deployment-center-ftps-provider-password-reset"
+                  className={additionalTextFieldControl}
+                  ariaLabel={t('resetUserScopeCredentialsAriaLabel')}
+                  onClick={toggleResetCalloutVisibility}
+                  iconProps={{ iconName: 'refresh' }}>
+                  {t('reset')}
+                </ActionButton>,
+              ]}
+            />
 
-          <Field
-            className={textboxStyle}
-            id="deployment-center-ftps-provider-confirm-password"
-            name="publishingConfirmPassword"
-            component={TextField}
-            label={t('deploymentCenterFtpsConfirmPasswordLabel')}
-            value={textFieldConfirmPassword}
-            onChange={changeTextFieldConfirmPassword}
-            type={TextFieldType.password}
-            widthOverride={'100%'}
-            resizable={true}
+            <Field
+              className={textboxStyle}
+              id="deployment-center-ftps-provider-confirm-password"
+              name="publishingConfirmPassword"
+              component={TextField}
+              label={t('deploymentCenterFtpsConfirmPasswordLabel')}
+              type={TextFieldType.password}
+              widthOverride={'100%'}
+            />
+          </div>
+
+          <CustomFocusTrapCallout
+            target="#deployment-center-ftps-provider-password-reset"
+            onDismissFunction={toggleResetCalloutVisibility}
+            setInitialFocus={true}
+            hidden={isResetUserCalloutHidden}
+            title={t('resetUserScopeCredentialsConfirmationTitle')}
+            description={t('resetUserScopeCredentialsConfirmationDescription')}
+            primaryButtonTitle={t('reset')}
+            primaryButtonFunction={resetPublishingUserFromCallout}
+            defaultButtonTitle={t('cancel')}
+            defaultButtonFunction={toggleResetCalloutVisibility}
           />
         </>
       )}

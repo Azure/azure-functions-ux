@@ -7677,4 +7677,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="fetchFileContentUnAuthorizedFailureMessage" xml:space="preserve">
         <value>You are not authorized to view or edit the file content</value>
     </data>
+    <data name="ftpsUserScopeCredentialsResetNotifTitle" xml:space="preserve">
+        <value>Resetting user-scope credentials</value>
+    </data>
+    <data name="ftpsUserScopeCredentialsResetNotifSuccess" xml:space="preserve">
+        <value>Successfully reset user-scope credentials</value>
+    </data>
+    <data name="ftpsUserScopeCredentialsResetNotifFailure" xml:space="preserve">
+        <value>Failed to reset user-scope credentials</value>
+    </data>
+    <data name="resetUserScopeCredentialsAriaLabel" xml:space="preserve">
+        <value>Reset user-scope credentials</value>
+    </data>
+    <data name="resetUserScopeCredentialsConfirmationTitle" xml:space="preserve">
+        <value>Reset user-scope credentials?</value>
+    </data>
+    <data name="resetUserScopeCredentialsConfirmationDescription" xml:space="preserve">
+        <value>This will reset both username and password and disable user-scope credentials. To re-enable, set a new username and password.</value>
+    </data>
 </root>
