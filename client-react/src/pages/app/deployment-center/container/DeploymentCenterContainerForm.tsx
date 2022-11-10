@@ -806,7 +806,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       initialValues={props.formData}
       onSubmit={onSubmit}
       enableReinitialize={true}
-      validateOnBlur={false}
       validateOnChange={false}
       validationSchema={props.formValidationSchema}>
       {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>) => (
