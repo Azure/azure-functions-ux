@@ -42,7 +42,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.10',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: python310EOL
+                endOfLifeDate: python310EOL,
               },
             },
           },
@@ -70,7 +70,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.9',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
-                endOfLifeDate: python39EOL
+                endOfLifeDate: python39EOL,
               },
             },
           },
@@ -96,7 +96,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.8',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
-                endOfLifeDate: python38EOL
+                endOfLifeDate: python38EOL,
               },
             },
           },
@@ -122,7 +122,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.7',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
-                endOfLifeDate: python37EOL
+                endOfLifeDate: python37EOL,
               },
             },
           },
@@ -149,14 +149,14 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.6',
                 },
                 supportedFunctionsExtensionVersions: ['~2', '~3'],
-                endOfLifeDate: python36EOL
+                endOfLifeDate: python36EOL,
               },
             },
           },
         ],
       },
     ],
-  }
+  };
 };
 
 export const pythonStackNonIsoDates: FunctionAppStack = getPythonStack(false);

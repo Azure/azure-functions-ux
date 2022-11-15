@@ -23,8 +23,6 @@ import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
 import { useTranslation } from 'react-i18next';
 import { isXenonApp } from '../../../../utils/arm-utils';
-import Url from '../../../../utils/url';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const MAXALLOWEDAZUREMOUNTS = 5;
 
@@ -175,7 +173,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
   };
 
   const getColumns = () => {
-    const columns: IColumn[] = [
+    return [
       {
         key: 'name',
         name: t('_name'),
@@ -236,10 +234,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         isResizable: true,
         onRender: onRenderItemColumn,
       },
-    ];
-
-    if (Url.getFeatureValue(CommonConstants.FeatureFlags.enableBYOSSlotSetting)) {
-      columns.push({
+      {
         key: 'sticky',
         name: t('sticky'),
         fieldName: 'sticky',
@@ -249,37 +244,30 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         data: 'boolean',
         isPadded: true,
         isResizable: true,
-      });
-    }
-
-    columns.push(
-      ...[
-        {
-          key: 'delete',
-          name: t('delete'),
-          fieldName: 'delete',
-          minWidth: 100,
-          maxWidth: 100,
-          isRowHeader: false,
-          isResizable: false,
-          isCollapsable: false,
-          onRender: onRenderItemColumn,
-        },
-        {
-          key: 'edit',
-          name: t('edit'),
-          fieldName: 'edit',
-          minWidth: 100,
-          maxWidth: 100,
-          isRowHeader: false,
-          isResizable: false,
-          isCollapsable: false,
-          onRender: onRenderItemColumn,
-        },
-      ]
-    );
-
-    return columns;
+      },
+      {
+        key: 'delete',
+        name: t('delete'),
+        fieldName: 'delete',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
+        isCollapsable: false,
+        onRender: onRenderItemColumn,
+      },
+      {
+        key: 'edit',
+        name: t('edit'),
+        fieldName: 'edit',
+        minWidth: 100,
+        maxWidth: 100,
+        isRowHeader: false,
+        isResizable: false,
+        isCollapsable: false,
+        onRender: onRenderItemColumn,
+      },
+    ];
   };
 
   const getTable = () => {

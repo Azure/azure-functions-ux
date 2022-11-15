@@ -257,6 +257,7 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
       type={MessageBarType.warning}
       id={'eol-stack-banner'}
       message={eolDate ? t('endOfLifeStackMessage').format(stackVersion, eolDate) : t('deprecatedStackMessage').format(stackVersion)}
+      learnMoreLink={Links.endOfLifeStackLink}
     />
   );
 };

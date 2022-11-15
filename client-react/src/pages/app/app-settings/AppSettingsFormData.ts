@@ -20,7 +20,6 @@ import { KeyValue } from '../../../models/portal-models';
 import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
-import Url from '../../../utils/url';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -210,9 +209,7 @@ export function getStickySettings(
   appSettingNames = appSettingNames.concat(oldAppSettingNamesToKeep);
 
   const oldAzureStorageMountNames = oldSlotConfigNames.properties.azureStorageConfigNames || [];
-  const azureStorageConfigNames = Url.getFeatureValue(CommonConstants.FeatureFlags.enableBYOSSlotSetting)
-    ? azureStorageMounts.filter(x => x.sticky).map(x => x.name)
-    : oldAzureStorageMountNames;
+  const azureStorageConfigNames = azureStorageMounts.filter(x => x.sticky).map(x => x.name);
   const oldAzureStorageMountNamesToKeep = oldAzureStorageMountNames.filter(x => {
     return !azureStorageMounts.find(y => y.name === x);
   });

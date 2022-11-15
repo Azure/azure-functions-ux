@@ -70,7 +70,6 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    enableBYOSSlotSetting: 'enableBYOSSlotSetting',
     allowMountsAsVirtualDirectoryPrefix: 'allowMountsAsVirtualDirectoryPrefix',
   };
 
@@ -342,11 +341,13 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     functionsCollateral: '61fci236',
     portalCallOnEditor: 'enable-portal-call-editor',
+    patchCallOnConfig: 'enable-patch-call-config',
   };
 
   public static ControlFlight = {
     functionsCollateral: '3f3ej608',
     portalCallOnEditor: 'disable-portal-call-editor',
+    patchCallOnConfig: 'disable-patch-call-config',
   };
 }
 
