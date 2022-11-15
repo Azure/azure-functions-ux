@@ -58,7 +58,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
   const isGitHubActionSelected = formProps.values.scmType === ScmType.GitHubAction;
   const isVstsSelected = formProps.values.scmType === ScmType.Vsts;
-  const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr && !formProps.values.privateRegistryUsername;
+  const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr;
   const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
 

@@ -376,6 +376,12 @@ export const isFtpsDirty = (
   deploymentCenterPublishingContext: IDeploymentCenterPublishingContext
 ): boolean => {
   const currentUser = deploymentCenterPublishingContext.publishingUser;
+  if (currentUser) {
+    // NOTE(yoonaoh): Publishing username and password can be null
+    // causing the equality check to find null !== '' when both are functionally the same
+    currentUser.properties.publishingUserName = currentUser.properties.publishingUserName ?? '';
+    currentUser.properties.publishingPassword = currentUser.properties.publishingPassword ?? '';
+  }
   const formPropsExist =
     (!!formProps.values.publishingUsername || formProps.values.publishingUsername === '') &&
     (!!formProps.values.publishingPassword || formProps.values.publishingPassword === '') &&

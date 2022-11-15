@@ -109,7 +109,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           widthOverride="100%"
           value={ftpsEndpoint}
           copyButton={true}
-          disabled={true}
+          readOnly={true}
         />
 
         {isScmLocalGit && (
@@ -120,7 +120,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             widthOverride="100%"
             value={gitCloneUri ? gitCloneUri : t('deploymentCenterCodeLocalGitFetchCloneUriError')}
             copyButton={true}
-            disabled={true}
+            readOnly={true}
           />
         )}
 
@@ -144,7 +144,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           widthOverride="100%"
           value={publishingProfile && publishingProfile.userName}
           copyButton={true}
-          disabled={true}
+          readOnly={true}
         />
 
         <div className={ftpsPasswordTextboxStyle}>
@@ -155,7 +155,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             widthOverride="100%"
             value={publishingProfile && publishingProfile.userPWD}
             copyButton={true}
-            disabled={true}
+            readOnly={true}
             type={TextFieldType.password}
             additionalControls={[
               <ActionButton
