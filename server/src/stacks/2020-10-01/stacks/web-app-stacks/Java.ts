@@ -524,6 +524,25 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             },
           },
           {
+            displayText: 'Java 1.8.0_332',
+            value: '8.0.332',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '1.8.0_332',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8',
+                },
+                endOfLifeDate: java8EOL,
+              },
+            },
+          },
+          {
             displayText: 'Java 1.8.0_322',
             value: '8.0.322',
             stackSettings: {
