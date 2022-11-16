@@ -82,6 +82,9 @@ export class SkuCode {
     I1V2: 'I1V2',
     I2V2: 'I2V2',
     I3V2: 'I3V2',
+    I4V2: 'I4V2',
+    I5V2: 'I5V2',
+    I6V2: 'I6V2',
   };
 
   public static readonly WorkflowStandard = {

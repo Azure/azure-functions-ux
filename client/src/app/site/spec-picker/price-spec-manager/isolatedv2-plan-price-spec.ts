@@ -71,19 +71,17 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
     this._planService = injector.get(PlanService);
   }
 
-  protected _matchSku(sku: Sku): boolean {
-    return sku.tier.toLocaleLowerCase() === this.tier.toLocaleLowerCase() && sku.name.indexOf('v2') > -1;
+  private _matchSkuNameCheck(sku: Sku): boolean {
+    const skuName = (!!sku && sku.name) || '';
+    return skuName.toLocaleLowerCase() === this.legacySkuName.toLocaleLowerCase();
   }
 
+  // NOTE: Post Create's case, GET /serverfarms/{asp name}/skus will return the same result as GET /{ase name}/skus to verify
+  // whether the ASE in the region with the Sub can support I4-I6V2 or not.
   private _checkIfSkuEnabledOnStamp(resourceId: ResourceId) {
     if (this.state !== 'hidden') {
       return this._planService.getAvailableSkusForPlan(resourceId).do(availableSkus => {
-        this.state = availableSkus.find(s => this._matchSku(s.sku)) ? 'enabled' : 'disabled';
-
-        if (this.state === 'disabled') {
-          this.disabledMessage = this._ts.instant(PortalResources.pricing_iv2NotAvailable);
-          this.disabledInfoLink = ''; // TODO(shimedh): Get link from Christina.
-        }
+        this.state = availableSkus.find(s => this._matchSkuNameCheck(s.sku)) ? 'enabled' : 'hidden';
       });
     }
 
@@ -100,12 +98,27 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
     }
   }
 
+  // For Create scenario, we will always hide 'I4V2, I5V2 and I6V2' on the old scale up blade.
+  private _hideCustomIsolatedV2PlanPriceForCreate() {
+    if (this.state !== 'hidden' && this._isCustomIsolatedV2PlanPrice()) {
+      this.state = 'hidden';
+    }
+  }
+
+  private _isCustomIsolatedV2PlanPrice(): boolean {
+    return (
+      this.legacySkuName === SkuCode.IsolatedV2.I4V2 ||
+      this.legacySkuName === SkuCode.IsolatedV2.I5V2 ||
+      this.legacySkuName === SkuCode.IsolatedV2.I6V2
+    );
+  }
+
   runInitialization(input: PriceSpecInput) {
     if (input.planDetails) {
       if (!input.planDetails.plan.properties.hostingEnvironmentProfile || AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic])) {
         this.state = 'hidden';
       } else {
-        return this._aseService.getAse(input.planDetails.plan.properties.hostingEnvironmentProfile.id).do(r => {
+        this._aseService.getAse(input.planDetails.plan.properties.hostingEnvironmentProfile.id).do(r => {
           // If the call to get the ASE fails (maybe due to RBAC), then we can't confirm ASE v1 or v2 or v3
           // but we'll let them see the isolated card anyway.  The plan update will probably fail in
           // the back-end if it's ASE v1, but at least we allow real ASE v3 customers who don't have
@@ -133,6 +146,7 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
       } else {
         const { hyperV, isXenon } = input.specPickerInput.data;
         this._updateHardwareItemsList(hyperV || isXenon);
+        this._hideCustomIsolatedV2PlanPriceForCreate();
       }
     }
 
@@ -213,4 +227,79 @@ export class IsolatedV2LargePlanPriceSpec extends IsolatedV2PlanPriceSpec {
   };
 
   jbossMultiplier = 8;
+}
+
+export class Isolated4V2PlanPriceSpec extends IsolatedV2PlanPriceSpec {
+  skuCode = SkuCode.IsolatedV2.I4V2;
+  legacySkuName = SkuCode.IsolatedV2.I4V2;
+  topLevelFeatures = [
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(64),
+    this._ts.instant(PortalResources.pricing_vCores).format(16),
+  ];
+
+  meterFriendlyName = 'IsolatedV2 I4 App Service Hours';
+
+  specResourceSet = {
+    id: this.skuCode,
+    firstParty: [
+      {
+        id: this.skuCode,
+        quantity: Pricing.hoursInAzureMonth,
+        resourceId: null,
+      },
+    ],
+  };
+
+  jbossMultiplier = 16;
+}
+
+export class Isolated5V2PlanPriceSpec extends IsolatedV2PlanPriceSpec {
+  skuCode = SkuCode.IsolatedV2.I5V2;
+  legacySkuName = SkuCode.IsolatedV2.I5V2;
+  topLevelFeatures = [
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(128),
+    this._ts.instant(PortalResources.pricing_vCores).format(32),
+  ];
+
+  meterFriendlyName = 'IsolatedV2 I5 App Service Hours';
+
+  specResourceSet = {
+    id: this.skuCode,
+    firstParty: [
+      {
+        id: this.skuCode,
+        quantity: Pricing.hoursInAzureMonth,
+        resourceId: null,
+      },
+    ],
+  };
+
+  jbossMultiplier = 32;
+}
+
+export class Isolated6V2PlanPriceSpec extends IsolatedV2PlanPriceSpec {
+  skuCode = SkuCode.IsolatedV2.I6V2;
+  legacySkuName = SkuCode.IsolatedV2.I6V2;
+  topLevelFeatures = [
+    this._ts.instant(PortalResources.pricing_ACU_Pv3).format(195),
+    this._ts.instant(PortalResources.pricing_memory).format(256),
+    this._ts.instant(PortalResources.pricing_vCores).format(64),
+  ];
+
+  meterFriendlyName = 'IsolatedV2 I6 App Service Hours';
+
+  specResourceSet = {
+    id: this.skuCode,
+    firstParty: [
+      {
+        id: this.skuCode,
+        quantity: Pricing.hoursInAzureMonth,
+        resourceId: null,
+      },
+    ],
+  };
+
+  jbossMultiplier = 64;
 }

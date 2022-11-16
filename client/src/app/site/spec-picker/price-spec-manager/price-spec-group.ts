@@ -8,7 +8,14 @@ import { PremiumV2SmallPlanPriceSpec, PremiumV2MediumPlanPriceSpec, PremiumV2Lar
 import { PremiumSmallPlanPriceSpec, PremiumMediumPlanPriceSpec, PremiumLargePlanPriceSpec } from './premium-plan-price-spec';
 import { IsolatedSmallPlanPriceSpec, IsolatedMediumPlanPriceSpec, IsolatedLargePlanPriceSpec } from './isolated-plan-price-spec';
 import { PremiumV3SmallPlanPriceSpec, PremiumV3MediumPlanPriceSpec, PremiumV3LargePlanPriceSpec } from './premiumv3-plan-price-spec';
-import { IsolatedV2SmallPlanPriceSpec, IsolatedV2MediumPlanPriceSpec, IsolatedV2LargePlanPriceSpec } from './isolatedv2-plan-price-spec';
+import {
+  IsolatedV2SmallPlanPriceSpec,
+  IsolatedV2MediumPlanPriceSpec,
+  IsolatedV2LargePlanPriceSpec,
+  Isolated4V2PlanPriceSpec,
+  Isolated5V2PlanPriceSpec,
+  Isolated6V2PlanPriceSpec,
+} from './isolatedv2-plan-price-spec';
 import {
   PremiumContainerSmallPriceSpec,
   PremiumContainerMediumPriceSpec,
@@ -294,6 +301,9 @@ export class IsolatedSpecGroup extends PriceSpecGroup {
     new IsolatedV2SmallPlanPriceSpec(this.injector),
     new IsolatedV2MediumPlanPriceSpec(this.injector),
     new IsolatedV2LargePlanPriceSpec(this.injector),
+    new Isolated4V2PlanPriceSpec(this.injector),
+    new Isolated5V2PlanPriceSpec(this.injector),
+    new Isolated6V2PlanPriceSpec(this.injector),
   ];
 
   additionalSpecs = [];
