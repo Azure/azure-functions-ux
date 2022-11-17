@@ -1,6 +1,6 @@
 import { MessageBarType } from '@fluentui/react';
 import { Method } from 'axios';
-import { isNull } from 'lodash-es';
+// import { isNull } from 'lodash-es';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FunctionsService, { RunFunctionControllerOptions } from '../../../../../ApiHelpers/FunctionsService';
@@ -314,7 +314,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (settings) {
       let response: ResponseContent = { code: 0, text: '' };
 
-      if (enablePortalCall && isNull(2)) {
+      if (enablePortalCall || 1 === 1) {
         response = await runUsingPortal(settings);
       } else {
         response = await runUsingPassthrough(settings, {
