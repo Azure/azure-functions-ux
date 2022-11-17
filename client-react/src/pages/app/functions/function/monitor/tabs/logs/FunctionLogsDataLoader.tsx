@@ -18,7 +18,7 @@ const FunctionLogsDataLoader: React.FC<FunctionLogsDataLoaderProps> = props => {
   const siteStateContext = useContext(SiteStateContext);
 
   const [isFileSystemLoggingAvailable, setIsFileSystemLoggingAvailable] = useState<boolean | undefined>(undefined);
-  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
+  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(LoggingOptions.appInsights);
 
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
 
@@ -29,14 +29,6 @@ const FunctionLogsDataLoader: React.FC<FunctionLogsDataLoaderProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext.site]);
-
-  useEffect(() => {
-    if (isFileSystemLoggingAvailable !== undefined) {
-      setSelectedLoggingOption(isFileSystemLoggingAvailable ? LoggingOptions.fileBased : LoggingOptions.appInsights);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFileSystemLoggingAvailable]);
 
   if (!siteStateContext.site || selectedLoggingOption === undefined) {
     return <LoadingComponent />;
