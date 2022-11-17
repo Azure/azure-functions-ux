@@ -22,9 +22,10 @@ export interface RunFunctionControllerOptions {
   inputMethod: string;
   inputHeaders: NameValuePair[];
   body: any;
-  authToken: string;
   functionKey: string;
   liveLogsSessionId: string;
+  authToken: string;
+  armEndpoint: string;
 }
 
 export default class FunctionsService {

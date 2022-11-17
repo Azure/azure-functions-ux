@@ -2,7 +2,7 @@ import { Injectable, HttpException, OnModuleInit } from '@nestjs/common';
 import { join, normalize } from 'path';
 import { readdir, exists, readFile } from 'async-file';
 import * as fs from 'fs';
-import { Constants } from '../constants';
+import { CloudArmEndpoints, Constants } from '../constants';
 import { KeyValue } from '../proxy/proxy.controller';
 import { NameValuePair } from '@azure/arm-appservice';
 import { GUID } from '../utilities/guid';
@@ -123,12 +123,16 @@ export class FunctionsService implements OnModuleInit {
     inputMethod: string,
     inputHeaders: NameValuePair[],
     authHeaders: KeyValue<string>,
+    armEndpoint: string,
     functionKey: string,
     liveLogSessionId: string,
     res: Response
   ) {
     try {
-      const getSiteUrl = `https://management.azure.com/${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
+      if (!CloudArmEndpoints.some(endpoint => endpoint === armEndpoint)) {
+        throw new HttpException('Unable to fetch the site', 400);
+      }
+      const getSiteUrl = `${armEndpoint}${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
       const siteResponse = await this.httpService.get(getSiteUrl, {
         headers: authHeaders,
       });

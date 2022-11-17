@@ -335,6 +335,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
             authToken: getAuthorizationHeaders()['Authorization'],
             functionKey: functionKey,
             liveLogsSessionId: liveLogsSessionId || '',
+            armEndpoint: startupInfoContext.armEndpoint,
           };
           response = await runUsingPassthrough(settings, options);
         } catch {}

@@ -27,3 +27,11 @@ export class Constants {
     public: 'core.windows.net',
   };
 }
+
+export const CloudArmEndpoints = [
+  'https://management.azure.com',
+  'https://management.usgovcloudapi.net',
+  'https://management.chinacloudapi.cn',
+  'https://management.azure.eaglex.ic.gov',
+  'https://management.azure.microsoft.scloud',
+];
