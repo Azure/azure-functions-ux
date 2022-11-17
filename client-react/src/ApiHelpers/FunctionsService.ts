@@ -72,15 +72,14 @@ export default class FunctionsService {
   };
 
   public static runFunction(settings: NetAjaxSettings, runFunctionsControllerOptions: RunFunctionControllerOptions) {
-    // const url = settings.uri;
-    // const method = settings.type as Method;
-    // const headers = settings.headers || {};
-    // const data = settings.data;
+    const url = settings.uri;
+    const method = settings.type as Method;
+    const headers = settings.headers || {};
+    const data = settings.data;
 
-    // return sendHttpRequest({ url, method, headers, data }).catch(() => {
-    console.log(runFunctionsControllerOptions);
-    return this.tryRunFunctionsController(runFunctionsControllerOptions);
-    // });
+    return sendHttpRequest({ url, method, headers, data }).catch(() => {
+      return this.tryRunFunctionsController(runFunctionsControllerOptions);
+    });
   }
 
   public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
@@ -89,8 +88,8 @@ export default class FunctionsService {
     });
   }
 
-  private static tryRunFunctionsController(passthroughBody: RunFunctionControllerOptions) {
-    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
+  private static tryRunFunctionsController(runFunctionBody: RunFunctionControllerOptions) {
+    return sendHttpRequest({ url: `${Url.serviceHost}api/runFunction`, method: 'POST', data: runFunctionBody });
   }
 
   private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {

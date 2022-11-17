@@ -56,18 +56,22 @@ export class FunctionsController {
     @Body('authHeaders') authHeaders,
     @Res() res: Response
   ) {
-    return this.functionService.runFunction(
-      resourceId,
-      functionInfo,
-      functionInvokePath,
-      functionUrls,
-      hostUrls,
-      systemUrls,
-      authHeaders,
-      res,
-      hostKeys,
-      functionKeys,
-      xFunctionKey
-    );
+    if (!!xFunctionKey && typeof xFunctionKey === 'string') {
+      return this.functionService.runFunction(
+        resourceId,
+        functionInfo,
+        functionInvokePath,
+        functionUrls,
+        hostUrls,
+        systemUrls,
+        authHeaders,
+        res,
+        hostKeys,
+        functionKeys,
+        xFunctionKey
+      );
+    } else {
+      throw new HttpException('Your key is not valid', 400);
+    }
   }
 }
