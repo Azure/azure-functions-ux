@@ -1,6 +1,5 @@
 import { MessageBarType } from '@fluentui/react';
 import { Method } from 'axios';
-// import { isNull } from 'lodash-es';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FunctionsService, { RunFunctionControllerOptions } from '../../../../../ApiHelpers/FunctionsService';
@@ -139,9 +138,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       case RuntimeExtensionMajorVersions.v1: {
         result =
           hostJsonContent &&
-          hostJsonContent.http &&
-          hostJsonContent.http.routePrefix !== undefined &&
-          hostJsonContent.http.routePrefix !== null
+            hostJsonContent.http &&
+            hostJsonContent.http.routePrefix !== undefined &&
+            hostJsonContent.http.routePrefix !== null
             ? hostJsonContent.http.routePrefix
             : 'api';
         break;
@@ -153,10 +152,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       default: {
         result =
           hostJsonContent &&
-          hostJsonContent.extensions &&
-          hostJsonContent.extensions.http &&
-          hostJsonContent.extensions.http.routePrefix !== undefined &&
-          hostJsonContent.extensions.http.routePrefix !== null
+            hostJsonContent.extensions &&
+            hostJsonContent.extensions.http &&
+            hostJsonContent.extensions.http.routePrefix !== undefined &&
+            hostJsonContent.extensions.http.routePrefix !== null
             ? hostJsonContent.extensions.http.routePrefix
             : 'api';
         break;
