@@ -13,7 +13,6 @@
     "gulp": "^4.0.2",
     "gulp-inline-source": "^4.0.0",
     "gulp-prompt": "^1.2.0",
-    "husky": "^1.1.0",
     "prettier": "^1.19.1",
     "pretty-quick": "^1.11.1"
   },
