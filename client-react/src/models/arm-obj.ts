@@ -9,7 +9,6 @@ export interface MsiIdentity {
 export interface ArmObj<T> {
   id: string;
   kind?: string;
-  cpp;
   properties: T;
   type?: string;
   tags?: KeyValue<string>;
