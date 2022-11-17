@@ -29,7 +29,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
 
   const [appInsightsComponent, setAppInsightsComponent] = useState<ArmObj<AppInsightsComponent> | undefined | null>(undefined);
   const [isFileSystemLoggingAvailable, setIsFileSystemLoggingAvailable] = useState<boolean | undefined>(undefined);
-  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
+  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(LoggingOptions.appInsights);
 
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
@@ -90,14 +90,6 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext.site]);
-
-  useEffect(() => {
-    if (isFileSystemLoggingAvailable !== undefined) {
-      setSelectedLoggingOption(isFileSystemLoggingAvailable ? LoggingOptions.fileBased : LoggingOptions.appInsights);
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isFileSystemLoggingAvailable]);
 
   if (appInsightsComponent === undefined || !siteStateContext.site || selectedLoggingOption === undefined) {
     return <LoadingComponent />;
