@@ -52,10 +52,14 @@ export class FunctionsController {
     @Body('functionKey') functionKey: string,
     @Body('body') body,
     @Body('liveLogsSessionId') liveLogsSessionId: string,
-    @Body('authHeaders') authHeaders,
+    @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
     if (!!functionKey && typeof functionKey === 'string') {
+      const authHeaders = {
+        Authorization: authToken,
+        FunctionsPortal: '1',
+      };
       return this.functionService.runFunction(
         resourceId,
         path,

@@ -313,7 +313,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (settings) {
       let response: ResponseContent = { code: 0, text: '' };
 
-      if (enablePortalCall && 1 !== 1) {
+      if (enablePortalCall) {
         response = await runUsingPortal(settings);
       } else {
         try {
@@ -332,7 +332,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
             body: settings.data,
             inputMethod: settings.type,
             inputHeaders: inputHeaders,
-            authHeaders: getAuthorizationHeaders(),
+            authToken: getAuthorizationHeaders()['Authorization'],
             functionKey: functionKey,
             liveLogsSessionId: liveLogsSessionId || '',
           };

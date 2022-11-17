@@ -22,7 +22,7 @@ export interface RunFunctionControllerOptions {
   inputMethod: string;
   inputHeaders: NameValuePair[];
   body: any;
-  authHeaders: KeyValue<string>;
+  authToken: string;
   functionKey: string;
   liveLogsSessionId: string;
 }
@@ -69,14 +69,14 @@ export default class FunctionsService {
   };
 
   public static runFunction(settings: NetAjaxSettings, runFunctionsControllerOptions: RunFunctionControllerOptions) {
-    const url = settings.uri;
-    const method = settings.type as Method;
-    const headers = settings.headers || {};
-    const data = settings.data;
+    // const url = settings.uri;
+    // const method = settings.type as Method;
+    // const headers = settings.headers || {};
+    // const data = settings.data;
 
-    return sendHttpRequest({ url, method, headers, data }).catch(() => {
-      return this.tryRunFunctionsController(runFunctionsControllerOptions);
-    });
+    // return sendHttpRequest({ url, method, headers, data }).catch(() => {
+    return this.tryRunFunctionsController(runFunctionsControllerOptions);
+    // });
   }
 
   public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {

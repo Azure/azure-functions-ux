@@ -134,7 +134,7 @@ export class FunctionsService implements OnModuleInit {
       });
       const site = siteResponse.data;
       if (site) {
-        const url = `${Url.getMainUrl(site)}/${path}`;
+        const url = `${Url.getMainUrl(site)}${path}`;
         const headers = {
           ...this._getHeaders(inputHeaders, liveLogSessionId, functionKey),
           ...authHeaders,
