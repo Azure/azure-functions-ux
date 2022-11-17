@@ -14,6 +14,21 @@ import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { Method } from 'axios';
+import { AppKeysInfo } from '../pages/app/functions/app-keys/AppKeys.types';
+import { UrlObj } from '../pages/app/functions/function/function-editor/FunctionEditor.types';
+
+export interface RunFunctionControllerOptions {
+  resourceId: string;
+  functionInfo: ArmObj<FunctionInfo>;
+  functionInvokePath: string;
+  functionsUrls: UrlObj[];
+  hostUrls: UrlObj[];
+  systemUrls: UrlObj[];
+  authHeaders: KeyValue<string>;
+  functionKeys?: KeyValue<string>;
+  hostKeys?: AppKeysInfo;
+  xFunctionKey?: string;
+}
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -56,14 +71,14 @@ export default class FunctionsService {
     });
   };
 
-  public static runFunction(settings: NetAjaxSettings) {
+  public static runFunction(settings: NetAjaxSettings, runFunctionsControllerOptions: RunFunctionControllerOptions) {
     const url = settings.uri;
     const method = settings.type as Method;
     const headers = settings.headers || {};
     const data = settings.data;
 
-    return sendHttpRequest({ url, method, headers, data }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, data);
+    return sendHttpRequest({ url, method, headers, data }).catch(() => {
+      return this.tryRunFunctionsController(runFunctionsControllerOptions);
     });
   }
 
@@ -71,6 +86,10 @@ export default class FunctionsService {
     return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
       return this.tryPassThroughController(err, url, method, headers, body);
     });
+  }
+
+  private static tryRunFunctionsController(passthroughBody: RunFunctionControllerOptions) {
+    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
   }
 
   private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {

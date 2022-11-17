@@ -1,8 +1,9 @@
 import { MessageBarType } from '@fluentui/react';
 import { Method } from 'axios';
+import { isNull } from 'lodash-es';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import FunctionsService, { RunFunctionControllerOptions } from '../../../../../ApiHelpers/FunctionsService';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -313,10 +314,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (settings) {
       let response: ResponseContent = { code: 0, text: '' };
 
-      if (enablePortalCall) {
+      if (enablePortalCall && isNull(2)) {
         response = await runUsingPortal(settings);
       } else {
-        response = await runUsingPassthrough(settings);
+        response = await runUsingPassthrough(settings, {
+          resourceId: site?.id ?? '',
+          functionInfo: newFunctionInfo,
+          functionInvokePath: createAndGetFunctionInvokeUrlPath(),
+          functionsUrls: functionUrls,
+          hostUrls: hostUrls,
+          systemUrls: systemUrls,
+          functionKeys: functionKeys,
+          hostKeys: hostKeys,
+          xFunctionKey: xFunctionKey,
+          authHeaders: getAuthorizationHeaders(),
+        });
       }
 
       setResponseContent({
@@ -327,10 +339,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     setFunctionRunning(false);
   };
 
-  const runUsingPassthrough = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
+  const runUsingPassthrough = async (
+    settings: NetAjaxSettings,
+    runFunctionsControllerOptions: RunFunctionControllerOptions
+  ): Promise<ResponseContent> => {
     const response: ResponseContent = { code: 0, text: '' };
 
-    const runFunctionResponse = await FunctionsService.runFunction(settings);
+    const runFunctionResponse = await FunctionsService.runFunction(settings, runFunctionsControllerOptions);
     response.code = runFunctionResponse.metadata.status;
     if (runFunctionResponse.metadata.success) {
       response.text = runFunctionResponse.data as string;
