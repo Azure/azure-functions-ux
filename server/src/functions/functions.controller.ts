@@ -3,6 +3,7 @@ import { FunctionsService } from './functions.service';
 import { TriggerApimService } from './trigger-apim/trigger-apim.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
 import { Response } from 'express';
+import { NameValuePair } from '@azure/arm-appservice';
 
 @Controller('api')
 export class FunctionsController {
@@ -44,31 +45,27 @@ export class FunctionsController {
 
   @Post('runFunction')
   async runFunction(
-    @Body('resourceId') resourceId,
-    @Body('functionInfo') functionInfo,
-    @Body('functionInvokePath') functionInvokePath,
-    @Body('functionUrls') functionUrls,
-    @Body('hostUrls') hostUrls,
-    @Body('systemUrls') systemUrls,
-    @Body('hostKeys') hostKeys,
-    @Body('functionKeys') functionKeys,
-    @Body('xFunctionKey') xFunctionKey,
+    @Body('resourceId') resourceId: string,
+    @Body('path') path: string,
+    @Body('inputMethod') inputMethod: string,
+    @Body('inputHeaders') inputHeaders: NameValuePair[],
+    @Body('functionKey') functionKey: string,
+    @Body('body') body,
+    @Body('liveLogsSessionId') liveLogsSessionId: string,
     @Body('authHeaders') authHeaders,
     @Res() res: Response
   ) {
-    if (!!xFunctionKey && typeof xFunctionKey === 'string') {
+    if (!!functionKey && typeof functionKey === 'string') {
       return this.functionService.runFunction(
         resourceId,
-        functionInfo,
-        functionInvokePath,
-        functionUrls,
-        hostUrls,
-        systemUrls,
+        path,
+        body,
+        inputMethod,
+        inputHeaders,
         authHeaders,
-        res,
-        hostKeys,
-        functionKeys,
-        xFunctionKey
+        functionKey,
+        liveLogsSessionId,
+        res
       );
     } else {
       throw new HttpException('Your key is not valid', 400);

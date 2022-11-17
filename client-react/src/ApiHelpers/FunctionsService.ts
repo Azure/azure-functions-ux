@@ -14,20 +14,17 @@ import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { Method } from 'axios';
-import { AppKeysInfo } from '../pages/app/functions/app-keys/AppKeys.types';
-import { UrlObj } from '../pages/app/functions/function/function-editor/FunctionEditor.types';
+import { NameValuePair } from '@azure/arm-appservice';
 
 export interface RunFunctionControllerOptions {
   resourceId: string;
-  functionInfo: ArmObj<FunctionInfo>;
-  functionInvokePath: string;
-  functionsUrls: UrlObj[];
-  hostUrls: UrlObj[];
-  systemUrls: UrlObj[];
+  path: string;
+  inputMethod: string;
+  inputHeaders: NameValuePair[];
+  body: any;
   authHeaders: KeyValue<string>;
-  functionKeys?: KeyValue<string>;
-  hostKeys?: AppKeysInfo;
-  xFunctionKey?: string;
+  functionKey: string;
+  liveLogsSessionId: string;
 }
 
 export default class FunctionsService {

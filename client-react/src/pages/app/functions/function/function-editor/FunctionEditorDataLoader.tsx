@@ -137,9 +137,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       case RuntimeExtensionMajorVersions.v1: {
         result =
           hostJsonContent &&
-            hostJsonContent.http &&
-            hostJsonContent.http.routePrefix !== undefined &&
-            hostJsonContent.http.routePrefix !== null
+          hostJsonContent.http &&
+          hostJsonContent.http.routePrefix !== undefined &&
+          hostJsonContent.http.routePrefix !== null
             ? hostJsonContent.http.routePrefix
             : 'api';
         break;
@@ -151,10 +151,10 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       default: {
         result =
           hostJsonContent &&
-            hostJsonContent.extensions &&
-            hostJsonContent.extensions.http &&
-            hostJsonContent.extensions.http.routePrefix !== undefined &&
-            hostJsonContent.extensions.http.routePrefix !== null
+          hostJsonContent.extensions &&
+          hostJsonContent.extensions.http &&
+          hostJsonContent.extensions.http.routePrefix !== undefined &&
+          hostJsonContent.extensions.http.routePrefix !== null
             ? hostJsonContent.extensions.http.routePrefix
             : 'api';
         break;
@@ -313,21 +313,31 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (settings) {
       let response: ResponseContent = { code: 0, text: '' };
 
-      if (enablePortalCall) {
+      if (enablePortalCall && 1 !== 1) {
         response = await runUsingPortal(settings);
       } else {
-        response = await runUsingPassthrough(settings, {
-          resourceId: site?.id ?? '',
-          functionInfo: newFunctionInfo,
-          functionInvokePath: createAndGetFunctionInvokeUrlPath(),
-          functionsUrls: functionUrls,
-          hostUrls: hostUrls,
-          systemUrls: systemUrls,
-          functionKeys: functionKeys,
-          hostKeys: hostKeys,
-          xFunctionKey: xFunctionKey,
-          authHeaders: getAuthorizationHeaders(),
-        });
+        try {
+          const path = site ? settings.uri.substring(Url.getMainUrl(site).length) : '';
+          const parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
+          const inputHeaders: NameValuePair[] = [];
+          if (parsedTestData.headers) {
+            for (const parameter of parsedTestData.headers) {
+              inputHeaders.push({ name: parameter.name, value: parameter.value });
+            }
+          }
+          const functionKey = hostKeys?.masterKey ? (xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey) : '';
+          const options: RunFunctionControllerOptions = {
+            resourceId: site?.id ?? '',
+            path: path,
+            body: settings.data,
+            inputMethod: settings.type,
+            inputHeaders: inputHeaders,
+            authHeaders: getAuthorizationHeaders(),
+            functionKey: functionKey,
+            liveLogsSessionId: liveLogsSessionId || '',
+          };
+          response = await runUsingPassthrough(settings, options);
+        } catch {}
       }
 
       setResponseContent({

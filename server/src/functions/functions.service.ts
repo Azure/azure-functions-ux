@@ -3,11 +3,8 @@ import { join, normalize } from 'path';
 import { readdir, exists, readFile } from 'async-file';
 import * as fs from 'fs';
 import { Constants } from '../constants';
-import { ArmObj } from '../types/arm-obj';
-import { AppKeysInfo, BindingInfo, BindingType, FunctionInfo, UrlObj } from '../types/function-info';
 import { KeyValue } from '../proxy/proxy.controller';
-import { NetAjaxSettings } from '../types/ajax-request-model';
-import { NameValuePair, Site } from '@azure/arm-appservice';
+import { NameValuePair } from '@azure/arm-appservice';
 import { GUID } from '../utilities/guid';
 import { Url } from '../utilities/url.util';
 import { HttpService } from '../shared/http/http.service';
@@ -121,45 +118,33 @@ export class FunctionsService implements OnModuleInit {
 
   public async runFunction(
     resourceId: string,
-    functionInfo: ArmObj<FunctionInfo>,
-    functionInvokePath: string,
-    functionUrls: UrlObj[],
-    hostUrls: UrlObj[],
-    systemUrls: UrlObj[],
+    path: string,
+    body: any,
+    inputMethod: string,
+    inputHeaders: NameValuePair[],
     authHeaders: KeyValue<string>,
-    res: Response,
-    hostKeys?: AppKeysInfo,
-    functionKeys?: KeyValue<string>,
-    xFunctionKey?: string
+    functionKey: string,
+    liveLogSessionId: string,
+    res: Response
   ) {
     try {
-      const url = `https://management.azure.com/${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
-      const siteResponse = await this.httpService.get(url, {
+      const getSiteUrl = `https://management.azure.com/${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
+      const siteResponse = await this.httpService.get(getSiteUrl, {
         headers: authHeaders,
       });
       const site = siteResponse.data;
       if (site) {
-        const settings = this._getRunFunctionRequestSettings(
-          site,
-          functionInfo,
-          functionInvokePath,
-          functionUrls,
-          hostUrls,
-          systemUrls,
-          hostKeys,
-          functionKeys,
-          xFunctionKey
-        );
+        const url = `${Url.getMainUrl(site)}/${path}`;
         const headers = {
-          ...settings.headers,
+          ...this._getHeaders(inputHeaders, liveLogSessionId, functionKey),
           ...authHeaders,
         };
 
         const result = await this.httpService.request({
-          method: settings.type as Method,
-          url: settings.uri,
+          method: inputMethod as Method,
+          url: url,
           headers: headers,
-          data: settings.data,
+          data: body,
         });
 
         if (result.headers) {
@@ -181,207 +166,18 @@ export class FunctionsService implements OnModuleInit {
     }
   }
 
-  private _getRunFunctionRequestSettings(
-    site: ArmObj<Site>,
-    functionInfo: ArmObj<FunctionInfo>,
-    functionInvokePath: string,
-    functionUrls: UrlObj[],
-    hostUrls: UrlObj[],
-    systemUrls: UrlObj[],
-    hostKeys?: AppKeysInfo,
-    functionKeys?: KeyValue<string>,
-    xFunctionKey?: string
-  ) {
-    const isHttpOrWebHookFunction = this._isHttpOrWebHookFunction(functionInfo);
-    const liveLogsSessionId = GUID.newGuid();
-    return isHttpOrWebHookFunction
-      ? this._getSettingsToInvokeHttpFunction(
-          site,
-          functionInfo,
-          functionInvokePath,
-          functionUrls,
-          hostUrls,
-          hostKeys,
-          xFunctionKey,
-          liveLogsSessionId
-        )
-      : this._getSettingsToInvokeNonHttpFunction(
-          site,
-          functionInfo,
-          functionUrls,
-          hostUrls,
-          systemUrls,
-          hostKeys,
-          functionKeys,
-          xFunctionKey,
-          liveLogsSessionId
-        );
-  }
-
-  private _getSettingsToInvokeHttpFunction = (
-    site: ArmObj<Site>,
-    newFunctionInfo: ArmObj<FunctionInfo>,
-    functionInvokePath: string,
-    functionUrls: UrlObj[],
-    hostUrls: UrlObj[],
-    hostKeys?: AppKeysInfo,
-    xFunctionKey?: string,
-    liveLogsSessionId?: string
-  ): NetAjaxSettings | undefined => {
-    if (site) {
-      let url = `${Url.getMainUrl(site)}${functionInvokePath}`;
-      let parsedTestData = {};
-      try {
-        parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
-      } catch (err) {
-        parsedTestData = { body: newFunctionInfo.properties.test_data };
-      }
-      const testDataObject = this._getProcessedFunctionTestData(parsedTestData);
-      const queries = testDataObject.queries;
-
-      const matchesPathParams = url.match(urlParameterRegExp);
-      const processedParams: string[] = [];
-      if (matchesPathParams) {
-        matchesPathParams.forEach(m => {
-          const name = m
-            .split(':')[0]
-            .replace('{', '')
-            .replace('}', '')
-            .toLowerCase();
-          processedParams.push(name);
-          const param = queries.find(p => {
-            return p.name.toLowerCase() === name;
-          });
-
-          if (param) {
-            url = url.replace(m, param.value);
-          }
-        });
-      }
-
-      const filteredQueryParams = queries.filter(query => {
-        return !processedParams.find(p => p === query.name);
-      });
-      const queryString = this._getQueryString(filteredQueryParams);
-      if (queryString) {
-        url = `${url}${url.includes('?') ? '&' : '?'}${queryString}`;
-      }
-      const headers = this._getHeaders(testDataObject.headers, functionUrls, hostUrls, hostKeys, xFunctionKey);
-
-      return {
-        uri: url,
-        type: testDataObject.method as string,
-        headers: { ...headers, ...this._getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data: testDataObject.body,
-      };
-    }
-    return undefined;
-  };
-
-  private _getSettingsToInvokeNonHttpFunction = (
-    site: ArmObj<Site>,
-    newFunctionInfo: ArmObj<FunctionInfo>,
-    functionUrls: UrlObj[],
-    hostUrls: UrlObj[],
-    systemUrls: UrlObj[],
-    hostKeys?: AppKeysInfo,
-    functionKeys?: KeyValue<string>,
-    xFunctionKey?: string,
-    liveLogsSessionId?: string
-  ): NetAjaxSettings | undefined => {
-    if (site) {
-      const baseUrl = Url.getMainUrl(site);
-      const input = newFunctionInfo.properties.test_data || '';
-
-      let data: unknown = { input };
-      let url = `${baseUrl}/admin/functions/${newFunctionInfo.properties.name.toLowerCase()}`;
-      if (this._getAuthenticationEventsTriggerTypeInfo(newFunctionInfo.properties)) {
-        try {
-          data = JSON.parse(input);
-        } catch {
-          /** @note (joechung): Treat invalid JSON as string input. */
-        }
-
-        const functionKey = xFunctionKey ?? functionKeys?.default;
-        const code = [...functionUrls, ...hostUrls, ...systemUrls].find(urlObj => urlObj.key === functionKey)?.data;
-        url = this._getAuthenticationTriggerUrl(baseUrl, newFunctionInfo, code);
-      }
-
-      const headers = this._getHeaders([], functionUrls, hostUrls, hostKeys, xFunctionKey);
-
-      return {
-        uri: url,
-        type: 'POST',
-        headers: { ...headers, ...this._getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data,
-      };
-    }
-    return undefined;
-  };
-
-  private _getHeadersForLiveLogsSessionId(liveLogsSessionId?: string) {
-    return { '#AzFuncLiveLogsSessionId': liveLogsSessionId || '' };
-  }
-
-  private _getAuthenticationEventsTriggerTypeInfo(functionInfo: FunctionInfo): BindingInfo | undefined {
-    return functionInfo.config?.bindings.find(e => this._isBindingTypeEqual(e.type, BindingType.authenticationEventsTrigger));
-  }
-
-  private _getAuthenticationTriggerUrl(baseUrl: string, functionInfo: ArmObj<FunctionInfo>, code: string) {
-    return `${baseUrl}/runtime/webhooks/customauthenticationextension?functionName=${functionInfo.properties.name}&code=${code}`;
-  }
-
-  private _getProcessedFunctionTestData(data: any) {
-    const response = {
-      method: 'get',
-      queries: [] as NameValuePair[],
-      headers: [] as NameValuePair[],
-      body: '',
-    };
-    if (data.method) {
-      response.method = data.method;
-    }
-    if (data.queryStringParams) {
-      const queries: NameValuePair[] = [];
-      for (const parameter of data.queryStringParams) {
-        queries.push({ name: parameter.name, value: parameter.value });
-      }
-      response.queries = queries;
-    }
-    if (data.headers) {
-      const headers: NameValuePair[] = [];
-      for (const parameter of data.headers) {
-        headers.push({ name: parameter.name, value: parameter.value });
-      }
-      response.headers = headers;
-    }
-    if (data.body) {
-      response.body = data.body;
-    }
-    return response;
-  }
-
-  private _getQueryString(queries: NameValuePair[]): string {
-    const queryString = queries.map(query => `${encodeURIComponent(query.name)}=${encodeURIComponent(query.value)}`);
-    return queryString.join('&');
-  }
-
-  private _getHeaders(
-    testHeaders: NameValuePair[],
-    functionUrls: UrlObj[],
-    hostUrls: UrlObj[],
-    hostKeys?: AppKeysInfo,
-    xFunctionKey?: string
-  ): KeyValue<string> {
+  private _getHeaders(testHeaders: NameValuePair[], liveLogsSessionId: string, functionKey: string): KeyValue<string> {
     const headers = this._getJsonHeaders();
     testHeaders.forEach(h => {
       headers[h.name] = h.value;
     });
 
-    if (hostKeys && hostKeys.masterKey) {
+    if (functionKey) {
       headers['Cache-Control'] = 'no-cache';
-      headers['x-functions-key'] = xFunctionKey ? this._getXFunctionKeyValue(xFunctionKey, functionUrls, hostUrls) : hostKeys.masterKey;
+      headers['x-functions-key'] = functionKey;
     }
+
+    headers['#AzFuncLiveLogsSessionId'] = liveLogsSessionId;
     return headers;
   }
 
@@ -391,30 +187,5 @@ export class FunctionsService implements OnModuleInit {
       Accept: 'application/json',
       'x-ms-client-request-id': GUID.newGuid(),
     };
-  }
-
-  private _isHttpOrWebHookFunction(functionInfo: ArmObj<FunctionInfo>) {
-    return (
-      functionInfo.properties.config?.bindings?.some(e => e.type.toString().toLowerCase() === BindingType.httpTrigger.toLowerCase()) ||
-      functionInfo.properties.config?.bindings?.some(e => !!e.webHookType)
-    );
-  }
-
-  private _isBindingTypeEqual(bindingType1: BindingType | string, bindingType2: BindingType | string) {
-    return bindingType1.toString().toLowerCase() === bindingType2.toString().toLowerCase();
-  }
-
-  private _getXFunctionKeyValue(xFunctionKey: string, functionUrls: UrlObj[], hostUrls: UrlObj[]) {
-    for (const url in functionUrls) {
-      if (url in functionUrls && functionUrls[url].key === xFunctionKey) {
-        return functionUrls[url].data as string;
-      }
-    }
-    for (const url in hostUrls) {
-      if (url in hostUrls && hostUrls[url].key === xFunctionKey) {
-        return hostUrls[url].data as string;
-      }
-    }
-    return '';
   }
 }
