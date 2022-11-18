@@ -26,7 +26,7 @@ import { EnvironmentUrlMappings, Environments, SandboxEnvironment, SandboxEnviro
 import { AxiosRequestConfig } from 'axios';
 import { CloudType, StaticReactConfig } from '../../types/config';
 
-const githubPrefix = 'https://github.com/';
+const githubOrigin = 'https://github.com';
 
 @Controller()
 export class GithubController {
@@ -48,7 +48,8 @@ export class GithubController {
     @Body('method') method?: AxiosRequestConfig
   ) {
     try {
-      if (url.indexOf(githubPrefix) === 0) {
+      const urlObj = new URL(url);
+      if (urlObj.origin === githubOrigin) {
         let response;
         if (method && method === 'POST') {
           response = await this.httpService.post(
