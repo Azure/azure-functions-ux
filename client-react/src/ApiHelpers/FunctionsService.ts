@@ -24,6 +24,7 @@ export interface RunFunctionControllerOptions {
   body: any;
   functionKey: string;
   liveLogsSessionId: string;
+  clientRequestId: string;
   authToken: string;
 }
 
@@ -86,7 +87,12 @@ export default class FunctionsService {
   }
 
   private static tryRunFunctionsController(runFunctionBody: RunFunctionControllerOptions) {
-    return sendHttpRequest({ url: `${Url.serviceHost}api/runFunction`, method: 'POST', data: runFunctionBody });
+    return sendHttpRequest({
+      url: `${Url.serviceHost}api/runFunction`,
+      method: 'POST',
+      data: runFunctionBody,
+      headers: { 'x-ms-client-request-id': runFunctionBody.clientRequestId },
+    });
   }
 
   private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {

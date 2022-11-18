@@ -17,6 +17,7 @@ import { PortalContext } from '../../../../../PortalContext';
 import { SiteStateContext } from '../../../../../SiteState';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
+import { Guid } from '../../../../../utils/Guid';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
@@ -333,6 +334,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
             inputMethod: settings.type,
             inputHeaders: inputHeaders,
             authToken: getAuthorizationHeaders()['Authorization'],
+            clientRequestId: Guid.newGuid(),
             functionKey: functionKey,
             liveLogsSessionId: liveLogsSessionId || '',
           };

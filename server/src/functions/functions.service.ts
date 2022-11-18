@@ -124,6 +124,7 @@ export class FunctionsService implements OnModuleInit {
     inputMethod: string,
     inputHeaders: NameValuePair[],
     authHeaders: KeyValue<string>,
+    clientRequestId: string,
     functionKey: string,
     liveLogSessionId: string,
     res: Response
@@ -138,7 +139,7 @@ export class FunctionsService implements OnModuleInit {
       if (site) {
         const url = `${Url.getMainUrl(site)}${path}`;
         const headers = {
-          ...this._getHeaders(inputHeaders, liveLogSessionId, functionKey),
+          ...this._getHeaders(inputHeaders, liveLogSessionId, clientRequestId, functionKey),
           ...authHeaders,
         };
 
@@ -168,7 +169,12 @@ export class FunctionsService implements OnModuleInit {
     }
   }
 
-  private _getHeaders(testHeaders: NameValuePair[], liveLogsSessionId: string, functionKey: string): KeyValue<string> {
+  private _getHeaders(
+    testHeaders: NameValuePair[],
+    liveLogsSessionId: string,
+    clientRequestId: string,
+    functionKey: string
+  ): KeyValue<string> {
     const headers = this._getJsonHeaders();
     testHeaders.forEach(h => {
       headers[h.name] = h.value;
@@ -179,15 +185,19 @@ export class FunctionsService implements OnModuleInit {
       headers['x-functions-key'] = functionKey;
     }
 
-    headers['#AzFuncLiveLogsSessionId'] = liveLogsSessionId;
-    return headers;
+    return {
+      ...headers,
+      ...{
+        '#AzFuncLiveLogsSessionId': liveLogsSessionId,
+        'x-ms-client-request-id': clientRequestId,
+      },
+    };
   }
 
   private _getJsonHeaders(): KeyValue<string> {
     return {
       'Content-Type': 'application/json',
       Accept: 'application/json',
-      'x-ms-client-request-id': GUID.newGuid(),
     };
   }
 }

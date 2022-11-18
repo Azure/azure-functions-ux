@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, HttpException, Headers, Header, Param, Body, Res } from '@nestjs/common';
+import { Controller, Get, Post, Query, HttpException, Headers, Header, Param, Body, Res, ConsoleLogger } from '@nestjs/common';
 import { FunctionsService } from './functions.service';
 import { TriggerApimService } from './trigger-apim/trigger-apim.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
@@ -52,6 +52,7 @@ export class FunctionsController {
     @Body('functionKey') functionKey: string,
     @Body('body') body,
     @Body('liveLogsSessionId') liveLogsSessionId: string,
+    @Body('clientRequestId') clientRequestId: string,
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
@@ -67,6 +68,7 @@ export class FunctionsController {
         inputMethod,
         inputHeaders,
         authHeaders,
+        clientRequestId,
         functionKey,
         liveLogsSessionId,
         res
