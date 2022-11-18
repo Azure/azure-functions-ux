@@ -152,7 +152,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     };
   };
 
-  const onRenderFilterItem = (item: IContextualMenuItem) => {
+  const onRenderFilterItem = (item: IContextualMenuItem, dismissMenu: (ev?: any, dismissAll?: boolean) => void) => {
     let iconProps = {};
     if (logLevel === item.data) {
       iconProps = {
@@ -160,7 +160,13 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       };
     }
     return (
-      <ActionButton iconProps={iconProps} styles={logFilterItemStyle} onClick={() => setLogLevel(item.data)}>
+      <ActionButton
+        iconProps={iconProps}
+        styles={logFilterItemStyle}
+        onClick={() => {
+          setLogLevel(item.data);
+          dismissMenu(true);
+        }}>
         {item.text}
       </ActionButton>
     );
