@@ -2,7 +2,7 @@ import { MessageBarType } from '@fluentui/react';
 import { Method } from 'axios';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import FunctionsService, { RunFunctionControllerOptions } from '../../../../../ApiHelpers/FunctionsService';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -17,6 +17,7 @@ import { PortalContext } from '../../../../../PortalContext';
 import { SiteStateContext } from '../../../../../SiteState';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
+import { Guid } from '../../../../../utils/Guid';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
@@ -316,7 +317,29 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       if (enablePortalCall) {
         response = await runUsingPortal(settings);
       } else {
-        response = await runUsingPassthrough(settings);
+        try {
+          const path = site ? settings.uri.substring(Url.getMainUrl(site).length) : '';
+          const parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
+          const inputHeaders: NameValuePair[] = [];
+          if (parsedTestData.headers) {
+            for (const parameter of parsedTestData.headers) {
+              inputHeaders.push({ name: parameter.name, value: parameter.value });
+            }
+          }
+          const functionKey = hostKeys?.masterKey ? (xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey) : '';
+          const options: RunFunctionControllerOptions = {
+            resourceId: site?.id ?? '',
+            path: path,
+            body: settings.data,
+            inputMethod: settings.type,
+            inputHeaders: inputHeaders,
+            authToken: getAuthorizationHeaders()['Authorization'],
+            clientRequestId: Guid.newGuid(),
+            functionKey: functionKey,
+            liveLogsSessionId: liveLogsSessionId || '',
+          };
+          response = await runUsingPassthrough(settings, options);
+        } catch {}
       }
 
       setResponseContent({
@@ -327,10 +350,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     setFunctionRunning(false);
   };
 
-  const runUsingPassthrough = async (settings: NetAjaxSettings): Promise<ResponseContent> => {
+  const runUsingPassthrough = async (
+    settings: NetAjaxSettings,
+    runFunctionsControllerOptions: RunFunctionControllerOptions
+  ): Promise<ResponseContent> => {
     const response: ResponseContent = { code: 0, text: '' };
 
-    const runFunctionResponse = await FunctionsService.runFunction(settings);
+    const runFunctionResponse = await FunctionsService.runFunction(settings, runFunctionsControllerOptions);
     response.code = runFunctionResponse.metadata.status;
     if (runFunctionResponse.metadata.success) {
       response.text = runFunctionResponse.data as string;
