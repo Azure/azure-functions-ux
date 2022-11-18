@@ -26,6 +26,8 @@ import { EnvironmentUrlMappings, Environments, SandboxEnvironment, SandboxEnviro
 import { AxiosRequestConfig } from 'axios';
 import { CloudType, StaticReactConfig } from '../../types/config';
 
+const githubOrigin = 'https://github.com';
+
 @Controller()
 export class GithubController {
   private readonly githubApiUrl = 'https://api.github.com';
@@ -46,36 +48,41 @@ export class GithubController {
     @Body('method') method?: AxiosRequestConfig
   ) {
     try {
-      let response;
-      if (method && method === 'POST') {
-        response = await this.httpService.post(
-          url,
-          {},
-          {
+      const urlObj = new URL(url);
+      if (urlObj.origin === githubOrigin) {
+        let response;
+        if (method && method === 'POST') {
+          response = await this.httpService.post(
+            url,
+            {},
+            {
+              headers: this._getAuthorizationHeader(gitHubToken),
+            }
+          );
+        } else {
+          response = await this.httpService.get(url, {
             headers: this._getAuthorizationHeader(gitHubToken),
-          }
-        );
+          });
+        }
+
+        if (response.headers.link) {
+          res.setHeader('link', response.headers.link);
+        }
+
+        if (response.headers['x-oauth-scopes']) {
+          res.setHeader(
+            'x-oauth-scopes',
+            response.headers['x-oauth-scopes']
+              .split(',')
+              .map((value: string) => value.trim())
+              .join(',')
+          );
+        }
+
+        res.json(response.data);
       } else {
-        response = await this.httpService.get(url, {
-          headers: this._getAuthorizationHeader(gitHubToken),
-        });
+        throw new HttpException('The url is not valid', 400);
       }
-
-      if (response.headers.link) {
-        res.setHeader('link', response.headers.link);
-      }
-
-      if (response.headers['x-oauth-scopes']) {
-        res.setHeader(
-          'x-oauth-scopes',
-          response.headers['x-oauth-scopes']
-            .split(',')
-            .map((value: string) => value.trim())
-            .join(',')
-        );
-      }
-
-      res.json(response.data);
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
