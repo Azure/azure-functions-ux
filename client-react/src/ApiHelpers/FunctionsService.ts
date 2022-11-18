@@ -14,6 +14,19 @@ import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { Method } from 'axios';
+import { NameValuePair } from '../pages/app/functions/function/function-editor/FunctionEditor.types';
+
+export interface RunFunctionControllerOptions {
+  resourceId: string;
+  path: string;
+  inputMethod: string;
+  inputHeaders: NameValuePair[];
+  body: any;
+  functionKey: string;
+  liveLogsSessionId: string;
+  clientRequestId: string;
+  authToken: string;
+}
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -56,20 +69,29 @@ export default class FunctionsService {
     });
   };
 
-  public static runFunction(settings: NetAjaxSettings) {
+  public static runFunction(settings: NetAjaxSettings, runFunctionsControllerOptions: RunFunctionControllerOptions) {
     const url = settings.uri;
     const method = settings.type as Method;
     const headers = settings.headers || {};
     const data = settings.data;
 
-    return sendHttpRequest({ url, method, headers, data }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, data);
+    return sendHttpRequest({ url, method, headers, data }).catch(() => {
+      return this.tryRunFunctionsController(runFunctionsControllerOptions);
     });
   }
 
   public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
     return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
       return this.tryPassThroughController(err, url, method, headers, body);
+    });
+  }
+
+  private static tryRunFunctionsController(runFunctionBody: RunFunctionControllerOptions) {
+    return sendHttpRequest({
+      url: `${Url.serviceHost}api/runFunction`,
+      method: 'POST',
+      data: runFunctionBody,
+      headers: { 'x-ms-client-request-id': runFunctionBody.clientRequestId },
     });
   }
 

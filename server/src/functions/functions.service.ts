@@ -3,9 +3,24 @@ import { join, normalize } from 'path';
 import { readdir, exists, readFile } from 'async-file';
 import * as fs from 'fs';
 import { Constants } from '../constants';
+import { KeyValue } from '../proxy/proxy.controller';
+import { Url } from '../utilities/url.util';
+import { HttpService } from '../shared/http/http.service';
+import { Method } from 'axios';
+import { Response } from 'express';
+import { ConfigService } from '../shared/config/config.service';
+
+export const urlParameterRegExp = /\{([^}]+)\}/g;
+
+export interface NameValuePair {
+  name: string;
+  value: string;
+}
 
 @Injectable()
 export class FunctionsService implements OnModuleInit {
+  constructor(private httpService: HttpService, private configService: ConfigService) {}
+
   private templateMap: any = {};
   private bindingsMap: any = {};
   private quickStartMap: any = {};
@@ -103,5 +118,89 @@ export class FunctionsService implements OnModuleInit {
       }
     });
     await loading;
+  }
+
+  public async runFunction(
+    resourceId: string,
+    path: string,
+    body: any,
+    inputMethod: string,
+    inputHeaders: NameValuePair[],
+    authHeaders: KeyValue<string>,
+    clientRequestId: string,
+    functionKey: string,
+    liveLogSessionId: string,
+    res: Response
+  ) {
+    try {
+      const armEndpoint = this.configService.armEndpoint;
+      const getSiteUrl = `${armEndpoint}${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
+      const siteResponse = await this.httpService.get(getSiteUrl, {
+        headers: authHeaders,
+      });
+      const site = siteResponse.data;
+      if (site) {
+        const url = `${Url.getMainUrl(site)}${path}`;
+        const headers = {
+          ...this._getHeaders(inputHeaders, liveLogSessionId, clientRequestId, functionKey),
+          ...authHeaders,
+        };
+
+        const result = await this.httpService.request({
+          method: inputMethod as Method,
+          url: url,
+          headers: headers,
+          data: body,
+        });
+
+        if (result.headers) {
+          Object.keys(result.headers).forEach(key => {
+            res.setHeader(key, result.headers[key]);
+          });
+        }
+
+        res.status(result.status).send(result.data);
+      }
+    } catch (err) {
+      if (!!err.response && !!err.status) {
+        res.status(err.status).send(err.response);
+      } else if (err.response) {
+        res.status(err.response.status).send(err.response.data);
+      } else {
+        res.sendStatus(500);
+      }
+    }
+  }
+
+  private _getHeaders(
+    testHeaders: NameValuePair[],
+    liveLogsSessionId: string,
+    clientRequestId: string,
+    functionKey: string
+  ): KeyValue<string> {
+    const headers = this._getJsonHeaders();
+    testHeaders.forEach(h => {
+      headers[h.name] = h.value;
+    });
+
+    if (functionKey) {
+      headers['Cache-Control'] = 'no-cache';
+      headers['x-functions-key'] = functionKey;
+    }
+
+    return {
+      ...headers,
+      ...{
+        '#AzFuncLiveLogsSessionId': liveLogsSessionId,
+        'x-ms-client-request-id': clientRequestId,
+      },
+    };
+  }
+
+  private _getJsonHeaders(): KeyValue<string> {
+    return {
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+    };
   }
 }
