@@ -172,6 +172,15 @@ export class FunctionsService implements OnModuleInit {
     }
   }
 
+  public getTestDataFromFunctionHref(resourceId: string, functionKey: string, clientRequestId: string, authToken: string, res: Response) {}
+
+  public getFunctionAuthHeaders(authToken: string) {
+    return {
+      Authorization: authToken,
+      FunctionsPortal: '1',
+    };
+  }
+
   private _getHeaders(
     testHeaders: NameValuePair[],
     liveLogsSessionId: string,

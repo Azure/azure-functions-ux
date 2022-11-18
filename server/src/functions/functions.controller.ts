@@ -56,6 +56,33 @@ export class FunctionsController {
     @Res() res: Response
   ) {
     if (!!functionKey && typeof functionKey === 'string') {
+      const authHeaders = this.functionService.getFunctionAuthHeaders(authToken);
+      return this.functionService.runFunction(
+        resourceId,
+        path,
+        body,
+        inputMethod,
+        inputHeaders,
+        authHeaders,
+        clientRequestId,
+        functionKey,
+        liveLogsSessionId,
+        res
+      );
+    } else {
+      throw new HttpException('Your key is not valid', 400);
+    }
+  }
+
+  @Post('getTestDataFromFunctionHref')
+  async getTestDataFromFunctionHref(
+    @Body('resourceId') resourceId: string,
+    @Body('functionKey') functionKey: string,
+    @Body('clientRequestId') ClientRequestId: string,
+    @Body('authToken') authToken: string,
+    @Res() res: Response
+  ) {
+    if (!!functionKey && typeof functionKey === 'string') {
       const authHeaders = {
         Authorization: authToken,
         FunctionsPortal: '1',
