@@ -163,9 +163,9 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       <ActionButton
         iconProps={iconProps}
         styles={logFilterItemStyle}
-        onClick={() => {
+        onClick={ev => {
           setLogLevel(item.data);
-          dismissMenu(true);
+          dismissMenu(ev, true);
         }}>
         {item.text}
       </ActionButton>
