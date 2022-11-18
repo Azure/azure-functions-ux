@@ -14,7 +14,7 @@ import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { Method } from 'axios';
-import { NameValuePair } from '@azure/arm-appservice';
+import { NameValuePair } from '../pages/app/functions/function/function-editor/FunctionEditor.types';
 
 export interface RunFunctionControllerOptions {
   resourceId: string;
