@@ -25,7 +25,6 @@ export interface RunFunctionControllerOptions {
   functionKey: string;
   liveLogsSessionId: string;
   authToken: string;
-  armEndpoint: string;
 }
 
 export default class FunctionsService {

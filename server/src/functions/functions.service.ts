@@ -10,12 +10,13 @@ import { Url } from '../utilities/url.util';
 import { HttpService } from '../shared/http/http.service';
 import { Method } from 'axios';
 import { Response } from 'express';
+import { ConfigService } from '../shared/config/config.service';
 
 export const urlParameterRegExp = /\{([^}]+)\}/g;
 
 @Injectable()
 export class FunctionsService implements OnModuleInit {
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService, private configService: ConfigService) {}
 
   private templateMap: any = {};
   private bindingsMap: any = {};
@@ -123,15 +124,12 @@ export class FunctionsService implements OnModuleInit {
     inputMethod: string,
     inputHeaders: NameValuePair[],
     authHeaders: KeyValue<string>,
-    armEndpoint: string,
     functionKey: string,
     liveLogSessionId: string,
     res: Response
   ) {
     try {
-      if (!CloudArmEndpoints.some(endpoint => endpoint === armEndpoint)) {
-        throw new HttpException('Unable to fetch the site', 400);
-      }
+      const armEndpoint = this.configService.armEndpoint;
       const getSiteUrl = `${armEndpoint}${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
       const siteResponse = await this.httpService.get(getSiteUrl, {
         headers: authHeaders,
