@@ -2,10 +2,8 @@ import { Injectable, HttpException, OnModuleInit } from '@nestjs/common';
 import { join, normalize } from 'path';
 import { readdir, exists, readFile } from 'async-file';
 import * as fs from 'fs';
-import { CloudArmEndpoints, Constants } from '../constants';
+import { Constants } from '../constants';
 import { KeyValue } from '../proxy/proxy.controller';
-import { NameValuePair } from '@azure/arm-appservice';
-import { GUID } from '../utilities/guid';
 import { Url } from '../utilities/url.util';
 import { HttpService } from '../shared/http/http.service';
 import { Method } from 'axios';
@@ -13,6 +11,11 @@ import { Response } from 'express';
 import { ConfigService } from '../shared/config/config.service';
 
 export const urlParameterRegExp = /\{([^}]+)\}/g;
+
+export interface NameValuePair {
+  name: string;
+  value: string;
+}
 
 @Injectable()
 export class FunctionsService implements OnModuleInit {

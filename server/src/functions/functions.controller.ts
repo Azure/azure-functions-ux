@@ -1,9 +1,8 @@
-import { Controller, Get, Post, Query, HttpException, Headers, Header, Param, Body, Res, ConsoleLogger } from '@nestjs/common';
-import { FunctionsService } from './functions.service';
+import { Controller, Get, Post, Query, HttpException, Headers, Header, Param, Body, Res } from '@nestjs/common';
+import { FunctionsService, NameValuePair } from './functions.service';
 import { TriggerApimService } from './trigger-apim/trigger-apim.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
 import { Response } from 'express';
-import { NameValuePair } from '@azure/arm-appservice';
 
 @Controller('api')
 export class FunctionsController {
