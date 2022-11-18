@@ -53,6 +53,7 @@ export class FunctionsController {
     @Body('liveLogsSessionId') liveLogsSessionId: string,
     @Body('clientRequestId') clientRequestId: string,
     @Body('authToken') authToken: string,
+    @Body('armEndpoint') armEndpoint: string,
     @Res() res: Response
   ) {
     if (!!functionKey && typeof functionKey === 'string') {

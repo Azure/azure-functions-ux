@@ -337,6 +337,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
             clientRequestId: Guid.newGuid(),
             functionKey: functionKey,
             liveLogsSessionId: liveLogsSessionId || '',
+            armEndpoint: startupInfoContext.armEndpoint,
           };
           response = await runUsingPassthrough(settings, options);
         } catch {}
