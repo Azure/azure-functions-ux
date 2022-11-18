@@ -56,14 +56,13 @@ export class FunctionsController {
     @Res() res: Response
   ) {
     if (!!functionKey && typeof functionKey === 'string') {
-      const authHeaders = this.functionService.getFunctionAuthHeaders(authToken);
       return this.functionService.runFunction(
         resourceId,
         path,
         body,
         inputMethod,
         inputHeaders,
-        authHeaders,
+        authToken,
         clientRequestId,
         functionKey,
         liveLogsSessionId,
@@ -78,27 +77,12 @@ export class FunctionsController {
   async getTestDataFromFunctionHref(
     @Body('resourceId') resourceId: string,
     @Body('functionKey') functionKey: string,
-    @Body('clientRequestId') ClientRequestId: string,
+    @Body('clientRequestId') clientRequestId: string,
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
     if (!!functionKey && typeof functionKey === 'string') {
-      const authHeaders = {
-        Authorization: authToken,
-        FunctionsPortal: '1',
-      };
-      return this.functionService.runFunction(
-        resourceId,
-        path,
-        body,
-        inputMethod,
-        inputHeaders,
-        authHeaders,
-        clientRequestId,
-        functionKey,
-        liveLogsSessionId,
-        res
-      );
+      return this.functionService.getTestDataFromFunctionHref(resourceId, functionKey, clientRequestId, authToken, res);
     } else {
       throw new HttpException('Your key is not valid', 400);
     }

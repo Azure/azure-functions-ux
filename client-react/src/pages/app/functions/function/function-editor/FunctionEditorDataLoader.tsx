@@ -2,7 +2,10 @@ import { MessageBarType } from '@fluentui/react';
 import { Method } from 'axios';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FunctionsService, { RunFunctionControllerOptions } from '../../../../../ApiHelpers/FunctionsService';
+import FunctionsService, {
+  GetTestDataFromFunctionHrefOptions,
+  RunFunctionControllerOptions,
+} from '../../../../../ApiHelpers/FunctionsService';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -518,7 +521,15 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (enablePortalCall) {
       return await getTestDataUsingPortal(settings);
     } else {
-      return await getTestDataUsingPassthrough(settings);
+      const defaultFunctionKey = getDefaultXFunctionKey();
+      const functionKey = hostKeys?.masterKey ? (defaultFunctionKey ? getXFunctionKeyValue(defaultFunctionKey) : hostKeys.masterKey) : '';
+      const getTestDataUsingFunctionHrefOptions: GetTestDataFromFunctionHrefOptions = {
+        resourceId: functionInfo?.id ?? '',
+        functionKey: functionKey,
+        clientRequestId: Guid.newGuid(),
+        authToken: getAuthorizationHeaders()['Authorization'],
+      };
+      return await getTestDataUsingPassthrough(settings, getTestDataUsingFunctionHrefOptions);
     }
   };
 
@@ -539,11 +550,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     return undefined;
   };
 
-  const getTestDataUsingPassthrough = async (settings: NetAjaxSettings) => {
-    const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(settings.uri, settings.type as Method, {
-      ...settings.headers,
-      ...getAuthorizationHeaders(),
-    });
+  const getTestDataUsingPassthrough = async (
+    settings: NetAjaxSettings,
+    getTestDataUsingFunctionHrefOptions: GetTestDataFromFunctionHrefOptions
+  ) => {
+    const getDataFromFunctionHrefSettings: NetAjaxSettings = {
+      ...settings,
+      headers: {
+        ...settings.headers,
+        ...getAuthorizationHeaders(),
+      },
+    };
+    const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
+      getDataFromFunctionHrefSettings,
+      getTestDataUsingFunctionHrefOptions
+    );
     if (functionHrefTestDataResponse.metadata.success) {
       return functionHrefTestDataResponse.data;
     } else {

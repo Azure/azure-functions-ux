@@ -28,6 +28,13 @@ export interface RunFunctionControllerOptions {
   authToken: string;
 }
 
+export interface GetTestDataFromFunctionHrefOptions {
+  resourceId: string;
+  functionKey: string;
+  clientRequestId: string;
+  authToken: string;
+}
+
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
     const id = `${resourceId}/host/default/properties/status`;
@@ -80,9 +87,13 @@ export default class FunctionsService {
     });
   }
 
-  public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
+  public static getDataFromFunctionHref(settings: NetAjaxSettings, getTestDataFromFunctionHrefOptions: GetTestDataFromFunctionHrefOptions) {
+    const url = settings.uri;
+    const method = settings.type as Method;
+    const headers = settings.headers || {};
+
+    return sendHttpRequest({ url, method, headers }).catch(() => {
+      return this.tryGetTestDataController(getTestDataFromFunctionHrefOptions);
     });
   }
 
@@ -92,6 +103,15 @@ export default class FunctionsService {
       method: 'POST',
       data: runFunctionBody,
       headers: { 'x-ms-client-request-id': runFunctionBody.clientRequestId },
+    });
+  }
+
+  private static tryGetTestDataController(getTestDataBody: GetTestDataFromFunctionHrefOptions) {
+    return sendHttpRequest({
+      url: `${Url.serviceHost}api/getTestDataFromFunctionHref`,
+      method: 'POST',
+      data: getTestDataBody,
+      headers: { 'x-ms-client-request-id': getTestDataBody.clientRequestId },
     });
   }
 
