@@ -88,15 +88,13 @@ export default class FunctionsService {
   }
 
   public static getDataFromFunctionHref(settings: NetAjaxSettings, getTestDataFromFunctionHrefOptions: GetTestDataFromFunctionHrefOptions) {
-    // const url = settings.uri;
-    // const method = settings.type as Method;
-    // const headers = settings.headers || {};
+    const url = settings.uri;
+    const method = settings.type as Method;
+    const headers = settings.headers || {};
 
-    // return sendHttpRequest({ url, method, headers }).catch(() => {
-    console.log('----------------');
-    console.log(settings);
-    return this.tryGetTestDataController(getTestDataFromFunctionHrefOptions);
-    // });
+    return sendHttpRequest({ url, method, headers }).catch(() => {
+      return this.tryGetTestDataController(getTestDataFromFunctionHrefOptions);
+    });
   }
 
   private static tryRunFunctionsController(runFunctionBody: RunFunctionControllerOptions) {

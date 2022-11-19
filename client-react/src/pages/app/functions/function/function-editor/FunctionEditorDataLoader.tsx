@@ -520,7 +520,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       headers: headers,
     };
 
-    if (enablePortalCall && 1 !== 1) {
+    if (enablePortalCall) {
       return await getTestDataUsingPortal(settings);
     } else {
       const defaultFunctionKey = getDefaultXFunctionKey();

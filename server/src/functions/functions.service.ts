@@ -202,10 +202,6 @@ export class FunctionsService implements OnModuleInit {
             url: testDataHref,
             headers: headers,
           });
-          console.log('-----------------------');
-          console.log(result.status);
-          console.log(result.data);
-          console.log('-----------------------');
 
           if (result.headers) {
             Object.keys(result.headers).forEach(key => {
