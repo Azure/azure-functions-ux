@@ -492,9 +492,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       // Adding the below fallback logic just on the off-chance that it doesn't.
       if (!testDataResponseSuccess) {
         testData = await getTestDataUsingFunctionHref(functionInfo.properties.test_data_href);
-        console.log('++++++++++++++++++++');
-        console.log(testData);
-        console.log('++++++++++++++++++++++++++');
       }
 
       if (testData) {
