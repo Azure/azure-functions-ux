@@ -88,13 +88,15 @@ export default class FunctionsService {
   }
 
   public static getDataFromFunctionHref(settings: NetAjaxSettings, getTestDataFromFunctionHrefOptions: GetTestDataFromFunctionHrefOptions) {
-    const url = settings.uri;
-    const method = settings.type as Method;
-    const headers = settings.headers || {};
+    // const url = settings.uri;
+    // const method = settings.type as Method;
+    // const headers = settings.headers || {};
 
-    return sendHttpRequest({ url, method, headers }).catch(() => {
-      return this.tryGetTestDataController(getTestDataFromFunctionHrefOptions);
-    });
+    // return sendHttpRequest({ url, method, headers }).catch(() => {
+    console.log('----------------');
+    console.log(settings);
+    return this.tryGetTestDataController(getTestDataFromFunctionHrefOptions);
+    // });
   }
 
   private static tryRunFunctionsController(runFunctionBody: RunFunctionControllerOptions) {
@@ -113,16 +115,6 @@ export default class FunctionsService {
       data: getTestDataBody,
       headers: { 'x-ms-client-request-id': getTestDataBody.clientRequestId },
     });
-  }
-
-  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
-    const passthroughBody = {
-      url,
-      headers,
-      method,
-      body,
-    };
-    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
   }
 
   public static getBindings = (functionAppId: string) => {

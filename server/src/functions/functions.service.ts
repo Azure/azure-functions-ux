@@ -202,6 +202,10 @@ export class FunctionsService implements OnModuleInit {
             url: testDataHref,
             headers: headers,
           });
+          console.log('-----------------------');
+          console.log(result.status);
+          console.log(result.data);
+          console.log('-----------------------');
 
           if (result.headers) {
             Object.keys(result.headers).forEach(key => {
@@ -223,15 +227,6 @@ export class FunctionsService implements OnModuleInit {
         res.sendStatus(500);
       }
     }
-  }
-
-  private _getSite(resourceId: string, authToken: string) {
-    const armEndpoint = this.configService.armEndpoint;
-    const getSiteUrl = `${armEndpoint}${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
-    const authHeaders = this._getFunctionAuthHeaders(authToken);
-    return this.httpService.get(getSiteUrl, {
-      headers: authHeaders,
-    });
   }
 
   private _getFunctionAuthHeaders(authToken: string) {

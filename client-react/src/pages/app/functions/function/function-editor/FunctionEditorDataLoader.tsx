@@ -1,5 +1,4 @@
 import { MessageBarType } from '@fluentui/react';
-import { Method } from 'axios';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FunctionsService, {
@@ -493,6 +492,9 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       // Adding the below fallback logic just on the off-chance that it doesn't.
       if (!testDataResponseSuccess) {
         testData = await getTestDataUsingFunctionHref(functionInfo.properties.test_data_href);
+        console.log('++++++++++++++++++++');
+        console.log(testData);
+        console.log('++++++++++++++++++++++++++');
       }
 
       if (testData) {
@@ -518,7 +520,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       headers: headers,
     };
 
-    if (enablePortalCall) {
+    if (enablePortalCall && 1 !== 1) {
       return await getTestDataUsingPortal(settings);
     } else {
       const defaultFunctionKey = getDefaultXFunctionKey();
