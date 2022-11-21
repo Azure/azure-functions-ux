@@ -126,7 +126,7 @@ export class FunctionsService implements OnModuleInit {
     body: any,
     inputMethod: string,
     inputHeaders: NameValuePair[],
-    authHeaders: KeyValue<string>,
+    authToken: string,
     clientRequestId: string,
     functionKey: string,
     liveLogSessionId: string,
@@ -135,6 +135,7 @@ export class FunctionsService implements OnModuleInit {
     try {
       const armEndpoint = this.configService.armEndpoint;
       const getSiteUrl = `${armEndpoint}${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
+      const authHeaders = this._getFunctionAuthHeaders(authToken);
       const siteResponse = await this.httpService.get(getSiteUrl, {
         headers: authHeaders,
       });
@@ -142,7 +143,7 @@ export class FunctionsService implements OnModuleInit {
       if (site) {
         const url = `${Url.getMainUrl(site)}${path}`;
         const headers = {
-          ...this._getHeaders(inputHeaders, liveLogSessionId, clientRequestId, functionKey),
+          ...this._getHeaders(inputHeaders, clientRequestId, functionKey, liveLogSessionId),
           ...authHeaders,
         };
 
@@ -172,11 +173,70 @@ export class FunctionsService implements OnModuleInit {
     }
   }
 
+  public async getTestDataFromFunctionHref(
+    resourceId: string,
+    functionKey: string,
+    clientRequestId: string,
+    authToken: string,
+    res: Response
+  ) {
+    try {
+      const armEndpoint = this.configService.armEndpoint;
+      const getFunctionUrl = `${armEndpoint}${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
+      const authHeaders = this._getFunctionAuthHeaders(authToken);
+      const functionResponse = await this.httpService.get(getFunctionUrl, {
+        headers: authHeaders,
+      });
+
+      if (functionResponse.data) {
+        const functionInfo = functionResponse.data;
+        const testDataHref = functionInfo.properties.test_data_href;
+        if (testDataHref) {
+          const headers = {
+            ...this._getHeaders([], clientRequestId, functionKey),
+            ...authHeaders,
+          };
+
+          const result = await this.httpService.request({
+            method: 'get',
+            url: testDataHref,
+            headers: headers,
+          });
+
+          if (result.headers) {
+            Object.keys(result.headers).forEach(key => {
+              res.setHeader(key, result.headers[key]);
+            });
+          }
+
+          res.status(result.status).send(result.data);
+        } else {
+          throw new HttpException('test_data_href does not exist', 400);
+        }
+      }
+    } catch (err) {
+      if (!!err.response && !!err.status) {
+        res.status(err.status).send(err.response);
+      } else if (err.response) {
+        res.status(err.response.status).send(err.response.data);
+      } else {
+        res.sendStatus(500);
+      }
+    }
+  }
+
+  private _getFunctionAuthHeaders(authToken: string) {
+    return {
+      Authorization: authToken,
+      FunctionsPortal: '1',
+    };
+  }
+
   private _getHeaders(
     testHeaders: NameValuePair[],
-    liveLogsSessionId: string,
     clientRequestId: string,
-    functionKey: string
+    functionKey: string,
+    liveLogsSessionId?: string
   ): KeyValue<string> {
     const headers = this._getJsonHeaders();
     testHeaders.forEach(h => {
@@ -188,10 +248,13 @@ export class FunctionsService implements OnModuleInit {
       headers['x-functions-key'] = functionKey;
     }
 
+    if (liveLogsSessionId) {
+      headers['#AzFuncLiveLogsSessionId'] = liveLogsSessionId;
+    }
+
     return {
       ...headers,
       ...{
-        '#AzFuncLiveLogsSessionId': liveLogsSessionId,
         'x-ms-client-request-id': clientRequestId,
       },
     };
