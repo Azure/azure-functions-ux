@@ -86,6 +86,7 @@ export class ConfigService implements OnModuleInit {
 
   get armEndpoint(): string {
     const config = this.staticReactConfig;
+    console.log(config);
     if (config.env && config.env.cloud) {
       switch (config.env.cloud) {
         case CloudType.fairfax:
