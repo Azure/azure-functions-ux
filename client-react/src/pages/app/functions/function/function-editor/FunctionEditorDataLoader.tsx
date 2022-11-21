@@ -319,29 +319,31 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       if (enablePortalCall) {
         response = await runUsingPortal(settings);
       } else {
+        let parsedTestData: { headers: NameValuePair[] } = { headers: [] };
         try {
-          const path = site ? settings.uri.substring(Url.getMainUrl(site).length) : '';
-          const parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
-          const inputHeaders: NameValuePair[] = [];
-          if (parsedTestData.headers) {
-            for (const parameter of parsedTestData.headers) {
-              inputHeaders.push({ name: parameter.name, value: parameter.value });
-            }
-          }
-          const functionKey = hostKeys?.masterKey ? (xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey) : '';
-          const options: RunFunctionControllerOptions = {
-            resourceId: site?.id ?? '',
-            path: path,
-            body: settings.data,
-            inputMethod: settings.type,
-            inputHeaders: inputHeaders,
-            authToken: getAuthorizationHeaders()['Authorization'],
-            clientRequestId: Guid.newGuid(),
-            functionKey: functionKey,
-            liveLogsSessionId: liveLogsSessionId || '',
-          };
-          response = await runUsingPassthrough(settings, options);
+          parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
         } catch {}
+
+        const path = site ? settings.uri.substring(Url.getMainUrl(site).length) : '';
+        const inputHeaders: NameValuePair[] = [];
+        if (parsedTestData.headers) {
+          for (const parameter of parsedTestData.headers) {
+            inputHeaders.push({ name: parameter.name, value: parameter.value });
+          }
+        }
+        const functionKey = hostKeys?.masterKey ? (xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey) : '';
+        const options: RunFunctionControllerOptions = {
+          resourceId: site?.id ?? '',
+          path: path,
+          body: settings.data,
+          inputMethod: settings.type,
+          inputHeaders: isHttpOrWebHookFunction ? inputHeaders : [],
+          authToken: getAuthorizationHeaders()['Authorization'],
+          clientRequestId: Guid.newGuid(),
+          functionKey: functionKey,
+          liveLogsSessionId: liveLogsSessionId || '',
+        };
+        response = await runUsingPassthrough(settings, options);
       }
 
       setResponseContent({
