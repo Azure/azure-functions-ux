@@ -36,9 +36,15 @@ const RadioButton: React.FC<IChoiceGroupProps & FieldProps & RadioButtonProps> =
     [field.name, form]
   );
 
+  const onBlur = (e: any) => {
+    form.setFieldTouched(field.name);
+    field.onBlur(e);
+  };
+
   return (
     <RadioButtonNoFormik
       ariaLabelledBy={`${props.id}-label`}
+      onBlur={onBlur}
       onChange={onChange}
       options={options}
       selectedKey={field.value}

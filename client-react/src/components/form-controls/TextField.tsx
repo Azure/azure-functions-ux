@@ -32,6 +32,11 @@ const TextField: React.FC<FieldProps & Omit<ITextFieldProps, 'form'> & CustomTex
     field.onChange(e);
   };
 
+  const onBlur = (e: any) => {
+    form.setFieldTouched(field.name);
+    field.onBlur(e);
+  };
+
   const getErrorMessage = () => {
     return get(form.touched, field.name, false) ? cronErrorMessage(get(form.errors, field.name, '') as string) : undefined;
   };
@@ -45,7 +50,7 @@ const TextField: React.FC<FieldProps & Omit<ITextFieldProps, 'form'> & CustomTex
     return errorMessage;
   };
 
-  return <TextFieldNoFormik value={field.value} onBlur={field.onBlur} errorMessage={getErrorMessage()} onChange={onChange} {...rest} />;
+  return <TextFieldNoFormik value={field.value} onBlur={onBlur} errorMessage={getErrorMessage()} onChange={onChange} {...rest} />;
 };
 
 export default TextField;

@@ -30,6 +30,11 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
 
   const { t } = useTranslation();
 
+  const onBlur = (e: any) => {
+    form.setFieldTouched(field.name);
+    field.onBlur(e);
+  };
+
   const modeSpecificProps = multiSelect
     ? {
         selectedKeys: field.value,
@@ -70,7 +75,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
 
   return (
     <DropdownNoFormik
-      onBlur={field.onBlur}
+      onBlur={onBlur}
       errorMessage={errorMessage}
       // Overriding default dropdown to panel transfer due to many of our dropdown existing in panels
       // https://github.com/OfficeDev/@fluentui/reactcommit/1aa8ab4e9e16ecc17d8e90c1374c0958eba77ee3#diff-406409baf14f369160f322b075e148d4

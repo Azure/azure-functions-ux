@@ -67,6 +67,11 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
     form.setFieldValue(field.name, undefined);
   };
 
+  const onBlur = (e: any) => {
+    form.setFieldTouched(field.name);
+    field.onBlur(e);
+  };
+
   useEffect(() => {
     if (clearComboBox) {
       form.setFieldValue(field.name, undefined);
@@ -86,7 +91,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         ariaLabel={props.label}
         options={options}
         onChange={onChange}
-        onBlur={field.onBlur}
+        onBlur={onBlur}
         errorMessage={errorMessage}
         styles={ComboBoxStyles(theme)}
         allowFreeform={allowFreeform}
