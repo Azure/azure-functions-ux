@@ -13,7 +13,7 @@ import { VfsObject } from '../models/functions/vfs';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 import { NetAjaxSettings } from '../models/ajax-request-model';
-import { Method } from 'axios';
+// import { Method } from 'axios';
 import { NameValuePair } from '../pages/app/functions/function/function-editor/FunctionEditor.types';
 
 export interface RunFunctionControllerOptions {
@@ -77,6 +77,7 @@ export default class FunctionsService {
   };
 
   public static runFunction(settings: NetAjaxSettings, runFunctionsControllerOptions: RunFunctionControllerOptions) {
+    console.log(settings);
     // const url = settings.uri;
     // const method = settings.type as Method;
     // const headers = settings.headers || {};
@@ -88,6 +89,7 @@ export default class FunctionsService {
   }
 
   public static getDataFromFunctionHref(settings: NetAjaxSettings, getTestDataFromFunctionHrefOptions: GetTestDataFromFunctionHrefOptions) {
+    console.log(settings);
     // const url = settings.uri;
     // const method = settings.type as Method;
     // const headers = settings.headers || {};
