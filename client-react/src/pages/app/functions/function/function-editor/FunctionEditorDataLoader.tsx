@@ -316,7 +316,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (settings) {
       let response: ResponseContent = { code: 0, text: '' };
 
-      if (enablePortalCall) {
+      if (enablePortalCall && 1 !== 1) {
         response = await runUsingPortal(settings);
       } else {
         try {
@@ -517,7 +517,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       headers: headers,
     };
 
-    if (enablePortalCall) {
+    if (enablePortalCall && 1 !== 1) {
       return await getTestDataUsingPortal(settings);
     } else {
       const defaultFunctionKey = getDefaultXFunctionKey();

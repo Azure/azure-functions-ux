@@ -77,24 +77,24 @@ export default class FunctionsService {
   };
 
   public static runFunction(settings: NetAjaxSettings, runFunctionsControllerOptions: RunFunctionControllerOptions) {
-    const url = settings.uri;
-    const method = settings.type as Method;
-    const headers = settings.headers || {};
-    const data = settings.data;
+    // const url = settings.uri;
+    // const method = settings.type as Method;
+    // const headers = settings.headers || {};
+    // const data = settings.data;
 
-    return sendHttpRequest({ url, method, headers, data }).catch(() => {
-      return this.tryRunFunctionsController(runFunctionsControllerOptions);
-    });
+    // return sendHttpRequest({ url, method, headers, data }).catch(() => {
+    return this.tryRunFunctionsController(runFunctionsControllerOptions);
+    // });
   }
 
   public static getDataFromFunctionHref(settings: NetAjaxSettings, getTestDataFromFunctionHrefOptions: GetTestDataFromFunctionHrefOptions) {
-    const url = settings.uri;
-    const method = settings.type as Method;
-    const headers = settings.headers || {};
+    // const url = settings.uri;
+    // const method = settings.type as Method;
+    // const headers = settings.headers || {};
 
-    return sendHttpRequest({ url, method, headers }).catch(() => {
-      return this.tryGetTestDataController(getTestDataFromFunctionHrefOptions);
-    });
+    // return sendHttpRequest({ url, method, headers }).catch(() => {
+    return this.tryGetTestDataController(getTestDataFromFunctionHrefOptions);
+    // });
   }
 
   private static tryRunFunctionsController(runFunctionBody: RunFunctionControllerOptions) {
