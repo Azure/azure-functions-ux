@@ -1,8 +1,10 @@
 import { MessageBarType } from '@fluentui/react';
-import { Method } from 'axios';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FunctionsService, { RunFunctionControllerOptions } from '../../../../../ApiHelpers/FunctionsService';
+import FunctionsService, {
+  GetTestDataFromFunctionHrefOptions,
+  RunFunctionControllerOptions,
+} from '../../../../../ApiHelpers/FunctionsService';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -317,29 +319,31 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       if (enablePortalCall) {
         response = await runUsingPortal(settings);
       } else {
+        let parsedTestData: { headers: NameValuePair[] } = { headers: [] };
         try {
-          const path = site ? settings.uri.substring(Url.getMainUrl(site).length) : '';
-          const parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
-          const inputHeaders: NameValuePair[] = [];
-          if (parsedTestData.headers) {
-            for (const parameter of parsedTestData.headers) {
-              inputHeaders.push({ name: parameter.name, value: parameter.value });
-            }
-          }
-          const functionKey = hostKeys?.masterKey ? (xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey) : '';
-          const options: RunFunctionControllerOptions = {
-            resourceId: site?.id ?? '',
-            path: path,
-            body: settings.data,
-            inputMethod: settings.type,
-            inputHeaders: inputHeaders,
-            authToken: getAuthorizationHeaders()['Authorization'],
-            clientRequestId: Guid.newGuid(),
-            functionKey: functionKey,
-            liveLogsSessionId: liveLogsSessionId || '',
-          };
-          response = await runUsingPassthrough(settings, options);
+          parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
         } catch {}
+
+        const path = site ? settings.uri.substring(Url.getMainUrl(site).length) : '';
+        const inputHeaders: NameValuePair[] = [];
+        if (parsedTestData.headers) {
+          for (const parameter of parsedTestData.headers) {
+            inputHeaders.push({ name: parameter.name, value: parameter.value });
+          }
+        }
+        const functionKey = hostKeys?.masterKey ? (xFunctionKey ? getXFunctionKeyValue(xFunctionKey) : hostKeys.masterKey) : '';
+        const options: RunFunctionControllerOptions = {
+          resourceId: site?.id ?? '',
+          path: path,
+          body: settings.data,
+          inputMethod: settings.type,
+          inputHeaders: isHttpOrWebHookFunction ? inputHeaders : [],
+          authToken: getAuthorizationHeaders()['Authorization'],
+          clientRequestId: Guid.newGuid(),
+          functionKey: functionKey,
+          liveLogsSessionId: liveLogsSessionId || '',
+        };
+        response = await runUsingPassthrough(settings, options);
       }
 
       setResponseContent({
@@ -518,7 +522,15 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (enablePortalCall) {
       return await getTestDataUsingPortal(settings);
     } else {
-      return await getTestDataUsingPassthrough(settings);
+      const defaultFunctionKey = getDefaultXFunctionKey();
+      const functionKey = hostKeys?.masterKey ? (defaultFunctionKey ? getXFunctionKeyValue(defaultFunctionKey) : hostKeys.masterKey) : '';
+      const getTestDataUsingFunctionHrefOptions: GetTestDataFromFunctionHrefOptions = {
+        resourceId: functionInfo?.id ?? '',
+        functionKey: functionKey,
+        clientRequestId: Guid.newGuid(),
+        authToken: getAuthorizationHeaders()['Authorization'],
+      };
+      return await getTestDataUsingPassthrough(settings, getTestDataUsingFunctionHrefOptions);
     }
   };
 
@@ -539,11 +551,21 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     return undefined;
   };
 
-  const getTestDataUsingPassthrough = async (settings: NetAjaxSettings) => {
-    const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(settings.uri, settings.type as Method, {
-      ...settings.headers,
-      ...getAuthorizationHeaders(),
-    });
+  const getTestDataUsingPassthrough = async (
+    settings: NetAjaxSettings,
+    getTestDataUsingFunctionHrefOptions: GetTestDataFromFunctionHrefOptions
+  ) => {
+    const getDataFromFunctionHrefSettings: NetAjaxSettings = {
+      ...settings,
+      headers: {
+        ...settings.headers,
+        ...getAuthorizationHeaders(),
+      },
+    };
+    const functionHrefTestDataResponse = await FunctionsService.getDataFromFunctionHref(
+      getDataFromFunctionHrefSettings,
+      getTestDataUsingFunctionHrefOptions
+    );
     if (functionHrefTestDataResponse.metadata.success) {
       return functionHrefTestDataResponse.data;
     } else {
