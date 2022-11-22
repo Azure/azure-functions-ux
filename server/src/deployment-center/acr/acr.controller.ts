@@ -1,10 +1,10 @@
 import { Controller, Post, Body, HttpException, HttpCode, Res } from '@nestjs/common';
+import { ConfigService } from '../../shared/config/config.service';
 import { HttpService } from '../../shared/http/http.service';
-import { GUID } from '../../utilities/guid';
 
 @Controller()
 export class ACRController {
-  constructor(private httpService: HttpService) {}
+  constructor(private httpService: HttpService, private configService: ConfigService) {}
 
   @Post('api/acr/getRepositories')
   @HttpCode(200)
@@ -41,6 +41,12 @@ export class ACRController {
 
   private async _makeGetCallWithLinkHeader(url: string, encodedUserInfo: string, res) {
     try {
+      const urlObj = new URL(url);
+      const host = urlObj.host;
+      const acrHostSuffix = this.configService.acrSuffix;
+      if (!host.endsWith(acrHostSuffix)) {
+        throw new HttpException('The url is not valid', 400);
+      }
       const response = await this.httpService.get(url, {
         headers: this._getACRAuthHeader(encodedUserInfo),
       });
@@ -49,7 +55,6 @@ export class ACRController {
         res.setHeader('link', response.headers.link);
         res.setHeader('access-control-expose-headers', 'link');
       }
-
       res.json(response.data);
     } catch (err) {
       if (err.response) {
