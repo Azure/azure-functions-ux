@@ -102,6 +102,7 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
                   supportedVersion: '7.4',
                   notSupportedInCreates: true,
                 },
+                isDeprecated: true,
                 endOfLifeDate: php7Point4EOL,
               },
               linuxRuntimeSettings: {
@@ -115,6 +116,7 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
                   supportedVersion: '7.4',
                   notSupportedInCreates: true,
                 },
+                isDeprecated: true,
                 endOfLifeDate: php7Point4EOL,
               },
             },
