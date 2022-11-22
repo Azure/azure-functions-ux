@@ -18,7 +18,7 @@ export const pythonStack: FunctionAppStack = {
               remoteDebuggingSupported: false,
               isPreview: true,
               isDefault: false,
-              isHidden: true,
+              isHidden: false,
               appInsightsSettings: {
                 isSupported: true,
               },
