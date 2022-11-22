@@ -6,6 +6,7 @@ import TextFieldNoFormik from './TextFieldNoFormik';
 import { Links } from '../../utils/FwLinks';
 import { Layout } from './ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
+import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 
 export interface CustomTextFieldProps {
   id: string;
@@ -32,11 +33,6 @@ const TextField: React.FC<FieldProps & Omit<ITextFieldProps, 'form'> & CustomTex
     field.onChange(e);
   };
 
-  const onBlur = (e: any) => {
-    form.setFieldTouched(field.name);
-    field.onBlur(e);
-  };
-
   const getErrorMessage = () => {
     return get(form.touched, field.name, false) ? cronErrorMessage(get(form.errors, field.name, '') as string) : undefined;
   };
@@ -50,7 +46,15 @@ const TextField: React.FC<FieldProps & Omit<ITextFieldProps, 'form'> & CustomTex
     return errorMessage;
   };
 
-  return <TextFieldNoFormik value={field.value} onBlur={onBlur} errorMessage={getErrorMessage()} onChange={onChange} {...rest} />;
+  return (
+    <TextFieldNoFormik
+      value={field.value}
+      onBlur={e => formikOnBlur(e, { field, form })}
+      errorMessage={getErrorMessage()}
+      onChange={onChange}
+      {...rest}
+    />
+  );
 };
 
 export default TextField;

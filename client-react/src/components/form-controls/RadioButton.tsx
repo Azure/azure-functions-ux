@@ -9,6 +9,7 @@ import { FieldProps } from 'formik';
 import { useCallback } from 'react';
 import { ChoiceGroupStyles, ChoiceGroupVerticalStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import RadioButtonNoFormik from './RadioButtonNoFormik';
+import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 
 interface RadioButtonProps {
   id: string;
@@ -36,15 +37,10 @@ const RadioButton: React.FC<IChoiceGroupProps & FieldProps & RadioButtonProps> =
     [field.name, form]
   );
 
-  const onBlur = (e: any) => {
-    form.setFieldTouched(field.name);
-    field.onBlur(e);
-  };
-
   return (
     <RadioButtonNoFormik
       ariaLabelledBy={`${props.id}-label`}
-      onBlur={onBlur}
+      onBlur={e => formikOnBlur(e, { field, form })}
       onChange={onChange}
       options={options}
       selectedKey={field.value}

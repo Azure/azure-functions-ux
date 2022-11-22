@@ -3,6 +3,7 @@ import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
 import { useContext, useEffect, useState } from 'react';
 import { comboBoxSpinnerStyle, loadingComboBoxStyle } from '../../pages/app/deployment-center/DeploymentCenter.styles';
+import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 import { ThemeContext } from '../../ThemeContext';
 import ComboBoxNoFormik from './ComboBoxnoFormik';
@@ -67,11 +68,6 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
     form.setFieldValue(field.name, undefined);
   };
 
-  const onBlur = (e: any) => {
-    form.setFieldTouched(field.name);
-    field.onBlur(e);
-  };
-
   useEffect(() => {
     if (clearComboBox) {
       form.setFieldValue(field.name, undefined);
@@ -91,7 +87,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         ariaLabel={props.label}
         options={options}
         onChange={onChange}
-        onBlur={onBlur}
+        onBlur={e => formikOnBlur(e, { field, form })}
         errorMessage={errorMessage}
         styles={ComboBoxStyles(theme)}
         allowFreeform={allowFreeform}

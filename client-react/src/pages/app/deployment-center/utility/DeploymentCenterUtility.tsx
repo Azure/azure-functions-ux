@@ -19,7 +19,7 @@ import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
 import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
 import { LogCategories } from '../../../../utils/LogCategories';
-import { FormikProps } from 'formik';
+import { FieldProps, FormikProps } from 'formik';
 import { IDeploymentCenterContext } from '../DeploymentCenterContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
@@ -478,3 +478,9 @@ export const getDescriptionSection = (source: string, description: string, learn
 };
 
 export const optionsSortingFunction = (a: ISelectableOption, b: ISelectableOption) => a.text.localeCompare(b.text);
+
+export function formikOnBlur<T>(e: React.FocusEvent<T>, props: FieldProps) {
+  const { field, form } = props;
+  form.setFieldTouched(field.name);
+  field.onBlur(e);
+}

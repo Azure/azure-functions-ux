@@ -6,6 +6,7 @@ import { Layout } from './ReactiveFormControl';
 import { Spinner, SpinnerSize } from '@fluentui/react';
 import { style } from 'typestyle';
 import { useTranslation } from 'react-i18next';
+import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 
 export interface CustomDropdownProps {
   id: string;
@@ -29,11 +30,6 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
   const { field, form, multiSelect, isLoading } = props;
 
   const { t } = useTranslation();
-
-  const onBlur = (e: any) => {
-    form.setFieldTouched(field.name);
-    field.onBlur(e);
-  };
 
   const modeSpecificProps = multiSelect
     ? {
@@ -75,7 +71,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
 
   return (
     <DropdownNoFormik
-      onBlur={onBlur}
+      onBlur={e => formikOnBlur(e, { field, form })}
       errorMessage={errorMessage}
       // Overriding default dropdown to panel transfer due to many of our dropdown existing in panels
       // https://github.com/OfficeDev/@fluentui/reactcommit/1aa8ab4e9e16ecc17d8e90c1374c0958eba77ee3#diff-406409baf14f369160f322b075e148d4
