@@ -66,6 +66,14 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
         minWidth: 210,
         maxWidth: 260,
         isResizable: true,
+      },
+      {
+        key: 'DurableFunctionsInstanceId',
+        name: t('instanceId'),
+        fieldName: 'DurableFunctionsInstanceId',
+        minWidth: 250,
+        maxWidth: 300,
+        isResizable: true,
         onRender: onRenderDateColumn,
       },
       {
@@ -73,14 +81,6 @@ const FunctionEntities: React.FC<FunctionEntitiesProps> = props => {
         name: t('runtimeStatus'),
         fieldName: 'DurableFunctionsRuntimeStatus',
         minWidth: 100,
-        maxWidth: 150,
-        isResizable: true,
-      },
-      {
-        key: 'DurableFunctionsInstanceId',
-        name: t('instanceId'),
-        fieldName: 'DurableFunctionsInstanceId',
-        minWidth: 250,
         isResizable: true,
       },
     ];
