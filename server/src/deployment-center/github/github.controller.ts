@@ -23,7 +23,6 @@ import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { EnvironmentUrlMappings, Environments, SandboxEnvironment, SandboxEnvironmentUrlMappings } from '../deployment-center';
-import { AxiosRequestConfig } from 'axios';
 import { CloudType, StaticReactConfig } from '../../types/config';
 
 const githubOrigin = 'https://github.com';
@@ -41,17 +40,12 @@ export class GithubController {
 
   @Post('api/github/passthrough')
   @HttpCode(200)
-  async passthrough(
-    @Body('gitHubToken') gitHubToken: string,
-    @Body('url') url: string,
-    @Res() res,
-    @Body('method') method?: AxiosRequestConfig
-  ) {
+  async passthrough(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Res() res, @Body('method') method?: string) {
     try {
       const urlObj = new URL(url);
       if (urlObj.origin === githubOrigin) {
         let response;
-        if (method && method === 'POST') {
+        if (method === 'POST') {
           response = await this.httpService.post(
             url,
             {},
