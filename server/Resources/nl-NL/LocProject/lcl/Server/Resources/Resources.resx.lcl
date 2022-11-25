@@ -7728,15 +7728,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";durableFunctionNoDataFound" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[No data found. Please make sure you install the latest Durable Functions extension (.NET) or use V2 of extension bundles.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Geen gegevens gevonden. Zorg dat u de nieuwste Durable Functions-extensie (.NET) installeert of gebruik V2 van extensiebundels.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";duration" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Duration (ms)]]></Val>
@@ -10716,6 +10707,33 @@
           <Prev Cat="Text">
             <Val><![CDATA[Ftps only]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Opnieuw instellen van de referenties voor het gebruikersbereik mislukt]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Successfully reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[De referenties voor het gebruikersbereik zijn opnieuw ingesteld]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Resetting user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referenties voor gebruikersbereik opnieuw instellen]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17882,6 +17900,33 @@
           <Val><![CDATA[Reset application publish profile password?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Wachtwoord voor toepassingspublicatieprofiel opnieuw instellen?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referenties voor gebruikersbereik opnieuw instellen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This will reset both username and password and disable user-scope credentials. To re-enable, set a new username and password.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hiermee worden zowel de gebruikersnaam als het wachtwoord opnieuw ingesteld en worden referenties voor gebruikersbereik uitgeschakeld. Als u deze opnieuw wilt inschakelen, stelt u een nieuwe gebruikersnaam en wachtwoord in.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsConfirmationTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Reset user-scope credentials?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referenties voor gebruikersbereik opnieuw instellen?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
