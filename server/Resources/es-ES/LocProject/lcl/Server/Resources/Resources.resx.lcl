@@ -7728,15 +7728,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";durableFunctionNoDataFound" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[No data found. Please make sure you install the latest Durable Functions extension (.NET) or use V2 of extension bundles.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[No se encontraron datos. Asegúrese de instalar la última extensión de Durable Functions (.NET) o de usar la versión 2 de los paquetes de extensiones.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";duration" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Duration (ms)]]></Val>
@@ -10716,6 +10707,33 @@
           <Prev Cat="Text">
             <Val><![CDATA[Ftps only]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[No se pudieron restablecer las credenciales del ámbito de usuario]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Successfully reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Las credenciales del ámbito de usuario se restablecieron correctamente]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Resetting user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Restableciendo credenciales de ámbito de usuario]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17882,6 +17900,33 @@
           <Val><![CDATA[Reset application publish profile password?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[¿Quiere restablecer la contraseña del perfil de publicación de la aplicación?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Restablecer credenciales de ámbito de usuario]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This will reset both username and password and disable user-scope credentials. To re-enable, set a new username and password.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Esto restablecerá el nombre de usuario y la contraseña, y deshabilitará las credenciales de ámbito de usuario. Para volver a habilitar, establezca un nombre de usuario y una contraseña nuevos.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsConfirmationTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Reset user-scope credentials?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[¿Quiere restablecer las credenciales de ámbito de usuario?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
