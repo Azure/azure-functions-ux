@@ -3,6 +3,8 @@ import { FunctionsService, NameValuePair } from './functions.service';
 import { TriggerApimService } from './trigger-apim/trigger-apim.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
 import { Response } from 'express';
+import { ArmSiteDescriptor } from '../shared/resourceDescriptors';
+import { isValidString } from '../utilities/string.util';
 
 @Controller('api')
 export class FunctionsController {
@@ -55,7 +57,7 @@ export class FunctionsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    if (!!functionKey && typeof functionKey === 'string') {
+    if (isResourceIdValid(resourceId) && isPathValid(path)) {
       return this.functionService.runFunction(
         resourceId,
         path,
@@ -69,7 +71,7 @@ export class FunctionsController {
         res
       );
     } else {
-      throw new HttpException('Your key is not valid', 400);
+      throw new HttpException('Invalid input', 400);
     }
   }
 
@@ -81,10 +83,27 @@ export class FunctionsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    if (!!functionKey && typeof functionKey === 'string') {
+    if (isResourceIdValid(resourceId)) {
       return this.functionService.getTestDataFromFunctionHref(resourceId, functionKey, clientRequestId, authToken, res);
     } else {
-      throw new HttpException('Your key is not valid', 400);
+      throw new HttpException('Invalid input', 400);
     }
   }
 }
+
+const isPathValid = (path: string): boolean => {
+  return isValidString(path) && path.startsWith('/') && !path.includes('@');
+};
+
+const isResourceIdValid = (resourceId: string): boolean => {
+  try {
+    const siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(resourceId);
+    if (!isValidString(resourceId) || resourceId.includes('@') || !(siteDescriptor instanceof ArmSiteDescriptor)) {
+      return false;
+    }
+    const siteName = siteDescriptor.getFormattedTargetSiteName();
+    return !!siteName && !!siteDescriptor.subscription && !!siteDescriptor.resourceGroup;
+  } catch (e) {
+    throw new HttpException(e, 400);
+  }
+};

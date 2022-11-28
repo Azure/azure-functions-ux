@@ -42,8 +42,8 @@ export class ACRController {
   private async _makeGetCallWithLinkHeader(url: string, encodedUserInfo: string, res) {
     try {
       const urlObj = new URL(url);
-      const host = urlObj.host;
-      const acrHostSuffix = this.configService.acrSuffix;
+      const host = urlObj.host?.toLowerCase();
+      const acrHostSuffix = this.configService.acrSuffix.toLowerCase();
       if (!host.endsWith(acrHostSuffix)) {
         throw new HttpException('The url is not valid', 400);
       }
