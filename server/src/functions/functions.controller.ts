@@ -56,7 +56,7 @@ export class FunctionsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    if (isFunctionKeyValid(functionKey) && isResourceIdValid(resourceId) && isPathValid(path)) {
+    if (isValidString(functionKey) && isResourceIdValid(resourceId) && isPathValid(path)) {
       return this.functionService.runFunction(
         resourceId,
         path,
@@ -82,7 +82,7 @@ export class FunctionsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    if (isFunctionKeyValid(functionKey) && isResourceIdValid(resourceId)) {
+    if (isValidString(functionKey) && isResourceIdValid(resourceId)) {
       return this.functionService.getTestDataFromFunctionHref(resourceId, functionKey, clientRequestId, authToken, res);
     } else {
       throw new HttpException('Invalid input', 400);
@@ -90,18 +90,18 @@ export class FunctionsController {
   }
 }
 
-const isFunctionKeyValid = (functionKey: string): boolean => {
-  return !!functionKey && typeof functionKey === 'string';
+const isValidString = (input: string): boolean => {
+  return !!input && typeof input === 'string';
 };
 
 const isPathValid = (path: string): boolean => {
-  return path.startsWith('/') && !path.includes('@');
+  return isValidString(path) && path.startsWith('/') && !path.includes('@');
 };
 
 const isResourceIdValid = (resourceId: string): boolean => {
   try {
     const siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(resourceId);
-    if (resourceId.includes('@') || !(siteDescriptor instanceof ArmSiteDescriptor)) {
+    if (!isValidString(resourceId) || resourceId.includes('@') || !(siteDescriptor instanceof ArmSiteDescriptor)) {
       return false;
     }
     const siteName = siteDescriptor.getFormattedTargetSiteName();
