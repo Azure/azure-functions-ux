@@ -4,6 +4,7 @@ import { TriggerApimService } from './trigger-apim/trigger-apim.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
 import { Response } from 'express';
 import { ArmSiteDescriptor } from '../shared/resourceDescriptors';
+import { isValidString } from '../utilities/string.util';
 
 @Controller('api')
 export class FunctionsController {
@@ -89,10 +90,6 @@ export class FunctionsController {
     }
   }
 }
-
-const isValidString = (input: string): boolean => {
-  return !!input && typeof input === 'string';
-};
 
 const isPathValid = (path: string): boolean => {
   return isValidString(path) && path.startsWith('/') && !path.includes('@');
