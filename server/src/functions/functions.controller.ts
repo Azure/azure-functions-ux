@@ -3,6 +3,7 @@ import { FunctionsService, NameValuePair } from './functions.service';
 import { TriggerApimService } from './trigger-apim/trigger-apim.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
 import { Response } from 'express';
+import { ArmSiteDescriptor } from '../shared/resourceDescriptors';
 
 @Controller('api')
 export class FunctionsController {
@@ -55,7 +56,7 @@ export class FunctionsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    if (!!functionKey && typeof functionKey === 'string') {
+    if (isFunctionKeyValid(functionKey) && isResourceIdValid(resourceId) && isPathValid(path)) {
       return this.functionService.runFunction(
         resourceId,
         path,
@@ -69,7 +70,7 @@ export class FunctionsController {
         res
       );
     } else {
-      throw new HttpException('Your key is not valid', 400);
+      throw new HttpException('Invalid input', 400);
     }
   }
 
@@ -81,10 +82,34 @@ export class FunctionsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    if (!!functionKey && typeof functionKey === 'string') {
+    if (isFunctionKeyValid(functionKey) && isResourceIdValid(resourceId)) {
       return this.functionService.getTestDataFromFunctionHref(resourceId, functionKey, clientRequestId, authToken, res);
     } else {
-      throw new HttpException('Your key is not valid', 400);
+      throw new HttpException('Invalid input', 400);
     }
   }
 }
+
+const isFunctionKeyValid = (functionKey: string): boolean => {
+  return !!functionKey && typeof functionKey === 'string';
+};
+
+const isPathValid = (path: string): boolean => {
+  return path.startsWith('/') && !path.includes('@');
+};
+
+const isResourceIdValid = (resourceId: string): boolean => {
+  try {
+    const siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(resourceId);
+    if (resourceId.includes('@') || !(siteDescriptor instanceof ArmSiteDescriptor)) {
+      return false;
+    }
+    const siteName = siteDescriptor.getFormattedTargetSiteName();
+    console.log(siteName);
+    console.log(siteDescriptor.subscription);
+    console.log(siteDescriptor.resourceGroup);
+    return !!siteName && !!siteDescriptor.subscription && !!siteDescriptor.resourceGroup;
+  } catch (e) {
+    throw new HttpException(e, 400);
+  }
+};
