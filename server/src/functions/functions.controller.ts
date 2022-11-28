@@ -57,7 +57,7 @@ export class FunctionsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    if (isValidString(functionKey) && isResourceIdValid(resourceId) && isPathValid(path)) {
+    if (isResourceIdValid(resourceId) && isPathValid(path)) {
       return this.functionService.runFunction(
         resourceId,
         path,
@@ -83,7 +83,7 @@ export class FunctionsController {
     @Body('authToken') authToken: string,
     @Res() res: Response
   ) {
-    if (isValidString(functionKey) && isResourceIdValid(resourceId)) {
+    if (isResourceIdValid(resourceId)) {
       return this.functionService.getTestDataFromFunctionHref(resourceId, functionKey, clientRequestId, authToken, res);
     } else {
       throw new HttpException('Invalid input', 400);
