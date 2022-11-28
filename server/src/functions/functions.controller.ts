@@ -105,9 +105,6 @@ const isResourceIdValid = (resourceId: string): boolean => {
       return false;
     }
     const siteName = siteDescriptor.getFormattedTargetSiteName();
-    console.log(siteName);
-    console.log(siteDescriptor.subscription);
-    console.log(siteDescriptor.resourceGroup);
     return !!siteName && !!siteDescriptor.subscription && !!siteDescriptor.resourceGroup;
   } catch (e) {
     throw new HttpException(e, 400);
