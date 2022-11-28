@@ -10,6 +10,7 @@ import { FunctionOrchestrationsContext } from './FunctionOrchestrationsDataLoade
 import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
 import FunctionOrchestrationDetails from './FunctionOrchestrationDetails';
 import { getSearchFilter } from '../../../../../../../components/form-controls/SearchBox';
+import { getTelemetryInfo } from '../../../../../../../utils/TelemetryUtils';
 
 interface FunctionOrchestrationsProps {
   functionResourceId: string;
@@ -42,12 +43,19 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
     return [
       {
         key: 'orchestrations-run-query',
-        onClick: () =>
+        onClick: () => {
+          portalContext.log(
+            getTelemetryInfo('info', 'openMonitorBlade', 'clickAiQueryEditorOnOrchestrationsTab', {
+              resourceId: functionResourceId,
+              message: 'Opening App Insights Query editor from Orchestrations tab.',
+            })
+          );
           openAppInsightsQueryEditor(
             portalContext,
             appInsightsResourceId,
             orchestrationsContext.formOrchestrationTracesQuery(functionResourceId)
-          ),
+          );
+        },
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
         ariaLabel: t('runQueryInApplicationInsights'),
@@ -79,6 +87,14 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
         minWidth: 210,
         maxWidth: 260,
         isResizable: true,
+      },
+      {
+        key: 'DurableFunctionsInstanceId',
+        name: t('instanceId'),
+        fieldName: 'DurableFunctionsInstanceId',
+        minWidth: 250,
+        maxWidth: 300,
+        isResizable: true,
         onRender: onRenderDateColumn,
       },
       {
@@ -86,14 +102,6 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
         name: t('runtimeStatus'),
         fieldName: 'DurableFunctionsRuntimeStatus',
         minWidth: 100,
-        maxWidth: 150,
-        isResizable: true,
-      },
-      {
-        key: 'DurableFunctionsInstanceId',
-        name: t('instanceId'),
-        fieldName: 'DurableFunctionsInstanceId',
-        minWidth: 250,
         isResizable: true,
       },
     ];

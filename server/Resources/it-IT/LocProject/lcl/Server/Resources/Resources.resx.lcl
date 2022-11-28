@@ -7728,15 +7728,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";durableFunctionNoDataFound" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[No data found. Please make sure you install the latest Durable Functions extension (.NET) or use V2 of extension bundles.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Non sono stati trovati dati. Assicurarsi di installare l'estensione Durable Functions (.NET) più recente o di usare V2 dei bundle dell'estensione.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";duration" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Duration (ms)]]></Val>
@@ -10716,6 +10707,33 @@
           <Prev Cat="Text">
             <Val><![CDATA[Ftps only]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non è stato possibile reimpostare le credenziali dell'ambito utente]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Successfully reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Le credenziali dell'ambito utente sono state reimpostate]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpsUserScopeCredentialsResetNotifTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Resetting user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Reimpostazione delle credenziali dell'ambito utente]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17888,6 +17906,33 @@
           <Val><![CDATA[Reset application publish profile password?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Reimpostare la password del profilo di pubblicazione dell'applicazione?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Reset user-scope credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Reimposta le credenziali dell'ambito utente]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This will reset both username and password and disable user-scope credentials. To re-enable, set a new username and password.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il nome utente e la password verranno reimpostati e le credenziali dell'ambito utente verranno disabilitate. Per riabilitarle, impostare un nuovo nome utente e una nuova password.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";resetUserScopeCredentialsConfirmationTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Reset user-scope credentials?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Reimpostare le credenziali dell'ambito utente?]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

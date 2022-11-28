@@ -1,7 +1,8 @@
-import { Controller, Get, Post, Query, HttpException, Headers, Header, Param, Body } from '@nestjs/common';
-import { FunctionsService } from './functions.service';
+import { Controller, Get, Post, Query, HttpException, Headers, Header, Param, Body, Res } from '@nestjs/common';
+import { FunctionsService, NameValuePair } from './functions.service';
 import { TriggerApimService } from './trigger-apim/trigger-apim.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
+import { Response } from 'express';
 
 @Controller('api')
 export class FunctionsController {
@@ -39,5 +40,51 @@ export class FunctionsController {
   @Post('triggerFunctionAPIM')
   triggerFunctionAPIM(@Body() body) {
     return this.triggerApimService.triggerFunctionAPIM(body);
+  }
+
+  @Post('runFunction')
+  async runFunction(
+    @Body('resourceId') resourceId: string,
+    @Body('path') path: string,
+    @Body('inputMethod') inputMethod: string,
+    @Body('inputHeaders') inputHeaders: NameValuePair[],
+    @Body('functionKey') functionKey: string,
+    @Body('body') body,
+    @Body('liveLogsSessionId') liveLogsSessionId: string,
+    @Body('clientRequestId') clientRequestId: string,
+    @Body('authToken') authToken: string,
+    @Res() res: Response
+  ) {
+    if (!!functionKey && typeof functionKey === 'string') {
+      return this.functionService.runFunction(
+        resourceId,
+        path,
+        body,
+        inputMethod,
+        inputHeaders,
+        authToken,
+        clientRequestId,
+        functionKey,
+        liveLogsSessionId,
+        res
+      );
+    } else {
+      throw new HttpException('Your key is not valid', 400);
+    }
+  }
+
+  @Post('getTestDataFromFunctionHref')
+  async getTestDataFromFunctionHref(
+    @Body('resourceId') resourceId: string,
+    @Body('functionKey') functionKey: string,
+    @Body('clientRequestId') clientRequestId: string,
+    @Body('authToken') authToken: string,
+    @Res() res: Response
+  ) {
+    if (!!functionKey && typeof functionKey === 'string') {
+      return this.functionService.getTestDataFromFunctionHref(resourceId, functionKey, clientRequestId, authToken, res);
+    } else {
+      throw new HttpException('Your key is not valid', 400);
+    }
   }
 }

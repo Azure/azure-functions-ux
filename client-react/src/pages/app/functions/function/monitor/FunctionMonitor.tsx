@@ -45,7 +45,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const portalContext = useContext(PortalContext);
   const theme = useContext(ThemeContext);
 
-  const [pivotStateKey, setPivotStateKey] = useState<PivotState>(PivotState.invocations);
+  const [pivotStateKey, setPivotStateKey] = useState<PivotState>();
 
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
 
@@ -136,14 +136,6 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   return (
     <div style={paddingStyle}>
       <Pivot getTabId={getPivotTabId} selectedKey={pivotStateKey} onLinkClick={onPivotItemClicked}>
-        <PivotItem itemKey={PivotState.invocations} headerText={t('functionMonitor_invocations')}>
-          <FunctionInvocationsDataLoader
-            resourceId={resourceId}
-            appInsightsAppId={appInsightsComponent.properties.AppId}
-            appInsightsResourceId={appInsightsComponent.id}
-            appInsightsToken={appInsightsToken}
-          />
-        </PivotItem>
         {isOrchestrationTrigger() && (
           <PivotItem itemKey={PivotState.orchestration} headerText={t('functionMonitor_orchestrations')}>
             <FunctionOrchestrationsDataLoader
@@ -164,6 +156,14 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
             />
           </PivotItem>
         )}
+        <PivotItem itemKey={PivotState.invocations} headerText={t('functionMonitor_invocations')}>
+          <FunctionInvocationsDataLoader
+            resourceId={resourceId}
+            appInsightsAppId={appInsightsComponent.properties.AppId}
+            appInsightsResourceId={appInsightsComponent.id}
+            appInsightsToken={appInsightsToken}
+          />
+        </PivotItem>
         <PivotItem itemKey={PivotState.logs} headerText={t('functionMonitor_logs')}>
           <FunctionLogsDataLoader resourceId={resourceId} />
         </PivotItem>

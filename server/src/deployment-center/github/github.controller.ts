@@ -23,8 +23,9 @@ import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
 import { EnvironmentUrlMappings, Environments, SandboxEnvironment, SandboxEnvironmentUrlMappings } from '../deployment-center';
-import { AxiosRequestConfig } from 'axios';
 import { CloudType, StaticReactConfig } from '../../types/config';
+
+const githubOrigin = 'https://github.com';
 
 @Controller()
 export class GithubController {
@@ -39,43 +40,43 @@ export class GithubController {
 
   @Post('api/github/passthrough')
   @HttpCode(200)
-  async passthrough(
-    @Body('gitHubToken') gitHubToken: string,
-    @Body('url') url: string,
-    @Res() res,
-    @Body('method') method?: AxiosRequestConfig
-  ) {
+  async passthrough(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Res() res, @Body('method') method?: string) {
     try {
-      let response;
-      if (method && method === 'POST') {
-        response = await this.httpService.post(
-          url,
-          {},
-          {
+      const urlObj = new URL(url);
+      if (urlObj.origin === githubOrigin) {
+        let response;
+        if (method === 'POST') {
+          response = await this.httpService.post(
+            url,
+            {},
+            {
+              headers: this._getAuthorizationHeader(gitHubToken),
+            }
+          );
+        } else {
+          response = await this.httpService.get(url, {
             headers: this._getAuthorizationHeader(gitHubToken),
-          }
-        );
+          });
+        }
+
+        if (response.headers.link) {
+          res.setHeader('link', response.headers.link);
+        }
+
+        if (response.headers['x-oauth-scopes']) {
+          res.setHeader(
+            'x-oauth-scopes',
+            response.headers['x-oauth-scopes']
+              .split(',')
+              .map((value: string) => value.trim())
+              .join(',')
+          );
+        }
+
+        res.json(response.data);
       } else {
-        response = await this.httpService.get(url, {
-          headers: this._getAuthorizationHeader(gitHubToken),
-        });
+        throw new HttpException('The url is not valid', 400);
       }
-
-      if (response.headers.link) {
-        res.setHeader('link', response.headers.link);
-      }
-
-      if (response.headers['x-oauth-scopes']) {
-        res.setHeader(
-          'x-oauth-scopes',
-          response.headers['x-oauth-scopes']
-            .split(',')
-            .map((value: string) => value.trim())
-            .join(',')
-        );
-      }
-
-      res.json(response.data);
     } catch (err) {
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);

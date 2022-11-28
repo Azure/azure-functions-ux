@@ -27,3 +27,19 @@ export class Constants {
     public: 'core.windows.net',
   };
 }
+
+export class CloudArmEndpoints {
+  public static public = 'https://management.azure.com';
+  public static fairfax = 'https://management.usgovcloudapi.net';
+  public static mooncake = 'https://management.chinacloudapi.cn';
+  public static usnat = 'https://management.azure.eaglex.ic.gov';
+  public static ussec = 'https://management.azure.microsoft.scloud';
+}
+
+export class AcrSuffix {
+  public static public = '.azurecr.io';
+  public static fairfax = '.azurecr.us';
+  public static mooncake = '.azurecr.cn';
+  public static usnat = '.azurecr.eaglex.ic.gov';
+  public static ussec = '.azurecr.microsoft.scloud';
+}

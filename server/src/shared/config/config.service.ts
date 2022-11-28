@@ -1,6 +1,6 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
 import * as dotenv from 'dotenv';
-import { Constants } from '../../constants';
+import { AcrSuffix, CloudArmEndpoints, Constants } from '../../constants';
 import { HttpService } from '../../shared/http/http.service';
 import { CloudType, StaticAngularConfig, StaticReactConfig } from '../../types/config';
 export const KeyvaultApiVersion = '2016-10-01';
@@ -81,6 +81,51 @@ export class ConfigService implements OnModuleInit {
       }
     } else {
       return Constants.endpointSuffix.public;
+    }
+  }
+
+  get armEndpoint(): string {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud) {
+      switch (config.env.cloud) {
+        case CloudType.fairfax:
+          return CloudArmEndpoints.fairfax;
+        case CloudType.mooncake:
+          return CloudArmEndpoints.mooncake;
+        case CloudType.usnat:
+          return CloudArmEndpoints.usnat;
+        case CloudType.ussec:
+          return CloudArmEndpoints.ussec;
+        // NOTE (krmitta): For all the other cases we are returning the public endpoint
+        case CloudType.onprem: // falls through
+        case CloudType.public: // falls through
+        default:
+          return CloudArmEndpoints.public;
+      }
+    } else {
+      return CloudArmEndpoints.public;
+    }
+  }
+
+  get acrSuffix(): string {
+    const config = this.staticReactConfig;
+    if (config.env && config.env.cloud) {
+      switch (config.env.cloud) {
+        case CloudType.fairfax:
+          return AcrSuffix.fairfax;
+        case CloudType.mooncake:
+          return AcrSuffix.mooncake;
+        case CloudType.usnat:
+          return AcrSuffix.usnat;
+        case CloudType.ussec:
+          return AcrSuffix.ussec;
+        case CloudType.onprem: // falls through
+        case CloudType.public: // falls through
+        default:
+          return AcrSuffix.public;
+      }
+    } else {
+      return AcrSuffix.public;
     }
   }
 
