@@ -96,7 +96,7 @@ const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderPro
           <Field
             id="deployment-center-settings-repository-option"
             label={t('deploymentCenterOAuthRepository')}
-            placeholder={t('deploymentCenterOAuthRepositoryPlaceholder')}
+            placeholder={t('deploymentCenterOAuthGitHubRepositoryPlaceholder')}
             name="repo"
             component={ComboBox}
             allowFreeform
