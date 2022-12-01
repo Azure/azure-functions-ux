@@ -22,6 +22,7 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { IDataMessageResult } from '../../../../models/portal-models';
 import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
 import { SiteStateContext } from '../../../../SiteState';
+import { ScmType } from '../../../../models/site/config';
 interface RegistryIdentifiers {
   resourceId: string;
   location: string;
@@ -297,7 +298,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     const loginServer = formProps.values.acrLoginServer?.toLocaleLowerCase() ?? '';
     const selectedRegistryIdentifier = registryIdentifiers.current[loginServer];
 
-    if (selectedRegistryIdentifier) {
+    if (selectedRegistryIdentifier && formProps.values.scmType !== ScmType.GitHubAction) {
       if (selectedRegistryIdentifier.adminUserEnabled) {
         const credentials = selectedRegistryIdentifier.credential;
         if (credentials) {
