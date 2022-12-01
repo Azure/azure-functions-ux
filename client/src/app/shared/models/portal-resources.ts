@@ -2175,6 +2175,7 @@ export class PortalResources {
   public static deploymentCenterOAuthProject = 'deploymentCenterOAuthProject';
   public static deploymentCenterOAuthProjectPlaceholder = 'deploymentCenterOAuthProjectPlaceholder';
   public static deploymentCenterOAuthRepository = 'deploymentCenterOAuthRepository';
+  public static deploymentCenterOAuthGitHubRepositoryPlaceholder = 'deploymentCenterOAuthGitHubRepositoryPlaceholder';
   public static deploymentCenterOAuthRepositoryPlaceholder = 'deploymentCenterOAuthRepositoryPlaceholder';
   public static deploymentCenterOAuthBranch = 'deploymentCenterOAuthBranch';
   public static deploymentCenterOAuthBranchPlaceholder = 'deploymentCenterOAuthBranchPlaceholder';
