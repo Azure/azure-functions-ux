@@ -27,7 +27,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.11',
                 },
-                isHidden: true,
+                isHidden: false,
               },
             },
           },
