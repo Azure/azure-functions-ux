@@ -33,7 +33,7 @@ function validateWindowsStackLength(stacks) {
 
 function validateLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(9);
+  expect(stacks.length).to.equal(10);
 }
 
 function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
