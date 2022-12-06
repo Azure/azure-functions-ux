@@ -1597,6 +1597,33 @@
     <data name="minTlsVersionInfoBubbleMessage" xml:space="preserve">
         <value>Select the minimum TLS encryption version required by your app.</value>
     </data>
+    <data name="minTlsCipherSuiteLabel" xml:space="preserve">
+        <value>Minimum TLS Cipher Suite (Preview)</value>
+    </data>
+    <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
+        <value>Disables all TLS cipher suites that are less secure than the chosen cipher suite.</value>
+    </data>
+    <data name="minTlsCipherSuiteSelectionInfo" xml:space="preserve">
+        <value>At your chosen security level, these TLS cipher suites will be enabled or disabled</value>
+    </data>
+    <data name="minTlsCipherSuiteBannerInfo" xml:space="preserve">
+        <value>Changing minimum TLS Cipher Suite may cause service errors.</value>
+    </data>
+    <data name="minTlsCipherSuiteDropdownLabel" xml:space="preserve">
+        <value>Minimum TLS Cipher Suite</value>
+    </data>
+    <data name="minTlsCipherSuitePanelHeader" xml:space="preserve">
+        <value>Change minimum TLS Cipher Suite (preview)</value>
+    </data>
+    <data name="minTlsCipherSuiteMostSecure" xml:space="preserve">
+        <value>most secure</value>
+    </data>
+    <data name="minTlsCipherSuiteLeastSecure" xml:space="preserve">
+        <value>least secure</value>
+    </data>
+    <data name="selected" xml:space="preserve">
+        <value>selected</value>
+    </data>
     <data name="clientAffinityInfoText" xml:space="preserve">
         <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
     </data>

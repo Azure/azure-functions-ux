@@ -495,6 +495,15 @@ export class PortalResources {
   public static https20ProxyInfoBubbleMessage = 'https20ProxyInfoBubbleMessage';
   public static minTlsVersionLabel = 'minTlsVersionLabel';
   public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
+  public static minTlsCipherSuiteLabel = 'minTlsCipherSuiteLabel';
+  public static minTlsCipherSuiteInfoBubbleMessage = 'minTlsCipherSuiteInfoBubbleMessage';
+  public static minTlsCipherSuiteSelectionInfo = 'minTlsCipherSuiteSelectionInfo';
+  public static minTlsCipherSuiteBannerInfo = 'minTlsCipherSuiteBannerInfo';
+  public static minTlsCipherSuiteDropdownLabel = 'minTlsCipherSuiteDropdownLabel';
+  public static minTlsCipherSuitePanelHeader = 'minTlsCipherSuitePanelHeader';
+  public static minTlsCipherSuiteMostSecure = 'minTlsCipherSuiteMostSecure';
+  public static minTlsCipherSuiteLeastSecure = 'minTlsCipherSuiteLeastSecure';
+  public static selected = 'selected';
   public static clientAffinityInfoText = 'clientAffinityInfoText';
   public static remoteDebuggingEnabledLabel = 'remoteDebuggingEnabledLabel';
   public static remoteDebuggingVersionLabel = 'remoteDebuggingVersionLabel';

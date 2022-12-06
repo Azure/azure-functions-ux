@@ -28,6 +28,7 @@ export class ScenarioIds {
   public static readonly enableMetrics = 'EnableMetrics';
   public static readonly enableBackups = 'EnableBackups';
   public static readonly enableTinfoil = 'EnableTinfoil';
+  public static readonly enableMinCipherSuite = 'enableMinCipherSuite';
   public static readonly dotNetFrameworkSupported = 'DotNetFrameworkSupported';
   public static readonly platform64BitSupported = 'Platform64BitSupported';
   public static readonly webSocketsSupported = 'WebSocketsSupported';
