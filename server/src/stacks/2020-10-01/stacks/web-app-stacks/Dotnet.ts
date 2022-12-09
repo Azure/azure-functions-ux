@@ -40,7 +40,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
-                  isDefaultOff: true,
+                  isDefaultOff: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
