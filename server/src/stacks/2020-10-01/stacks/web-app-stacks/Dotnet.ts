@@ -146,6 +146,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.1.301',
                 },
+                isDeprecated: true,
                 endOfLifeDate: dotnetCore3Point1EOL,
               },
               linuxRuntimeSettings: {
@@ -159,6 +160,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.1.301',
                 },
+                isDeprecated: true,
                 endOfLifeDate: dotnetCore3Point1EOL,
               },
             },

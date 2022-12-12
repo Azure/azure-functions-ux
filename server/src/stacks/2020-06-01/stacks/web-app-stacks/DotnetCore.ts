@@ -30,6 +30,7 @@ export const dotnetCoreStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '3.1.301',
               },
+              isDeprecated: true,
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|3.1',
@@ -42,6 +43,7 @@ export const dotnetCoreStack: WebAppStack = {
                 isSupported: true,
                 supportedVersion: '3.1.301',
               },
+              isDeprecated: true,
             },
           },
         },
