@@ -272,6 +272,8 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: true,
                 },
                 supportedFunctionsExtensionVersions: ['~3'],
+                endOfLifeDate: dotnetCore3EOL,
+                isDeprecated: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'dotnet|3.1',
@@ -292,6 +294,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 supportedFunctionsExtensionVersions: ['~3'],
                 endOfLifeDate: dotnetCore3EOL,
+                isDeprecated: true,
               },
             },
           },
