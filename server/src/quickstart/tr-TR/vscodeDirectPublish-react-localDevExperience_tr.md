@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>Bağımlılıkları yükleme
 
-Başlamadan önce <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">Visual Studio Code'u yüklemelisiniz</a>. Ayrıca npm'yi içeren <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.JS'yi de yüklemeniz</a> gerekir. Azure Functions Core Tools'u nasıl elde edeceğiniz aşağıda açıklanmıştır. Node'u yüklememeyi tercih ediyorsanız <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools başvurumuzda</a> diğer yükleme seçeneklerine bakın.
-
-Core Tools paketini yüklemek için şu komutu çalıştırın:
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+Başlamadan önce <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">Visual Studio Code'u yüklemelisiniz</a>. Ayrıca npm'yi içeren <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.JS'yi de yüklemeniz</a> gerekir.
 
 Ardından <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Visual Studio Code için Azure İşlevleri uzantısını yükleyin</a>. Uzantı yüklendikten sonra Etkinlik Çubuğundaki Azure logosuna tıklayın. **Azure: İşlevler**'in altında **Azure'da oturum aç...** seçeneğine tıklayın ve ekrandaki yönergeleri izleyin.
 

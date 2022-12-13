@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>安装依赖项
 
-在开始之前，应<a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">安装 Visual Studio Code</a>。 还应<a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">安装 Node.JS</a>（含 npm）。 这就是获取 Azure Functions Core Tools 的方法。 如果不想安装 Node，请参阅 <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools 参考</a>中的其他安装选项。
-
-运行以下命令以安装 Core Tools 包：
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+在开始之前，应<a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">安装 Visual Studio Code</a>。 还应<a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">安装 Node.JS</a>（含 npm）。
 
 接下来，<a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">安装 Visual Studio Code 的 Azure Functions 扩展</a>。 安装扩展后，单击活动栏中的 Azure 徽标。 在“Azure:Functions”下，单击“登录到 Azure...”并遵照屏幕说明操作。
 

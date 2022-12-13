@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>Instalowanie zależności
 
-Przed rozpoczęciem należy <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">zainstalować program Visual Studio Code</a>. Należy również <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">zainstalować środowisko Node.JS</a>, które obejmuje narzędzie npm. W ten sposób uzyskasz narzędzia Azure Functions Core Tools. Jeśli nie chcesz instalować środowiska Node, zapoznaj się z innymi opcjami instalacji w naszej <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">dokumentacji narzędzi Core Tools</a>.
-
-Uruchom następujące polecenie, aby zainstalować pakiet narzędzi Core Tools:
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+Przed rozpoczęciem należy <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">zainstalować program Visual Studio Code</a>. Należy również <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">zainstalować środowisko Node.JS</a>, które obejmuje narzędzie npm.
 
 Następnie <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">zainstaluj rozszerzenie usługi Azure Functions dla programu Visual Studio Code</a>. Po zainstalowaniu rozszerzenia kliknij logo platformy Azure na pasku działań. W obszarze **Azure: Functions** kliknij pozycję **Zaloguj się do platformy Azure...** i postępuj zgodnie z instrukcjami wyświetlanymi na ekranie.
 

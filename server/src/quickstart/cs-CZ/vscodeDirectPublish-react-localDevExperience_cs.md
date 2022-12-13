@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>Instalace závislostí
 
-Než začnete, měli byste si <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">nainstalovat Visual Studio Code</a>. Měli byste také <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">nainstalovat modul Node.JS</a>, který zahrnuje npm. Tímto postupem získáte Azure Functions Core Tools. Pokud dáváte přednost tomu neinstalovat Node, projděte si další možnosti instalace v <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">referencích k nástrojům Core Tools</a>.
-
-Spuštěním následujícího příkazu nainstalujte balíček Core Tools:
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+Než začnete, měli byste si <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">nainstalovat Visual Studio Code</a>. Měli byste také <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">nainstalovat modul Node.JS</a>, který zahrnuje npm.
 
 Potom <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">nainstalujte rozšíření Azure Functions pro Visual Studio Code</a>. Po dokončení instalace tohoto rozšíření klikněte na logo Azure na panelu aktivit. V části **Azure: Functions** klikněte na **Přihlásit se k Azure...** a postupujte podle pokynů na obrazovce.
 
