@@ -4027,7 +4027,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Core (SQL)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Mémoire à tores magnétiques (SQL)]]></Val>
+            <Val><![CDATA[Core (SQL)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6402,6 +6402,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterOAuthGitHubRepositoryPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select or type repository]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sélectionner ou taper un référentiel]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterOAuthOrganization" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Organization]]></Val>
@@ -6449,12 +6458,12 @@
       </Item>
       <Item ItemId=";deploymentCenterOAuthRepositoryPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select or type repository]]></Val>
+          <Val><![CDATA[Select repository]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Sélectionner ou taper un référentiel]]></Val>
+            <Val><![CDATA[Sélectionner un dépôt]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Select repository]]></Val>
+            <Val><![CDATA[Select or type repository]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />

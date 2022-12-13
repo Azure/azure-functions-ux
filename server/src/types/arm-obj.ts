@@ -1,12 +1,10 @@
-import { KeyValue } from '../proxy/proxy.controller';
-
 export interface ArmObj<T> {
   id: string;
   kind?: string;
   cpp;
   properties: T;
   type?: string;
-  tags?: KeyValue<string>;
+  tags?: Record<string, string>;
   location: string;
   name: string;
   identity?: MsiIdentity;
@@ -17,7 +15,7 @@ export interface MsiIdentity {
   principalId: string;
   tenantId: string;
   type: string;
-  userAssignedIdentities: KeyValue<KeyValue<string>>;
+  userAssignedIdentities: Record<string, Record<string, string>>;
 }
 
 export interface ArmSku {

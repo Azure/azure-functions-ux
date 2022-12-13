@@ -3,7 +3,6 @@ import { join, normalize } from 'path';
 import { readdir, exists, readFile } from 'async-file';
 import * as fs from 'fs';
 import { Constants } from '../constants';
-import { KeyValue } from '../proxy/proxy.controller';
 import { Url } from '../utilities/url.util';
 import { HttpService } from '../shared/http/http.service';
 import { Method } from 'axios';
@@ -237,7 +236,7 @@ export class FunctionsService implements OnModuleInit {
     clientRequestId: string,
     functionKey: string,
     liveLogsSessionId?: string
-  ): KeyValue<string> {
+  ): Record<string, string> {
     const headers = this._getJsonHeaders();
     testHeaders.forEach(h => {
       headers[h.name] = h.value;
@@ -260,7 +259,7 @@ export class FunctionsService implements OnModuleInit {
     };
   }
 
-  private _getJsonHeaders(): KeyValue<string> {
+  private _getJsonHeaders(): Record<string, string> {
     return {
       'Content-Type': 'application/json',
       Accept: 'application/json',
