@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>Afhankelijkheden installeren
 
-Voordat u aan de slag kunt gaan, moet u <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">Visual Studio Code installeren</a>. Daarnaast moet u <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.js installeren</a>, wat npm omvat. Op deze manier kunt u Azure Functions Core Tools verkrijgen. Als u Node liever niet installeert, bekijkt u de andere installatieopties in onze <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">naslaginformatie voor Core Tools</a>.
-
-Voer de volgende opdracht uit om het Core Tools-pakket te installeren:
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+Voordat u aan de slag kunt gaan, moet u <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">Visual Studio Code installeren</a>. Daarnaast moet u <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.js installeren</a>, wat npm omvat.
 
 <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Installeer vervolgens de Azure Functions-extensie voor Visual Studio Code</a>. Zodra de extensie is geïnstalleerd, klikt u op het Azure-logo in de activiteitenbalk. Klik bij **Azure: Functions** op **Aanmelden bij Azure...** en volg de instructies op het scherm.
 

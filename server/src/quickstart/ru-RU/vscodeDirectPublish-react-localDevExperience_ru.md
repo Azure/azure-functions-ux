@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>Установка зависимостей
 
-Прежде чем приступить к работе, <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">установите Visual Studio Code</a>. Кроме того, установите <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.js</a> с пакетом npm. После этого в вашем распоряжении будет набор Azure Functions Core Tools. Если вы предпочитаете не устанавливать Node, ознакомьтесь с другими вариантами установки в нашем <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">справочнике по Core Tools</a>.
-
-Выполните следующую команду, чтобы установить пакет Core Tools:
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+Прежде чем приступить к работе, <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">установите Visual Studio Code</a>. Кроме того, установите <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.js</a> с пакетом npm.
 
 Затем <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">установите расширение Функций Azure для Visual Studio Code</a>. После установки расширения щелкните логотип Azure на панели действий. В разделе **Azure: Functions** (Azure: Функции) щелкните ссылку **Войти в Azure...** и следуйте инструкциям на экране.
 

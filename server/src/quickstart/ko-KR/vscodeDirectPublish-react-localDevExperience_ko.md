@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>종속성 설치
 
-시작하려면 <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">Visual Studio Code를 설치</a>해야 합니다. <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.js</a>(npm 포함)도 설치해야 합니다. 이를 통해 Azure Functions Core Tools를 얻을 수 있습니다. Node를 설치하지 않으려는 경우에는 <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools 참조</a>의 다른 설치 옵션을 확인하세요.
-
-다음 명령을 실행하여 Core Tools 패키지를 설치합니다.
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+시작하려면 <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">Visual Studio Code를 설치</a>해야 합니다. <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.js</a>(npm 포함)도 설치해야 합니다.
 
 다음으로, <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Visual Studio Code용 Azure Functions 확장을 설치</a>합니다. 확장이 설치되면 작업 표시줄에서 Azure 로고를 클릭합니다. **Azure: Functions** 에서 **Azure에 로그인...** 을 클릭하고 화면의 지침을 따릅니다.
 
