@@ -19,10 +19,11 @@ import FunctionEditorData from './FunctionEditor.data';
 
 export type Status = 'idle' | 'loading' | 'success' | 'error' | 'unauthorized';
 
-export const isNewPythonProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
+export const isNewProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   const properties = functionInfo?.properties;
+  const configLanguage = properties?.config.language;
 
-  return properties?.config_href === null && properties?.config.language === 'python';
+  return properties?.config_href === null && (configLanguage === 'python' || configLanguage === 'node');
 };
 
 export const useFunctionEditorQueries = (resourceId: string, functionEditorData: FunctionEditorData) => {
@@ -168,7 +169,7 @@ const useAppSettingsQuery = (updated: number, siteResourceId: string) => {
 const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?: ArmObj<FunctionInfo>, runtimeVersion?: string) => {
   // Get all files at VFS root for the new programming model with the function script pre-selected for viewing.
   const functionName = useMemo(() => {
-    return isNewPythonProgrammingModel(functionInfo) ? '' : functionInfo?.properties.name;
+    return isNewProgrammingModel(functionInfo) ? '' : functionInfo?.properties.name;
   }, [functionInfo]);
 
   const [fileList, setFileList] = useState<VfsObject[]>();
