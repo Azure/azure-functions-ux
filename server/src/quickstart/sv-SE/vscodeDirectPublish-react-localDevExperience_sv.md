@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>Installera beroenden
 
-Innan du börjar måste du <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">installera Visual Studio Code</a>. Du bör också <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">installera Node.JS</a> som innehåller npm. Så här får du Azure Functions Core Tools. Om du inte vill installera Node kan du se andra installationsalternativ i vår <a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools-referens</a>.
-
-Kör följande kommando för att installera Core Tools-paketet:
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+Innan du börjar måste du <a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">installera Visual Studio Code</a>. Du bör också <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">installera Node.JS</a> som innehåller npm.
 
 Installera sedan <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Azure Functions-tillägget för Visual Studio Code</a>. När tillägget har installerats klickar du på Azure-logotypen i aktivitetsfältet. Under **Azure: Functions** klickar du på **Logga in på Azure...** och följer anvisningarna på skärmen.
 
