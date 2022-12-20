@@ -41,11 +41,13 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
             </>
           )
         )}
-        {!isNewProgramming && !!functionInfo && (
+        {!isNewProgramming && !!functionInfo ? (
           <>
             <Label>{functionInfo.properties.name}</Label>
             <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
           </>
+        ) : (
+          <></>
         )}
         <OfficeDropdown
           id="fucntion-editor-file-selector"
