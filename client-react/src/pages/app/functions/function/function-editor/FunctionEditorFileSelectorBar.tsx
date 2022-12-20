@@ -7,6 +7,7 @@ import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import StringUtils from '../../../../../utils/string';
 import { fileSelectorStackStyle, fileSelectorDropdownStyle } from './FunctionEditor.styles';
+import { isNewProgrammingModel } from './useFunctionEditorQueries';
 
 export interface FunctionEditorFileSelectorBarProps {
   fileDropdownOptions: IDropdownOption[];
@@ -25,17 +26,22 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
   const { functionAppNameLabel, fileDropdownOptions, fileDropdownSelectedKey, onChangeDropdown, functionInfo, disabled } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
+  const isNewProgramming = isNewProgrammingModel(functionInfo);
 
   return (
     <>
       <Stack horizontal className={fileSelectorStackStyle(theme)}>
-        {!!functionAppNameLabel && (
-          <>
-            <Label>{functionAppNameLabel}</Label>
-            <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
-          </>
+        {isNewProgramming ? (
+          <Label className={fileSeparatorStyle}>{functionAppNameLabel}</Label>
+        ) : (
+          !!functionAppNameLabel && (
+            <>
+              <Label>{functionAppNameLabel}</Label>
+              <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
+            </>
+          )
         )}
-        {!!functionInfo && (
+        {!isNewProgramming && !!functionInfo && (
           <>
             <Label>{functionInfo.properties.name}</Label>
             <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
