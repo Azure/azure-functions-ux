@@ -31,15 +31,17 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
   return (
     <>
       <Stack horizontal className={fileSelectorStackStyle(theme)}>
-        {isNewProgramming ? (
-          <Label className={fileSeparatorStyle}>{functionAppNameLabel}</Label>
-        ) : (
-          !!functionAppNameLabel && (
+        {functionAppNameLabel ? (
+          isNewProgramming ? (
+            <Label className={fileSeparatorStyle}>{functionAppNameLabel}</Label>
+          ) : (
             <>
               <Label>{functionAppNameLabel}</Label>
               <Label className={fileSeparatorStyle}>{StringUtils.fileSeparator}</Label>
             </>
           )
+        ) : (
+          <></>
         )}
         {!isNewProgramming && !!functionInfo ? (
           <>
