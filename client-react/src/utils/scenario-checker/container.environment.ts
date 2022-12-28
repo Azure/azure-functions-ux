@@ -1,7 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
 import { isContainerApp, isLinuxApp } from '../arm-utils';
-import { NationalCloudEnvironment } from './national-cloud.environment';
 
 export class ContainerApp extends Environment {
   public name = 'ContainerApp';
@@ -28,14 +27,6 @@ export class ContainerApp extends Environment {
       runCheck: () => {
         return {
           status: 'enabled',
-        };
-      },
-    };
-    this.scenarioChecks[ScenarioIds.azureStorageMountPreview] = {
-      id: ScenarioIds.azureStorageMountPreview,
-      runCheck: () => {
-        return {
-          status: NationalCloudEnvironment.isNationalCloud() ? 'enabled' : 'disabled',
         };
       },
     };
