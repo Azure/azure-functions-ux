@@ -40,6 +40,8 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
   const [showDeletePlanOption, setShowDeletePlanOption] = useState(false);
+  const [usingDefaultPlan, setUsingDefaultPlan] = useState(false);
+
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
 
@@ -77,12 +79,12 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const hidePricingTier = useMemo(() => {
     const { isNewPlan, newPlanInfo, existingPlan } = formProps.values.serverFarmInfo;
-    if (isNewPlan) {
+    if (isNewPlan || usingDefaultPlan) {
       return newPlanInfo.tier === ChangeAppPlanTierTypes.Dynamic;
     }
 
     return !existingPlan || existingPlan.sku?.tier === ChangeAppPlanTierTypes.Dynamic;
-  }, [formProps.values.serverFarmInfo]);
+  }, [formProps.values.serverFarmInfo, usingDefaultPlan]);
 
   const getPricingTierValue = (currentServerFarmId: string, linkElement: React.MutableRefObject<ILink | null>) => {
     const skuString = getSelectedSkuString();
@@ -215,9 +217,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     const filteredServerFarmOptions = isConsumptionToPremiumEnabled
       ? serverFarms.filter(serverFarm => serverFarm?.sku?.tier === skuTier)
       : serverFarms;
-
+    setUsingDefaultPlan(false);
     const options = getDropdownOptions(filteredServerFarmOptions);
     if (options.length === 0) {
+      setUsingDefaultPlan(true);
       options.unshift({
         key: formProps.values.serverFarmInfo.newPlanInfo.name,
         text: t('newFormat').format(formProps.values.serverFarmInfo.newPlanInfo.name),
@@ -299,6 +302,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
             isUpdating={isUpdating}
             formProps={formProps}
             isConsumptionToPremiumEnabled={isConsumptionToPremiumEnabled}
+            usingDefaultPlan={usingDefaultPlan}
           />
 
           {showDeletePlanOption && (
