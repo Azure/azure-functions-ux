@@ -24,7 +24,7 @@
     "react-app-rewired": "^2.1.8",
     "react-dom": "17.0.2",
     "react-i18next": "^10.0.4",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "react-svg": "^7.2.6",
     "react-use": "^5.4.1",
     "rxjs": "^6.4.0",
@@ -68,7 +68,7 @@
     "jest-date-mock": "^1.0.7",
     "jest-junit": "^6.4.0",
     "jest-mock-axios": "^2.4.0",
-    "monaco-editor-webpack-plugin": "^1.9.1",
+    "monaco-editor-webpack-plugin": "^7.0.1",
     "react-test-renderer": "^17.0.2",
     "typescript": "^4.8.4",
     "webpack-bundle-analyzer": "^4.7.0"
