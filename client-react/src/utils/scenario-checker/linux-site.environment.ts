@@ -176,15 +176,6 @@ export class LinuxSiteEnvironment extends Environment {
         };
       },
     };
-
-    this.scenarioChecks[ScenarioIds.azureStorageMountPreview] = {
-      id: ScenarioIds.azureStorageMountPreview,
-      runCheck: () => {
-        return {
-          status: 'disabled',
-        };
-      },
-    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -8,8 +8,6 @@ import StringUtils from '../../../../utils/string';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { VirtualApplication } from '../../../../models/site/config';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
-import Url from '../../../../utils/url';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;
@@ -55,10 +53,8 @@ const VirtualApplicationsAddEdit: React.FC<HandlerMappingAddEditProps> = props =
 
   const validatePhysicalPath = () => {
     const physicalPath = currentVirtualApplication.physicalPath;
-    const allowMountsAsPrefix = Url.getFeatureValue(CommonConstants.FeatureFlags.allowMountsAsVirtualDirectoryPrefix);
-    const isValid = physicalPath.startsWith('site\\') || (allowMountsAsPrefix && physicalPath.startsWith('\\mounts\\'));
-    const errorMessage = allowMountsAsPrefix ? t('physicalPathLocationErrorWithMounts') : t('physicalPathLocationError');
-    return isValid ? '' : errorMessage;
+    const isValid = physicalPath.startsWith('site\\') || physicalPath.startsWith('\\mounts\\');
+    return isValid ? '' : t('physicalPathLocationError');
   };
 
   // validation
