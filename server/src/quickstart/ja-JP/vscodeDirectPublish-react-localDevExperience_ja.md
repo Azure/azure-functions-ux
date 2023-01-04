@@ -1,10 +1,6 @@
 ### <a name="install-dependencies"></a>依存関係のインストール
 
-作業を開始する前に、<a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">Visual Studio Code をインストール</a>する必要があります。 npm を含む <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.JS のインストール</a>も必要です。 この方法で、Azure Functions Core Tools を取得します。 Node をインストールしない場合は、<a href="https://go.microsoft.com/fwlink/?linkid=2016192" target="_blank">Core Tools のリファレンス</a>で他のインストール オプションを参照してください。
-
-次のコマンドを実行して、Core Tools パッケージをインストールします。
-
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
+作業を開始する前に、<a href="https://go.microsoft.com/fwlink/?linkid=2016593" target="_blank">Visual Studio Code をインストール</a>する必要があります。 npm を含む <a href="https://go.microsoft.com/fwlink/?linkid=2016195" target="_blank">Node.JS のインストール</a>も必要です。
 
 次に、<a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Visual Studio Code 用 Azure Functions 拡張機能をインストール</a>します。 拡張機能がインストールされたら、アクティビティ バーの Azure のロゴをクリックします。 **[Azure:関数]** で、 **[Azure にサインイン]** をクリックし、画面の指示に従います。
 

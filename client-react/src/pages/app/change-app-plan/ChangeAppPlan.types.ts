@@ -99,6 +99,7 @@ export interface CreateOrSelectPlanProps {
   isConsumptionToPremiumEnabled: boolean;
   hostingEnvironment?: ArmObj<HostingEnvironment>;
   skuTier?: string;
+  usingDefaultPlan?: boolean;
 }
 
 export interface CreatePlanProps {

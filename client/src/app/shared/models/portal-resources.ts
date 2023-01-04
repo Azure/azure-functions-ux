@@ -1548,7 +1548,6 @@ export class PortalResources {
   public static invalidWindowsPath = 'invalidWindowsPath';
   public static invalidLinuxPath = 'invalidLinuxPath';
   public static mountStorage = 'mountStorage';
-  public static mountStoragePreview = 'mountStoragePreview';
   public static addStorageLink = 'addStorageLink';
   public static container = 'container';
   public static path = 'path';
@@ -1625,7 +1624,6 @@ export class PortalResources {
   public static aCoachmarkHasAppearedAriaAlert = 'aCoachmarkHasAppearedAriaAlert';
   public static advancedEditCoachmarkDesc = 'advancedEditCoachmarkDesc';
   public static physicalPathLocationError = 'physicalPathLocationError';
-  public static physicalPathLocationErrorWithMounts = 'physicalPathLocationErrorWithMounts';
   public static virtualDirectoryPathError = 'virtualDirectoryPathError';
   public static logStreamingApplicationLogsDisabled = 'logStreamingApplicationLogsDisabled';
   public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';

@@ -142,10 +142,15 @@ export default class PortalCommunicator {
       this.getDebugInformation()
         .then(response => {
           if (response.metadata.success && response.data) {
+            const version = response.data.version;
+
+            //NOTE(krmitta): Please don't remove this log statement, this is needed for testing and verification purposes.
+            console.log(`Fusion Version: ${version}`);
+
             startupInfo.iframeHostName = response.data.hostName;
             startupInfo.iframeAppName = response.data.appName;
             window.appsvc = {
-              version: response.data.version,
+              version: version,
               sessionId: '',
               env: {
                 hostName: response.data.hostName,

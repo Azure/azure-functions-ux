@@ -46,7 +46,7 @@ import { FileContent, InputFormValues, LoggingOptions, ResponseContent, UrlObj }
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { isNewPythonProgrammingModel, Status } from './useFunctionEditorQueries';
+import { isNewProgrammingModel, Status } from './useFunctionEditorQueries';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -278,7 +278,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
       const headers = {
         'Content-Type': file.mime,
       };
-      const functionName = isNewPythonProgrammingModel(functionInfo) ? '' : functionInfo.properties.name;
+      const functionName = isNewProgrammingModel(functionInfo) ? '' : functionInfo.properties.name;
 
       FunctionsService.getFileContent(site.id, functionName, runtimeVersion, headers, file.name).then(fileResponse => {
         setIsFileContentAvailable(fileResponse.metadata.success);
@@ -485,7 +485,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
         <CustomBanner
           message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
           type={MessageBarType.error}
-          learnMoreLink={ !isRuntimeReachable() ? Links.functionUnreachableLearnMore : undefined}
+          learnMoreLink={!isRuntimeReachable() ? Links.functionUnreachableLearnMore : undefined}
         />
       );
     } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {

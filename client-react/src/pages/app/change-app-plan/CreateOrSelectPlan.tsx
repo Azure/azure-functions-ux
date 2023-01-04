@@ -32,6 +32,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
     skuTier,
     isUpdating,
     isConsumptionToPremiumEnabled,
+    usingDefaultPlan,
   } = props;
 
   const theme = useContext(ThemeContext);
@@ -79,10 +80,18 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
   const fullpage = width > 1000;
 
   useEffect(() => {
-    if (hasDropDownChanged && options?.[0]) {
+    //Note(stpelleg): need extra variable since useState has not updated yet
+    let hasDropdownBeenChanged = hasDropDownChanged;
+    if (usingDefaultPlan) {
+      setHasDropdownChanged(true);
+      hasDropdownBeenChanged = true;
+      onCreatePanelClose(planInfo, setPlanInfo, planInfo.newPlanInfo, options, t, onPlanChange, setHasDropdownChanged);
+    }
+
+    if (hasDropdownBeenChanged && options?.[0]) {
       onChangeDropdown(null, options[0]);
     }
-  }, [options]);
+  }, [options, usingDefaultPlan]);
 
   return (
     <>

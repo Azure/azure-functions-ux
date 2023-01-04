@@ -70,7 +70,6 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    allowMountsAsVirtualDirectoryPrefix: 'allowMountsAsVirtualDirectoryPrefix',
     enableMinTLSCipherSuites: 'enableMinTLSCipherSuites',
   };
 
