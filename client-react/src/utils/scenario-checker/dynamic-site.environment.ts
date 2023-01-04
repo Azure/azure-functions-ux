@@ -46,13 +46,6 @@ export class DynamicSiteEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
-      id: ScenarioIds.enableMinCipherSuite,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
-
     this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
       id: ScenarioIds.alwaysOnSupported,
       runCheck: () => {

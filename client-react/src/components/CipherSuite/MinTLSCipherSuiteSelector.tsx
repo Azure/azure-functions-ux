@@ -72,6 +72,9 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
   const cipherDisplayOptions = React.useMemo(() => {
     let hitSelected = false;
     return cipherSuites.map((value, i) => {
+      // Appending to the cipher suite label to indicate if it is the most/least secure suite,
+      // and if it is currently selected.
+
       let label: string = value;
 
       if (selectedCipherSuite === value) {

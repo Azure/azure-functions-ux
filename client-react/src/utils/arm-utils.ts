@@ -48,6 +48,11 @@ export function isPremiumV2(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.premiumV2;
 }
 
+export function isPremium(obj: ArmObj<Site>): boolean {
+  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.premium;
+}
+
 export function isXenonApp(obj: ArmObj<Site>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.xenon]);
 }

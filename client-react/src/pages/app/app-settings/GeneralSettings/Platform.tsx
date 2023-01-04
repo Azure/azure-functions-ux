@@ -306,7 +306,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       }
-      {scenarioChecker.checkScenario(ScenarioIds.enableMinCipherSuite, { site }).status !== 'disabled' && (
+      {scenarioChecker.checkScenario(ScenarioIds.enableMinCipherSuite, { site }).status === 'enabled' && (
         <Field
           name={'config.properties.minTlsCipherSuite'}
           id={'app-settings-minTlsCipherSuite'}
