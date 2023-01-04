@@ -19,11 +19,37 @@ import FunctionEditorData from './FunctionEditor.data';
 
 export type Status = 'idle' | 'loading' | 'success' | 'error' | 'unauthorized';
 
+export enum Language {
+  python = 'python',
+  node = 'node',
+}
+
 export const isNewProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   const properties = functionInfo?.properties;
   const configLanguage = properties?.config.language;
 
-  return properties?.config_href === null && (configLanguage === 'python' || configLanguage === 'node');
+  return properties?.config_href === null && (configLanguage === Language.python || configLanguage === Language.node);
+};
+
+export const isNewNodeProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
+  const properties = functionInfo?.properties;
+  const configLanguage = properties?.config.language;
+
+  return properties?.config_href === null && configLanguage === Language.node;
+};
+
+// Currently, Node is the only new programming model which supports storing files in any folders.
+// Therefore, we need to check 'functionDirectory' property to decide where to get files.
+export const getNewProgrammingModelFolderName = (functionInfo?: ArmObj<FunctionInfo>): string => {
+  const functionDirectory = functionInfo?.properties.config.functionDirectory;
+  let folderName = '';
+  if (isNewNodeProgrammingModel(functionInfo) && functionDirectory) {
+    // It should always contain 'wwwroot' and a folder name is always after 'wwwroot'.
+    const arr = functionDirectory.split('wwwroot');
+    folderName = arr[arr.length - 1].replaceAll('\\', '/');
+  }
+
+  return folderName;
 };
 
 export const useFunctionEditorQueries = (resourceId: string, functionEditorData: FunctionEditorData) => {
@@ -172,6 +198,10 @@ const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?
     return isNewProgrammingModel(functionInfo) ? '' : functionInfo?.properties.name;
   }, [functionInfo]);
 
+  const newProgrammingModelFolderName = useMemo(() => {
+    return getNewProgrammingModelFolderName(functionInfo);
+  }, [functionInfo]);
+
   const [fileList, setFileList] = useState<VfsObject[]>();
   const [status, setStatus] = useState<Status>('idle');
 
@@ -181,7 +211,14 @@ const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?
     if (functionName !== undefined && runtimeVersion) {
       setStatus('loading');
 
-      FunctionsService.getFileContent(siteResourceId, functionName, runtimeVersion).then(response => {
+      FunctionsService.getFileContent(
+        siteResourceId,
+        functionName,
+        runtimeVersion,
+        undefined,
+        undefined,
+        newProgrammingModelFolderName
+      ).then(response => {
         if (response.metadata.success) {
           setStatus('success');
           setFileList(response.data as VfsObject[]);
@@ -202,7 +239,7 @@ const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?
     } else {
       setStatus('idle');
     }
-  }, [functionName, runtimeVersion, siteResourceId, updated]);
+  }, [functionName, newProgrammingModelFolderName, runtimeVersion, siteResourceId, updated]);
 
   return {
     fileList,
