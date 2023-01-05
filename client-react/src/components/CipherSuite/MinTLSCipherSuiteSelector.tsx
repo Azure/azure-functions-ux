@@ -37,47 +37,47 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
   const [showCipherSuitePanel, setShowCipherSuitePanel] = React.useState(false);
   const [selectedCipherSuite, setSelectedCipherSuite] = React.useState(defaultCipherSuite);
 
-  const dismissPanel = () => {
+  const dismissPanel = React.useCallback(() => {
     setShowCipherSuitePanel(false);
-  };
+  }, [setShowCipherSuitePanel]);
 
-  const saveSelection = () => {
+  const saveSelection = React.useCallback(() => {
     form.setFieldValue(field.name, selectedCipherSuite);
     dismissPanel();
-  };
+  }, [form.setFieldValue, dismissPanel, selectedCipherSuite]);
 
-  const onSelectionChange = (_: unknown, option: IDropdownOption) => {
+  const onSelectionChange = React.useCallback((_: unknown, option: IDropdownOption) => {
     setSelectedCipherSuite(option.text);
-  };
+  }, [setSelectedCipherSuite]);
 
-  const openCipherSuitePanel = () => {
+  const openCipherSuitePanel = React.useCallback(() => {
     setSelectedCipherSuite(field.value);
     setShowCipherSuitePanel(true);
-  };
+  }, [setSelectedCipherSuite, setShowCipherSuitePanel, field.value]);
 
-  const actionBarPrimaryButtonProps = {
+  const actionBarPrimaryButtonProps = React.useMemo(() => ({
     id: 'save',
     title: t('ok'),
     onClick: saveSelection,
     disable: false,
-  };
+  }), [saveSelection]);
 
-  const actionBarSecondaryButtonProps = {
+  const actionBarSecondaryButtonProps = React.useMemo(() => ({
     id: 'cancel',
     title: t('cancel'),
     onClick: dismissPanel,
     disable: false,
-  };
+  }), [dismissPanel]);
 
   const cipherDisplayOptions = React.useMemo(() => {
     let hitSelected = false;
-    return cipherSuites.map((value, i) => {
+    return cipherSuites.map((cipherSuite, index) => {
       // Appending to the cipher suite label to indicate if it is the most/least secure suite,
       // and if it is currently selected.
 
-      let label: string = value;
+      let label: string = cipherSuite;
 
-      if (selectedCipherSuite === value) {
+      if (selectedCipherSuite === cipherSuite) {
         hitSelected = true;
         label = `${label} (${t('selected')})`;
       }
@@ -88,14 +88,12 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
         label = `${label} (${t('minTlsCipherSuiteLeastSecure')})`;
       }
 
-      const disabled = hitSelected && selectedCipherSuite != value;
-      return { label: label, disabled: disabled };
+      return { label: label, disabled: hitSelected && selectedCipherSuite != value };
     });
   }, [selectedCipherSuite, t]);
 
   return (
     <ReactiveFormControl {...props}>
-      <>
         <div>
           {defaultCipherSuite} ({<Link onClick={openCipherSuitePanel}>{t('change')}</Link>})
         </div>
@@ -118,7 +116,7 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
             </div>
             <Text className={cipherSuiteStyle.levelsDescription}>{t('minTlsCipherSuiteSelectionInfo')}</Text>
             <div className={cipherSuiteStyle.verticalFlexBoxMedGap}>
-              {cipherDisplayOptions.map((item, i) => (
+              {cipherDisplayOptions.map((cipherDisplayOption, index) => (
                 <span key={i}>
                   {item.disabled ? <ErrorSvg className={cipherSuiteStyle.icon} /> : <SuccessSvg className={cipherSuiteStyle.icon} />}
                   <Text className={cipherSuiteSelectorStyle(item.disabled)}>{item.label}</Text>
@@ -132,7 +130,6 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
             secondaryButton={actionBarSecondaryButtonProps}
           />
         </CustomPanel>
-      </>
     </ReactiveFormControl>
   );
 };
