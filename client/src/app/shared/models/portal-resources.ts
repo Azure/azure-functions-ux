@@ -504,6 +504,7 @@ export class PortalResources {
   public static minTlsCipherSuiteMostSecure = 'minTlsCipherSuiteMostSecure';
   public static minTlsCipherSuiteLeastSecure = 'minTlsCipherSuiteLeastSecure';
   public static selected = 'selected';
+  public static change = 'change';
   public static clientAffinityInfoText = 'clientAffinityInfoText';
   public static remoteDebuggingEnabledLabel = 'remoteDebuggingEnabledLabel';
   public static remoteDebuggingVersionLabel = 'remoteDebuggingVersionLabel';

@@ -97,7 +97,7 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
     <ReactiveFormControl {...props}>
       <>
         <div>
-          {defaultCipherSuite} ({<Link onClick={openCipherSuitePanel}>change</Link>})
+          {defaultCipherSuite} ({<Link onClick={openCipherSuitePanel}>{t('change')}</Link>})
         </div>
         <CustomPanel
           isOpen={showCipherSuitePanel}

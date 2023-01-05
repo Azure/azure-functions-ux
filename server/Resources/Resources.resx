@@ -1624,6 +1624,9 @@
     <data name="selected" xml:space="preserve">
         <value>selected</value>
     </data>
+    <data name="change" xml:space="preserve">
+        <value>change</value>
+    </data>
     <data name="clientAffinityInfoText" xml:space="preserve">
         <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
     </data>
