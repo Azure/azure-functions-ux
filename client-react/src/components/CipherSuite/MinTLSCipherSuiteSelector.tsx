@@ -13,6 +13,8 @@ import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../images/Common/Success.svg';
 import ActionBar from '../ActionBar';
+import { ThemeContext } from '../../ThemeContext';
+import { useContext } from 'react';
 
 export interface MinTLSCipherSuiteSelectorProps {
   onChange?: (_e, checked: boolean) => void;
@@ -31,7 +33,7 @@ const cipherOptions = cipherSuites.map(value => {
 const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & FieldProps> = props => {
   const { field, form } = props;
   const { t } = useTranslation();
-
+  const theme = useContext(ThemeContext);
   const defaultCipherSuite = field.value ?? CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA;
 
   const [showCipherSuitePanel, setShowCipherSuitePanel] = React.useState(false);
@@ -46,28 +48,37 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
     dismissPanel();
   }, [form.setFieldValue, dismissPanel, selectedCipherSuite]);
 
-  const onSelectionChange = React.useCallback((_: unknown, option: IDropdownOption) => {
-    setSelectedCipherSuite(option.text);
-  }, [setSelectedCipherSuite]);
+  const onSelectionChange = React.useCallback(
+    (_: unknown, option: IDropdownOption) => {
+      setSelectedCipherSuite(option.text);
+    },
+    [setSelectedCipherSuite]
+  );
 
   const openCipherSuitePanel = React.useCallback(() => {
     setSelectedCipherSuite(field.value);
     setShowCipherSuitePanel(true);
   }, [setSelectedCipherSuite, setShowCipherSuitePanel, field.value]);
 
-  const actionBarPrimaryButtonProps = React.useMemo(() => ({
-    id: 'save',
-    title: t('ok'),
-    onClick: saveSelection,
-    disable: false,
-  }), [saveSelection]);
+  const actionBarPrimaryButtonProps = React.useMemo(
+    () => ({
+      id: 'save',
+      title: t('ok'),
+      onClick: saveSelection,
+      disable: false,
+    }),
+    [saveSelection]
+  );
 
-  const actionBarSecondaryButtonProps = React.useMemo(() => ({
-    id: 'cancel',
-    title: t('cancel'),
-    onClick: dismissPanel,
-    disable: false,
-  }), [dismissPanel]);
+  const actionBarSecondaryButtonProps = React.useMemo(
+    () => ({
+      id: 'cancel',
+      title: t('cancel'),
+      onClick: dismissPanel,
+      disable: false,
+    }),
+    [dismissPanel]
+  );
 
   const cipherDisplayOptions = React.useMemo(() => {
     let hitSelected = false;
@@ -82,18 +93,19 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
         label = `${label} (${t('selected')})`;
       }
 
-      if (i == 0) {
+      if (index == 0) {
         label = `${label} (${t('minTlsCipherSuiteMostSecure')})`;
-      } else if (i == cipherSuites.length - 1) {
+      } else if (index == cipherSuites.length - 1) {
         label = `${label} (${t('minTlsCipherSuiteLeastSecure')})`;
       }
 
-      return { label: label, disabled: hitSelected && selectedCipherSuite != value };
+      return { label: label, disabled: hitSelected && selectedCipherSuite != cipherSuite };
     });
   }, [selectedCipherSuite, t]);
 
   return (
     <ReactiveFormControl {...props}>
+      <>
         <div>
           {defaultCipherSuite} ({<Link onClick={openCipherSuitePanel}>{t('change')}</Link>})
         </div>
@@ -117,9 +129,13 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
             <Text className={cipherSuiteStyle.levelsDescription}>{t('minTlsCipherSuiteSelectionInfo')}</Text>
             <div className={cipherSuiteStyle.verticalFlexBoxMedGap}>
               {cipherDisplayOptions.map((cipherDisplayOption, index) => (
-                <span key={i}>
-                  {item.disabled ? <ErrorSvg className={cipherSuiteStyle.icon} /> : <SuccessSvg className={cipherSuiteStyle.icon} />}
-                  <Text className={cipherSuiteSelectorStyle(item.disabled)}>{item.label}</Text>
+                <span key={index}>
+                  {cipherDisplayOption.disabled ? (
+                    <ErrorSvg className={cipherSuiteStyle.icon} />
+                  ) : (
+                    <SuccessSvg className={cipherSuiteStyle.icon} />
+                  )}
+                  <Text className={cipherSuiteSelectorStyle(theme, cipherDisplayOption.disabled)}>{cipherDisplayOption.label}</Text>
                 </span>
               ))}
             </div>
@@ -130,6 +146,7 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
             secondaryButton={actionBarSecondaryButtonProps}
           />
         </CustomPanel>
+      </>
     </ReactiveFormControl>
   );
 };

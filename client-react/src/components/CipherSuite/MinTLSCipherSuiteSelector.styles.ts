@@ -33,18 +33,7 @@ export const cipherSuiteStyle = mergeStyleSets({
   },
 });
 
-export const selectedIconStyle = (theme: ThemeExtended, selected: boolean) =>
+export const cipherSuiteSelectorStyle = (theme: ThemeExtended, disabled: boolean) =>
   style({
-    width: '16px',
-    height: '16px',
-    verticalAlign: 'middle',
-    marginRight: '11px',
-    fontWeight: 'bold',
-    fontSize: '18px',
-    color: selected ? theme.palette.green : theme.palette.red,
-  });
-
-export const cipherSuiteSelectorStyle = (disabled: boolean) =>
-  style({
-    color: disabled ? 'gray' : 'black',
+    color: disabled ? theme.semanticColors.disabledBodyText : theme.semanticColors.bodyText,
   });

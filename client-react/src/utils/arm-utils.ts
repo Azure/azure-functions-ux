@@ -48,7 +48,7 @@ export function isPremiumV2(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.premiumV2;
 }
 
-export function isPremium(obj: ArmObj<Site>): boolean {
+export function isPremiumV1(obj: ArmObj<Site>): boolean {
   const sku = obj?.properties?.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premium;
 }
