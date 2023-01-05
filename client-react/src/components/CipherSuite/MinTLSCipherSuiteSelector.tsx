@@ -15,10 +15,10 @@ import { ReactComponent as SuccessSvg } from '../../images/Common/Success.svg';
 import ActionBar from '../ActionBar';
 
 export interface MinTLSCipherSuiteSelectorProps {
-  id: string;
-  infoBubbleMessage?: string;
-  label: string;
   onChange?: (_e, checked: boolean) => void;
+  infoBubbleMessage?: string;
+  id: string;
+  label: string;
 }
 
 const cipherSuites = Object.values(CipherSuite);
