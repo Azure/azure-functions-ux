@@ -46,7 +46,7 @@ import { FileContent, InputFormValues, LoggingOptions, ResponseContent, UrlObj }
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { isNewProgrammingModel, Status } from './useFunctionEditorQueries';
+import { isNewProgrammingModel, getNewProgrammingModelFolderName, Status, isNewNodeProgrammingModel } from './useFunctionEditorQueries';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -278,31 +278,41 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
       const headers = {
         'Content-Type': file.mime,
       };
+      // For new programming model, currently Node is the only one returns the specific folder name to get a list of files.
       const functionName = isNewProgrammingModel(functionInfo) ? '' : functionInfo.properties.name;
+      const newProgrammingModelFolderName = getNewProgrammingModelFolderName(functionInfo);
 
-      FunctionsService.getFileContent(site.id, functionName, runtimeVersion, headers, file.name).then(fileResponse => {
-        setIsFileContentAvailable(fileResponse.metadata.success);
+      FunctionsService.getFileContent(site.id, functionName, runtimeVersion, headers, file.name, newProgrammingModelFolderName).then(
+        fileResponse => {
+          setIsFileContentAvailable(fileResponse.metadata.success);
 
-        if (fileResponse.metadata.success) {
-          const fileText = typeof fileResponse.data === 'string' ? fileResponse.data : JSON.stringify(fileResponse.data, null, 2);
-          setFileContent({ default: fileText, latest: fileText });
-        } else {
-          setFileContent({ default: '', latest: '' });
-          portalCommunicator.log(
-            getTelemetryInfo('error', 'getFileContent', 'failed', {
-              error: fileResponse.metadata.error,
-              message: 'Failed to get file content',
-            })
-          );
+          if (fileResponse.metadata.success) {
+            const fileText = typeof fileResponse.data === 'string' ? fileResponse.data : JSON.stringify(fileResponse.data, null, 2);
+            setFileContent({ default: fileText, latest: fileText });
+          } else {
+            setFileContent({ default: '', latest: '' });
+            portalCommunicator.log(
+              getTelemetryInfo('error', 'getFileContent', 'failed', {
+                error: fileResponse.metadata.error,
+                message: 'Failed to get file content',
+              })
+            );
+          }
         }
-      });
+      );
     },
     [functionInfo, runtimeVersion, site.id]
   );
 
   const getScriptFileOption = (): IDropdownOption | undefined => {
-    const scriptHref = functionInfo.properties.script_href;
-    let filename = ((scriptHref && scriptHref.split('/').pop()) || '').toLocaleLowerCase();
+    let filename = '';
+    if (isNewNodeProgrammingModel(functionInfo)) {
+      filename = functionInfo.properties.config.scriptFile?.toLocaleLowerCase() || '';
+    } else {
+      const scriptHref = functionInfo.properties.script_href;
+      filename = ((scriptHref && scriptHref.split('/').pop()) || '').toLocaleLowerCase();
+    }
+
     if (functionEditorContext.isBlacklistedFile(filename)) {
       filename = functionEditorContext.FUNCTION_JSON_FILE;
     }

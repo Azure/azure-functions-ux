@@ -200,9 +200,12 @@ export default class FunctionsService {
     functionName?: string,
     runtimeVersion?: string,
     inputHeaders?: KeyValue<string>,
-    fileName?: string
+    fileName?: string,
+    folderName?: string
   ) {
-    const endpoint = `${functionName ? `/${functionName}` : ''}/${fileName ? `${fileName}` : ''}`;
+    const endpoint = folderName
+      ? `${folderName}${fileName ? `/${fileName}` : ''}`
+      : `${functionName ? `/${functionName}` : ''}/${fileName ? `${fileName}` : ''}`;
     const headers = FunctionsService._addOrGetVfsHeaders(inputHeaders);
 
     return MakeArmCall<VfsObject[] | string>({

@@ -232,6 +232,8 @@ export class CommonConstants {
 
   public static readonly windowsCodeMountPathPrefix = '/mounts';
 
+  public static readonly wwwrootFolder = 'wwwroot';
+
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 
   public static isKeyVaultSecretUrl = (value: string) => {
