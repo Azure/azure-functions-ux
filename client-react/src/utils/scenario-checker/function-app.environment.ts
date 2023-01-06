@@ -48,13 +48,6 @@ export class FunctionAppEnvironment extends Environment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
-      id: ScenarioIds.enableMinCipherSuite,
-      runCheck: () => {
-        return { status: 'disabled' };
-      },
-    };
-
     this.scenarioChecks[ScenarioIds.functionAppRuntimeStack] = {
       id: ScenarioIds.functionAppRuntimeStack,
       runCheck: () => {

@@ -1,4 +1,4 @@
-import { isPremiumV1, isPremiumV2, isPremiumV3 } from '../arm-utils';
+import { isPremium } from '../arm-utils';
 import { CommonConstants } from '../CommonConstants';
 import Url from '../url';
 import { ScenarioIds } from './scenario-ids';
@@ -19,7 +19,7 @@ export class PremiumAppEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input?.site) {
-      return isPremiumV2(input.site) || isPremiumV1(input.site) || isPremiumV3(input.site);
+      return isPremium(input.site);
     }
     return false;
   }

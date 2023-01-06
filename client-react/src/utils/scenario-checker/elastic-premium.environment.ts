@@ -1,3 +1,5 @@
+import { CommonConstants } from '../CommonConstants';
+import Url from '../url';
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
 export class ElasticPremiumAppEnvironment extends Environment {
@@ -17,6 +19,13 @@ export class ElasticPremiumAppEnvironment extends Environment {
       runCheck: () => {
         return { status: 'enabled' };
       },
+    };
+
+    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
+      id: ScenarioIds.enableMinCipherSuite,
+      runCheck: () => ({
+        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableMinTLSCipherSuites) === 'true' ? 'enabled' : 'disabled',
+      }),
     };
   }
 
