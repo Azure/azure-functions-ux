@@ -13,6 +13,7 @@ import { MinTlsVersion, SslState } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
+import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -305,6 +306,16 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       }
+      {scenarioChecker.checkScenario(ScenarioIds.enableMinCipherSuite, { site }).status === 'enabled' && (
+        <Field
+          name={'config.properties.minTlsCipherSuite'}
+          id={'app-settings-minTlsCipherSuite'}
+          component={MinTLSCipherSuiteSelector}
+          label={t('minTlsCipherSuiteLabel')}
+          infoBubbleMessage={t('minTlsCipherSuiteInfoBubbleMessage')}
+          dirty={values.config.properties.minTlsCipherSuite !== initialValues.config.properties.minTlsCipherSuite}
+        />
+      )}
     </div>
   );
 };
