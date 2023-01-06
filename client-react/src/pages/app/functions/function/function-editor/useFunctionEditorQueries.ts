@@ -9,7 +9,7 @@ import { VfsObject } from '../../../../../models/functions/vfs';
 import { SiteConfig } from '../../../../../models/site/config';
 import { Site } from '../../../../../models/site/site';
 import { PortalContext } from '../../../../../PortalContext';
-import { CommonConstants, ExperimentationConstants } from '../../../../../utils/CommonConstants';
+import { CommonConstants, ExperimentationConstants, WorkerRuntimeLanguages } from '../../../../../utils/CommonConstants';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import StringUtils from '../../../../../utils/string';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
@@ -19,37 +19,33 @@ import FunctionEditorData from './FunctionEditor.data';
 
 export type Status = 'idle' | 'loading' | 'success' | 'error' | 'unauthorized';
 
-export enum Language {
-  python = 'python',
-  node = 'node',
-}
-
 export const isNewProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   const properties = functionInfo?.properties;
   const configLanguage = properties?.config.language;
 
-  return properties?.config_href === null && (configLanguage === Language.python || configLanguage === Language.node);
+  return (
+    properties?.config_href === null &&
+    (configLanguage === WorkerRuntimeLanguages.python || configLanguage === WorkerRuntimeLanguages.nodejs)
+  );
 };
 
 export const isNewNodeProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   const properties = functionInfo?.properties;
-  const configLanguage = properties?.config.language;
 
-  return properties?.config_href === null && configLanguage === Language.node;
+  return properties?.config_href === null && properties?.config.language === WorkerRuntimeLanguages.nodejs;
 };
 
 // Currently, Node is the only new programming model which supports storing files in any folders.
 // Therefore, we need to check 'functionDirectory' property to decide where to get files.
 export const getNewProgrammingModelFolderName = (functionInfo?: ArmObj<FunctionInfo>): string => {
   const functionDirectory = functionInfo?.properties.config.functionDirectory;
-  let folderName = '';
   if (isNewNodeProgrammingModel(functionInfo) && functionDirectory) {
     // It should always contain 'wwwroot' and a folder name is always after 'wwwroot'.
-    const arr = functionDirectory.split('wwwroot');
-    folderName = arr[arr.length - 1].replaceAll('\\', '/');
+    const arr = functionDirectory.split(CommonConstants.wwwrootFolder);
+    return arr[arr.length - 1].replaceAll('\\', '/');
   }
 
-  return folderName;
+  return '';
 };
 
 export const useFunctionEditorQueries = (resourceId: string, functionEditorData: FunctionEditorData) => {
