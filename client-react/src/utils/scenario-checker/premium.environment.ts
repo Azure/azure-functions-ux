@@ -1,4 +1,4 @@
-import { isPremiumV1, isPremiumV2 } from '../arm-utils';
+import { isPremiumV1, isPremiumV2, isPremiumV3 } from '../arm-utils';
 import { CommonConstants } from '../CommonConstants';
 import Url from '../url';
 import { ScenarioIds } from './scenario-ids';
@@ -10,7 +10,7 @@ export class PremiumAppEnvironment extends Environment {
     super();
 
     this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
-      id: ScenarioIds.runtimeScaleMonitoringSupported,
+      id: ScenarioIds.enableMinCipherSuite,
       runCheck: () => ({
         status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableMinTLSCipherSuites) === 'true' ? 'enabled' : 'disabled',
       }),
@@ -19,7 +19,7 @@ export class PremiumAppEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input?.site) {
-      return isPremiumV2(input.site) || isPremiumV1(input.site);
+      return isPremiumV2(input.site) || isPremiumV1(input.site) || isPremiumV3(input.site);
     }
     return false;
   }
