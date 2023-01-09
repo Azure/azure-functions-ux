@@ -307,7 +307,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
   const fetchStorageAccounts = async () => {
     const storageAccounts = await fetchAzureStorageAccounts(resourceId);
-    console.log(storageAccounts);
     if (storageAccounts.metadata.success) {
       setStorageAccountsState(storageAccounts.data);
     }

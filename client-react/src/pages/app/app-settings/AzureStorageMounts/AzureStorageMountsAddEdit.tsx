@@ -60,13 +60,15 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       : mountPath;
   };
 
-  const initialFormValue = useMemo<FormAzureStorageMounts>(() => {
-    return {
+  const initialFormValue = useMemo<FormAzureStorageMounts>(
+    () => ({
       ...azureStorageMount,
       mountPath: getMountPathDisplayValue(azureStorageMount.mountPath),
-    };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [azureStorageMount]);
+
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }),
+    [azureStorageMount]
+  );
 
   const shareNameMaxLength = 64;
   const mountPathDefaultMaxLength = 256;
