@@ -55,7 +55,9 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       return mountPath;
     }
     const startIndex = CommonConstants.windowsCodeMountPathPrefix.length;
-    return startIndex < mountPath.length ? mountPath.substring(startIndex) : mountPath;
+    return startIndex < mountPath.length && mountPath.indexOf(CommonConstants.windowsCodeMountPathPrefix) === 0
+      ? mountPath.substring(startIndex)
+      : mountPath;
   };
 
   const initialFormValue = useMemo<FormAzureStorageMounts>(() => {

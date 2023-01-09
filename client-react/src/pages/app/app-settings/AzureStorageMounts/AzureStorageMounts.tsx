@@ -127,9 +127,6 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
       return null;
     }
 
-    console.log('main page');
-    console.log(item);
-
     if (column.key === 'delete') {
       return (
         <TooltipHost
