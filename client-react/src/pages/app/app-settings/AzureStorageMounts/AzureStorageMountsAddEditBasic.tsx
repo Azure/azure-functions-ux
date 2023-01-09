@@ -140,9 +140,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     setStorageContainerErrorSchema(initializeStorageContainerErrorSchemaValue());
     if (storageAccount) {
       setAccountInfoBubbleMessage(
-        storageAccountHasVnetEnabled(storageAccount)
-          ? 'The selected Storage account has Virtual network enabled. Please make sure your web app is configured within the same Virtual network'
-          : undefined
+        storageAccountHasVnetEnabled(storageAccount) ? t('byos_storageAccountVnetEnabledInfoMessage') : undefined
       );
 
       setAccountSharesBlob([]);

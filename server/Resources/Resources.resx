@@ -5,49 +5,81 @@
 
     Version 2.0
 
-    The primary goals of this format is to allow a simple XML format
+    The primary goals of this format is to
+    allow a simple XML format
     that is mostly human readable. The generation and parsing of the
     various data types are done through the TypeConverter classes
-    associated with the data types.
+    associated with the data
+    types.
 
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
+    <resheader
+    name="resmimetype">text/microsoft-resx</resheader><resheader
+    name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader,
+    System.Windows.Forms, ...</resheader><resheader
+    name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data
+    name="Name1"><value>this is my long string</value><comment>this is a
+    comment</comment></data><data name="Color1" type="System.Drawing.Color,
+    System.Drawing">Blue</data><data name="Bitmap1"
+    mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded
+    serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon,
+    System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64
+    mime encoded string representing a byte array form of the .NET Framework
+    object]</value><comment>This is a comment</comment></data>
 
-    There are any number of "resheader" rows that contain simple
+    There are any number of
+    "resheader" rows that contain simple
     name/value pairs.
 
-    Each data row contains a name, and value. The row also contains a
-    type or mimetype. Type corresponds to a .NET class that support
+    Each data row contains a
+    name, and value. The row also contains a
+    type or mimetype. Type corresponds to a .NET class
+    that support
     text/value conversion through the TypeConverter architecture.
-    Classes that don't support this are serialized and stored with the
+    Classes
+    that don't support this are serialized and stored with the
     mimetype set.
 
-    The mimetype is used for serialized objects, and tells the
-    ResXResourceReader how to depersist the object. This is currently not
-    extensible. For a given mimetype the value must be set accordingly:
+    The
+    mimetype is used for serialized objects, and tells the
+    ResXResourceReader how to depersist
+    the object. This is currently not
+    extensible. For a given mimetype the value must be set
+    accordingly:
 
     Note - application/x-microsoft.net.object.binary.base64 is the format
-    that the ResXResourceWriter will generate, however the reader can
-    read any of the formats listed below.
+    that
+    the ResXResourceWriter will generate, however the reader can
+    read any of the formats listed
+    below.
 
     mimetype: application/x-microsoft.net.object.binary.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
-            : and then encoded with base64 encoding.
+    value   : The
+    object must be serialized with
+            :
+    System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded
+    with base64 encoding.
 
     mimetype: application/x-microsoft.net.object.soap.base64
-    value   : The object must be serialized with
-            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
-            : and then encoded with base64 encoding.
+    value
+    : The object must be serialized with
+            :
+    System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with
+    base64 encoding.
 
     mimetype: application/x-microsoft.net.object.bytearray.base64
-    value   : The object must be serialized into a byte array
-            : using a System.ComponentModel.TypeConverter
+    value
+    : The object must be serialized into a byte array
+            : using a
+    System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
@@ -72,10 +104,13 @@
                     <xsd:element name="data">
                         <xsd:complexType>
                             <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"
+                                    msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0"
+                                    msdata:Ordinal="2" />
                             </xsd:sequence>
-                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+                            <xsd:attribute name="name" type="xsd:string" use="required"
+                                msdata:Ordinal="1" />
                             <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
                             <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
                             <xsd:attribute ref="xml:space" />
@@ -84,7 +119,8 @@
                     <xsd:element name="resheader">
                         <xsd:complexType>
                             <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"
+                                    msdata:Ordinal="1" />
                             </xsd:sequence>
                             <xsd:attribute name="name" type="xsd:string" use="required" />
                         </xsd:complexType>
@@ -100,10 +136,12 @@
         <value>2.0</value>
     </resheader>
     <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="azureFunctions" xml:space="preserve">
         <value>Azure Functions</value>
@@ -1966,7 +2004,8 @@
     <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
         <value>Azure Storage Account connection string stored in '{0}' is null or empty. This is required to have your function app working.</value>
     </data>
-    <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action"
+        xml:space="preserve">
         <value>Update the app setting with a valid storage connection string.</value>
     </data>
     <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
@@ -4838,6 +4877,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="byos_storageNameExists" xml:space="preserve">
         <value>Storage setting with that name already exists.</value>
     </data>
+    <data name="byos_storageAccountVnetEnabledInfoMessage" xml:space="preserve">
+        <value>The selected storage account has virtual network enabled. Please make sure your web app is configured within the same virtual network.</value>
+    </data>
     <data name="unableToReachBuild" xml:space="preserve">
         <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
     </data>
@@ -6096,7 +6138,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again.</value>
     </data>
-    <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+    <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage"
+        xml:space="preserve">
         <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again. Error: {0}</value>
     </data>
     <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
@@ -6456,13 +6499,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Container Registry</value>
     </data>
-    <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+    <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription"
+        xml:space="preserve">
         <value>Setup up your app to pull the container image from a registry.</value>
     </data>
     <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
         <value>GitHub Actions</value>
     </data>
-    <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+    <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription"
+        xml:space="preserve">
         <value>Build, deploy, and manage your container app automatically with GitHub Actions.</value>
     </data>
     <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
