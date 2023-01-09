@@ -7,7 +7,7 @@ import { FormikProps, Field } from 'formik';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
-import { StorageAccountsContext, SiteContext } from '../Contexts';
+import { StorageAccountsContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { MessageBarType } from '@fluentui/react';
@@ -23,7 +23,7 @@ import {
   StorageAccountNetworkDefaultAction,
 } from '../../../../models/storage-account';
 import { ArmObj } from '../../../../models/arm-obj';
-import { isContainerApp, isLinuxApp } from '../../../../utils/arm-utils';
+import { SiteStateContext } from '../../../../SiteState';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -69,7 +69,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     initializeStorageContainerErrorSchemaValue()
   );
   const storageAccounts = useContext(StorageAccountsContext);
-  const site = useContext(SiteContext);
+  const { site, isLinuxApp, isContainerApp } = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
@@ -126,14 +126,14 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
   const accountLearnMoreLink = useMemo(() => {
     if (site) {
-      return isLinuxApp(site)
+      return isLinuxApp
         ? Links.byosStorageAccountLinuxLearnMore
-        : isContainerApp(site)
+        : isContainerApp
         ? Links.byosStorageAccountWindowsContainerLearnMore
         : Links.byosStorageAccountWindowsCodeLearnMore;
     }
     return undefined;
-  }, [site]);
+  }, [site, isLinuxApp, isContainerApp]);
 
   useEffect(() => {
     setAccountError('');
@@ -191,7 +191,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               portalContext.log({
                 action: 'getStorageContainers',
                 actionModifier: 'failed',
-                resourceId: site?.id,
+                resourceId: site?.id ?? '',
                 logLevel: 'error',
                 data: {
                   error: blobsMetaData?.error,
@@ -209,7 +209,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               portalContext.log({
                 action: 'getStorageFileShares',
                 actionModifier: 'failed',
-                resourceId: site?.id,
+                resourceId: site?.id ?? '',
                 logLevel: 'error',
                 data: {
                   error: filesMetaData?.error,
