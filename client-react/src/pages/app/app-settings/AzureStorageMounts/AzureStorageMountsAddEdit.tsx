@@ -204,8 +204,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
       }}
       validationSchema={enableValidation && validationSchema}
       render={(formProps: FormikProps<FormAzureStorageMounts>) => {
-        console.log(formProps.initialValues.mountPath);
-        console.log(formProps.values.mountPath);
         const actionBarPrimaryButtonProps = {
           id: 'save',
           title: t('ok'),
