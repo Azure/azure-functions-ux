@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useMemo } from 'react';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
@@ -16,7 +16,14 @@ import { Links } from '../../../../utils/FwLinks';
 import { StorageType } from '../../../../models/site/config';
 import StorageService from '../../../../ApiHelpers/StorageService';
 import { PortalContext } from '../../../../PortalContext';
-import { FileShareEnabledProtocols } from '../../../../models/storage-account';
+import {
+  FileShareEnabledProtocols,
+  PublicNetworkAccess,
+  StorageAccount,
+  StorageAccountNetworkDefaultAction,
+} from '../../../../models/storage-account';
+import { ArmObj } from '../../../../models/arm-obj';
+import { isContainerApp, isLinuxApp } from '../../../../utils/arm-utils';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -40,6 +47,14 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
   };
 };
 
+const storageAccountHasVnetEnabled = (storageAccount: ArmObj<StorageAccount>): boolean => {
+  return (
+    storageAccount.properties.publicNetworkAccess !== PublicNetworkAccess.Disabled &&
+    storageAccount.properties.networkAcls.defaultAction !== StorageAccountNetworkDefaultAction.Allow &&
+    storageAccount.properties.networkAcls.virtualNetworkRules.length > 0
+  );
+};
+
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
     fileShareInfoBubbleMessage?: string;
@@ -49,6 +64,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
   const [accountError, setAccountError] = useState('');
+  const [accountInfoBubbleMessage, setAccountInfoBubbleMessage] = useState<string | undefined>(undefined);
   const [storageContainerErrorSchema, setStorageContainerErrorSchema] = useState<StorageContainerErrorSchema>(
     initializeStorageContainerErrorSchemaValue()
   );
@@ -62,7 +78,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
   const accountOptions = storageAccounts.value
     .filter(val => supportsBlobStorage || val.kind !== storageKinds.BlobStorage)
-    .map(val => ({ key: val.name, text: val.name }));
+    .map(val => ({ key: val.name, text: val.name, data: val }));
 
   const validateStorageContainer = (value: string): string | undefined => {
     const emptyListError = validateNoStorageContainerAvailable();
@@ -108,10 +124,27 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
   const storageAccount = storageAccounts.value.find(x => x.name === values.accountName);
 
+  const accountLearnMoreLink = useMemo(() => {
+    if (site) {
+      return isLinuxApp(site)
+        ? Links.byosStorageAccountLinuxLearnMore
+        : isContainerApp(site)
+        ? Links.byosStorageAccountWindowsContainerLearnMore
+        : Links.byosStorageAccountWindowsCodeLearnMore;
+    }
+    return undefined;
+  }, [site]);
+
   useEffect(() => {
     setAccountError('');
     setStorageContainerErrorSchema(initializeStorageContainerErrorSchemaValue());
     if (storageAccount) {
+      setAccountInfoBubbleMessage(
+        storageAccountHasVnetEnabled(storageAccount)
+          ? 'The selected Storage account has Virtual network enabled. Please make sure your web app is configured within the same Virtual network'
+          : undefined
+      );
+
       setAccountSharesBlob([]);
       setAccountSharesFiles([]);
       setSharesLoading(true);
@@ -244,6 +277,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           root: formElementStyle,
         }}
         errorMessage={errors.accountName}
+        infoBubbleMessage={accountInfoBubbleMessage}
+        learnMoreLink={accountLearnMoreLink}
         required={true}
       />
       {showStorageTypeOption && (

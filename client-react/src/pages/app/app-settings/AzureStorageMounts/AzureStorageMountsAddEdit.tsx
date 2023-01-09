@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { FormAzureStorageMounts } from '../AppSettings.types';
@@ -58,7 +58,13 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
     return startIndex < mountPath.length ? mountPath.substring(startIndex) : mountPath;
   };
 
-  azureStorageMount.mountPath = getMountPathDisplayValue(azureStorageMount.mountPath);
+  const initialFormValue = useMemo<FormAzureStorageMounts>(() => {
+    return {
+      ...azureStorageMount,
+      mountPath: getMountPathDisplayValue(azureStorageMount.mountPath),
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [azureStorageMount]);
 
   const shareNameMaxLength = 64;
   const mountPathDefaultMaxLength = 256;
@@ -185,13 +191,17 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
 
   return (
     <Formik
-      initialValues={{ ...azureStorageMount }}
+      initialValues={initialFormValue}
       onSubmit={values => {
-        values.mountPath = getMountPathInputValue(values.mountPath);
-        updateAzureStorageMount(values);
+        updateAzureStorageMount({
+          ...values,
+          mountPath: getMountPathInputValue(values.mountPath),
+        });
       }}
       validationSchema={enableValidation && validationSchema}
       render={(formProps: FormikProps<FormAzureStorageMounts>) => {
+        console.log(formProps.initialValues.mountPath);
+        console.log(formProps.values.mountPath);
         const actionBarPrimaryButtonProps = {
           id: 'save',
           title: t('ok'),
