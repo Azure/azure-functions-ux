@@ -15171,15 +15171,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";mountStoragePreview" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount storage (Preview)]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Armazenamento de Montagem (Pré-visualização)]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";mountedStorageInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Mounted storage lets you map up to 5 Azure Files or Blob containers for use with your app.]]></Val>
@@ -16136,24 +16127,12 @@
       </Item>
       <Item ItemId=";physicalPathLocationError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Physical path must be a location within site\]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[O caminho físico tem de ser uma localização no site\]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";physicalPathLocationErrorWithMounts" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
           <Val><![CDATA[Physical path must be a location within site\ or \mounts\]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[O caminho físico tem de ser uma localização dentro de site\ ou \mounts\]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Physical path must be a location within site\ or mounts\]]></Val>
+            <Val><![CDATA[Physical path must be a location within site\]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />

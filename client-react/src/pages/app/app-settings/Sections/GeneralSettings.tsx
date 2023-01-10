@@ -65,7 +65,8 @@ const platformDirty = (values: AppSettingsFormValues, initialValues: AppSettings
     !isEqual(values.config.properties.http20ProxyFlag, initialValues.config.properties.http20ProxyFlag) ||
     !isEqual(values.config.properties.alwaysOn, initialValues.config.properties.alwaysOn) ||
     !isEqual(values.site.properties.clientAffinityEnabled, initialValues.site.properties.clientAffinityEnabled) ||
-    !isEqual(values.config.properties.webSocketsEnabled, initialValues.config.properties.webSocketsEnabled)
+    !isEqual(values.config.properties.webSocketsEnabled, initialValues.config.properties.webSocketsEnabled) ||
+    !isEqual(values.config.properties.minTlsCipherSuite, initialValues.config.properties.minTlsCipherSuite)
   );
 };
 

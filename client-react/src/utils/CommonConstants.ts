@@ -70,6 +70,7 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
+    enableMinTLSCipherSuites: 'enableMinTLSCipherSuites',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -113,6 +114,7 @@ export class CommonConstants {
     standard: 'standard',
     premium: 'premium',
     premiumV2: 'premiumv2',
+    premiumV3: 'premiumv3',
     premiumContainer: 'premiumcontainer',
     isolated: 'isolated',
     dynamic: 'dynamic',
@@ -229,6 +231,8 @@ export class CommonConstants {
   };
 
   public static readonly windowsCodeMountPathPrefix = '/mounts';
+
+  public static readonly wwwrootFolder = 'wwwroot';
 
   public static isKeyVaultReference = (value: string) => value.toLocaleLowerCase().startsWith('@microsoft.keyvault(');
 
