@@ -25,7 +25,8 @@ export default class SiteHelper {
       editMode === FunctionAppEditMode.ReadOnlyCustom ||
       editMode === FunctionAppEditMode.ReadOnlyDotnetIsolated ||
       editMode === FunctionAppEditMode.ReadOnlyArc ||
-      editMode === FunctionAppEditMode.ReadOnlyAzureFiles
+      editMode === FunctionAppEditMode.ReadOnlyAzureFiles ||
+      editMode === FunctionAppEditMode.ReadOnlyNewNodePreview
     );
   }
 
@@ -78,6 +79,9 @@ export default class SiteHelper {
       }
       case FunctionAppEditMode.ReadOnlyAzureFiles: {
         return t('readOnlyMissingAzureFilesSetting');
+      }
+      case FunctionAppEditMode.ReadOnlyNewNodePreview: {
+        return t('readOnlyNewNodePreview');
       }
     }
     return t('ibizafication_readOnly');
