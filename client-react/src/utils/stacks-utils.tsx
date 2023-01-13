@@ -20,7 +20,7 @@ import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { findFormAppSettingIndex } from '../pages/app/app-settings/AppSettingsFormData';
 import { filterDeprecatedFunctionAppStack } from '../pages/app/app-settings/GeneralSettings/stacks/function-app/FunctionAppStackSettings.data';
 
-const ENDOFLIFEMAXSECONDS = 5184000; // 60 days
+const ENDOFLIFEMAXSECONDS = 15780000; // 6 months
 export const NETFRAMEWORKVERSION5 = 5;
 
 export const getStacksSummaryForDropdown = (
@@ -76,6 +76,7 @@ export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings | Windo
   return settings.isDeprecated || (!!settings.endOfLifeDate && Date.parse(settings.endOfLifeDate) < Date.now());
 };
 
+// NOTE(krmitta): Make sure this is in sync with what we show for Creates on ibiza
 export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
   try {
     return !!endOfLifeDate && Date.parse(endOfLifeDate) <= Date.parse(getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).toString());
@@ -248,6 +249,7 @@ export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boole
   };
 };
 
+// NOTE(krmitta): Make sure this is in sync with what we show for Creates on ibiza
 export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stackVersion: string, eolDate?: string | null) => {
   if (eolDate === undefined) {
     return <></>;
@@ -256,7 +258,11 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
     <CustomBanner
       type={MessageBarType.warning}
       id={'eol-stack-banner'}
-      message={eolDate ? t('endOfLifeStackMessage').format(stackVersion, eolDate) : t('deprecatedStackMessage').format(stackVersion)}
+      message={
+        eolDate
+          ? t('endOfLifeStackMessage').format(stackVersion, new Date(eolDate).toLocaleDateString())
+          : t('deprecatedStackMessage').format(stackVersion)
+      }
       learnMoreLink={Links.endOfLifeStackLink}
     />
   );
