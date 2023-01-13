@@ -495,6 +495,16 @@ export class PortalResources {
   public static https20ProxyInfoBubbleMessage = 'https20ProxyInfoBubbleMessage';
   public static minTlsVersionLabel = 'minTlsVersionLabel';
   public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
+  public static minTlsCipherSuiteLabel = 'minTlsCipherSuiteLabel';
+  public static minTlsCipherSuiteInfoBubbleMessage = 'minTlsCipherSuiteInfoBubbleMessage';
+  public static minTlsCipherSuiteSelectionInfo = 'minTlsCipherSuiteSelectionInfo';
+  public static minTlsCipherSuiteBannerInfo = 'minTlsCipherSuiteBannerInfo';
+  public static minTlsCipherSuiteDropdownLabel = 'minTlsCipherSuiteDropdownLabel';
+  public static minTlsCipherSuitePanelHeader = 'minTlsCipherSuitePanelHeader';
+  public static minTlsCipherSuiteMostSecure = 'minTlsCipherSuiteMostSecure';
+  public static minTlsCipherSuiteLeastSecure = 'minTlsCipherSuiteLeastSecure';
+  public static selected = 'selected';
+  public static change = 'change';
   public static clientAffinityInfoText = 'clientAffinityInfoText';
   public static remoteDebuggingEnabledLabel = 'remoteDebuggingEnabledLabel';
   public static remoteDebuggingVersionLabel = 'remoteDebuggingVersionLabel';
@@ -1550,6 +1560,7 @@ export class PortalResources {
   public static invalidCredentials = 'invalidCredentials';
   public static emptyStorageAccounts = 'emptyStorageAccounts';
   public static byos_storageNameExists = 'byos_storageNameExists';
+  public static byos_storageAccountVnetEnabledInfoMessage = 'byos_storageAccountVnetEnabledInfoMessage';
   public static unableToReachBuild = 'unableToReachBuild';
   public static invalidWindowsPathCdrive = 'invalidWindowsPathCdrive';
   public static limitedMode = 'limitedMode';

@@ -12,6 +12,7 @@ import { ContainerApp } from './container.environment';
 import { KubeApp } from './kube-app.environment';
 import { ElasticPremiumAppEnvironment } from './elastic-premium.environment';
 import { WorkflowAppEnvironment } from './workflow-app.environment';
+import { PremiumAppEnvironment } from './premium.environment';
 
 export interface IScenarioService {
   checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;
@@ -35,6 +36,7 @@ export class ScenarioService {
       new KubeApp(),
       new ElasticPremiumAppEnvironment(),
       new WorkflowAppEnvironment(),
+      new PremiumAppEnvironment(),
     ];
     // National cloud environments inherit from AzureEnvironment so we ensure there
     // aren't duplicates to reduce the chance of conflicts in behavior.

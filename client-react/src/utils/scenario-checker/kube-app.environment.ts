@@ -87,6 +87,13 @@ export class KubeApp extends Environment {
       runCheck: () => ({ status: 'disabled' }),
     };
 
+    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
+      id: ScenarioIds.enableMinCipherSuite,
+      runCheck: () => ({
+        status: 'disabled',
+      }),
+    };
+
     this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
       id: ScenarioIds.alwaysOnSupported,
       runCheck: () => ({ status: 'disabled' }),

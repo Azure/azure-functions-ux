@@ -1597,6 +1597,36 @@
     <data name="minTlsVersionInfoBubbleMessage" xml:space="preserve">
         <value>Select the minimum TLS encryption version required by your app.</value>
     </data>
+    <data name="minTlsCipherSuiteLabel" xml:space="preserve">
+        <value>Minimum TLS Cipher Suite (Preview)</value>
+    </data>
+    <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
+        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites.</value>
+    </data>
+    <data name="minTlsCipherSuiteSelectionInfo" xml:space="preserve">
+        <value>Based on your chosen minimum, the TLS cipher suites below will be enabled or disabled accordingly as shown.</value>
+    </data>
+    <data name="minTlsCipherSuiteBannerInfo" xml:space="preserve">
+        <value>All incoming requests from clients that only support TLS Cipher Suites less secure than the set minimum will be rejected by the front-end.</value>
+    </data>
+    <data name="minTlsCipherSuiteDropdownLabel" xml:space="preserve">
+        <value>Minimum TLS Cipher Suite</value>
+    </data>
+    <data name="minTlsCipherSuitePanelHeader" xml:space="preserve">
+        <value>Change minimum TLS Cipher Suite (preview)</value>
+    </data>
+    <data name="minTlsCipherSuiteMostSecure" xml:space="preserve">
+        <value>most secure</value>
+    </data>
+    <data name="minTlsCipherSuiteLeastSecure" xml:space="preserve">
+        <value>least secure</value>
+    </data>
+    <data name="selected" xml:space="preserve">
+        <value>selected</value>
+    </data>
+    <data name="change" xml:space="preserve">
+        <value>change</value>
+    </data>
     <data name="clientAffinityInfoText" xml:space="preserve">
         <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
     </data>
@@ -4807,6 +4837,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="byos_storageNameExists" xml:space="preserve">
         <value>Storage setting with that name already exists.</value>
+    </data>
+    <data name="byos_storageAccountVnetEnabledInfoMessage" xml:space="preserve">
+        <value>The selected storage account has virtual network enabled. Please make sure your web app is configured within the same virtual network.</value>
     </data>
     <data name="unableToReachBuild" xml:space="preserve">
         <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
