@@ -35,6 +35,7 @@ export function isElastic(obj: ArmObj<Site>): boolean {
 }
 
 export function isElasticPremium(obj: ArmObj<Site>): boolean {
+  // This sku is only for function apps
   const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.elasticPremium;
 }
@@ -46,6 +47,20 @@ export function isLinuxElastic(obj: ArmObj<Site>) {
 export function isPremiumV2(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premiumV2;
+}
+
+export function isPremiumV1(obj: ArmObj<Site>): boolean {
+  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.premium;
+}
+
+export function isPremiumV3(obj: ArmObj<Site>): boolean {
+  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.premiumV3;
+}
+
+export function isPremium(obj: ArmObj<Site>): boolean {
+  return isPremiumV1(obj) || isPremiumV2(obj) || isPremiumV3(obj);
 }
 
 export function isXenonApp(obj: ArmObj<Site>): boolean {

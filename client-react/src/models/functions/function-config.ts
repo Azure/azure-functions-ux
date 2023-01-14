@@ -8,4 +8,5 @@ export interface FunctionConfig {
   generatedBy?: string;
   language?: string;
   scriptFile?: string;
+  functionDirectory?: string;
 }

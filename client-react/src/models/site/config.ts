@@ -35,6 +35,7 @@ export interface SiteConfig {
   windowsFxVersion: string;
   linuxFxVersion: string;
   minTlsVersion: string;
+  minTlsCipherSuite: string | null;
   requestTracingEnabled: boolean;
   requestTracingExpirationTime: Date;
   remoteDebuggingEnabled: boolean;

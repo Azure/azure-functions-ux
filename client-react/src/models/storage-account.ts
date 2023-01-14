@@ -7,6 +7,29 @@ export interface StorageAccount {
   secondaryLocation: string;
   statusOfPrimary: string;
   statusOfSecondary: string;
+  networkAcls: StorageAccountNetworkAcls;
+  publicNetworkAccess?: PublicNetworkAccess;
+}
+
+export interface StorageAccountNetworkAcls {
+  defaultAction: StorageAccountNetworkDefaultAction;
+  virtualNetworkRules: StorageAccountVirtualNetworkRule[];
+}
+
+export const enum StorageAccountNetworkDefaultAction {
+  Allow = 'Allow',
+  Deny = 'Deny',
+}
+
+export const enum PublicNetworkAccess {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
+
+export interface StorageAccountVirtualNetworkRule {
+  action: string;
+  id: string;
+  state: string;
 }
 
 export interface BlobContainer {
