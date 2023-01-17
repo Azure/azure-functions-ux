@@ -14,13 +14,11 @@ import { isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../util
 import { CommonConstants } from '../../utils/CommonConstants';
 import { LogCategories } from '../../utils/LogCategories';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
-import Url from '../../utils/url';
 import { SiteRouterData } from './SiteRouter.data';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import { AppSettings } from '../../models/app-setting';
 import { FunctionInfo } from '../../models/functions/function-info';
 import { resolveState } from '../../utils/app-state-utils';
-import { isNewNodeProgrammingModel } from './functions/function/function-editor/useFunctionEditorQueries';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -138,13 +136,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
       }
 
       if (site) {
-        let editMode;
-        if (functionApp) {
-          editMode =
-            isNewNodeProgrammingModel(functionApp) && !Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewNodeEditMode)
-              ? FunctionAppEditMode.ReadOnlyNewNodePreview
-              : await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings);
-        }
+        const editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings, functionApp);
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));

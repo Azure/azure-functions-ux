@@ -7,6 +7,7 @@ import { HostStatus, FunctionAppContentEditingState } from '../models/functions/
 import { FunctionAppEditMode, SiteReadWriteState } from '../models/portal-models';
 import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
+import { FunctionInfo } from '../models/functions/function-info';
 import PortalCommunicator from '../portal-communicator';
 import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
 import { CommonConstants } from './CommonConstants';
@@ -15,13 +16,16 @@ import LogService from './LogService';
 import RbacConstants from './rbac-constants';
 import { ArmSiteDescriptor } from './resourceDescriptors';
 import SiteHelper from './SiteHelper';
+import { isNewNodeProgrammingModel } from '../pages/app/functions/function/function-editor/useFunctionEditorQueries';
+import Url from './url';
 
 export async function resolveState(
   portalContext: PortalCommunicator,
   resourceId: string,
   logCategory: string,
   site: ArmObj<Site>,
-  appSettings?: ArmObj<AppSettings>
+  appSettings?: ArmObj<AppSettings>,
+  functionApp?: ArmObj<FunctionInfo>
 ) {
   const readOnlyLock = await portalContext.hasLock(resourceId, 'ReadOnly');
   if (readOnlyLock) {
@@ -33,6 +37,11 @@ export async function resolveState(
     return FunctionAppEditMode.ReadOnlyRbac;
   }
 
+  // During new Node Preview, we will make it 'Read only'.
+  if (functionApp && isNewNodeProgrammingModel(functionApp) && !Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewNodeEditMode)) {
+    return FunctionAppEditMode.ReadOnlyNewNodePreview;
+  }
+
   // NOTE (krmitta): We only want to get the edit state from other scenarios for function-apps
   if (isFunctionApp(site)) {
     return await resolveStateForFunctionApp(resourceId, logCategory, site, appSettings);
@@ -41,12 +50,7 @@ export async function resolveState(
   return FunctionAppEditMode.ReadWrite;
 }
 
-async function resolveStateForFunctionApp(
-  resourceId: string,
-  logCategory: string,
-  site: ArmObj<Site>,
-  appSettings?: ArmObj<AppSettings>
-) {
+async function resolveStateForFunctionApp(resourceId: string, logCategory: string, site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
   let state = resolveStateFromSite(site, appSettings);
   // NOTE(krmitta): State is only returned if it is defined otherwise we move to the next check
   if (state) {
@@ -122,10 +126,7 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
     return FunctionAppEditMode.ReadOnlyLocalCache;
   }
 
-  if (
-    FunctionAppService.usingPythonWorkerRuntime(appSettings) &&
-    !FunctionAppService.enableEditingForLinux(site, workerRuntime)
-  ) {
+  if (FunctionAppService.usingPythonWorkerRuntime(appSettings) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
     return FunctionAppEditMode.ReadOnlyPython;
   }
 
@@ -220,13 +221,7 @@ const resolveStateFromHostStatus = (hostStatus: ArmObj<HostStatus>): FunctionApp
   return undefined;
 };
 
-const isLinuxAppEditingDisabledForAzureFiles = (
-  site: ArmObj<Site>,
-  appSettings: ArmObj<AppSettings>
-): boolean => {
+const isLinuxAppEditingDisabledForAzureFiles = (site: ArmObj<Site>, appSettings: ArmObj<AppSettings>): boolean => {
   // NOTE(krmitta):AzureFiles check is currently behind feature-flag and only for Linux apps
-  return (
-    FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) &&
-    !FunctionAppService.getAzureFilesSetting(appSettings)
-  );
+  return FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) && !FunctionAppService.getAzureFilesSetting(appSettings);
 };
