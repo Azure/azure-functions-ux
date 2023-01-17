@@ -1,7 +1,5 @@
 import { HttpException } from '@nestjs/common';
-import { AppStackOs } from './2020-06-01/models/AppStackModel';
-import { FunctionAppStackValue as FunctionAppStackValue20200601 } from './2020-06-01/models/FunctionAppStackModel';
-import { WebAppStackValue as WebAppStackValue20200601 } from './2020-06-01/models/WebAppStackModel';
+import { AppStackOs } from './2020-10-01/models/AppStackModel';
 import { FunctionAppStackValue as FunctionAppStackValue20201001 } from './2020-10-01/models/FunctionAppStackModel';
 import { WebAppStackValue as WebAppStackValue20201001 } from './2020-10-01/models/WebAppStackModel';
 import { Versions } from './versions';
@@ -24,24 +22,6 @@ export function validateApiVersion(apiVersion: string, acceptedVersions: string[
 
 export function validateFunctionAppStack(apiVersion: string, stack?: string) {
   switch (apiVersion) {
-    case Versions.version20200601: {
-      const stackValues: FunctionAppStackValue20200601[] = [
-        'dotnetCore',
-        'dotnetFramework',
-        'java',
-        'node',
-        'powershell',
-        'python',
-        'custom',
-      ];
-      if (stack && !(stackValues as string[]).includes(stack)) {
-        throw new HttpException(
-          `Incorrect function app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`,
-          400
-        );
-      }
-      break;
-    }
     case Versions.version20201001:
     case Versions.version20201201:
     case Versions.version20210101:
@@ -61,13 +41,6 @@ export function validateFunctionAppStack(apiVersion: string, stack?: string) {
 
 export function validateWebAppStack(apiVersion: string, stack?: string) {
   switch (apiVersion) {
-    case Versions.version20200601: {
-      const stackValues: WebAppStackValue20200601[] = ['aspnet', 'dotnetcore', 'java', 'javacontainers', 'node', 'php', 'python', 'ruby'];
-      if (stack && !(stackValues as string[]).includes(stack)) {
-        throw new HttpException(`Incorrect web app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
-      }
-      break;
-    }
     case Versions.version20201001:
     case Versions.version20201201:
     case Versions.version20210101:
