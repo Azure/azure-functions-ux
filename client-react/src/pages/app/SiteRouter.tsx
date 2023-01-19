@@ -11,7 +11,6 @@ import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
 import { isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
-import { LogCategories } from '../../utils/LogCategories';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import { SiteRouterData } from './SiteRouter.data';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
@@ -117,7 +116,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
       }
 
       if (site) {
-        const editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings, resourceId);
+        const editMode = await resolveState(portalContext, trimmedResourceId, site, appSettings, resourceId);
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));
