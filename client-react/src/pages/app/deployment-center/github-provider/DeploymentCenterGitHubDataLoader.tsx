@@ -66,7 +66,9 @@ searchTermObserver
 
       let newRepositoryOptions: IDropdownOption[] = [];
       if (isGitHubActions) {
-        newRepositoryOptions = gitHubRepositories.map(repo => ({ key: repo.name, text: repo.name }));
+        newRepositoryOptions = gitHubRepositories
+          .filter(repo => !repo.permissions || repo.permissions.push)
+          .map(repo => ({ key: repo.name, text: repo.name }));
       } else {
         newRepositoryOptions = gitHubRepositories
           .filter(repo => !repo.permissions || repo.permissions.admin)
