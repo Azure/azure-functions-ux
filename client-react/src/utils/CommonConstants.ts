@@ -71,6 +71,7 @@ export class CommonConstants {
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableMinTLSCipherSuites: 'enableMinTLSCipherSuites',
+    enableNewNodeEditMode: 'enableNewNodeEditMode',
   };
 
   public static readonly AppDensityLimit = 8;

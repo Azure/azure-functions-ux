@@ -11,17 +11,18 @@ import PortalCommunicator from '../portal-communicator';
 import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
 import { CommonConstants } from './CommonConstants';
 import FunctionAppService from './FunctionAppService';
-import LogService from './LogService';
 import RbacConstants from './rbac-constants';
 import { ArmSiteDescriptor } from './resourceDescriptors';
 import SiteHelper from './SiteHelper';
+import { isNewNodeProgrammingModel } from '../pages/app/functions/function/function-editor/useFunctionEditorQueries';
+import Url from './url';
 
 export async function resolveState(
   portalContext: PortalCommunicator,
   resourceId: string,
-  logCategory: string,
   site: ArmObj<Site>,
-  appSettings?: ArmObj<AppSettings>
+  appSettings?: ArmObj<AppSettings>,
+  functionResourceId?: string
 ) {
   const readOnlyLock = await portalContext.hasLock(resourceId, 'ReadOnly');
   if (readOnlyLock) {
@@ -35,7 +36,7 @@ export async function resolveState(
 
   // NOTE (krmitta): We only want to get the edit state from other scenarios for function-apps
   if (isFunctionApp(site)) {
-    return await resolveStateForFunctionApp(resourceId, logCategory, site, appSettings);
+    return await resolveStateForFunctionApp(resourceId, portalContext, site, appSettings, functionResourceId);
   }
 
   return FunctionAppEditMode.ReadWrite;
@@ -43,10 +44,19 @@ export async function resolveState(
 
 async function resolveStateForFunctionApp(
   resourceId: string,
-  logCategory: string,
+  portalContext: PortalCommunicator,
   site: ArmObj<Site>,
-  appSettings?: ArmObj<AppSettings>
+  appSettings?: ArmObj<AppSettings>,
+  functionResourceId?: string
 ) {
+  // During new Node Preview, we will make it 'Read only' if it is new Node programming model.
+  if (functionResourceId) {
+    const isNewNodePreviewState = await fetchAndResolveNewNodePreviewState(functionResourceId, portalContext);
+    if (isNewNodePreviewState) {
+      return isNewNodePreviewState;
+    }
+  }
+
   let state = resolveStateFromSite(site, appSettings);
   // NOTE(krmitta): State is only returned if it is defined otherwise we move to the next check
   if (state) {
@@ -60,25 +70,52 @@ async function resolveStateForFunctionApp(
     }
   }
 
-  state = await fetchAndResolveStateFromConfig(resourceId, logCategory);
+  state = await fetchAndResolveStateFromConfig(resourceId, portalContext);
   if (state) {
     return state;
   }
 
-  state = await fetchAndResolveStateFromSlots(resourceId, logCategory);
+  state = await fetchAndResolveStateFromSlots(resourceId, portalContext);
   if (state) {
     return state;
   }
 
   // NOTE(krmitta): Host status API check is currently behind feature-flag and only for Linux apps
   if (FunctionAppService.isEditingCheckNeededForLinuxSku(site)) {
-    state = await fetchAndResolveStateFromHostStatus(resourceId, logCategory);
+    state = await fetchAndResolveStateFromHostStatus(resourceId, portalContext);
     if (state) {
       return state;
     }
   }
 
   return FunctionAppEditMode.ReadWrite;
+}
+
+// When we GA new Node programming model, we will remove 'read only' check and will support read/write.
+async function fetchAndResolveNewNodePreviewState(
+  functionResourceId: string,
+  portalContext: PortalCommunicator
+): Promise<FunctionAppEditMode | undefined> {
+  const functionResponse = await FunctionsService.getFunction(functionResourceId);
+
+  if (functionResponse.metadata.success) {
+    if (isNewNodeProgrammingModel(functionResponse.data) && !Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewNodeEditMode)) {
+      return FunctionAppEditMode.ReadOnlyNewNodePreview;
+    }
+  } else {
+    portalContext.log({
+      action: 'getFunction',
+      actionModifier: 'failed',
+      resourceId: functionResourceId,
+      logLevel: 'error',
+      data: {
+        error: functionResponse.metadata.error,
+        message: `Failed to get function: ${getErrorMessageOrStringify(functionResponse.metadata.error)}`,
+      },
+    });
+  }
+
+  return undefined;
 }
 
 function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
@@ -122,10 +159,7 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
     return FunctionAppEditMode.ReadOnlyLocalCache;
   }
 
-  if (
-    FunctionAppService.usingPythonWorkerRuntime(appSettings) &&
-    !FunctionAppService.enableEditingForLinux(site, workerRuntime)
-  ) {
+  if (FunctionAppService.usingPythonWorkerRuntime(appSettings) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
     return FunctionAppEditMode.ReadOnlyPython;
   }
 
@@ -149,37 +183,56 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
   return undefined;
 }
 
-async function fetchAndResolveStateFromHostStatus(resourceId: string, logCategory: string): Promise<FunctionAppEditMode | undefined> {
+async function fetchAndResolveStateFromHostStatus(
+  resourceId: string,
+  portalContext: PortalCommunicator
+): Promise<FunctionAppEditMode | undefined> {
   const hostStatusResponse = await FunctionsService.getHostStatus(resourceId);
 
   if (hostStatusResponse.metadata.success) {
     return resolveStateFromHostStatus(hostStatusResponse.data);
   } else {
-    LogService.error(
-      logCategory,
-      'getHostStatus',
-      `Failed to get function host status: ${getErrorMessageOrStringify(hostStatusResponse.metadata.error)}`
-    );
+    portalContext.log({
+      action: 'getHostStatus',
+      actionModifier: 'failed',
+      resourceId: resourceId,
+      logLevel: 'error',
+      data: {
+        error: hostStatusResponse.metadata.error,
+        message: `Failed to get function host status: ${getErrorMessageOrStringify(hostStatusResponse.metadata.error)}`,
+      },
+    });
     return undefined;
   }
 }
 
-async function fetchAndResolveStateFromConfig(resourceId: string, logCategory: string): Promise<FunctionAppEditMode | undefined> {
+async function fetchAndResolveStateFromConfig(
+  resourceId: string,
+  portalContext: PortalCommunicator
+): Promise<FunctionAppEditMode | undefined> {
   const configResponse = await SiteService.fetchWebConfig(resourceId);
 
   if (configResponse.metadata.success) {
     return resolveStateFromConfig(configResponse.data);
   } else {
-    LogService.error(
-      logCategory,
-      'fetchWebConfig',
-      `Failed to get web config: ${getErrorMessageOrStringify(configResponse.metadata.error)}`
-    );
+    portalContext.log({
+      action: 'fetchWebConfig',
+      actionModifier: 'failed',
+      resourceId: resourceId,
+      logLevel: 'error',
+      data: {
+        error: configResponse.metadata.error,
+        message: `Failed to get web config: ${getErrorMessageOrStringify(configResponse.metadata.error)}`,
+      },
+    });
     return undefined;
   }
 }
 
-async function fetchAndResolveStateFromSlots(resourceId: string, logCategory: string): Promise<FunctionAppEditMode | undefined> {
+async function fetchAndResolveStateFromSlots(
+  resourceId: string,
+  portalContext: PortalCommunicator
+): Promise<FunctionAppEditMode | undefined> {
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
 
   if (armSiteDescriptor.slot) {
@@ -191,7 +244,16 @@ async function fetchAndResolveStateFromSlots(resourceId: string, logCategory: st
   if (slotsResponse.metadata.success) {
     return resolveStateFromSlots(slotsResponse.data);
   } else {
-    LogService.error(logCategory, 'getSlots', `Failed to get slots: ${getErrorMessageOrStringify(slotsResponse.metadata.error)}`);
+    portalContext.log({
+      action: 'getSlots',
+      actionModifier: 'failed',
+      resourceId: resourceId,
+      logLevel: 'error',
+      data: {
+        error: slotsResponse.metadata.error,
+        message: `Failed to get slots: ${getErrorMessageOrStringify(slotsResponse.metadata.error)}`,
+      },
+    });
     return undefined;
   }
 }
@@ -220,13 +282,7 @@ const resolveStateFromHostStatus = (hostStatus: ArmObj<HostStatus>): FunctionApp
   return undefined;
 };
 
-const isLinuxAppEditingDisabledForAzureFiles = (
-  site: ArmObj<Site>,
-  appSettings: ArmObj<AppSettings>
-): boolean => {
+const isLinuxAppEditingDisabledForAzureFiles = (site: ArmObj<Site>, appSettings: ArmObj<AppSettings>): boolean => {
   // NOTE(krmitta):AzureFiles check is currently behind feature-flag and only for Linux apps
-  return (
-    FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) &&
-    !FunctionAppService.getAzureFilesSetting(appSettings)
-  );
+  return FunctionAppService.isEditingCheckNeededForLinuxSku(site, false) && !FunctionAppService.getAzureFilesSetting(appSettings);
 };
