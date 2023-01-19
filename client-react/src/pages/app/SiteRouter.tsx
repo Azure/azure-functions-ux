@@ -1,7 +1,6 @@
 import { RouteComponentProps, Router } from '@reach/router';
 import React, { createContext, lazy, useContext, useCallback, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
-import FunctionsService from '../../ApiHelpers/FunctionsService';
 import { ArmObj } from '../../models/arm-obj';
 import { FunctionAppEditMode } from '../../models/portal-models';
 import { Site } from '../../models/site/site';
@@ -17,7 +16,6 @@ import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import { SiteRouterData } from './SiteRouter.data';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
 import { AppSettings } from '../../models/app-setting';
-import { FunctionInfo } from '../../models/functions/function-info';
 import { resolveState } from '../../utils/app-state-utils';
 
 export interface SiteRouterProps {
@@ -80,15 +78,13 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
       const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
 
-      const [siteResponse, appSettingsResponse, functionResponse] = await Promise.all([
+      const [siteResponse, appSettingsResponse] = await Promise.all([
         SiteService.fetchSite(trimmedResourceId),
         SiteService.fetchApplicationSettings(trimmedResourceId),
-        FunctionsService.getFunction(resourceId),
       ]);
 
       let site: ArmObj<Site> | undefined;
       let appSettings: ArmObj<AppSettings> | undefined;
-      let functionApp: ArmObj<FunctionInfo> | undefined;
 
       if (siteResponse.metadata.success) {
         site = siteResponse.data;
@@ -120,23 +116,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
         });
       }
 
-      if (functionResponse.metadata.success) {
-        functionApp = functionResponse.data;
-      } else {
-        portalContext.log({
-          action: 'getFunction',
-          actionModifier: 'failed',
-          resourceId: resourceId,
-          logLevel: 'error',
-          data: {
-            error: functionResponse.metadata.error,
-            message: 'Failed to fetch function info',
-          },
-        });
-      }
-
       if (site) {
-        const editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings, functionApp);
+        const editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings, resourceId);
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));

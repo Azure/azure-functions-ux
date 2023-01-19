@@ -7,7 +7,6 @@ import { HostStatus, FunctionAppContentEditingState } from '../models/functions/
 import { FunctionAppEditMode, SiteReadWriteState } from '../models/portal-models';
 import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
-import { FunctionInfo } from '../models/functions/function-info';
 import PortalCommunicator from '../portal-communicator';
 import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
 import { CommonConstants } from './CommonConstants';
@@ -25,7 +24,7 @@ export async function resolveState(
   logCategory: string,
   site: ArmObj<Site>,
   appSettings?: ArmObj<AppSettings>,
-  functionApp?: ArmObj<FunctionInfo>
+  functionResourceId?: string
 ) {
   const readOnlyLock = await portalContext.hasLock(resourceId, 'ReadOnly');
   if (readOnlyLock) {
@@ -37,20 +36,29 @@ export async function resolveState(
     return FunctionAppEditMode.ReadOnlyRbac;
   }
 
-  // During new Node Preview, we will make it 'Read only'.
-  if (functionApp && isNewNodeProgrammingModel(functionApp) && !Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewNodeEditMode)) {
-    return FunctionAppEditMode.ReadOnlyNewNodePreview;
-  }
-
   // NOTE (krmitta): We only want to get the edit state from other scenarios for function-apps
   if (isFunctionApp(site)) {
-    return await resolveStateForFunctionApp(resourceId, logCategory, site, appSettings);
+    return await resolveStateForFunctionApp(resourceId, logCategory, site, appSettings, functionResourceId);
   }
 
   return FunctionAppEditMode.ReadWrite;
 }
 
-async function resolveStateForFunctionApp(resourceId: string, logCategory: string, site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
+async function resolveStateForFunctionApp(
+  resourceId: string,
+  logCategory: string,
+  site: ArmObj<Site>,
+  appSettings?: ArmObj<AppSettings>,
+  functionResourceId?: string
+) {
+  // During new Node Preview, we will make it 'Read only' if it is new Node programming model.
+  if (functionResourceId) {
+    const isNewNodePreviewState = await fetchAndResolveNewNodePreviewState(functionResourceId, logCategory);
+    if (isNewNodePreviewState) {
+      return isNewNodePreviewState;
+    }
+  }
+
   let state = resolveStateFromSite(site, appSettings);
   // NOTE(krmitta): State is only returned if it is defined otherwise we move to the next check
   if (state) {
@@ -83,6 +91,23 @@ async function resolveStateForFunctionApp(resourceId: string, logCategory: strin
   }
 
   return FunctionAppEditMode.ReadWrite;
+}
+
+async function fetchAndResolveNewNodePreviewState(
+  functionResourceId: string,
+  logCategory: string
+): Promise<FunctionAppEditMode | undefined> {
+  const functionResponse = await FunctionsService.getFunction(functionResourceId);
+
+  if (functionResponse.metadata.success) {
+    if (isNewNodeProgrammingModel(functionResponse.data) && !Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewNodeEditMode)) {
+      return FunctionAppEditMode.ReadOnlyNewNodePreview;
+    }
+  } else {
+    LogService.error(logCategory, 'getFunction', `Failed to get function: ${getErrorMessageOrStringify(functionResponse.metadata.error)}`);
+  }
+
+  return undefined;
 }
 
 function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
