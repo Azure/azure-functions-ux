@@ -4,16 +4,15 @@ import { ThemeContext } from '../../ThemeContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { StartupInfoContext } from '../../StartupInfoContext';
 
-const ConsoleLoadable: any = lazy(() => import(/* webpackChunkName: "containerappconsole" */ './console/ConsoleDataLoader'));
 const LogStreamDataLoader: any = lazy(() => import(/* webpackChunkName: "containerapplogstream" */ './log-stream/LogStreamDataLoader'));
 
-export interface ContainerAppRouterProps {
+export interface ContainerAppEnvironmentRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
   appName?: string;
 }
 
-const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>> = () => {
+const ContainerAppEnvironmentRouter: React.FC<RouteComponentProps<ContainerAppEnvironmentRouterProps>> = () => {
   const theme = useContext(ThemeContext);
 
   return (
@@ -23,8 +22,6 @@ const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>>
           return (
             value.token && (
               <Router>
-                <ConsoleLoadable resourceId={value.resourceId} {...value.featureInfo.data} path="/containerappconsole" />
-                <LogStreamDataLoader resourceId={value.resourceId} {...value.featureInfo.data} path="/containerapplogstream" />
                 <LogStreamDataLoader resourceId={value.resourceId} {...value.featureInfo.data} path="/eventstream" />
               </Router>
             )
@@ -35,4 +32,4 @@ const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>>
   );
 };
 
-export default ContainerAppRouter;
+export default ContainerAppEnvironmentRouter;
