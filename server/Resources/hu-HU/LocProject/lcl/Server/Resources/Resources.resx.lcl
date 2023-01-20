@@ -22745,10 +22745,13 @@
       </Item>
       <Item ItemId=";unableToReachBuild" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal, or you may not have permissions to access it. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nem sikerült csatlakozni a webalkalmazáshoz csatlakoztatott Azure Pipelines-folyamathoz. Ez azt is jelentheti, hogy az el lett távolítva az Azure DevOps-portálról. Ha ez történt, leválaszthatja a folyamatot, és beállíthat egy új üzembe helyezési folyamatot.]]></Val>
+            <Val><![CDATA[Nem sikerült csatlakozni a webalkalmazáshoz csatlakoztatott Azure Pipelines-folyamathoz. Ez azt jelentheti, hogy az el lett távolítva az Azure DevOps-portálról, vagy esetleg nem rendelkezik a szükséges engedélyekkel az eléréséhez. Ha ez történt, leválaszthatja a folyamatot, és beállíthat egy új üzembe helyezési folyamatot.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
