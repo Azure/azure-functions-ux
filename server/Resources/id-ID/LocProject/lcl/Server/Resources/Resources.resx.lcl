@@ -21764,10 +21764,13 @@
       </Item>
       <Item ItemId=";unableToReachBuild" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal, or you may not have permissions to access it. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kami tidak dapat menghubungkan ke Alur Azure yang terhubung ke Aplikasi Web ini. Hal ini dapat berarti telah dihapus dari portal Azure dev Ops. Jika hal ini terjadi, Anda dapat memutuskan sambungan alur dan menyiapkan jalur penyebaran baru.]]></Val>
+            <Val><![CDATA[Kami tidak dapat menghubungkan ke Alur Azure yang terhubung ke Aplikasi Web ini. Kemungkinannya, alur telah dihapus dari portal Azure dev Ops, atau Anda tidak memiliki izin untuk mengaksesnya. Jika hal ini terjadi, Anda dapat memutuskan sambungan alur dan menyiapkan alur penyebaran baru.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
