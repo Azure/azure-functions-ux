@@ -22760,10 +22760,13 @@
       </Item>
       <Item ItemId=";unableToReachBuild" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal, or you may not have permissions to access it. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[No se pudo establecer la conexión con la canalización de Azure que está conectada a esta aplicación web. Quizás se quitó del portal de Azure DevOps. Si esto es lo que sucedió, puede desconectar esta canalización y configurar una nueva canalización de implementación.]]></Val>
+            <Val><![CDATA[No se pudo establecer la conexión con la canalización de Azure que está conectada a esta aplicación web. Quizás se quitó del portal de Azure DevOps o que no tiene permisos para acceder a él. Si esto es lo que sucedió, puede desconectar esta canalización y configurar una nueva canalización de implementación.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
