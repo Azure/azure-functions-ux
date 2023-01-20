@@ -11,7 +11,6 @@ import {
   PublishType,
   RuntimeStackOptions,
 } from '../DeploymentCenter.types';
-import { KeyCodes } from '@fluentui/react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
 import { useTranslation } from 'react-i18next';
@@ -493,12 +492,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
   };
 
-  const onKeyDown = keyEvent => {
-    if ((keyEvent.charCode || keyEvent.keyCode) === KeyCodes.enter) {
-      keyEvent.preventDefault();
-    }
-  };
-
   const redeployFunction = async () => {
     hideRedeployConfirmDialog();
 
@@ -666,7 +659,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   return (
     <Formik initialValues={props.formData} onSubmit={onSubmit} enableReinitialize={true} validationSchema={props.formValidationSchema}>
       {(formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterCodeFormData>>) => (
-        <form onKeyDown={onKeyDown}>
+        <>
           <div id="deployment-center-command-bar" className={commandBarSticky}>
             <DeploymentCenterCommandBar
               isDirty={formProps.dirty}
@@ -717,7 +710,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           <div className={pivotContent}>
             <DeploymentCenterCodePivot {...props} formProps={formProps} />
           </div>
-        </form>
+        </>
       )}
     </Formik>
   );
