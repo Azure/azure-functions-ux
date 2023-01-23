@@ -1560,7 +1560,7 @@ export class PortalResources {
   public static invalidCredentials = 'invalidCredentials';
   public static emptyStorageAccounts = 'emptyStorageAccounts';
   public static byos_storageNameExists = 'byos_storageNameExists';
-  public static byos_storageAccountVnetEnabledInfoMessage = 'byos_storageAccountVnetEnabledInfoMessage';
+  public static byos_storageAccountInfoMessage = 'byos_storageAccountInfoMessage';
   public static unableToReachBuild = 'unableToReachBuild';
   public static invalidWindowsPathCdrive = 'invalidWindowsPathCdrive';
   public static limitedMode = 'limitedMode';
