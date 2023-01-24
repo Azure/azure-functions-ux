@@ -141,7 +141,9 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           // Get methods list and if POST method is available, assign it as a default.
           // Otherwise, assign the first method in the array as a default.
           if (methods?.length > 0) {
-            updatedFormValues.method = methods.some(m => StringUtils.equalsIgnoreCase(m, HttpMethods.post) ? HttpMethods.post : methods[0].toLowerCase();
+            updatedFormValues.method = methods.some(m => StringUtils.equalsIgnoreCase(m, HttpMethods.post))
+              ? HttpMethods.post
+              : methods[0].toLowerCase();
           } else {
             updatedFormValues.method = HttpMethods.post;
           }
