@@ -1,8 +1,8 @@
 import { RouteComponentProps, Router } from '@reach/router';
 import React, { useContext, lazy } from 'react';
-import { ThemeContext } from '../../ThemeContext';
-import { iconStyles } from '../../theme/iconStyles';
 import { StartupInfoContext } from '../../StartupInfoContext';
+import { iconStyles } from '../../theme/iconStyles';
+import { ThemeContext } from '../../ThemeContext';
 
 const LogStreamDataLoader: any = lazy(() => import(/* webpackChunkName: "containerapplogstream" */ './log-stream/LogStreamDataLoader'));
 
@@ -22,7 +22,7 @@ const ContainerAppEnvironmentRouter: React.FC<RouteComponentProps<ContainerAppEn
           return (
             value.token && (
               <Router>
-                <LogStreamDataLoader resourceId={value.resourceId} {...value.featureInfo.data} path="/eventstream" />
+                <LogStreamDataLoader resourceId={value.resourceId} {...value.featureInfo.data} path="*/eventstream" />
               </Router>
             )
           );

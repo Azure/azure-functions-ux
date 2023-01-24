@@ -1,23 +1,23 @@
-import { Fabric } from '@fluentui/react';
 import { Router } from '@reach/router';
-import React, { Suspense, useEffect, useState } from 'react';
-import { I18nextProvider } from 'react-i18next';
+import { Fabric } from '@fluentui/react';
+import React, { useState, useEffect, Suspense } from 'react';
+import SiteRouter from './app/SiteRouter';
+import LandingPage from './LandingPage/LandingPage';
 import ErrorLogger from '../components/ErrorLogger';
-import LoadingComponent from '../components/Loading/LoadingComponent';
-import { IFeatureInfo, IStartupInfo } from '../models/portal-models';
-import PortalCommunicator from '../portal-communicator';
+import { I18nextProvider } from 'react-i18next';
+import i18n from '../utils/i18n';
 import { PortalContext } from '../PortalContext';
-import { StartupInfoContext } from '../StartupInfoContext';
+import PortalCommunicator from '../portal-communicator';
 import { lightTheme } from '../theme/light';
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { ThemeContext } from '../ThemeContext';
-import i18n from '../utils/i18n';
-import SiteRouter from './app/SiteRouter';
-import ContainerAppEnvironmentRouter from './container-app/ContainerAppEnvironmentRouter';
-import ContainerAppRouter from './container-app/ContainerAppRouter';
-import LandingPage from './LandingPage/LandingPage';
-import LogicAppRouter from './logic-app/LogicAppRouter';
+import { IFeatureInfo, IStartupInfo } from '../models/portal-models';
+import { StartupInfoContext } from '../StartupInfoContext';
+import LoadingComponent from '../components/Loading/LoadingComponent';
 import StaticSiteRouter from './static-app/StaticSiteRouter';
+import ContainerAppRouter from './container-app/ContainerAppRouter';
+import ContainerAppEnvironmentRouter from './container-app/ContainerAppEnvironmentRouter';
+import LogicAppRouter from './logic-app/LogicAppRouter';
 
 const portalCommunicator = new PortalCommunicator();
 
