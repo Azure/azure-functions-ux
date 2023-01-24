@@ -238,7 +238,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
         <Link
           id="deployment-center-settings-learnMore"
-          href={DeploymentCenterLinks.appServiceDocumentation}
+          href={DeploymentCenterLinks.configureDeploymentSource}
           target="_blank"
           className={learnMoreLinkStyle}
           aria-labelledby="deployment-center-settings-message">

@@ -57,6 +57,7 @@ export const Links = {
 export const DeploymentCenterLinks = {
   appServiceDocumentation: 'https://go.microsoft.com/fwlink/?linkid=874656',
   configureDeployment: 'https://go.microsoft.com/fwlink/?linkid=2086046',
+  configureDeploymentSource: 'https://go.microsoft.com/fwlink/?linkid=2222781',
   containerContinuousDeploy: 'https://go.microsoft.com/fwlink/?linkid=2133570',
   configureFTPSSettingsDeploy: 'https://go.microsoft.com/fwlink/?linkid=2205819',
   configureDeploymentSlots: 'https://go.microsoft.com/fwlink/?linkid=2142216',
