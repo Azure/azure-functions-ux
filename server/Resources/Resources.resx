@@ -6229,13 +6229,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
     <data name="staticSite_stagingEnvironments" xml:space="preserve">
-        <value>Staging environments</value>
+        <value>Preview environments</value>
     </data>
     <data name="staticSite_stagingEnvironmentsDescription" xml:space="preserve">
-        <value>Automatically create new staging environments with pull requests.</value>
+        <value>Automatically create new preview environments with pull requests.</value>
     </data>
     <data name="staticSite_enableStagingEnvironments" xml:space="preserve">
-        <value>Enable staging environments</value>
+        <value>Enable preview environments</value>
     </data>
     <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
         <value>Logs</value>
