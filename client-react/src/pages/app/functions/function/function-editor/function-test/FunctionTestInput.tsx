@@ -123,7 +123,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
     const dropdownOptions: IDropdownOption[] = [];
     if (httpTrigger && httpTrigger.methods) {
       httpTrigger.methods.forEach((m: string) => {
-        dropdownOptions.push({ key: m, text: m.toUpperCase() });
+        dropdownOptions.push({ key: m.toLowerCase(), text: m.toUpperCase() });
       });
     } else {
       for (const method in HttpMethods) {
