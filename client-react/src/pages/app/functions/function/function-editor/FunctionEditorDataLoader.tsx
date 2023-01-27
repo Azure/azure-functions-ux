@@ -316,9 +316,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (settings) {
       let response: ResponseContent = { code: 0, text: '' };
 
+      let runFromPassthrough = true;
       if (enablePortalCall) {
         response = await runUsingPortal(settings);
-      } else {
+        runFromPassthrough = response.code < 100 || response.code >= 400;
+      }
+
+      if (runFromPassthrough) {
         let parsedTestData: { headers: NameValuePair[] } = { headers: [] };
         try {
           parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
