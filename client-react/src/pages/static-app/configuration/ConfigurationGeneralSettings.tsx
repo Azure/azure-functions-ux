@@ -5,8 +5,8 @@ import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../components/form-controls/RadioButton';
+import { Checkbox } from '@fluentui/react';
 import TextField from '../../../components/form-controls/TextField';
-import Toggle from '../../../components/form-controls/Toggle';
 import { PortalContext } from '../../../PortalContext';
 import { TextFieldType } from '../../../utils/CommonConstants';
 import { Links } from '../../../utils/FwLinks';
@@ -151,47 +151,49 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
               onChange={onPasswordProtectionChange}
               optionStyles={styles.choiceGroupOption}
               options={passwordProtectionOptions}
-              required
               resizable
               selectedKey={passwordProtection}
               styles={styles.choiceGroup}
             />
+            {passwordProtection !== PasswordProtectionTypes.Disabled && (
+              <>
+                <Field
+                  className={styles.textBox}
+                  component={TextField}
+                  customLabelClassName={styles.customLabel}
+                  customLabelStackClassName={styles.customLabelStack}
+                  disabled={disabled}
+                  id="password-protection-password"
+                  label={t('staticSite_visitorPassword')}
+                  name="visitorPassword"
+                  onChange={onVisitorPasswordChange}
+                  placeholder={t('staticSite_enterVisitorPassword')}
+                  required
+                  resizable
+                  styles={styles.textField}
+                  type={TextFieldType.password}
+                  value={formProps.values.visitorPassword}
+                />
 
-            <Field
-              className={styles.textBox}
-              component={TextField}
-              customLabelClassName={styles.customLabel}
-              customLabelStackClassName={styles.customLabelStack}
-              disabled={disabled}
-              id="password-protection-password"
-              label={t('staticSite_visitorPassword')}
-              name="visitorPassword"
-              onChange={onVisitorPasswordChange}
-              placeholder={t('staticSite_enterVisitorPassword')}
-              required
-              resizable
-              styles={styles.textField}
-              type={TextFieldType.password}
-              value={formProps.values.visitorPassword}
-            />
-
-            <Field
-              className={styles.textBox}
-              component={TextField}
-              customLabelClassName={styles.customLabel}
-              customLabelStackClassName={styles.customLabelStack}
-              disabled={disabled}
-              id="password-protection-confirm-password"
-              label={t('staticSite_confirmVisitorPassword')}
-              name="visitorPasswordConfirm"
-              onChange={onVisitorPasswordConfirmChange}
-              placeholder={t('staticSite_enterVisitorPassword')}
-              required
-              resizable
-              styles={styles.textField}
-              type={TextFieldType.password}
-              value={formProps.values.visitorPasswordConfirm}
-            />
+                <Field
+                  className={styles.textBox}
+                  component={TextField}
+                  customLabelClassName={styles.customLabel}
+                  customLabelStackClassName={styles.customLabelStack}
+                  disabled={disabled}
+                  id="password-protection-confirm-password"
+                  label={t('staticSite_confirmVisitorPassword')}
+                  name="visitorPasswordConfirm"
+                  onChange={onVisitorPasswordConfirmChange}
+                  placeholder={t('staticSite_enterVisitorPassword')}
+                  required
+                  resizable
+                  styles={styles.textField}
+                  type={TextFieldType.password}
+                  value={formProps.values.visitorPasswordConfirm}
+                />
+              </>
+            )}
           </section>
 
           <section className={styles.section}>
@@ -211,7 +213,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
 
             <Field
               checked={formProps.values.stagingEnvironmentPolicy === StagingEnvironmentPolicyTypes.Enabled}
-              component={Toggle}
+              component={Checkbox}
               customLabelClassName={styles.customLabel}
               customLabelStackClassName={styles.customLabelStack}
               disabled={disabled}
@@ -243,7 +245,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
 
             <Field
               checked={formProps.values.allowConfigFileUpdates}
-              component={Toggle}
+              component={Checkbox}
               customLabelClassName={styles.customLabel}
               customLabelStackClassName={styles.customLabelStack}
               disabled={disabled}

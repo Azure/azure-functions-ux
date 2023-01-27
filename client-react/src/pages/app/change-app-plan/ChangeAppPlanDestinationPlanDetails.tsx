@@ -2,7 +2,6 @@ import { IDropdownOption, ILink, Link, MessageBarType, Stack } from '@fluentui/r
 import { useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
-import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
 import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
 import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
@@ -23,6 +22,7 @@ import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 import { Checkbox } from '@fluentui/react';
+import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
 
 interface SpecPickerOutput {
   skuCode: string; // Like "S1"
@@ -271,7 +271,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       {isConsumptionToPremiumEnabled && (
         <div className={planTypeStyle}>
           <ReactiveFormControl id="planType" label={t('planType')}>
-            <RadioButtonNoFormik
+            <DropdownNoFormik
               id="planType"
               aria-label={t('planType')}
               defaultSelectedKey={skuTier}
