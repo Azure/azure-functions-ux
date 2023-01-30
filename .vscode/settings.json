@@ -23,5 +23,6 @@
 ],
 "cSpell.words": [
   "Kube"
-]
+],
+"eslint.autoFixOnSave": true,
 }
