@@ -4838,8 +4838,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="byos_storageNameExists" xml:space="preserve">
         <value>Storage setting with that name already exists.</value>
     </data>
-    <data name="byos_storageAccountVnetEnabledInfoMessage" xml:space="preserve">
-        <value>The selected storage account has virtual network enabled. Please make sure your web app is configured within the same virtual network.</value>
+    <data name="byos_storageAccountInfoMessage" xml:space="preserve">
+        <value>Azure storage account and web app should be part of the same virtual network topology if applicable.</value>
     </data>
     <data name="unableToReachBuild" xml:space="preserve">
         <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal, or you may not have permissions to access it. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
@@ -6229,13 +6229,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
     <data name="staticSite_stagingEnvironments" xml:space="preserve">
-        <value>Staging environments</value>
+        <value>Preview environments</value>
     </data>
     <data name="staticSite_stagingEnvironmentsDescription" xml:space="preserve">
-        <value>Automatically create new staging environments with pull requests.</value>
+        <value>Automatically create new preview environments with pull requests.</value>
     </data>
     <data name="staticSite_enableStagingEnvironments" xml:space="preserve">
-        <value>Enable staging environments</value>
+        <value>Enable preview environments</value>
     </data>
     <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
         <value>Logs</value>

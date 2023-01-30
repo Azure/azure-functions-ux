@@ -307,7 +307,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
   const getScriptFileOption = (): IDropdownOption | undefined => {
     let filename = '';
     if (isNewNodeProgrammingModel(functionInfo)) {
-      filename = functionInfo.properties.config.scriptFile?.toLocaleLowerCase() || '';
+      filename = functionInfo.properties.config.scriptFile || '';
     } else {
       const scriptHref = functionInfo.properties.script_href;
       filename = ((scriptHref && scriptHref.split('/').pop()) || '').toLocaleLowerCase();
