@@ -10,7 +10,6 @@ import {
   GitHubActionWorkflowRequestContent,
 } from '../models/github';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 import { ProviderToken } from '../models/provider';
 import { Method } from 'axios';
 import { CommonConstants } from '../utils/CommonConstants';
@@ -112,7 +111,6 @@ export default class GitHubService {
     gitHubToken: string
   ) => {
     const data = {
-      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${org}/${repo}/contents/${workflowYmlPath}?ref=${branchName}`,
       gitHubToken,
       org,
       repo,
