@@ -20,6 +20,7 @@ import { PortalContext } from '../../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 import { BindingManager } from '../../../../../../utils/BindingManager';
 import StringUtils from '../../../../../../utils/string';
+import { isNewNodeProgrammingModel } from '../useFunctionEditorQueries';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -132,7 +133,11 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         // Make sure to remove the keys: {body, headers, method, queryStringParams};
         // if there are still some keys (meaning the test-data file has been manually updated by the user),
         // we consider the entire remaining object as the body
-        if (localTestData.method) {
+
+        // For new Node programing preview, we are going to skip localTestData.method check.
+        // There is a bug that GET method does not work for new Node.
+        // Once the bug is fixed, we will removed '!isNewNodeProgrammingModel' check.
+        if (!isNewNodeProgrammingModel(functionInfo) && localTestData.method) {
           updatedFormValues.method = localTestData.method.toLowerCase();
           delete localTestData.method;
         } else {
