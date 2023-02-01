@@ -43,5 +43,3 @@ export class AcrSuffix {
   public static usnat = '.azurecr.eaglex.ic.gov';
   public static ussec = '.azurecr.microsoft.scloud';
 }
-
-export const setupVsoSuffix = 'portalext.visualstudio.com';
