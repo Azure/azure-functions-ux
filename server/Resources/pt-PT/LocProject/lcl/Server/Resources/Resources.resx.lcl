@@ -2583,11 +2583,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";byos_storageAccountVnetEnabledInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";byos_storageAccountInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[The selected storage account has virtual network enabled. Please make sure your web app is configured within the same virtual network.]]></Val>
+          <Val><![CDATA[Azure storage account and web app should be part of the same virtual network topology if applicable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A conta de armazenamento selecionada tem a rede virtual ativada. Certifique-se de que a sua aplicação Web está configurada na mesma rede virtual.]]></Val>
+            <Val><![CDATA[A conta de armazenamento do Azure e a aplicação Web devem fazer parte da mesma topologia de rede virtual, se aplicável.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5720,10 +5720,13 @@
       </Item>
       <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[O Serviço de Aplicações irá colocar um fluxo de trabalho do GitHub Actions no seu repositório selecionado para compilar e implementar a sua aplicação sempre que houver uma consolidação no ramo selecionado. Se não conseguir encontrar uma organização ou repositório, poderá ter de ativar permissões adicionais no GitHub.]]></Val>
+            <Val><![CDATA[O Serviço de Aplicações irá colocar um fluxo de trabalho do GitHub Actions no seu repositório selecionado para compilar e implementar a sua aplicação sempre que houver uma consolidação no ramo selecionado. Se não conseguir encontrar uma organização ou repositório, poderá ter de ativar permissões adicionais no GitHub. Tem de ter acesso de escrita ao repositório do GitHub escolhido para implementar com o GitHub Actions.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17636,6 +17639,15 @@
           <Val><![CDATA[You have read only access. Functions require write access to view.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Tem acesso só de leitura. Ver as funções requer acesso de escrita.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";readOnlyNewNodePreview" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is currently in read only mode because new Node programming model experience is in preview.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[A sua aplicação está atualmente no modo só de leitura porque a nova experiência de modelo de programação de Nós está em pré-visualização.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

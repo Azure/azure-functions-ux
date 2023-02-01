@@ -2583,11 +2583,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";byos_storageAccountVnetEnabledInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";byos_storageAccountInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[The selected storage account has virtual network enabled. Please make sure your web app is configured within the same virtual network.]]></Val>
+          <Val><![CDATA[Azure storage account and web app should be part of the same virtual network topology if applicable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[선택한 스토리지 계정에서 가상 네트워크를 사용합니다. 동일한 가상 네트워크 내에서 웹앱을 구성했는지 확인하세요.]]></Val>
+            <Val><![CDATA[해당하는 경우 Azure Storage 계정과 웹앱이 동일한 가상 네트워크 토폴로지의 일부여야 합니다.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5723,10 +5723,13 @@
       </Item>
       <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[App Service는 선택한 분기에 커밋이 있을 때마다 앱을 빌드하고 배포하기 위해 선택한 리포지토리에 GitHub Actions 워크플로를 배치합니다. 조직이나 리포지토리를 찾을 수 없는 경우 GitHub에서 추가 권한을 사용하도록 설정해야 할 수 있습니다.]]></Val>
+            <Val><![CDATA[App Service는 선택한 분기에 커밋이 있을 때마다 앱을 빌드하고 배포하기 위해 선택한 리포지토리에 GitHub Actions 워크플로를 배치합니다. 조직이나 리포지토리를 찾을 수 없는 경우 GitHub에서 추가 권한을 사용하도록 설정해야 할 수 있습니다. GitHub Actions로 배포하려면 선택한 GitHub 리포지토리에 대한 쓰기 액세스 권한이 있어야 합니다.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17633,6 +17636,15 @@
           <Val><![CDATA[You have read only access. Functions require write access to view.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[읽기 전용입니다. 함수를 보려면 쓰기 액세스 권한이 있어야 합니다.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";readOnlyNewNodePreview" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is currently in read only mode because new Node programming model experience is in preview.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[새 노드 프로그래밍 모델 환경이 미리 보기 상태이므로 앱이 현재 읽기 전용 모드입니다.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
