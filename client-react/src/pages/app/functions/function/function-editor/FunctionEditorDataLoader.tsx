@@ -31,7 +31,7 @@ import { FunctionEditor } from './FunctionEditor';
 import FunctionEditorData from './FunctionEditor.data';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { NameValuePair, ResponseContent, UrlObj, urlParameterRegExp, UrlType } from './FunctionEditor.types';
-import { useFunctionEditorQueries } from './useFunctionEditorQueries';
+import { isNewNodeProgrammingModel, useFunctionEditorQueries } from './useFunctionEditorQueries';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -245,11 +245,16 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
+      let body: any = testDataObject.body;
+      if (isNewNodeProgrammingModel(newFunctionInfo)) {
+        body = undefined;
+      }
+
       return {
         uri: url,
         type: testDataObject.method as string,
         headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data: testDataObject.body,
+        data: body,
       };
     }
     return undefined;
