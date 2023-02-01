@@ -3,8 +3,6 @@ import { DeploymentCenterService } from '../deployment-center.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { EventType } from '../../shared/logging/etw.service';
-import { setupVsoSuffix } from '../../constants';
-
 interface Authorization {
   parameters: { [key: string]: string };
   scheme: string;
