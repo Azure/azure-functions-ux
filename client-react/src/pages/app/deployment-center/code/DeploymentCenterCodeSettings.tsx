@@ -247,7 +247,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
             <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
             <Link
               id="deployment-center-settings-learnMore"
-              href={DeploymentCenterLinks.appServiceDocumentation}
+              href={DeploymentCenterLinks.configureDeploymentSource}
               target="_blank"
               className={learnMoreLinkStyle}
               aria-labelledby="deployment-center-settings-message">
@@ -272,7 +272,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isDropboxSetup && <DeploymentCenterDropboxConfiguredView formProps={formProps} />}
           {isVstsSetup && <DeploymentCenterVstsBuildConfiguredView />}
           {isTfsOrVsoSetup && <DeploymentCenterDevOpsKuduBuildConfiguredView formProps={formProps} />}
-
           {!isTfsOrVsoSetup && <DeploymentCenterCodeBuildConfiguredView />}
         </>
       ) : (

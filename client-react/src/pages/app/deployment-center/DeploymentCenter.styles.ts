@@ -237,3 +237,7 @@ export const deploymentCenterDescriptionTextStyle = style({
   marginTop: '1em',
   marginBottom: '1em',
 });
+
+export const deploymentCenterVstsCodeLogsLinkStyle = style({
+  marginRight: '10px',
+});
