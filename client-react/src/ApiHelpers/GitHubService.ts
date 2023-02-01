@@ -170,8 +170,9 @@ export default class GitHubService {
 
   public static dispatchWorkflow = (gitHubToken: string, branch: string, repo: string, workflowFileName: string) => {
     const data = {
-      url: `${DeploymentCenterConstants.githubApiUrl}/repos/${repo}/actions/workflows/${workflowFileName}/dispatches`,
       gitHubToken,
+      repo,
+      workflowFileName,
       data: {
         ref: branch,
       },
