@@ -3,6 +3,7 @@ import { DeploymentCenterService } from '../deployment-center.service';
 import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { EventType } from '../../shared/logging/etw.service';
+import { setupVsoSuffix } from '../../constants';
 
 interface Authorization {
   parameters: { [key: string]: string };
@@ -32,6 +33,11 @@ export class AzureDevOpsController {
     );
 
     const uri = `https://${req.query.accountName}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
+    const urlObj = new URL(uri);
+    const host = urlObj.host;
+    if (!host.endsWith(setupVsoSuffix)) {
+      throw new HttpException('The url is not valid', 400);
+    }
 
     const passHeaders = req.headers;
 
