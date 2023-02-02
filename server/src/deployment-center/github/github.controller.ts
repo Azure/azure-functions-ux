@@ -329,7 +329,14 @@ export class GithubController {
 
   @Post('api/github/dispatchWorkflow')
   @HttpCode(200)
-  async dispatchWorkflow(@Body('gitHubToken') gitHubToken: string, @Body('url') url: string, @Body('data') data: string) {
+  async dispatchWorkflow(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('repo') repo: string,
+    @Body('workflowFileName') workflowFileName: string,
+    @Body('data') data: string
+  ) {
+    const url = `${this.githubApiUrl}/repos/${repo}/actions/workflows/${workflowFileName}/dispatches`;
+
     try {
       await this.httpService.post(url, data, {
         headers: this._getAuthorizationHeader(gitHubToken),

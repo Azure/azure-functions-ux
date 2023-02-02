@@ -31,7 +31,7 @@ import { FunctionEditor } from './FunctionEditor';
 import FunctionEditorData from './FunctionEditor.data';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { NameValuePair, ResponseContent, UrlObj, urlParameterRegExp, UrlType } from './FunctionEditor.types';
-import { useFunctionEditorQueries } from './useFunctionEditorQueries';
+import { isNewNodeProgrammingModel, useFunctionEditorQueries } from './useFunctionEditorQueries';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -245,11 +245,16 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
+      let body: any = testDataObject.body;
+      if (!body && isNewNodeProgrammingModel(newFunctionInfo)) {
+        body = undefined;
+      }
+
       return {
         uri: url,
         type: testDataObject.method as string,
         headers: { ...headers, ...getHeadersForLiveLogsSessionId(liveLogsSessionId) },
-        data: testDataObject.body,
+        data: body,
       };
     }
     return undefined;
@@ -316,9 +321,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     if (settings) {
       let response: ResponseContent = { code: 0, text: '' };
 
+      let runFromPassthrough = true;
       if (enablePortalCall) {
         response = await runUsingPortal(settings);
-      } else {
+        runFromPassthrough = response.code < 100 || response.code >= 400;
+      }
+
+      if (runFromPassthrough) {
         let parsedTestData: { headers: NameValuePair[] } = { headers: [] };
         try {
           parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
