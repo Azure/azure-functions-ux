@@ -25,6 +25,7 @@ const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>>
               <Router>
                 <ConsoleLoadable resourceId={value.resourceId} {...value.featureInfo.data} path="/containerappconsole" />
                 <LogStreamDataLoader resourceId={value.resourceId} {...value.featureInfo.data} path="/containerapplogstream" />
+                <LogStreamDataLoader resourceId={value.resourceId} {...value.featureInfo.data} path="/eventstream" />
               </Router>
             )
           );
