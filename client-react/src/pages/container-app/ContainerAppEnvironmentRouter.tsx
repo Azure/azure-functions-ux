@@ -9,7 +9,7 @@ const LogStreamDataLoader: any = lazy(() => import(/* webpackChunkName: "contain
 export interface ContainerAppEnvironmentRouterProps {
   subscriptionId?: string;
   resourcegroup?: string;
-  appName?: string;
+  envName?: string;
 }
 
 const ContainerAppEnvironmentRouter: React.FC<RouteComponentProps<ContainerAppEnvironmentRouterProps>> = () => {

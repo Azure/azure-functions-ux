@@ -50,7 +50,7 @@ export const App: React.FC = () => {
                     <StaticSiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/staticsites/:staticSiteName/*" />
                     <StaticSiteRouter path="feature/subscriptions/:subscriptionId/providers/microsoft.web/staticsites/*" />
                     <ContainerAppRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.app/containerapps/:appName/*" />
-                    <ContainerAppEnvironmentRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.app/managedenvironments/:appName/*" />
+                    <ContainerAppEnvironmentRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.app/managedenvironments/:envName/*" />
                     <LogicAppRouter path="feature/subscriptions/:subscriptionId/providers/microsoft.logic/workflows/*" />
                     <LandingPage path="/*" />
                   </Router>
