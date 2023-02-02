@@ -3001,8 +3001,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
         <value>Function API definition (Swagger) feature is not supported for V2 runtime currently.</value>
     </data>
+    <data name="deployedSuccessfully" xml:space="preserve">
+        <value>Deployed successfully</value>
+    </data>
     <data name="deployedSuccessfullyTo" xml:space="preserve">
         <value>Deployed Successfully to {0}</value>
+    </data>
+    <data name="deployedFailed" xml:space="preserve">
+        <value>Failed to deploy</value>
     </data>
     <data name="deployedFailedTo" xml:space="preserve">
         <value>Failed to deploy to {0}</value>
@@ -3138,6 +3144,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="releaseUrl" xml:space="preserve">
         <value>Release: {0}</value>
+    </data>
+    <data name="sourceVersionUrl" xml:space="preserve">
+        <value>Source Version: {0}</value>
     </data>
     <data name="deploymentCenter" xml:space="preserve">
         <value>Deployment Center</value>

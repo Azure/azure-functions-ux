@@ -18,6 +18,7 @@ import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActionsCodeLogs';
 import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import DeploymentCenterVSTSCodeLogs from './DeploymentCenterVSTSCodeLogs';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing, tab } = props;
@@ -34,9 +35,9 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const portalContext = useContext(PortalContext);
   const scenarioService = new ScenarioService(t);
 
-  const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
-  const isScmGitHubActions =
-    !!deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+  const isScmLocalGit = deploymentCenterContext.siteConfig?.properties?.scmType === ScmType.LocalGit;
+  const isScmGitHubActions = deploymentCenterContext.siteConfig?.properties?.scmType === ScmType.GitHubAction;
+  const isScmVsts = deploymentCenterContext.siteConfig?.properties?.scmType === ScmType.Vsts;
 
   const goToSettingsOnClick = () => {
     portalContext.log(getTelemetryInfo('info', 'goToSettingButton', 'clicked'));
@@ -83,9 +84,31 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     );
   };
 
+  const getCodeLogs = () => {
+    if (isScmGitHubActions) {
+      return getGitHubActionsCodeLogsComponent();
+    } else if (isScmVsts) {
+      return getVstsCodeLogsComponent();
+    } else {
+      return getCodeLogsComponent();
+    }
+  };
+
   const getGitHubActionsCodeLogsComponent = () => {
     return (
       <DeploymentCenterGitHubActionsCodeLogs
+        goToSettings={goToSettingsOnClick}
+        deployments={deployments}
+        deploymentsError={deploymentsError}
+        isLogsDataRefreshing={isLogsDataRefreshing}
+        refreshLogs={refreshLogs}
+      />
+    );
+  };
+
+  const getVstsCodeLogsComponent = () => {
+    return (
+      <DeploymentCenterVSTSCodeLogs
         goToSettings={goToSettingsOnClick}
         deployments={deployments}
         deploymentsError={deploymentsError}
@@ -109,8 +132,6 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
   useEffect(() => {
     portalContext.updateDirtyState(isFtpsDirty() || isSettingsDirty());
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     formProps.values.buildProvider,
     formProps.values.publishingUsername,
@@ -128,8 +149,6 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
       const scenarioStatus = scenarioService.checkScenario(ScenarioIds.ftpSource, { site: siteStateContext.site }).status;
       setShowFtpsTab(scenarioStatus !== 'disabled');
     }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext.site, isScmGitHubActions]);
 
   return (
@@ -149,7 +168,7 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
           itemKey="logs"
           headerText={t('deploymentCenterPivotItemLogsHeaderText')}
           ariaLabel={t('deploymentCenterPivotItemLogsAriaLabel')}>
-          {isScmGitHubActions ? getGitHubActionsCodeLogsComponent() : getCodeLogsComponent()}
+          {getCodeLogs()}
         </PivotItem>
       )}
 

@@ -187,6 +187,7 @@ export interface DevOpsAccount {
 }
 
 export interface DevOpsBuildDefinition {
+  project: DevOpsProject;
   repository: DevOpsBuildDefinitionRepository;
 }
 
@@ -525,6 +526,42 @@ export interface DeploymentProperties {
   last_success_end_time?: string;
 }
 
+export interface KuduLogMessage {
+  type: string;
+  commitId?: string;
+  buildId?: number;
+  releaseId?: number;
+  buildNumber?: string;
+  releaseName?: string;
+  repoProvider?: string;
+  repoName?: string;
+  collectionUrl?: string;
+  teamProject?: string;
+  prodAppName?: string;
+  slotName?: string;
+  sourceSlot?: string;
+  targetSlot?: string;
+  message?: string;
+  VSTSRM_BuildDefinitionWebAccessUrl?: string;
+  VSTSRM_ConfiguredCDEndPoint?: string;
+  VSTSRM_BuildWebAccessUrl?: string;
+  AppUrl?: string;
+  SlotUrl?: string;
+  VSTSRM_AccountUrl?: string;
+  VSTSRM_RepoUrl?: string;
+  VSTSRM_AccountId?: string;
+  buildProjectUrl?: string;
+  repositoryUrl?: string;
+  branch?: string;
+  teamProjectName?: string;
+}
+
+export interface UrlInfo {
+  urlIcon?: string;
+  urlText: string;
+  url: string;
+}
+
 export interface DeploymentLogsItem {
   log_time: string;
   id: string;
@@ -549,7 +586,7 @@ export interface CodeDeploymentsRow {
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
-  message: string;
+  message: string | JSX.Element;
   status: string;
   author: string;
 }
