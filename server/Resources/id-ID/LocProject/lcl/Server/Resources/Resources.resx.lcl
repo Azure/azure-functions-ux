@@ -2439,11 +2439,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";byos_storageAccountVnetEnabledInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";byos_storageAccountInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[The selected storage account has virtual network enabled. Please make sure your web app is configured within the same virtual network.]]></Val>
+          <Val><![CDATA[Azure storage account and web app should be part of the same virtual network topology if applicable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Akun penyimpanan yang dipilih telah mengaktifkan jaringan virtual. Pastikan aplikasi web Anda dikonfigurasi dalam jaringan virtual yang sama.]]></Val>
+            <Val><![CDATA[Akun penyimpanan Azure dan aplikasi web harus merupakan bagian dari topologi jaringan virtual yang sama jika berlaku.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5510,10 +5510,13 @@
       </Item>
       <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[App Service akan menempatkan alur kerja Tindakan GitHub di repositori pilihan Anda untuk membuat dan menyebarkan aplikasi setiap kali ada penerapan pada cabang yang dipilih. Jika tidak dapat menemukan organisasi atau repositori, Anda mungkin perlu mengaktifkan izin tambahan di GitHub.]]></Val>
+            <Val><![CDATA[App Service akan menempatkan alur kerja GitHub Actions di repositori pilihan Anda untuk membangun dan menerapkan aplikasi setiap kali ada penerapan pada cabang yang dipilih. Jika tidak dapat menemukan organisasi atau repositori, Anda mungkin perlu mengaktifkan izin tambahan di GitHub. Anda harus memiliki akses tulis ke repositori GitHub pilihan Anda untuk disebarkan dengan GitHub Actions.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16860,6 +16863,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";readOnlyNewNodePreview" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is currently in read only mode because new Node programming model experience is in preview.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aplikasi Anda saat ini dalam mode baca saja karena pengalaman model pemrograman Node baru sedang dalam pratinjau.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";readOnlyPython" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Editing functions in the portal is not supported for Python function apps. Please use the CLI or VS Code for development. <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230">Learn more</a>]]></Val>
@@ -21764,10 +21776,13 @@
       </Item>
       <Item ItemId=";unableToReachBuild" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal, or you may not have permissions to access it. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kami tidak dapat menghubungkan ke Alur Azure yang terhubung ke Aplikasi Web ini. Hal ini dapat berarti telah dihapus dari portal Azure dev Ops. Jika hal ini terjadi, Anda dapat memutuskan sambungan alur dan menyiapkan jalur penyebaran baru.]]></Val>
+            <Val><![CDATA[Kami tidak dapat menghubungkan ke Alur Azure yang terhubung ke Aplikasi Web ini. Kemungkinannya, alur telah dihapus dari portal Azure dev Ops, atau Anda tidak memiliki izin untuk mengaksesnya. Jika hal ini terjadi, Anda dapat memutuskan sambungan alur dan menyiapkan alur penyebaran baru.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

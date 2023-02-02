@@ -149,13 +149,13 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const setSourceBuildProvider = () => {
     if (formProps.values.sourceProvider === ScmType.GitHub) {
-      //Note (stpelleg): Need to disable GitHub Actions for Ruby, PHP (Windows), and ILB ASE as we do not support it
+      //Note (stpelleg): Need to disable GitHub Actions for Ruby, PHP (Windows), Go, and ILB ASE as we do not support it
       if (
-        (!!defaultStackAndVersion && defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Ruby) ||
-        (!!defaultStackAndVersion &&
-          defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.PHP &&
+        defaultStackAndVersion?.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Ruby ||
+        (defaultStackAndVersion?.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.PHP &&
           !defaultStackAndVersion.runtimeVersion &&
           !siteStateContext.isLinuxApp) ||
+        defaultStackAndVersion?.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Go ||
         deploymentCenterContext.isIlbASE
       ) {
         setSelectedBuild(BuildProvider.AppServiceBuildService);
@@ -238,7 +238,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
         <Link
           id="deployment-center-settings-learnMore"
-          href={DeploymentCenterLinks.appServiceDocumentation}
+          href={DeploymentCenterLinks.configureDeploymentSource}
           target="_blank"
           className={learnMoreLinkStyle}
           aria-labelledby="deployment-center-settings-message">

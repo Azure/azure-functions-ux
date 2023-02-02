@@ -1,8 +1,9 @@
-import { Controller, Post, Body, HttpException, Get, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, HttpException, Get, HttpCode, Res, Query, Param } from '@nestjs/common';
 import { ConfigService } from '../shared/config/config.service';
 import { HttpService } from '../shared/http/http.service';
 import { Constants } from '../constants';
 import { HttpUtil } from '../utilities/http.util';
+import { getPortalEnvironmentDomain } from './staticsites';
 
 @Controller('api/staticsites')
 export class StaticSitesController {
@@ -11,6 +12,17 @@ export class StaticSitesController {
   @Get('github/clientId')
   clientId() {
     return { client_id: this.configService.get('STATICSITES_GITHUB_CLIENT_ID') };
+  }
+
+  @Get('github/callback')
+  async callback(@Res() res, @Query('code') code, @Query('state') state) {
+    res.redirect(`https://${getPortalEnvironmentDomain()}/TokenAuthorize?code=${code}&state=${state}`);
+  }
+
+  @Get('github/callback/env/:env')
+  async callbackRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
+    const envToUpper = (env && (env as string).toUpperCase()) || '';
+    res.redirect(`https://${getPortalEnvironmentDomain(envToUpper)}/TokenAuthorize?code=${code}&state=${state}`);
   }
 
   @Post('github/generateAccessToken')

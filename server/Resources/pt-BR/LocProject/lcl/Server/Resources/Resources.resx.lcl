@@ -2586,11 +2586,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";byos_storageAccountVnetEnabledInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";byos_storageAccountInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[The selected storage account has virtual network enabled. Please make sure your web app is configured within the same virtual network.]]></Val>
+          <Val><![CDATA[Azure storage account and web app should be part of the same virtual network topology if applicable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A conta de armazenamento selecionada tem a rede virtual habilitada. Verifique se o aplicativo Web está configurado na mesma rede virtual.]]></Val>
+            <Val><![CDATA[A conta de armazenamento do Azure e o aplicativo Web devem fazer parte da mesma topologia de rede virtual, se aplicável.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5723,10 +5723,13 @@
       </Item>
       <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[O Serviço de Aplicativo colocará um fluxo GitHub Actions fluxo de trabalho no repositório escolhido para compilar e implantar seu aplicativo sempre que houver uma confirmação no branch escolhido. Se você não encontrar uma organização ou repositório, talvez seja necessário habilitar permissões adicionais no GitHub.]]></Val>
+            <Val><![CDATA[O Serviço de Aplicativo colocará um fluxo de trabalho do GitHub Actions no repositório escolhido para criar e implantar seu aplicativo sempre que houver uma confirmação na ramificação escolhida. Se você não conseguir encontrar uma organização ou repositório, pode ser necessário habilitar permissões adicionais no GitHub. Você deve ter acesso de gravação ao repositório GitHub escolhido para implantar com o GitHub Actions.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17655,6 +17658,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";readOnlyNewNodePreview" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is currently in read only mode because new Node programming model experience is in preview.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Seu aplicativo está atualmente no modo somente leitura porque a nova experiência do modelo de programação do Node está em visualização.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";readOnlyPython" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Editing functions in the portal is not supported for Python function apps. Please use the CLI or VS Code for development. <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230">Learn more</a>]]></Val>
@@ -22763,10 +22775,13 @@
       </Item>
       <Item ItemId=";unableToReachBuild" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal, or you may not have permissions to access it. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Não foi possível estabelecer uma conexão com o Pipeline do Azure que está conectado a este Aplicativo Web. Isso pode significar que ele foi removido do Portal do Azure Dev Ops. Se isso tiver acontecido, você poderá desconectar esse pipeline e configurar um novo pipeline de implantação.]]></Val>
+            <Val><![CDATA[Não foi possível conectar ao Pipeline do Azure conectado a este Aplicativo Web. Isso pode significar que ele foi removido do Portal de Operações de Desenvolvimento do Azure ou talvez você não tenha permissões para acessar. Se isso tiver ocorrido, você poderá desconectar esse pipeline e configurar um novo pipeline de implantação.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

@@ -2586,11 +2586,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";byos_storageAccountVnetEnabledInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";byos_storageAccountInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[The selected storage account has virtual network enabled. Please make sure your web app is configured within the same virtual network.]]></Val>
+          <Val><![CDATA[Azure storage account and web app should be part of the same virtual network topology if applicable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Vybraný účet úložiště má povolenou virtuální síť. Ujistěte se prosím, že je vaše webová aplikace nakonfigurovaná ve stejné virtuální síti.]]></Val>
+            <Val><![CDATA[Účet úložiště Azure a webová aplikace by měly být součástí stejné topologie virtuální sítě, pokud je to možné.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5726,10 +5726,13 @@
       </Item>
       <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Služba App Service umístí do zvoleného úložiště pracovní postup funkce GitHub Actions, který sestaví a nasadí vaši aplikaci vždy, když ve zvolené větvi dojde k potvrzení. Pokud nemůžete najít organizaci nebo úložiště, možná bude potřeba na GitHubu povolit další oprávnění.]]></Val>
+            <Val><![CDATA[Služba App Service umístí do zvoleného úložiště pracovní postup funkce GitHub Actions, který sestaví a nasadí vaši aplikaci vždy, když ve zvolené větvi dojde k potvrzení. Pokud nemůžete najít organizaci nebo úložiště, možná bude potřeba na GitHubu povolit další oprávnění. Pokud chcete nasazovat s GitHub Actions, musíte mít oprávnění k zápisu do zvoleného úložiště GitHubu.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17676,6 +17679,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";readOnlyNewNodePreview" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is currently in read only mode because new Node programming model experience is in preview.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vaše aplikace je momentálně v režimu jen pro čtení, protože nové prostředí programovacího modelu Node je ve verzi Preview.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";readOnlyPython" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Editing functions in the portal is not supported for Python function apps. Please use the CLI or VS Code for development. <a target="_blank" href="https://go.microsoft.com/fwlink/?linkid=2074230">Learn more</a>]]></Val>
@@ -22772,10 +22784,13 @@
       </Item>
       <Item ItemId=";unableToReachBuild" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal, or you may not have permissions to access it. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nepovedlo se nám připojit ke kanálu Azure, který je připojený k této webové aplikaci. To může znamenat, že se odebral z portálu Azure DevOps Portal. Pokud k tomu došlo, můžete tento kanál odpojit a nastavit nový kanál nasazení.]]></Val>
+            <Val><![CDATA[Nepovedlo se nám připojit ke kanálu Azure, který je připojený k této webové aplikaci. To může znamenat, že se odebral z portálu Azure DevOps Portal nebo že k němu nemáte přístupová oprávnění. Pokud k tomu došlo, můžete tento kanál odpojit a nastavit nový kanál nasazení.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
