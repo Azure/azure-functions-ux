@@ -77,6 +77,7 @@ export enum RuntimeStackOptions {
   AspDotNet = 'asp.net',
   Dotnet = 'dotnet',
   DotnetIsolated = 'dotnet-isolated',
+  Go = 'go',
 }
 
 export enum RuntimeStackDisplayNames {
@@ -91,6 +92,7 @@ export enum RuntimeStackDisplayNames {
   AspDotNet = 'ASP.NET',
   Dotnet = '.NET',
   DotnetIsolated = '.Net Isolated',
+  Go = 'Go',
 }
 
 export enum RuntimeVersionOptions {
