@@ -278,22 +278,18 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
   const getZeroDayContent = () => {
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
       return (
-        <>
-          <div className={deploymentCenterCodeLogsNotConfigured}>
-            <DeploymentCenterIcon filter="grayscale(100%)" />
-            <h3>{t('deploymentCenterCodeLogsCICDNotConfiguredHeader')}</h3>
-            <p>{t('deploymentCenterCodeLogsCICDNotConfiguredDescription')}</p>
-            <PrimaryButton text={t('deploymentCenterCodeLogsCICDNotConfiguredGoToSettings')} onClick={() => goToSettingsOnClick()} />
-          </div>
-        </>
+        <div className={deploymentCenterCodeLogsNotConfigured}>
+          <DeploymentCenterIcon filter="grayscale(100%)" />
+          <h3>{t('deploymentCenterCodeLogsCICDNotConfiguredHeader')}</h3>
+          <p>{t('deploymentCenterCodeLogsCICDNotConfiguredDescription')}</p>
+          <PrimaryButton text={t('deploymentCenterCodeLogsCICDNotConfiguredGoToSettings')} onClick={() => goToSettingsOnClick()} />
+        </div>
       );
     } else {
       return (
-        <>
-          <div className={deploymentCenterCodeLogsNotConfigured}>
-            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
-          </div>
-        </>
+        <div className={deploymentCenterCodeLogsNotConfigured}>
+          <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+        </div>
       );
     }
   };
