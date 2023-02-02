@@ -185,6 +185,7 @@ export interface DevOpsAccount {
 }
 
 export interface DevOpsBuildDefinition {
+  project: DevOpsProject;
   repository: DevOpsBuildDefinitionRepository;
 }
 

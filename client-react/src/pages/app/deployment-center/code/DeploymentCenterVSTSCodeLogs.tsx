@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import {
@@ -47,6 +47,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     setIsLogPanelOpen(true);
     setCurrentCommitId(deployment.id);
   };
+
   const dismissLogPanel = () => {
     setIsLogPanelOpen(false);
     setCurrentCommitId(undefined);
@@ -178,13 +179,8 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
 
   const getCommitUrl = (messageJSON: KuduLogMessage) => {
     if (messageJSON.commitId && messageJSON.repoProvider && messageJSON.repositoryUrl) {
-      let repoUrl = messageJSON.repositoryUrl;
-      switch (messageJSON.repoProvider) {
-        // TODO(yoonaoh): Might need to add tfsgit and tfsversioncontrol cases?
-        case ScmType.GitHub:
-          return '{0}/commit/{1}'.format(repoUrl, messageJSON.commitId);
-        default:
-          return '';
+      if (messageJSON.repoProvider === ScmType.GitHub) {
+        return '{0}/commit/{1}'.format(messageJSON.repositoryUrl, messageJSON.commitId);
       }
     }
     return '';
@@ -263,8 +259,11 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     }
   };
 
-  const rows: CodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
-  const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
+  const rows: CodeDeploymentsRow[] = useMemo(
+    () => (deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : []),
+    [deployments]
+  );
+  const items: CodeDeploymentsRow[] = useMemo(() => rows.sort(dateTimeComparatorReverse), [rows]);
 
   const columns: IColumn[] = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 75, maxWidth: 150 },
@@ -274,7 +273,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     { key: 'message', name: t('message'), fieldName: 'message', minWidth: 210, isMultiline: true },
   ];
 
-  const groups: IGroup[] = getItemGroups(items);
+  const groups: IGroup[] = useMemo(() => getItemGroups(items), [items]);
 
   const getZeroDayContent = () => {
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {

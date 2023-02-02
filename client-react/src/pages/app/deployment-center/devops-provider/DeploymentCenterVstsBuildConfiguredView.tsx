@@ -16,13 +16,13 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
   const [repo, setRepo] = useState<string | undefined>(undefined);
   const [branch, setBranch] = useState<string | undefined>(undefined);
   const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
+  const [project, setProject] = useState<string | undefined>(undefined);
   const [vstsAccountName, setVstsAccountName] = useState<string | undefined>(undefined);
   const [vstsMetadata, setVstsMetadata] = useState<KeyValue<string> | undefined>(undefined);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
-
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
   const fetchSiteConfig = async () => {
@@ -66,10 +66,11 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
           buildDefinitionProjectUrl,
           buildDefinitionId
         );
-        if (devOpsInfoResponse.metadata.success && devOpsInfoResponse.data.repository) {
+        if (devOpsInfoResponse.metadata.success && devOpsInfoResponse.data.repository && devOpsInfoResponse.data.project) {
           setRepoUrl(devOpsInfoResponse.data.repository.url);
           setRepo(devOpsInfoResponse.data.repository.name);
           setBranch(devOpsInfoResponse.data.repository.defaultBranch);
+          setProject(devOpsInfoResponse.data.project.name);
         } else {
           setBranch(t('deploymentCenterErrorFetchingInfo'));
           portalContext.log(
@@ -96,13 +97,13 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
   };
 
   const getDevOpsProjectLink = () => {
-    if (vstsAccountName) {
+    if (vstsAccountName && project) {
       return (
         <Link
           key="deployment-center-branch-link"
-          onClick={() => window.open(`https://dev.azure.com/${vstsAccountName}`, '_blank')}
-          aria-label={vstsAccountName}>
-          {vstsAccountName}
+          onClick={() => window.open(`https://dev.azure.com/${vstsAccountName}/${project}`, '_blank')}
+          aria-label={project}>
+          {project}
           <Icon id={`repo-button`} iconName={'NavigateExternalInline'} />
         </Link>
       );
@@ -143,7 +144,7 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
 
       <h3>{t('deploymentCenterCodeAzureReposTitle')}</h3>
 
-      <ReactiveFormControl id="deployment-center-vsts-user" label={t('deploymentCenterOAuthSingedInAs')}>
+      <ReactiveFormControl id="deployment-center-vsts-project" label={t('deploymentCenterOAuthProject')}>
         <>{isLoading ? t('loading') : getDevOpsProjectLink()}</>
       </ReactiveFormControl>
       <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
