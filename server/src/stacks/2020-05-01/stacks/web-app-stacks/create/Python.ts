@@ -6,6 +6,26 @@ export const pythonCreateStack: WebAppCreateStack = {
   sortOrder: 2,
   versions: [
     {
+      displayText: 'Python 3.10',
+      value: '3.10',
+      sortOrder: 0,
+      supportedPlatforms: [
+        {
+          os: 'linux',
+          isPreview: false,
+          isDeprecated: false,
+          isHidden: false,
+          applicationInsightsEnabled: false,
+          remoteDebuggingEnabled: false,
+          runtimeVersion: 'PYTHON|3.10',
+          sortOrder: 0,
+          githubActionSettings: {
+            supported: true,
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Python 3.9',
       value: '3.9',
       sortOrder: 0,
