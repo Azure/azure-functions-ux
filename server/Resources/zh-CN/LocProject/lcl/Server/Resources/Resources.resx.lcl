@@ -20606,10 +20606,13 @@
       </Item>
       <Item ItemId=";staticSite_enableStagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Enable staging environments]]></Val>
+          <Val><![CDATA[Enable preview environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[启用过渡环境]]></Val>
+            <Val><![CDATA[启用预览环境]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Enable staging environments]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20798,19 +20801,25 @@
       </Item>
       <Item ItemId=";staticSite_stagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Staging environments]]></Val>
+          <Val><![CDATA[Preview environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[过渡环境]]></Val>
+            <Val><![CDATA[预览环境]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Staging environments]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSite_stagingEnvironmentsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Automatically create new staging environments with pull requests.]]></Val>
+          <Val><![CDATA[Automatically create new preview environments with pull requests.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[使用拉取请求自动创建新的过渡环境。]]></Val>
+            <Val><![CDATA[使用拉取请求自动创建新的预览环境。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Automatically create new staging environments with pull requests.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

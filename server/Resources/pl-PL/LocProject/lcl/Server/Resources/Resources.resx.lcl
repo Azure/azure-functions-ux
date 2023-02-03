@@ -20612,10 +20612,13 @@
       </Item>
       <Item ItemId=";staticSite_enableStagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Enable staging environments]]></Val>
+          <Val><![CDATA[Enable preview environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Włącz środowiska przejściowe]]></Val>
+            <Val><![CDATA[Włącz środowiska w wersji zapoznawczej]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Enable staging environments]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20804,19 +20807,25 @@
       </Item>
       <Item ItemId=";staticSite_stagingEnvironments" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Staging environments]]></Val>
+          <Val><![CDATA[Preview environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Środowiska przejściowe]]></Val>
+            <Val><![CDATA[Środowiska w wersji zapoznawczej]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Staging environments]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";staticSite_stagingEnvironmentsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Automatically create new staging environments with pull requests.]]></Val>
+          <Val><![CDATA[Automatically create new preview environments with pull requests.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Automatycznie twórz nowe środowiska przejściowe z żądaniami ściągnięcia.]]></Val>
+            <Val><![CDATA[Automatycznie twórz nowe środowiska w wersji zapoznawczej z żądaniami ściągnięcia.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Automatically create new staging environments with pull requests.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
