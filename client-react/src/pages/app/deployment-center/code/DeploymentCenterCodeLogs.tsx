@@ -122,7 +122,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 75, maxWidth: 100 },
     { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 75, maxWidth: 200 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 100, maxWidth: 150 },
-    { key: 'message', name: t('message'), fieldName: 'message', minWidth: 210 },
+    { key: 'message', name: t('message'), fieldName: 'message', minWidth: 210, isMultiline: true },
   ];
 
   const groups: IGroup[] = getItemGroups(items);
