@@ -125,34 +125,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 endOfLifeDate: python37EOL,
               },
             },
-          },
-          {
-            displayText: 'Python 3.6',
-            value: '3.6',
-            stackSettings: {
-              linuxRuntimeSettings: {
-                runtimeVersion: 'Python|3.6',
-                isDeprecated: true,
-                remoteDebuggingSupported: false,
-                appInsightsSettings: {
-                  isSupported: true,
-                },
-                gitHubActionSettings: {
-                  isSupported: true,
-                  supportedVersion: '3.6',
-                },
-                appSettingsDictionary: {
-                  FUNCTIONS_WORKER_RUNTIME: 'python',
-                },
-                siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: false,
-                  linuxFxVersion: 'Python|3.6',
-                },
-                supportedFunctionsExtensionVersions: ['~2', '~3'],
-                endOfLifeDate: python36EOL,
-              },
-            },
-          },
+          }
         ],
       },
     ],

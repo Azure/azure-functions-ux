@@ -84,40 +84,6 @@ export const pythonCreateStack: WebAppCreateStack = {
           },
         },
       ],
-    },
-    {
-      displayText: 'Python 3.6',
-      value: '3.6',
-      sortOrder: 3,
-      supportedPlatforms: [
-        {
-          os: 'linux',
-          isPreview: false,
-          isDeprecated: true,
-          isHidden: false,
-          applicationInsightsEnabled: false,
-          remoteDebuggingEnabled: false,
-          runtimeVersion: 'PYTHON|3.6',
-          sortOrder: 0,
-          githubActionSettings: {
-            supported: true,
-          },
-        },
-        {
-          os: 'windows',
-          isPreview: false,
-          isDeprecated: true,
-          isHidden: false,
-          applicationInsightsEnabled: true,
-          remoteDebuggingEnabled: false,
-          runtimeVersion: '3.4',
-          sortOrder: 1,
-          githubActionSettings: {
-            supported: true,
-            recommendedVersion: '3.6',
-          },
-        },
-      ],
-    },
+    }
   ],
 };
