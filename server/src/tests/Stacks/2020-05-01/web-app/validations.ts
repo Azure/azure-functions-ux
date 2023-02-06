@@ -22,17 +22,17 @@ export function validateConfigStackLength(stacks) {
 
 export function validateConfigWindowsStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateConfigLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateGithubActionStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateGithubActionWindowsStackLength(stacks) {
@@ -42,7 +42,7 @@ export function validateGithubActionWindowsStackLength(stacks) {
 
 export function validateGithubActionLinuxStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(7);
+  expect(stacks.length).to.equal(6);
 }
 
 export function validateASPCreateStack(stacks) {
