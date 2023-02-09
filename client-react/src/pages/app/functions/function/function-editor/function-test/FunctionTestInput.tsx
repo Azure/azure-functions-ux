@@ -121,7 +121,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
 
   // Passing body for GET/Head method will fail if it is new Node programming model.
   // Therefore, we hide Monaco editor so that user cannot input body.
-  const shouldHideMonacoEditor = React.useMemo((): boolean => {
+  const shouldHideBody = React.useMemo((): boolean => {
     return (
       isNewNodeProgrammingModel(functionInfo) &&
       !!isHttpOrWebHookFunction &&
@@ -196,7 +196,7 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
           <KeyValueFieldArrayComponent itemName="headers" items={values.headers} addItemText={t('httpRun_addHeader')} />
         </div>
       )}
-      {!shouldHideMonacoEditor && (
+      {!shouldHideBody && (
         <div className={functionTestGroupStyle}>
           <Label className={testFormLabelStyle}>{t('rrOverride_boby')}</Label>
           <div className={bodyEditorStyle}>
