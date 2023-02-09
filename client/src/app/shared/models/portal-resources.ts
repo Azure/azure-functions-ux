@@ -960,7 +960,9 @@ export class PortalResources {
   public static entity = 'entity';
   public static entityColon = 'entityColon';
   public static swaggerDefinition_notSupportedForV2 = 'swaggerDefinition_notSupportedForV2';
+  public static deployedSuccessfully = 'deployedSuccessfully';
   public static deployedSuccessfullyTo = 'deployedSuccessfullyTo';
+  public static deployedFailed = 'deployedFailed';
   public static deployedFailedTo = 'deployedFailedTo';
   public static swapWithPreviewLabel = 'swapWithPreviewLabel';
   public static swapWithPreviewInfoText = 'swapWithPreviewInfoText';
@@ -1005,6 +1007,7 @@ export class PortalResources {
   public static viewInstructions = 'viewInstructions';
   public static buildUrl = 'buildUrl';
   public static releaseUrl = 'releaseUrl';
+  public static sourceVersionUrl = 'sourceVersionUrl';
   public static deploymentCenter = 'deploymentCenter';
   public static sourceControl = 'sourceControl';
   public static buildProvider = 'buildProvider';

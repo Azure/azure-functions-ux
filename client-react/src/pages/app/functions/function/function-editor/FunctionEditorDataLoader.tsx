@@ -246,7 +246,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
       let body: any = testDataObject.body;
-      if (isNewNodeProgrammingModel(newFunctionInfo)) {
+      if (!body && isNewNodeProgrammingModel(newFunctionInfo)) {
         body = undefined;
       }
 
