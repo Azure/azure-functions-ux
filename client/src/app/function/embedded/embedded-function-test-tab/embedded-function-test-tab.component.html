@@ -2,9 +2,7 @@
     <label>{{ 'functionDev_requestBody' | translate }}</label>
 
     <div class="request-editor-container">
-        <text-editor
-            [content]="initialEditorContent"
-            (onContentChanged)="editorContentChanged($event)"></text-editor>
+        <text-editor [content]="initialEditorContent"></text-editor>
     </div>
 </section>
 

@@ -306,7 +306,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       return (
         <>
           <div className={deploymentCenterCodeLogsNotConfigured}>
-            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>
           </div>
         </>
       );
