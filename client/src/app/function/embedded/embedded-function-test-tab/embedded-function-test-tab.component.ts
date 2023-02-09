@@ -14,6 +14,7 @@ import { BusyStateScopeManager } from './../../../busy-state/busy-state-scope-ma
 import { FunctionInfo } from 'app/shared/models/function-info';
 import { TabComponent } from './../../../controls/tabs/tab/tab.component';
 import { BroadcastEvent } from 'app/shared/models/broadcast-event';
+import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, ViewChild, Output, Input, OnChanges, SimpleChange, ContentChildren, QueryList, OnDestroy } from '@angular/core';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
 
