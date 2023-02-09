@@ -1,6 +1,5 @@
 import { Controller, Get, Post, Query, HttpException, Headers, Header, Param, Body, Res } from '@nestjs/common';
 import { FunctionsService, NameValuePair } from './functions.service';
-import { TriggerApimService } from './trigger-apim/trigger-apim.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
 import { Response } from 'express';
 import { ArmSiteDescriptor } from '../shared/resourceDescriptors';
@@ -8,11 +7,7 @@ import { isValidString } from '../utilities/string.util';
 
 @Controller('api')
 export class FunctionsController {
-  constructor(
-    private functionService: FunctionsService,
-    private runtimeTokenService: RuntimeTokenService,
-    private triggerApimService: TriggerApimService
-  ) {}
+  constructor(private functionService: FunctionsService, private runtimeTokenService: RuntimeTokenService) {}
 
   @Get('templates')
   templates(@Query('runtime') runtime = 'default') {
@@ -37,11 +32,6 @@ export class FunctionsController {
   @Header('Content-Type', 'application/json')
   async runtimetoken(@Headers('portal-token') armToken, @Param('0') armId) {
     return this.runtimeTokenService.getLinuxRuntimeToken(armId, armToken);
-  }
-
-  @Post('triggerFunctionAPIM')
-  triggerFunctionAPIM(@Body() body) {
-    return this.triggerApimService.triggerFunctionAPIM(body);
   }
 
   @Post('runFunction')
