@@ -151,6 +151,15 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
     }
   }, [siteStateContext.site, isScmGitHubActions]);
 
+  useEffect(() => {
+    const scmType = deploymentCenterContext.siteConfig?.properties?.scmType;
+    const isGitHubSourceSetup = scmType === ScmType.GitHubAction || scmType === ScmType.GitHub;
+    const isBitbucketSetup = scmType === ScmType.BitbucketGit;
+    if (isGitHubSourceSetup || isBitbucketSetup) {
+      setSelectedKey('logs');
+    }
+  }, [deploymentCenterContext.siteConfig?.properties?.scmType]);
+
   return (
     <Pivot selectedKey={selectedKey} onLinkClick={onLinkClick}>
       <PivotItem

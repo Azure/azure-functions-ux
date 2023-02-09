@@ -6649,7 +6649,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Go to Settings</value>
     </data>
     <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
-        <value>No deployments found</value>
+        <value>No deployments found. If you have just configured CI/CD, refresh logs to find the latest deployments.</value>
     </data>
     <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
         <value>Loading deployment logs</value>
