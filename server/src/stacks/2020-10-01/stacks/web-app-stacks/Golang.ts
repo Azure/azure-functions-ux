@@ -43,6 +43,7 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
                 },
                 isHidden: false,
                 isEarlyAccess: false,
+                isDeprecated: true,
               },
             },
           },
