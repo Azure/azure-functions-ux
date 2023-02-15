@@ -4,7 +4,6 @@ import { ApiModule } from './api/api.module';
 import { SharedModule } from './shared/shared.module';
 import { FunctionsModule } from './functions/functions.module';
 import { DomainsModule } from './domains/domains.module';
-import { WebJobsModule } from './webJobs/webJobs.module';
 import { StorageModule } from './storage/storage.module';
 import { DeploymentCenterModule } from './deployment-center/deployment-center.module';
 import { StacksModule } from './stacks/stacks.module';
@@ -18,7 +17,6 @@ import { WorkflowModule } from './workflows/workflows.module';
     ApiModule,
     FunctionsModule,
     DomainsModule,
-    WebJobsModule,
     StorageModule,
     DeploymentCenterModule,
     StaticSitesModule,
