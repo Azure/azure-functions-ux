@@ -19,6 +19,7 @@ import { KeyVaultReference } from '../../../../models/site/config';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getAllConnectionStringsReferences } from '../AppSettings.service';
 import { PortalContext } from '../../../../PortalContext';
+import { Links } from '../../../../utils/FwLinks';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;
@@ -205,6 +206,8 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
             },
           ]}
           onChange={updateConnectionStringType}
+          infoBubbleMessage={t('connectionStringInfoMessage')}
+          learnMoreLink={Links.connectionStringLearnmore}
         />
         <Checkbox
           label={t('sticky')}
@@ -216,6 +219,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
             root: formElementStyle,
           }}
         />
+
         {disableSlotSetting && (
           <div data-cy="connection-string-slot-setting-no-permission-message">
             <CustomBanner
