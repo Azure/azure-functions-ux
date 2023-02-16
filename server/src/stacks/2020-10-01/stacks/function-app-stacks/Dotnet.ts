@@ -20,7 +20,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v6.0',
-                isHidden: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -48,7 +47,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 7 Isolated',
-            value: '7 (STS)',
+            value: '7 (STS) Isolated',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v7.0',
@@ -97,7 +96,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         value: 'dotnet6',
         minorVersions: [
           {
-            displayText: '.NET 6',
+            displayText: '.NET 6 (LTS)',
             value: '6',
             stackSettings: {
               windowsRuntimeSettings: {
@@ -149,7 +148,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         value: 'dotnet6isolated',
         minorVersions: [
           {
-            displayText: '.NET 6 Isolated',
+            displayText: '.NET 6 (LTS) Isolated',
             value: '6 Isolated',
             stackSettings: {
               windowsRuntimeSettings: {
