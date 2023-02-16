@@ -52,6 +52,7 @@ export const Links = {
   aspInfoPlanInfo: 'https://go.microsoft.com/fwlink/?linkid=2210300',
   functionUnreachableLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2214718',
   endOfLifeStackLink: 'https://go.microsoft.com/fwlink/?linkid=2202628',
+  connectionStringLearnmore: 'https://go.microsoft.com/fwlink/?linkid=2225650',
 };
 
 export const DeploymentCenterLinks = {

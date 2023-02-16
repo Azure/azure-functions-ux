@@ -7737,4 +7737,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="resetUserScopeCredentialsConfirmationDescription" xml:space="preserve">
         <value>This will reset both username and password and disable user-scope credentials. To re-enable, set a new username and password.</value>
     </data>
+    <data name="connectionStringInfoMessage" xml:space="preserve">
+        <value>At runtime, connection strings are available as environment variables.</value>
+    </data>
 </root>
