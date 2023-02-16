@@ -2531,4 +2531,5 @@ export class PortalResources {
   public static resetUserScopeCredentialsAriaLabel = 'resetUserScopeCredentialsAriaLabel';
   public static resetUserScopeCredentialsConfirmationTitle = 'resetUserScopeCredentialsConfirmationTitle';
   public static resetUserScopeCredentialsConfirmationDescription = 'resetUserScopeCredentialsConfirmationDescription';
+  public static connectionStringInfoMessage = 'connectionStringInfoMessage';
 }
