@@ -261,12 +261,12 @@ Object {
       "appSettingNames": Array [
         "TEST_NAME",
       ],
-      "azureStorageConfigNames": null,
+      "azureStorageConfigNames": Array [],
       "connectionStringNames": Array [
         "TEST_CONNECTION",
       ],
     },
   },
-  "slotConfigNamesModified": false,
+  "slotConfigNamesModified": true,
 }
 `;
