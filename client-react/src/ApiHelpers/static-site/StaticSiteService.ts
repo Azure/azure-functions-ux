@@ -57,4 +57,29 @@ export default class StaticSiteService {
       apiVersion,
     });
   };
+
+  public static getStaticSiteSnippets = (resourceId: string, apiVersion = CommonConstants.ApiVersions.staticSiteApiVersion20220301) => {
+    const url = `${resourceId}/snippets`;
+    return MakeArmCall<ArmObj<any>>({
+      resourceId: url,
+      method: 'GET',
+      commandName: 'getStaticSiteSnippets',
+      apiVersion,
+    });
+  };
+
+  public static putStaticSiteSnippets = (
+    resourceId: string,
+    body: any,
+    apiVersion = CommonConstants.ApiVersions.staticSiteApiVersion20220301
+  ) => {
+    const url = `${resourceId}/snippets`;
+    return MakeArmCall<ArmObj<any>>({
+      resourceId: url,
+      method: 'PUT',
+      commandName: 'putStaticSiteSnippets',
+      body,
+      apiVersion,
+    });
+  };
 }

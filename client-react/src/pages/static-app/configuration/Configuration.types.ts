@@ -38,6 +38,12 @@ export interface ConfigurationGeneralSettingsProps {
   isLoading: boolean;
 }
 
+export interface ConfigurationSnippetsProps {
+  disabled: boolean;
+  formProps: FormikProps<ConfigurationFormData>;
+  isLoading: boolean;
+}
+
 export enum PasswordProtectionTypes {
   Disabled = 'Disabled',
   StagingEnvironments = 'StagingEnvironments',
@@ -74,9 +80,14 @@ export interface ConfigurationFormData {
   visitorPasswordConfirm: string;
   isAppSettingsDirty: boolean;
   isGeneralSettingsDirty: boolean;
+  isSnippetsDirty: boolean;
+  snippetsApplyToAllEnvironments: boolean;
+  snippetsHeadContent: string;
+  snippetsBodyContent: string;
   stagingEnvironmentPolicy?: StagingEnvironmentPolicyTypes;
   selectedEnvironment?: ArmObj<Environment>;
   allowConfigFileUpdates?: boolean;
+  snippetsEnvironment?: ArmObj<Environment>;
 }
 
 export type ConfigurationYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, ConfigurationFormData>>;

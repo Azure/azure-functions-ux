@@ -43,6 +43,7 @@ export class CommonConstants {
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
     staticSiteApiVersion20210301: '2021-03-01',
+    staticSiteApiVersion20220301: '2022-03-01',
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',

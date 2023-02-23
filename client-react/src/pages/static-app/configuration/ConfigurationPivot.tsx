@@ -10,6 +10,7 @@ import Configuration from './Configuration';
 import { ConfigurationPivotProps } from './Configuration.types';
 import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';
 import { useStyles } from './ConfigurationPivot.styles';
+import ConfigurationSnippets from './ConfigurationSnippets';
 
 const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: ConfigurationPivotProps) => {
   const { isLoading, hasWritePermissions, formProps, staticSiteSku } = props;
@@ -43,6 +44,10 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
     return !!formProps.values?.isGeneralSettingsDirty;
   }, [formProps.values?.isGeneralSettingsDirty]);
 
+  const isSnippetsDirty = useCallback((): boolean => {
+    return !!formProps.values?.isSnippetsDirty;
+  }, [formProps.values?.isSnippetsDirty]);
+
   return (
     <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
       <PivotItem
@@ -66,6 +71,19 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
           formProps={formProps}
           isLoading={isLoading}
           staticSiteSku={staticSiteSku}
+        />
+      </PivotItem>
+      <PivotItem
+        itemKey="snippets"
+        headerText={t('staticSite_snippets')}
+        ariaLabel={t('staticSite_snippets')}
+        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+          CustomTabRenderer(link, defaultRenderer, theme, isSnippetsDirty, t('modifiedTag'))
+        }>
+        <ConfigurationSnippets
+          disabled={isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free}
+          formProps={formProps}
+          isLoading={isLoading}
         />
       </PivotItem>
     </Pivot>

@@ -115,6 +115,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
         EnvironmentService.getEnvironments(resourceId),
         StaticSiteService.getStaticSiteBasicAuth(resourceId),
         StaticSiteService.getStaticSite(resourceId),
+        StaticSiteService.getStaticSiteSnippets(resourceId),
       ]);
 
       let envResponse: ArmObj<Environment>[] = [];

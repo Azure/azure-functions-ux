@@ -2432,10 +2432,17 @@ export class PortalResources {
   public static staticSite_configurationFileToggle = 'staticSite_configurationFileToggle';
   public static staticSite_generalSettingsUpdate = 'staticSite_generalSettingsUpdate';
   public static staticSite_loadingGeneralSettings = 'staticSite_loadingGeneralSettings';
+  public static staticSite_snippets = 'staticSite_snippets';
+  public static staticSite_appliesToEnvironments = 'staticSite_appliesToEnvironments';
+  public static staticSite_loadingSnippets = 'staticSite_loadingSnippets';
   public static staticSite_loadingApplicationSettings = 'staticSite_loadingApplicationSettings';
   public static staticSite_generalSettingsUpdateWithSuccess = 'staticSite_generalSettingsUpdateWithSuccess';
   public static staticSite_generalSettingsUpdateWithFailure = 'staticSite_generalSettingsUpdateWithFailure';
   public static staticSite_generalSettingsUpdateWithFailureNoMessage = 'staticSite_generalSettingsUpdateWithFailureNoMessage';
+  public static staticSite_head = 'staticSite_head';
+  public static staticSite_headAndBodyDescription = 'staticSite_headAndBodyDescription';
+  public static staticSite_body = 'staticSite_body';
+  public static staticSite_SnippetsDescription = 'staticSite_SnippetsDescription';
   public static staticSite_passwordProtectionSkuWarning = 'staticSite_passwordProtectionSkuWarning';
   public static functionSupportedRuntimeVersionNotConfiguredMessage = 'functionSupportedRuntimeVersionNotConfiguredMessage';
   public static functionsSupportedRuntimeVersionMissingWarningWithVersionList =

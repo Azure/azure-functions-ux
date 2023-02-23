@@ -7440,6 +7440,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_loadingGeneralSettings" xml:space="preserve">
         <value>Loading general settings...</value>
     </data>
+    <data name="staticSite_snippets" xml:space="preserve">
+        <value>Snippets (preview)</value>
+    </data>
+    <data name="staticSite_appliesToEnvironments" xml:space="preserve">
+        <value>Applies to all environments</value>
+    </data>
+    <data name="staticSite_loadingSnippets" xml:space="preserve">
+        <value>Loading snippets...</value>
+    </data>
     <data name="staticSite_loadingApplicationSettings" xml:space="preserve">
         <value>Loading application settings...</value>
     </data>
@@ -7451,6 +7460,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_generalSettingsUpdateWithFailureNoMessage" xml:space="preserve">
         <value>Failed to update general settings.</value>
+    </data>
+    <data name="staticSite_head" xml:space="preserve">
+        <value>Head</value>
+    </data>
+    <data name="staticSite_headAndBodyDescription" xml:space="preserve">
+        <value>Add custom code snippets to the {0} section of your static web app.</value>
+    </data>
+    <data name="staticSite_body" xml:space="preserve">
+        <value>Body</value>
+    </data>
+    <data name="staticSite_SnippetsDescription" xml:space="preserve">
+        <value>Inject custom code, such as an analytics snippet, directly into the 'head' or 'body' of your Static Web App at runtime. </value>
     </data>
     <data name="staticSite_passwordProtectionSkuWarning" xml:space="preserve">
         <value>Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.</value>
