@@ -154,6 +154,12 @@ export class FunctionsService implements OnModuleInit {
           maxRedirects: 0,
         });
 
+        if (result.headers) {
+          Object.keys(result.headers).forEach(key => {
+            res.setHeader(key, result.headers[key]);
+          });
+        }
+
         res.status(result.status).send(result.data);
       }
     } catch (err) {
