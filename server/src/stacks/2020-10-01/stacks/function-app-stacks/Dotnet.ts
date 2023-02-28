@@ -97,7 +97,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 6 (LTS)',
-            value: '6',
+            value: '6 (LTS)',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v6.0',
@@ -149,7 +149,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 6 (LTS) Isolated',
-            value: '6 Isolated',
+            value: '6 (LTS) Isolated',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v6.0',
