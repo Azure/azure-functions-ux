@@ -33,6 +33,10 @@ const LogStream: React.FC<LogStreamProps> = props => {
   useEffect(() => {
     if (terminalRef.current?.terminal) {
       terminalRef.current.terminal.attachCustomKeyEventHandler((key: KeyboardEvent) => {
+        if (key.code === 'Tab' && !key.ctrlKey && !key.altKey) {
+          return false;
+        }
+
         const textToCopy =
           key.code === 'KeyC' && key.ctrlKey && !key.altKey && !key.metaKey && terminalRef.current?.terminal.getSelection();
         if (textToCopy) {
