@@ -11,7 +11,6 @@ import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '.
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { KeyValue } from '../models/portal-models';
-import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { Method } from 'axios';
 import { NameValuePair } from '../pages/app/functions/function/function-editor/FunctionEditor.types';
@@ -276,22 +275,6 @@ export default class FunctionsService {
       commandName: 'getTestDataOverVfsArm',
       method: 'GET',
       skipBatching: true, // Batch API doesn't accept no-cache headers
-    });
-  }
-
-  public static getStorageContainers(accountName: string, data: any) {
-    return sendHttpRequest<ContainerItem[]>({
-      data,
-      url: `${Url.serviceHost}/api/getStorageContainers?accountName=${accountName}`,
-      method: 'POST',
-    });
-  }
-
-  public static getStorageFileShares(accountName: string, data: any) {
-    return sendHttpRequest<ShareItem[]>({
-      data,
-      url: `${Url.serviceHost}/api/getStorageFileShares?accountName=${accountName}`,
-      method: 'POST',
     });
   }
 

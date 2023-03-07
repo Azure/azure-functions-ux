@@ -63,6 +63,15 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     }
   };
 
+  const getZipDeployMessage = (message: string) => {
+    try {
+      const parsed = JSON.parse(message);
+      return parsed.commitMessage;
+    } catch (e) {
+      return message;
+    }
+  };
+
   const getConclusionDisplayName = (status: string): string => {
     switch (status) {
       case GitHubActionRunConclusion.Success:
@@ -233,7 +242,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         </Link>
       ),
       author: deployment.properties.author,
-      message: deployment.properties.message,
+      message: getZipDeployMessage(deployment.properties.message) || deployment.properties.message,
       status: deployment.properties.active ? (
         <>{`${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`}</>
       ) : (
@@ -297,7 +306,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       return (
         <>
           <div className={deploymentCenterCodeLogsNotConfigured}>
-            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>
           </div>
         </>
       );
@@ -331,7 +340,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     { key: 'logSource', name: t('deploymentCenterLogSource'), fieldName: 'logSource', minWidth: 100, maxWidth: 150 },
     { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 100, maxWidth: 150 },
     { key: 'status', name: t('status'), fieldName: 'status', minWidth: 125, maxWidth: 200 },
-    { key: 'message', name: t('message'), fieldName: 'message', minWidth: 200 },
+    { key: 'message', name: t('message'), fieldName: 'message', minWidth: 200, isMultiline: true },
   ];
 
   useEffect(() => {

@@ -28,6 +28,7 @@ const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCallou
   const isGitHubActionEnabled =
     runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Ruby &&
     !(runtimeStack.toLocaleLowerCase() == RuntimeStackOptions.PHP && !siteStateContext.isLinuxApp && !runtimeVersion) &&
+    runtimeStack.toLocaleLowerCase() !== RuntimeStackOptions.Go &&
     !deploymentCenterContext.isIlbASE;
 
   const isKuduDisabled = () => {

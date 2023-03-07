@@ -18,6 +18,8 @@ import { CommonConstants, OverflowBehavior } from '../../../../../../utils/Commo
 import Url from '../../../../../../utils/url';
 import { PortalContext } from '../../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
+import { BindingManager } from '../../../../../../utils/BindingManager';
+import StringUtils from '../../../../../../utils/string';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -115,7 +117,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
       try {
         localTestData = JSON.parse(testData || functionInfo.properties.test_data || '');
       } catch (err) {
-        localTestData = { body: functionInfo.properties.test_data, method: HttpMethods.post };
+        localTestData = { body: functionInfo.properties.test_data };
         portalContext.log(
           getTelemetryInfo('error', 'invalid-json', 'failed', {
             error: err,
@@ -131,10 +133,20 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
         // if there are still some keys (meaning the test-data file has been manually updated by the user),
         // we consider the entire remaining object as the body
         if (localTestData.method) {
-          updatedFormValues.method = localTestData.method;
+          updatedFormValues.method = localTestData.method.toLowerCase();
           delete localTestData.method;
         } else {
-          updatedFormValues.method = HttpMethods.post;
+          const httpTrigger = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
+          const methods = httpTrigger?.methods;
+          // Get methods list and if POST method is available, assign it as a default.
+          // Otherwise, assign the first method in the array as a default.
+          if (methods?.length > 0) {
+            updatedFormValues.method = methods.some(m => StringUtils.equalsIgnoreCase(m, HttpMethods.post))
+              ? HttpMethods.post
+              : methods[0].toLowerCase();
+          } else {
+            updatedFormValues.method = HttpMethods.post;
+          }
         }
         if (localTestData.queryStringParams) {
           const queryParameters = localTestData.queryStringParams;

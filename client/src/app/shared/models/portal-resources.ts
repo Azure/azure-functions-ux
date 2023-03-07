@@ -960,7 +960,9 @@ export class PortalResources {
   public static entity = 'entity';
   public static entityColon = 'entityColon';
   public static swaggerDefinition_notSupportedForV2 = 'swaggerDefinition_notSupportedForV2';
+  public static deployedSuccessfully = 'deployedSuccessfully';
   public static deployedSuccessfullyTo = 'deployedSuccessfullyTo';
+  public static deployedFailed = 'deployedFailed';
   public static deployedFailedTo = 'deployedFailedTo';
   public static swapWithPreviewLabel = 'swapWithPreviewLabel';
   public static swapWithPreviewInfoText = 'swapWithPreviewInfoText';
@@ -1005,6 +1007,7 @@ export class PortalResources {
   public static viewInstructions = 'viewInstructions';
   public static buildUrl = 'buildUrl';
   public static releaseUrl = 'releaseUrl';
+  public static sourceVersionUrl = 'sourceVersionUrl';
   public static deploymentCenter = 'deploymentCenter';
   public static sourceControl = 'sourceControl';
   public static buildProvider = 'buildProvider';
@@ -1560,7 +1563,7 @@ export class PortalResources {
   public static invalidCredentials = 'invalidCredentials';
   public static emptyStorageAccounts = 'emptyStorageAccounts';
   public static byos_storageNameExists = 'byos_storageNameExists';
-  public static byos_storageAccountVnetEnabledInfoMessage = 'byos_storageAccountVnetEnabledInfoMessage';
+  public static byos_storageAccountInfoMessage = 'byos_storageAccountInfoMessage';
   public static unableToReachBuild = 'unableToReachBuild';
   public static invalidWindowsPathCdrive = 'invalidWindowsPathCdrive';
   public static limitedMode = 'limitedMode';
@@ -2528,4 +2531,5 @@ export class PortalResources {
   public static resetUserScopeCredentialsAriaLabel = 'resetUserScopeCredentialsAriaLabel';
   public static resetUserScopeCredentialsConfirmationTitle = 'resetUserScopeCredentialsConfirmationTitle';
   public static resetUserScopeCredentialsConfirmationDescription = 'resetUserScopeCredentialsConfirmationDescription';
+  public static connectionStringInfoMessage = 'connectionStringInfoMessage';
 }

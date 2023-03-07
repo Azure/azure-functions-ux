@@ -30,6 +30,7 @@ import {
   pivotItemWrapper,
   testFormLabelStyle,
 } from './FunctionTest.styles';
+import { isNewNodeProgrammingModel } from '../useFunctionEditorQueries';
 
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -118,12 +119,22 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
 
   const isHttpOrWebHookFunction = functionEditorContext.isHttpOrWebHookFunction(functionInfo);
 
+  // Passing body for GET/Head method will fail if it is new Node programming model.
+  // Therefore, we hide Monaco editor so that user cannot input body.
+  const shouldHideBody = React.useMemo((): boolean => {
+    return (
+      isNewNodeProgrammingModel(functionInfo) &&
+      !!isHttpOrWebHookFunction &&
+      (StringUtils.equalsIgnoreCase(values.method, HttpMethods.get) || StringUtils.equalsIgnoreCase(values.method, HttpMethods.head))
+    );
+  }, [functionInfo, values, isHttpOrWebHookFunction]);
+
   const getDropdownOptions = (): IDropdownOption[] => {
     const httpTrigger = BindingManager.getHttpTriggerTypeInfo(functionInfo.properties);
     const dropdownOptions: IDropdownOption[] = [];
     if (httpTrigger && httpTrigger.methods) {
       httpTrigger.methods.forEach((m: string) => {
-        dropdownOptions.push({ key: m, text: m.toUpperCase() });
+        dropdownOptions.push({ key: m.toLowerCase(), text: m.toUpperCase() });
       });
     } else {
       for (const method in HttpMethods) {
@@ -185,23 +196,25 @@ const FunctionTestInput: React.SFC<FormikProps<InputFormValues> & FunctionTestIn
           <KeyValueFieldArrayComponent itemName="headers" items={values.headers} addItemText={t('httpRun_addHeader')} />
         </div>
       )}
-      <div className={functionTestGroupStyle}>
-        <Label className={testFormLabelStyle}>{t('rrOverride_boby')}</Label>
-        <div className={bodyEditorStyle}>
-          <MonacoEditor
-            language="json"
-            value={StringUtils.stringifyJsonForEditor(body)}
-            onChange={onRequestBodyChange}
-            height="300px"
-            options={{
-              minimap: { enabled: false },
-              scrollBeyondLastLine: false,
-              cursorBlinking: true,
-            }}
-            theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
-          />
+      {!shouldHideBody && (
+        <div className={functionTestGroupStyle}>
+          <Label className={testFormLabelStyle}>{t('rrOverride_boby')}</Label>
+          <div className={bodyEditorStyle}>
+            <MonacoEditor
+              language="json"
+              value={StringUtils.stringifyJsonForEditor(body)}
+              onChange={onRequestBodyChange}
+              height="300px"
+              options={{
+                minimap: { enabled: false },
+                scrollBeyondLastLine: false,
+                cursorBlinking: true,
+              }}
+              theme={getMonacoEditorTheme(startUpInfoContext.theme as PortalTheme)}
+            />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

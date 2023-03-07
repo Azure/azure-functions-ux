@@ -440,6 +440,8 @@ export const getRuntimeStackDisplayName = (stack: string) => {
       return RuntimeStackDisplayNames.Dotnet;
     case RuntimeStackOptions.DotnetIsolated:
       return RuntimeStackDisplayNames.DotnetIsolated;
+    case RuntimeStackOptions.Go:
+      return RuntimeStackDisplayNames.Go;
     default:
       return '';
   }
