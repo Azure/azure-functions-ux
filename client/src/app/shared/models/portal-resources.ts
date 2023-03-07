@@ -1463,6 +1463,7 @@ export class PortalResources {
   public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
+  public static customErrorPage = 'customErrorPage';
   public static pathMappings = 'pathMappings';
   public static handlerMappings = 'handlerMappings';
   public static virtualApplications = 'virtualApplications';

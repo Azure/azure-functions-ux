@@ -4529,6 +4529,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocuments" xml:space="preserve">
         <value>Default documents</value>
     </data>
+    <data name="customErrorPage" xml:space="preserve">
+        <value>Custom Error</value>
+    </data>
     <data name="pathMappings" xml:space="preserve">
         <value>Path mappings</value>
     </data>

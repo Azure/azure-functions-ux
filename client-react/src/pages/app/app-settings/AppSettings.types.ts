@@ -155,4 +155,5 @@ export enum AppSettingsTabs {
   generalSettings = 'generalSettings',
   defaultDocuments = 'defaultDocuments',
   pathMappings = 'pathMappings',
+  customErrorPage = 'customErrorPage',
 }
