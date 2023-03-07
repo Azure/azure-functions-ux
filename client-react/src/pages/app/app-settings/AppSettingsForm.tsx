@@ -15,7 +15,8 @@ import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
 import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
-import { OverflowBehavior } from '../../../utils/CommonConstants';
+import { CommonConstants, OverflowBehavior } from '../../../utils/CommonConstants';
+import Url from '../../../utils/url';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -133,6 +134,12 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
       ) : (
         <></>
       )}
+
+      {Url.getFeatureValue(CommonConstants.FeatureFlags.customErrorPage) ? (
+        <PivotItem className={pivotWrapper} itemKey={AppSettingsTabs.customErrorPage} linkText={t('customErrorPage')}></PivotItem>
+      ) : (
+        <></>
+      )}
     </Pivot>
   );
 };
@@ -149,6 +156,8 @@ const getPivotTabId = (itemKey: string) => {
       return 'app-settings-application-settings-tab';
     case AppSettingsTabs.functionRuntimeSettings:
       return 'app-settings-function-runtime-settings-tab';
+    case AppSettingsTabs.customErrorPage:
+      return 'app-settings-custom-error-pages-tab';
   }
   return '';
 };
