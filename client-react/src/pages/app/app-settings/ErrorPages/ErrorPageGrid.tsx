@@ -15,9 +15,9 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
 
-  const removeItem = (index: number) => {};
+  const removeItem = React.useCallback((index: number) => {}, []);
 
-  const onShowPanel = (item: IColumnItem, index: number): void => {};
+  const onShowPanel =  React.useCallback((item: IColumnItem, index: number) => {}, []);
 
   const _columnErrorCode = React.useMemo(() =>  [{
       key: '403',
