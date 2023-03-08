@@ -138,7 +138,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         onRender: onRenderItemColumn,
       },
     ];
-  }, []);
+  }, [onRenderItemColumn]);
 
   return (
     <DisplayTableWithEmptyMessage
