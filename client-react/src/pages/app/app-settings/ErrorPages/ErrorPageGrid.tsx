@@ -87,7 +87,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     [removeItem, onShowPanel, disableAllControls]
   );
 
-  const getColumns = (): IColumn[] => {
+  const getColumns = React.useMemo((): IColumn[] => {
     return [
       {
         key: 'errorCode',
@@ -138,11 +138,11 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         onRender: onRenderItemColumn,
       },
     ];
-  };
+  }, []);
 
   return (
     <DisplayTableWithEmptyMessage
-      columns={getColumns()}
+      columns={getColumns}
       items={_columnErrorCode || []}
       isHeaderVisible={true}
       layoutMode={DetailsListLayoutMode.justified}
