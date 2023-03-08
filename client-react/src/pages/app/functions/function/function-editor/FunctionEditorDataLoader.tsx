@@ -548,7 +548,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     const result = functionHrefTestDataResponse.result;
 
     if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
-      return !!result && !!result.content ? result.content : result;
+      const jqXHR = getJQXHR(result, LogCategories.FunctionEdit, 'makeHttpRequestForTestData');
+      return jqXHR?.responseText;
     } else {
       portalContext.log(
         getTelemetryInfo('error', 'getTestDataUsingFunctionHref', 'failed', {
