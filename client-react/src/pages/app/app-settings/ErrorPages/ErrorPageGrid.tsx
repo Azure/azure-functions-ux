@@ -19,27 +19,22 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const onShowPanel = (item: IColumnItem, index: number): void => {};
 
-  const _columnErrorCode = () => {
-    const items: IColumnItem[] = [];
-
-    items.push({
+  const _columnErrorCode = React.useMemo(() =>  [{
       key: '403',
       errorCode: '403',
       status: t('errorPage_columnStatus_notConfigured'),
-    });
-    items.push({
+    },
+    {
       key: '502',
       errorCode: '502',
       status: t('errorPage_columnStatus_notConfigured'),
-    });
-    items.push({
+    },
+    {
       key: '503',
       errorCode: '503',
       status: t('errorPage_columnStatus_notConfigured'),
-    });
-
-    return items;
-  };
+    }]
+  }, []);
 
   const onRenderItemColumn = (item: IColumnItem, index: number, column: IColumn) => {
     if (!column || !item) {
