@@ -245,7 +245,6 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
   useEffect(() => {
     !!responseContent && setSelectedPivotTab(PivotType.output);
-    console.log(responseContent);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseContent]);
