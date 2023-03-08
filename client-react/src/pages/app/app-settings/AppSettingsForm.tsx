@@ -17,6 +17,7 @@ import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
 import { CommonConstants, OverflowBehavior } from '../../../utils/CommonConstants';
 import Url from '../../../utils/url';
+import ErrorPage from './Sections/ErrorPage';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -136,7 +137,9 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
       )}
 
       {Url.getFeatureValue(CommonConstants.FeatureFlags.customErrorPage) ? (
-        <PivotItem className={pivotWrapper} itemKey={AppSettingsTabs.customErrorPage} linkText={t('customErrorPage')}></PivotItem>
+        <PivotItem className={pivotWrapper} itemKey={AppSettingsTabs.customErrorPage} linkText={t('customErrorPage')}>
+          <ErrorPage {...props} />
+        </PivotItem>
       ) : (
         <></>
       )}

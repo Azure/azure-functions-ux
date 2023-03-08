@@ -4530,10 +4530,22 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Default documents</value>
     </data>
     <data name="customErrorPage" xml:space="preserve">
-        <value>Custom Error</value>
+        <value>Error Pages</value>
     </data>
     <data name="pathMappings" xml:space="preserve">
         <value>Path mappings</value>
+    </data>
+    <data name="errorPage_columnErrorCode" xml:space="preserve">
+        <value>Error Code</value>
+    </data>
+    <data name="errorPage_columnStatus" xml:space="preserve">
+        <value>Status</value>
+    </data>
+    <data name="errorPage_columnStatus_configured" xml:space="preserve">
+        <value>Configured</value>
+    </data>
+    <data name="errorPage_columnStatus_notConfigured" xml:space="preserve">
+        <value>Not configured</value>
     </data>
     <data name="handlerMappings" xml:space="preserve">
         <value>Handler mappings</value>
@@ -5813,6 +5825,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
+    </data>
+    <data name="errorPagesInfoMessage" xml:space="preserve">
+        <value>Upload custom error pages to use with your applications to provide a more personalized experience for your users. You may upload 3 different types of error pages (403, 502, and 503). Must be .html files.</value>
     </data>
     <data name="validField_validationMessage" xml:space="preserve">
         <value>Name and value must not be empty and must contain only letters and numbers.</value>
