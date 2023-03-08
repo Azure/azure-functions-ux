@@ -23,7 +23,9 @@ export interface MinTLSCipherSuiteSelectorProps {
   label: string;
 }
 
+// cipherSuites ordered from most secure to least secure
 const cipherSuites = Object.values(CipherSuite);
+const leastSecureCipherSuite = cipherSuites[cipherSuites.length - 1];
 
 // TODO (tmauldin): Get these values from backend once API is available
 const cipherOptions = cipherSuites.map(value => {
@@ -34,7 +36,8 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
   const { field, form } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
-  const defaultCipherSuite = field.value ?? CipherSuite.TLS_RSA_WITH_AES_128_CBC_SHA;
+
+  const defaultCipherSuite = field.value ? field.value : leastSecureCipherSuite;
 
   const [showCipherSuitePanel, setShowCipherSuitePanel] = React.useState(false);
   const [selectedCipherSuite, setSelectedCipherSuite] = React.useState(defaultCipherSuite);
@@ -44,7 +47,9 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
   }, [setShowCipherSuitePanel]);
 
   const saveSelection = React.useCallback(() => {
-    form.setFieldValue(field.name, selectedCipherSuite);
+    // If the selected cipher suite is the least secure (default), back-end wants field value to be empty
+    const cipherSuite = selectedCipherSuite == leastSecureCipherSuite ? '' : selectedCipherSuite;
+    form.setFieldValue(field.name, cipherSuite);
     dismissPanel();
   }, [form.setFieldValue, dismissPanel, selectedCipherSuite]);
 

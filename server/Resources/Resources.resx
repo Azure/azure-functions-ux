@@ -4529,6 +4529,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocuments" xml:space="preserve">
         <value>Default documents</value>
     </data>
+    <data name="customErrorPage" xml:space="preserve">
+        <value>Custom Error</value>
+    </data>
     <data name="pathMappings" xml:space="preserve">
         <value>Path mappings</value>
     </data>
@@ -6469,7 +6472,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Container Registry</value>
     </data>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
-        <value>Setup up your app to pull the container image from a registry.</value>
+        <value>Set up your app to pull the container image from a registry.</value>
     </data>
     <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
         <value>GitHub Actions</value>

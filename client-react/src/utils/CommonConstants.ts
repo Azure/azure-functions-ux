@@ -70,8 +70,8 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    enableMinTLSCipherSuites: 'enableMinTLSCipherSuites',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
+    customErrorPage: 'customErrorPage',
   };
 
   public static readonly AppDensityLimit = 8;

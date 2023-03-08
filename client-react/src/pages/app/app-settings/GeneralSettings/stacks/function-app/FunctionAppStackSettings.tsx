@@ -126,11 +126,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
 
-  return currentStackData &&
-    siteStateContext.site &&
-    !siteStateContext.isContainerApp &&
-    runtimeStack &&
-    (runtimeStack !== WorkerRuntimeLanguages.dotnet || siteStateContext.isLinuxApp) ? (
+  return siteStateContext.isLinuxApp && currentStackData && siteStateContext.site && !siteStateContext.isContainerApp && runtimeStack ? (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
