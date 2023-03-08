@@ -1,13 +1,23 @@
-import { DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
+import { DetailsListLayoutMode, IColumn, SelectionMode, TooltipHost } from '@fluentui/react';
 import { FormikProps } from 'formik';
-import React from 'react';
+import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { IColumnItem } from './ErrorPageGrid.contract';
-import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import IconButton from '../../../../components/IconButton/IconButton';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { PermissionsContext } from '../Contexts';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+  const { app_write, editable, saving } = useContext(PermissionsContext);
+  const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
+
+  const removeItem = (index: number) => {};
+
+  const onShowPanel = (item: IColumnItem, index: number): void => {};
 
   const _columnErrorCode = () => {
     const items: IColumnItem[] = [];
@@ -31,17 +41,49 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     return items;
   };
 
-  //   const onRenderColumnItem = React.useCallback((item: ErrorPageGridItem, index: number, column: IColumn) => {
-  //     const fieldContent = item[column.fieldName as keyof ErrorPageGridItem] as string;
+  const onRenderItemColumn = (item: IColumnItem, index: number, column: IColumn) => {
+    if (!column || !item) {
+      return null;
+    }
 
-  //     if (column.key === 'errorCode') {
-  //         return (
-  //             <p>{'code 403'}</p>
-  //         );
-  //     } else {
-  //         return <span>{fieldContent}</span>;
-  //     }
-  // }, []);
+    if (column.key === 'delete') {
+      return (
+        <TooltipHost
+          content={t('delete')}
+          id={`app-settings-errorPages-delete-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={disableAllControls || item.status === t('errorPage_columnStatus_notConfigured')}
+            id={`app-settings-errorPages-delete-tooltip-${index}`}
+            iconProps={{ iconName: 'Delete' }}
+            ariaLabel={t('delete')}
+            onClick={() => removeItem(index)}
+          />
+        </TooltipHost>
+      );
+    }
+    if (column.key === 'edit') {
+      return (
+        <TooltipHost
+          content={t('edit')}
+          id={`app-settings-errorPages-edit-tooltip-${index}`}
+          calloutProps={{ gapSpace: 0 }}
+          closeDelay={500}>
+          <IconButton
+            className={defaultCellStyle}
+            disabled={disableAllControls}
+            id={`app-settings-errorPages-edit-${index}`}
+            iconProps={{ iconName: 'Edit' }}
+            ariaLabel={t('edit')}
+            onClick={() => onShowPanel(item, index)}
+          />
+        </TooltipHost>
+      );
+    }
+    return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
+  };
 
   const getColumns = (): IColumn[] => {
     return [
@@ -55,6 +97,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         isRowHeader: true,
         isResizable: true,
         data: 'string',
+        onRender: onRenderItemColumn,
       },
       {
         key: 'status',
@@ -66,35 +109,38 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         isRowHeader: true,
         isResizable: true,
         data: 'string',
+        onRender: onRenderItemColumn,
       },
       {
         key: 'delete',
         name: t('delete'),
         fieldName: 'delete',
         ariaLabel: t('delete'),
-        minWidth: 100,
-        maxWidth: 220,
+        minWidth: 50,
+        maxWidth: 50,
         isRowHeader: true,
         isResizable: true,
         data: 'string',
+        onRender: onRenderItemColumn,
       },
       {
         key: 'edit',
         name: t('edit'),
         ariaLabel: t('edit'),
         fieldName: 'edit',
-        minWidth: 100,
-        maxWidth: 220,
+        minWidth: 50,
+        maxWidth: 50,
         isRowHeader: true,
         isResizable: true,
         data: 'string',
+        onRender: onRenderItemColumn,
       },
     ];
   };
 
   return (
     <>
-      <DisplayTableWithCommandBar
+      <DisplayTableWithEmptyMessage
         columns={getColumns()}
         items={_columnErrorCode() || []}
         isHeaderVisible={true}
