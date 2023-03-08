@@ -23,7 +23,7 @@
     "@azure/storage-blob": "^12.6.0",
     "@azure/storage-file": "^10.3.0",
     "@nestjs/common": "^8.0.9",
-    "@nestjs/core": "^8.0.9",
+    "@nestjs/core": "^9.0.5",
     "@nestjs/platform-express": "^8.0.9",
     "applicationinsights": "^2.1.4",
     "async-file": "^2.0.2",
