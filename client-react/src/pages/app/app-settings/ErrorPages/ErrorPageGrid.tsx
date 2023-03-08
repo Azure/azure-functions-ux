@@ -134,7 +134,6 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   };
 
   return (
-    <>
       <DisplayTableWithEmptyMessage
         columns={getColumns()}
         items={_columnErrorCode() || []}
@@ -143,7 +142,6 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
       />
-    </>
   );
 };
 
