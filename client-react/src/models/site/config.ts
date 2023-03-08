@@ -122,6 +122,11 @@ export interface HandlerMapping {
   arguments: string;
 }
 
+export interface ErrorPageGridItem {
+  errorCode: string;
+  status: string;
+}
+
 export interface AzureStorageMount {
   type: StorageType;
   accountName: string;

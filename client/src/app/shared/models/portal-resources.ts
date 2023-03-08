@@ -1465,6 +1465,10 @@ export class PortalResources {
   public static defaultDocuments = 'defaultDocuments';
   public static customErrorPage = 'customErrorPage';
   public static pathMappings = 'pathMappings';
+  public static errorPage_columnErrorCode = 'errorPage_columnErrorCode';
+  public static errorPage_columnStatus = 'errorPage_columnStatus';
+  public static errorPage_columnStatus_configured = 'errorPage_columnStatus_configured';
+  public static errorPage_columnStatus_notConfigured = 'errorPage_columnStatus_notConfigured';
   public static handlerMappings = 'handlerMappings';
   public static virtualApplications = 'virtualApplications';
   public static appSettingsSaveAriaLabel = 'appSettingsSaveAriaLabel';
@@ -1880,6 +1884,7 @@ export class PortalResources {
   public static editor_changeFileConfirmMessage = 'editor_changeFileConfirmMessage';
   public static editor_changeFile = 'editor_changeFile';
   public static defaultDocumentsInfoMessage = 'defaultDocumentsInfoMessage';
+  public static errorPagesInfoMessage = 'errorPagesInfoMessage';
   public static validField_validationMessage = 'validField_validationMessage';
   public static maximize = 'maximize';
   public static minimize = 'minimize';
