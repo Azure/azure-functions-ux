@@ -8,15 +8,11 @@ const ErrorPage: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
 
   return (
-    <>
       <>
         <h3>{t('customErrorPage')}</h3>
-        <p>
-          <span id="default-documents-info-message">{t('errorPagesInfoMessage')}</span>
-        </p>
+        <span id="default-documents-info-message">{t('errorPagesInfoMessage')}</span>
         <ErrorPageGrid {...props} />
       </>
-    </>
   );
 };
 
