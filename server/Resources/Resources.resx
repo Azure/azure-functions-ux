@@ -4530,7 +4530,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Default documents</value>
     </data>
     <data name="customErrorPage" xml:space="preserve">
-        <value>Error Pages</value>
+        <value>Error pages</value>
     </data>
     <data name="pathMappings" xml:space="preserve">
         <value>Path mappings</value>
