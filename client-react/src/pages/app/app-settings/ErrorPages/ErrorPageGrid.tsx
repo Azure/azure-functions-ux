@@ -36,7 +36,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     }]
   }, []);
 
-  const onRenderItemColumn = (item: IColumnItem, index: number, column: IColumn) => {
+  const onRenderItemColumn = React.useCallback((item: IColumnItem, index: number, column: IColumn) => {
     if (!column || !item) {
       return null;
     }
@@ -78,7 +78,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       );
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
-  };
+  }, [removeItem, onShowPanel, disableAllControls]);
 
   const getColumns = (): IColumn[] => {
     return [
