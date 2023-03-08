@@ -3,9 +3,8 @@ import { FormikProps } from 'formik';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
-import { cloumnStyle, IColumnItem } from './ErrorPageGrid.contract';
+import { IColumnItem } from './ErrorPageGrid.contract';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { bodyEditorStyle } from '../../functions/function/function-editor/function-test/FunctionTest.styles';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
