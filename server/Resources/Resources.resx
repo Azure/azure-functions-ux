@@ -883,6 +883,9 @@
     <data name="fileExplorer_upload" xml:space="preserve">
         <value>Upload</value>
     </data>
+       <data name="upload" xml:space="preserve">
+        <value>Upload</value>
+    </data>
     <data name="seeAllOptions" xml:space="preserve">
         <value>See additional options</value>
     </data>
@@ -4532,6 +4535,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="customErrorPage" xml:space="preserve">
         <value>Error pages</value>
     </data>
+    <data name="errorPage" xml:space="preserve">
+        <value>Error page</value>
+    </data>
     <data name="pathMappings" xml:space="preserve">
         <value>Path mappings</value>
     </data>
@@ -4564,6 +4570,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="newApp" xml:space="preserve">
         <value>New application or directory</value>
+    </data>
+    <data name="addErrorPage" xml:space="preserve">
+        <value>Add custom error page (.html)</value>
+    </data>
+    <data name="editErrorPage" xml:space="preserve">
+        <value>Edit custom error page (.html)</value>
     </data>
     <data name="virtualPath" xml:space="preserve">
         <value>Virtual path</value>
@@ -5828,6 +5840,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="errorPagesInfoMessage" xml:space="preserve">
         <value>Upload custom error pages to use with your applications to provide a more personalized experience for your users. You may upload 3 different types of error pages (403, 502, and 503). Must be .html files.</value>
+    </data>
+    <data name="errorPagesEditMessage" xml:space="preserve">
+        <value>Upload custom error page (.html) for use with your application. File size limit: 10kb</value>
     </data>
     <data name="validField_validationMessage" xml:space="preserve">
         <value>Name and value must not be empty and must contain only letters and numbers.</value>
