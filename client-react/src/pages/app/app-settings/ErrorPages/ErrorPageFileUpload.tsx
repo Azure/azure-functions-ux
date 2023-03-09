@@ -21,7 +21,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
       <Text className={uploadStyle.labelHeader}>{t('errorPage')}</Text>
       <Stack horizontal className={stackStyle} tokens={stackTokens}>
         <StackItem grow={5}>
-          <TextField id="titleField" readOnly />
+          <TextField id="fileLocationField" readOnly aria-required={true} ariaLabel={t('errorPage')} />
         </StackItem>
         <StackItem>
           <Field
@@ -30,6 +30,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
             component={PrimaryButton}
             label={t('browse')}
             text={t('browse')}
+            ariaLabel={t('browse')}
             onClick={onUploadButtonClick}
           />
         </StackItem>
