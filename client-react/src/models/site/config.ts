@@ -165,6 +165,12 @@ export interface Experiments {
   rampUpRules: RampUpRule;
 }
 
+export interface ErrorPage {
+  content: string;
+  statusCode: number;
+  contentType: string;
+}
+
 export interface RampUpRule {
   actionHostName: string;
   reroutePercentage: number;

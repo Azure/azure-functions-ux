@@ -46,7 +46,6 @@ import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
 import { ExperimentationConstants } from '../../../utils/CommonConstants';
-
 export interface AppSettingsDataLoaderProps {
   children: (props: {
     initialFormValues: AppSettingsFormValues | null;
@@ -262,6 +261,12 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
   };
 
+  const getsite = async () => {
+    const SiteClientscv = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, '403', 'uhnbhbihihlhni2lucw==');
+    console.log('hi');
+    console.log(SiteClientscv);
+  };
+
   const fetchReferences = async () => {
     const [appSettingReferences, connectionStringReferences] = await Promise.all([
       getAllAppSettingReferences(resourceId),
@@ -353,6 +358,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     fillSlots();
     fetchReferences();
     fetchStorageAccounts();
+    getsite();
   };
 
   useEffect(() => {
