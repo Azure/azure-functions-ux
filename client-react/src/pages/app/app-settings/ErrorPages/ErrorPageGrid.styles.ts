@@ -1,4 +1,4 @@
-import { mergeStyleSets, FontWeights } from '@fluentui/react';
+import { mergeStyleSets, FontWeights, IIconProps } from '@fluentui/react';
 import { style } from 'typestyle';
 
 export const stackTokens = { childrenGap: 5 };
@@ -12,3 +12,5 @@ export const uploadStyle = mergeStyleSets({
     fontWeight: FontWeights.semibold,
   },
 });
+
+export const FabricFolder: IIconProps = { iconName: 'FabricFolder' };

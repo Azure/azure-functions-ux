@@ -1,37 +1,86 @@
-import React from 'react';
-import { IColumnItem } from './ErrorPageGrid.contract';
+import React, { useRef } from 'react';
 import { PrimaryButton, Stack, StackItem, TextField } from '@fluentui/react';
 import { Field } from 'formik';
 import { Text } from '@fluentui/react/lib/components/Text';
 import { useTranslation } from 'react-i18next';
-import { uploadStyle, stackStyle, stackTokens } from './ErrorPageGrid.styles';
+import { uploadStyle, stackStyle, stackTokens, FabricFolder } from './ErrorPageGrid.styles';
 
-export interface ErrorPageFileUploaderProps {
-  errorPage: IColumnItem | null;
-  label: string;
+interface ErrorPageFileUploaderProps {
+  setFileUploadSuccess: (upload: boolean) => void;
+  setFile: (file: string) => void;
+  fileUploadSuccess: boolean;
 }
 
-const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
-  const { t } = useTranslation();
+const extractErrorPageFromFile = (input): Promise<string> => {
+  return new Promise(resolve => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      resolve(reader && reader.result ? reader.result.toString() : '');
+    };
+    reader.readAsText(input);
+  });
+};
 
-  const onUploadButtonClick = () => {};
+const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
+  const { setFileUploadSuccess, setFile, fileUploadSuccess } = props;
+  const { t } = useTranslation();
+  const uploadFileRef = useRef<HTMLInputElement | null>(null);
+  const [errorMsg, setErrorMsg] = React.useState<string>('');
+  const [fileName, setFileName] = React.useState<string>('');
+
+  const onBrowseButtonClick = () => {
+    if (uploadFileRef && uploadFileRef.current) {
+      uploadFileRef.current.click();
+    }
+  };
+
+  const onGetErrorMessage = (value: string) => {
+    if (!fileUploadSuccess) {
+      return errorMsg;
+    }
+  };
+
+  const uploadFile = React.useCallback(
+    async event => {
+      const file = event.target.files[0];
+      setFileName(file.name);
+
+      if (file.type !== t('customErrorPages_fileType') || file.size > 10000) {
+        setErrorMsg(t('error_uploadHTMLFile'));
+        setFileUploadSuccess(false);
+      } else {
+        setFile(await extractErrorPageFromFile(file));
+        setFileUploadSuccess(true);
+      }
+    },
+    [fileName]
+  );
 
   return (
     <>
       <Text className={uploadStyle.labelHeader}>{t('errorPage')}</Text>
+      <input ref={ref => (uploadFileRef.current = ref)} style={{ display: 'none' }} type="file" onChange={uploadFile} />
       <Stack horizontal className={stackStyle} tokens={stackTokens}>
         <StackItem grow={5}>
-          <TextField id="fileLocationField" readOnly aria-required={true} ariaLabel={t('errorPage')} />
+          <TextField
+            id="fileLocationField"
+            readOnly
+            aria-required={true}
+            value={fileName}
+            placeholder={t('browse')}
+            ariaLabel={t('errorPage')}
+            onGetErrorMessage={onGetErrorMessage}
+            onClick={onBrowseButtonClick}
+          />
         </StackItem>
         <StackItem>
           <Field
             id="container-privateRegistry-composeYml"
             name="privateRegistryComposeYml"
             component={PrimaryButton}
-            label={t('browse')}
-            text={t('browse')}
+            iconProps={FabricFolder}
             ariaLabel={t('browse')}
-            onClick={onUploadButtonClick}
+            onClick={onBrowseButtonClick}
           />
         </StackItem>
       </Stack>

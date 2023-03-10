@@ -11,24 +11,26 @@ export interface ErrorPageGridAddEditProps {
   closeBlade: () => void;
 }
 
-const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = props => {
+const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((props: ErrorPageGridAddEditProps) => {
   const { errorPage, closeBlade } = props;
   const { t } = useTranslation();
+  const [fileUploadSuccess, setFileUploadSuccess] = React.useState(false);
+  const [file, setFile] = React.useState<string>('');
 
   const cancel = () => {
     closeBlade();
   };
 
-  console.log(errorPage);
+  console.log(errorPage); // just for now
 
   const actionBarPrimaryButtonProps = React.useMemo(() => {
     return {
       id: 'save',
       title: t('upload'),
       onClick: cancel,
-      disable: false,
+      disable: !fileUploadSuccess,
     };
-  }, []);
+  }, [fileUploadSuccess]);
 
   const actionBarSecondaryButtonProps = React.useMemo(() => {
     return {
@@ -39,15 +41,20 @@ const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = props => {
     };
   }, []);
 
+  console.log(file); // file just for now till i work on PUT API
+
   return (
     <form className={addEditFormStyle}>
       <p id="default-documents-info-message">{t('errorPagesEditMessage')}</p>
       <Stack>
-        <ErrorPageFileUploader label={t('errorPage')} errorPage={errorPage}></ErrorPageFileUploader>
+        <ErrorPageFileUploader
+          setFile={setFile}
+          fileUploadSuccess={fileUploadSuccess}
+          setFileUploadSuccess={setFileUploadSuccess}></ErrorPageFileUploader>
       </Stack>
       <ActionBar id="error-page-edit-footer" primaryButton={actionBarPrimaryButtonProps} secondaryButton={actionBarSecondaryButtonProps} />
     </form>
   );
-};
+});
 
 export default ErrorPageGridAddEdit;
