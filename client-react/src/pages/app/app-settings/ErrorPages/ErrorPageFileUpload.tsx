@@ -1,6 +1,5 @@
 import React, { useContext, useRef } from 'react';
 import { IconButton, Stack, StackItem, TextField } from '@fluentui/react';
-import { Field } from 'formik';
 import { Text } from '@fluentui/react/lib/components/Text';
 import { useTranslation } from 'react-i18next';
 import { uploadStyle, stackStyle, stackTokens, FabricFolder, browseButtonStyle } from './ErrorPageGrid.styles';
@@ -16,7 +15,7 @@ const extractErrorPageFromFile = (input): Promise<string> => {
   return new Promise(resolve => {
     const reader = new FileReader();
     reader.onload = () => {
-      resolve(reader && reader.result ? reader.result.toString() : '');
+      resolve(reader?.result ? reader.result.toString() : '');
     };
     reader.readAsText(input);
   });
@@ -31,7 +30,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
   const theme = useContext(ThemeContext);
 
   const onBrowseButtonClick = () => {
-    if (uploadFileRef && uploadFileRef?.current) {
+    if (uploadFileRef?.current) {
       uploadFileRef.current.click();
     }
   };
@@ -76,10 +75,8 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
           />
         </StackItem>
         <StackItem>
-          <Field
-            id="fileUpload-brwoseButton"
-            name="privateRegistryComposeYml"
-            component={IconButton}
+          <IconButton
+            id="fileUploadBrowseButton"
             iconProps={FabricFolder}
             ariaLabel={t('browse')}
             onClick={onBrowseButtonClick}
