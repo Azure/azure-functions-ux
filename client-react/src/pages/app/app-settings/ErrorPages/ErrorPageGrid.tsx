@@ -1,6 +1,6 @@
-import { DetailsListLayoutMode, IColumn, SelectionMode, TooltipHost } from '@fluentui/react';
+import { DetailsListLayoutMode, IColumn, PanelType, SelectionMode, TooltipHost } from '@fluentui/react';
 import { FormikProps } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { IColumnItem } from './ErrorPageGrid.contract';
@@ -9,15 +9,26 @@ import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { PermissionsContext } from '../Contexts';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+import ErrorPageGridAddEdit from './ErrorPageGridAddEdit';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
+  const [showPanel, setShowPanel] = useState(false);
+  const [currentErrorCode, setCurrentErrorCode] = useState<IColumnItem | null>(null);
+
+  const onCancelPanel = React.useCallback((): void => {
+    setShowPanel(false);
+  }, [setShowPanel, showPanel]);
 
   const removeItem = React.useCallback((index: number) => {}, []);
 
-  const onShowPanel = React.useCallback((item: IColumnItem, index: number) => {}, []);
+  const onShowPanel = React.useCallback((item: IColumnItem, index: number): void => {
+    setShowPanel(true);
+    setCurrentErrorCode(item);
+  }, []);
 
   const _columnErrorCode = React.useMemo(
     () => [
@@ -141,14 +152,19 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   }, [onRenderItemColumn]);
 
   return (
-    <DisplayTableWithEmptyMessage
-      columns={getColumns}
-      items={_columnErrorCode || []}
-      isHeaderVisible={true}
-      layoutMode={DetailsListLayoutMode.justified}
-      selectionMode={SelectionMode.none}
-      selectionPreservedOnEmptyClick={true}
-    />
+    <>
+      <DisplayTableWithEmptyMessage
+        columns={getColumns}
+        items={_columnErrorCode || []}
+        isHeaderVisible={true}
+        layoutMode={DetailsListLayoutMode.justified}
+        selectionMode={SelectionMode.none}
+        selectionPreservedOnEmptyClick={true}
+      />
+      <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('editErrorPage')}>
+        <ErrorPageGridAddEdit errorPage={currentErrorCode} closeBlade={onCancelPanel} />
+      </CustomPanel>
+    </>
   );
 };
 

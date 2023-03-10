@@ -259,6 +259,7 @@ export class PortalResources {
   public static fileExplorer_delete = 'fileExplorer_delete';
   public static fileExplorer_edit = 'fileExplorer_edit';
   public static fileExplorer_upload = 'fileExplorer_upload';
+  public static upload = 'upload';
   public static seeAllOptions = 'seeAllOptions';
   public static seeRecommendedOptions = 'seeRecommendedOptions';
   public static storageLockNote = 'storageLockNote';
@@ -647,6 +648,8 @@ export class PortalResources {
   public static error_unableToRenewFunctionKey = 'error_unableToRenewFunctionKey';
   public static error_unableToRetrieveFunctionKeys = 'error_unableToRetrieveFunctionKeys';
   public static error_appOffline = 'error_appOffline';
+  public static error_uploadHTMLFile = 'error_uploadHTMLFile';
+  public static customErrorPages_fileType = 'customErrorPages_fileType';
   public static functionKeys_actions = 'functionKeys_actions';
   public static functionNew_chooseTemplateQuickstart = 'functionNew_chooseTemplateQuickstart';
   public static httpRun_noQuery = 'httpRun_noQuery';
@@ -1146,6 +1149,7 @@ export class PortalResources {
   public static selectAccount = 'selectAccount';
   public static enterAccountName = 'enterAccountName';
   public static selectProject = 'selectProject';
+  public static selectFile = 'selectFile';
   public static webAppFramework = 'webAppFramework';
   public static selectFramework = 'selectFramework';
   public static workingDirectory = 'workingDirectory';
@@ -1464,6 +1468,7 @@ export class PortalResources {
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
   public static customErrorPage = 'customErrorPage';
+  public static errorPage = 'errorPage';
   public static pathMappings = 'pathMappings';
   public static errorPage_columnErrorCode = 'errorPage_columnErrorCode';
   public static errorPage_columnStatus = 'errorPage_columnStatus';
@@ -1475,6 +1480,8 @@ export class PortalResources {
   public static appSettingsDiscardAriaLabel = 'appSettingsDiscardAriaLabel';
   public static appSettingsCommandBarAriaLabel = 'appSettingsCommandBarAriaLabel';
   public static newApp = 'newApp';
+  public static addErrorPage = 'addErrorPage';
+  public static editErrorPage = 'editErrorPage';
   public static virtualPath = 'virtualPath';
   public static physicalPath = 'physicalPath';
   public static type = 'type';
@@ -1885,6 +1892,7 @@ export class PortalResources {
   public static editor_changeFile = 'editor_changeFile';
   public static defaultDocumentsInfoMessage = 'defaultDocumentsInfoMessage';
   public static errorPagesInfoMessage = 'errorPagesInfoMessage';
+  public static errorPagesEditMessage = 'errorPagesEditMessage';
   public static validField_validationMessage = 'validField_validationMessage';
   public static maximize = 'maximize';
   public static minimize = 'minimize';
