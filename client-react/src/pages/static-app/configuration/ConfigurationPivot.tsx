@@ -13,7 +13,7 @@ import { useStyles } from './ConfigurationPivot.styles';
 import ConfigurationSnippets from './ConfigurationSnippets';
 
 const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: ConfigurationPivotProps) => {
-  const { isLoading, hasWritePermissions, formProps, staticSiteSku } = props;
+  const { isLoading, hasWritePermissions, formProps, staticSiteSku, refresh, resourceId } = props;
 
   const styles = useStyles();
   const { t } = useTranslation();
@@ -43,10 +43,6 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
   const isGeneralSettingsDirty = useCallback((): boolean => {
     return !!formProps.values?.isGeneralSettingsDirty;
   }, [formProps.values?.isGeneralSettingsDirty]);
-
-  const isSnippetsDirty = useCallback((): boolean => {
-    return !!formProps.values?.isSnippetsDirty;
-  }, [formProps.values?.isSnippetsDirty]);
 
   return (
     <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
@@ -78,12 +74,15 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
         headerText={t('staticSite_snippets')}
         ariaLabel={t('staticSite_snippets')}
         onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, isSnippetsDirty, t('modifiedTag'))
+          CustomTabRenderer(link, defaultRenderer, theme, () => false, t('modifiedTag'))
         }>
         <ConfigurationSnippets
-          disabled={isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free}
+          hasWritePermissions={hasWritePermissions}
+          refresh={refresh}
+          disabled={isLoading || !hasWritePermissions}
           formProps={formProps}
           isLoading={isLoading}
+          resourceId={resourceId}
         />
       </PivotItem>
     </Pivot>

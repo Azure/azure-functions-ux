@@ -45,12 +45,6 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
 
   const portalContext = useContext(PortalContext);
 
-  const onKeyDown: React.KeyboardEventHandler<HTMLElement> = useCallback(e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-    }
-  }, []);
-
   const getApplicableEnvironments = useCallback((passwordProtection: PasswordProtectionTypes) => {
     switch (passwordProtection) {
       case PasswordProtectionTypes.AllEnvironments:
@@ -261,7 +255,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
       validateOnChange={false}
       validationSchema={validationSchema}>
       {(formProps: FormikProps<ConfigurationFormData>) => (
-        <form onKeyDown={onKeyDown}>
+        <form>
           <div className={commandBarSticky}>
             <ConfigurationCommandBar
               dirty={formProps.values.isAppSettingsDirty || formProps.values.isGeneralSettingsDirty}
@@ -318,7 +312,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             </>
           </div>
           <div>
-            <ConfigurationPivot {...props} isLoading={isLoading || formProps.isSubmitting} formProps={formProps} />
+            <ConfigurationPivot {...props} refresh={props.refresh} isLoading={isLoading || formProps.isSubmitting} formProps={formProps} />
           </div>
         </form>
       )}

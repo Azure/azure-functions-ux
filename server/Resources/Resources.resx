@@ -7443,8 +7443,110 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_snippets" xml:space="preserve">
         <value>Snippets (preview)</value>
     </data>
-    <data name="staticSite_appliesToEnvironments" xml:space="preserve">
-        <value>Applies to all environments</value>
+     <data name="staticSite_snippetsMax" xml:space="preserve">
+        <value>Static Web Apps may only have a maximum of ten snippets. You have reached this limit.</value>
+    </data>
+    <data name="staticSite_appliesTo" xml:space="preserve">
+        <value>Applies to</value>
+    </data>
+    <data name="staticSite_snippetNoContentError" xml:space="preserve">
+        <value>Snippet content is required</value>
+    </data>
+    <data name="staticSite_snippetContentError" xml:space="preserve">
+        <value>Snippet must be less than 2048 characters</value>
+    </data>
+    <data name="staticSite_snippetNameRequired" xml:space="preserve">
+        <value>Snippet name is required</value>
+    </data>
+    <data name="staticSite_snippetInsertionLocationRequired" xml:space="preserve">
+        <value>Snippet insertion location is required</value>
+    </data>
+     <data name="staticSite_snippetLocationRequired" xml:space="preserve">
+        <value>Snippet location is required</value>
+    </data>
+    <data name="staticSite_snippetEnironmentRequired" xml:space="preserve">
+        <value>Snippet environment is required</value>
+    </data>
+    <data name="staticSite_environments" xml:space="preserve">
+        <value>environments</value>
+    </data>
+    <data name="staticSite_valueTitle" xml:space="preserve">
+        <value>Value</value>
+    </data>
+    <data name="staticSite_typeTitle" xml:space="preserve">
+        <value>Type</value>
+    </data>
+    <data name="staticSite_environmentSelectPlaceholder" xml:space="preserve">
+        <value>Select up to 10 environments</value>
+    </data>
+    <data name="staticSite_snippetNamePlaceholder" xml:space="preserve">
+        <value>Enter snippet name</value>
+    </data>
+    <data name="staticSite_snippetEnvironmentsErrorMessage" xml:space="preserve">
+        <value>You must select 10 or less environments for your snippet.</value>
+    </data>
+    <data name="staticSite_snippetNoEnvironmentsErrorMessage" xml:space="preserve">
+        <value>You must select at least one environment for your snippet.</value>
+    </data>
+    <data name="staticSite_filterSnippets" xml:space="preserve">
+        <value>Filter snippets</value>
+    </data>
+    <data name="staticSite_insertionLocation" xml:space="preserve">
+        <value>Insertion location</value>
+    </data>
+    <data name="staticSite_prepend" xml:space="preserve">
+        <value>Prepend</value>
+    </data>
+    <data name="staticSite_append" xml:space="preserve">
+        <value>Append</value>
+    </data>
+    <data name="staticSite_deletingSnippet" xml:space="preserve">
+        <value>Deleting snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetSuccess" xml:space="preserve">
+        <value>Successfully deleted snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetFailure" xml:space="preserve">
+        <value>Failed to delete snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to delete snippet '{0}' with error: '{1}'</value>
+    </data>
+     <data name="staticSite_addingSnippet" xml:space="preserve">
+        <value>Creating snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetSuccess" xml:space="preserve">
+        <value>Successfully created snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetFailure" xml:space="preserve">
+        <value>Failed to create snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to create snippet '{0}' with error: '{1}'</value>
+    </data>
+    <data name="staticSite_updatingSnippet" xml:space="preserve">
+        <value>Updating snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetSuccess" xml:space="preserve">
+        <value>Successfully updated snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetFailure" xml:space="preserve">
+        <value>Failed to update snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to update snippet '{0}' with error: '{1}'</value>
+    </data>
+    <data name="staticSite_noSnippets" xml:space="preserve">
+        <value>No snippets to display. Click 'Add' to add a snippet to your Static Web App.</value>
+    </data>
+    <data name="staticSite_allEnvironments" xml:space="preserve">
+        <value>All environments</value>
+    </data>
+    <data name="staticSite_snippetContentPlaceholder" xml:space="preserve">
+        <value>Insert your HTML below</value>
+    </data>
+      <data name="staticSite_selectEnvironments" xml:space="preserve">
+        <value>Select environments</value>
     </data>
     <data name="staticSite_loadingSnippets" xml:space="preserve">
         <value>Loading snippets...</value>

@@ -8,6 +8,7 @@ import {
   ConfigurationYupValidationSchemaType,
   EnvironmentVariable,
   PasswordProtectionTypes,
+  Snippet,
   StagingEnvironmentPolicyTypes,
 } from './Configuration.types';
 
@@ -23,11 +24,10 @@ export class ConfigurationFormBuilder {
     passwordProtection?: PasswordProtectionTypes,
     defaultEnvironment?: ArmObj<Environment>,
     defaultEnvironmentVariables?: EnvironmentVariable[],
+    defaultSnippets?: Snippet[],
     stagingEnvironmentPolicy: StagingEnvironmentPolicyTypes = StagingEnvironmentPolicyTypes.Enabled,
     allowConfigFileUpdates: boolean = false
   ): ConfigurationFormData {
-    const snippetsHeadExampleContent = '<!--This is the head section-->\n<script>HTML Sample</script>';
-    const snippetsBodyExampleContent = '<!--This is the body section-->\n<script>HTML Sample</script>';
     return {
       allowConfigFileUpdates,
       stagingEnvironmentPolicy,
@@ -40,11 +40,7 @@ export class ConfigurationFormBuilder {
       selectedEnvironment: defaultEnvironment,
       isAppSettingsDirty: false,
       isGeneralSettingsDirty: false,
-      isSnippetsDirty: false,
-      snippetsEnvironment: defaultEnvironment,
-      snippetsApplyToAllEnvironments: false,
-      snippetsHeadContent: snippetsHeadExampleContent,
-      snippetsBodyContent: snippetsBodyExampleContent,
+      snippets: defaultSnippets,
     };
   }
 
@@ -59,11 +55,7 @@ export class ConfigurationFormBuilder {
       environments: Yup.mixed().notRequired(),
       passwordProtection: Yup.mixed().notRequired(),
       passwordProtectionEnvironments: Yup.mixed().notRequired(),
-      isSnippetsDirty: Yup.mixed().notRequired(),
-      snippetsEnvironment: Yup.mixed().notRequired(),
-      snippetsApplyToAllEnvironments: Yup.mixed().notRequired(),
-      snippetsHeadContent: Yup.mixed().notRequired(),
-      snippetsBodyContent: Yup.mixed().notRequired(),
+      snippets: Yup.mixed().notRequired(),
       visitorPassword: Yup.string().test('publishingPasswordRequirements', this._t('staticSite_visitorPasswordRequired'), function(value) {
         if (this.parent.isGeneralSettingsDirty && this.parent.passwordProtection !== PasswordProtectionTypes.Disabled) {
           //NOTE(stpelleg): Key Vault references and urls should be blocked, they do not currently work.
