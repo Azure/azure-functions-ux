@@ -29,7 +29,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
   const [fileName, setFileName] = React.useState<string>('');
 
   const onBrowseButtonClick = () => {
-    if (uploadFileRef && uploadFileRef.current) {
+    if (uploadFileRef && uploadFileRef?.current) {
       uploadFileRef.current.click();
     }
   };
