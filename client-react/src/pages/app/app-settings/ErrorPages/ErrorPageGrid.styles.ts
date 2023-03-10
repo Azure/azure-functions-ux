@@ -1,5 +1,6 @@
 import { mergeStyleSets, FontWeights, IIconProps } from '@fluentui/react';
 import { style } from 'typestyle';
+import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
 export const stackTokens = { childrenGap: 5 };
 
@@ -12,5 +13,16 @@ export const uploadStyle = mergeStyleSets({
     fontWeight: FontWeights.semibold,
   },
 });
+
+export const browseButtonStyle = (theme: ThemeExtended) =>
+  style({
+    backgroundColor: theme.semanticColors.accentButtonBackground,
+    color: theme.semanticColors.buttonTextChecked,
+    $nest: {
+      '&:hover': {
+        color: theme.semanticColors.buttonTextChecked,
+      },
+    },
+  });
 
 export const FabricFolder: IIconProps = { iconName: 'FabricFolder' };

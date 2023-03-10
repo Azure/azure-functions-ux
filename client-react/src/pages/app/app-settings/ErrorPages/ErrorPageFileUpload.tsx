@@ -1,9 +1,10 @@
-import React, { useRef } from 'react';
-import { PrimaryButton, Stack, StackItem, TextField } from '@fluentui/react';
+import React, { useContext, useRef } from 'react';
+import { IconButton, Stack, StackItem, TextField } from '@fluentui/react';
 import { Field } from 'formik';
 import { Text } from '@fluentui/react/lib/components/Text';
 import { useTranslation } from 'react-i18next';
-import { uploadStyle, stackStyle, stackTokens, FabricFolder } from './ErrorPageGrid.styles';
+import { uploadStyle, stackStyle, stackTokens, FabricFolder, browseButtonStyle } from './ErrorPageGrid.styles';
+import { ThemeContext } from '../../../../ThemeContext';
 
 interface ErrorPageFileUploaderProps {
   setFileUploadSuccess: (upload: boolean) => void;
@@ -27,6 +28,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
   const uploadFileRef = useRef<HTMLInputElement | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<string>('');
   const [fileName, setFileName] = React.useState<string>('');
+  const theme = useContext(ThemeContext);
 
   const onBrowseButtonClick = () => {
     if (uploadFileRef && uploadFileRef?.current) {
@@ -77,10 +79,11 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
           <Field
             id="fileUpload-brwoseButton"
             name="privateRegistryComposeYml"
-            component={PrimaryButton}
+            component={IconButton}
             iconProps={FabricFolder}
             ariaLabel={t('browse')}
             onClick={onBrowseButtonClick}
+            className={browseButtonStyle(theme)}
           />
         </StackItem>
       </Stack>
