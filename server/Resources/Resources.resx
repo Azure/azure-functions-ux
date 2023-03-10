@@ -3577,6 +3577,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="selectProject" xml:space="preserve">
         <value>Select Project</value>
     </data>
+    <data name="selectFile" xml:space="preserve">
+        <value>Select a file</value>
+    </data>
     <data name="webAppFramework" xml:space="preserve">
         <value>Web Application Framework</value>
     </data>

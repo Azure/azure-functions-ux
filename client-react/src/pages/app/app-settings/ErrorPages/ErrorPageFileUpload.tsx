@@ -67,15 +67,15 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
             readOnly
             aria-required={true}
             value={fileName}
-            placeholder={t('browse')}
-            ariaLabel={t('errorPage')}
+            placeholder={t('selectFile')}
+            ariaLabel={t('selectFile')}
             onGetErrorMessage={onGetErrorMessage}
             onClick={onBrowseButtonClick}
           />
         </StackItem>
         <StackItem>
           <Field
-            id="container-privateRegistry-composeYml"
+            id="fileUpload-brwoseButton"
             name="privateRegistryComposeYml"
             component={PrimaryButton}
             iconProps={FabricFolder}

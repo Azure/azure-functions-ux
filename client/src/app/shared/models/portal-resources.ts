@@ -1149,6 +1149,7 @@ export class PortalResources {
   public static selectAccount = 'selectAccount';
   public static enterAccountName = 'enterAccountName';
   public static selectProject = 'selectProject';
+  public static selectFile = 'selectFile';
   public static webAppFramework = 'webAppFramework';
   public static selectFramework = 'selectFramework';
   public static workingDirectory = 'workingDirectory';
