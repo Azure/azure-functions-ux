@@ -2,7 +2,7 @@ import { DetailsListLayoutMode, IColumn, PanelType, SelectionMode, TooltipHost }
 import { FormikProps } from 'formik';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppSettingsFormValues } from '../AppSettings.types';
+import { AppSettingsFormValues, FormErrorPage } from '../AppSettings.types';
 import { IColumnItem } from './ErrorPageGrid.contract';
 import IconButton from '../../../../components/IconButton/IconButton';
 import DisplayTableWithEmptyMessage, {
@@ -18,6 +18,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
   const [showPanel, setShowPanel] = useState(false);
+  const [labelAddEditPane, setLabelAddEditPane] = useState<string | undefined>(undefined);
   const [currentErrorCode, setCurrentErrorCode] = useState<IColumnItem | null>(null);
   const { values } = props;
   const errorPages = values.errorPages;
@@ -25,12 +26,24 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     setShowPanel(false);
   }, [setShowPanel, showPanel]);
 
-  const removeItem = React.useCallback((index: number) => {}, []);
-
-  const onShowPanel = React.useCallback((item: IColumnItem, index: number): void => {
-    setShowPanel(true);
-    setCurrentErrorCode(item);
+  const removeItem = React.useCallback((index: number) => {
+    const errorPages: FormErrorPage[] = [...values.errorPages];
+    errorPages.splice(index, 1);
+    props.setValues({
+      ...values,
+      errorPages,
+    });
   }, []);
+
+  const onShowPanel = React.useCallback(
+    (item: IColumnItem, index: number): void => {
+      if (item.status === t('errorPage_columnStatus_configured')) setLabelAddEditPane(t('editErrorPage'));
+      else setLabelAddEditPane(t('addErrorPage'));
+      setShowPanel(true);
+      setCurrentErrorCode(item);
+    },
+    [values, labelAddEditPane, setLabelAddEditPane]
+  );
 
   const getConfigurationStatus = React.useCallback(
     (errorCode: string) => {
@@ -74,13 +87,13 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       if (column.key === 'delete') {
         return (
           <TooltipHost
-            content={t('delete')}
+            content={item.status == t('errorPage_columnStatus_notConfigured') ? undefined : t('delete')}
             id={`app-settings-errorPages-delete-tooltip-${index}`}
             calloutProps={{ gapSpace: 0 }}
             closeDelay={500}>
             <IconButton
               className={defaultCellStyle}
-              disabled={disableAllControls || item.status === t('errorPage_columnStatus_notConfigured')}
+              disabled={disableAllControls || item.status == t('errorPage_columnStatus_notConfigured')}
               id={`app-settings-errorPages-delete-tooltip-${index}`}
               iconProps={{ iconName: 'Delete' }}
               ariaLabel={t('delete')}
@@ -92,7 +105,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       if (column.key === 'edit') {
         return (
           <TooltipHost
-            content={t('edit')}
+            content={item.status == t('errorPage_columnStatus_notConfigured') ? t('add') : t('edit')}
             id={`app-settings-errorPages-edit-tooltip-${index}`}
             calloutProps={{ gapSpace: 0 }}
             closeDelay={500}>
@@ -176,7 +189,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
       />
-      <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('editErrorPage')}>
+      <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={labelAddEditPane}>
         <ErrorPageGridAddEdit errorPage={currentErrorCode} closeBlade={onCancelPanel} />
       </CustomPanel>
     </>
