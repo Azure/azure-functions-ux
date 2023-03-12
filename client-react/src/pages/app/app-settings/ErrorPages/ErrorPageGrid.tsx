@@ -26,14 +26,17 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     setShowPanel(false);
   }, [setShowPanel, showPanel]);
 
-  const removeItem = React.useCallback((index: number) => {
-    const errorPages: FormErrorPage[] = [...values.errorPages];
-    errorPages.splice(index, 1);
-    props.setValues({
-      ...values,
-      errorPages,
-    });
-  }, []);
+  const removeItem = React.useCallback(
+    (index: number) => {
+      const errorPages: FormErrorPage[] = [...values.errorPages];
+      errorPages.splice(index, 1);
+      props.setValues({
+        ...values,
+        errorPages,
+      });
+    },
+    [values.errorPages]
+  );
 
   const onShowPanel = React.useCallback(
     (item: IColumnItem, index: number): void => {
@@ -50,7 +53,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       if (errorPages.some(i => i.statusCode.includes(errorCode))) return t('errorPage_columnStatus_configured');
       else return t('errorPage_columnStatus_notConfigured');
     },
-    [values]
+    [values.errorPages]
   );
 
   const _columnErrorCode = React.useMemo(
@@ -71,7 +74,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         status: getConfigurationStatus(t('errorPage_errorCode503')),
       },
     ],
-    []
+    [values.errorPages]
   );
 
   const onRenderItemColumn = React.useCallback(
@@ -123,7 +126,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
       return <div className={boldCellStyle}>{item[column.fieldName!]}</div>;
     },
-    [removeItem, onShowPanel, disableAllControls, values]
+    [removeItem, onShowPanel, disableAllControls, values.errorPages]
   );
 
   const getColumns = React.useMemo((): IColumn[] => {

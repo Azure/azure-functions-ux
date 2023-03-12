@@ -168,6 +168,7 @@ export interface Experiments {
 export interface ErrorPage {
   statusCode: string;
   contentType: string;
+  content?: string;
 }
 
 export interface RampUpRule {

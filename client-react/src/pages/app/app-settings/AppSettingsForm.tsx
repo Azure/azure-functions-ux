@@ -17,7 +17,7 @@ import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
 import { CommonConstants, OverflowBehavior } from '../../../utils/CommonConstants';
 import Url from '../../../utils/url';
-import ErrorPage from './Sections/ErrorPage';
+import ErrorPage, { errorPagesDirty } from './Sections/ErrorPage';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -43,6 +43,10 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
   const functionRuntimeSettingsDirtyCheck = () => {
     return functionRuntimeSettingsDirty(values, initialValues);
+  };
+
+  const errorPagesDirtyCheck = () => {
+    return errorPagesDirty(values, initialValues);
   };
 
   const pathMappingsDirtyCheck = () => {
@@ -137,7 +141,13 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
       )}
 
       {Url.getFeatureValue(CommonConstants.FeatureFlags.customErrorPage) ? (
-        <PivotItem className={pivotWrapper} itemKey={AppSettingsTabs.customErrorPage} linkText={t('customErrorPage')}>
+        <PivotItem
+          className={pivotWrapper}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, errorPagesDirtyCheck, dirtyLabel)
+          }
+          itemKey={AppSettingsTabs.customErrorPage}
+          linkText={t('customErrorPage')}>
           <ErrorPage {...props} />
         </PivotItem>
       ) : (
