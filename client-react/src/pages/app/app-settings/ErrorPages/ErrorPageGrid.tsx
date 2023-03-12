@@ -73,8 +73,9 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const getConfigurationStatus = React.useCallback(
     (errorCode: string) => {
-      if (errorPages.some(i => i.errorCode.includes(errorCode))) return t('errorPage_columnStatus_configured');
-      else return t('errorPage_columnStatus_notConfigured');
+      return errorPages.some(i => i.errorCode.includes(errorCode))
+        ? t('errorPage_columnStatus_configured')
+        : t('errorPage_columnStatus_notConfigured');
     },
     [values.errorPages]
   );
