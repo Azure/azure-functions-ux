@@ -282,6 +282,12 @@ export class CommonConstants {
     partitionKeyPath: '/id',
   };
 
+  public static readonly ErrorPageCode = {
+    errorCode_403: '403',
+    errorCode_502: '502',
+    errorCode_503: '503',
+  };
+
   public static readonly CosmosDbTypes = {
     globalDocumentDb: 'GlobalDocumentDB',
   };

@@ -11,6 +11,7 @@ import { PermissionsContext } from '../Contexts';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ErrorPageGridAddEdit from './ErrorPageGridAddEdit';
 import { boldCellStyle } from './ErrorPageGrid.styles';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
@@ -22,6 +23,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const [currentErrorPageIndex, setCurrentErrorPageIndex] = useState<number | null>(null);
   const { values } = props;
 
+  const errorCode = CommonConstants.ErrorPageCode;
   const errorPages = values.errorPages;
 
   const onCancelPanel = React.useCallback((): void => {
@@ -81,18 +83,18 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     () => [
       {
         key: 403,
-        errorCode: t('errorPage_errorCode403'),
-        status: getConfigurationStatus(t('errorPage_errorCode403')),
+        errorCode: errorCode.errorCode_403,
+        status: getConfigurationStatus(errorCode.errorCode_403),
       },
       {
         key: 502,
-        errorCode: t('errorPage_errorCode502'),
-        status: getConfigurationStatus(t('errorPage_errorCode502')),
+        errorCode: errorCode.errorCode_502,
+        status: getConfigurationStatus(errorCode.errorCode_502),
       },
       {
         key: 503,
-        errorCode: t('errorPage_errorCode503'),
-        status: getConfigurationStatus(t('errorPage_errorCode503')),
+        errorCode: errorCode.errorCode_503,
+        status: getConfigurationStatus(errorCode.errorCode_503),
       },
     ],
     [values.errorPages]

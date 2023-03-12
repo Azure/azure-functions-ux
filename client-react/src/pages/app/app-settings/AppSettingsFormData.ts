@@ -264,7 +264,7 @@ export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
   }
 
   return sortBy(
-    Object.keys(errorPage.value).map(key => ({
+    Object.entries(errorPage.value).map(([key, value]) => ({
       status: '',
       key: key,
       errorCode: String(errorPage.value[key].properties.statusCode),
