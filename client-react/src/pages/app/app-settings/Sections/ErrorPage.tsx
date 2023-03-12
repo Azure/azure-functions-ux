@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import ErrorPageGrid from '../ErrorPages/ErrorPageGrid';
 import { isEqual } from 'lodash-es';
 
-const ErrorPage: React.FC<FormikProps<AppSettingsFormValues>> = props => {
+const ErrorPagePivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
 
   return (
@@ -17,7 +17,7 @@ const ErrorPage: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   );
 };
 
-export default ErrorPage;
+export default ErrorPagePivot;
 
 export const errorPagesDirty = (values: AppSettingsFormValues, initialValues: AppSettingsFormValues) => {
   return !isEqual(values.errorPages, initialValues.errorPages);

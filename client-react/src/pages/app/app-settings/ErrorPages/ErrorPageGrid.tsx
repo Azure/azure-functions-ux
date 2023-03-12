@@ -3,7 +3,6 @@ import { FormikProps } from 'formik';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues, FormErrorPage } from '../AppSettings.types';
-import { IColumnItem } from './ErrorPageGrid.contract';
 import IconButton from '../../../../components/IconButton/IconButton';
 import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
@@ -19,9 +18,12 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const [showPanel, setShowPanel] = useState(false);
   const [labelAddEditPane, setLabelAddEditPane] = useState<string | undefined>(undefined);
-  const [currentErrorCode, setCurrentErrorCode] = useState<IColumnItem | null>(null);
+  const [currentErrorPage, setCurrentErrorPage] = useState<FormErrorPage | null>(null);
+  const [currentErrorPageIndex, setCurrentErrorPageIndex] = useState<number | null>(null);
   const { values } = props;
+
   const errorPages = values.errorPages;
+
   const onCancelPanel = React.useCallback((): void => {
     setShowPanel(false);
   }, [setShowPanel, showPanel]);
@@ -38,19 +40,38 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     [values.errorPages]
   );
 
+  const addEditItem = React.useCallback(
+    (item: FormErrorPage, file: string, index: number) => {
+      const errorPages = [...values.errorPages];
+      item.content = file;
+      if (labelAddEditPane == t('editErrorPage')) {
+        errorPages[index] = item;
+      } else {
+        errorPages.push(item);
+      }
+      props.setValues({
+        ...values,
+        errorPages,
+      });
+      setShowPanel(false);
+    },
+    [values.errorPages, currentErrorPage, currentErrorPageIndex]
+  );
+
   const onShowPanel = React.useCallback(
-    (item: IColumnItem, index: number): void => {
+    (item: FormErrorPage, index: number): void => {
       if (item.status === t('errorPage_columnStatus_configured')) setLabelAddEditPane(t('editErrorPage'));
       else setLabelAddEditPane(t('addErrorPage'));
       setShowPanel(true);
-      setCurrentErrorCode(item);
+      setCurrentErrorPage(item);
+      setCurrentErrorPageIndex(index);
     },
-    [values, labelAddEditPane, setLabelAddEditPane]
+    [values, labelAddEditPane, setLabelAddEditPane, currentErrorPage, currentErrorPageIndex]
   );
 
   const getConfigurationStatus = React.useCallback(
     (errorCode: string) => {
-      if (errorPages.some(i => i.statusCode.includes(errorCode))) return t('errorPage_columnStatus_configured');
+      if (errorPages.some(i => i.errorCode.includes(errorCode))) return t('errorPage_columnStatus_configured');
       else return t('errorPage_columnStatus_notConfigured');
     },
     [values.errorPages]
@@ -78,7 +99,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   );
 
   const onRenderItemColumn = React.useCallback(
-    (item: IColumnItem, index: number, column: IColumn) => {
+    (item: FormErrorPage, index: number, column: IColumn) => {
       if (!column || !item) {
         return null;
       }
@@ -193,7 +214,12 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         selectionPreservedOnEmptyClick={true}
       />
       <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={labelAddEditPane}>
-        <ErrorPageGridAddEdit errorPage={currentErrorCode} closeBlade={onCancelPanel} />
+        <ErrorPageGridAddEdit
+          errorPage={currentErrorPage!}
+          closeBlade={onCancelPanel}
+          index={currentErrorPageIndex!}
+          addEditItem={addEditItem}
+        />
       </CustomPanel>
     </>
   );

@@ -262,11 +262,12 @@ export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
   if (!errorPage) {
     return [];
   }
+
   return sortBy(
     Object.keys(errorPage.value).map(key => ({
-      statusCode: String(errorPage.value[key].properties.statusCode),
-      name: key,
-      contentType: errorPage.value[key].properties.contentType,
+      status: '',
+      key: key,
+      errorCode: String(errorPage.value[key].properties.statusCode),
     }))
   );
 }

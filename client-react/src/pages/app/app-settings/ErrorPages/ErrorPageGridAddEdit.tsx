@@ -2,17 +2,19 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { IColumnItem } from './ErrorPageGrid.contract';
 import { Stack } from '@fluentui/react/lib/Stack';
 import ErrorPageFileUploader from './ErrorPageFileUpload';
+import { FormErrorPage } from '../AppSettings.types';
 
 export interface ErrorPageGridAddEditProps {
-  errorPage: IColumnItem | null;
+  errorPage: FormErrorPage;
   closeBlade: () => void;
+  index: number;
+  addEditItem: (item: FormErrorPage, file: string, index: number) => void;
 }
 
 const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((props: ErrorPageGridAddEditProps) => {
-  const { errorPage, closeBlade } = props;
+  const { errorPage, closeBlade, addEditItem, index } = props;
   const { t } = useTranslation();
   const [fileUploadSuccess, setFileUploadSuccess] = React.useState(false);
   const [file, setFile] = React.useState<string>('');
@@ -21,13 +23,15 @@ const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((pr
     closeBlade();
   };
 
-  console.log(errorPage); // just for now
+  const save = () => {
+    addEditItem(errorPage, file, index);
+  };
 
   const actionBarPrimaryButtonProps = React.useMemo(() => {
     return {
       id: 'save',
       title: t('upload'),
-      onClick: cancel,
+      onClick: save,
       disable: !fileUploadSuccess,
     };
   }, [fileUploadSuccess]);
@@ -41,19 +45,23 @@ const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((pr
     };
   }, []);
 
-  console.log(file); // file just for now till i work on PUT API
-
   return (
-    <form className={addEditFormStyle}>
-      <p id="default-documents-info-message">{t('errorPagesEditMessage')}</p>
-      <Stack>
-        <ErrorPageFileUploader
-          setFile={setFile}
-          fileUploadSuccess={fileUploadSuccess}
-          setFileUploadSuccess={setFileUploadSuccess}></ErrorPageFileUploader>
-      </Stack>
-      <ActionBar id="error-page-edit-footer" primaryButton={actionBarPrimaryButtonProps} secondaryButton={actionBarSecondaryButtonProps} />
-    </form>
+    <>
+      <form className={addEditFormStyle}>
+        <p id="default-documents-info-message">{t('errorPagesEditMessage')}</p>
+        <Stack>
+          <ErrorPageFileUploader
+            setFile={setFile}
+            fileUploadSuccess={fileUploadSuccess}
+            setFileUploadSuccess={setFileUploadSuccess}></ErrorPageFileUploader>
+        </Stack>
+        <ActionBar
+          id="error-page-edit-footer"
+          primaryButton={actionBarPrimaryButtonProps}
+          secondaryButton={actionBarSecondaryButtonProps}
+        />
+      </form>
+    </>
   );
 });
 

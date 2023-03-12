@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { AvailableStack } from '../../../models/available-stacks';
-import { AzureStorageMount, ErrorPage, KeyVaultReference, SiteConfig, VirtualApplication } from '../../../models/site/config';
+import { AzureStorageMount, KeyVaultReference, SiteConfig, VirtualApplication } from '../../../models/site/config';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
 import { HostStatus } from '../../../models/functions/host-status';
@@ -29,9 +29,11 @@ export interface FormAzureStorageMounts extends AzureStorageMount {
   sticky?: boolean;
 }
 
-export interface FormErrorPage extends ErrorPage {
-  name: string;
-  sticky?: boolean;
+export interface FormErrorPage {
+  key: string;
+  errorCode: string;
+  status: string;
+  content?: string;
 }
 
 export interface AppSettingsFormValues {
