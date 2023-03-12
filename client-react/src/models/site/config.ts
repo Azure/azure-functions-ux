@@ -166,8 +166,7 @@ export interface Experiments {
 }
 
 export interface ErrorPage {
-  content: string;
-  statusCode: number;
+  statusCode: string;
   contentType: string;
 }
 

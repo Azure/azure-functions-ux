@@ -371,7 +371,7 @@ export default class SiteService {
 
   public static GetCustomErrorPagesForSite = (resourceId: string, apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101) => {
     const id = `${resourceId}/errorpages`;
-    return MakeArmCall<ArmObj<ErrorPage>[]>({
+    return MakeArmCall<ArmArray<ErrorPage>>({
       method: 'GET',
       resourceId: id,
       commandName: 'GetCustomErrorPagesForSite',
@@ -385,7 +385,7 @@ export default class SiteService {
     apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
   ) => {
     const id = `${resourceId}/errorpages/${errorCode}`;
-    return MakeArmCall<ArmObj<ErrorPage>>({
+    return MakeArmCall<ArmArray<ErrorPage>>({
       method: 'GET',
       resourceId: id,
       commandName: 'GetCustomErrorPageForSite',
@@ -399,7 +399,7 @@ export default class SiteService {
     apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
   ) => {
     const id = `${resourceId}/errorpages/${errorCode}`;
-    return MakeArmCall<ArmObj<ErrorPage>>({
+    return MakeArmCall<ArmArray<ErrorPage>>({
       method: 'DELETE',
       resourceId: id,
       commandName: 'DeleteCustomErrorPageForSite',

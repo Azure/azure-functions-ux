@@ -9,9 +9,16 @@ import {
   ConfigKeyVaultReferenceList,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
-import { ArmObj } from '../../../models/arm-obj';
+import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies, MinTlsVersion } from '../../../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
+import {
+  SiteConfig,
+  ArmAzureStorageMount,
+  ConnStringInfo,
+  VirtualApplication,
+  KeyVaultReference,
+  ErrorPage,
+} from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
@@ -59,6 +66,7 @@ interface StateToFormParams {
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<KeyValue<string>> | null;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
+  errorPages: ArmArray<ErrorPage> | null;
   appPermissions?: boolean;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
@@ -72,6 +80,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     metadata,
     basicPublishingCredentialsPolicies,
     appPermissions,
+    errorPages,
   } = props;
   const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
 
@@ -84,6 +93,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site), isWindowsCode(site), appPermissions),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts, slotConfigNames),
+    errorPages: getFormErrorPages(errorPages),
   };
 };
 
@@ -245,6 +255,19 @@ export function getFormAppSetting(settingsData: ArmObj<KeyValue<string>> | null,
       index: i,
     })),
     o => o.name.toLowerCase()
+  );
+}
+
+export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
+  if (!errorPage) {
+    return [];
+  }
+  return sortBy(
+    Object.keys(errorPage.value).map(key => ({
+      statusCode: String(errorPage.value[key].properties.statusCode),
+      name: key,
+      contentType: errorPage.value[key].properties.contentType,
+    }))
   );
 }
 

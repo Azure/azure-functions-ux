@@ -20,6 +20,7 @@ import {
   getFunctions,
   fetchFunctionsHostStatus,
   getAllConnectionStringsReferences,
+  getCustomErrorPagesForSite,
 } from './AppSettings.service';
 import {
   PermissionsContext,
@@ -127,10 +128,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse] = await Promise.all([
+    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse, errorPagesResponse] = await Promise.all([
       siteContext.fetchSite(resourceId),
       SiteService.getBasicPublishingCredentialsPolicies(resourceId),
       fetchApplicationSettingValues(resourceId),
+      getCustomErrorPagesForSite(resourceId),
     ]);
 
     const { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames } = applicationSettingsResponse;
@@ -240,6 +242,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
             ? basicPublishingCredentialsPolicies.data
             : null,
           appPermissions: appPermissions,
+          errorPages: errorPagesResponse?.metadata.success ? errorPagesResponse.data : null,
         }),
       });
     }
@@ -259,12 +262,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     if (slots.metadata.success) {
       setSlotList(slots.data);
     }
-  };
-
-  const getsite = async () => {
-    const SiteClientscv = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, '403', 'uhnbhbihihlhni2lucw==');
-    console.log('hi');
-    console.log(SiteClientscv);
   };
 
   const fetchReferences = async () => {
@@ -358,7 +355,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     fillSlots();
     fetchReferences();
     fetchStorageAccounts();
-    getsite();
   };
 
   useEffect(() => {
