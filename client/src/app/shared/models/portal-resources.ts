@@ -1472,6 +1472,9 @@ export class PortalResources {
   public static pathMappings = 'pathMappings';
   public static errorPage_columnErrorCode = 'errorPage_columnErrorCode';
   public static errorPage_columnStatus = 'errorPage_columnStatus';
+  public static errorPage_errorCode403 = 'errorPage_errorCode403';
+  public static errorPage_errorCode502 = 'errorPage_errorCode502';
+  public static errorPage_errorCode503 = 'errorPage_errorCode503';
   public static errorPage_columnStatus_configured = 'errorPage_columnStatus_configured';
   public static errorPage_columnStatus_notConfigured = 'errorPage_columnStatus_notConfigured';
   public static handlerMappings = 'handlerMappings';

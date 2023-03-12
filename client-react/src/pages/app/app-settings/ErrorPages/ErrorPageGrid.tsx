@@ -11,6 +11,7 @@ import DisplayTableWithEmptyMessage, {
 import { PermissionsContext } from '../Contexts';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ErrorPageGridAddEdit from './ErrorPageGridAddEdit';
+import { boldCellStyle } from './ErrorPageGrid.styles';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
@@ -18,7 +19,8 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const [showPanel, setShowPanel] = useState(false);
   const [currentErrorCode, setCurrentErrorCode] = useState<IColumnItem | null>(null);
-
+  const { values } = props;
+  const errorPages = values.errorPages;
   const onCancelPanel = React.useCallback((): void => {
     setShowPanel(false);
   }, [setShowPanel, showPanel]);
@@ -30,22 +32,30 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     setCurrentErrorCode(item);
   }, []);
 
+  const getConfigurationStatus = React.useCallback(
+    (errorCode: string) => {
+      if (errorPages.some(i => i.statusCode.includes(errorCode))) return t('errorPage_columnStatus_configured');
+      else return t('errorPage_columnStatus_notConfigured');
+    },
+    [values]
+  );
+
   const _columnErrorCode = React.useMemo(
     () => [
       {
-        key: '403',
-        errorCode: '403',
-        status: t('errorPage_columnStatus_notConfigured'),
+        key: 403,
+        errorCode: t('errorPage_errorCode403'),
+        status: getConfigurationStatus(t('errorPage_errorCode403')),
       },
       {
-        key: '502',
-        errorCode: '502',
-        status: t('errorPage_columnStatus_notConfigured'),
+        key: 502,
+        errorCode: t('errorPage_errorCode502'),
+        status: getConfigurationStatus(t('errorPage_errorCode502')),
       },
       {
-        key: '503',
-        errorCode: '503',
-        status: t('errorPage_columnStatus_notConfigured'),
+        key: 503,
+        errorCode: t('errorPage_errorCode503'),
+        status: getConfigurationStatus(t('errorPage_errorCode503')),
       },
     ],
     []
@@ -55,6 +65,10 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     (item: IColumnItem, index: number, column: IColumn) => {
       if (!column || !item) {
         return null;
+      }
+
+      if (column.key === 'status') {
+        return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
       }
 
       if (column.key === 'delete') {
@@ -93,9 +107,10 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           </TooltipHost>
         );
       }
-      return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
+
+      return <div className={boldCellStyle}>{item[column.fieldName!]}</div>;
     },
-    [removeItem, onShowPanel, disableAllControls]
+    [removeItem, onShowPanel, disableAllControls, values]
   );
 
   const getColumns = React.useMemo((): IColumn[] => {

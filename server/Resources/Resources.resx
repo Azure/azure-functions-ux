@@ -4556,6 +4556,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="errorPage_columnStatus" xml:space="preserve">
         <value>Status</value>
     </data>
+    <data name="errorPage_errorCode403" xml:space="preserve">
+        <value>403</value>
+    </data>
+    <data name="errorPage_errorCode502" xml:space="preserve">
+        <value>502</value>
+    </data>
+    <data name="errorPage_errorCode503" xml:space="preserve">
+        <value>503</value>
+    </data>
     <data name="errorPage_columnStatus_configured" xml:space="preserve">
         <value>Configured</value>
     </data>
