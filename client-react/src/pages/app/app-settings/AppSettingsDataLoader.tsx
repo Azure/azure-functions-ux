@@ -409,10 +409,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     current.forEach(async errorPage => {
       if (errorPage.content) {
         const response = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content);
-        success = response.metadata.success;
-        if (!success) {
-          return success;
-        }
+        success = success && response.metadata.success;
       }
     });
 
@@ -420,10 +417,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       const index = current.findIndex(x => x.key == errorPage.key);
       if (index < 0) {
         const response = await deleteCustomErrorPageForSite(resourceId, errorPage.errorCode);
-        success = response.metadata.success;
-        if (!success) {
-          return success;
-        }
+        success = success && response.metadata.success;
       }
     });
     return success;

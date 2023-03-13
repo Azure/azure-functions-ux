@@ -45,19 +45,13 @@ const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((pr
   }, []);
 
   return (
-    <>
-      <form className={addEditFormStyle}>
-        <p id="error-pages-info-message">{t('errorPagesEditMessage')}</p>
-        <Stack>
-          <ErrorPageFileUploader setFile={setFile} fileUploadSuccess={fileUploadSuccess} setFileUploadSuccess={setFileUploadSuccess} />
-        </Stack>
-        <ActionBar
-          id="error-page-edit-footer"
-          primaryButton={actionBarPrimaryButtonProps}
-          secondaryButton={actionBarSecondaryButtonProps}
-        />
-      </form>
-    </>
+    <form className={addEditFormStyle}>
+      <p id="error-pages-info-message">{t('errorPagesEditMessage')}</p>
+      <Stack>
+        <ErrorPageFileUploader setFile={setFile} fileUploadSuccess={fileUploadSuccess} setFileUploadSuccess={setFileUploadSuccess} />
+      </Stack>
+      <ActionBar id="error-page-edit-footer" primaryButton={actionBarPrimaryButtonProps} secondaryButton={actionBarSecondaryButtonProps} />
+    </form>
   );
 });
 
