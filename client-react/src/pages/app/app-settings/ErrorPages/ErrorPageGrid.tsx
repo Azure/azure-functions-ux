@@ -115,20 +115,33 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
       if (column.key === 'delete') {
         return (
-          <TooltipHost
-            content={item.status == t('errorPage_columnStatus_notConfigured') ? undefined : t('delete')}
-            id={`app-settings-errorPages-delete-tooltip-${index}`}
-            calloutProps={{ gapSpace: 0 }}
-            closeDelay={500}>
-            <IconButton
-              className={defaultCellStyle}
-              disabled={disableAllControls || item.status == t('errorPage_columnStatus_notConfigured')}
-              id={`app-settings-errorPages-delete-tooltip-${index}`}
-              iconProps={{ iconName: 'Delete' }}
-              ariaLabel={t('delete')}
-              onClick={() => removeItem(item.key)}
-            />
-          </TooltipHost>
+          <>
+            {item.status == t('errorPage_columnStatus_notConfigured') ? (
+              <IconButton
+                className={defaultCellStyle}
+                disabled={true}
+                id={`app-settings-errorPages-delete-tooltip-${index}`}
+                iconProps={{ iconName: 'Delete' }}
+                ariaLabel={t('delete')}
+                onClick={() => removeItem(index)}
+              />
+            ) : (
+              <TooltipHost
+                content={t('delete')}
+                id={`app-settings-errorPages-delete-tooltip-${index}`}
+                calloutProps={{ gapSpace: 0 }}
+                closeDelay={500}>
+                <IconButton
+                  className={defaultCellStyle}
+                  disabled={disableAllControls}
+                  id={`app-settings-errorPages-delete-tooltip-${index}`}
+                  iconProps={{ iconName: 'Delete' }}
+                  ariaLabel={t('delete')}
+                  onClick={() => removeItem(index)}
+                />
+              </TooltipHost>
+            )}
+          </>
         );
       }
       if (column.key === 'edit') {
