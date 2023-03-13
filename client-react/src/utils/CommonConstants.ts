@@ -50,6 +50,7 @@ export class CommonConstants {
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
     containerAppApiVersion20220101preview: '2022-01-01-preview',
+    antaresApiVersion20141101: '2014-11-01',
   };
 
   public static readonly NonThemeColors = {
@@ -279,6 +280,12 @@ export class CommonConstants {
     containerName: 'CosmosContainer',
     databaseName: 'CosmosDatabase',
     partitionKeyPath: '/id',
+  };
+
+  public static readonly ErrorPageCode = {
+    errorCode_403: '403',
+    errorCode_502: '502',
+    errorCode_503: '503',
   };
 
   public static readonly CosmosDbTypes = {
