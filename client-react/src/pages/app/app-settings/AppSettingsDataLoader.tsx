@@ -22,7 +22,6 @@ import {
   fetchFunctionsHostStatus,
   getAllConnectionStringsReferences,
   getCustomErrorPagesForSite,
-  addOrUpdateCustomErrorPageForSite,
   deleteCustomErrorPageForSite,
 } from './AppSettings.service';
 import {
@@ -406,18 +405,28 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const errorPagesUpdated = (current: FormErrorPage[], origin: FormErrorPage[] | undefined) => {
-    current.forEach(errorPage => {
+    let success = true;
+    current.forEach(async errorPage => {
       if (errorPage.content) {
-        addOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content);
+        const response = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, 'errorPage.content');
+        success = response.metadata.success;
+        if (!success) {
+          return success;
+        }
       }
     });
 
-    origin?.forEach(errorPage => {
+    origin?.forEach(async errorPage => {
       const index = current.findIndex(x => x.key == errorPage.key);
       if (index < 0) {
-        deleteCustomErrorPageForSite(resourceId, errorPage.errorCode);
+        const response = await deleteCustomErrorPageForSite(resourceId, errorPage.errorCode);
+        success = response.metadata.success;
+        if (!success) {
+          return success;
+        }
       }
     });
+    return success;
   };
 
   const onSubmit = async (values: AppSettingsFormValues) => {
@@ -439,16 +448,17 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       configSettingToIgnore = configSettingToIgnore.filter(config => config !== 'azureStorageAccounts');
     }
 
+    const errorPageUpdateSuccess = errorPagesUpdated(values.errorPages, initialValues?.errorPages);
+
     const [siteUpdate, slotConfigNamesUpdate] = [
       updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
     ];
 
-    errorPagesUpdated(values.errorPages, initialValues?.errorPages);
-
     const [siteResult, slotConfigNamesResult] = await Promise.all([siteUpdate, slotConfigNamesUpdate]);
 
-    const success = siteResult!.metadata.success && (!slotConfigNamesResult || slotConfigNamesResult.metadata.success);
+    const success =
+      siteResult!.metadata.success && (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) && errorPageUpdateSuccess;
 
     if (success) {
       setInitialValues({
