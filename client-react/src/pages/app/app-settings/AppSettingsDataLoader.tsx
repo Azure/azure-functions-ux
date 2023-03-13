@@ -6,6 +6,7 @@ import {
   AppSettingsAsyncData,
   LoadingStates,
   FormAzureStorageMounts,
+  FormErrorPage,
 } from './AppSettings.types';
 import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
@@ -21,6 +22,8 @@ import {
   fetchFunctionsHostStatus,
   getAllConnectionStringsReferences,
   getCustomErrorPagesForSite,
+  addOrUpdateCustomErrorPageForSite,
+  deleteCustomErrorPageForSite,
 } from './AppSettings.service';
 import {
   PermissionsContext,
@@ -402,6 +405,21 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     return true;
   };
 
+  const errorPagesUpdated = (current: FormErrorPage[], origin: FormErrorPage[] | undefined) => {
+    current.forEach(errorPage => {
+      if (errorPage.content) {
+        addOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content);
+      }
+    });
+
+    origin?.forEach(errorPage => {
+      const index = current.findIndex(x => x.key == errorPage.key);
+      if (index < 0) {
+        deleteCustomErrorPageForSite(resourceId, errorPage.errorCode);
+      }
+    });
+  };
+
   const onSubmit = async (values: AppSettingsFormValues) => {
     setSaving(true);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
@@ -425,6 +443,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
     ];
+
+    errorPagesUpdated(values.errorPages, initialValues?.errorPages);
 
     const [siteResult, slotConfigNamesResult] = await Promise.all([siteUpdate, slotConfigNamesUpdate]);
 

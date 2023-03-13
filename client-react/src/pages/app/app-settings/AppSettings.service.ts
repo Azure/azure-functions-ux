@@ -116,3 +116,11 @@ export const getCustomErrorPagesForSite = async (resourceId: string) => {
 export const getCustomErrorPageForSite = async (resourceId: string, errorCode: string) => {
   return SiteService.GetCustomErrorPageForSite(resourceId, errorCode);
 };
+
+export const addOrUpdateCustomErrorPageForSite = async (resourceId: string, errorCode: string, content: string) => {
+  return SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorCode, content);
+};
+
+export const deleteCustomErrorPageForSite = async (resourceId: string, errorCode: string) => {
+  return SiteService.DeleteCustomErrorPageForSite(resourceId, errorCode);
+};
