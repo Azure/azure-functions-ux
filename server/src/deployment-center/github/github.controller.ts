@@ -248,6 +248,20 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
+  @Post('api/github/listJobsForWorkflowRun')
+  @HttpCode(200)
+  async listJobsForWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowRunId') workflowRunId: string,
+    @Body('page') page: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${workflowRunId}/jobs?page=${page}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
   @Post('api/github/listWorkflowRuns')
   @HttpCode(200)
   async listWorkflowRuns(
