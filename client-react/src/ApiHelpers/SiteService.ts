@@ -351,7 +351,7 @@ export default class SiteService {
   public static AddOrUpdateCustomErrorPageForSite = (
     resourceId: string,
     errorCode: string,
-    content: any,
+    content: string,
     apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
   ) => {
     const id = `${resourceId}/errorpages/${errorCode}`;
