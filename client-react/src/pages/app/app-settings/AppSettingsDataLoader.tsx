@@ -408,7 +408,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     let success = true;
     current.forEach(async errorPage => {
       if (errorPage.content) {
-        const response = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, 'errorPage.content');
+        const response = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content);
         success = response.metadata.success;
         if (!success) {
           return success;
