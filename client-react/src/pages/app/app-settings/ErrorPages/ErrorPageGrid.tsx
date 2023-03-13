@@ -43,34 +43,33 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const addEditItem = React.useCallback(
     (item: FormErrorPage, file: string, key: number) => {
-      item.content = file;
-      item.status = t('errorPage_columnStatus_configured');
       const errorPages: FormErrorPage[] = [...values.errorPages];
       const index = errorPages.findIndex(x => x.key == key);
-
       if (index > -1) {
         errorPages[index] = item;
       } else {
+        item.content = file;
+        item.status = t('errorPage_columnStatus_configured');
         errorPages.push(item);
       }
-
       props.setValues({
         ...values,
         errorPages,
       });
+
       setShowPanel(false);
     },
-    [values.errorPages, currentErrorPage]
+    [values.errorPages]
   );
 
   const onShowPanel = React.useCallback(
-    (item: FormErrorPage, index: number): void => {
+    (item: FormErrorPage): void => {
       if (item.status === t('errorPage_columnStatus_configured')) setLabelAddEditPane(t('editErrorPage'));
       else setLabelAddEditPane(t('addErrorPage'));
       setShowPanel(true);
       setCurrentErrorPage(item);
     },
-    [values, labelAddEditPane, setLabelAddEditPane, currentErrorPage]
+    [values, labelAddEditPane, setLabelAddEditPane, currentErrorPage, showPanel, setCurrentErrorPage]
   );
 
   const getConfigurationStatus = React.useCallback(
@@ -123,7 +122,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
                 id={`app-settings-errorPages-delete-tooltip-${index}`}
                 iconProps={{ iconName: 'Delete' }}
                 ariaLabel={t('delete')}
-                onClick={() => removeItem(index)}
+                onClick={() => removeItem(item.key)}
               />
             ) : (
               <TooltipHost
@@ -137,7 +136,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
                   id={`app-settings-errorPages-delete-tooltip-${index}`}
                   iconProps={{ iconName: 'Delete' }}
                   ariaLabel={t('delete')}
-                  onClick={() => removeItem(index)}
+                  onClick={() => removeItem(item.key)}
                 />
               </TooltipHost>
             )}
@@ -157,7 +156,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               id={`app-settings-errorPages-edit-${index}`}
               iconProps={{ iconName: 'Edit' }}
               ariaLabel={t('edit')}
-              onClick={() => onShowPanel(item, index)}
+              onClick={() => onShowPanel(item)}
             />
           </TooltipHost>
         );
