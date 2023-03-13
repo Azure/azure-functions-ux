@@ -9,12 +9,11 @@ import { FormErrorPage } from '../AppSettings.types';
 export interface ErrorPageGridAddEditProps {
   errorPage: FormErrorPage;
   closeBlade: () => void;
-  index: number;
-  addEditItem: (item: FormErrorPage, file: string, index: number) => void;
+  addEditItem: (item: FormErrorPage, file: string, key: number) => void;
 }
 
 const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((props: ErrorPageGridAddEditProps) => {
-  const { errorPage, closeBlade, addEditItem, index } = props;
+  const { errorPage, closeBlade, addEditItem } = props;
   const { t } = useTranslation();
   const [fileUploadSuccess, setFileUploadSuccess] = React.useState(false);
   const [file, setFile] = React.useState<string>('');
@@ -24,7 +23,7 @@ const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((pr
   };
 
   const save = () => {
-    addEditItem(errorPage, file, index);
+    addEditItem(errorPage, file, errorPage.key);
   };
 
   const actionBarPrimaryButtonProps = React.useMemo(() => {
@@ -48,12 +47,9 @@ const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((pr
   return (
     <>
       <form className={addEditFormStyle}>
-        <p id="default-documents-info-message">{t('errorPagesEditMessage')}</p>
+        <p id="error-pages-info-message">{t('errorPagesEditMessage')}</p>
         <Stack>
-          <ErrorPageFileUploader
-            setFile={setFile}
-            fileUploadSuccess={fileUploadSuccess}
-            setFileUploadSuccess={setFileUploadSuccess}></ErrorPageFileUploader>
+          <ErrorPageFileUploader setFile={setFile} fileUploadSuccess={fileUploadSuccess} setFileUploadSuccess={setFileUploadSuccess} />
         </Stack>
         <ActionBar
           id="error-page-edit-footer"

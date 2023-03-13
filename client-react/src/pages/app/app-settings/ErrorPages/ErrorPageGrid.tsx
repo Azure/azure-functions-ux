@@ -20,19 +20,18 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const [showPanel, setShowPanel] = useState(false);
   const [labelAddEditPane, setLabelAddEditPane] = useState<string | undefined>(undefined);
   const [currentErrorPage, setCurrentErrorPage] = useState<FormErrorPage | null>(null);
-  const [currentErrorPageIndex, setCurrentErrorPageIndex] = useState<number | null>(null);
   const { values } = props;
 
   const errorCode = CommonConstants.ErrorPageCode;
-  const errorPages = values.errorPages;
 
   const onCancelPanel = React.useCallback((): void => {
     setShowPanel(false);
   }, [setShowPanel, showPanel]);
 
   const removeItem = React.useCallback(
-    (index: number) => {
+    (key: number) => {
       const errorPages: FormErrorPage[] = [...values.errorPages];
+      const index = errorPages.findIndex(x => x.key == key);
       errorPages.splice(index, 1);
       props.setValues({
         ...values,
@@ -43,21 +42,25 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   );
 
   const addEditItem = React.useCallback(
-    (item: FormErrorPage, file: string, index: number) => {
-      const errorPages = [...values.errorPages];
+    (item: FormErrorPage, file: string, key: number) => {
       item.content = file;
-      if (labelAddEditPane == t('editErrorPage')) {
+      item.status = t('errorPage_columnStatus_configured');
+      const errorPages: FormErrorPage[] = [...values.errorPages];
+      const index = errorPages.findIndex(x => x.key == key);
+
+      if (index > -1) {
         errorPages[index] = item;
       } else {
         errorPages.push(item);
       }
+
       props.setValues({
         ...values,
         errorPages,
       });
       setShowPanel(false);
     },
-    [values.errorPages, currentErrorPage, currentErrorPageIndex]
+    [values.errorPages, currentErrorPage]
   );
 
   const onShowPanel = React.useCallback(
@@ -66,14 +69,13 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       else setLabelAddEditPane(t('addErrorPage'));
       setShowPanel(true);
       setCurrentErrorPage(item);
-      setCurrentErrorPageIndex(index);
     },
-    [values, labelAddEditPane, setLabelAddEditPane, currentErrorPage, currentErrorPageIndex]
+    [values, labelAddEditPane, setLabelAddEditPane, currentErrorPage]
   );
 
   const getConfigurationStatus = React.useCallback(
     (errorCode: string) => {
-      return errorPages.some(i => i.errorCode.includes(errorCode))
+      return values.errorPages.some(i => i.errorCode.includes(errorCode))
         ? t('errorPage_columnStatus_configured')
         : t('errorPage_columnStatus_notConfigured');
     },
@@ -124,7 +126,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               id={`app-settings-errorPages-delete-tooltip-${index}`}
               iconProps={{ iconName: 'Delete' }}
               ariaLabel={t('delete')}
-              onClick={() => removeItem(index)}
+              onClick={() => removeItem(item.key)}
             />
           </TooltipHost>
         );
@@ -150,7 +152,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
       return <div className={boldCellStyle}>{item[column.fieldName!]}</div>;
     },
-    [removeItem, onShowPanel, disableAllControls, values.errorPages]
+    [removeItem, onShowPanel, disableAllControls, values.errorPages, addEditItem]
   );
 
   const getColumns = React.useMemo((): IColumn[] => {
@@ -204,7 +206,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         onRender: onRenderItemColumn,
       },
     ];
-  }, [onRenderItemColumn]);
+  }, [onRenderItemColumn, values.errorPages, showPanel, addEditItem, disableAllControls, removeItem]);
 
   return (
     <>
@@ -217,12 +219,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         selectionPreservedOnEmptyClick={true}
       />
       <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={labelAddEditPane}>
-        <ErrorPageGridAddEdit
-          errorPage={currentErrorPage!}
-          closeBlade={onCancelPanel}
-          index={currentErrorPageIndex!}
-          addEditItem={addEditItem}
-        />
+        <ErrorPageGridAddEdit errorPage={currentErrorPage!} closeBlade={onCancelPanel} addEditItem={addEditItem} />
       </CustomPanel>
     </>
   );
