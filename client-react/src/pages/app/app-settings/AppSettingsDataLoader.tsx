@@ -6,6 +6,7 @@ import {
   AppSettingsAsyncData,
   LoadingStates,
   FormAzureStorageMounts,
+  FormErrorPage,
 } from './AppSettings.types';
 import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
@@ -20,6 +21,8 @@ import {
   getFunctions,
   fetchFunctionsHostStatus,
   getAllConnectionStringsReferences,
+  getCustomErrorPagesForSite,
+  deleteCustomErrorPageForSite,
 } from './AppSettings.service';
 import {
   PermissionsContext,
@@ -46,7 +49,6 @@ import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
 import { ExperimentationConstants } from '../../../utils/CommonConstants';
-
 export interface AppSettingsDataLoaderProps {
   children: (props: {
     initialFormValues: AppSettingsFormValues | null;
@@ -128,10 +130,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse] = await Promise.all([
+    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse, errorPagesResponse] = await Promise.all([
       siteContext.fetchSite(resourceId),
       SiteService.getBasicPublishingCredentialsPolicies(resourceId),
       fetchApplicationSettingValues(resourceId),
+      getCustomErrorPagesForSite(resourceId),
     ]);
 
     const { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames } = applicationSettingsResponse;
@@ -241,6 +244,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
             ? basicPublishingCredentialsPolicies.data
             : null,
           appPermissions: appPermissions,
+          errorPages: errorPagesResponse?.metadata.success ? errorPagesResponse.data : null,
         }),
       });
     }
@@ -400,6 +404,25 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     return true;
   };
 
+  const errorPagesUpdated = (current: FormErrorPage[], origin: FormErrorPage[] | undefined) => {
+    let success = true;
+    current.forEach(async errorPage => {
+      if (errorPage.content) {
+        const response = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content);
+        success = success && response.metadata.success;
+      }
+    });
+
+    origin?.forEach(async errorPage => {
+      const index = current.findIndex(x => x.key == errorPage.key);
+      if (index < 0) {
+        const response = await deleteCustomErrorPageForSite(resourceId, errorPage.errorCode);
+        success = success && response.metadata.success;
+      }
+    });
+    return success;
+  };
+
   const onSubmit = async (values: AppSettingsFormValues) => {
     setSaving(true);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
@@ -419,6 +442,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       configSettingToIgnore = configSettingToIgnore.filter(config => config !== 'azureStorageAccounts');
     }
 
+    const errorPageUpdateSuccess = errorPagesUpdated(values.errorPages, initialValues?.errorPages);
+
     const [siteUpdate, slotConfigNamesUpdate] = [
       updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
@@ -426,7 +451,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     const [siteResult, slotConfigNamesResult] = await Promise.all([siteUpdate, slotConfigNamesUpdate]);
 
-    const success = siteResult!.metadata.success && (!slotConfigNamesResult || slotConfigNamesResult.metadata.success);
+    const success =
+      siteResult!.metadata.success && (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) && errorPageUpdateSuccess;
 
     if (success) {
       setInitialValues({

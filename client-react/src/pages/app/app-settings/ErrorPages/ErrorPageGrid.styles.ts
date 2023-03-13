@@ -14,6 +14,10 @@ export const uploadStyle = mergeStyleSets({
   },
 });
 
+export const boldCellStyle = style({
+  fontWeight: 400,
+});
+
 export const browseButtonStyle = (theme: ThemeExtended) =>
   style({
     backgroundColor: theme.semanticColors.accentButtonBackground,

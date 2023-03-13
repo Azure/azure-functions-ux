@@ -28,6 +28,14 @@ export interface FormAzureStorageMounts extends AzureStorageMount {
   name: string;
   sticky?: boolean;
 }
+
+export interface FormErrorPage {
+  key: number;
+  errorCode: string;
+  status: string;
+  content?: string;
+}
+
 export interface AppSettingsFormValues {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
@@ -35,6 +43,7 @@ export interface AppSettingsFormValues {
   connectionStrings: FormConnectionString[];
   azureStorageMounts: FormAzureStorageMounts[];
   virtualApplications: VirtualApplication[];
+  errorPages: FormErrorPage[];
   currentlySelectedStack: string;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
   references?: KeyVaultReferences;
