@@ -99,6 +99,18 @@ export class GithubController {
     await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, { name: repo });
   }
 
+  @Put('api/github/addSecretToRepository')
+  @HttpCode(200)
+  async addSecretToRepository(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('repo') repo: string,
+    @Body('secretName') secretName: string,
+    @Body('secretValue') secretValue: string
+  ) {
+    const publicKey = await this._getGitHubRepoPublicKey(gitHubToken, repo);
+    this._putGitHubRepoSecret(gitHubToken, publicKey, repo, secretName, secretValue);
+  }
+
   @Post('api/github/createRepoFromGitHubTemplate')
   @HttpCode(200)
   async createRepoFromGitHubTemplate(
