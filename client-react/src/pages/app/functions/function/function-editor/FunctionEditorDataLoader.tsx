@@ -328,10 +328,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       }
 
       if (runFromPassthrough) {
-        let parsedTestData: { headers: NameValuePair[] } = { headers: [] };
+        let parsedTestData: { headers: NameValuePair[] };
         try {
           parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
-        } catch {}
+        } catch {
+          parsedTestData = { headers: [] };
+        }
 
         const path = site ? settings.uri.substring(Url.getMainUrl(site).length) : '';
         const inputHeaders: NameValuePair[] = [];

@@ -5,7 +5,12 @@ import { ThemeContext } from '../../../ThemeContext';
 import { buttonFooterStyle, buttonPadding } from './ChangeAppPlan.styles';
 import { ChangeAppPlanFooterProps } from './ChangeAppPlan.types';
 
-export const ChangeAppPlanFooter: React.FC<ChangeAppPlanFooterProps> = ({ formProps, isUpdating, siteIsReadOnlyLocked, submitForm }) => {
+export const ChangeAppPlanFooter: React.FC<ChangeAppPlanFooterProps> = ({
+  formProps,
+  isUpdating,
+  siteIsReadOnlyLocked,
+  submitForm,
+}: ChangeAppPlanFooterProps) => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 

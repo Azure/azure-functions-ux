@@ -7,7 +7,7 @@ import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { labelSectionStyle, sectionStyle } from './ChangeAppPlan.styles';
 import { CurrentPlanDetailsProps } from './ChangeAppPlan.types';
 
-export const CurrentPlanDetails: React.FC<CurrentPlanDetailsProps> = ({ currentServerFarm }) => {
+export const CurrentPlanDetails: React.FC<CurrentPlanDetailsProps> = ({ currentServerFarm }: CurrentPlanDetailsProps) => {
   const { t } = useTranslation();
 
   return (

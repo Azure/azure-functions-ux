@@ -36,7 +36,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   resourceGroups,
   serverFarms,
   isUpdating,
-}) => {
+}: DestinationPlanDetailsProps) => {
   const changeSkuLinkElement = useRef<ILink | null>(null);
   const [skuTier, setSkuTier] = useState(formProps.values.currentServerFarm.sku?.tier);
   const [showDeletePlanOption, setShowDeletePlanOption] = useState(false);
