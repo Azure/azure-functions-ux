@@ -410,8 +410,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const errorPagesUpdated = async (current: FormErrorPage[], origin: FormErrorPage[] | undefined) => {
     current.forEach(async errorPage => {
       if (errorPage.content) {
-        const response = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, 'errorPage.content');
-        console.log(response.metadata.success);
+        const response = await SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content);
+
         if (!response.metadata.success) {
           setErrorPageSuccess(false);
           setErrorPageUpdateError(response.metadata.error);
