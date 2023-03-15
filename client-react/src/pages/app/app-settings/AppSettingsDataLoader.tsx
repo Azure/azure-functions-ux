@@ -484,8 +484,20 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const errorPageUpdateErrorMsg = updatedErrorPagesPromiseResolved.map(errorPage => errorPage.metadata.error)[0];
-      const errorPageDeleteErrorMsg = deleteErrorPagesPromiseResolved.map(errorPage => errorPage.metadata.error)[0];
+      const errorPageUpdateErrorMsg = updatedErrorPagesPromiseResolved.flatMap(errorPage => {
+        if (!errorPage.metadata.success) {
+          return errorPage.metadata.error;
+        } else {
+          return [];
+        }
+      })[0];
+      const errorPageDeleteErrorMsg = deleteErrorPagesPromiseResolved.flatMap(errorPage => {
+        if (!errorPage.metadata.success) {
+          return errorPage.metadata.error;
+        } else {
+          return [];
+        }
+      })[0];
 
       const [siteError, slotConfigError, errorPageDeleteError, errorPageUpdateError] = [
         getErrorMessage(siteResult!.metadata.error),
