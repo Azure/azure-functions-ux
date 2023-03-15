@@ -72,6 +72,9 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
+  const enableCustomErrorPages =
+    scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status === 'enabled' &&
+    Url.getFeatureValue(CommonConstants.FeatureFlags.customErrorPage);
 
   return (
     <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
@@ -141,7 +144,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
         <></>
       )}
 
-      {Url.getFeatureValue(CommonConstants.FeatureFlags.customErrorPage) ? (
+      {enableCustomErrorPages ? (
         <PivotItem
           className={pivotWrapper}
           onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
