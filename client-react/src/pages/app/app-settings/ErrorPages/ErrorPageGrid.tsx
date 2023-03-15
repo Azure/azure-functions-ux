@@ -44,11 +44,11 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const addEditItem = React.useCallback(
     (item: FormErrorPage, file: string, key: number) => {
       const errorPages: FormErrorPage[] = [...values.errorPages];
+      item.content = file;
       const index = errorPages.findIndex(x => x.key == key);
       if (index > -1) {
         errorPages[index] = item;
       } else {
-        item.content = file;
         item.status = t('errorPage_columnStatus_configured');
         errorPages.push(item);
       }
