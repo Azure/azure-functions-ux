@@ -412,7 +412,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     return [
       Promise.all(
         filteredUpdatedErrorPages.map(errorPage =>
-          SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, 'errorPage.content' ?? '')
+          SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content ?? '')
         )
       ),
       Promise.all(filteredCurrentErrorPages.map(errorPage => deleteCustomErrorPageForSite(resourceId, errorPage.errorCode))),
