@@ -99,6 +99,18 @@ export class GithubController {
     await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, { name: repo });
   }
 
+  @Put('api/github/addSecretToRepository')
+  @HttpCode(200)
+  async addSecretToRepository(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('repo') repo: string,
+    @Body('secretName') secretName: string,
+    @Body('secretValue') secretValue: string
+  ) {
+    const publicKey = await this._getGitHubRepoPublicKey(gitHubToken, repo);
+    this._putGitHubRepoSecret(gitHubToken, publicKey, repo, secretName, secretValue);
+  }
+
   @Post('api/github/createRepoFromGitHubTemplate')
   @HttpCode(200)
   async createRepoFromGitHubTemplate(
@@ -233,6 +245,20 @@ export class GithubController {
     @Res() res
   ) {
     const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/.github/workflows?ref=${branchName}`;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/listJobsForWorkflowRun')
+  @HttpCode(200)
+  async listJobsForWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('workflowRunId') workflowRunId: string,
+    @Body('page') page: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${workflowRunId}/jobs?page=${page}`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 

@@ -15,7 +15,10 @@ import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
 import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
-import { OverflowBehavior } from '../../../utils/CommonConstants';
+import { CommonConstants, OverflowBehavior } from '../../../utils/CommonConstants';
+import Url from '../../../utils/url';
+import { errorPagesDirty } from './Sections/ErrorPage';
+import ErrorPagePivot from './Sections/ErrorPage';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -43,6 +46,10 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
     return functionRuntimeSettingsDirty(values, initialValues);
   };
 
+  const errorPagesDirtyCheck = () => {
+    return errorPagesDirty(values, initialValues);
+  };
+
   const pathMappingsDirtyCheck = () => {
     return pathMappingsDirty(values, initialValues);
   };
@@ -65,6 +72,9 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
+  const enableCustomErrorPages =
+    scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status === 'enabled' &&
+    Url.getFeatureValue(CommonConstants.FeatureFlags.customErrorPage);
 
   return (
     <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
@@ -74,7 +84,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
         }
         itemKey={AppSettingsTabs.applicationSettings}
-        linkText={t('applicationSettings')}>
+        headerText={t('applicationSettings')}>
         <ApplicationSettingsPivot {...props} />
       </PivotItem>
 
@@ -85,7 +95,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
             CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
           }
           itemKey={AppSettingsTabs.functionRuntimeSettings}
-          linkText={isWorkflowApp(site) ? t('workflowRuntimeSettings') : t('functionRuntimeSettings')}>
+          headerText={isWorkflowApp(site) ? t('workflowRuntimeSettings') : t('functionRuntimeSettings')}>
           <FunctionRuntimeSettingsPivot {...props} />
         </PivotItem>
       ) : (
@@ -99,7 +109,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
             CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, dirtyLabel, generalSettingsErrorCheck)
           }
           itemKey={AppSettingsTabs.generalSettings}
-          linkText={t('generalSettings')}>
+          headerText={t('generalSettings')}>
           <GeneralSettings {...props} />
         </PivotItem>
       ) : (
@@ -113,7 +123,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
             CustomTabRenderer(link, defaultRenderer, theme, defaultDocumentsDirtyCheck, dirtyLabel, defaultDocumentsErrorCheck)
           }
           itemKey={AppSettingsTabs.defaultDocuments}
-          linkText={t('defaultDocuments')}>
+          headerText={t('defaultDocuments')}>
           <DefaultDocumentsPivot {...props} />
         </PivotItem>
       ) : (
@@ -127,8 +137,22 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
             CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck, dirtyLabel)
           }
           itemKey={AppSettingsTabs.pathMappings}
-          linkText={t('pathMappings')}>
+          headerText={t('pathMappings')}>
           <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
+        </PivotItem>
+      ) : (
+        <></>
+      )}
+
+      {enableCustomErrorPages ? (
+        <PivotItem
+          className={pivotWrapper}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, errorPagesDirtyCheck, dirtyLabel)
+          }
+          itemKey={AppSettingsTabs.customErrorPage}
+          headerText={t('customErrorPage')}>
+          <ErrorPagePivot {...props} />
         </PivotItem>
       ) : (
         <></>
@@ -149,6 +173,8 @@ const getPivotTabId = (itemKey: string) => {
       return 'app-settings-application-settings-tab';
     case AppSettingsTabs.functionRuntimeSettings:
       return 'app-settings-function-runtime-settings-tab';
+    case AppSettingsTabs.customErrorPage:
+      return 'app-settings-custom-error-pages-tab';
   }
   return '';
 };

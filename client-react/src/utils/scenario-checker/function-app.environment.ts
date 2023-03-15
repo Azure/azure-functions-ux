@@ -34,6 +34,13 @@ export class FunctionAppEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.enableCustomErrorPages] = {
+      id: ScenarioIds.enableCustomErrorPages,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.showConnnectionStringFunctionInfo] = {
       id: ScenarioIds.showConnnectionStringFunctionInfo,
       runCheck: () => {

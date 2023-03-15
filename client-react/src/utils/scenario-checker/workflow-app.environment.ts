@@ -22,7 +22,19 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.enableCustomErrorPages] = {
+      id: ScenarioIds.enableCustomErrorPages,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
+      id: ScenarioIds.clientAffinitySupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
       id: ScenarioIds.clientAffinitySupported,
       runCheck: () => ({ status: 'disabled' }),
     };
