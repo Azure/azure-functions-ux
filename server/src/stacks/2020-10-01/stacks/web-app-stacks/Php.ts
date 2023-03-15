@@ -34,7 +34,6 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '8.2',
-                  notSupportedInCreates: true,
                 },
                 endOfLifeDate: php8Point2EOL,
               },
@@ -54,7 +53,6 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '8.1',
-                  notSupportedInCreates: true,
                 },
                 endOfLifeDate: php8Point1EOL,
               },
@@ -74,7 +72,6 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '8.0',
-                  notSupportedInCreates: true,
                 },
                 endOfLifeDate: php8Point0EOL,
               },
