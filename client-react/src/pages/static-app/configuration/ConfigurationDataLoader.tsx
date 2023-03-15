@@ -20,6 +20,7 @@ import {
   ConfigurationYupValidationSchemaType,
   EnvironmentVariable,
   PasswordProtectionTypes,
+  Snippet,
   StagingEnvironmentPolicyTypes,
 } from './Configuration.types';
 import ConfigurationForm from './ConfigurationForm';
@@ -83,6 +84,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
       basicAuth?: PasswordProtectionTypes,
       defaultEnvironment?: ArmObj<Environment>,
       defaultEnvironmentVariables?: EnvironmentVariable[],
+      defaultSnippets?: Snippet[],
       stagingEnvironmentPolicy?: StagingEnvironmentPolicyTypes,
       allowConfigFileUpdates?: boolean
     ) => {
@@ -93,6 +95,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
           basicAuth,
           defaultEnvironment,
           defaultEnvironmentVariables,
+          defaultSnippets,
           stagingEnvironmentPolicy,
           allowConfigFileUpdates
         )
@@ -111,10 +114,11 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
       const appPermission = await portalContext.hasPermission(resourceId, [RbacConstants.writeScope]);
       setHasWritePermissions(appPermission);
 
-      const [environmentResponse, staticSiteAuthResponse, staticSiteResponse] = await Promise.all([
+      const [environmentResponse, staticSiteAuthResponse, staticSiteResponse, snippetsResponse] = await Promise.all([
         EnvironmentService.getEnvironments(resourceId),
         StaticSiteService.getStaticSiteBasicAuth(resourceId),
         StaticSiteService.getStaticSite(resourceId),
+        StaticSiteService.getStaticSiteSnippets(resourceId),
       ]);
 
       let envResponse: ArmObj<Environment>[] = [];
@@ -165,6 +169,13 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
           `Failed to get site: ${getErrorMessageOrStringify(staticSiteResponse.metadata.error)}`
         );
       }
+      let snippets;
+      if (snippetsResponse.metadata.success) {
+        snippets =
+          snippetsResponse.data?.value?.map(snippet => {
+            return { ...snippet?.properties, content: atob(snippet.properties.content), name: snippet?.name, checked: false };
+          }) ?? [];
+      }
 
       if (!apiFailure) {
         const defaultEnvironment = currentEnvironment ?? getDefaultEnvironment(envResponse);
@@ -174,6 +185,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
           passwordProtection,
           defaultEnvironment,
           getInitialEnvironmentVariables(envVarResponse),
+          snippets,
           stagingEnvironmentPolicy,
           allowConfigFileUpdates
         );

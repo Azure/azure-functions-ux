@@ -10,9 +10,10 @@ import Configuration from './Configuration';
 import { ConfigurationPivotProps } from './Configuration.types';
 import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';
 import { useStyles } from './ConfigurationPivot.styles';
+import ConfigurationSnippets from './ConfigurationSnippets';
 
 const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: ConfigurationPivotProps) => {
-  const { isLoading, hasWritePermissions, formProps, staticSiteSku } = props;
+  const { isLoading, hasWritePermissions, formProps, staticSiteSku, refresh, resourceId } = props;
 
   const styles = useStyles();
   const { t } = useTranslation();
@@ -66,6 +67,22 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
           formProps={formProps}
           isLoading={isLoading}
           staticSiteSku={staticSiteSku}
+        />
+      </PivotItem>
+      <PivotItem
+        itemKey="snippets"
+        headerText={t('staticSite_snippets')}
+        ariaLabel={t('staticSite_snippets')}
+        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+          CustomTabRenderer(link, defaultRenderer, theme, () => false, t('modifiedTag'))
+        }>
+        <ConfigurationSnippets
+          hasWritePermissions={hasWritePermissions}
+          refresh={refresh}
+          disabled={isLoading || !hasWritePermissions}
+          formProps={formProps}
+          isLoading={isLoading}
+          resourceId={resourceId}
         />
       </PivotItem>
     </Pivot>

@@ -43,6 +43,7 @@ export class CommonConstants {
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
     staticSiteApiVersion20210301: '2021-03-01',
+    staticSiteApiVersion20220301: '2022-03-01',
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
@@ -273,6 +274,9 @@ export class CommonConstants {
 
   //min length is 8, must contain uppercase, lowercase, number, and symbol
   public static readonly passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
+
+  //min length is 1, must contain 2048 chars
+  public static readonly snippetsContentRegEx = new RegExp(/^(.{1,2048})$/s);
 
   public static newlineRegex = new RegExp(/\r?\n/);
 
