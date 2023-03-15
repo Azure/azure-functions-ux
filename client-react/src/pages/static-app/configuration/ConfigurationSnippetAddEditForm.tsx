@@ -3,7 +3,7 @@ import { ProgressIndicator, IDropdownOption, IChoiceGroupOption, MessageBarType 
 import { useTranslation } from 'react-i18next';
 import { useStyles } from './Configuration.styles';
 import {
-  applicableEnvironmentsMode,
+  ApplicableEnvironmentsMode,
   ConfigurationSnippetsAddEditFormProps,
   SnippetInsetionLocation,
   SnippetLocation,
@@ -37,7 +37,7 @@ const ConfigurationSnippetsAddEditForm: React.FC<ConfigurationSnippetsAddEditFor
   const monacoEditorHeight = 'calc(68vh - 100px)';
 
   const isEnvironmentDropdownVisible = useMemo(() => {
-    return formProps.values.snippetApplicableEnvironmentsMode === applicableEnvironmentsMode.SpecifiedEnvironments;
+    return formProps.values.snippetApplicableEnvironmentsMode === ApplicableEnvironmentsMode.SpecifiedEnvironments;
   }, [formProps.values.snippetApplicableEnvironmentsMode]);
 
   useEffect(() => {
@@ -131,8 +131,8 @@ const ConfigurationSnippetsAddEditForm: React.FC<ConfigurationSnippetsAddEditFor
               ariaLabelledBy={t('staticSite_environment')}
               disabled={disabled}
               options={[
-                { key: applicableEnvironmentsMode.AllEnvironments, text: t('staticSite_allEnvironments') },
-                { key: applicableEnvironmentsMode.SpecifiedEnvironments, text: t('staticSite_selectEnvironments') },
+                { key: ApplicableEnvironmentsMode.AllEnvironments, text: t('staticSite_allEnvironments') },
+                { key: ApplicableEnvironmentsMode.SpecifiedEnvironments, text: t('staticSite_selectEnvironments') },
               ]}
             />
             {isEnvironmentDropdownVisible && (
@@ -148,6 +148,7 @@ const ConfigurationSnippetsAddEditForm: React.FC<ConfigurationSnippetsAddEditFor
                   multiSelect
                   options={environmentDropdownOptions}
                   onChange={onSnippetEnvironmentsChange}
+                  disabled={disabled}
                 />
               </div>
             )}
@@ -155,6 +156,7 @@ const ConfigurationSnippetsAddEditForm: React.FC<ConfigurationSnippetsAddEditFor
           <section className={styles.section}>
             <div className={bodyEditorStyle}>
               <MonacoEditor
+                className={bodyEditorStyle}
                 value={formProps.values.snippetContent ?? ''}
                 language={EditorLanguage.markdown}
                 onChange={onSnippetContentChange}

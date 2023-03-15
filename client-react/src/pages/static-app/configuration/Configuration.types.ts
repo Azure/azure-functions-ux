@@ -77,7 +77,7 @@ export interface ConfigurationSnippetsAddEditFormData {
   snippetLocation: SnippetLocation;
   snippetContent: string;
   snippetInsertBottom: boolean;
-  snippetApplicableEnvironmentsMode: applicableEnvironmentsMode;
+  snippetApplicableEnvironmentsMode: ApplicableEnvironmentsMode;
   snippetEnvironments: string[];
 }
 
@@ -104,7 +104,7 @@ export enum SecretState {
 // StagingEnvironments: all stage environments are locked down
 // SpecifiedEnvironments: specify the environment names as a comma separated list via the "environments" property.
 // Prod environment is referred to as 'default'
-export enum applicableEnvironmentsMode {
+export enum ApplicableEnvironmentsMode {
   SpecifiedEnvironments = 'SpecifiedEnvironments',
   AllEnvironments = 'AllEnvironments',
   StagingEnvironments = 'StagingEnvironments',
@@ -125,7 +125,7 @@ export interface Snippet {
   location: SnippetLocation;
   content: string;
   insertBottom: boolean;
-  applicableEnvironmentsMode: applicableEnvironmentsMode;
+  applicableEnvironmentsMode: ApplicableEnvironmentsMode;
   environments: string[];
   checked?: boolean;
 }
@@ -148,7 +148,6 @@ export interface ConfigurationFormData {
 export type ConfigurationYupValidationSchemaType = Yup.ObjectSchema<Yup.Shape<object, ConfigurationFormData>>;
 
 export interface ConfigurationFormProps {
-  formData?: ConfigurationFormData;
   validationSchema?: ConfigurationYupValidationSchemaType;
   resourceId: string;
   environments: ArmObj<Environment>[];
@@ -161,6 +160,7 @@ export interface ConfigurationFormProps {
   refresh: (currentEnvironment?: ArmObj<Environment>) => Promise<void>;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
   staticSiteSku: StaticSiteSku;
+  formData?: ConfigurationFormData;
   location?: string;
 }
 

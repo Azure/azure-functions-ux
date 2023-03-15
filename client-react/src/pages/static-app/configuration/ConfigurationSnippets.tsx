@@ -1,4 +1,4 @@
-import { useState, useCallback, useContext, useEffect } from 'react';
+import { useState, useCallback, useContext, useMemo } from 'react';
 import { useBoolean } from '@fluentui/react-hooks';
 import { useTranslation } from 'react-i18next';
 import {
@@ -19,7 +19,7 @@ import {
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../utils/FwLinks';
 import { useStyles } from './Configuration.styles';
-import { applicableEnvironmentsMode, ConfigurationSnippetsProps, Snippet } from './Configuration.types';
+import { ApplicableEnvironmentsMode, ConfigurationSnippetsProps, Snippet } from './Configuration.types';
 import ConfigurationSnippetsAddEdit from './ConfigurationSnippetsAddEdit';
 import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
@@ -30,6 +30,7 @@ import ConfigurationData from './Configuration.data';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
 import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from '../StaticSiteUtility';
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 
 const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
   hasWritePermissions,
@@ -47,8 +48,8 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
   const { values } = formProps;
   const [isOpen, { setTrue: openAddEditPanel, setFalse: dismissAddEditPanel }] = useBoolean(false);
   const [filter, setFilter] = useState('');
-  const [columns, setColumns] = useState<IColumn[]>([]);
   const [selectedSnippet, setSelectedSnippet] = useState();
+  const [isDeleteConfirmDialogVisible, { setTrue: showDiscardConfirmDialog, setFalse: hideDeleteConfirmDialog }] = useBoolean(false);
 
   const setSnippetAndOpenPanel = (currentSnippet: any) => {
     setSelectedSnippet(currentSnippet);
@@ -60,113 +61,97 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
     dismissAddEditPanel();
   };
 
-  const getFilteredItems = () => {
+  const filteredItems = useMemo(() => {
     return (
       values.snippets?.filter(snippet => {
         return !filter || snippet.name.toLowerCase().includes(filter.toLowerCase());
       }) ?? []
     );
-  };
+  }, [filter, values.snippets]);
 
-  const onColumnClick = (_ev: React.MouseEvent<HTMLElement>, column: IColumn) => {
-    const currColumn = columns.filter(currCol => column.key === currCol.key)[0];
-    updateColumnSortOrder(currColumn);
-  };
-
-  const updateColumnSortOrder = (currColumn: IColumn) => {
-    const newColumns = [...columns];
-    newColumns.forEach((newCol: IColumn) => {
-      if (newCol === currColumn) {
-        currColumn.isSortedDescending = !currColumn.isSortedDescending;
-        currColumn.isSorted = true;
-      } else {
-        newCol.isSorted = false;
-        newCol.isSortedDescending = true;
+  const onRenderColumnItem = useCallback(
+    (item: Snippet, index: number, column: IColumn) => {
+      if (!column || !item) {
+        return null;
       }
-    });
-    setColumns(newColumns);
-  };
+      if (column.key === 'edit') {
+        return (
+          <TooltipHost content={t('edit')} id={`snippet-edit-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
+            <IconButton
+              className={styles.defaultCellStyle}
+              disabled={false}
+              id={`snippet-${index}`}
+              iconProps={{ iconName: 'Edit' }}
+              ariaLabel={t('edit')}
+              onClick={() => setSnippetAndOpenPanel(item)}
+            />
+          </TooltipHost>
+        );
+      }
 
-  const onRenderColumnItem = (item: Snippet, index: number, column: IColumn) => {
-    if (!column || !item) {
-      return null;
-    }
-    if (column.key === 'edit') {
-      return (
-        <TooltipHost content={t('edit')} id={`snippet-edit-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
-          <IconButton
+      if (column.key === 'name') {
+        return (
+          <ActionButton
             className={styles.defaultCellStyle}
             disabled={false}
             id={`snippet-${index}`}
-            iconProps={{ iconName: 'Edit' }}
-            ariaLabel={t('edit')}
-            onClick={() => setSnippetAndOpenPanel(item)}
-          />
-        </TooltipHost>
-      );
-    }
+            onClick={() => setSnippetAndOpenPanel(item)}>
+            <span aria-live="assertive" role="region">
+              {item[column.fieldName!]}
+            </span>
+          </ActionButton>
+        );
+      }
 
-    if (column.key === 'name') {
-      return (
-        <ActionButton
-          className={styles.defaultCellStyle}
-          disabled={false}
-          id={`snippet-${index}`}
-          onClick={() => setSnippetAndOpenPanel(item)}>
-          <span aria-live="assertive" role="region">
-            {item[column.fieldName!]}
-          </span>
-        </ActionButton>
-      );
-    }
+      if (column.key === 'type') {
+        return (
+          <ActionButton
+            className={styles.defaultCellStyle}
+            disabled={false}
+            id={`snippet-${index}`}
+            onClick={() => setSnippetAndOpenPanel(item)}>
+            <span aria-live="assertive" role="region">
+              {item.location}
+            </span>
+          </ActionButton>
+        );
+      }
 
-    if (column.key === 'type') {
-      return (
-        <ActionButton
-          className={styles.defaultCellStyle}
-          disabled={false}
-          id={`snippet-${index}`}
-          onClick={() => setSnippetAndOpenPanel(item)}>
-          <span aria-live="assertive" role="region">
-            {item.location}
-          </span>
-        </ActionButton>
-      );
-    }
+      if (column.key === 'appliesto') {
+        return (
+          <ActionButton
+            className={styles.defaultCellStyle}
+            disabled={false}
+            id={`snippet-${index}`}
+            onClick={() => setSnippetAndOpenPanel(item)}>
+            <span aria-live="assertive" role="region">
+              {getItemEnvironmentContent(item)}
+            </span>
+          </ActionButton>
+        );
+      }
 
-    if (column.key === 'appliesto') {
-      return (
-        <ActionButton
-          className={styles.defaultCellStyle}
-          disabled={false}
-          id={`snippet-${index}`}
-          onClick={() => setSnippetAndOpenPanel(item)}>
-          <span aria-live="assertive" role="region">
-            {getItemEnvironmentContent(item)}
-          </span>
-        </ActionButton>
-      );
-    }
+      if (column.key === 'content') {
+        return (
+          <ActionButton
+            className={styles.defaultCellStyle}
+            disabled={false}
+            id={`snippet-${index}`}
+            onClick={() => setSnippetAndOpenPanel(item)}>
+            <span aria-live="assertive" role="region">
+              {item.content}
+            </span>
+          </ActionButton>
+        );
+      }
 
-    if (column.key === 'content') {
-      return (
-        <ActionButton
-          className={styles.defaultCellStyle}
-          disabled={false}
-          id={`snippet-${index}`}
-          onClick={() => setSnippetAndOpenPanel(item)}>
-          <span aria-live="assertive" role="region">
-            {item.content}
-          </span>
-        </ActionButton>
-      );
-    }
-
-    return <div className={styles.defaultCellStyle}>{item[column.fieldName!]}</div>;
-  };
+      return <div className={styles.defaultCellStyle}>{item[column.fieldName!]}</div>;
+    },
+    [styles]
+  );
 
   const getItemEnvironmentContent = (item: Snippet) => {
-    if (item.applicableEnvironmentsMode === applicableEnvironmentsMode.AllEnvironments) {
+    if (item.applicableEnvironmentsMode === ApplicableEnvironmentsMode.AllEnvironments) {
       return t('staticSite_allEnvironments');
     }
     if (item.environments?.length === 1) {
@@ -180,7 +165,7 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
     return `${item.environments?.length ?? 0} ${t('staticSite_environments')}`;
   };
 
-  const getDefaultColumns = useCallback((): IColumn[] => {
+  const defaultColumns = useMemo((): IColumn[] => {
     return [
       {
         key: 'name',
@@ -192,10 +177,7 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
         data: 'string',
         isPadded: true,
         isResizable: true,
-        isSortedDescending: false,
-        isSorted: true,
         onRender: onRenderColumnItem,
-        onColumnClick: onColumnClick,
       },
       {
         key: 'type',
@@ -208,7 +190,6 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
         isPadded: true,
         isResizable: true,
         onRender: onRenderColumnItem,
-        onColumnClick: onColumnClick,
       },
       {
         key: 'content',
@@ -220,19 +201,17 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
         isPadded: true,
         isResizable: true,
         onRender: onRenderColumnItem,
-        onColumnClick: onColumnClick,
       },
       {
         key: 'appliesto',
         name: t('staticSite_appliesTo'),
-        fieldName: 'appliesto',
+        fieldName: 'applicableEnvironmentsMode',
         minWidth: 150,
         isRowHeader: false,
         data: 'string',
         isPadded: true,
         isResizable: true,
         onRender: onRenderColumnItem,
-        onColumnClick: onColumnClick,
       },
       {
         key: 'edit',
@@ -257,12 +236,15 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
     return <DetailsHeader {...headerProps} onRenderDetailsCheckbox={onRenderHeaderItemCheckbox} />;
   };
 
-  const getCheckedValueForCheckBox = (disabled: boolean) => {
-    const selectedSnippets = values.snippets?.filter(snippet => snippet.checked) ?? [];
-    return !disabled && selectedSnippets.length === values.snippets?.length;
-  };
+  const getCheckedValueForCheckBox = useCallback(
+    (disabled: boolean) => {
+      const selectedSnippets = values.snippets?.filter(snippet => snippet.checked) ?? [];
+      return !disabled && selectedSnippets.length === values.snippets?.length;
+    },
+    [values.snippets, disabled]
+  );
 
-  const onRenderHeaderItemCheckbox = () => {
+  const onRenderHeaderItemCheckbox = useCallback(() => {
     const disabled = values.snippets?.length === 0;
     const checked = getCheckedValueForCheckBox(disabled);
     return (
@@ -273,10 +255,10 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
           onHeaderItemCheckboxChange(!checked);
         }}
         label={''}
-        ariaLabel={''}
+        ariaLabel={t('staticSite_headerCheckboxAriaLabel')}
       />
     );
-  };
+  }, [values.snippets]);
 
   const onRenderRowItemCheckbox = (item: any) => {
     return (
@@ -286,7 +268,7 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
           onRowItemCheckboxChange(item);
         }}
         label={''}
-        ariaLabel={''}
+        ariaLabel={t('staticSite_rowCheckboxAriaLabel')}
       />
     );
   };
@@ -305,7 +287,7 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
   };
 
   const onHeaderItemCheckboxChange = (updatedChecked: boolean) => {
-    const updatedSnippets = values.snippets ? [...values.snippets] : [];
+    const updatedSnippets = values.snippets ? values.snippets : [];
     formProps.setFieldValue(
       'snippets',
       updatedSnippets.map(snippet => {
@@ -315,7 +297,11 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
     );
   };
 
-  const getCommandBarItems = (): ICommandBarItemProps[] => {
+  const isDeleteButtonEnabled: boolean = useMemo(() => {
+    return disabled || !values.snippets || values.snippets?.filter(snippet => snippet.checked).length <= 0;
+  }, [values.snippets]);
+
+  const commandBarItems: ICommandBarItemProps[] = useMemo(() => {
     return [
       {
         key: 'add-new-snippet',
@@ -326,22 +312,21 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
         ariaLabel: t('add'),
       },
       {
-        key: 'environment-variable-bulk-delete',
-        onClick: () => {
-          deleteSnippets();
-        },
-        disabled: disabled,
+        key: 'snippet-variable-bulk-delete',
+        onClick: showDiscardConfirmDialog,
+        disabled: isDeleteButtonEnabled,
         iconProps: { iconName: 'Delete' },
         text: t('delete'),
         ariaLabel: t('delete'),
         className: commandBarSeparator(theme),
       },
     ];
-  };
+  }, [isDeleteButtonEnabled]);
 
-  const deleteSnippets = async () => {
+  const deleteSnippets = useCallback(async () => {
+    hideDeleteConfirmDialog();
     const snippetsToDelete: string[] =
-      formProps.values.snippets
+      values.snippets
         ?.filter(snippet => {
           if (snippet.checked) {
             return snippet;
@@ -372,7 +357,7 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
         );
       } else {
         const errorMessage = value.snippetResponse.metadata.error?.Message
-          ? t('staticSite_deletingSnippetFailureWithMessage').format(value.snippetName, value.snippetResponse.metadata.error)
+          ? t('staticSite_deletingSnippetFailureWithMessage').format(value.snippetName, value.snippetResponse.metadata.error?.Message)
           : t('staticSite_deletingSnippetFailure').format(value.snippetName);
         portalContext.log(
           getTelemetryInfo('error', 'deleteStaticSiteSnippet', 'failed', {
@@ -385,10 +370,6 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
     });
 
     refresh();
-  };
-
-  useEffect(() => {
-    setColumns(getDefaultColumns());
   }, [values.snippets]);
 
   return (
@@ -410,9 +391,9 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
             </div>
           </section>
           <DisplayTableWithCommandBar
-            commandBarItems={getCommandBarItems()}
-            columns={columns}
-            items={getFilteredItems()}
+            commandBarItems={commandBarItems}
+            columns={defaultColumns}
+            items={filteredItems}
             isHeaderVisible={true}
             layoutMode={DetailsListLayoutMode.justified}
             selectionMode={SelectionMode.multiple}
@@ -421,6 +402,22 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
             shimmer={{ lines: 2, show: isLoading }}
             onRenderRow={onRenderRow}
             onRenderDetailsHeader={onRenderDetailsHeader}>
+            <ConfirmDialog
+              title={t('staticSite_deleteSnippetConfirmationTitle')}
+              content={t('staticSite_deleteSnippetConfirmation')}
+              hidden={!isDeleteConfirmDialogVisible}
+              onDismiss={hideDeleteConfirmDialog}
+              defaultActionButton={{
+                title: t('cancel'),
+                onClick: hideDeleteConfirmDialog,
+              }}
+              primaryActionButton={{
+                title: t('ok'),
+                onClick: () => {
+                  deleteSnippets();
+                },
+              }}
+            />
             {getSearchFilter('snippets-search', setFilter, t('staticSite_filterSnippets'), false)}
           </DisplayTableWithCommandBar>
           <CustomPanel type={PanelType.medium} isOpen={isOpen} onDismiss={setSnippetAndDismissPanel}>

@@ -2,7 +2,7 @@ import { useEffect, useState, useMemo, useContext } from 'react';
 import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
-  applicableEnvironmentsMode,
+  ApplicableEnvironmentsMode,
   ConfigurationSnippetsAddEditFormData,
   ConfigurationSnippetsAddEditProps,
   ConfigurationSnippetsYupValidationSchemaType,
@@ -16,6 +16,7 @@ import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService
 import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from '../StaticSiteUtility';
 import * as Yup from 'yup';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 const ConfigurationSnippetsAddEdit: React.FC<ConfigurationSnippetsAddEditProps> = ({
   hasWritePermissions,
@@ -36,7 +37,7 @@ const ConfigurationSnippetsAddEdit: React.FC<ConfigurationSnippetsAddEditProps> 
     snippetLocation: SnippetLocation.Head,
     snippetContent: `<!--${t('staticSite_snippetContentPlaceholder')}-->`,
     snippetInsertBottom: true,
-    snippetApplicableEnvironmentsMode: applicableEnvironmentsMode.AllEnvironments,
+    snippetApplicableEnvironmentsMode: ApplicableEnvironmentsMode.AllEnvironments,
     snippetEnvironments: [],
     isSnippetsDirty: false,
   });
@@ -73,7 +74,7 @@ const ConfigurationSnippetsAddEdit: React.FC<ConfigurationSnippetsAddEditProps> 
   }, [formProps.values.snippets]);
 
   const validateForm = (values: ConfigurationSnippetsAddEditFormData) => {
-    if (values.snippetApplicableEnvironmentsMode === applicableEnvironmentsMode.SpecifiedEnvironments) {
+    if (values.snippetApplicableEnvironmentsMode === ApplicableEnvironmentsMode.SpecifiedEnvironments) {
       if (values.snippetEnvironments?.length > 10) {
         setStatusMessage({
           message: t('staticSite_snippetEnvironmentsErrorMessage'),
@@ -96,8 +97,8 @@ const ConfigurationSnippetsAddEdit: React.FC<ConfigurationSnippetsAddEditProps> 
       });
       return;
     }
-    const contentRegEx = new RegExp(/^(.{1,2048})$/s);
-    if (values.snippetContent && !contentRegEx.test(values.snippetContent)) {
+
+    if (values.snippetContent && !CommonConstants.snippetsContentRegEx.test(values.snippetContent)) {
       setStatusMessage({
         message: t('staticSite_snippetContentError'),
         level: MessageBarType.error,
@@ -131,7 +132,7 @@ const ConfigurationSnippetsAddEdit: React.FC<ConfigurationSnippetsAddEditProps> 
           content: btoa(values.snippetContent),
           insertBottom: values.snippetInsertBottom,
           environments:
-            values.snippetApplicableEnvironmentsMode === applicableEnvironmentsMode.SpecifiedEnvironments ? values.snippetEnvironments : [],
+            values.snippetApplicableEnvironmentsMode === ApplicableEnvironmentsMode.SpecifiedEnvironments ? values.snippetEnvironments : [],
         },
       };
       const addingSnippet = !selectedSnippet;

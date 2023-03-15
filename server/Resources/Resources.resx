@@ -7566,8 +7566,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_head" xml:space="preserve">
         <value>Head</value>
     </data>
-    <data name="staticSite_headAndBodyDescription" xml:space="preserve">
-        <value>Add custom code snippets to the {0} section of your static web app.</value>
+    <data name="staticSite_headerCheckboxAriaLabel" xml:space="preserve">
+        <value>Toggle selection for all items</value>
+    </data>
+    <data name="staticSite_rowCheckboxAriaLabel" xml:space="preserve">
+        <value>Select row</value>
+    </data>
+    <data name="staticSite_deleteSnippetConfirmation" xml:space="preserve">
+        <value>Are you sure you want to delete the selected snippets?</value>
+    </data>
+    <data name="staticSite_deleteSnippetConfirmationTitle" xml:space="preserve">
+        <value>Delete snippets</value>
     </data>
     <data name="staticSite_body" xml:space="preserve">
         <value>Body</value>

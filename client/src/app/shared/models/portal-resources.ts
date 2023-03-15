@@ -2474,7 +2474,10 @@ export class PortalResources {
   public static staticSite_generalSettingsUpdateWithFailure = 'staticSite_generalSettingsUpdateWithFailure';
   public static staticSite_generalSettingsUpdateWithFailureNoMessage = 'staticSite_generalSettingsUpdateWithFailureNoMessage';
   public static staticSite_head = 'staticSite_head';
-  public static staticSite_headAndBodyDescription = 'staticSite_headAndBodyDescription';
+  public static staticSite_headerCheckboxAriaLabel = 'staticSite_headerCheckboxAriaLabel';
+  public static staticSite_rowCheckboxAriaLabel = 'staticSite_rowCheckboxAriaLabel';
+  public static staticSite_deleteSnippetConfirmation = 'staticSite_deleteSnippetConfirmation';
+  public static staticSite_deleteSnippetConfirmationTitle = 'staticSite_deleteSnippetConfirmationTitle';
   public static staticSite_body = 'staticSite_body';
   public static staticSite_SnippetsDescription = 'staticSite_SnippetsDescription';
   public static staticSite_passwordProtectionSkuWarning = 'staticSite_passwordProtectionSkuWarning';
