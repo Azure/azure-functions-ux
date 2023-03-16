@@ -1486,6 +1486,7 @@ export class PortalResources {
   public static physicalPath = 'physicalPath';
   public static type = 'type';
   public static delete = 'delete';
+  public static remove = 'remove';
   public static directoryOrApplciation = 'directoryOrApplciation';
   public static directory = 'directory';
   public static application = 'application';

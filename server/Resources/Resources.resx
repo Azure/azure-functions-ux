@@ -4598,6 +4598,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="delete" xml:space="preserve">
         <value>Delete</value>
     </data>
+    <data name="remove" xml:space="preserve">
+        <value>Remove</value>
+    </data>
     <data name="edit" xml:space="preserve">
         <value>Edit</value>
     </data>
