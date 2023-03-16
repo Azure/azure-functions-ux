@@ -74,6 +74,7 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
+    enableSnippets: 'enableSnippets',
   };
 
   public static readonly AppDensityLimit = 8;
