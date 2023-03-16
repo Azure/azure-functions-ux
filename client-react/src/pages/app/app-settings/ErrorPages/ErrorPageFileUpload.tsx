@@ -50,7 +50,8 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
         setErrorMsg(t('error_uploadHTMLFile'));
         setFileUploadSuccess(false);
       } else {
-        setFile(await extractErrorPageFromFile(file));
+        const encodedFile = btoa(await extractErrorPageFromFile(file));
+        setFile(encodedFile);
         setFileUploadSuccess(true);
       }
     },
