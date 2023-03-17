@@ -15,10 +15,10 @@ import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
 import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
-import { CommonConstants, OverflowBehavior } from '../../../utils/CommonConstants';
-import Url from '../../../utils/url';
+import { ExperimentationConstants, OverflowBehavior } from '../../../utils/CommonConstants';
 import { errorPagesDirty } from './Sections/ErrorPage';
 import ErrorPagePivot from './Sections/ErrorPage';
+import { PortalContext } from '../../../PortalContext';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -27,12 +27,13 @@ export const settingsWrapper = style({
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
   const { values, initialValues, tab, errors } = props;
-
+  const portalContext = useContext(PortalContext);
   const site = useContext(SiteContext);
 
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
+  const [flighting, setFlighting] = React.useState(false);
 
   const generalSettingsDirtyCheck = () => {
     return generalSettingsDirty(values, initialValues);
@@ -66,6 +67,10 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
     return generalSettingsError(errors);
   };
 
+  React.useEffect(() => {
+    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.customErrorPages).then(setFlighting);
+  }, [portalContext]);
+
   const dirtyLabel = t('modifiedTag');
   const enableDefaultDocuments = scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled';
   const enablePathMappings = scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled';
@@ -73,8 +78,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
   const enableCustomErrorPages =
-    scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status === 'enabled' &&
-    Url.getFeatureValue(CommonConstants.FeatureFlags.customErrorPage);
+    scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status === 'enabled' && flighting;
 
   return (
     <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
