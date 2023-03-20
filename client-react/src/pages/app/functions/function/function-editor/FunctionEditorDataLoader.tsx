@@ -742,12 +742,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [site, functionInfo, hostKeys, functionKeys]);
 
-  // useEffect(() => {
-  //   getAndSetTestData();
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [functionInfo, hostKeys]);
-
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
   if (initialLoading || !site) {
     return <LoadingComponent />;
