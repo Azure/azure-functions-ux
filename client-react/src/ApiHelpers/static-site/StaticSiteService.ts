@@ -1,8 +1,9 @@
 import MakeArmCall from '../ArmHelper';
-import { ArmObj } from '../../models/arm-obj';
+import { ArmArray, ArmObj } from '../../models/arm-obj';
 import { StaticSite } from '../../models/static-site/static-site';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { StaticSiteBasicAuth } from '../../models/static-site/basic-auth';
+import { Snippet } from '../../pages/static-app/configuration/Configuration.types';
 
 export default class StaticSiteService {
   public static getStaticSite = (resourceId: string) => {
@@ -54,6 +55,46 @@ export default class StaticSiteService {
       method: 'PUT',
       commandName: 'putStaticSiteBasicAuth',
       body,
+      apiVersion,
+    });
+  };
+
+  public static getStaticSiteSnippets = (resourceId: string, apiVersion = CommonConstants.ApiVersions.staticSiteApiVersion20220301) => {
+    const url = `${resourceId}/snippets`;
+    return MakeArmCall<ArmArray<Snippet>>({
+      resourceId: url,
+      method: 'GET',
+      commandName: 'getStaticSiteSnippets',
+      apiVersion,
+    });
+  };
+
+  public static putStaticSiteSnippet = (
+    resourceId: string,
+    snippetName: string,
+    body: { properties: Snippet },
+    apiVersion = CommonConstants.ApiVersions.staticSiteApiVersion20220301
+  ) => {
+    const url = `${resourceId}/snippets/${snippetName}`;
+    return MakeArmCall<{ properties: Snippet }>({
+      resourceId: url,
+      method: 'PUT',
+      commandName: 'putStaticSiteSnippet',
+      body,
+      apiVersion,
+    });
+  };
+
+  public static deleteStaticSiteSnippet = (
+    resourceId: string,
+    snippetName: string,
+    apiVersion = CommonConstants.ApiVersions.staticSiteApiVersion20220301
+  ) => {
+    const url = `${resourceId}/snippets/${snippetName}`;
+    return MakeArmCall<Snippet>({
+      resourceId: url,
+      method: 'DELETE',
+      commandName: 'deleteStaticSiteSnippet',
       apiVersion,
     });
   };

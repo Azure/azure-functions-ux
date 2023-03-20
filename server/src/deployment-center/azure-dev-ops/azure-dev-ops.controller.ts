@@ -32,6 +32,11 @@ export class AzureDevOpsController {
     );
 
     const uri = `https://${req.query.accountName}.portalext.visualstudio.com/_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
+    const urlObj = new URL(uri);
+    const host = urlObj.host;
+    if (host.toLowerCase() !== `${req.query.accountName.toLowerCase()}.portalext.visualstudio.com`) {
+      throw new HttpException('The url is not valid', 400);
+    }
 
     const passHeaders = req.headers;
 

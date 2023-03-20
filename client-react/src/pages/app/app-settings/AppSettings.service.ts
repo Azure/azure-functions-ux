@@ -108,3 +108,19 @@ export const getAllConnectionStringsReferences = async (resourceId: string) => {
     method: 'GET',
   });
 };
+
+export const getCustomErrorPagesForSite = async (resourceId: string) => {
+  return SiteService.GetCustomErrorPagesForSite(resourceId);
+};
+
+export const getCustomErrorPageForSite = async (resourceId: string, errorCode: string) => {
+  return SiteService.GetCustomErrorPageForSite(resourceId, errorCode);
+};
+
+export const addOrUpdateCustomErrorPageForSite = async (resourceId: string, errorCode: string, content: string) => {
+  return SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorCode, content);
+};
+
+export const deleteCustomErrorPageForSite = async (resourceId: string, errorCode: string) => {
+  return SiteService.DeleteCustomErrorPageForSite(resourceId, errorCode);
+};

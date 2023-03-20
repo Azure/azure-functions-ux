@@ -883,6 +883,9 @@
     <data name="fileExplorer_upload" xml:space="preserve">
         <value>Upload</value>
     </data>
+       <data name="upload" xml:space="preserve">
+        <value>Upload</value>
+    </data>
     <data name="seeAllOptions" xml:space="preserve">
         <value>See additional options</value>
     </data>
@@ -2050,6 +2053,12 @@
     <data name="error_appOffline" xml:space="preserve">
         <value>The application is offline. Please check your internet connection.</value>
     </data>
+    <data name="error_uploadHTMLFile" xml:space="preserve">
+        <value>Please only upload an .html File. File Size limit is 10kb</value>
+    </data>
+    <data name="customErrorPages_fileType" xml:space="preserve">
+        <value>text/html</value>
+    </data>
     <data name="functionKeys_actions" xml:space="preserve">
         <value>ACTIONS</value>
     </data>
@@ -3001,8 +3010,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="swaggerDefinition_notSupportedForV2" xml:space="preserve">
         <value>Function API definition (Swagger) feature is not supported for V2 runtime currently.</value>
     </data>
+    <data name="deployedSuccessfully" xml:space="preserve">
+        <value>Deployed successfully</value>
+    </data>
     <data name="deployedSuccessfullyTo" xml:space="preserve">
         <value>Deployed Successfully to {0}</value>
+    </data>
+    <data name="deployedFailed" xml:space="preserve">
+        <value>Failed to deploy</value>
     </data>
     <data name="deployedFailedTo" xml:space="preserve">
         <value>Failed to deploy to {0}</value>
@@ -3138,6 +3153,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="releaseUrl" xml:space="preserve">
         <value>Release: {0}</value>
+    </data>
+    <data name="sourceVersionUrl" xml:space="preserve">
+        <value>Source Version: {0}</value>
     </data>
     <data name="deploymentCenter" xml:space="preserve">
         <value>Deployment Center</value>
@@ -3558,6 +3576,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="selectProject" xml:space="preserve">
         <value>Select Project</value>
+    </data>
+    <data name="selectFile" xml:space="preserve">
+        <value>Select a file</value>
     </data>
     <data name="webAppFramework" xml:space="preserve">
         <value>Web Application Framework</value>
@@ -4520,8 +4541,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocuments" xml:space="preserve">
         <value>Default documents</value>
     </data>
+    <data name="customErrorPage" xml:space="preserve">
+        <value>Error pages (preview)</value>
+    </data>
+    <data name="errorPage" xml:space="preserve">
+        <value>Error page</value>
+    </data>
     <data name="pathMappings" xml:space="preserve">
         <value>Path mappings</value>
+    </data>
+    <data name="errorPage_columnErrorCode" xml:space="preserve">
+        <value>Error Code</value>
+    </data>
+    <data name="errorPage_columnStatus" xml:space="preserve">
+        <value>Status</value>
+    </data>
+    <data name="errorPage_columnStatus_configured" xml:space="preserve">
+        <value>Configured</value>
+    </data>
+    <data name="errorPage_columnStatus_notConfigured" xml:space="preserve">
+        <value>Not configured</value>
     </data>
     <data name="handlerMappings" xml:space="preserve">
         <value>Handler mappings</value>
@@ -4541,6 +4580,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="newApp" xml:space="preserve">
         <value>New application or directory</value>
     </data>
+    <data name="addErrorPage" xml:space="preserve">
+        <value>Add custom error page (.html)</value>
+    </data>
+    <data name="editErrorPage" xml:space="preserve">
+        <value>Edit custom error page (.html)</value>
+    </data>
     <data name="virtualPath" xml:space="preserve">
         <value>Virtual path</value>
     </data>
@@ -4552,6 +4597,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="delete" xml:space="preserve">
         <value>Delete</value>
+    </data>
+    <data name="remove" xml:space="preserve">
+        <value>Remove</value>
     </data>
     <data name="edit" xml:space="preserve">
         <value>Edit</value>
@@ -4838,8 +4886,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="byos_storageNameExists" xml:space="preserve">
         <value>Storage setting with that name already exists.</value>
     </data>
+    <data name="byos_storageAccountInfoMessage" xml:space="preserve">
+        <value>Azure storage account and web app should be part of the same virtual network topology if applicable.</value>
+    </data>
     <data name="unableToReachBuild" xml:space="preserve">
-        <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
+        <value>We were unable to connect to the Azure Pipeline that is connected to this Web App. This could mean it has been removed from the Azure Dev Ops Portal, or you may not have permissions to access it. If this has happened, you can disconnect this pipeline and set up a new deployment pipeline.</value>
     </data>
     <data name="invalidWindowsPathCdrive" xml:space="preserve">
         <value>The path for Windows must begin with 'c:\'.</value>
@@ -5799,6 +5850,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
     </data>
+    <data name="errorPagesInfoMessage" xml:space="preserve">
+        <value>Configure a custom HTML document that will be presented to users instead of the standard platform error page.</value>
+    </data>
+    <data name="errorPagesEditMessage" xml:space="preserve">
+        <value>Upload custom error page (.html) for use with your application. File size limit: 10kb</value>
+    </data>
     <data name="validField_validationMessage" xml:space="preserve">
         <value>Name and value must not be empty and must contain only letters and numbers.</value>
     </data>
@@ -6226,13 +6283,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Your site is currently in read only mode because your RBAC assigned access is set to: Reader</value>
     </data>
     <data name="staticSite_stagingEnvironments" xml:space="preserve">
-        <value>Staging environments</value>
+        <value>Preview environments</value>
     </data>
     <data name="staticSite_stagingEnvironmentsDescription" xml:space="preserve">
-        <value>Automatically create new staging environments with pull requests.</value>
+        <value>Automatically create new preview environments with pull requests.</value>
     </data>
     <data name="staticSite_enableStagingEnvironments" xml:space="preserve">
-        <value>Enable staging environments</value>
+        <value>Enable preview environments</value>
     </data>
     <data name="deploymentCenterPivotItemLogsHeaderText" xml:space="preserve">
         <value>Logs</value>
@@ -6457,7 +6514,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Container Registry</value>
     </data>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
-        <value>Setup up your app to pull the container image from a registry.</value>
+        <value>Set up your app to pull the container image from a registry.</value>
     </data>
     <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
         <value>GitHub Actions</value>
@@ -6637,7 +6694,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Go to Settings</value>
     </data>
     <data name="deploymentCenterCodeLogsNoDeployments" xml:space="preserve">
-        <value>No deployments found</value>
+        <value>No deployments found. If you have just configured CI/CD, refresh logs to find the latest deployments.</value>
     </data>
     <data name="deploymentCenterCodeDeploymentsLoadingAriaValue" xml:space="preserve">
         <value>Loading deployment logs</value>
@@ -6781,7 +6838,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app. If you can't find your organization or repository, you may need to enable additional permissions on GitHub.</value>
     </data>
     <data name="deploymentCenterConfigureGitHubPermissionsGHA" xml:space="preserve">
-        <value>App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+        <value>App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.</value>
     </data>
     <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
         <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
@@ -7293,6 +7350,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="readOnlyMissingAzureFilesSetting" xml:space="preserve">
         <value>This function has been edited through an external editor. Portal editing is disabled.</value>
     </data>
+    <data name="readOnlyNewNodePreview" xml:space="preserve">
+        <value>Your app is currently in read only mode because new Node programming model experience is in preview.</value>
+    </data>
     <data name="deploymentCenterChangeAccountInfoMessage" xml:space="preserve">
         <value>In order to sign in with a different account, please go to www.github.com and log out of the account currently signed into GitHub.</value>
     </data>
@@ -7425,6 +7485,117 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_loadingGeneralSettings" xml:space="preserve">
         <value>Loading general settings...</value>
     </data>
+    <data name="staticSite_snippets" xml:space="preserve">
+        <value>Snippets (preview)</value>
+    </data>
+     <data name="staticSite_snippetsMax" xml:space="preserve">
+        <value>Static Web Apps may only have a maximum of ten snippets. You have reached this limit.</value>
+    </data>
+    <data name="staticSite_appliesTo" xml:space="preserve">
+        <value>Applies to</value>
+    </data>
+    <data name="staticSite_snippetNoContentError" xml:space="preserve">
+        <value>Snippet content is required</value>
+    </data>
+    <data name="staticSite_snippetContentError" xml:space="preserve">
+        <value>Snippet must be less than 2048 characters</value>
+    </data>
+    <data name="staticSite_snippetNameRequired" xml:space="preserve">
+        <value>Snippet name is required</value>
+    </data>
+    <data name="staticSite_snippetInsertionLocationRequired" xml:space="preserve">
+        <value>Snippet insertion location is required</value>
+    </data>
+     <data name="staticSite_snippetLocationRequired" xml:space="preserve">
+        <value>Snippet location is required</value>
+    </data>
+    <data name="staticSite_snippetEnironmentRequired" xml:space="preserve">
+        <value>Snippet environment is required</value>
+    </data>
+    <data name="staticSite_environments" xml:space="preserve">
+        <value>environments</value>
+    </data>
+    <data name="staticSite_valueTitle" xml:space="preserve">
+        <value>Value</value>
+    </data>
+    <data name="staticSite_typeTitle" xml:space="preserve">
+        <value>Type</value>
+    </data>
+    <data name="staticSite_environmentSelectPlaceholder" xml:space="preserve">
+        <value>Select up to 10 environments</value>
+    </data>
+    <data name="staticSite_snippetNamePlaceholder" xml:space="preserve">
+        <value>Enter snippet name</value>
+    </data>
+    <data name="staticSite_snippetEnvironmentsErrorMessage" xml:space="preserve">
+        <value>You must select 10 or less environments for your snippet.</value>
+    </data>
+    <data name="staticSite_snippetNoEnvironmentsErrorMessage" xml:space="preserve">
+        <value>You must select at least one environment for your snippet.</value>
+    </data>
+    <data name="staticSite_filterSnippets" xml:space="preserve">
+        <value>Filter snippets</value>
+    </data>
+    <data name="staticSite_insertionLocation" xml:space="preserve">
+        <value>Insertion location</value>
+    </data>
+    <data name="staticSite_prepend" xml:space="preserve">
+        <value>Prepend</value>
+    </data>
+    <data name="staticSite_append" xml:space="preserve">
+        <value>Append</value>
+    </data>
+    <data name="staticSite_deletingSnippet" xml:space="preserve">
+        <value>Deleting snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetSuccess" xml:space="preserve">
+        <value>Successfully deleted snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetFailure" xml:space="preserve">
+        <value>Failed to delete snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to delete snippet '{0}' with error: '{1}'</value>
+    </data>
+     <data name="staticSite_addingSnippet" xml:space="preserve">
+        <value>Creating snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetSuccess" xml:space="preserve">
+        <value>Successfully created snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetFailure" xml:space="preserve">
+        <value>Failed to create snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to create snippet '{0}' with error: '{1}'</value>
+    </data>
+    <data name="staticSite_updatingSnippet" xml:space="preserve">
+        <value>Updating snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetSuccess" xml:space="preserve">
+        <value>Successfully updated snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetFailure" xml:space="preserve">
+        <value>Failed to update snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to update snippet '{0}' with error: '{1}'</value>
+    </data>
+    <data name="staticSite_noSnippets" xml:space="preserve">
+        <value>No snippets to display. Click 'Add' to add a snippet to your Static Web App.</value>
+    </data>
+    <data name="staticSite_allEnvironments" xml:space="preserve">
+        <value>All environments</value>
+    </data>
+    <data name="staticSite_snippetContentPlaceholder" xml:space="preserve">
+        <value>Insert your HTML below</value>
+    </data>
+      <data name="staticSite_selectEnvironments" xml:space="preserve">
+        <value>Select environments</value>
+    </data>
+    <data name="staticSite_loadingSnippets" xml:space="preserve">
+        <value>Loading snippets...</value>
+    </data>
     <data name="staticSite_loadingApplicationSettings" xml:space="preserve">
         <value>Loading application settings...</value>
     </data>
@@ -7436,6 +7607,27 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_generalSettingsUpdateWithFailureNoMessage" xml:space="preserve">
         <value>Failed to update general settings.</value>
+    </data>
+    <data name="staticSite_head" xml:space="preserve">
+        <value>Head</value>
+    </data>
+    <data name="staticSite_headerCheckboxAriaLabel" xml:space="preserve">
+        <value>Toggle selection for all items</value>
+    </data>
+    <data name="staticSite_rowCheckboxAriaLabel" xml:space="preserve">
+        <value>Select row</value>
+    </data>
+    <data name="staticSite_deleteSnippetConfirmation" xml:space="preserve">
+        <value>Are you sure you want to delete the selected snippets?</value>
+    </data>
+    <data name="staticSite_deleteSnippetConfirmationTitle" xml:space="preserve">
+        <value>Delete snippets</value>
+    </data>
+    <data name="staticSite_body" xml:space="preserve">
+        <value>Body</value>
+    </data>
+    <data name="staticSite_SnippetsDescription" xml:space="preserve">
+        <value>Inject custom code, such as an analytics snippet, directly into the 'head' or 'body' of your Static Web App at runtime. </value>
     </data>
     <data name="staticSite_passwordProtectionSkuWarning" xml:space="preserve">
         <value>Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.</value>
@@ -7721,5 +7913,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="resetUserScopeCredentialsConfirmationDescription" xml:space="preserve">
         <value>This will reset both username and password and disable user-scope credentials. To re-enable, set a new username and password.</value>
+    </data>
+    <data name="connectionStringInfoMessage" xml:space="preserve">
+        <value>At runtime, connection strings are available as environment variables.</value>
     </data>
 </root>

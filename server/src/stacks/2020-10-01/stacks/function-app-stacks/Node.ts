@@ -20,12 +20,11 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
         value: '18',
         minorVersions: [
           {
-            displayText: 'Node.js 18',
+            displayText: 'Node.js 18 LTS',
             value: '18 LTS',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: '~18',
-                isPreview: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -43,11 +42,10 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: node18EOL
+                endOfLifeDate: node18EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|18',
-                isPreview: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -64,7 +62,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|18',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: node18EOL
+                endOfLifeDate: node18EOL,
               },
             },
           },
@@ -98,7 +96,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: node16EOL
+                endOfLifeDate: node16EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|16',
@@ -119,7 +117,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|16',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: node16EOL
+                endOfLifeDate: node16EOL,
               },
             },
           },
@@ -152,7 +150,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
-                endOfLifeDate: node14EOL
+                endOfLifeDate: node14EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|14',
@@ -172,7 +170,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|14',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
-                endOfLifeDate: node14EOL
+                endOfLifeDate: node14EOL,
               },
             },
           },
@@ -188,6 +186,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: '~12',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -204,10 +203,11 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: true,
                 },
                 supportedFunctionsExtensionVersions: ['~3'],
-                endOfLifeDate: node12EOL
+                endOfLifeDate: node12EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|12',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -224,7 +224,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|12',
                 },
                 supportedFunctionsExtensionVersions: ['~3'],
-                endOfLifeDate: node12EOL
+                endOfLifeDate: node12EOL,
               },
             },
           },
@@ -257,7 +257,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: true,
                 },
                 supportedFunctionsExtensionVersions: ['~2', '~3'],
-                endOfLifeDate: node10EOL
+                endOfLifeDate: node10EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|10',
@@ -278,7 +278,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|10',
                 },
                 supportedFunctionsExtensionVersions: ['~2', '~3'],
-                endOfLifeDate: node10EOL
+                endOfLifeDate: node10EOL,
               },
             },
           },
@@ -310,7 +310,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: true,
                 },
                 supportedFunctionsExtensionVersions: ['~2'],
-                endOfLifeDate: node8EOL
+                endOfLifeDate: node8EOL,
               },
             },
           },
@@ -340,14 +340,14 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: true,
                 },
                 supportedFunctionsExtensionVersions: ['~1'],
-                endOfLifeDate: node6EOL
+                endOfLifeDate: node6EOL,
               },
             },
           },
         ],
       },
     ],
-  }
+  };
 };
 
 export const nodeStackNonIsoDates: FunctionAppStack = getNodeStack(false);

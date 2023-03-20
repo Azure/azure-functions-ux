@@ -6,6 +6,7 @@ import {
   AppSettingsAsyncData,
   LoadingStates,
   FormAzureStorageMounts,
+  FormErrorPage,
 } from './AppSettings.types';
 import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
@@ -20,6 +21,8 @@ import {
   getFunctions,
   fetchFunctionsHostStatus,
   getAllConnectionStringsReferences,
+  getCustomErrorPagesForSite,
+  deleteCustomErrorPageForSite,
 } from './AppSettings.service';
 import {
   PermissionsContext,
@@ -46,7 +49,6 @@ import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
 import { ExperimentationConstants } from '../../../utils/CommonConstants';
-
 export interface AppSettingsDataLoaderProps {
   children: (props: {
     initialFormValues: AppSettingsFormValues | null;
@@ -93,6 +95,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const [productionPermissions, setProductionPermissions] = useState<boolean>(true);
   const [editable, setEditable] = useState<boolean>(true);
   const [references, setReferences] = useState<KeyVaultReferences | undefined>(undefined);
+
   const [metadataFromApi, setMetadataFromApi] = useState<ArmObj<KeyValue<string>>>({
     name: '',
     id: '',
@@ -128,10 +131,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const fetchData = async () => {
-    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse] = await Promise.all([
+    const [site, basicPublishingCredentialsPolicies, applicationSettingsResponse, errorPagesResponse] = await Promise.all([
       siteContext.fetchSite(resourceId),
       SiteService.getBasicPublishingCredentialsPolicies(resourceId),
       fetchApplicationSettingValues(resourceId),
+      getCustomErrorPagesForSite(resourceId),
     ]);
 
     const { webConfig, metadata, connectionStrings, applicationSettings, slotConfigNames } = applicationSettingsResponse;
@@ -241,6 +245,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
             ? basicPublishingCredentialsPolicies.data
             : null,
           appPermissions: appPermissions,
+          errorPages: errorPagesResponse?.metadata.success ? errorPagesResponse.data : null,
         }),
       });
     }
@@ -400,6 +405,20 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     return true;
   };
 
+  const errorPagesUpdated = (updatedErrorPage: FormErrorPage[], currentErrorPage: FormErrorPage[] = []) => {
+    const filteredUpdatedErrorPages = updatedErrorPage.filter(errorPage => errorPage.content);
+    const filteredCurrentErrorPages = currentErrorPage.filter(errorPage => !updatedErrorPage.find(e => e.key === errorPage.key));
+
+    return [
+      Promise.all(
+        filteredUpdatedErrorPages.map(errorPage =>
+          SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content ?? '')
+        )
+      ),
+      Promise.all(filteredCurrentErrorPages.map(errorPage => deleteCustomErrorPageForSite(resourceId, errorPage.errorCode))),
+    ];
+  };
+
   const onSubmit = async (values: AppSettingsFormValues) => {
     setSaving(true);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
@@ -419,6 +438,12 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       configSettingToIgnore = configSettingToIgnore.filter(config => config !== 'azureStorageAccounts');
     }
 
+    const [updatedErrorPagesPromise, deleteErrorPagesPromise] = errorPagesUpdated(values.errorPages, initialValues?.errorPages);
+    const updatedErrorPagesPromiseResolved = await updatedErrorPagesPromise;
+    const deleteErrorPagesPromiseResolved = await deleteErrorPagesPromise;
+    const errorPageUpdateSuccess = !updatedErrorPagesPromiseResolved.some(promiseResponse => !promiseResponse.metadata.success);
+    const errorPageDeleteSuccess = !deleteErrorPagesPromiseResolved.some(promiseResponse => !promiseResponse.metadata.success);
+
     const [siteUpdate, slotConfigNamesUpdate] = [
       updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
@@ -426,8 +451,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
     const [siteResult, slotConfigNamesResult] = await Promise.all([siteUpdate, slotConfigNamesUpdate]);
 
-    const success = siteResult!.metadata.success && (!slotConfigNamesResult || slotConfigNamesResult.metadata.success);
-
+    const success =
+      siteResult!.metadata.success &&
+      (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) &&
+      errorPageDeleteSuccess &&
+      errorPageUpdateSuccess;
     if (success) {
       setInitialValues({
         ...values,
@@ -456,11 +484,28 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const [siteError, slotConfigError] = [
+      const errorPageUpdateErrorMsg = updatedErrorPagesPromiseResolved.flatMap(errorPage => {
+        if (!errorPage.metadata.success) {
+          return errorPage.metadata.error;
+        } else {
+          return [];
+        }
+      })[0];
+      const errorPageDeleteErrorMsg = deleteErrorPagesPromiseResolved.flatMap(errorPage => {
+        if (!errorPage.metadata.success) {
+          return errorPage.metadata.error;
+        } else {
+          return [];
+        }
+      })[0];
+
+      const [siteError, slotConfigError, errorPageDeleteError, errorPageUpdateError] = [
         getErrorMessage(siteResult!.metadata.error),
         getErrorMessage(slotConfigNamesResult && slotConfigNamesResult.metadata.error),
+        getErrorMessage(errorPageDeleteErrorMsg),
+        getErrorMessage(errorPageUpdateErrorMsg),
       ];
-      const errorMessage = siteError || slotConfigError;
+      const errorMessage = siteError || slotConfigError || errorPageDeleteError || errorPageUpdateError;
       const message = errorMessage ? t('configUpdateFailureExt').format(errorMessage) : t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, message);
     }

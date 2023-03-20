@@ -1,11 +1,7 @@
 import { Controller, Query, Post, Get } from '@nestjs/common';
 import { Versions } from './versions';
 import { StacksService20200501 } from './2020-05-01/service/StackService';
-import { StacksService20200601 } from './2020-06-01/service/StackService';
 import { StacksService20201001 } from './2020-10-01/service/StackService';
-import { AppStackOs } from './2020-06-01/models/AppStackModel';
-import { FunctionAppStackValue as FunctionAppStack20200601Value } from './2020-06-01/models/FunctionAppStackModel';
-import { WebAppStackValue as WebAppStack20200601Value } from './2020-06-01/models/WebAppStackModel';
 import { FunctionAppStackValue as FunctionAppStack20201001Value } from './2020-10-01/models/FunctionAppStackModel';
 import { WebAppStackValue as WebAppStack20201001Value } from './2020-10-01/models/WebAppStackModel';
 import {
@@ -18,14 +14,11 @@ import {
   validateWebAppStack,
   validateRemoveNonGitHubActionStacks,
 } from './validations';
+import { AppStackOs } from './2020-10-01/models/AppStackModel';
 
 @Controller('stacks')
 export class StacksController {
-  constructor(
-    private _stackService20200501: StacksService20200501,
-    private _stackService20200601: StacksService20200601,
-    private _stackService20201001: StacksService20201001
-  ) {}
+  constructor(private _stackService20200501: StacksService20200501, private _stackService20201001: StacksService20201001) {}
 
   @Get('functionAppStacks')
   functionAppStacks(
@@ -37,18 +30,9 @@ export class StacksController {
     @Query('removePreviewStacks') removePreviewStacks?: string,
     @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
-    validateApiVersion(apiVersion, [
-      Versions.version20200601,
-      Versions.version20201001,
-      Versions.version20201201,
-      Versions.version20210101,
-      Versions.version20210115,
-      Versions.version20210201,
-      Versions.version20210301,
-      Versions.version20220301,
-    ]);
+    validateApiVersion(apiVersion, Versions.version20201001);
     validateOs(os);
-    validateFunctionAppStack(apiVersion, stack);
+    validateFunctionAppStack(stack);
     validateRemoveHiddenStacks(removeHiddenStacks);
     validateRemoveDeprecatedStacks(removeDeprecatedStacks);
     validateRemovePreviewStacks(removePreviewStacks);
@@ -59,43 +43,27 @@ export class StacksController {
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
     const removeNonGitHubAction = removeNonGitHubActionStacks && removeNonGitHubActionStacks.toLowerCase() === 'true';
 
-    switch (apiVersion) {
-      case Versions.version20200601: {
-        return this._stackService20200601.getFunctionAppStacks(
-          os,
-          stack as FunctionAppStack20200601Value,
-          removeHidden,
-          removeDeprecated,
-          removePreview
-        );
-      }
-      case Versions.version20201001:
-      case Versions.version20201201: {
-        return this._stackService20201001.getFunctionAppStacks(
-          os,
-          stack as FunctionAppStack20201001Value,
-          removeHidden,
-          removeDeprecated,
-          removePreview,
-          removeNonGitHubAction,
-          false /*useIsoDateFormat*/
-        );
-      }
-      case Versions.version20210101:
-      case Versions.version20210115:
-      case Versions.version20210201:
-      case Versions.version20210301:
-      case Versions.version20220301: {
-        return this._stackService20201001.getFunctionAppStacks(
-          os,
-          stack as FunctionAppStack20201001Value,
-          removeHidden,
-          removeDeprecated,
-          removePreview,
-          removeNonGitHubAction
-        );
-      }
+    if (apiVersion <= Versions.version20201201) {
+      return this._stackService20201001.getFunctionAppStacks(
+        os,
+        stack as FunctionAppStack20201001Value,
+        removeHidden,
+        removeDeprecated,
+        removePreview,
+        removeNonGitHubAction,
+        false /*useIsoDateFormat*/
+      );
     }
+
+    // For API versions after 2020-12-01, we return dates in ISO format
+    return this._stackService20201001.getFunctionAppStacks(
+      os,
+      stack as FunctionAppStack20201001Value,
+      removeHidden,
+      removeDeprecated,
+      removePreview,
+      removeNonGitHubAction
+    );
   }
 
   @Get('webAppStacks')
@@ -108,18 +76,9 @@ export class StacksController {
     @Query('removePreviewStacks') removePreviewStacks?: string,
     @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
-    validateApiVersion(apiVersion, [
-      Versions.version20200601,
-      Versions.version20201001,
-      Versions.version20201201,
-      Versions.version20210101,
-      Versions.version20210115,
-      Versions.version20210201,
-      Versions.version20210301,
-      Versions.version20220301,
-    ]);
+    validateApiVersion(apiVersion, Versions.version20201001);
     validateOs(os);
-    validateWebAppStack(apiVersion, stack);
+    validateWebAppStack(stack);
     validateRemoveHiddenStacks(removeHiddenStacks);
     validateRemoveDeprecatedStacks(removeDeprecatedStacks);
     validateRemovePreviewStacks(removePreviewStacks);
@@ -130,63 +89,27 @@ export class StacksController {
     const removePreview = removePreviewStacks && removePreviewStacks.toLowerCase() === 'true';
     const removeNonGitHubAction = removeNonGitHubActionStacks && removeNonGitHubActionStacks.toLowerCase() === 'true';
 
-    switch (apiVersion) {
-      case Versions.version20200601: {
-        return this._stackService20200601.getWebAppStacks(
-          os,
-          stack as WebAppStack20200601Value,
-          removeHidden,
-          removeDeprecated,
-          removePreview
-        );
-      }
-      case Versions.version20201001:
-      case Versions.version20201201: {
-        return this._stackService20201001.getWebAppStacks(
-          os,
-          stack as WebAppStack20201001Value,
-          removeHidden,
-          removeDeprecated,
-          removePreview,
-          removeNonGitHubAction,
-          false /*useIsoDateFormat*/
-        );
-      }
-      case Versions.version20210101:
-      case Versions.version20210115:
-      case Versions.version20210201:
-      case Versions.version20210301:
-      case Versions.version20220301: {
-        return this._stackService20201001.getWebAppStacks(
-          os,
-          stack as WebAppStack20201001Value,
-          removeHidden,
-          removeDeprecated,
-          removePreview,
-          removeNonGitHubAction
-        );
-      }
+    if (apiVersion <= Versions.version20201201) {
+      return this._stackService20201001.getWebAppStacks(
+        os,
+        stack as WebAppStack20201001Value,
+        removeHidden,
+        removeDeprecated,
+        removePreview,
+        removeNonGitHubAction,
+        false /*useIsoDateFormat*/
+      );
     }
-  }
 
-  // Note (allisonm): 2020-05-01 should not be used, please use 2020-06-01 instead
-  @Post('webAppCreateStacks')
-  webAppCreateStacks(@Query('api-version') apiVersion: string) {
-    validateApiVersion(apiVersion, [Versions.version20200501]);
-
-    if (apiVersion === Versions.version20200501) {
-      return this._stackService20200501.getWebAppCreateStacks();
-    }
-  }
-
-  @Post('webAppConfigStacks')
-  webAppConfigStacks(@Query('api-version') apiVersion: string, @Query('os') os?: 'linux' | 'windows') {
-    validateApiVersion(apiVersion, [Versions.version20200501]);
-    validateOs(os);
-
-    if (apiVersion === Versions.version20200501) {
-      return this._stackService20200501.getWebAppConfigStacks(os);
-    }
+    // For API versions after 2020-12-01, we return dates in ISO format
+    return this._stackService20201001.getWebAppStacks(
+      os,
+      stack as WebAppStack20201001Value,
+      removeHidden,
+      removeDeprecated,
+      removePreview,
+      removeNonGitHubAction
+    );
   }
 
   @Post('webAppGitHubActionStacks')
@@ -195,24 +118,11 @@ export class StacksController {
     @Query('os') os?: 'linux' | 'windows',
     @Query('removeHiddenStacks') removeHiddenStacks?: string
   ) {
-    validateApiVersion(apiVersion, [Versions.version20200501]);
+    validateApiVersion(apiVersion, Versions.version20200501);
     validateOs(os);
 
     const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
 
-    if (apiVersion === Versions.version20200501) {
-      return this._stackService20200501.getWebAppGitHubActionStacks(os, removeHidden);
-    }
-  }
-
-  @Post('functionAppStacks')
-  functionAppStacksPost(@Query('api-version') apiVersion: string, @Query('removeHiddenStacks') removeHiddenStacks?: string) {
-    validateApiVersion(apiVersion, [Versions.version20200501]);
-    validateRemoveHiddenStacks(removeHiddenStacks);
-    const removeHidden = removeHiddenStacks && removeHiddenStacks.toLowerCase() === 'true';
-
-    if (apiVersion === Versions.version20200501) {
-      return this._stackService20200501.getFunctionAppStacks(removeHidden);
-    }
+    return this._stackService20200501.getWebAppGitHubActionStacks(os, removeHidden);
   }
 }

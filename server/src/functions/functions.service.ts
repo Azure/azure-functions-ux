@@ -151,6 +151,7 @@ export class FunctionsService implements OnModuleInit {
           url: url,
           headers: headers,
           data: body,
+          maxRedirects: 0,
         });
 
         if (result.headers) {

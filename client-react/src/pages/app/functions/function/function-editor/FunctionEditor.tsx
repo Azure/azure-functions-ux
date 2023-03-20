@@ -28,6 +28,7 @@ import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import Url from '../../../../../utils/url';
+import { AppKeysInfo } from '../../app-keys/AppKeys.types';
 import { logCommandBarHeight, minimumLogPanelHeight } from '../function-log/FunctionLog.styles';
 import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
 import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
@@ -65,6 +66,7 @@ export interface FunctionEditorProps {
   setIsUploadingFile: (isUploadingFile: boolean) => void;
   refreshFileList: () => void;
   addCorsRule: (corsRule: string) => void;
+  getAndSetTestData: () => Promise<void>;
   status: Status;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
@@ -74,6 +76,7 @@ export interface FunctionEditorProps {
   workerRuntime?: string;
   enablePortalCall?: boolean;
   addingCorsRules?: boolean;
+  hostKeys?: AppKeysInfo;
 }
 
 export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEditorProps) => {
@@ -102,6 +105,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     enablePortalCall,
     addingCorsRules,
     status,
+    getAndSetTestData,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
@@ -307,7 +311,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
   const getScriptFileOption = (): IDropdownOption | undefined => {
     let filename = '';
     if (isNewNodeProgrammingModel(functionInfo)) {
-      filename = functionInfo.properties.config.scriptFile?.toLocaleLowerCase() || '';
+      filename = functionInfo.properties.config.scriptFile || '';
     } else {
       const scriptHref = functionInfo.properties.script_href;
       filename = ((scriptHref && scriptHref.split('/').pop()) || '').toLocaleLowerCase();
@@ -621,6 +625,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
         customStyle={testPanelStyle}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
         <FunctionTest
+          getAndSetTestData={getAndSetTestData}
           close={onCloseTest}
           run={run}
           functionInfo={functionInfo}

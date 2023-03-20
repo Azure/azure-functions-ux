@@ -11,7 +11,6 @@ import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '.
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
 import { KeyValue } from '../models/portal-models';
-import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { Method } from 'axios';
 import { NameValuePair } from '../pages/app/functions/function/function-editor/FunctionEditor.types';
@@ -251,24 +250,9 @@ export default class FunctionsService {
     });
   }
 
-  public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string, runtimeVersion?: string) {
+  public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string) {
     const headers = FunctionsService._addOrGetVfsHeaders();
-    let uri;
-
-    switch (runtimeVersion) {
-      case RuntimeExtensionMajorVersions.v1: {
-        uri = `/extensions/api/vfs/${fileEndpoint}`;
-        break;
-      }
-      case RuntimeExtensionCustomVersions.beta:
-      case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3:
-      case RuntimeExtensionMajorVersions.v4:
-      default: {
-        uri = `/hostruntime/admin/vfs/${fileEndpoint}?relativePath=1`;
-        break;
-      }
-    }
+    const uri = `/extensions/api/vfs/${fileEndpoint}`;
 
     return MakeArmCall<VfsObject[] | string>({
       headers,
@@ -276,22 +260,6 @@ export default class FunctionsService {
       commandName: 'getTestDataOverVfsArm',
       method: 'GET',
       skipBatching: true, // Batch API doesn't accept no-cache headers
-    });
-  }
-
-  public static getStorageContainers(accountName: string, data: any) {
-    return sendHttpRequest<ContainerItem[]>({
-      data,
-      url: `${Url.serviceHost}/api/getStorageContainers?accountName=${accountName}`,
-      method: 'POST',
-    });
-  }
-
-  public static getStorageFileShares(accountName: string, data: any) {
-    return sendHttpRequest<ShareItem[]>({
-      data,
-      url: `${Url.serviceHost}/api/getStorageFileShares?accountName=${accountName}`,
-      method: 'POST',
     });
   }
 

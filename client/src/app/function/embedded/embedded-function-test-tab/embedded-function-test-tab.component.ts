@@ -17,7 +17,6 @@ import { BroadcastEvent } from 'app/shared/models/broadcast-event';
 import { Subject } from 'rxjs/Subject';
 import { Component, OnInit, ViewChild, Output, Input, OnChanges, SimpleChange, ContentChildren, QueryList, OnDestroy } from '@angular/core';
 import { BroadcastService } from 'app/shared/services/broadcast.service';
-import { Headers } from '@angular/http';
 
 @Component({
   selector: 'embedded-function-test-tab',
@@ -40,7 +39,6 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
   public responseOutputText = '';
   public initialEditorContent = '';
 
-  private _updatedEditorContent = '';
   private _resourceIdStream = new Subject<string>();
   private _functionInfo: FunctionInfo;
   private _busyManager: BusyStateScopeManager;
@@ -82,8 +80,6 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
         } catch (e) {
           this.initialEditorContent = '';
         }
-
-        this._updatedEditorContent = this.initialEditorContent;
       });
 
     this._broadcastService
@@ -145,37 +141,5 @@ export class EmbeddedFunctionTestTabComponent implements OnInit, OnChanges, OnDe
         value: null,
       });
     });
-
-    this._busyManager.setBusy();
-
-    const content = {
-      body: this._updatedEditorContent,
-      url: this._functionInfo.trigger_url,
-    };
-
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    headers.append('Accept', 'application/json');
-    headers.append('Cache-Control', 'no-cache');
-
-    this._cacheService.post('/api/triggerFunctionAPIM', true, headers, content).subscribe(
-      r => {
-        this._busyManager.clearBusy();
-        this.responseOutputText = r.text();
-      },
-      err => {
-        this._busyManager.clearBusy();
-
-        try {
-          this.responseOutputText = `Failed to execute - ${err.text()}`;
-        } catch (e) {
-          this.responseOutputText = 'Failed to execute';
-        }
-      }
-    );
-  }
-
-  editorContentChanged(content: string) {
-    this._updatedEditorContent = content;
   }
 }

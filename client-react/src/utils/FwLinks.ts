@@ -29,6 +29,7 @@ export const Links = {
   ipRestrictionsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=854597',
   appDensityWarningLink: 'https://go.microsoft.com/fwlink/?linkid=2098431',
   byosBlobReadonlyLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2110146',
+  byosStorageAccountLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2221627',
   extensionBundlesRequiredLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116575',
   cronLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2117147&clcid=0x409',
   quickstartViewDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2119201',
@@ -48,14 +49,17 @@ export const Links = {
   configureNodeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2195169',
   staticSiteAllowConfigFileUpdatesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2198769',
   staticSiteStagingEnvironmentsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2188987',
+  staticSiteSnippetsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2227428',
   aspInfoPlanInfo: 'https://go.microsoft.com/fwlink/?linkid=2210300',
   functionUnreachableLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2214718',
   endOfLifeStackLink: 'https://go.microsoft.com/fwlink/?linkid=2202628',
+  connectionStringLearnmore: 'https://go.microsoft.com/fwlink/?linkid=2225650',
 };
 
 export const DeploymentCenterLinks = {
   appServiceDocumentation: 'https://go.microsoft.com/fwlink/?linkid=874656',
   configureDeployment: 'https://go.microsoft.com/fwlink/?linkid=2086046',
+  configureDeploymentSource: 'https://go.microsoft.com/fwlink/?linkid=2222781',
   containerContinuousDeploy: 'https://go.microsoft.com/fwlink/?linkid=2133570',
   configureFTPSSettingsDeploy: 'https://go.microsoft.com/fwlink/?linkid=2205819',
   configureDeploymentSlots: 'https://go.microsoft.com/fwlink/?linkid=2142216',

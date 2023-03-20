@@ -43,6 +43,7 @@ export class CommonConstants {
     acrApiVersion20190501: '2019-05-01',
     staticSiteApiVersion20201201: '2020-12-01',
     staticSiteApiVersion20210301: '2021-03-01',
+    staticSiteApiVersion20220301: '2022-03-01',
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
@@ -50,6 +51,7 @@ export class CommonConstants {
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
     containerAppApiVersion20220101preview: '2022-01-01-preview',
+    antaresApiVersion20141101: '2014-11-01',
   };
 
   public static readonly NonThemeColors = {
@@ -70,7 +72,9 @@ export class CommonConstants {
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableACRManagedIdentities: 'enableACRManagedIdentities',
-    enableMinTLSCipherSuites: 'enableMinTLSCipherSuites',
+    enableNewNodeEditMode: 'enableNewNodeEditMode',
+    customErrorPage: 'customErrorPage',
+    enableSnippets: 'enableSnippets',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -272,12 +276,21 @@ export class CommonConstants {
   //min length is 8, must contain uppercase, lowercase, number, and symbol
   public static readonly passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
 
+  //min length is 1, must contain 2048 chars
+  public static readonly snippetsContentRegEx = new RegExp(/^(.{1,2048})$/s);
+
   public static newlineRegex = new RegExp(/\r?\n/);
 
   public static readonly CosmosDbDefaults = {
     containerName: 'CosmosContainer',
     databaseName: 'CosmosDatabase',
     partitionKeyPath: '/id',
+  };
+
+  public static readonly ErrorPageCode = {
+    errorCode_403: '403',
+    errorCode_502: '502',
+    errorCode_503: '503',
   };
 
   public static readonly CosmosDbTypes = {
@@ -342,12 +355,14 @@ export class SubscriptionQuotaIds {
 // File - https://msazure.visualstudio.com/One/_git/AAPT-Antares-AntUX?path=/src/src/Ux/Extensions/Websites/TypeScript/ExtensionAssets/Constants.ts&version=GBdev&line=3444&lineEnd=3444&lineStartColumn=14&lineEndColumn=29&lineStyle=plain&_a=contents
 export class ExperimentationConstants {
   public static TreatmentFlight = {
+    customErrorPages: 'enable-custom-error-pages',
     functionsCollateral: '61fci236',
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
   };
 
   public static ControlFlight = {
+    customErrorPages: 'disable-custom-error-pages',
     functionsCollateral: '3f3ej608',
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',

@@ -22,26 +22,19 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
       },
     };
 
-    this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
-      id: ScenarioIds.alwaysOnSupported,
-      runCheck: input => {
-        if (input && input.site && input.site.properties && input.site.properties.sku) {
-          const { sku } = input.site.properties;
-          if (
-            sku.toLowerCase() === 'workflowstandard' ||
-            sku.toLowerCase() === 'elasticpremium' ||
-            sku.toLowerCase() === 'elasticisolated'
-          ) {
-            return { status: 'disabled' };
-          } else {
-            return { status: 'enabled' };
-          }
-        }
-        return { status: 'enabled' };
+    this.scenarioChecks[ScenarioIds.enableCustomErrorPages] = {
+      id: ScenarioIds.enableCustomErrorPages,
+      runCheck: () => {
+        return { status: 'disabled' };
       },
     };
 
     this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
+      id: ScenarioIds.clientAffinitySupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
       id: ScenarioIds.clientAffinitySupported,
       runCheck: () => ({ status: 'disabled' }),
     };

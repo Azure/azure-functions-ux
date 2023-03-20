@@ -4,7 +4,7 @@ import { CommonConstants } from '../utils/CommonConstants';
 import LogService from '../utils/LogService';
 import { ArmObj, ArmArray } from '../models/arm-obj';
 import { Site, PublishingCredentialPolicies } from '../models/site/site';
-import { SiteConfig, ArmAzureStorageMount } from '../models/site/config';
+import { SiteConfig, ArmAzureStorageMount, ErrorPage } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
@@ -345,6 +345,65 @@ export default class SiteService {
       method: 'GET',
       resourceId: id,
       commandName: 'getBasicPublishingCredentialsPolicies',
+    });
+  };
+
+  public static AddOrUpdateCustomErrorPageForSite = (
+    resourceId: string,
+    errorCode: string,
+    content: string,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
+  ) => {
+    const id = `${resourceId}/errorpages/${errorCode}`;
+
+    return MakeArmCall({
+      method: 'PUT',
+      resourceId: id,
+      commandName: 'AddOrUpdateCustomErrorPageForSite',
+      apiVersion: apiVersion,
+      body: {
+        properties: {
+          content,
+        },
+      },
+    });
+  };
+
+  public static GetCustomErrorPagesForSite = (resourceId: string, apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101) => {
+    const id = `${resourceId}/errorpages`;
+    return MakeArmCall<ArmArray<ErrorPage>>({
+      method: 'GET',
+      resourceId: id,
+      commandName: 'GetCustomErrorPagesForSite',
+      apiVersion: apiVersion,
+    });
+  };
+
+  public static GetCustomErrorPageForSite = (
+    resourceId: string,
+    errorCode: string,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
+  ) => {
+    const id = `${resourceId}/errorpages/${errorCode}`;
+    return MakeArmCall<ArmObj<ErrorPage>>({
+      method: 'GET',
+      resourceId: id,
+      commandName: 'GetCustomErrorPageForSite',
+      apiVersion: apiVersion,
+    });
+  };
+
+  public static DeleteCustomErrorPageForSite = (
+    resourceId: string,
+    errorCode: string,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
+  ) => {
+    const id = `${resourceId}/errorpages/${errorCode}`;
+    return MakeArmCall<void>({
+      method: 'DELETE',
+      resourceId: id,
+      commandName: 'DeleteCustomErrorPageForSite',
+      apiVersion: apiVersion,
     });
   };
 }

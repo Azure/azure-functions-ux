@@ -1,6 +1,4 @@
 import { isPremium } from '../arm-utils';
-import { CommonConstants } from '../CommonConstants';
-import Url from '../url';
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
 export class PremiumAppEnvironment extends Environment {
@@ -12,7 +10,14 @@ export class PremiumAppEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
       id: ScenarioIds.enableMinCipherSuite,
       runCheck: () => ({
-        status: Url.getFeatureValue(CommonConstants.FeatureFlags.enableMinTLSCipherSuites) === 'true' ? 'enabled' : 'disabled',
+        status: 'enabled',
+      }),
+    };
+
+    this.scenarioChecks[ScenarioIds.enableCustomErrorPages] = {
+      id: ScenarioIds.enableCustomErrorPages,
+      runCheck: () => ({
+        status: 'enabled',
       }),
     };
   }

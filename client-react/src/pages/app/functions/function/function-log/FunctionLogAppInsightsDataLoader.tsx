@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect, useMemo } from 'react';
+import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { AppInsightsComponent, QuickPulseToken } from '../../../../../models/app-insights';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
@@ -19,6 +19,7 @@ import SiteService from '../../../../../ApiHelpers/SiteService';
 import { KeyValue } from '../../../../../models/portal-models';
 import { PortalContext } from '../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import RbacConstants from '../../../../../utils/rbac-constants';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;
@@ -68,12 +69,14 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
   const [queryLayer, setQueryLayer] = useState<QuickPulseQueryLayer | undefined>(undefined);
   const [allLogEntries, setAllLogEntries] = useState<LogEntry[]>([]);
   const [callCount, setCallCount] = useState(0);
+  const [appConfigListPermission, setAppConfigListPermission] = useState<boolean>(false);
   const [showFilteredLogsMessage, setShowFilteredLogsMessage] = useState<boolean>(false);
 
   const fetchComponent = async () => {
     const tagsProperty = site?.tags;
     // NOTE: This write permission check is for updating site and app settings objects. Therefore, we only check ReadOnlyRbac and ReadOnlyLock.
-    const hasWritePermission = !appReadOnlyPermission && !appReadOnlyLockPermission;
+    // NOTE: Write permission check includes Reader on the Sub and /Microsoft.Web/sites/config/list/action on the FunctionApp
+    const hasWritePermission = (!appReadOnlyPermission && !appReadOnlyLockPermission) || appConfigListPermission;
     const appSettingsPromise = SiteService.fetchApplicationSettings(siteResourceId);
     const appInsightsDataPromise = AppInsightsService.getAppInsightsResourceAndUpdateTags(
       siteResourceId,
@@ -237,8 +240,14 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     return tokenExpirationTime > currentTime;
   };
 
-  const startLogs = () => {
-    if (appReadOnlyPermission) {
+  const startLogs = useCallback(async () => {
+    const [appLevelConfigListPermission, subscriptionLevelReadPermission] = await Promise.all([
+      portalContext.hasPermission(resourceId, [RbacConstants.configListActionScope]),
+      portalContext.hasPermission(resourceId.split(/\/resourceGroups/i)[0], [RbacConstants.readScope]),
+    ]);
+    const configListPermission = appLevelConfigListPermission && subscriptionLevelReadPermission;
+    setAppConfigListPermission(configListPermission);
+    if (appReadOnlyPermission && !configListPermission) {
       setErrorMessage(t('functionLog_rbacPermissionsForAppInsights'));
     } else if (appInsightsComponent) {
       if (quickPulseToken) {
@@ -254,7 +263,7 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     }
 
     setStarted(true);
-  };
+  }, [appReadOnlyPermission]);
 
   const stopLogs = () => {
     disconnectQueryLayer();

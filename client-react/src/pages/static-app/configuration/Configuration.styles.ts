@@ -126,6 +126,37 @@ const toggleStyles: Pick<IToggleStyles, 'text'> = {
   },
 };
 
+export const buttonFooterStyle = (theme: ThemeExtended): string =>
+  style({
+    backgroundColor: `${theme.semanticColors.background}`,
+    borderTop: `1px solid ${theme.semanticColors.bodyDivider}`,
+    padding: '16px',
+    boxSizing: 'border-box',
+    position: 'fixed',
+    bottom: 0,
+    zIndex: 1,
+    width: '100%',
+    height: '65px',
+  });
+
+export const buttonPadding = style({
+  margin: '5px',
+  height: '24px',
+  width: '78px',
+  fontSize: '13px',
+  borderRadius: '2px',
+});
+
+export const defaultCellStyle = style({
+  fontSize: '12px',
+  height: '15px',
+});
+
+export const paddingDropdownStyle = style({
+  marginTop: '-15px',
+  paddingTop: '-15px',
+});
+
 export const useStyles = () => {
   const theme = useContext(ThemeContext);
 
@@ -167,9 +198,12 @@ export const useStyles = () => {
     choiceGroupOption: choiceGroupOptionStyles,
     customLabel: customLabelStyle,
     customLabelStack: customLabelStackStyle,
+    defaultCellStyle: defaultCellStyle,
     description: descriptionStyle,
+    formStyle: formStyle,
     formElement: formElementStyle,
     header: headerStyle,
+    paddingDropdownStyle: paddingDropdownStyle,
     section: sectionStyle,
     textBox: textBoxStyle,
     textField: textFieldStyles,

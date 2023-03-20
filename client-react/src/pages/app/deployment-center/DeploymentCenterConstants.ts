@@ -1,6 +1,5 @@
 export class DeploymentCenterConstants {
   public static readonly githubUri = 'https://github.com';
-  public static readonly githubApiUrl = 'https://api.github.com';
   public static readonly bitbucketApiUrl = 'https://api.bitbucket.org/2.0';
   public static readonly bitbucketUrl = 'https://bitbucket.org';
   public static readonly dropboxApiUrl = 'https://api.dropboxapi.com/2';

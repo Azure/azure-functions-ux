@@ -311,7 +311,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext.site]);
 
-  return siteStateContext.site ? (
+  return siteStateContext.site && siteConfig ? (
     // NOTE(michinoy): Populate common deployment center level properties
     <DeploymentCenterContext.Provider
       value={{
