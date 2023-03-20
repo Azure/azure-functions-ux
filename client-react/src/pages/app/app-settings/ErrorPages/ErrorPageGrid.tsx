@@ -10,7 +10,7 @@ import DisplayTableWithEmptyMessage, {
 import { PermissionsContext } from '../Contexts';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ErrorPageGridAddEdit from './ErrorPageGridAddEdit';
-import { boldCellStyle } from './ErrorPageGrid.styles';
+import { boldCellStyle, CellStyle, IconCellStyles } from './ErrorPageGrid.styles';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
@@ -112,22 +112,22 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
       }
 
-      if (column.key === 'delete') {
+      if (column.key === 'remove') {
         return (
           <>
             {item.status == t('errorPage_columnStatus_notConfigured') ? (
               <IconButton
                 className={defaultCellStyle}
                 disabled={true}
-                id={`app-settings-errorPages-delete-tooltip-${index}`}
+                id={`app-settings-errorPages-remove-tooltip-${index}`}
                 iconProps={{ iconName: 'Delete' }}
-                ariaLabel={t('delete')}
+                ariaLabel={t('remove')}
                 onClick={() => removeItem(item.key)}
               />
             ) : (
               <TooltipHost
-                content={t('delete')}
-                id={`app-settings-errorPages-delete-tooltip-${index}`}
+                content={t('remove')}
+                id={`app-settings-errorPages-remove-tooltip-${index}`}
                 calloutProps={{ gapSpace: 0 }}
                 closeDelay={500}>
                 <IconButton
@@ -135,7 +135,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
                   disabled={disableAllControls}
                   id={`app-settings-errorPages-delete-tooltip-${index}`}
                   iconProps={{ iconName: 'Delete' }}
-                  ariaLabel={t('delete')}
+                  ariaLabel={t('remove')}
                   onClick={() => removeItem(item.key)}
                 />
               </TooltipHost>
@@ -194,15 +194,18 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         onRender: onRenderItemColumn,
       },
       {
-        key: 'delete',
-        name: t('delete'),
-        fieldName: 'delete',
-        ariaLabel: t('delete'),
-        minWidth: 50,
-        maxWidth: 50,
+        key: 'remove',
+        name: t('remove'),
+        fieldName: 'remove',
+        ariaLabel: t('remove'),
+        minWidth: 100,
+        maxWidth: 100,
         isRowHeader: true,
         isResizable: true,
+        styles: IconCellStyles,
+        className: CellStyle,
         data: 'string',
+
         onRender: onRenderItemColumn,
       },
       {
@@ -212,6 +215,8 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         fieldName: 'edit',
         minWidth: 50,
         maxWidth: 50,
+        styles: IconCellStyles,
+        className: CellStyle,
         isRowHeader: true,
         isResizable: true,
         data: 'string',

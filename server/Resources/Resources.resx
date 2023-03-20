@@ -4598,6 +4598,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="delete" xml:space="preserve">
         <value>Delete</value>
     </data>
+    <data name="remove" xml:space="preserve">
+        <value>Remove</value>
+    </data>
     <data name="edit" xml:space="preserve">
         <value>Edit</value>
     </data>
@@ -5848,7 +5851,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
     </data>
     <data name="errorPagesInfoMessage" xml:space="preserve">
-        <value>Upload custom error pages to use with your applications to provide a more personalized experience for your users. You may upload 3 different types of error pages (403, 502, and 503). Must be .html files.</value>
+        <value>Configure a custom HTML document that will be presented to users instead of the standard platform error page.</value>
     </data>
     <data name="errorPagesEditMessage" xml:space="preserve">
         <value>Upload custom error page (.html) for use with your application. File size limit: 10kb</value>
