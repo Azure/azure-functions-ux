@@ -50,6 +50,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     if (!option.key) {
       props.setFieldValue('config.properties.http20ProxyFlag', 0);
     } else {
+      // Enable gPRC only mode for HTTP 2.0
       props.setFieldValue('config.properties.http20ProxyFlag', 2);
     }
 
