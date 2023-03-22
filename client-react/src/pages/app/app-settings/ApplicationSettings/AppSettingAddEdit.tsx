@@ -37,12 +37,12 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
 
   const { t } = useTranslation();
 
-  const getKeyVaultReference = async () => {
+  const getReference = async () => {
     // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
-    const allKeyVaultReferences = await getAllAppSettingReferences(site.id);
-    if (allKeyVaultReferences.metadata.success) {
-      setCurrentAppSettingReference(allKeyVaultReferences.data.properties.keyToReferenceStatuses[currentAppSetting.name]);
+    const allReferences = await getAllAppSettingReferences(site.id);
+    if (allReferences.metadata.success) {
+      setCurrentAppSettingReference(allReferences.data.properties.keyToReferenceStatuses[currentAppSetting.name]);
     } else {
       setCurrentAppSettingReference(undefined);
       portalContext.log({
@@ -51,8 +51,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
         resourceId: site?.id,
         logLevel: 'error',
         data: {
-          error: allKeyVaultReferences?.metadata.error,
-          message: 'Failed to fetch key vault reference',
+          error: allReferences?.metadata.error,
+          message: 'Failed to fetch reference',
         },
       });
     }
@@ -91,19 +91,12 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     );
   };
 
-  const isValidKeyVaultReference = () => {
+  const isValidReference = () => {
     return (
       appSetting.name === currentAppSetting.name &&
       appSetting.value === currentAppSetting.value &&
-      CommonConstants.isKeyVaultReference(currentAppSetting.value)
-    );
-  };
-
-  const isValidAppConfigReference = () => {
-    return (
-      appSetting.name === currentAppSetting.name &&
-      appSetting.value === currentAppSetting.value &&
-      appSetting.name.startsWith(azureAppConfigRefStart)
+      (CommonConstants.isKeyVaultReference(currentAppSetting.value) ||
+        appSetting.name.toLocaleLowerCase().startsWith(azureAppConfigRefStart))
     );
   };
 
@@ -130,8 +123,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   };
 
   useEffect(() => {
-    if (isValidKeyVaultReference()) {
-      getKeyVaultReference();
+    if (isValidReference()) {
+      getReference();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -184,7 +177,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
-      {isAppSettingReferenceVisible() && isValidKeyVaultReference() && isValidAppConfigReference() && !!currentAppSettingReference && (
+      {isAppSettingReferenceVisible() && isValidReference() && !!currentAppSettingReference && (
         <ReferenceComponent resourceId={site.id} appSettingReference={currentAppSettingReference} />
       )}
     </>
