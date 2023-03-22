@@ -14,7 +14,7 @@ import { addEditFormStyle } from '../../../../components/form-controls/formContr
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { azureAppConfigRefStart, CommonConstants } from '../../../../utils/CommonConstants';
-import ReferenceComponent from '../KeyVaultReferenceComponent';
+import ReferenceComponent from '../ReferenceComponent';
 import { PortalContext } from '../../../../PortalContext';
 
 export interface AppSettingAddEditProps {

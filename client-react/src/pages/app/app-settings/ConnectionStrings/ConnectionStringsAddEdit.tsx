@@ -14,7 +14,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import ReferenceComponent from '../KeyVaultReferenceComponent';
+import ReferenceComponent from '../ReferenceComponent';
 import { Reference } from '../../../../models/site/config';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getAllConnectionStringsReferences } from '../AppSettings.service';

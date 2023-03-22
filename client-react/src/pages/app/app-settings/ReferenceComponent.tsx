@@ -32,7 +32,7 @@ const elementWrapperStyle = (theme: ThemeExtended) =>
 
 const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
   const { t } = useTranslation();
-  const [ReferenceResourceId, setReferenceResourceId] = useState<string | undefined>(undefined);
+  const [referenceResourceId, setReferenceResourceId] = useState<string | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState(true);
   const { resourceId, appSettingReference } = props;
   const { status, vaultName = '', secretName = '', secretVersion = '', details, identityType = '' } = appSettingReference;
@@ -53,7 +53,6 @@ const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
     textDecoration: 'none',
   });
 
-  console.log(vaultName);
   const vaultNameUri = vaultName ? `https://${vaultName}.vault.azure.net/` : '';
   const secretNameUri = secretName ? `${vaultNameUri}secrets/${secretName}/` : '';
   const secretVersionUri = secretVersion ? `${secretNameUri}/${secretVersion}` : '';
@@ -73,30 +72,30 @@ const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
   };
 
   const onVaultNameClick = async () => {
-    if (ReferenceResourceId) {
+    if (referenceResourceId) {
       await portalContext.openBlade({
         detailBlade: 'VaultBlade',
-        detailBladeInputs: { id: ReferenceResourceId },
+        detailBladeInputs: { id: referenceResourceId },
         extension: 'Microsoft_Azure_KeyVault',
       });
     }
   };
 
   const onSecretNameClick = async () => {
-    if (ReferenceResourceId) {
+    if (referenceResourceId) {
       await portalContext.openBlade({
         detailBlade: 'ListSecretVersionsBlade',
-        detailBladeInputs: { id: secretNameUri, vaultId: ReferenceResourceId },
+        detailBladeInputs: { id: secretNameUri, vaultId: referenceResourceId },
         extension: 'Microsoft_Azure_KeyVault',
       });
     }
   };
 
   const onSecretVersionClick = async () => {
-    if (ReferenceResourceId) {
+    if (referenceResourceId) {
       await portalContext.openBlade({
         detailBlade: 'SecretVersionBlade',
-        detailBladeInputs: { id: secretVersionUri, vaultId: ReferenceResourceId },
+        detailBladeInputs: { id: secretVersionUri, vaultId: referenceResourceId },
         extension: 'Microsoft_Azure_KeyVault',
       });
     }
@@ -148,9 +147,9 @@ const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
             <InformationLabel
               value={vaultName}
               id="key-vault-name"
-              className={ReferenceResourceId ? bladeLinkStyle(theme) : ''}
+              className={referenceResourceId ? bladeLinkStyle(theme) : ''}
               onClick={() => {
-                if (ReferenceResourceId) {
+                if (referenceResourceId) {
                   onVaultNameClick();
                 }
               }}
@@ -161,9 +160,9 @@ const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
             <InformationLabel
               value={secretName}
               id="key-secret-name"
-              className={ReferenceResourceId ? bladeLinkStyle(theme) : ''}
+              className={referenceResourceId ? bladeLinkStyle(theme) : ''}
               onClick={() => {
-                if (ReferenceResourceId) {
+                if (referenceResourceId) {
                   onSecretNameClick();
                 }
               }}
@@ -174,9 +173,9 @@ const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
             <InformationLabel
               value={secretVersion}
               id="key-secret-version"
-              className={ReferenceResourceId ? bladeLinkStyle(theme) : ''}
+              className={referenceResourceId ? bladeLinkStyle(theme) : ''}
               onClick={() => {
-                if (ReferenceResourceId) {
+                if (referenceResourceId) {
                   onSecretVersionClick();
                 }
               }}
