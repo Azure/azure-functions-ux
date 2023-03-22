@@ -3,20 +3,16 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { ThemeContext } from '../../../ThemeContext';
-import { keyVaultIconStyle, sourceTextStyle } from './AppSettings.styles';
-import { KeyVaultReferenceSummary } from './AppSettings.types';
+import { IconStyle, sourceTextStyle } from './AppSettings.styles';
+import { ReferenceSummary } from './AppSettings.types';
 import { isServiceLinkerVisible, isSettingServiceLinker } from './AppSettings.utils';
-import {
-  isKeyVaultReferenceResolved,
-  getKeyVaultReferenceStatusIconProps,
-  getKeyVaultReferenceStatusIconColor,
-} from './AppSettingsFormData';
+import { isReferenceResolved, getReferenceStatusIconProps, getReferenceStatusIconColor } from './AppSettingsFormData';
 import { azureAppConfigRefStart } from '../../../utils/CommonConstants';
 
 export interface SettingSourceColumnProps {
   name: string;
   value?: string;
-  references: KeyVaultReferenceSummary[];
+  references: ReferenceSummary[];
 }
 
 const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
@@ -26,24 +22,29 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
 
   const updatedName = name.toLowerCase();
   const updatedValue = value?.toLowerCase();
-  console.log(references)
   const filteredReference = references.filter(ref => ref.name.toLowerCase() === updatedName);
-  console.log(filteredReference)
 
-  if (updatedValue?.startsWith(azureAppConfigRefStart)) {
+  if (updatedValue?.startsWith(azureAppConfigRefStart) && filteredReference.length > 0) {
     return (
-      <div className={defaultCellStyle} aria-label={t('azureAppConfigValue')}>
-        {t('azureAppConfigRefValue')}
+      <div
+        className={defaultCellStyle}
+        aria-label={`${t('azureAppConfigValue')} ${!isReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
+        <Icon
+          iconName={getReferenceStatusIconProps(filteredReference[0]).icon}
+          className={IconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
+          ariaLabel={t('azureAppConfigRefValue')}
+        />
+        <span className={sourceTextStyle}>{t('azureAppConfigRefValue')}</span>
       </div>
     );
   } else if (filteredReference.length > 0) {
     return (
       <div
         className={defaultCellStyle}
-        aria-label={`${t('azureKeyVault')} ${!isKeyVaultReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
+        aria-label={`${t('azureKeyVault')} ${!isReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
         <Icon
-          iconName={getKeyVaultReferenceStatusIconProps(filteredReference[0]).icon}
-          className={keyVaultIconStyle(theme, getKeyVaultReferenceStatusIconColor(filteredReference[0], theme))}
+          iconName={getReferenceStatusIconProps(filteredReference[0]).icon}
+          className={IconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
           ariaLabel={t('azureKeyVault')}
         />
         <span className={sourceTextStyle}>{t('azureKeyVault')}</span>

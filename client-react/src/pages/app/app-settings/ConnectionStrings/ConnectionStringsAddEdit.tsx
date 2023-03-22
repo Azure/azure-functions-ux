@@ -14,8 +14,8 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
-import { KeyVaultReference } from '../../../../models/site/config';
+import ReferenceComponent from '../KeyVaultReferenceComponent';
+import { Reference } from '../../../../models/site/config';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getAllConnectionStringsReferences } from '../AppSettings.service';
 import { PortalContext } from '../../../../PortalContext';
@@ -35,7 +35,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   const [nameError, setNameError] = useState('');
   const [valueError, setValueError] = useState('');
   const [currentConnectionString, setCurrentConnectionString] = useState(connectionString);
-  const [currentConnectionStringReference, setCurrentConnectionStringReference] = useState<KeyVaultReference | undefined>(undefined);
+  const [currentConnectionStringReference, setCurrentConnectionStringReference] = useState<Reference | undefined>(undefined);
 
   const { t } = useTranslation();
 
@@ -237,7 +237,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
         />
       </form>
       {isConnectionStringReferenceVisible() && isValidKeyVaultReference() && currentConnectionStringReference && (
-        <KeyVaultReferenceComponent resourceId={site.id} appSettingReference={currentConnectionStringReference} />
+        <ReferenceComponent resourceId={site.id} appSettingReference={currentConnectionStringReference} />
       )}
     </>
   );

@@ -8,13 +8,13 @@ import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoF
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { getAllAppSettingReferences } from '../AppSettings.service';
-import { KeyVaultReference } from '../../../../models/site/config';
+import { Reference } from '../../../../models/site/config';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
+import { azureAppConfigRefStart, CommonConstants } from '../../../../utils/CommonConstants';
+import ReferenceComponent from '../KeyVaultReferenceComponent';
 import { PortalContext } from '../../../../PortalContext';
 
 export interface AppSettingAddEditProps {
@@ -29,7 +29,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting, site } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppSetting, setCurrentAppSetting] = useState(appSetting);
-  const [currentAppSettingReference, setCurrentAppSettingReference] = useState<KeyVaultReference | undefined>(undefined);
+  const [currentAppSettingReference, setCurrentAppSettingReference] = useState<Reference | undefined>(undefined);
 
   const isLinux = isLinuxApp(site);
 
@@ -96,6 +96,14 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
       appSetting.name === currentAppSetting.name &&
       appSetting.value === currentAppSetting.value &&
       CommonConstants.isKeyVaultReference(currentAppSetting.value)
+    );
+  };
+
+  const isValidAppConfigReference = () => {
+    return (
+      appSetting.name === currentAppSetting.name &&
+      appSetting.value === currentAppSetting.value &&
+      appSetting.name.startsWith(azureAppConfigRefStart)
     );
   };
 
@@ -176,8 +184,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
-      {isAppSettingReferenceVisible() && isValidKeyVaultReference() && !!currentAppSettingReference && (
-        <KeyVaultReferenceComponent resourceId={site.id} appSettingReference={currentAppSettingReference} />
+      {isAppSettingReferenceVisible() && isValidKeyVaultReference() && isValidAppConfigReference() && !!currentAppSettingReference && (
+        <ReferenceComponent resourceId={site.id} appSettingReference={currentAppSettingReference} />
       )}
     </>
   );
