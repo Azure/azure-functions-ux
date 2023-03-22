@@ -485,7 +485,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       let testData;
 
       if (testDataHrefObjects.length === 2) {
-        const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
+        const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1]);
         if (vfsArmTestDataResponse.metadata.success) {
           testData = vfsArmTestDataResponse.data;
           testDataResponseSuccess = true;
@@ -742,12 +742,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [site, functionInfo, hostKeys, functionKeys]);
 
-  useEffect(() => {
-    getAndSetTestData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [functionInfo, hostKeys]);
-
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
   if (initialLoading || !site) {
     return <LoadingComponent />;
@@ -758,6 +752,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       {functionInfo ? (
         <div style={showTestPanel ? shrinkEditorStyle(window.innerWidth) : undefined}>
           <FunctionEditor
+            getAndSetTestData={getAndSetTestData}
+            hostKeys={hostKeys}
             functionInfo={functionInfo}
             site={site}
             run={run}

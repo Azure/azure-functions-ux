@@ -250,24 +250,9 @@ export default class FunctionsService {
     });
   }
 
-  public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string, runtimeVersion?: string) {
+  public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string) {
     const headers = FunctionsService._addOrGetVfsHeaders();
-    let uri;
-
-    switch (runtimeVersion) {
-      case RuntimeExtensionMajorVersions.v1: {
-        uri = `/extensions/api/vfs/${fileEndpoint}`;
-        break;
-      }
-      case RuntimeExtensionCustomVersions.beta:
-      case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3:
-      case RuntimeExtensionMajorVersions.v4:
-      default: {
-        uri = `/hostruntime/admin/vfs/${fileEndpoint}?relativePath=1`;
-        break;
-      }
-    }
+    const uri = `/extensions/api/vfs/${fileEndpoint}`;
 
     return MakeArmCall<VfsObject[] | string>({
       headers,
