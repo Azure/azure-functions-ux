@@ -24,33 +24,34 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
   const updatedValue = value?.toLowerCase();
   const filteredReference = references.filter(ref => ref.name.toLowerCase() === updatedName);
 
-  if (updatedValue?.startsWith(azureAppConfigRefStart) && filteredReference.length > 0) {
-    return (
-      <div
-        className={defaultCellStyle}
-        aria-label={`${t('azureAppConfigValue')} ${!isReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
-        <Icon
-          iconName={getReferenceStatusIconProps(filteredReference[0]).icon}
-          className={IconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
-          ariaLabel={t('azureAppConfigRefValue')}
-        />
-        <span className={sourceTextStyle}>{t('azureAppConfigRefValue')}</span>
-      </div>
-    );
-  } else if (filteredReference.length > 0) {
-    return (
-      <div
-        className={defaultCellStyle}
-        aria-label={`${t('azureKeyVault')} ${!isReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
-        <Icon
-          iconName={getReferenceStatusIconProps(filteredReference[0]).icon}
-          className={IconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
-          ariaLabel={t('azureKeyVault')}
-        />
-        <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
-      </div>
-    );
-    // NOTE (krmitta): This value is shown only with the flag, and is currently for the private preview
+  if (filteredReference.length > 0) {
+    if (updatedValue?.startsWith(azureAppConfigRefStart)) {
+      return (
+        <div
+          className={defaultCellStyle}
+          aria-label={`${t('azureAppConfigValue')} ${!isReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
+          <Icon
+            iconName={getReferenceStatusIconProps(filteredReference[0]).icon}
+            className={IconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
+            ariaLabel={t('azureAppConfigRefValue')}
+          />
+          <span className={sourceTextStyle}>{t('azureAppConfigRefValue')}</span>
+        </div>
+      );
+    } else {
+      return (
+        <div
+          className={defaultCellStyle}
+          aria-label={`${t('azureKeyVault')} ${!isReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
+          <Icon
+            iconName={getReferenceStatusIconProps(filteredReference[0]).icon}
+            className={IconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
+            ariaLabel={t('azureKeyVault')}
+          />
+          <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
+        </div>
+      );
+    }
   } else if (isServiceLinkerVisible() && isSettingServiceLinker(updatedName)) {
     return (
       <div className={defaultCellStyle} aria-label={t('resourceConnector')}>
