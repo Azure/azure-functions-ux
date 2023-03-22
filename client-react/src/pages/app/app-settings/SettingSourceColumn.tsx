@@ -26,7 +26,9 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
 
   const updatedName = name.toLowerCase();
   const updatedValue = value?.toLowerCase();
+  console.log(references)
   const filteredReference = references.filter(ref => ref.name.toLowerCase() === updatedName);
+  console.log(filteredReference)
 
   if (updatedValue?.startsWith(azureAppConfigRefStart)) {
     return (
