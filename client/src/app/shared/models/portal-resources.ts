@@ -2004,8 +2004,7 @@ export class PortalResources {
   public static deploymentCenterPublishProfileCommandAriaLabel = 'deploymentCenterPublishProfileCommandAriaLabel';
   public static deploymentCenterRefreshCommandAriaLabel = 'deploymentCenterRefreshCommandAriaLabel';
   public static deploymentCenterSyncCommandAriaLabel = 'deploymentCenterSyncCommandAriaLabel';
-  public static deploymentCenterRedeployAriaLabel = 'deploymentCenterRedeployAriaLabel';
-  public static deploymentCenterRedeploy = 'deploymentCenterRedeploy';
+  public static deploymentCenterSync = 'deploymentCenterSync';
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';

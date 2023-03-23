@@ -6183,10 +6183,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Deployment center sync command</value>
     </data>
-    <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
-    </data>
-    <data name="deploymentCenterRedeploy" xml:space="preserve">
+    <data name="deploymentCenterSync" xml:space="preserve">
         <value>Sync</value>
     </data>
     <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">

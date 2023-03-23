@@ -157,6 +157,8 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             copyButton={true}
             readOnly={true}
             type={TextFieldType.password}
+            canRevealPassword
+            revealPasswordAriaLabel={t('showApplicationPasswordAriaLabel')}
             additionalControls={[
               <ActionButton
                 id="deployment-center-ftps-application-password-reset"

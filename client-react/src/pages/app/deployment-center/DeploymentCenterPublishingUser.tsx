@@ -155,6 +155,8 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
               component={TextField}
               label={t('deploymentCenterFtpsPasswordLabel')}
               type={TextFieldType.password}
+              canRevealPassword
+              revealPasswordAriaLabel={t('showProviderPasswordAriaLabel')}
               widthOverride={'100%'}
               additionalControls={[
                 <ActionButton
