@@ -239,7 +239,7 @@ export interface Cors {
   allowedOrigins: string[];
 }
 
-export interface KeyVaultReference {
+export interface Reference {
   reference: string;
   status: string;
   vaultName?: string;
