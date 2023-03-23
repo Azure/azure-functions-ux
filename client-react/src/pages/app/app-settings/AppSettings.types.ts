@@ -155,7 +155,7 @@ export enum ReferenceStatus {
 }
 
 export interface ConfigReferenceList {
-  keyToReferenceStatuses: { [name: string]: Reference };
+  keyToReferenceStatuses: Record<string, Reference>;
 }
 
 export enum AppSettingsTabs {

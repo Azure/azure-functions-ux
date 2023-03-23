@@ -72,7 +72,7 @@ export const getApplicationSettingReference = async (
   appSettingName: string
 ): Promise<HttpResponseObject<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: Reference } }>>> => {
   const id = `${resourceId}/config/configreferences/appsettings/${appSettingName}`;
-  return MakeArmCall<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: Reference } }>>({
+  return MakeArmCall<ArmObj<Record<string, Record<string, Reference>>>>({
     resourceId: id,
     commandName: 'getApplicationSettingReference',
     method: 'GET',

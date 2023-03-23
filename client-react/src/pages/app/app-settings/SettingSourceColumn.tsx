@@ -3,7 +3,7 @@ import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { ThemeContext } from '../../../ThemeContext';
-import { IconStyle, sourceTextStyle } from './AppSettings.styles';
+import { iconStyle, sourceTextStyle } from './AppSettings.styles';
 import { ReferenceSummary } from './AppSettings.types';
 import { isServiceLinkerVisible, isSettingServiceLinker } from './AppSettings.utils';
 import { isReferenceResolved, getReferenceStatusIconProps, getReferenceStatusIconColor } from './AppSettingsFormData';
@@ -32,7 +32,7 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
           aria-label={`${t('azureAppConfigValue')} ${!isReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
           <Icon
             iconName={getReferenceStatusIconProps(filteredReference[0]).icon}
-            className={IconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
+            className={iconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
             ariaLabel={t('azureAppConfigRefValue')}
           />
           <span className={sourceTextStyle}>{t('azureAppConfigRefValue')}</span>
@@ -45,7 +45,7 @@ const SettingSourceColumn: React.FC<SettingSourceColumnProps> = props => {
           aria-label={`${t('azureKeyVault')} ${!isReferenceResolved(filteredReference[0]) && 'not'} resolved`}>
           <Icon
             iconName={getReferenceStatusIconProps(filteredReference[0]).icon}
-            className={IconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
+            className={iconStyle(theme, getReferenceStatusIconColor(filteredReference[0], theme))}
             ariaLabel={t('azureKeyVault')}
           />
           <span className={sourceTextStyle}>{t('azureKeyVault')}</span>
