@@ -5535,11 +5535,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="azureKeyVault" xml:space="preserve">
         <value>Key vault Reference</value>
     </data>
+    <data name="azureKeyVaultRefResolved" xml:space="preserve">
+        <value>Key vault Reference resolved</value>
+    </data>
+    <data name="azureKeyVaultRefNotResolved" xml:space="preserve">
+        <value>Key vault Reference not resolved</value>
+    </data>
     <data name="azureAppServiceValue" xml:space="preserve">
         <value>App Service</value>
     </data>
     <data name="azureAppConfigRefValue" xml:space="preserve">
         <value>App Configuration Reference</value>
+    </data>
+     <data name="azureAppConfigRefAriaLabelResolved" xml:space="preserve">
+        <value>App Configuration Reference resolved</value>
+    </data>
+     <data name="azureAppConfigRefAriaLabelNotResolved" xml:space="preserve">
+        <value>App Configuration Reference not resolved</value>
     </data>
     <data name="appSettingKeyvaultAPIError" xml:space="preserve">
         <value>Error: Could not access key vault reference metadata</value>

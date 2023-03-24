@@ -57,7 +57,7 @@ export const dirtyElementStyle = (theme: ThemeExtended, addPadding?: boolean) =>
     boxSizing: 'border-box',
   });
 
-export const keyVaultIconStyle = (theme: ThemeExtended, color: string) =>
+export const iconStyle = (theme: ThemeExtended, color: string) =>
   style({
     color: color,
     position: 'absolute',

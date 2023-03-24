@@ -1788,8 +1788,12 @@ export class PortalResources {
   public static functionKeyNamesUnique = 'functionKeyNamesUnique';
   public static gitHubActionBuildServerDesc = 'gitHubActionBuildServerDesc';
   public static azureKeyVault = 'azureKeyVault';
+  public static azureKeyVaultRefResolved = 'azureKeyVaultRefResolved';
+  public static azureKeyVaultRefNotResolved = 'azureKeyVaultRefNotResolved';
   public static azureAppServiceValue = 'azureAppServiceValue';
   public static azureAppConfigRefValue = 'azureAppConfigRefValue';
+  public static azureAppConfigRefAriaLabelResolved = 'azureAppConfigRefAriaLabelResolved';
+  public static azureAppConfigRefAriaLabelNotResolved = 'azureAppConfigRefAriaLabelNotResolved';
   public static appSettingKeyvaultAPIError = 'appSettingKeyvaultAPIError';
   public static containerSettingsNotConfigured = 'containerSettingsNotConfigured';
   public static containerSettingsTitle = 'containerSettingsTitle';
