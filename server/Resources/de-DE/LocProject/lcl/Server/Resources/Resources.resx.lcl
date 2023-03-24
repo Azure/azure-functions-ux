@@ -8468,10 +8468,13 @@
       </Item>
       <Item ItemId=";errorPagesInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Upload custom error pages to use with your applications to provide a more personalized experience for your users. You may upload 3 different types of error pages (403, 502, and 503). Must be .html files.]]></Val>
+          <Val><![CDATA[Configure a custom HTML document that will be presented to users instead of the standard platform error page.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Laden Sie benutzerdefinierte Fehlerseiten hoch, die Sie mit Ihren Anwendungen verwenden können, um Ihren Benutzern eine personalisierte Erfahrung zu bieten. Sie können 3 verschiedene Arten von Fehlerseiten hochladen (403, 502 und 503). Müssen HTML-Dateien sein.]]></Val>
+            <Val><![CDATA[Konfigurieren Sie ein benutzerdefiniertes HTML-Dokument, das Benutzern anstelle der Standardplattformfehlerseite angezeigt wird.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Upload custom error pages to use with your applications to provide a more personalized experience for your users. You may upload 3 different types of error pages (403, 502, and 503). Must be .html files.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18026,6 +18029,15 @@
           <Val><![CDATA[Remote Visual Studio version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Remote Visual Studio-Version]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";remove" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Remove]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Entfernen]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
