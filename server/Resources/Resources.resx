@@ -6153,6 +6153,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirm App Service Build Service Disconnect</value>
     </data>
+    <data name="vstsDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Confirm Azure Pipelines Disconnect</value>
+    </data>
+    <data name="vstsDisconnectConfirmationDescription" xml:space="preserve">
+        <value>Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.</value>
+    </data>
     <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
         <value>Fetching GitHub Action workflow configuration</value>
     </data>
