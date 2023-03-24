@@ -178,6 +178,8 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
               component={TextField}
               label={t('deploymentCenterFtpsConfirmPasswordLabel')}
               type={TextFieldType.password}
+              canRevealPassword
+              revealPasswordAriaLabel={t('showProviderConfirmPasswordAriaLabel')}
               widthOverride={'100%'}
             />
           </div>
