@@ -1647,6 +1647,7 @@ export class PortalResources {
   public static logStreamingWebServerLogsDisabled = 'logStreamingWebServerLogsDisabled';
   public static remoteDebuggingNotAvailableForRuntimeStack = 'remoteDebuggingNotAvailableForRuntimeStack';
   public static appSettingsUpsellBannerMessage = 'appSettingsUpsellBannerMessage';
+  public static customErrorPageUpsellBannerMessage = 'customErrorPageUpsellBannerMessage';
   public static appInsightsNotConfigured = 'appInsightsNotConfigured';
   public static ipRestrictionsWarning = 'ipRestrictionsWarning';
   public static userCredsError = 'userCredsError';

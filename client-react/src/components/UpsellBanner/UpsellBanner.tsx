@@ -5,6 +5,7 @@ import { BannerStyle, IconStyle, LinkStyle } from './UpsellBanner.styles';
 import { Trans } from 'react-i18next';
 
 interface Props {
+  appSettingUpsell: boolean;
   onClick: () => void;
 }
 const UpsellBanner: FC<Props> = props => {
@@ -13,7 +14,7 @@ const UpsellBanner: FC<Props> = props => {
       <Stack horizontal verticalAlign="center">
         <UpsellIconSvg className={IconStyle} />
         <Link onClick={props.onClick} className={LinkStyle}>
-          <Trans>appSettingsUpsellBannerMessage</Trans>
+          {props.appSettingUpsell ? <Trans>appSettingsUpsellBannerMessage</Trans> : <Trans>customErrorPageUpsellBannerMessage</Trans>}
         </Link>
       </Stack>
     </Stack>
