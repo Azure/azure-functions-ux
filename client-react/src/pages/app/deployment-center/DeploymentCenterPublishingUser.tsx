@@ -143,7 +143,7 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
             id="deployment-center-ftps-provider-username"
             name="publishingUsername"
             component={TextField}
-            label={t('deploymentCenterFtpsUsernameLabel')}
+            label={t('deploymentCenterUserScopeUsernameLabel')}
             widthOverride={'100%'}
           />
 

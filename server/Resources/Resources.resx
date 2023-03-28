@@ -6417,8 +6417,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(your username)</value>
     </data>
-    <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+    <data name="deploymentCenterUserScopeUsernameLabel" xml:space="preserve">
         <value>Username</value>
+    </data>
+    <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>FTPS Username</value>
+    </data>
+    <data name="deploymentCenterLocalGitUsernameLabel" xml:space="preserve">
+        <value>Local Git Username</value>
     </data>
     <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
         <value>Password</value>
