@@ -243,8 +243,10 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                                   customErrorFlighting)) && (
                                 <UpsellBanner
                                   onClick={scaleUpPlan}
-                                  appSettingUpsell={
+                                  bannerMessage={
                                     scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled'
+                                      ? t('appSettingsUpsellBannerMessage')
+                                      : t('customErrorPageUpsellBannerMessage')
                                   }
                                 />
                               )}
