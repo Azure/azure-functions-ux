@@ -1,4 +1,4 @@
-import { mergeStyleSets, FontWeights, IIconProps, mergeStyles } from '@fluentui/react';
+import { mergeStyleSets, FontWeights, IIconProps } from '@fluentui/react';
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
@@ -17,27 +17,6 @@ export const uploadStyle = mergeStyleSets({
 export const boldCellStyle = style({
   fontWeight: 400,
 });
-
-export const CellStyle = mergeStyles({
-  display: 'flex !important',
-  justifyContent: 'center',
-  width: '100px !important',
-});
-
-export const IconCellStyles = {
-  root: [
-    {
-      width: '100px !important',
-      display: 'inline-flex !important',
-      padding: '0 !important',
-    },
-  ],
-  cellTitle: [
-    {
-      justifyContent: 'center !important',
-    },
-  ],
-};
 
 export const browseButtonStyle = (theme: ThemeExtended) =>
   style({

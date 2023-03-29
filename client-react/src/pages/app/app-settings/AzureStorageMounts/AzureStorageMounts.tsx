@@ -253,7 +253,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
       {
@@ -264,7 +264,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
     ];

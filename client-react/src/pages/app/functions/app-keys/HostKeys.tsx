@@ -123,7 +123,7 @@ const HostKeys: React.FC<HostKeysProps> = props => {
         maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderColumnItem,
       },
     ];

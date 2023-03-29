@@ -1,16 +1,14 @@
-import { DetailsListLayoutMode, IColumn, PanelType, SelectionMode, TooltipHost } from '@fluentui/react';
+import { DetailsList, DetailsListLayoutMode, IColumn, PanelType, SelectionMode, TooltipHost } from '@fluentui/react';
 import { FormikProps } from 'formik';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues, FormErrorPage } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
-import DisplayTableWithEmptyMessage, {
-  defaultCellStyle,
-} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { PermissionsContext } from '../Contexts';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ErrorPageGridAddEdit from './ErrorPageGridAddEdit';
-import { boldCellStyle, CellStyle, IconCellStyles } from './ErrorPageGrid.styles';
+import { boldCellStyle } from './ErrorPageGrid.styles';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
@@ -175,11 +173,12 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         ariaLabel: t('errorPage_columnErrorCode'),
         fieldName: 'errorCode',
         minWidth: 100,
-        maxWidth: 220,
+        maxWidth: 150,
         isRowHeader: true,
         isResizable: true,
         data: 'string',
         onRender: onRenderItemColumn,
+        isPadded: true,
       },
       {
         key: 'status',
@@ -187,10 +186,11 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         ariaLabel: t('errorPage_columnStatus'),
         fieldName: 'status',
         minWidth: 100,
-        maxWidth: 220,
-        isRowHeader: true,
+        isRowHeader: false,
         isResizable: true,
+        isPadded: true,
         data: 'string',
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
       {
@@ -200,12 +200,10 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         ariaLabel: t('remove'),
         minWidth: 100,
         maxWidth: 100,
-        isRowHeader: true,
+        isRowHeader: false,
         isResizable: true,
-        styles: IconCellStyles,
-        className: CellStyle,
-        data: 'string',
-
+        isPadded: true,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
       {
@@ -215,11 +213,10 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         fieldName: 'edit',
         minWidth: 50,
         maxWidth: 50,
-        styles: IconCellStyles,
-        className: CellStyle,
-        isRowHeader: true,
+        isRowHeader: false,
         isResizable: true,
-        data: 'string',
+        isPadded: true,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
     ];
@@ -227,7 +224,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   return (
     <>
-      <DisplayTableWithEmptyMessage
+      <DetailsList
         columns={getColumns}
         items={_columnErrorCode || []}
         isHeaderVisible={true}
