@@ -1,24 +1,32 @@
-import { DetailsList, DetailsListLayoutMode, IColumn, PanelType, SelectionMode, TooltipHost } from '@fluentui/react';
+import { DetailsListLayoutMode, IColumn, PanelType, SelectionMode, TooltipHost } from '@fluentui/react';
 import { FormikProps } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues, FormErrorPage } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { PermissionsContext } from '../Contexts';
+import DisplayTableWithEmptyMessage, {
+  defaultCellStyle,
+} from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { PermissionsContext, SiteContext } from '../Contexts';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import ErrorPageGridAddEdit from './ErrorPageGridAddEdit';
-import { boldCellStyle } from './ErrorPageGrid.styles';
+import { boldCellStyle, overlayStyle } from './ErrorPageGrid.styles';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
-  const disableAllControls = !app_write || !editable || saving;
   const { t } = useTranslation();
   const [showPanel, setShowPanel] = useState(false);
   const [labelAddEditPane, setLabelAddEditPane] = useState<string | undefined>(undefined);
   const [currentErrorPage, setCurrentErrorPage] = useState<FormErrorPage | null>(null);
   const { values } = props;
+  const site = useContext(SiteContext);
+  const scenarioCheckerRef = useRef(new ScenarioService(t));
+  const scenarioChecker = scenarioCheckerRef.current!;
+  const overlay = scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPagesOverlay, { site }).status !== 'disabled';
+  const disableAllControls = !app_write || !editable || saving;
 
   const errorCode = CommonConstants.ErrorPageCode;
 
@@ -130,7 +138,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
                 closeDelay={500}>
                 <IconButton
                   className={defaultCellStyle}
-                  disabled={disableAllControls}
+                  disabled={disableAllControls || overlay}
                   id={`app-settings-errorPages-delete-tooltip-${index}`}
                   iconProps={{ iconName: 'Delete' }}
                   ariaLabel={t('remove')}
@@ -143,20 +151,33 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       }
       if (column.key === 'edit') {
         return (
-          <TooltipHost
-            content={item.status == t('errorPage_columnStatus_notConfigured') ? t('add') : t('edit')}
-            id={`app-settings-errorPages-edit-tooltip-${index}`}
-            calloutProps={{ gapSpace: 0 }}
-            closeDelay={500}>
-            <IconButton
-              className={defaultCellStyle}
-              disabled={disableAllControls}
-              id={`app-settings-errorPages-edit-${index}`}
-              iconProps={{ iconName: 'Edit' }}
-              ariaLabel={t('edit')}
-              onClick={() => onShowPanel(item)}
-            />
-          </TooltipHost>
+          <>
+            {overlay ? (
+              <IconButton
+                className={defaultCellStyle}
+                disabled={disableAllControls || overlay}
+                id={`app-settings-errorPages-edit-${index}`}
+                iconProps={{ iconName: 'Edit' }}
+                ariaLabel={t('edit')}
+                onClick={() => onShowPanel(item)}
+              />
+            ) : (
+              <TooltipHost
+                content={item.status == t('errorPage_columnStatus_notConfigured') ? t('add') : t('edit')}
+                id={`app-settings-errorPages-edit-tooltip-${index}`}
+                calloutProps={{ gapSpace: 0 }}
+                closeDelay={500}>
+                <IconButton
+                  className={defaultCellStyle}
+                  disabled={disableAllControls || overlay}
+                  id={`app-settings-errorPages-edit-${index}`}
+                  iconProps={{ iconName: 'Edit' }}
+                  ariaLabel={t('edit')}
+                  onClick={() => onShowPanel(item)}
+                />
+              </TooltipHost>
+            )}
+          </>
         );
       }
 
@@ -186,7 +207,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         ariaLabel: t('errorPage_columnStatus'),
         fieldName: 'status',
         minWidth: 100,
-        isRowHeader: false,
+        isRowHeader: true,
         isResizable: true,
         isPadded: true,
         data: 'string',
@@ -200,7 +221,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         ariaLabel: t('remove'),
         minWidth: 100,
         maxWidth: 100,
-        isRowHeader: false,
+        isRowHeader: true,
         isResizable: true,
         isPadded: true,
         isCollapsible: false,
@@ -213,7 +234,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         fieldName: 'edit',
         minWidth: 50,
         maxWidth: 50,
-        isRowHeader: false,
+        isRowHeader: true,
         isResizable: true,
         isPadded: true,
         isCollapsible: false,
@@ -224,14 +245,27 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   return (
     <>
-      <DetailsList
-        columns={getColumns}
-        items={_columnErrorCode || []}
-        isHeaderVisible={true}
-        layoutMode={DetailsListLayoutMode.justified}
-        selectionMode={SelectionMode.none}
-        selectionPreservedOnEmptyClick={true}
-      />
+      {overlay ? (
+        <div className={overlayStyle}>
+          <DisplayTableWithEmptyMessage
+            columns={getColumns}
+            items={_columnErrorCode || []}
+            isHeaderVisible={true}
+            layoutMode={DetailsListLayoutMode.justified}
+            selectionMode={SelectionMode.none}
+            selectionPreservedOnEmptyClick={true}
+          />
+        </div>
+      ) : (
+        <DisplayTableWithEmptyMessage
+          columns={getColumns}
+          items={_columnErrorCode || []}
+          isHeaderVisible={true}
+          layoutMode={DetailsListLayoutMode.justified}
+          selectionMode={SelectionMode.none}
+          selectionPreservedOnEmptyClick={true}
+        />
+      )}
 
       <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={labelAddEditPane}>
         <ErrorPageGridAddEdit errorPage={currentErrorPage!} closeBlade={onCancelPanel} addEditItem={addEditItem} />

@@ -18,6 +18,11 @@ export const boldCellStyle = style({
   fontWeight: 400,
 });
 
+export const overlayStyle = style({
+  opacity: 0.5,
+  zIndex: 10,
+});
+
 export const browseButtonStyle = (theme: ThemeExtended) =>
   style({
     backgroundColor: theme.semanticColors.accentButtonBackground,
