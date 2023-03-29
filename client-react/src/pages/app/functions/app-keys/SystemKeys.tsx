@@ -157,7 +157,7 @@ const SystemKeys: React.FC<SystemKeysProps> = props => {
         maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderColumnItem,
       },
     ];

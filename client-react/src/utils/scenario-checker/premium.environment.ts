@@ -14,10 +14,10 @@ export class PremiumAppEnvironment extends Environment {
       }),
     };
 
-    this.scenarioChecks[ScenarioIds.enableCustomErrorPages] = {
-      id: ScenarioIds.enableCustomErrorPages,
+    this.scenarioChecks[ScenarioIds.enableCustomErrorPagesOverlay] = {
+      id: ScenarioIds.enableCustomErrorPagesOverlay,
       runCheck: () => ({
-        status: 'enabled',
+        status: 'disabled',
       }),
     };
   }

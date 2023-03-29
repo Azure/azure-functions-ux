@@ -78,7 +78,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
   const enableCustomErrorPages =
-    scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status === 'enabled' && flighting;
+    scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status !== 'disabled' && flighting;
 
   return (
     <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>

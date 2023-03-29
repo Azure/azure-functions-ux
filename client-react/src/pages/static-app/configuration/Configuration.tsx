@@ -255,7 +255,7 @@ const Configuration: React.FC<ConfigurationProps> = (props: ConfigurationProps) 
         maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderColumnItem,
       },
     ];

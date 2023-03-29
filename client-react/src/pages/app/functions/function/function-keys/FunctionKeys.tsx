@@ -128,7 +128,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         maxWidth: 35,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderColumnItem,
       },
     ];
