@@ -2081,7 +2081,9 @@ export class PortalResources {
   public static deploymentCenterFtpsUserScopeTitle = 'deploymentCenterFtpsUserScopeTitle';
   public static deploymentCenterFtpsUserScopeDescription = 'deploymentCenterFtpsUserScopeDescription';
   public static deploymentCenterFtpsUserScopeSampleUsername = 'deploymentCenterFtpsUserScopeSampleUsername';
+  public static deploymentCenterUserScopeUsernameLabel = 'deploymentCenterUserScopeUsernameLabel';
   public static deploymentCenterFtpsUsernameLabel = 'deploymentCenterFtpsUsernameLabel';
+  public static deploymentCenterLocalGitUsernameLabel = 'deploymentCenterLocalGitUsernameLabel';
   public static deploymentCenterFtpsPasswordLabel = 'deploymentCenterFtpsPasswordLabel';
   public static deploymentCenterFtpsConfirmPasswordLabel = 'deploymentCenterFtpsConfirmPasswordLabel';
   public static deploymentCenterFtpsWritePermissionRequired = 'deploymentCenterFtpsWritePermissionRequired';
