@@ -299,7 +299,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         data: 'string',
         isPadded: true,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
       {
@@ -334,7 +334,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
       {
@@ -345,7 +345,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
     ];

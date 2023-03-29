@@ -49,6 +49,7 @@ import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
 import { ExperimentationConstants } from '../../../utils/CommonConstants';
+
 export interface AppSettingsDataLoaderProps {
   children: (props: {
     initialFormValues: AppSettingsFormValues | null;
@@ -367,9 +368,12 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const scaleUpPlan = async () => {
-    await portalContext.openFrameBlade({
-      detailBlade: 'SpecPickerFrameBlade',
-      detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId },
+    await portalContext.openBlade({
+      detailBlade: 'ScaleSpecPicker.ReactView',
+      detailBladeInputs: {
+        id: currentSiteNonForm.properties.serverFarmId,
+      },
+      openAsContextBlade: true,
     });
     const newSite = await SiteService.fetchSite(resourceId);
     setCurrentSiteNonForm(newSite.data);

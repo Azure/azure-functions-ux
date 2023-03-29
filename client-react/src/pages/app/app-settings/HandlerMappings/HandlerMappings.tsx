@@ -221,7 +221,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
       {
@@ -232,7 +232,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
     ];

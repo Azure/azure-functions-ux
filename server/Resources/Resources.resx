@@ -5108,6 +5108,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
         <value>Click here to upgrade to a higher SKU and enable additional features.</value>
     </data>
+    <data name="customErrorPageUpsellBannerMessage" xml:space="preserve">
+        <value>Custom Error pages requires a premium App Service Plan.</value>
+    </data>
     <data name="appInsightsNotConfigured" xml:space="preserve">
         <value>Application Insights is not configured. Configure Application Insights to capture function logs.</value>
     </data>

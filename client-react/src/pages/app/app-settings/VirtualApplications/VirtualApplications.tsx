@@ -216,7 +216,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
       {
@@ -227,7 +227,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
     ];
