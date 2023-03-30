@@ -1994,6 +1994,8 @@ export class PortalResources {
   public static githubActionDashboardBranchMissingError = 'githubActionDashboardBranchMissingError';
   public static githubActionDisconnectConfirmationTitle = 'githubActionDisconnectConfirmationTitle';
   public static kuduDisconnectConfirmationTitle = 'kuduDisconnectConfirmationTitle';
+  public static vstsDisconnectConfirmationTitle = 'vstsDisconnectConfirmationTitle';
+  public static vstsDisconnectConfirmationDescription = 'vstsDisconnectConfirmationDescription';
   public static deploymentCenterGitHubDisconnectLoadingAriaValue = 'deploymentCenterGitHubDisconnectLoadingAriaValue';
   public static deploymentCenterGitHubDisconnectLoading = 'deploymentCenterGitHubDisconnectLoading';
   public static githubActionDisconnectWorkflowDeleteFailed = 'githubActionDisconnectWorkflowDeleteFailed';
