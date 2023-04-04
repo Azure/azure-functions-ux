@@ -356,14 +356,12 @@ export class SubscriptionQuotaIds {
 export class ExperimentationConstants {
   public static TreatmentFlight = {
     customErrorPages: 'enable-custom-error-pages',
-    functionsCollateral: '61fci236',
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
   };
 
   public static ControlFlight = {
     customErrorPages: 'disable-custom-error-pages',
-    functionsCollateral: '3f3ej608',
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
   };

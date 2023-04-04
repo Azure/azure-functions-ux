@@ -55,7 +55,7 @@ export default class OneDriveService {
   };
 
   private static _sendOneDriveRequest = (url: string, oneDriveToken: string, method: Method) => {
-    return sendHttpRequest<OneDriveArrayResponse<OneDriveFolder[]>>(
+    return sendHttpRequest<OneDriveArrayResponse<OneDriveFolder>>(
       {
         url,
         method,
