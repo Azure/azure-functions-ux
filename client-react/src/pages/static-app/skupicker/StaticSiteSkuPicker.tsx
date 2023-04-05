@@ -347,7 +347,7 @@ const getSWACostString = (billingInformation: CostEstimate[] = [], id: StaticSit
 
   if (billingInformation.length > 0) {
     const meter = billingInformation.find(val => val.id === id);
-    if (meter?.amount) {
+    if (meter?.amount !== undefined) {
       const cost =
         id === StaticSiteBillingType.SWAAzureFrontDoor
           ? (CommonConstants.monthlyHoursForPricing * meter.amount).toFixed(2)
