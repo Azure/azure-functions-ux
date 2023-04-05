@@ -7321,10 +7321,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Plan or Features</value>
     </data>
     <data name="staticSiteFreePlanAriaLabel" xml:space="preserve">
-        <value>Free plan. For hobby or personal projects. Price is free. Included bandwidth 100GB per subscription. Bandwidth overage not applicable. Custom domains two per app. SSL certificates are free. Custom authentication not supported. Private link not supported. Storage 0.25GB. Azure functions are managed.</value>
+        <value>Free plan Price free 100GB bandwidth per subscription with free overage. 2 app custom domains SSL certs free No custom authentication No private endpoints Max app size 250 MB 3 Staging environments Managed functions only. No enterprise grade edge</value>
     </data>
     <data name="staticSiteStandardPlanAriaLabel" xml:space="preserve">
-        <value>Standard plan. For general purpose production apps. Price is nine dollars per month. Included bandwidth 100GB per subscription. Bandwidth overage 2 cents per GB per subscription. Custom domains five per app. SSL certificates are free. Custom authentication supported. Private link supported. Storage 2GB. Azure functions are managed or bring your own.</value>
+        <value>Standard plan Price {0} 100GB bandwidth with {1} overage per GB 5 app custom domains SSL certs free Custom auth private endpoints supported Max app size 500 MB 10 staging environments Managed or bring your functions Enterprise grade edge {2}</value>
     </data>
     <data name="staticSitePrice" xml:space="preserve">
         <value>Price</value>

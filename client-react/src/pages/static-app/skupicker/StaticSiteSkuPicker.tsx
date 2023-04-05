@@ -170,7 +170,11 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = ({
                     onChange={handleChange}
                   />
                   <PlanPickerTitleSection
-                    buttonAriaLabel={t('staticSiteStandardPlanAriaLabel')}
+                    buttonAriaLabel={t('staticSiteStandardPlanAriaLabel').format(
+                      getSWACostString(billingInformation, StaticSiteBillingType.SWAMonthly),
+                      getSWACostString(billingInformation, StaticSiteBillingType.SWAIncremental),
+                      getSWACostString(billingInformation, StaticSiteBillingType.SWAAzureFrontDoor)
+                    )}
                     className={selectedSku === StaticSiteSku.Standard ? selectedTitleStyleClassName : unselectedTitleStyleClassName}
                     description={t('staticSiteStandardDescription')}
                     id="static-site-sku-standard"
@@ -336,4 +340,22 @@ const SkuCost: React.FC<SkuCostProps> = ({ billingInformation = [] }) => {
   }
 
   return <PricingCalculatorLink />;
+};
+
+const getSWACostString = (billingInformation: CostEstimate[] = [], id: StaticSiteBillingType) => {
+  const { t } = useTranslation();
+
+  if (billingInformation.length > 0) {
+    const meter = billingInformation.find(val => val.id === id);
+    if (meter?.amount !== undefined) {
+      const cost =
+        id === StaticSiteBillingType.SWAAzureFrontDoor
+          ? (CommonConstants.monthlyHoursForPricing * meter.amount).toFixed(2)
+          : meter.amount.toFixed(2);
+      const currency = meter.currencyCode;
+      return `${cost} ${currency}`;
+    }
+  }
+
+  return t('loading');
 };
