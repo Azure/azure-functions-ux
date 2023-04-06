@@ -9,7 +9,7 @@ import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { PortalContext } from '../../../PortalContext';
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
-import { bannerStyle, checkBoxStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
+import { bannerStyle, checkBoxStyle, formBannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
 import { Links } from '../../../utils/FwLinks';
 
 import {
@@ -309,7 +309,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
             <>
               <CustomBanner
                 undocked={true}
-                className={bannerStyle}
+                className={formBannerStyle}
                 type={MessageBarType.info}
                 message={t('deletePreviousPlanMessage').format(
                   currentServerFarm.name,
