@@ -4,17 +4,15 @@ import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
-import { dropdownStyleOverrides } from '../../../components/form-controls/formControl.override.styles';
 import { Layout } from '../../../components/form-controls/ReactiveFormControl';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import { ArmObj } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
 import PortalCommunicator from '../../../portal-communicator';
 import { PortalContext } from '../../../PortalContext';
-import { ThemeContext } from '../../../ThemeContext';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
 import RbacConstants from '../../../utils/rbac-constants';
-import { linkStyle } from './ChangeAppPlan.styles';
+import { linkStyle, textboxStyle } from './ChangeAppPlan.styles';
 
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
@@ -28,12 +26,8 @@ export interface ResourceGroupInfo {
   hasSubscriptionWritePermission: boolean;
 }
 
-const calloutStyle = style({
-  width: '400px',
-});
-
 const calloutContainerStyle = style({
-  padding: '20px',
+  padding: '15px',
 });
 
 const primaryButtonStyle = style({
@@ -53,7 +47,6 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
     onRgValidationError,
   } = props;
 
-  const theme = useContext(ThemeContext);
   const [showCallout, setShowCallout] = useState(false);
   const [newRgNameFieldValue, setNewRgNameFieldValue] = useState(newResourceGroupName);
   const [newRgNameValidationError, setNewRgNameValidationError] = useState('');
@@ -134,7 +127,8 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         selectedKey={isNewResourceGroup ? newResourceGroupName : (existingResourceGroup as ArmObj<ResourceGroup>).id.toLowerCase()}
         options={options}
         onChange={onChangeDropdown}
-        styles={dropdownStyleOverrides(theme, false, '260px')}
+        className={textboxStyle}
+        widthOverride="100%"
         errorMessage={existingRgWritePermissionError}
         required={true}
       />
@@ -144,14 +138,15 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
       </div>
 
       <Callout
-        className={calloutStyle}
         role="alertdialog"
         gapSpace={0}
         target={menuButtonElement.current}
         onDismiss={onDismissCallout}
         setInitialFocus={true}
         hidden={!showCallout}
-        directionalHint={DirectionalHint.rightBottomEdge}>
+        directionalHint={DirectionalHint.bottomCenter}
+        calloutMaxWidth={320}
+        minPagePadding={3}>
         <section className={calloutContainerStyle}>
           <div>{t('resourceGroupDescription')}</div>
           <TextFieldNoFormik
@@ -162,6 +157,8 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
             onChange={onRgNameTextChange}
             errorMessage={newRgNameValidationError}
             required={true}
+            widthOverride="100%"
+            className={textboxStyle}
           />
           <div>
             <PrimaryButton

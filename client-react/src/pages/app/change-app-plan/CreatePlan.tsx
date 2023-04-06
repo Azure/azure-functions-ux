@@ -1,6 +1,7 @@
-import { DefaultButton, Link, MessageBar, MessageBarType, Panel, PanelType, PrimaryButton } from '@fluentui/react';
+import { DefaultButton, Link, MessageBar, MessageBarType, PanelType, PrimaryButton } from '@fluentui/react';
 import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import { Layout } from '../../../components/form-controls/ReactiveFormControl';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
 import { ArmObj } from '../../../models/arm-obj';
@@ -11,7 +12,7 @@ import { AppKind } from '../../../utils/AppKind';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getServerFarmValidator } from '../../../utils/validation/serverFarmValidator';
-import { buttonFooterStyle, buttonPadding, textboxStyle } from './ChangeAppPlan.styles';
+import { buttonFooterStyle, buttonPadding, panelStyle, textboxStyle } from './ChangeAppPlan.styles';
 import { ChangeAppPlanDefaultSkuCodes, ChangeAppPlanTierTypes, CreatePlanProps, NewPlanInfo } from './ChangeAppPlan.types';
 import { CreateOrSelectResourceGroup, ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 
@@ -104,7 +105,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
     }
 
     return (
-      <Link onClick={() => toggleShowPanel(true)} disabled={isUpdating}>
+      <Link onClick={() => toggleShowPanel(true)} disabled={isUpdating} className={textboxStyle}>
         {t('createNew')}
       </Link>
     );
@@ -143,40 +144,40 @@ export const CreatePlan = (props: CreatePlanProps) => {
     <>
       {getNewLink(hostingEnvironment)}
 
-      <Panel
+      <CustomPanel
         isOpen={showPanel}
         type={PanelType.smallFixedFar}
         onDismiss={() => toggleShowPanel(false)}
         headerText={t('createNewPlan')}
-        closeButtonAriaLabel={t('close')}
         onRenderFooterContent={() => onRenderFooterContent()}>
         {!hasSubscriptionWritePermission && (
           <MessageBar messageBarType={MessageBarType.warning}>{t('changePlanNoWritePermissionOnSubscription')}</MessageBar>
         )}
+        <div className={panelStyle}>
+          <CreateOrSelectResourceGroup
+            options={resourceGroupOptions}
+            isNewResourceGroup={newPlanInfo.isNewResourceGroup}
+            newResourceGroupName={newPlanInfo.newResourceGroupName}
+            existingResourceGroup={newPlanInfo.existingResourceGroup}
+            onRgChange={onRgChange}
+            hasSubscriptionWritePermission={hasSubscriptionWritePermission}
+            onRgValidationError={e => onRgValidationError(e)}
+          />
 
-        <CreateOrSelectResourceGroup
-          options={resourceGroupOptions}
-          isNewResourceGroup={newPlanInfo.isNewResourceGroup}
-          newResourceGroupName={newPlanInfo.newResourceGroupName}
-          existingResourceGroup={newPlanInfo.existingResourceGroup}
-          onRgChange={onRgChange}
-          hasSubscriptionWritePermission={hasSubscriptionWritePermission}
-          onRgValidationError={e => onRgValidationError(e)}
-        />
-
-        <TextFieldNoFormik
-          label={t('_name')}
-          id="createplan-planname"
-          layout={Layout.Vertical}
-          value={newPlanInfo.name}
-          onChange={onChangePlanName}
-          errorMessage={newPlanNameValidationError}
-          placeholder={t('planName')}
-          required={true}
-          className={textboxStyle}
-          widthOverride="100%"
-        />
-      </Panel>
+          <TextFieldNoFormik
+            label={t('_name')}
+            id="createplan-planname"
+            layout={Layout.Vertical}
+            value={newPlanInfo.name}
+            onChange={onChangePlanName}
+            errorMessage={newPlanNameValidationError}
+            placeholder={t('planName')}
+            required={true}
+            className={textboxStyle}
+            widthOverride="100%"
+          />
+        </div>
+      </CustomPanel>
     </>
   );
 };
