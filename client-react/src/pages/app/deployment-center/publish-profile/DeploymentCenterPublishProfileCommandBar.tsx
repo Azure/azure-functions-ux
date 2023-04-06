@@ -108,7 +108,6 @@ const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublish
     <>
       <CommandBar
         items={commandBarItems}
-        role="nav"
         styles={CommandBarStyles}
         ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
         buttonAs={CustomCommandBarButton}
