@@ -105,7 +105,7 @@ export const CreatePlan = (props: CreatePlanProps) => {
     }
 
     return (
-      <Link onClick={() => toggleShowPanel(true)} disabled={isUpdating}>
+      <Link onClick={() => toggleShowPanel(true)} disabled={isUpdating} className={textboxStyle}>
         {t('createNew')}
       </Link>
     );
