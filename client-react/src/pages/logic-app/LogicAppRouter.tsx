@@ -17,7 +17,7 @@ const LogicAppRouter: React.FC<RouteComponentProps<LogicAppRouterProps>> = () =>
   const className = useMemo(() => iconStyles(theme), [theme]);
 
   return (
-    <main className={className}>
+    <div className={className}>
       <StartupInfoContext.Consumer>
         {({ featureInfo, token }) =>
           token && (
@@ -27,7 +27,7 @@ const LogicAppRouter: React.FC<RouteComponentProps<LogicAppRouterProps>> = () =>
           )
         }
       </StartupInfoContext.Consumer>
-    </main>
+    </div>
   );
 };
 

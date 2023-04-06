@@ -25,7 +25,7 @@ const StaticSiteRouter: React.FC<RouteComponentProps<StaticSiteRouterProps>> = (
   const theme = useContext(ThemeContext);
 
   return (
-    <main className={iconStyles(theme)}>
+    <div className={iconStyles(theme)}>
       <StartupInfoContext.Consumer>
         {value => {
           return (
@@ -43,7 +43,7 @@ const StaticSiteRouter: React.FC<RouteComponentProps<StaticSiteRouterProps>> = (
           );
         }}
       </StartupInfoContext.Consumer>
-    </main>
+    </div>
   );
 };
 

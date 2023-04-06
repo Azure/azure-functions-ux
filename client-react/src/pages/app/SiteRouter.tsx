@@ -129,7 +129,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
   }, []);
 
   return (
-    <main className={iconStyles(theme)}>
+    <div className={iconStyles(theme)}>
       <SiteRouterContext.Provider value={siteRouterData}>
         <StartupInfoContext.Consumer>
           {value => {
@@ -177,7 +177,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
           }}
         </StartupInfoContext.Consumer>
       </SiteRouterContext.Provider>
-    </main>
+    </div>
   );
 };
 export default SiteRouter;
