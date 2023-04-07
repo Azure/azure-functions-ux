@@ -20,7 +20,7 @@ import { KeyValue } from '../../../models/portal-models';
 import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
-import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -463,8 +463,7 @@ export function isReferenceResolved(reference: ReferenceSummary | Reference) {
   return getReferenceStatus(reference) === ReferenceStatus.resolved;
 }
 
-export function useAzureConfigRefAriaLabel(reference: ReferenceSummary | Reference) {
-  const { t } = useTranslation();
+export function getAzureConfigRefAriaLabel(reference: ReferenceSummary | Reference, t: i18next.TFunction) {
   const status = isReferenceResolved(reference);
   if (!status) {
     return t('azureAppConfigRefAriaLabelNotResolved');
@@ -473,8 +472,7 @@ export function useAzureConfigRefAriaLabel(reference: ReferenceSummary | Referen
   }
 }
 
-export function useKeyVaultRefAriaLabel(reference: ReferenceSummary | Reference) {
-  const { t } = useTranslation();
+export function getKeyVaultRefAriaLabel(reference: ReferenceSummary | Reference, t: i18next.TFunction) {
   const status = isReferenceResolved(reference);
   if (!status) {
     return t('azureKeyVaultRefNotResolved');
