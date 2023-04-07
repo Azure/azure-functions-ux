@@ -41,7 +41,7 @@
     "test:ci": "react-app-rewired test --coverage --reporters default --reporters=jest-junit",
     "test:debug": "react-app-rewired --inspect-brk test --no-cache --verbose=false --runInBand",
     "analyze": "react-app-rewired build --stats && webpack-bundle-analyzer build/bundle-stats.json -m static -r build/bundle-stats.html -O",
-    "lint": "eslint --ext .tsx,.ts src --format visualstudio"
+    "lint": "eslint --ext .tsx,.ts src --format visualstudio --quiet"
   },
   "devDependencies": {
     "@types/applicationinsights-js": "^1.0.9",

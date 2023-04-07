@@ -5,7 +5,7 @@ import IconButton from '../IconButton/IconButton';
 import { TextUtilitiesService } from '../../utils/textUtilities';
 import { WorkerRuntimeLanguages } from '../../utils/CommonConstants';
 
-export const MarkdownHighlighter: React.FC<{}> = props => {
+export const MarkdownHighlighter: React.FC = props => {
   const theme = useContext(ThemeContext);
   const copyToClipboard = () => {
     TextUtilitiesService.copyContentToClipboard((props.children as string) || '');

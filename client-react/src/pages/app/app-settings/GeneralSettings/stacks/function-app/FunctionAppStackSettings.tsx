@@ -134,7 +134,9 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
           id="function-app-stack"
           selectedKey={runtimeStack}
           disabled={true}
-          onChange={() => {}}
+          onChange={() => {
+            /** @note (joechung): Ignore selection change since there is only a single option. */
+          }}
           options={[{ key: runtimeStack ?? '', text: currentStackData?.displayText ?? '' }]}
           label={t('stack')}
         />

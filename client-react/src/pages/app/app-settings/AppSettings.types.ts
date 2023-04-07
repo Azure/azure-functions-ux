@@ -30,7 +30,7 @@ export interface FormAzureStorageMounts extends AzureStorageMount {
 }
 
 export interface FormErrorPage {
-  key: number;
+  key: string;
   errorCode: string;
   status: string;
   content?: string;

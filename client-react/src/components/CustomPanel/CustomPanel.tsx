@@ -8,7 +8,7 @@ import { closeButtonStyle, closeButtonSvgStyle, panelBodyStyle, panelHeaderStyle
 type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' | 'closeButtonAriaLabel' | 'onRenderNavigationContent'>>;
 
 interface CustomPanelProps {
-  customStyle?: {};
+  customStyle?: any;
   headerContent?: JSX.Element;
   overlay?: boolean;
 }
@@ -18,11 +18,7 @@ const CustomPanel: React.SFC<CustomPanelProps & IPanelPropsReduced> = props => {
   const theme = useContext(ThemeContext);
   const { t } = useTranslation();
 
-  let allPanelStyle = panelStyle;
-
-  if (customStyle) {
-    allPanelStyle = Object.assign(panelStyle, customStyle);
-  }
+  const allPanelStyle = { ...panelStyle, ...customStyle };
 
   const onRenderNavigationContent = panelProps => {
     const onClick = panelProps.onDismiss && (() => panelProps.onDismiss());

@@ -127,6 +127,14 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = ({
     [portalContext]
   );
 
+  const monthlyCost = useSWACostString(billingInformation, StaticSiteBillingType.SWAMonthly);
+  const incrementalCost = useSWACostString(billingInformation, StaticSiteBillingType.SWAIncremental);
+  const azureFrontDoorCost = useSWACostString(billingInformation, StaticSiteBillingType.SWAAzureFrontDoor);
+  const staticSiteStandardPlanAriaLabel = useMemo(
+    () => t('staticSiteStandardPlanAriaLabel').format(monthlyCost, incrementalCost, azureFrontDoorCost),
+    [azureFrontDoorCost, incrementalCost, monthlyCost, t]
+  );
+
   useEffect(() => {
     if (!isBillingInformationLoading) {
       setSkuCost(<SkuCost billingInformation={billingInformation} />);
@@ -170,11 +178,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = ({
                     onChange={handleChange}
                   />
                   <PlanPickerTitleSection
-                    buttonAriaLabel={t('staticSiteStandardPlanAriaLabel').format(
-                      getSWACostString(billingInformation, StaticSiteBillingType.SWAMonthly),
-                      getSWACostString(billingInformation, StaticSiteBillingType.SWAIncremental),
-                      getSWACostString(billingInformation, StaticSiteBillingType.SWAAzureFrontDoor)
-                    )}
+                    buttonAriaLabel={staticSiteStandardPlanAriaLabel}
                     className={selectedSku === StaticSiteSku.Standard ? selectedTitleStyleClassName : unselectedTitleStyleClassName}
                     description={t('staticSiteStandardDescription')}
                     id="static-site-sku-standard"
@@ -342,7 +346,7 @@ const SkuCost: React.FC<SkuCostProps> = ({ billingInformation = [] }) => {
   return <PricingCalculatorLink />;
 };
 
-const getSWACostString = (billingInformation: CostEstimate[] = [], id: StaticSiteBillingType) => {
+const useSWACostString = (billingInformation: CostEstimate[] = [], id: StaticSiteBillingType) => {
   const { t } = useTranslation();
 
   if (billingInformation.length > 0) {

@@ -57,15 +57,11 @@ const JavaStack: React.FC<StackProps> = props => {
     return filteredStack.length > 0 ? filteredStack[0] : null;
   }, [allStacks, initialValues.config.properties.javaVersion]);
 
-  if (!javaStack || !javaContainers) {
-    return null;
-  }
-
   const isJavaMajorVersionDirty = React.useMemo(
     () =>
       values.currentlySelectedStack !== initialValues.currentlySelectedStack ||
-      getJavaMajorMinorVersion(javaStack, values.config).majorVersion !==
-        getJavaMajorMinorVersion(javaStack, initialValues.config).majorVersion,
+      getJavaMajorMinorVersion(javaStack!, values.config).majorVersion !==
+        getJavaMajorMinorVersion(javaStack!, initialValues.config).majorVersion,
     [
       values.config.properties.javaVersion,
       values.currentlySelectedStack,
@@ -76,11 +72,11 @@ const JavaStack: React.FC<StackProps> = props => {
 
   const isJavaMinorVersionDirty = React.useMemo(
     () => isJavaMajorVersionDirty || values.config.properties.javaVersion !== initialValues.config.properties.javaVersion,
-    [initialValues.config.properties.javaVersion, values.config.properties.javaVersion, isJavaMajorVersionDirty]
+    [initialValues.config.properties.javaVersion, isJavaMajorVersionDirty, values.config.properties.javaVersion]
   );
 
   const isJavaContainerDirty = React.useMemo(
-    () => getJavaContainerKey(javaContainers, values.config) !== getJavaContainerKey(javaContainers, initialValues.config),
+    () => getJavaContainerKey(javaContainers!, values.config) !== getJavaContainerKey(javaContainers!, initialValues.config),
     [
       values.config.properties.javaContainer,
       values.config.properties.javaContainerVersion,
@@ -94,20 +90,20 @@ const JavaStack: React.FC<StackProps> = props => {
     [isJavaContainerDirty, values.config.properties.javaContainerVersion, initialValues.config.properties.javaContainerVersion]
   );
 
-  const selectedContainerKey = React.useMemo(() => getJavaContainerKey(javaContainers, values.config), [
+  const selectedContainerKey = React.useMemo(() => getJavaContainerKey(javaContainers!, values.config), [
     values.config.properties.javaContainer,
     values.config.properties.javaContainerVersion,
     javaContainers,
   ]);
 
-  const selectedMajorVersion = React.useMemo(() => getJavaMajorMinorVersion(javaStack, values.config).majorVersion, [
+  const selectedMajorVersion = React.useMemo(() => getJavaMajorMinorVersion(javaStack!, values.config).majorVersion, [
     values.config.properties.javaVersion,
     javaStack,
   ]);
 
   const onJavaContainerChange = React.useCallback(
     (_, option: IDropdownOption) => {
-      const containerVersionOptions = getFrameworkVersionOptions(javaContainers, option.key as string, t);
+      const containerVersionOptions = getFrameworkVersionOptions(javaContainers!, option.key as string, t);
 
       setFieldValue('config.properties.javaContainer', option.data ?? '');
       setFieldValue(
@@ -120,39 +116,46 @@ const JavaStack: React.FC<StackProps> = props => {
 
   const onMajorVersionChange = React.useCallback(
     (_, option: IDropdownOption) => {
-      const minorVersionOptions = getJavaMinorVersionAsDropdownOptions(option.key as string, javaStack, t);
+      const minorVersionOptions = getJavaMinorVersionAsDropdownOptions(option.key as string, javaStack!, t);
       setFieldValue('config.properties.javaVersion', minorVersionOptions.length > 0 ? (minorVersionOptions[0].key as string) : '');
     },
     [setFieldValue, javaStack, t]
   );
 
   useEffect(() => {
-    const currentMajorVersion = getJavaMajorMinorVersion(javaStack, values.config).majorVersion;
-    setEarlyAccessInfoVisible(false);
-    setEolStackDate(undefined);
+    if (javaStack) {
+      const currentMajorVersion = getJavaMajorMinorVersion(javaStack, values.config).majorVersion;
+      setEarlyAccessInfoVisible(false);
+      setEolStackDate(undefined);
 
-    if (currentMajorVersion) {
       if (currentMajorVersion) {
-        const stackVersions = getJavaMinorVersionAsDropdownOptions(currentMajorVersion, javaStack, t);
-        const selectionVersion = (values.config.properties.javaVersion ?? '').toLowerCase();
+        if (currentMajorVersion) {
+          const stackVersions = getJavaMinorVersionAsDropdownOptions(currentMajorVersion, javaStack, t);
+          const selectionVersion = (values.config.properties.javaVersion ?? '').toLowerCase();
 
-        for (const stackVersion of stackVersions) {
-          const windowsRuntimeSettings = stackVersion.data?.stackSettings?.windowsRuntimeSettings;
+          for (const stackVersion of stackVersions) {
+            const windowsRuntimeSettings = stackVersion.data?.stackSettings?.windowsRuntimeSettings;
 
-          if (stackVersion.key === selectionVersion && windowsRuntimeSettings) {
-            setEarlyAccessInfoVisible(!!windowsRuntimeSettings.isEarlyAccess);
+            if (stackVersion.key === selectionVersion && windowsRuntimeSettings) {
+              setEarlyAccessInfoVisible(!!windowsRuntimeSettings.isEarlyAccess);
 
-            if (isStackVersionDeprecated(windowsRuntimeSettings)) {
-              setEolStackDate(null);
-            } else if (isStackVersionEndOfLife(windowsRuntimeSettings.endOfLifeDate)) {
-              setEolStackDate(windowsRuntimeSettings.endOfLifeDate);
+              if (isStackVersionDeprecated(windowsRuntimeSettings)) {
+                setEolStackDate(null);
+              } else if (isStackVersionEndOfLife(windowsRuntimeSettings.endOfLifeDate)) {
+                setEolStackDate(windowsRuntimeSettings.endOfLifeDate);
+              }
+              return;
             }
-            return;
           }
         }
       }
     }
   }, [values.config.properties.javaVersion, setEarlyAccessInfoVisible, setEolStackDate, javaStack]);
+
+  if (!javaStack || !javaContainers) {
+    return null;
+  }
+
   return (
     <div>
       <DropdownNoFormik
