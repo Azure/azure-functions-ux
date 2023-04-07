@@ -32,7 +32,6 @@ const FunctionIntegrateCommandBar: React.FC<FunctionIntegrateCommandBarProps> = 
   return (
     <CommandBar
       items={getItems()}
-      role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}
