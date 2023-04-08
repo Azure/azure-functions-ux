@@ -258,9 +258,9 @@ export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
   }
 
   return sortBy(
-    Object.values(errorPage.value).map(value => ({
+    errorPage.value.map(value => ({
       status: 'Configured',
-      key: value.properties.statusCode,
+      key: Number(value.properties.statusCode),
       errorCode: value.properties.statusCode,
     }))
   );
