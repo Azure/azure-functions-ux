@@ -261,7 +261,7 @@ export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
     errorPage.value.map(value => ({
       status: 'Configured',
       key: Number(value.properties.statusCode),
-      errorCode: value.properties.statusCode,
+      errorCode: String(value.properties.statusCode),
     }))
   );
 }
