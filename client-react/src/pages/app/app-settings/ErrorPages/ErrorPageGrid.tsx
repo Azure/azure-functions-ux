@@ -246,7 +246,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   return (
     <>
       {overlay ? (
-        <div className={overlayStyle}>
+        <div className={overlayStyle} aria-label="">
           <DisplayTableWithEmptyMessage
             columns={getColumns}
             items={_columnErrorCode || []}
@@ -254,6 +254,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             layoutMode={DetailsListLayoutMode.justified}
             selectionMode={SelectionMode.none}
             selectionPreservedOnEmptyClick={true}
+            ariaLabelForGrid={t('ErrorPagesGridNotAvailable')}
           />
         </div>
       ) : (
@@ -264,6 +265,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
+          ariaLabelForGrid={t('ErrorPagesGrid')}
         />
       )}
 
