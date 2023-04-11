@@ -7941,4 +7941,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectionStringInfoMessage" xml:space="preserve">
         <value>At runtime, connection strings are available as environment variables.</value>
     </data>
+    <data name="ibizafication_readOnlyDotnetIsolated" xml:space="preserve">
+        <value>Editing .NET Isolated Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>
 </root>
