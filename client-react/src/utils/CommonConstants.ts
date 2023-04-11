@@ -18,6 +18,7 @@ export class CommonConstants {
     // to 'kubernetes' se we need to account for both during the transition.
     kubeApp: 'kubeapp',
     kubernetes: 'kubernetes',
+    azureContainerApps: 'azurecontainerapps',
   };
 
   public static readonly ApiVersions = {

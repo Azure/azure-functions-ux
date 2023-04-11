@@ -9,7 +9,7 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
+import { isCentauriApp, isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import { SiteRouterData } from './SiteRouter.data';
@@ -120,7 +120,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));
-        setIsContainerApplication(isContainerApp(site));
+        setIsContainerApplication(isContainerApp(site) || isCentauriApp(site));
         setIsFunctionApplication(isFunctionApp(site));
         setIsKubeApplication(isKubeApp(site));
         setSiteAppEditState(editMode);
