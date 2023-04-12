@@ -2601,4 +2601,5 @@ export class PortalResources {
   public static resetUserScopeCredentialsConfirmationTitle = 'resetUserScopeCredentialsConfirmationTitle';
   public static resetUserScopeCredentialsConfirmationDescription = 'resetUserScopeCredentialsConfirmationDescription';
   public static connectionStringInfoMessage = 'connectionStringInfoMessage';
+  public static ibizafication_readOnlyDotnetIsolated = 'ibizafication_readOnlyDotnetIsolated';
 }
