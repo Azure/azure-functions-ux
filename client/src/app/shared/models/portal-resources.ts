@@ -1518,7 +1518,7 @@ export class PortalResources {
   public static newDocument = 'newDocument';
   public static nameRes = 'nameRes';
   public static value = 'value';
-  public static stick = 'stick';
+  public static sticky = 'sticky';
   public static newApplicationSetting = 'newApplicationSetting';
   public static addEditConnectionStringHeader = 'addEditConnectionStringHeader';
   public static newConnectionString = 'newConnectionString';
