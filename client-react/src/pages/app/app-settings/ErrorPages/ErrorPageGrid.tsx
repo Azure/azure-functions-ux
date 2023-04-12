@@ -246,7 +246,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   return (
     <>
       {overlay ? (
-        <div className={overlayStyle} aria-label="">
+        <div className={overlayStyle}>
           <DisplayTableWithEmptyMessage
             columns={getColumns}
             items={_columnErrorCode || []}
