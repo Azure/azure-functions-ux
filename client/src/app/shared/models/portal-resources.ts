@@ -1468,6 +1468,8 @@ export class PortalResources {
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
   public static customErrorPage = 'customErrorPage';
+  public static ErrorPagesGrid = 'ErrorPagesGrid';
+  public static ErrorPagesGridNotAvailable = 'ErrorPagesGridNotAvailable';
   public static errorPage = 'errorPage';
   public static pathMappings = 'pathMappings';
   public static errorPage_columnErrorCode = 'errorPage_columnErrorCode';

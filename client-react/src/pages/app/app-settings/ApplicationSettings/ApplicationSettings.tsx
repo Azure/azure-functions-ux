@@ -400,6 +400,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
+        ariaLabelForGrid={t('applicationSettings')}
         emptyMessage={t('emptyAppSettings')}>
         <SearchFilterWithResultAnnouncement
           id="app-settings-application-settings-search"

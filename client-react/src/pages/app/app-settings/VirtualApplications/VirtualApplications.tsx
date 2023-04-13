@@ -246,6 +246,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
+        ariaLabelForGrid={t('virtualApplications')}
         emptyMessage={t('emptyVirtualDirectories')}
       />
       <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('newApp')}>
