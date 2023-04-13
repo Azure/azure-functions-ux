@@ -398,7 +398,8 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        emptyMessage={t('emptyConnectionStrings')}>
+        emptyMessage={t('emptyConnectionStrings')}
+        ariaLabelForGrid={t('connectionStrings')}>
         <SearchFilterWithResultAnnouncement
           id="app-settings-connection-strings-search"
           setFilterValue={setFilter}
