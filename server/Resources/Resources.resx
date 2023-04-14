@@ -4544,6 +4544,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="customErrorPage" xml:space="preserve">
         <value>Error pages (preview)</value>
     </data>
+    <data name="ErrorPagesGrid" xml:space="preserve">
+        <value>Error pages grid</value>
+    </data>
+    <data name="ErrorPagesGridNotAvailable" xml:space="preserve">
+        <value>Error pages grid not available</value>
+    </data>
     <data name="errorPage" xml:space="preserve">
         <value>Error page</value>
     </data>
