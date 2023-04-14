@@ -14,7 +14,7 @@ import { getTelemetryInfo } from '../StaticSiteUtility';
 import ConfigurationData from './Configuration.data';
 import { commandBarSticky } from './Configuration.styles';
 import {
-  applicableEnvironmentsMode,
+  ApplicableEnvironmentsMode,
   ConfigurationFormData,
   ConfigurationFormProps,
   EnvironmentVariable,
@@ -45,20 +45,14 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
 
   const portalContext = useContext(PortalContext);
 
-  const onKeyDown: React.KeyboardEventHandler<HTMLElement> = useCallback(e => {
-    if (e.key === 'Enter') {
-      e.preventDefault();
-    }
-  }, []);
-
   const getApplicableEnvironments = useCallback((passwordProtection: PasswordProtectionTypes) => {
     switch (passwordProtection) {
       case PasswordProtectionTypes.AllEnvironments:
-        return applicableEnvironmentsMode.AllEnvironments;
+        return ApplicableEnvironmentsMode.AllEnvironments;
       case PasswordProtectionTypes.StagingEnvironments:
-        return applicableEnvironmentsMode.StagingEnvironments;
+        return ApplicableEnvironmentsMode.StagingEnvironments;
       default:
-        return applicableEnvironmentsMode.SpecifiedEnvironments;
+        return ApplicableEnvironmentsMode.SpecifiedEnvironments;
     }
   }, []);
 
@@ -261,7 +255,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
       validateOnChange={false}
       validationSchema={validationSchema}>
       {(formProps: FormikProps<ConfigurationFormData>) => (
-        <form onKeyDown={onKeyDown}>
+        <div>
           <div className={commandBarSticky}>
             <ConfigurationCommandBar
               dirty={formProps.values.isAppSettingsDirty || formProps.values.isGeneralSettingsDirty}
@@ -318,9 +312,9 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             </>
           </div>
           <div>
-            <ConfigurationPivot {...props} isLoading={isLoading || formProps.isSubmitting} formProps={formProps} />
+            <ConfigurationPivot {...props} refresh={props.refresh} isLoading={isLoading || formProps.isSubmitting} formProps={formProps} />
           </div>
-        </form>
+        </div>
       )}
     </Formik>
   );

@@ -62,7 +62,6 @@ const AppFilesCommandBar: React.FC<AppFilesCommandBarProps> = props => {
     <>
       <CommandBar
         items={getItems()}
-        role="nav"
         styles={CommandBarStyles}
         ariaLabel={t('functionEditorCommandBarAriaLabel')}
         buttonAs={CustomCommandBarButton}

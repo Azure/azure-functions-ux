@@ -34,6 +34,13 @@ export class FunctionAppEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.enableCustomErrorPages] = {
+      id: ScenarioIds.enableCustomErrorPages,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.showConnnectionStringFunctionInfo] = {
       id: ScenarioIds.showConnnectionStringFunctionInfo,
       runCheck: () => {
@@ -125,6 +132,13 @@ export class FunctionAppEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
       id: ScenarioIds.clientAffinitySupported,
       runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.dockerCompose] = {
+      id: ScenarioIds.dockerCompose,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
     };
   }
 

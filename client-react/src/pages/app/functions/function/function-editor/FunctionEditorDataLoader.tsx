@@ -328,10 +328,12 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       }
 
       if (runFromPassthrough) {
-        let parsedTestData: { headers: NameValuePair[] } = { headers: [] };
+        let parsedTestData: { headers: NameValuePair[] };
         try {
           parsedTestData = JSON.parse(newFunctionInfo.properties.test_data);
-        } catch {}
+        } catch {
+          parsedTestData = { headers: [] };
+        }
 
         const path = site ? settings.uri.substring(Url.getMainUrl(site).length) : '';
         const inputHeaders: NameValuePair[] = [];
@@ -485,7 +487,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       let testData;
 
       if (testDataHrefObjects.length === 2) {
-        const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1], runtimeVersion);
+        const vfsArmTestDataResponse = await FunctionsService.getTestDataOverVfsArm(site.id, testDataHrefObjects[1]);
         if (vfsArmTestDataResponse.metadata.success) {
           testData = vfsArmTestDataResponse.data;
           testDataResponseSuccess = true;
@@ -548,7 +550,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     const result = functionHrefTestDataResponse.result;
 
     if (isPortalCommunicationStatusSuccess(functionHrefTestDataResponse.status)) {
-      return !!result && !!result.content ? result.content : result;
+      const jqXHR = getJQXHR(result, LogCategories.FunctionEdit, 'makeHttpRequestForTestData');
+      return jqXHR?.responseText;
     } else {
       portalContext.log(
         getTelemetryInfo('error', 'getTestDataUsingFunctionHref', 'failed', {
@@ -741,12 +744,6 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [site, functionInfo, hostKeys, functionKeys]);
 
-  useEffect(() => {
-    getAndSetTestData();
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [functionInfo, hostKeys]);
-
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
   if (initialLoading || !site) {
     return <LoadingComponent />;
@@ -757,6 +754,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       {functionInfo ? (
         <div style={showTestPanel ? shrinkEditorStyle(window.innerWidth) : undefined}>
           <FunctionEditor
+            getAndSetTestData={getAndSetTestData}
+            hostKeys={hostKeys}
             functionInfo={functionInfo}
             site={site}
             run={run}

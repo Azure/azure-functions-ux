@@ -216,7 +216,6 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
         <>
           <CommandBar
             items={commandBarItems}
-            role="nav"
             styles={CommandBarStyles}
             ariaLabel={t('managePublishProfileCommandBarAriaLabel')}
             buttonAs={CustomCommandBarButton}

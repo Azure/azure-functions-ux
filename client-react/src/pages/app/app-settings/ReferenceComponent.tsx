@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import InformationLabel from '../../../components/InformationLabel/InformationLabel';
-import { KeyVaultReference } from '../../../models/site/config';
+import { Reference } from '../../../models/site/config';
 import { ThemeContext } from '../../../ThemeContext';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
@@ -9,13 +9,17 @@ import { PortalContext } from '../../../PortalContext';
 import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
 import KeyVaultService from '../../../ApiHelpers/KeyVaultService';
 import { bladeLinkStyle } from './AppSettings.styles';
-import { getKeyVaultReferenceStatus, isKeyVaultReferenceUnResolved, getKeyVaultReferenceStatusIconProps } from './AppSettingsFormData';
-import { KeyVaultReferenceStatus } from './AppSettings.types';
+import {
+  getReferenceStatus,
+  isKeyVaultReferenceUnResolved as isReferenceUnResolved,
+  getReferenceStatusIconProps,
+} from './AppSettingsFormData';
+import { ReferenceStatus } from './AppSettings.types';
 import { SiteStateContext } from '../../../SiteState';
 import Url from '../../../utils/url';
 
-export interface KeyVaultReferenceComponentProps {
-  appSettingReference: KeyVaultReference;
+export interface ReferenceComponentProps {
+  appSettingReference: Reference;
   resourceId: string;
 }
 
@@ -26,9 +30,9 @@ const elementWrapperStyle = (theme: ThemeExtended) =>
     paddingTop: '20px',
   });
 
-const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = props => {
+const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
   const { t } = useTranslation();
-  const [keyVaultResourceId, setKeyVaultResourceId] = useState<string | undefined>(undefined);
+  const [referenceResourceId, setReferenceResourceId] = useState<string | undefined>(undefined);
   const [initialLoading, setInitialLoading] = useState(true);
   const { resourceId, appSettingReference } = props;
   const { status, vaultName = '', secretName = '', secretVersion = '', details, identityType = '' } = appSettingReference;
@@ -61,51 +65,51 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
     if (vaultNameUri) {
       const keyVaultReference = await KeyVaultService.fetchKeyVaultReference(armSubcriptionDescriptor.getSubsriptionId(), vaultNameUri);
       if (keyVaultReference && keyVaultReference[0]) {
-        setKeyVaultResourceId(keyVaultReference[0].id);
+        setReferenceResourceId(keyVaultReference[0].id);
       }
     }
     setInitialLoading(false);
   };
 
   const onVaultNameClick = async () => {
-    if (keyVaultResourceId) {
+    if (referenceResourceId) {
       await portalContext.openBlade({
         detailBlade: 'VaultBlade',
-        detailBladeInputs: { id: keyVaultResourceId },
+        detailBladeInputs: { id: referenceResourceId },
         extension: 'Microsoft_Azure_KeyVault',
       });
     }
   };
 
   const onSecretNameClick = async () => {
-    if (keyVaultResourceId) {
+    if (referenceResourceId) {
       await portalContext.openBlade({
         detailBlade: 'ListSecretVersionsBlade',
-        detailBladeInputs: { id: secretNameUri, vaultId: keyVaultResourceId },
+        detailBladeInputs: { id: secretNameUri, vaultId: referenceResourceId },
         extension: 'Microsoft_Azure_KeyVault',
       });
     }
   };
 
   const onSecretVersionClick = async () => {
-    if (keyVaultResourceId) {
+    if (referenceResourceId) {
       await portalContext.openBlade({
         detailBlade: 'SecretVersionBlade',
-        detailBladeInputs: { id: secretVersionUri, vaultId: keyVaultResourceId },
+        detailBladeInputs: { id: secretVersionUri, vaultId: referenceResourceId },
         extension: 'Microsoft_Azure_KeyVault',
       });
     }
   };
 
   const getStatusLabel = () => {
-    if (getKeyVaultReferenceStatus(appSettingReference) === KeyVaultReferenceStatus.initialized && !!siteStateContext.site) {
+    if (getReferenceStatus(appSettingReference) === ReferenceStatus.initialized && !!siteStateContext.site) {
       const scmUri = Url.getScmUrl(siteStateContext.site);
       return (
         <InformationLabel
           value={t('keyVaultReferenceInitializedStatus')}
           id="key-status"
           label={t('status')}
-          labelProps={getKeyVaultReferenceStatusIconProps(appSettingReference)}
+          labelProps={getReferenceStatusIconProps(appSettingReference)}
           linkWithLabel={{
             href: scmUri,
             value: t('clickHereToAccessSite'),
@@ -118,7 +122,7 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
           value={status}
           id="key-status"
           label={t('status')}
-          labelProps={getKeyVaultReferenceStatusIconProps(appSettingReference)}
+          labelProps={getReferenceStatusIconProps(appSettingReference)}
         />
       );
     }
@@ -143,9 +147,9 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
             <InformationLabel
               value={vaultName}
               id="key-vault-name"
-              className={keyVaultResourceId ? bladeLinkStyle(theme) : ''}
+              className={referenceResourceId ? bladeLinkStyle(theme) : ''}
               onClick={() => {
-                if (keyVaultResourceId) {
+                if (referenceResourceId) {
                   onVaultNameClick();
                 }
               }}
@@ -156,9 +160,9 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
             <InformationLabel
               value={secretName}
               id="key-secret-name"
-              className={keyVaultResourceId ? bladeLinkStyle(theme) : ''}
+              className={referenceResourceId ? bladeLinkStyle(theme) : ''}
               onClick={() => {
-                if (keyVaultResourceId) {
+                if (referenceResourceId) {
                   onSecretNameClick();
                 }
               }}
@@ -169,9 +173,9 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
             <InformationLabel
               value={secretVersion}
               id="key-secret-version"
-              className={keyVaultResourceId ? bladeLinkStyle(theme) : ''}
+              className={referenceResourceId ? bladeLinkStyle(theme) : ''}
               onClick={() => {
-                if (keyVaultResourceId) {
+                if (referenceResourceId) {
                   onSecretVersionClick();
                 }
               }}
@@ -182,7 +186,7 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
             <InformationLabel value={`${getIdentityValue()} assigned managed identity`} id="key-identity" label={t('identity')} />
           )}
           {getStatusLabel()}
-          {isKeyVaultReferenceUnResolved(appSettingReference) && (
+          {isReferenceUnResolved(appSettingReference) && (
             <InformationLabel value={details} id="key-error-details" label={t('errorDetails')} />
           )}
         </div>
@@ -190,4 +194,4 @@ const KeyVaultReferenceComponent: React.FC<KeyVaultReferenceComponentProps> = pr
     </>
   );
 };
-export default KeyVaultReferenceComponent;
+export default ReferenceComponent;

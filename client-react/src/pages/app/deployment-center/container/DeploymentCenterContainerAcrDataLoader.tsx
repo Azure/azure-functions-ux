@@ -113,8 +113,12 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
             registry => registry.properties.loginServer.toLocaleLowerCase() === formProps.values.acrLoginServer.toLocaleLowerCase()
           );
 
-          if (!isAcrInSameSubscription && formProps.values.acrLoginServer) {
-            await fetchHiddenAcrTag();
+          if (formProps.values.acrLoginServer) {
+            if (!isAcrInSameSubscription) {
+              await fetchHiddenAcrTag();
+            } else if (isAcrInSameSubscription && subscription === deploymentCenterContext.siteDescriptor?.subscription) {
+              await deleteHiddenAcrTag();
+            }
           }
 
           registriesResponse.data.value.forEach(registry => {
@@ -379,24 +383,34 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       CommonConstants.DeploymentCenterConstants.acrTag,
       true
     );
+    const acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
+
     if (hiddenTag) {
-      //has ACR in another subscription
-      parseHiddenTag(hiddenTag);
+      const discoverAcrResponse = await acrTagInstance.discoverResourceId(portalContext, acrName);
+      if (discoverAcrResponse?.subscriptionId && hiddenTag) {
+        const hiddenTagSub = parseHiddenTag(hiddenTag);
+        const isAcrInSameHiddenSub = discoverAcrResponse.subscriptionId === hiddenTagSub;
+        if (isAcrInSameHiddenSub) {
+          setSubscription(hiddenTagSub);
+        } else {
+          updateHiddenAcrTag(acrTagInstance, acrName);
+        }
+      }
     } else {
-      // acrName is case-sensitive, so pull name from application settings if possible
-      let acrName = '';
-      if (deploymentCenterContext?.applicationSettings?.properties[DeploymentCenterConstants.usernameSetting]) {
-        acrName = deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.usernameSetting];
-      } else {
-        acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
-      }
-
-      const newSubscriptionId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
-
-      if (newSubscriptionId) {
-        setSubscription(newSubscriptionId);
-      }
+      updateHiddenAcrTag(acrTagInstance, acrName);
     }
+  };
+
+  const updateHiddenAcrTag = async (acrTagInstance: AcrDependency, acrName: string) => {
+    const updatedTagSubId = await acrTagInstance.updateTags(portalContext, deploymentCenterContext.resourceId, acrName);
+    if (updatedTagSubId) {
+      setSubscription(updatedTagSubId);
+    }
+  };
+
+  const deleteHiddenAcrTag = async () => {
+    const acrTagInstance = new AcrDependency();
+    await acrTagInstance.deleteTag(portalContext, deploymentCenterContext.resourceId);
   };
 
   const fetchManagedIdentityOptions = async () => {
@@ -437,8 +451,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     try {
       if (tagValue) {
         const tagJson = JSON.parse(tagValue);
-        const subId = tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
-        setSubscription(subId);
+        return tagJson['subscriptionId'] ? tagJson['subscriptionId'] : '';
       }
     } catch {
       portalContext.log(getTelemetryInfo('error', 'parseHiddenTag', 'failed'));

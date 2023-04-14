@@ -20,6 +20,7 @@ import { PortalContext } from '../../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 import { BindingManager } from '../../../../../../utils/BindingManager';
 import StringUtils from '../../../../../../utils/string';
+import { AppKeysInfo } from '../../../app-keys/AppKeys.types';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -31,15 +32,16 @@ export interface FunctionTestProps {
   urlObjs: UrlObj[];
   getFunctionUrl: (key?: string) => string;
   addCorsRule: (corsRule: string) => void;
+  getAndSetTestData: () => Promise<void>;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   testData?: string;
   enablePortalCall?: boolean;
   addingCorsRules?: boolean;
+  hostKeys?: AppKeysInfo;
 }
 
-// TODO (krmitta): Add Content for Function test panel [WI: 5536379]
-const FunctionTest: React.SFC<FunctionTestProps> = props => {
+const FunctionTest: React.FC<FunctionTestProps> = props => {
   const { t } = useTranslation();
   const [statusMessage, setStatusMessage] = useState<StatusMessage | undefined>(undefined);
   const [defaultInputFormValues, setDefaultInputFormValues] = useState<InputFormValues>({
@@ -66,6 +68,8 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     addCorsRule,
     enablePortalCall,
     addingCorsRules,
+    hostKeys,
+    getAndSetTestData,
   } = props;
 
   const errorMessage = {
@@ -245,7 +249,6 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
   useEffect(() => {
     !!responseContent && setSelectedPivotTab(PivotType.output);
-    console.log(responseContent);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [responseContent]);
@@ -255,6 +258,12 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testData, xFunctionKey]);
+
+  useEffect(() => {
+    getAndSetTestData();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [functionInfo, hostKeys]);
 
   return (
     <Formik

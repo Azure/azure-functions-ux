@@ -13,6 +13,13 @@ export class PremiumAppEnvironment extends Environment {
         status: 'enabled',
       }),
     };
+
+    this.scenarioChecks[ScenarioIds.enableCustomErrorPagesOverlay] = {
+      id: ScenarioIds.enableCustomErrorPagesOverlay,
+      runCheck: () => ({
+        status: 'disabled',
+      }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

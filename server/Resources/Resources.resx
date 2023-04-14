@@ -883,6 +883,9 @@
     <data name="fileExplorer_upload" xml:space="preserve">
         <value>Upload</value>
     </data>
+       <data name="upload" xml:space="preserve">
+        <value>Upload</value>
+    </data>
     <data name="seeAllOptions" xml:space="preserve">
         <value>See additional options</value>
     </data>
@@ -2049,6 +2052,12 @@
     </data>
     <data name="error_appOffline" xml:space="preserve">
         <value>The application is offline. Please check your internet connection.</value>
+    </data>
+    <data name="error_uploadHTMLFile" xml:space="preserve">
+        <value>Please only upload an .html File. File Size limit is 10kb</value>
+    </data>
+    <data name="customErrorPages_fileType" xml:space="preserve">
+        <value>text/html</value>
     </data>
     <data name="functionKeys_actions" xml:space="preserve">
         <value>ACTIONS</value>
@@ -3568,6 +3577,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="selectProject" xml:space="preserve">
         <value>Select Project</value>
     </data>
+    <data name="selectFile" xml:space="preserve">
+        <value>Select a file</value>
+    </data>
     <data name="webAppFramework" xml:space="preserve">
         <value>Web Application Framework</value>
     </data>
@@ -4529,8 +4541,32 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocuments" xml:space="preserve">
         <value>Default documents</value>
     </data>
+    <data name="customErrorPage" xml:space="preserve">
+        <value>Error pages (preview)</value>
+    </data>
+    <data name="ErrorPagesGrid" xml:space="preserve">
+        <value>Error pages grid</value>
+    </data>
+    <data name="ErrorPagesGridNotAvailable" xml:space="preserve">
+        <value>Error pages grid not available</value>
+    </data>
+    <data name="errorPage" xml:space="preserve">
+        <value>Error page</value>
+    </data>
     <data name="pathMappings" xml:space="preserve">
         <value>Path mappings</value>
+    </data>
+    <data name="errorPage_columnErrorCode" xml:space="preserve">
+        <value>Error Code</value>
+    </data>
+    <data name="errorPage_columnStatus" xml:space="preserve">
+        <value>Status</value>
+    </data>
+    <data name="errorPage_columnStatus_configured" xml:space="preserve">
+        <value>Configured</value>
+    </data>
+    <data name="errorPage_columnStatus_notConfigured" xml:space="preserve">
+        <value>Not configured</value>
     </data>
     <data name="handlerMappings" xml:space="preserve">
         <value>Handler mappings</value>
@@ -4550,6 +4586,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="newApp" xml:space="preserve">
         <value>New application or directory</value>
     </data>
+    <data name="addErrorPage" xml:space="preserve">
+        <value>Add custom error page (.html)</value>
+    </data>
+    <data name="editErrorPage" xml:space="preserve">
+        <value>Edit custom error page (.html)</value>
+    </data>
     <data name="virtualPath" xml:space="preserve">
         <value>Virtual path</value>
     </data>
@@ -4561,6 +4603,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="delete" xml:space="preserve">
         <value>Delete</value>
+    </data>
+    <data name="remove" xml:space="preserve">
+        <value>Remove</value>
     </data>
     <data name="edit" xml:space="preserve">
         <value>Edit</value>
@@ -5069,6 +5114,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="appSettingsUpsellBannerMessage" xml:space="preserve">
         <value>Click here to upgrade to a higher SKU and enable additional features.</value>
     </data>
+    <data name="customErrorPageUpsellBannerMessage" xml:space="preserve">
+        <value>Custom Error pages requires a premium App Service Plan.</value>
+    </data>
     <data name="appInsightsNotConfigured" xml:space="preserve">
         <value>Application Insights is not configured. Configure Application Insights to capture function logs.</value>
     </data>
@@ -5496,11 +5544,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="azureKeyVault" xml:space="preserve">
         <value>Key vault Reference</value>
     </data>
+    <data name="azureKeyVaultRefResolved" xml:space="preserve">
+        <value>Key vault Reference resolved</value>
+    </data>
+    <data name="azureKeyVaultRefNotResolved" xml:space="preserve">
+        <value>Key vault Reference not resolved</value>
+    </data>
     <data name="azureAppServiceValue" xml:space="preserve">
         <value>App Service</value>
     </data>
     <data name="azureAppConfigRefValue" xml:space="preserve">
         <value>App Configuration Reference</value>
+    </data>
+     <data name="azureAppConfigRefAriaLabelResolved" xml:space="preserve">
+        <value>App Configuration Reference resolved</value>
+    </data>
+     <data name="azureAppConfigRefAriaLabelNotResolved" xml:space="preserve">
+        <value>App Configuration Reference not resolved</value>
     </data>
     <data name="appSettingKeyvaultAPIError" xml:space="preserve">
         <value>Error: Could not access key vault reference metadata</value>
@@ -5811,6 +5871,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="defaultDocumentsInfoMessage" xml:space="preserve">
         <value>Default documents list is ordered by precedence. Items towards the top of the list will have higher precedence than items at the bottom of the list.</value>
     </data>
+    <data name="errorPagesInfoMessage" xml:space="preserve">
+        <value>Configure a custom HTML document that will be presented to users instead of the standard platform error page.</value>
+    </data>
+    <data name="errorPagesEditMessage" xml:space="preserve">
+        <value>Upload custom error page (.html) for use with your application. File size limit: 10kb</value>
+    </data>
     <data name="validField_validationMessage" xml:space="preserve">
         <value>Name and value must not be empty and must contain only letters and numbers.</value>
     </data>
@@ -6096,6 +6162,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="kuduDisconnectConfirmationTitle" xml:space="preserve">
         <value>Confirm App Service Build Service Disconnect</value>
     </data>
+    <data name="vstsDisconnectConfirmationTitle" xml:space="preserve">
+        <value>Confirm Azure Pipelines Disconnect</value>
+    </data>
+    <data name="vstsDisconnectConfirmationDescription" xml:space="preserve">
+        <value>Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.</value>
+    </data>
     <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
         <value>Fetching GitHub Action workflow configuration</value>
     </data>
@@ -6138,10 +6210,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterSyncCommandAriaLabel" xml:space="preserve">
         <value>Deployment center sync command</value>
     </data>
-    <data name="deploymentCenterRedeployAriaLabel" xml:space="preserve">
-        <value>Deployment center redeploy command</value>
-    </data>
-    <data name="deploymentCenterRedeploy" xml:space="preserve">
+    <data name="deploymentCenterSync" xml:space="preserve">
         <value>Sync</value>
     </data>
     <data name="deploymentCenterErrorFetchingInfo" xml:space="preserve">
@@ -6357,8 +6426,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterFtpsUserScopeSampleUsername" xml:space="preserve">
         <value>(your username)</value>
     </data>
-    <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+    <data name="deploymentCenterUserScopeUsernameLabel" xml:space="preserve">
         <value>Username</value>
+    </data>
+    <data name="deploymentCenterFtpsUsernameLabel" xml:space="preserve">
+        <value>FTPS Username</value>
+    </data>
+    <data name="deploymentCenterLocalGitUsernameLabel" xml:space="preserve">
+        <value>Local Git Username</value>
     </data>
     <data name="deploymentCenterFtpsPasswordLabel" xml:space="preserve">
         <value>Password</value>
@@ -7252,10 +7327,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Plan or Features</value>
     </data>
     <data name="staticSiteFreePlanAriaLabel" xml:space="preserve">
-        <value>Free plan. For hobby or personal projects. Price is free. Included bandwidth 100GB per subscription. Bandwidth overage not applicable. Custom domains two per app. SSL certificates are free. Custom authentication not supported. Private link not supported. Storage 0.25GB. Azure functions are managed.</value>
+        <value>Free plan Price free 100GB bandwidth per subscription with free overage. 2 app custom domains SSL certs free No custom authentication No private endpoints Max app size 250 MB 3 Staging environments Managed functions only. No enterprise grade edge</value>
     </data>
     <data name="staticSiteStandardPlanAriaLabel" xml:space="preserve">
-        <value>Standard plan. For general purpose production apps. Price is nine dollars per month. Included bandwidth 100GB per subscription. Bandwidth overage 2 cents per GB per subscription. Custom domains five per app. SSL certificates are free. Custom authentication supported. Private link supported. Storage 2GB. Azure functions are managed or bring your own.</value>
+        <value>Standard plan Price {0} 100GB bandwidth with {1} overage per GB 5 app custom domains SSL certs free Custom auth private endpoints supported Max app size 500 MB 10 staging environments Managed or bring your functions Enterprise grade edge {2}</value>
     </data>
     <data name="staticSitePrice" xml:space="preserve">
         <value>Price</value>
@@ -7440,6 +7515,117 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_loadingGeneralSettings" xml:space="preserve">
         <value>Loading general settings...</value>
     </data>
+    <data name="staticSite_snippets" xml:space="preserve">
+        <value>Snippets (preview)</value>
+    </data>
+     <data name="staticSite_snippetsMax" xml:space="preserve">
+        <value>Static Web Apps may only have a maximum of ten snippets. You have reached this limit.</value>
+    </data>
+    <data name="staticSite_appliesTo" xml:space="preserve">
+        <value>Applies to</value>
+    </data>
+    <data name="staticSite_snippetNoContentError" xml:space="preserve">
+        <value>Snippet content is required</value>
+    </data>
+    <data name="staticSite_snippetContentError" xml:space="preserve">
+        <value>Snippet must be less than 2048 characters</value>
+    </data>
+    <data name="staticSite_snippetNameRequired" xml:space="preserve">
+        <value>Snippet name is required</value>
+    </data>
+    <data name="staticSite_snippetInsertionLocationRequired" xml:space="preserve">
+        <value>Snippet insertion location is required</value>
+    </data>
+     <data name="staticSite_snippetLocationRequired" xml:space="preserve">
+        <value>Snippet location is required</value>
+    </data>
+    <data name="staticSite_snippetEnironmentRequired" xml:space="preserve">
+        <value>Snippet environment is required</value>
+    </data>
+    <data name="staticSite_environments" xml:space="preserve">
+        <value>environments</value>
+    </data>
+    <data name="staticSite_valueTitle" xml:space="preserve">
+        <value>Value</value>
+    </data>
+    <data name="staticSite_typeTitle" xml:space="preserve">
+        <value>Type</value>
+    </data>
+    <data name="staticSite_environmentSelectPlaceholder" xml:space="preserve">
+        <value>Select up to 10 environments</value>
+    </data>
+    <data name="staticSite_snippetNamePlaceholder" xml:space="preserve">
+        <value>Enter snippet name</value>
+    </data>
+    <data name="staticSite_snippetEnvironmentsErrorMessage" xml:space="preserve">
+        <value>You must select 10 or less environments for your snippet.</value>
+    </data>
+    <data name="staticSite_snippetNoEnvironmentsErrorMessage" xml:space="preserve">
+        <value>You must select at least one environment for your snippet.</value>
+    </data>
+    <data name="staticSite_filterSnippets" xml:space="preserve">
+        <value>Filter snippets</value>
+    </data>
+    <data name="staticSite_insertionLocation" xml:space="preserve">
+        <value>Insertion location</value>
+    </data>
+    <data name="staticSite_prepend" xml:space="preserve">
+        <value>Prepend</value>
+    </data>
+    <data name="staticSite_append" xml:space="preserve">
+        <value>Append</value>
+    </data>
+    <data name="staticSite_deletingSnippet" xml:space="preserve">
+        <value>Deleting snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetSuccess" xml:space="preserve">
+        <value>Successfully deleted snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetFailure" xml:space="preserve">
+        <value>Failed to delete snippet '{0}'</value>
+    </data>
+    <data name="staticSite_deletingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to delete snippet '{0}' with error: '{1}'</value>
+    </data>
+     <data name="staticSite_addingSnippet" xml:space="preserve">
+        <value>Creating snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetSuccess" xml:space="preserve">
+        <value>Successfully created snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetFailure" xml:space="preserve">
+        <value>Failed to create snippet '{0}'</value>
+    </data>
+    <data name="staticSite_addingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to create snippet '{0}' with error: '{1}'</value>
+    </data>
+    <data name="staticSite_updatingSnippet" xml:space="preserve">
+        <value>Updating snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetSuccess" xml:space="preserve">
+        <value>Successfully updated snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetFailure" xml:space="preserve">
+        <value>Failed to update snippet '{0}'</value>
+    </data>
+    <data name="staticSite_updatingSnippetFailureWithMessage" xml:space="preserve">
+        <value>Failed to update snippet '{0}' with error: '{1}'</value>
+    </data>
+    <data name="staticSite_noSnippets" xml:space="preserve">
+        <value>No snippets to display. Click 'Add' to add a snippet to your Static Web App.</value>
+    </data>
+    <data name="staticSite_allEnvironments" xml:space="preserve">
+        <value>All environments</value>
+    </data>
+    <data name="staticSite_snippetContentPlaceholder" xml:space="preserve">
+        <value>Insert your HTML below</value>
+    </data>
+      <data name="staticSite_selectEnvironments" xml:space="preserve">
+        <value>Select environments</value>
+    </data>
+    <data name="staticSite_loadingSnippets" xml:space="preserve">
+        <value>Loading snippets...</value>
+    </data>
     <data name="staticSite_loadingApplicationSettings" xml:space="preserve">
         <value>Loading application settings...</value>
     </data>
@@ -7451,6 +7637,27 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_generalSettingsUpdateWithFailureNoMessage" xml:space="preserve">
         <value>Failed to update general settings.</value>
+    </data>
+    <data name="staticSite_head" xml:space="preserve">
+        <value>Head</value>
+    </data>
+    <data name="staticSite_headerCheckboxAriaLabel" xml:space="preserve">
+        <value>Toggle selection for all items</value>
+    </data>
+    <data name="staticSite_rowCheckboxAriaLabel" xml:space="preserve">
+        <value>Select row</value>
+    </data>
+    <data name="staticSite_deleteSnippetConfirmation" xml:space="preserve">
+        <value>Are you sure you want to delete the selected snippets?</value>
+    </data>
+    <data name="staticSite_deleteSnippetConfirmationTitle" xml:space="preserve">
+        <value>Delete snippets</value>
+    </data>
+    <data name="staticSite_body" xml:space="preserve">
+        <value>Body</value>
+    </data>
+    <data name="staticSite_SnippetsDescription" xml:space="preserve">
+        <value>Inject custom code, such as an analytics snippet, directly into the 'head' or 'body' of your Static Web App at runtime. </value>
     </data>
     <data name="staticSite_passwordProtectionSkuWarning" xml:space="preserve">
         <value>Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.</value>
@@ -7739,5 +7946,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="connectionStringInfoMessage" xml:space="preserve">
         <value>At runtime, connection strings are available as environment variables.</value>
+    </data>
+    <data name="ibizafication_readOnlyDotnetIsolated" xml:space="preserve">
+        <value>Editing .NET Isolated Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
 </root>

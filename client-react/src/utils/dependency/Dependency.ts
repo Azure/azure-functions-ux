@@ -12,6 +12,10 @@ export abstract class Dependency {
     return this.updateId(portalContext, resourceId, tagInformation);
   }
 
+  public async deleteTag(portalContext: PortalCommunicator, resourceId: string) {
+    return await this.deleteId(portalContext, resourceId);
+  }
+
   public async getTag(portalContext: PortalCommunicator, resourceId: string, tag: string, isTagHidden: boolean) {
     const tagName = this._getTagName(tag, isTagHidden);
     const site = await SiteService.fetchSite(resourceId);
@@ -37,6 +41,8 @@ export abstract class Dependency {
   abstract discoverResourceId(portalContext: PortalCommunicator, resourceName: string);
 
   abstract updateId(portalContext: PortalCommunicator, resourceId: string, tagInformation: any);
+
+  abstract deleteId(portalContext: PortalCommunicator, resourceId: string);
 }
 
 export class AcrDependency extends Dependency {
@@ -69,16 +75,41 @@ export class AcrDependency extends Dependency {
         const acrTag: KeyValue<string> = {};
         acrTag[this._getTagName(CommonConstants.DeploymentCenterConstants.acrTag, true)] = JSON.stringify(acrResourceJson);
         siteResponse.data.tags = { ...siteResponse.data.tags, ...acrTag };
-        await SiteService.updateSite(resourceId, siteResponse.data);
-
-        return tagInformation.subscriptionId;
+        const updateTagsResponse = await SiteService.updateSite(resourceId, siteResponse.data, undefined, true);
+        if (updateTagsResponse.metadata.success) {
+          return tagInformation.subscriptionId;
+        }
       } else if (!siteResponse.metadata.success) {
         portalContext.log(
-          getTelemetryInfo('error', 'getAcrResourceId', 'failed', {
+          getTelemetryInfo('error', 'updateAcrHiddenTag', 'failed', {
             error: siteResponse.metadata.error,
           })
         );
       }
+    }
+  }
+
+  async deleteId(portalContext: PortalCommunicator, resourceId: string) {
+    const siteResponse = await SiteService.fetchSite(resourceId);
+    if (siteResponse.metadata.success) {
+      const tags = siteResponse.data.tags;
+      if (tags) {
+        delete tags[this._getTagName(CommonConstants.DeploymentCenterConstants.acrTag, true)];
+        const deleteTagResponse = await SiteService.updateSite(resourceId, siteResponse.data, undefined, true);
+        if (!deleteTagResponse.metadata.success) {
+          portalContext.log(
+            getTelemetryInfo('error', 'deleteAcrHiddenTag', 'failed', {
+              error: siteResponse.metadata.error,
+            })
+          );
+        }
+      }
+    } else {
+      portalContext.log(
+        getTelemetryInfo('error', 'fetchSiteForDeleteId', 'failed', {
+          error: siteResponse.metadata.error,
+        })
+      );
     }
   }
 }

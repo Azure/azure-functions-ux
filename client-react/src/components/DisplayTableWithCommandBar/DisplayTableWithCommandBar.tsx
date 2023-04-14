@@ -31,7 +31,6 @@ const DisplayTableWithCommandBar: React.SFC<Props> = props => {
       {!!commandBarItems && commandBarItems.length > 0 && (
         <CommandBar
           items={commandBarItems}
-          role="nav"
           styles={commandBarStyles(theme)}
           buttonAs={DisplayTableCommandBarButton}
           overflowButtonProps={overflowButtonProps}

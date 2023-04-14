@@ -2,9 +2,9 @@ import { FC } from 'react';
 import { Stack, Link } from '@fluentui/react';
 import { ReactComponent as UpsellIconSvg } from '../../upsell.svg';
 import { BannerStyle, IconStyle, LinkStyle } from './UpsellBanner.styles';
-import { Trans } from 'react-i18next';
 
 interface Props {
+  bannerMessage: string;
   onClick: () => void;
 }
 const UpsellBanner: FC<Props> = props => {
@@ -13,7 +13,7 @@ const UpsellBanner: FC<Props> = props => {
       <Stack horizontal verticalAlign="center">
         <UpsellIconSvg className={IconStyle} />
         <Link onClick={props.onClick} className={LinkStyle}>
-          <Trans>appSettingsUpsellBannerMessage</Trans>
+          {props.bannerMessage}
         </Link>
       </Stack>
     </Stack>

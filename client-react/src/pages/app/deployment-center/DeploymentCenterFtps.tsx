@@ -45,6 +45,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
   const ftpsEndpoint = publishingProfile && publishingProfile.publishUrl.toLocaleLowerCase().replace('ftp:/', 'ftps:/');
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
   const gitCloneUri = getGitCloneUri(deploymentCenterPublishingContext);
+  const gitUsername = publishingProfile?.userName.split('\\')[1];
 
   const toggleResetCalloutVisibility = () => {
     setIsResetCalloutHidden(!isResetCalloutHidden);
@@ -147,6 +148,18 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           readOnly={true}
         />
 
+        {isScmLocalGit && (
+          <TextFieldNoFormik
+            className={textboxStyle}
+            id="deployment-center-ftps-application-username"
+            label={t('deploymentCenterLocalGitUsernameLabel')}
+            widthOverride="100%"
+            value={gitUsername}
+            copyButton={true}
+            readOnly={true}
+          />
+        )}
+
         <div className={ftpsPasswordTextboxStyle}>
           <TextFieldNoFormik
             className={textboxStyle}
@@ -157,6 +170,8 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             copyButton={true}
             readOnly={true}
             type={TextFieldType.password}
+            canRevealPassword
+            revealPasswordAriaLabel={t('showApplicationPasswordAriaLabel')}
             additionalControls={[
               <ActionButton
                 id="deployment-center-ftps-application-password-reset"

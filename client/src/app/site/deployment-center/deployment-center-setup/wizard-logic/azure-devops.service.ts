@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 import { uniqBy } from 'lodash-es';
 import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
-import { Constants, DeploymentCenterConstants, ScenarioIds, Kinds, FeatureFlags } from 'app/shared/models/constants';
+import { DeploymentCenterConstants, ScenarioIds, Kinds, FeatureFlags } from 'app/shared/models/constants';
 import { ScenarioService } from 'app/shared/services/scenario/scenario.service';
 import { ArmObj } from 'app/shared/models/arm/arm-obj';
 import { Site } from 'app/shared/models/arm/site';
@@ -34,7 +34,6 @@ import { ArmSiteDescriptor } from 'app/shared/resourceDescriptors';
 import { parseToken } from 'app/pickers/microsoft-graph/microsoft-graph-helper';
 import { ProvisioningConfigurationBase, WizardForm } from './deployment-center-setup-models';
 import { Url } from 'app/shared/Utilities/url';
-import { CacheService } from 'app/shared/services/cache.service';
 
 export enum AzureDevOpsDeploymentMethod {
   UseV1Api = 0,
@@ -68,12 +67,7 @@ export class AzureDevOpsService implements OnDestroy {
   ).toLowerCase();
   private static _azureDevOpsUrl: AzureDevOpsUrl;
 
-  constructor(
-    private _httpClient: Http,
-    private _userService: UserService,
-    private _scenarioService: ScenarioService,
-    private _cacheService: CacheService
-  ) {
+  constructor(private _httpClient: Http, private _userService: UserService, private _scenarioService: ScenarioService) {
     this._userService
       .getStartupInfo()
       .takeUntil(this._ngUnsubscribe$)
@@ -127,9 +121,7 @@ export class AzureDevOpsService implements OnDestroy {
     return this._azureDevOpsUrl;
   }
 
-  public static readonly AzDevPermissionApiUri = `${
-    AzureDevOpsService.AzureDevOpsUrl.PeDeploymentLevel
-  }_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1`;
+  public static readonly AzDevPermissionApiUri = `${AzureDevOpsService.AzureDevOpsUrl.PeDeploymentLevel}_apis/ContinuousDelivery/PermissionsResult?api-version=4.1-preview.1`;
   public static readonly AzDevProfileUri = `${AzureDevOpsService.AzureDevOpsUrl.PeDeploymentLevel}_apis/AzureTfs/UserContext`;
   public static readonly AzDevProjectsApi = `${AzureDevOpsService.AzureDevOpsUrl.Tfs}{0}/_apis/projects?includeCapabilities=true`;
   public static readonly AzDevRegionsApi = `${AzureDevOpsService.AzureDevOpsUrl.Aex}_apis/hostacquisition/regions`;
@@ -169,9 +161,7 @@ export class AzureDevOpsService implements OnDestroy {
     }
     return this.getUserContext()
       .switchMap(user => {
-        const accountUrl = `${AzureDevOpsService.AzureDevOpsUrl.Sps}_apis/accounts?memeberId=${
-          user.authenticatedUser.descriptor
-        }?api-version=5.0-preview.1`;
+        const accountUrl = `${AzureDevOpsService.AzureDevOpsUrl.Sps}_apis/accounts?memeberId=${user.authenticatedUser.descriptor}?api-version=5.0-preview.1`;
         return forkJoin([
           this._httpClient.get(accountUrl, { headers: this.getAzDevDirectHeaders(false) }),
           this._httpClient.get(accountUrl, { headers: this.getAzDevDirectHeaders(true) }),
@@ -217,30 +207,6 @@ export class AzureDevOpsService implements OnDestroy {
           headers: this.getAzDevDirectHeaders(msaPassthrough),
         })
         .map(res => res.json());
-    });
-  }
-
-  startDeployment(account: string, deploymentObj: any, isNewVsoAccount: boolean) {
-    if (isNewVsoAccount) {
-      this._accountsList = [];
-    }
-
-    return this.getAccounts().switchMap(r => {
-      const msaPassthrough = isNewVsoAccount
-        ? false
-        : r.find(x => x.AccountName.toLowerCase() === account.toLowerCase())!.ForceMsaPassThrough;
-      const headers = this.getAzDevDirectHeaders(msaPassthrough);
-
-      if (AzureDevOpsService._targetAzDevDeployment !== TargetAzDevDeployment.SU2) {
-        return this._sendProvisioningConfigurationSetupRequest(account, deploymentObj, headers);
-      } else {
-        const uri = `${Constants.serviceHost}api/setupvso?accountName=${account}`;
-        return this._httpClient
-          .post(uri, deploymentObj, {
-            headers: headers,
-          })
-          .map(res => res.json());
-      }
     });
   }
 
@@ -616,61 +582,6 @@ export class AzureDevOpsService implements OnDestroy {
       default:
         return null;
     }
-  }
-
-  private _sendProvisioningConfigurationSetupRequest(accountName: string, deploymentObj: any, headers: Headers) {
-    const uri = `${AzureDevOpsService.AzureDevOpsUrl.PeCollectionLevel.format(
-      accountName
-    )}_apis/ContinuousDelivery/ProvisioningConfigurations?api-version=3.2-preview.1`;
-
-    let repository: any;
-    if (deploymentObj.source && deploymentObj.source.repository) {
-      repository = deploymentObj.source.repository;
-    } else if (deploymentObj.repository) {
-      repository = deploymentObj.repository;
-    }
-
-    delete deploymentObj.authToken;
-
-    if (repository && repository.type === 'GitHub') {
-      return this._getSourceControlToken('github').flatMap(r => {
-        const res = r as { authenticated: boolean; token: string };
-        if (!res || !res.authenticated || !res.token) {
-          throw new Error('Internal Error Occured');
-        }
-        repository.authorizationInfo.parameters.AccessToken = res.token;
-        return this._httpClient
-          .post(uri, deploymentObj, {
-            headers,
-          })
-          .map(result => result.json());
-      });
-    } else {
-      return this._httpClient
-        .post(uri, deploymentObj, {
-          headers,
-        })
-        .map(result => result.json());
-    }
-  }
-
-  private _getSourceControlToken(provider: string): Observable<{} | { authenticated: boolean; token: string }> {
-    return this._cacheService
-      .getArm(`/providers/Microsoft.Web/sourcecontrols/${provider}`, false, '2016-03-01')
-      .map(result => {
-        const body = result.json();
-        if (body && body.properties && body.properties.token) {
-          return { authenticated: true, token: body.properties.token };
-        } else {
-          return { authenticated: false, token: null };
-        }
-      })
-      .catch(err => {
-        if (err.response) {
-          throw new Error(err.response.data);
-        }
-        throw new Error('Not Authorized');
-      });
   }
 
   ngOnDestroy(): void {

@@ -299,7 +299,6 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
         buttonAs={CustomCommandBarButton}
         items={items}
         overflowButtonProps={{ ariaLabel: t('moreCommands') }}
-        role="nav"
         styles={CommandBarStyles}
       />
       {isDialogVisible && (

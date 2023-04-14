@@ -8,6 +8,7 @@ import {
   ConfigurationYupValidationSchemaType,
   EnvironmentVariable,
   PasswordProtectionTypes,
+  Snippet,
   StagingEnvironmentPolicyTypes,
 } from './Configuration.types';
 
@@ -23,6 +24,7 @@ export class ConfigurationFormBuilder {
     passwordProtection?: PasswordProtectionTypes,
     defaultEnvironment?: ArmObj<Environment>,
     defaultEnvironmentVariables?: EnvironmentVariable[],
+    defaultSnippets?: Snippet[],
     stagingEnvironmentPolicy: StagingEnvironmentPolicyTypes = StagingEnvironmentPolicyTypes.Enabled,
     allowConfigFileUpdates: boolean = false
   ): ConfigurationFormData {
@@ -38,6 +40,7 @@ export class ConfigurationFormBuilder {
       selectedEnvironment: defaultEnvironment,
       isAppSettingsDirty: false,
       isGeneralSettingsDirty: false,
+      snippets: defaultSnippets,
     };
   }
 
@@ -52,6 +55,7 @@ export class ConfigurationFormBuilder {
       environments: Yup.mixed().notRequired(),
       passwordProtection: Yup.mixed().notRequired(),
       passwordProtectionEnvironments: Yup.mixed().notRequired(),
+      snippets: Yup.mixed().notRequired(),
       visitorPassword: Yup.string().test('publishingPasswordRequirements', this._t('staticSite_visitorPasswordRequired'), function(value) {
         if (this.parent.isGeneralSettingsDirty && this.parent.passwordProtection !== PasswordProtectionTypes.Disabled) {
           //NOTE(stpelleg): Key Vault references and urls should be blocked, they do not currently work.

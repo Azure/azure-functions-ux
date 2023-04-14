@@ -12,5 +12,5 @@ export interface OneDriveFolder {
 }
 
 export interface OneDriveArrayResponse<T> {
-  values: T[];
+  value: T[];
 }
