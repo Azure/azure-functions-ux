@@ -1,12 +1,6 @@
 import { ReplaySubject } from 'rxjs/ReplaySubject';
 import { FormGroup, FormControl } from '@angular/forms';
-import {
-  WizardForm,
-  PermissionsResultCreationParameters,
-  PermissionsResult,
-  ProvisioningConfigurationV2,
-  SourceSettings,
-} from './deployment-center-setup-models';
+import { WizardForm, SourceSettings } from './deployment-center-setup-models';
 import { Observable } from 'rxjs/Observable';
 import { CacheService } from '../../../../shared/services/cache.service';
 import { ArmSiteDescriptor } from '../../../../shared/resourceDescriptors';
@@ -24,8 +18,6 @@ import {
   DeploymentCenterConstants,
   LogCategories,
 } from '../../../../shared/models/constants';
-import { parseToken } from '../../../../pickers/microsoft-graph/microsoft-graph-helper';
-import { PortalService } from '../../../../shared/services/portal.service';
 import { TranslateService } from '@ngx-translate/core';
 import { PortalResources } from '../../../../shared/models/portal-resources';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
@@ -34,8 +26,7 @@ import { SiteService } from '../../../../shared/services/site.service';
 import { forkJoin } from 'rxjs/observable/forkJoin';
 import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
 import { VSOAccount } from '../../Models/vso-repo';
-import { AzureDevOpsService, AzureDevOpsDeploymentMethod, TargetAzDevDeployment } from './azure-devops.service';
-import { LocalStorageService } from '../../../../shared/services/local-storage.service';
+import { AzureDevOpsService } from './azure-devops.service';
 import { GithubService } from './github.service';
 import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../Models/github';
 import { Guid } from 'app/shared/Utilities/Guid';
@@ -47,8 +38,6 @@ import { LogService } from '../../../../shared/services/log.service';
 import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
 import { HttpResult } from '../../../../shared/models/http-result';
 
-const CreateAadAppPermissionStorageKey = 'DeploymentCenterSessionCanCreateAadApp';
-
 @Injectable()
 export class DeploymentCenterStateManager implements OnDestroy {
   public resourceIdStream$ = new ReplaySubject<string>(1);
@@ -56,9 +45,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
   private _resourceId = '';
   private _ngUnsubscribe$ = new Subject();
   private _token: string;
-  private _vstsApiToken: string;
-  private _sessionId: string;
-  private _azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod = AzureDevOpsDeploymentMethod.UseV1Api;
   public siteArm: ArmObj<Site>;
   public siteArmObj$ = new ReplaySubject<ArmObj<Site>>();
   public updateSourceProviderConfig$ = new Subject();
@@ -89,8 +75,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
     private _cacheService: CacheService,
     private _azureDevOpsService: AzureDevOpsService,
     private _translateService: TranslateService,
-    private _localStorageService: LocalStorageService,
-    private _portalService: PortalService,
     private _scenarioService: ScenarioService,
     private _githubService: GithubService,
     private _logService: LogService,
@@ -148,7 +132,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
       .takeUntil(this._ngUnsubscribe$)
       .subscribe(r => {
         this._token = r.token;
-        this._sessionId = r.sessionId;
       });
   }
 
@@ -169,8 +152,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
 
   public deploy(): Observable<{ status: string; statusMessage: string; result: any }> {
     switch (this.wizardValues.buildProvider) {
-      case 'vsts':
-        return this._deployVsts();
       case 'github':
         // NOTE(michinoy): Only initiate writing a workflow configuration file if the branch does not already have it OR
         // the user opted to overwrite it.
@@ -427,206 +408,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
       error.Message.indexOf('500 (InternalServerError)') > -1 &&
       error.Message.indexOf('GeoRegionServiceClient') > -1
     );
-  }
-
-  private _deployVsts() {
-    return this._getVstsToken()
-      .switchMap(r => {
-        if (r.status !== 'succeeded') {
-          return Observable.of(r);
-        }
-        this._vstsApiToken = r.result;
-        return this._azureDevOpsService.getAzureDevOpsDeploymentMethod(this.siteArm);
-      })
-      .switchMap(r => {
-        this._azureDevOpsDeploymentMethod = r.result;
-        if (
-          this._azureDevOpsDeploymentMethod === AzureDevOpsDeploymentMethod.UsePublishProfile ||
-          AzureDevOpsService.TargetAzDevDeployment === TargetAzDevDeployment.Devfabric
-        ) {
-          return Observable.of({
-            status: 'succeeded',
-            statusMessage: null,
-            result: null,
-          });
-        } else {
-          return this._canCreateAadApp();
-        }
-      })
-      .switchMap(r => {
-        if (r.status !== 'succeeded') {
-          return Observable.of(r);
-        }
-
-        return this._startVstsDeployment().concatMap(id => {
-          return Observable.timer(1000, 1000)
-            .switchMap(() => this._pollVstsCheck(id))
-            .map(r => {
-              const result = r.json();
-              const ciConfig: { status: string; statusMessage: string } = result.ciConfiguration.result;
-              return { ...ciConfig, result: result.ciConfiguration };
-            })
-            .first(result => {
-              return result.status !== 'inProgress' && result.status !== 'queued';
-            });
-        });
-      });
-  }
-
-  private _pollVstsCheck(id: string) {
-    return this._azureDevOpsService.getAccounts().switchMap(r => {
-      const appendMsaPassthroughHeader = r.find(
-        x => x.AccountName.toLowerCase() === this.wizardValues.buildSettings.vstsAccount.toLowerCase()
-      )!.ForceMsaPassThrough;
-
-      return this._cacheService.get(
-        `${AzureDevOpsService.AzureDevOpsUrl.PeCollectionLevel.format(
-          this.wizardValues.buildSettings.vstsAccount
-        )}_apis/ContinuousDelivery/ProvisioningConfigurations/${id}?api-version=3.2-preview.1`,
-        true,
-        this._azureDevOpsService.getAzDevDirectHeaders(appendMsaPassthroughHeader)
-      );
-    });
-  }
-
-  private _startVstsDeployment() {
-    if (this.wizardValues.sourceProvider === 'vsts') {
-      this.wizardValues.sourceSettings.repoUrl = this.selectedVstsRepoId;
-    }
-    const deploymentObject = this._azureDevOpsService.getAzureDevOpsProvisioningConfiguration(
-      this.wizardValues,
-      this.siteArm,
-      this.subscriptionName,
-      this._vstsApiToken,
-      this._azureDevOpsDeploymentMethod,
-      this.gitHubToken$.getValue()
-    );
-
-    this._portalService.logAction('deploymentcenter', 'azureDevOpsDeployment', {
-      buildProvider: this.wizardValues.buildProvider,
-      sourceProvider: this.wizardValues.sourceProvider,
-      pipelineTemplateId: !!(<ProvisioningConfigurationV2>deploymentObject).pipelineTemplateId
-        ? (<ProvisioningConfigurationV2>deploymentObject).pipelineTemplateId
-        : '',
-      azureDevOpsDeploymentMethod: AzureDevOpsDeploymentMethod[this._azureDevOpsDeploymentMethod],
-      appKind: this.siteArm.kind,
-      currentStack: this.stack,
-      currentStackVersion: this.stackVersion,
-      selectedStack: this.wizardValues.buildSettings.applicationFramework,
-      selectedStackVersion: this.wizardValues.buildSettings.frameworkVersion,
-    });
-
-    const setupvsoCall = this._azureDevOpsService.startDeployment(
-      this.wizardValues.buildSettings.vstsAccount,
-      deploymentObject,
-      this.wizardValues.buildSettings.createNewVsoAccount
-    );
-
-    if (this.wizardValues.buildSettings.createNewVsoAccount) {
-      return this._cacheService
-        .post(
-          `${AzureDevOpsService.AzureDevOpsUrl.Aex}_apis/HostAcquisition/collections?collectionName=${
-            this.wizardValues.buildSettings.vstsAccount
-          }&preferredRegion=${this.wizardValues.buildSettings.location}&api-version=4.0-preview.1`,
-          true,
-          this._azureDevOpsService.getAzDevDirectHeaders(false),
-          {
-            'VisualStudio.Services.HostResolution.UseCodexDomainForHostCreation': true,
-          }
-        )
-        .switchMap(() => setupvsoCall)
-        .switchMap(r => Observable.of(r.id));
-    }
-    return setupvsoCall.switchMap(r => {
-      return Observable.of(r.id);
-    });
-  }
-
-  private _canCreateAadApp(): Observable<{ status: string; statusMessage: string; result: any }> {
-    const success = {
-      status: 'succeeded',
-      statusMessage: null,
-      result: null,
-    };
-
-    const permissionPayload: PermissionsResultCreationParameters = {
-      aadPermissions: {
-        token: this._vstsApiToken,
-        tenantId: parseToken(this._token).tid,
-      },
-    };
-
-    if (!this._isAadCreatePermissionStored()) {
-      return this._azureDevOpsService.getPermissionResult(permissionPayload).map((r: PermissionsResult) => {
-        if (!r.aadPermissions.value) {
-          return {
-            status: 'failed',
-            statusMessage: this._translateService.instant(PortalResources.noPermissionsToCreateApp).format(r.aadPermissions.message),
-            result: null,
-          };
-        } else {
-          this._storeAadCreatePermission();
-          return success;
-        }
-      });
-    } else {
-      return Observable.of(success);
-    }
-  }
-
-  private _isAadCreatePermissionStored(): boolean {
-    let storedPermissionItem = <any>this._localStorageService.getItem(CreateAadAppPermissionStorageKey);
-    if (storedPermissionItem && storedPermissionItem.sessionId && storedPermissionItem.sessionId === this._sessionId) {
-      return true;
-    }
-
-    return false;
-  }
-
-  // Using Local storage for two reasons:
-  // 1. CacheService only caches for 1 minute which is too short for this scenario
-  // 2. Local variable can not be used as Deployment center angular components are re-instantiated if we move out
-  //    of Deployment center menu (say to Overview menu) and come back
-  // There are two options to use as pivot for storing permission
-  // 1. User token - this get auto refreshed every 60 minutes, hence stored value gets stale. Also this might be insecure.
-  // 2. Session Id - this changes if user does page refresh or changes login
-  // Choosing 2 as it seems longer-lived and is secure
-  private _storeAadCreatePermission(): void {
-    let storedPermissionItem = {
-      id: CreateAadAppPermissionStorageKey,
-      sessionId: this._sessionId,
-    };
-
-    // overwrite existing value
-    this._localStorageService.setItem(storedPermissionItem.id, storedPermissionItem);
-  }
-
-  private _getVstsToken(): Observable<{ status: string; statusMessage: string; result: any }> {
-    return this._portalService
-      .getAdToken('azureTfsApi')
-      .first()
-      .switchMap(tokenData => {
-        if (!tokenData || !tokenData.result || !tokenData.result.token || !parseToken(tokenData.result.token)) {
-          return Observable.of({
-            status: 'failed',
-            statusMessage: this._translateService.instant(PortalResources.vstsTokenIsInvalid),
-            result: null,
-          });
-        } else {
-          return Observable.of({
-            status: 'succeeded',
-            statusMessage: null,
-            result: tokenData.result.token,
-          });
-        }
-      })
-      .catch(error => {
-        return Observable.of({
-          status: 'failed',
-          statusMessage: this._translateService.instant(PortalResources.vstsTokenFetchFailed).format(JSON.stringify(error)),
-          result: null,
-        });
-      });
   }
 
   private _getScmUri(publishingCredentialsResponse: HttpResult<ArmObj<PublishingCredentials>>): string {
