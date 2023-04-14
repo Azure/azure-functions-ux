@@ -1827,6 +1827,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";azureAppConfigRefAriaLabelNotResolved" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Configuration Reference not resolved]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referensi App Configuration tidak teratasi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";azureAppConfigRefAriaLabelResolved" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Configuration Reference resolved]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referensi App Configuration teratasi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";azureAppConfigRefValue" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Configuration Reference]]></Val>
@@ -1904,6 +1922,24 @@
           <Val><![CDATA[Key vault Reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Referensi key vault]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";azureKeyVaultRefNotResolved" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Key vault Reference not resolved]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referensi Key Vault tidak teratasi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";azureKeyVaultRefResolved" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Key vault Reference resolved]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referensi Key Vault teratasi]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4602,6 +4638,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";customErrorPageUpsellBannerMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom Error pages requires a premium App Service Plan.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Halaman Kesalahan Kustom memerlukan Paket App Service premium.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";customErrorPages_fileType" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[text/html]]></Val>
@@ -6098,10 +6143,13 @@
       </Item>
       <Item ItemId=";deploymentCenterFtpsUsernameLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Username]]></Val>
+          <Val><![CDATA[FTPS Username]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nama pengguna]]></Val>
+            <Val><![CDATA[Nama Pengguna FTPS]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Username]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6191,6 +6239,15 @@
           <Val><![CDATA[Building with App Service Build Service.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Membangun dengan Layanan Build App Service.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterLocalGitUsernameLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Local Git Username]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nama Pengguna Git Lokal]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6549,24 +6606,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterRedeploy" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Sync]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Sinkronisasi]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";deploymentCenterRedeployAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Deployment center redeploy command]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Perintah penyebaran ulang pusat penyebaran]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";deploymentCenterRedeployCommit" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Redeploy commit]]></Val>
@@ -6792,6 +6831,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterSync" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Sync]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sinkronisasi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterSyncCommandAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Deployment center sync command]]></Val>
@@ -6833,6 +6881,15 @@
           <Val><![CDATA[Succesfully updated your GitHub token.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Berhasil memperbarui token GitHub Anda.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterUserScopeUsernameLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Username]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nama Pengguna]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -8165,10 +8222,13 @@
       </Item>
       <Item ItemId=";errorPagesInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Upload custom error pages to use with your applications to provide a more personalized experience for your users. You may upload 3 different types of error pages (403, 502, and 503). Must be .html files.]]></Val>
+          <Val><![CDATA[Configure a custom HTML document that will be presented to users instead of the standard platform error page.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Unggah halaman kesalahan kustom yang akan digunakan dengan aplikasi Anda untuk memberikan pengalaman yang lebih dipersonalisasi bagi pengguna Anda. Anda dapat mengunggah tiga tipe halaman kesalahan yang berbeda (403, 502, dan 503). Harus berupa file .html.]]></Val>
+            <Val><![CDATA[Konfigurasikan dokumen HTML kustom yang akan ditampilkan kepada pengguna, sebagai pengganti halaman kesalahan platform standar.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Upload custom error pages to use with your applications to provide a more personalized experience for your users. You may upload 3 different types of error pages (403, 502, and 503). Must be .html files.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -17208,6 +17268,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";remove" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Remove]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hapus]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";renewAppKey" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Renew and save key value]]></Val>
@@ -19442,10 +19511,13 @@
       </Item>
       <Item ItemId=";staticSiteFreePlanAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Free plan. For hobby or personal projects. Price is free. Included bandwidth 100GB per subscription. Bandwidth overage not applicable. Custom domains two per app. SSL certificates are free. Custom authentication not supported. Private link not supported. Storage 0.25GB. Azure functions are managed.]]></Val>
+          <Val><![CDATA[Free plan Price free 100GB bandwidth per subscription with free overage. 2 app custom domains SSL certs free No custom authentication No private endpoints Max app size 250 MB 3 Staging environments Managed functions only. No enterprise grade edge]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Paket gratis. Untuk hobi atau proyek pribadi. Tidak dikenakan biaya. Termasuk bandwidth 100GB per langganan. Kelebihan bandwidth tidak berlaku. Dua domain kustom per aplikasi. Sertifikat SSL gratis. Autentikasi kustom tidak didukung. Private link tidak didukung. Penyimpanan 0.25GB. Azure Functions dikelola.]]></Val>
+            <Val><![CDATA[Paket gratis Harga gratis bandwidth 100GB per langganan dengan kelebihan gratis. 2 gratis sertifikat SSL domain kustom aplikasi Tanpa autentikasi kustom Tidak ada titik akhir privat Ukuran aplikasi maks 250 MB 3 Lingkungan pentahapan Hanya fungsi terkelola. Tidak ada tepi tingkat perusahaan]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Free plan. For hobby or personal projects. Price is free. Included bandwidth 100GB per subscription. Bandwidth overage not applicable. Custom domains two per app. SSL certificates are free. Custom authentication not supported. Private link not supported. Storage 0.25GB. Azure functions are managed.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -19616,10 +19688,13 @@
       </Item>
       <Item ItemId=";staticSiteStandardPlanAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Standard plan. For general purpose production apps. Price is nine dollars per month. Included bandwidth 100GB per subscription. Bandwidth overage 2 cents per GB per subscription. Custom domains five per app. SSL certificates are free. Custom authentication supported. Private link supported. Storage 2GB. Azure functions are managed or bring your own.]]></Val>
+          <Val><![CDATA[Standard plan Price {0} 100GB bandwidth with {1} overage per GB 5 app custom domains SSL certs free Custom auth private endpoints supported Max app size 500 MB 10 staging environments Managed or bring your functions Enterprise grade edge {2}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Paket standar. Untuk aplikasi produksi tujuan umum. Harganya sembilan dolar per bulan. Termasuk bandwidth 100GB per langganan. Kelebihan bandwidth dikenakan biaya 2 sen per GB per langganan. Lima domain kustom per aplikasi. Sertifikat SSL gratis. Autentikasi kustom didukung. Private link didukung. Penyimpanan 2GB. Azure Functions dikelola atau gunakan milik Anda sendiri.]]></Val>
+            <Val><![CDATA[Harga paket standar {0} bandwidth 100GB dengan {1} kelebihan per GB 5 aplikasi gratis sertifikat SSL domain kustom Titik akhir privat autentikasi kustom yang didukung Ukuran aplikasi maks 500 MB 10 lingkungan pentahapan Kelola atau hadirkan fungsi tepi tingkat Enterprise Anda {2}]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Standard plan. For general purpose production apps. Price is nine dollars per month. Included bandwidth 100GB per subscription. Bandwidth overage 2 cents per GB per subscription. Custom domains five per app. SSL certificates are free. Custom authentication supported. Private link supported. Storage 2GB. Azure functions are managed or bring your own.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -23084,6 +23159,24 @@
           <Val><![CDATA[Configure continuous integration with an Azure Repo, part of Azure DevOps Services (formerly known as VSTS).]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Konfigurasikan integrasi berkelanjutan dengan Azure Repo, bagian dari Azure DevOps Services (sebelumnya dikenal dengan VSTS).]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vstsDisconnectConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yakin ingin memutuskan sambungan dari Azure Pipelines? Anda juga perlu menghapus tugas penyebaran pada file azure-pipelines.yaml untuk memutus sambungan sepenuhnya.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vstsDisconnectConfirmationTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Confirm Azure Pipelines Disconnect]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Konfirmasikan Pemutusan Sambungan Alur Azure]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
