@@ -93,7 +93,7 @@ const DeploymentCenterBitbucketConfiguredView: React.FC<DeploymentCenterFieldPro
   };
 
   const authorizeBitbucketAccount = () => {
-    authorizeWithProvider(BitbucketService.authorizeUrl, () => {}, completingAuthCallback);
+    authorizeWithProvider(BitbucketService.authorizeUrl, /* startingAuth */ undefined, completingAuthCallback);
   };
 
   const completingAuthCallback = (authorizationResult: AuthorizationResult) => {

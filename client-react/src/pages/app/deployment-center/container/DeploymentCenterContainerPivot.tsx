@@ -81,7 +81,12 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
             itemKey="githublogs"
             headerText={t('deploymentCenterPivotItemBuildLogsHeaderText')}
             ariaLabel={t('deploymentCenterPivotItemBuildLogsAriaLabel')}>
-            <DeploymentCenterGitHubActionsCodeLogs isLogsDataRefreshing={isLogsDataRefreshing} refreshLogs={() => {}} />
+            <DeploymentCenterGitHubActionsCodeLogs
+              isLogsDataRefreshing={isLogsDataRefreshing}
+              refreshLogs={() => {
+                /** @note (joechung): Do nothing when refreshing logs. */
+              }}
+            />
           </PivotItem>
         )}
 

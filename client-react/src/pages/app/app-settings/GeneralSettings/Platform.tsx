@@ -109,7 +109,9 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
         (disableFtp() ? (
           <DropdownNoFormik
-            onChange={() => {}}
+            onChange={() => {
+              /** @note (joechung): Ignore selection change since there is only a single option. */
+            }}
             infoBubbleMessage={t('ftpDisabledByPolicy')}
             learnMoreLink={Links.ftpDisabledByPolicyLink}
             label={t('ftpState')}
