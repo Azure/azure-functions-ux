@@ -1,4 +1,4 @@
-<div aria-label="Console text area container" id="console-container" (clickOutside)="unFocusConsole()" (click)="focusConsole()" tabindex="{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)">
+<div   [attr.aria-label]="Resources.consoleContainerTextAreaAriaLabel | translate" id="console-container" (clickOutside)="unFocusConsole()" (click)="focusConsole()" tabindex="{{isFocused ? 1 : 0}}" (contextmenu)="handleRightMouseClick($event)">
   <div class="console">
     <div id="console-body" class="console-inner">
       <textarea #consoleText class="console-typer" (copy)="handleCopy($event)"
