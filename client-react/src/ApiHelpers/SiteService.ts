@@ -174,7 +174,7 @@ export default class SiteService {
       ? `${resourceId}/sourcecontrols/web`
       : `${resourceId}/sourcecontrols/web/?additionalFlags=ScmGitHubActionSkipWorkflowDelete`;
 
-    return MakeArmCall<{}>({
+    return MakeArmCall<void>({
       resourceId: id,
       commandName: 'deleteSourceControl',
       method: 'DELETE',
