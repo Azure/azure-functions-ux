@@ -7047,6 +7047,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="description" xml:space="preserve">
         <value>Description</value>
     </data>
+    <data name="viewTemplate" xml:space="preserve">
+        <value>View Template</value>
+    </data>
+    <data name="viewTemplateFormat" xml:space="preserve">
+        <value>View template for '{0}'</value>
+    </data>
     <data name="templateDetails" xml:space="preserve">
         <value>Template details</value>
     </data>
