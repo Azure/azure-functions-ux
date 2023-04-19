@@ -1594,6 +1594,9 @@
     <data name="https20ProxyInfoBubbleMessage" xml:space="preserve">
         <value>When this setting is enabled, front end will forward HTTP 2.0 traffic to the worker enabling scenarios like GRPC.</value>
     </data>
+    <data name="basicAuthPublishingCredInfoBubbleMessage" xml:space="preserve">
+        <value>Disable Kudu and publishing access using Basic Authentication Publishing Credentials.</value>
+    </data>
     <data name="minTlsVersionLabel" xml:space="preserve">
         <value>Minimum TLS Version</value>
     </data>
@@ -3811,6 +3814,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="http20Proxy" xml:space="preserve">
         <value>HTTP 2.0 Proxy</value>
+    </data>
+    <data name="basicAuthPublishingCred" xml:space="preserve">
+        <value>Basic Authentication Publishing Credentials</value>
     </data>
     <data name="dismiss" xml:space="preserve">
         <value>Dismiss</value>

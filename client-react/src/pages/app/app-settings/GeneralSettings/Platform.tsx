@@ -151,6 +151,32 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ]}
           />
         ))}
+
+      {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' && (
+        <Field
+          name="basicPublishingCredentialsPolicies.scm.allow"
+          dirty={
+            values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
+            initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow
+          }
+          component={RadioButton}
+          label={t('basicAuthPublishingCred')}
+          infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
+          id="app-settings-basic-authentication-publishing-creds"
+          disabled={disableAllControls}
+          options={[
+            {
+              key: 1,
+              text: t('on'),
+            },
+            {
+              key: 0,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
+
       {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
         <>
           <Field
