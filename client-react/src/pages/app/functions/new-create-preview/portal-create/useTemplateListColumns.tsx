@@ -24,7 +24,7 @@ const iconProps: IIconProps = {
   iconName: 'FileCode',
 };
 
-export function useTemplateListColumns(hostStatus: ArmObj<HostStatus>, useNewProgrammingModel = false) {
+export function useTemplateListColumns(hostStatus?: ArmObj<HostStatus>, useNewProgrammingModel = false) {
   const { t } = useTranslation();
 
   const runtimeVersion = useMemo(
