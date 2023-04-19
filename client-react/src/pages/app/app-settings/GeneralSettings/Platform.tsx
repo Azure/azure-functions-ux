@@ -45,6 +45,14 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     );
   };
 
+  const onBasicAuthenticationCredentialsChange = React.useCallback(
+    (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
+      props.setFieldValue('basicPublishingCredentialsPolicies.scm.allow', option.key);
+      props.setFieldValue('basicPublishingCredentialsPolicies.ftp.allow', option.key);
+    },
+    [props.setFieldValue]
+  );
+
   const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
     // Set HTTP 2.0 Proxy to 'Off' if http 2.0 is not enabled.
     if (!option.key) {
@@ -157,20 +165,27 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="basicPublishingCredentialsPolicies.scm.allow"
           dirty={
             values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
-            initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow
+              initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow ||
+            values.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+              initialValues.basicPublishingCredentialsPolicies?.properties.ftp.allow
           }
           component={RadioButton}
           label={t('basicAuthPublishingCred')}
           infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
           id="app-settings-basic-authentication-publishing-creds"
           disabled={disableAllControls}
+          value={
+            values.basicPublishingCredentialsPolicies?.properties.scm.allow &&
+            values.basicPublishingCredentialsPolicies?.properties.ftp.allow
+          }
+          onChange={onBasicAuthenticationCredentialsChange}
           options={[
             {
-              key: 1,
+              key: true,
               text: t('on'),
             },
             {
-              key: 0,
+              key: false,
               text: t('off'),
             },
           ]}

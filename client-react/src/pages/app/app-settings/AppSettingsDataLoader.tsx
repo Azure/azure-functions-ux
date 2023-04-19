@@ -244,7 +244,17 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           azureStorageMounts: !!azureStorageMounts && azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
           basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
             ? basicPublishingCredentialsPolicies.data
-            : null,
+            : {
+                ...site.data,
+                properties: {
+                  scm: {
+                    allow: false,
+                  },
+                  ftp: {
+                    allow: false,
+                  },
+                },
+              },
           appPermissions: appPermissions,
           errorPages: errorPagesResponse?.metadata.success ? errorPagesResponse.data : null,
         }),
