@@ -131,7 +131,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           <DefaultDocumentsPivot {...props} />
         </PivotItem>
       ) : (
-        <></>
+        <PivotItem></PivotItem>
       )}
 
       {enablePathMappings || enableAzureStorageMount ? (
