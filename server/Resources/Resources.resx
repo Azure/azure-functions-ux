@@ -7029,6 +7029,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="developmentEnvironment" xml:space="preserve">
         <value>Development environment</value>
     </data>
+    <data name="programmingModel" xml:space="preserve">
+        <value>Programming Model</value>
+    </data>
+    <data name="v1ProgrammingModel" xml:space="preserve">
+        <value>v1 Programming Model</value>
+    </data>
+    <data name="v2ProgrammingModel" xml:space="preserve">
+        <value>v2 Programming Model</value>
+    </data>
     <data name="selectTemplate" xml:space="preserve">
         <value>Select a template</value>
     </data>
