@@ -553,8 +553,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
 
     const siteResult = await updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit);
-    const slotConfigNamesResult =
-      (await productionPermissions) && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null);
+    const slotConfigNamesResult = await (productionPermissions && slotConfigNamesModified
+      ? updateSlotConfigNames(resourceId, slotConfigNames)
+      : Promise.resolve(null));
 
     const { status: basicAuthCredentialsStatus, error: basicAuthCredentialsError } = await updateBasicPublishingAuthCredentials(values);
     const [scmBasicPublishingCredentialsSuccess, ftpBasicPublishingCredentialsSuccess] = basicAuthCredentialsStatus;
