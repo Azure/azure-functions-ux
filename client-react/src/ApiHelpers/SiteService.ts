@@ -3,7 +3,7 @@ import { AvailableStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
 import LogService from '../utils/LogService';
 import { ArmObj, ArmArray } from '../models/arm-obj';
-import { Site, PublishingCredentialPolicies } from '../models/site/site';
+import { Site, PublishingCredentialPolicies, CredentialPolicy } from '../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ErrorPage } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
@@ -354,10 +354,16 @@ export default class SiteService {
     type: 'scm' | 'ftp'
   ) => {
     const id = `${resourceId}/basicPublishingCredentialsPolicies/${type}`;
-    return MakeArmCall<ArmObj<PublishingCredentialPolicies>>({
-      method: 'GET',
+    const content = {
+      ...newBasicPublishingCredentials,
+      properties: {
+        allow: type === 'scm' ? newBasicPublishingCredentials.properties.scm.allow : newBasicPublishingCredentials.properties.ftp.allow,
+      },
+    };
+    return MakeArmCall<ArmObj<CredentialPolicy>>({
+      method: 'PUT',
       resourceId: id,
-      body: newBasicPublishingCredentials,
+      body: content,
       commandName: 'putScmBasicPublishingCredentialsPolicies',
     });
   };

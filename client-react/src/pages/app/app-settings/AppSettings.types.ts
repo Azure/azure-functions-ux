@@ -45,7 +45,7 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   errorPages: FormErrorPage[];
   currentlySelectedStack: string;
-  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies>;
+  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
   references?: KeyVaultReferences;
 }
 
