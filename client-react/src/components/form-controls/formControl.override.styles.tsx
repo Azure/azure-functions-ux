@@ -7,8 +7,8 @@ import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Text
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 const FORM_DEFAULT_WIDTH = '275px';
-const FULL_PAGE_WIDTH = '220px';
-const NOT_FULL_PAGE_WIDTH = '200px';
+const FULL_PAGE_WIDTH = '265px';
+const NOT_FULL_PAGE_WIDTH = '245px';
 
 export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
   const baseStyle = DropDownStyles({ ...styleProps, widthOverride });
