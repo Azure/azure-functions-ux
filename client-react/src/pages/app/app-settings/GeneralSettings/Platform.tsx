@@ -120,6 +120,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             onChange={() => {
               /** @note (joechung): Ignore selection change since there is only a single option. */
             }}
+            dirty={
+              values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+              initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow
+            }
             infoBubbleMessage={t('ftpDisabledByPolicy')}
             learnMoreLink={Links.ftpDisabledByPolicyLink}
             label={t('ftpState')}
@@ -136,7 +140,11 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         ) : (
           <Field
             name="config.properties.ftpsState"
-            dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
+            dirty={
+              values.config.properties.ftpsState !== initialValues.config.properties.ftpsState ||
+              values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow
+            }
             component={Dropdown}
             infoBubbleMessage={t('ftpsInfoMessage')}
             learnMoreLink={Links.ftpInfo}

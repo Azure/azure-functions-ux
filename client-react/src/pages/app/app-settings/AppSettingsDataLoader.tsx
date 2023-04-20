@@ -471,7 +471,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
             resourceId,
             values.basicPublishingCredentialsPolicies,
-            'scm'
+            'ftp'
           );
 
           if (basicAuthCredentialsResponse.metadata.success) {
