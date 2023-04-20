@@ -1595,16 +1595,16 @@
         <value>When this setting is enabled, front end will forward HTTP 2.0 traffic to the worker enabling scenarios like GRPC.</value>
     </data>
     <data name="minTlsVersionLabel" xml:space="preserve">
-        <value>Minimum TLS Version</value>
+        <value>Minimum Inbound TLS Version</value>
     </data>
     <data name="minTlsVersionInfoBubbleMessage" xml:space="preserve">
-        <value>Select the minimum TLS encryption version required by your app.</value>
+        <value>Select the minimum TLS encryption version required by clients connecting to your app.</value>
     </data>
     <data name="minTlsCipherSuiteLabel" xml:space="preserve">
-        <value>Minimum TLS Cipher Suite (Preview)</value>
+        <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
     </data>
     <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
-        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites.</value>
+        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.π</value>
     </data>
     <data name="minTlsCipherSuiteSelectionInfo" xml:space="preserve">
         <value>Based on your chosen minimum, the TLS cipher suites below will be enabled or disabled accordingly as shown.</value>
