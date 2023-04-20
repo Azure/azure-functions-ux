@@ -2300,6 +2300,8 @@ export class PortalResources {
   public static selectTemplate = 'selectTemplate';
   public static selectTemplateDescription = 'selectTemplateDescription';
   public static description = 'description';
+  public static viewTemplate = 'viewTemplate';
+  public static viewTemplateFormat = 'viewTemplateFormat';
   public static templateDetails = 'templateDetails';
   public static detailDescription = 'detailDescription';
   public static developInPortal = 'developInPortal';
