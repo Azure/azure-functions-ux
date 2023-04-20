@@ -555,11 +555,14 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       updateCustomErrorPages(values),
     ]);
 
-    const { status: basicAuthCredentialsStatus, error: basicAuthCredentialsError } = basicAuthCredentialsResult;
-    const [scmBasicPublishingCredentialsSuccess, ftpBasicPublishingCredentialsSuccess] = basicAuthCredentialsStatus;
-
-    const { status: customErrorPageStatus, error: customErrorPageError } = customErrorPageResult;
-    const [errorPageUpdateSuccess, errorPageDeleteSuccess] = customErrorPageStatus;
+    const {
+      status: [scmBasicPublishingCredentialsSuccess, ftpBasicPublishingCredentialsSuccess],
+      error: [scmBasicPublishingCredentialsError, ftpBasicPublishingCredentialsError],
+    } = basicAuthCredentialsResult;
+    const {
+      status: [errorPageUpdateSuccess, errorPageDeleteSuccess],
+      error: [errorPageUpdateError, errorPageDeleteError],
+    } = customErrorPageResult;
 
     const success =
       siteResult!.metadata.success &&
@@ -596,9 +599,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const [scmBasicPublishingCredentialsError, ftpBasicPublishingCredentialsError] = basicAuthCredentialsError;
-      const [errorPageUpdateError, errorPageDeleteError] = customErrorPageError;
-
       const [
         siteError,
         slotConfigError,
