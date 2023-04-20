@@ -439,6 +439,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       let ftpBasicPublishingCredentialsSuccess = true;
 
       if (values.basicPublishingCredentialsPolicies) {
+        // NOTE(krmitta): Update scm only if the value has changed from before
         if (
           initialValues?.basicPublishingCredentialsPolicies?.properties.scm?.allow !==
           values.basicPublishingCredentialsPolicies?.properties.scm?.allow
@@ -466,6 +467,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           }
         }
 
+        // NOTE(krmitta): Update ftp only if the value has changed from before
         if (
           initialValues?.basicPublishingCredentialsPolicies?.properties.ftp?.allow !==
           values.basicPublishingCredentialsPolicies?.properties.ftp?.allow
