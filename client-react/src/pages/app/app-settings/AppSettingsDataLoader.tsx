@@ -458,6 +458,76 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     const errorPageUpdateSuccess = !updatedErrorPagesPromiseResolved.some(promiseResponse => !promiseResponse.metadata.success);
     const errorPageDeleteSuccess = !deleteErrorPagesPromiseResolved.some(promiseResponse => !promiseResponse.metadata.success);
 
+    let scmBasicPublishingCredentialsSuccess = true;
+    if (
+      initialValues?.basicPublishingCredentialsPolicies?.properties.scm.allow !==
+      values.basicPublishingCredentialsPolicies?.properties.scm.allow
+    ) {
+      const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
+        resourceId,
+        {
+          ...values.basicPublishingCredentialsPolicies,
+          properties: {
+            scm: {
+              allow: !!values.basicPublishingCredentialsPolicies.properties.scm?.allow,
+            },
+          },
+        },
+        'scm'
+      );
+
+      if (basicAuthCredentialsResponse.metadata.success) {
+        scmBasicPublishingCredentialsSuccess = true;
+      } else {
+        scmBasicPublishingCredentialsSuccess = false;
+        portalContext.log({
+          action: 'putScmBasicAuthCredentials',
+          actionModifier: 'failed',
+          resourceId: resourceId,
+          logLevel: 'error',
+          data: {
+            error: basicAuthCredentialsResponse.metadata.error,
+            message: 'Failed to update basic auth credentials',
+          },
+        });
+      }
+    }
+
+    let ftpBasicPublishingCredentialsSuccess = true;
+    if (
+      initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+      values.basicPublishingCredentialsPolicies?.properties.ftp.allow
+    ) {
+      const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
+        resourceId,
+        {
+          ...values.basicPublishingCredentialsPolicies,
+          properties: {
+            ftp: {
+              allow: !!values.basicPublishingCredentialsPolicies.properties.ftp?.allow,
+            },
+          },
+        },
+        'scm'
+      );
+
+      if (basicAuthCredentialsResponse.metadata.success) {
+        ftpBasicPublishingCredentialsSuccess = true;
+      } else {
+        ftpBasicPublishingCredentialsSuccess = false;
+        portalContext.log({
+          action: 'putFtpBasicAuthCredentials',
+          actionModifier: 'failed',
+          resourceId: resourceId,
+          logLevel: 'error',
+          data: {
+            error: basicAuthCredentialsResponse.metadata.error,
+            message: 'Failed to update basic auth credentials',
+          },
+        });
+      }
+    }
+
     const [siteUpdate, slotConfigNamesUpdate] = [
       updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
@@ -469,7 +539,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       siteResult!.metadata.success &&
       (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) &&
       errorPageDeleteSuccess &&
-      errorPageUpdateSuccess;
+      errorPageUpdateSuccess &&
+      ftpBasicPublishingCredentialsSuccess &&
+      scmBasicPublishingCredentialsSuccess;
     if (success) {
       setInitialValues({
         ...values,

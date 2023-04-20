@@ -348,6 +348,20 @@ export default class SiteService {
     });
   };
 
+  public static putBasicAuthCredentials = async (
+    resourceId: string,
+    newBasicPublishingCredentials: ArmObj<PublishingCredentialPolicies>,
+    type: 'scm' | 'ftp'
+  ) => {
+    const id = `${resourceId}/basicPublishingCredentialsPolicies/${type}`;
+    return MakeArmCall<ArmObj<PublishingCredentialPolicies>>({
+      method: 'GET',
+      resourceId: id,
+      body: newBasicPublishingCredentials,
+      commandName: 'putScmBasicPublishingCredentialsPolicies',
+    });
+  };
+
   public static AddOrUpdateCustomErrorPageForSite = (
     resourceId: string,
     errorCode: string,

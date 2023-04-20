@@ -167,6 +167,6 @@ export interface CredentialPolicy {
 }
 
 export interface PublishingCredentialPolicies {
-  ftp: CredentialPolicy;
-  scm: CredentialPolicy;
+  ftp?: CredentialPolicy;
+  scm?: CredentialPolicy;
 }
