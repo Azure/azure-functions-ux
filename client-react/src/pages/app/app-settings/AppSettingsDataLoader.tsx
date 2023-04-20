@@ -430,7 +430,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     async (values: AppSettingsFormValues) => {
       let scmBasicPublishingCredentialsSuccess = true;
       let ftpBasicPublishingCredentialsSuccess = true;
-      let scmBasicPublishingCredentialsError;
+      let scmBasicPublishingCredentialsError: any;
       let ftpBasicPublishingCredentialsError;
 
       if (values.basicPublishingCredentialsPolicies) {
@@ -445,9 +445,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
             'scm'
           );
 
-          if (basicAuthCredentialsResponse.metadata.success) {
-            scmBasicPublishingCredentialsSuccess = true;
-          } else {
+          if (!basicAuthCredentialsResponse.metadata.success) {
             scmBasicPublishingCredentialsSuccess = false;
             scmBasicPublishingCredentialsError = basicAuthCredentialsResponse.metadata.error;
             portalContext.log({
@@ -475,8 +473,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           );
 
           if (basicAuthCredentialsResponse.metadata.success) {
-            ftpBasicPublishingCredentialsSuccess = true;
-          } else {
             ftpBasicPublishingCredentialsSuccess = false;
             ftpBasicPublishingCredentialsError = basicAuthCredentialsResponse.metadata.error;
             portalContext.log({
@@ -552,15 +548,17 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       configSettingToIgnore = configSettingToIgnore.filter(config => config !== 'azureStorageAccounts');
     }
 
-    const siteResult = await updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit);
-    const slotConfigNamesResult = await (productionPermissions && slotConfigNamesModified
-      ? updateSlotConfigNames(resourceId, slotConfigNames)
-      : Promise.resolve(null));
+    const [siteResult, slotConfigNamesResult, basicAuthCredentialsResult, customErrorPageResult] = await Promise.all([
+      updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit),
+      productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
+      updateBasicPublishingAuthCredentials(values),
+      updateCustomErrorPages(values),
+    ]);
 
-    const { status: basicAuthCredentialsStatus, error: basicAuthCredentialsError } = await updateBasicPublishingAuthCredentials(values);
+    const { status: basicAuthCredentialsStatus, error: basicAuthCredentialsError } = basicAuthCredentialsResult;
     const [scmBasicPublishingCredentialsSuccess, ftpBasicPublishingCredentialsSuccess] = basicAuthCredentialsStatus;
 
-    const { status: customErrorPageStatus, error: customErrorPageError } = await updateCustomErrorPages(values);
+    const { status: customErrorPageStatus, error: customErrorPageError } = customErrorPageResult;
     const [errorPageUpdateSuccess, errorPageDeleteSuccess] = customErrorPageStatus;
 
     const success =

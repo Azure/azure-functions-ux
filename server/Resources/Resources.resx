@@ -1595,7 +1595,7 @@
         <value>When this setting is enabled, front end will forward HTTP 2.0 traffic to the worker enabling scenarios like GRPC.</value>
     </data>
     <data name="basicAuthPublishingCredInfoBubbleMessage" xml:space="preserve">
-        <value>Disable Kudu and publishing access using Basic Authentication Publishing Credentials.</value>
+        <value>Disable basic authentication for FTP and SCM access.</value>
     </data>
     <data name="minTlsVersionLabel" xml:space="preserve">
         <value>Minimum TLS Version</value>
@@ -3816,7 +3816,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>HTTP 2.0 Proxy</value>
     </data>
     <data name="basicAuthPublishingCred" xml:space="preserve">
-        <value>Basic Authentication Publishing Credentials</value>
+        <value>Basic Auth</value>
     </data>
     <data name="dismiss" xml:space="preserve">
         <value>Dismiss</value>
