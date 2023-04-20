@@ -47,8 +47,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const onBasicAuthenticationCredentialsChange = React.useCallback(
     (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
-      props.setFieldValue('basicPublishingCredentialsPolicies.scm.allow', option.key);
-      props.setFieldValue('basicPublishingCredentialsPolicies.ftp.allow', option.key);
+      props.setFieldValue('basicPublishingCredentialsPolicies.properties.scm.allow', option.key);
+      props.setFieldValue('basicPublishingCredentialsPolicies.properties.ftp.allow', option.key);
     },
     [props.setFieldValue]
   );
@@ -175,8 +175,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
             id="app-settings-basic-authentication-publishing-creds"
             disabled={disableAllControls}
-            value={
-              values.basicPublishingCredentialsPolicies?.properties.scm.allow &&
+            selectedKey={
+              values.basicPublishingCredentialsPolicies?.properties.scm.allow ||
               values.basicPublishingCredentialsPolicies?.properties.ftp.allow
             }
             onChange={onBasicAuthenticationCredentialsChange}
