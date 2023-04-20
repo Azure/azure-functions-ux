@@ -121,8 +121,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               /** @note (joechung): Ignore selection change since there is only a single option. */
             }}
             dirty={
+              // @note (krmitta): Dirty state is only calculated, if ftpsState is not Disabled
               values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-              initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow
+                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
+              initialValues.config.properties.ftpsState !== 'Disabled'
             }
             infoBubbleMessage={t('ftpDisabledByPolicy')}
             learnMoreLink={Links.ftpDisabledByPolicyLink}
@@ -141,9 +143,11 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           <Field
             name="config.properties.ftpsState"
             dirty={
+              // @note (krmitta): BasicPublishingCredentialsPolicies check if made only if ftpsState is not Disabled
               values.config.properties.ftpsState !== initialValues.config.properties.ftpsState ||
-              values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow
+              (values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
+                initialValues.config.properties.ftpsState !== 'Disabled')
             }
             component={Dropdown}
             infoBubbleMessage={t('ftpsInfoMessage')}
