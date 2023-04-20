@@ -103,7 +103,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           <FunctionRuntimeSettingsPivot {...props} />
         </PivotItem>
       ) : (
-        <></>
+        <PivotItem></PivotItem>
       )}
 
       {showGeneralSettings ? (
@@ -117,7 +117,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           <GeneralSettings {...props} />
         </PivotItem>
       ) : (
-        <></>
+        <PivotItem></PivotItem>
       )}
 
       {enableDefaultDocuments ? (
@@ -145,7 +145,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
         </PivotItem>
       ) : (
-        <></>
+        <PivotItem></PivotItem>
       )}
 
       {enableCustomErrorPages ? (
@@ -159,7 +159,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           <ErrorPagePivot {...props} />
         </PivotItem>
       ) : (
-        <></>
+        <PivotItem></PivotItem>
       )}
     </Pivot>
   );
