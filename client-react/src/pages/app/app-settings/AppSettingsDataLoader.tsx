@@ -472,7 +472,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
             'ftp'
           );
 
-          if (basicAuthCredentialsResponse.metadata.success) {
+          if (!basicAuthCredentialsResponse.metadata.success) {
             ftpBasicPublishingCredentialsSuccess = false;
             ftpBasicPublishingCredentialsError = basicAuthCredentialsResponse.metadata.error;
             portalContext.log({
