@@ -364,7 +364,7 @@ export default class SiteService {
       method: 'PUT',
       resourceId: id,
       body: content,
-      commandName: 'putScmBasicPublishingCredentialsPolicies',
+      commandName: `put${type}BasicPublishingCredentialsPolicies`,
     });
   };
 
