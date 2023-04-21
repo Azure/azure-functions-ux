@@ -51,8 +51,11 @@ export function useTemplateListColumns(hostStatus?: ArmObj<HostStatus>, useNewPr
           return (
             <IconButton
               ariaLabel={t('viewTemplateFormat').format(getTemplateDisplayName(item))}
-              href={'https://aka.ms/todo' /** @todo (joechung) */}
               iconProps={iconProps}
+              onClick={() => {
+                /** @todo Do not show the "View Template" column until we get design feedback for this feature. */
+                console.log('View Template clicked');
+              }}
               styles={iconButtonStyles}
               target="_blank"
             />
@@ -90,7 +93,6 @@ export function useTemplateListColumns(hostStatus?: ArmObj<HostStatus>, useNewPr
             {
               key: 'view-template',
               name: t('viewTemplate'),
-              fieldName: 'view-template' /** @todo (joechung) */,
               minWidth: 100,
               onRender,
             },
