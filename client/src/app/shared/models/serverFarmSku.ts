@@ -11,6 +11,8 @@ export class Tier {
   public static readonly elasticPremium = 'ElasticPremium';
   public static readonly elasticIsolated = 'ElasticIsolated';
   public static readonly premiumV3 = 'PremiumV3';
+  public static readonly premiumMV3 = 'PremiumMV3';
+  public static readonly premium0V3 = 'Premium0V3';
   public static readonly isolatedV2 = 'IsolatedV2';
   public static readonly workflowStandard = 'WorkflowStandard';
 }

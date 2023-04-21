@@ -1,4 +1,4 @@
-import { Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
+import { Dropdown, Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
 import { Formik, FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -38,6 +38,7 @@ import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateC
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
 import TemplateList from './portal-create/TemplateList';
 import { useCreateFunction } from './useCreateFunction';
+import { useProgrammingModel } from './useProgrammingModel';
 
 registerIcons({
   icons: {
@@ -50,6 +51,8 @@ registerIcons({
 export interface FunctionCreateDataLoaderProps {
   resourceId: string;
 }
+
+const enableNewProgrammingModel = Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel);
 
 const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ resourceId }: FunctionCreateDataLoaderProps) => {
   const siteStateContext = useContext(SiteStateContext);
@@ -65,6 +68,15 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus>>();
   const [creatingFunction, setCreatingFunction] = useState(false);
   const [armResources, setArmResources] = useState<IArmResourceTemplate[]>([]);
+
+  const {
+    onProgrammingModelChange,
+    onProgrammingModelRenderLabel,
+    programmingModel,
+    programmingModelDisabled,
+    programmingModelDropdownStyles,
+    programmingModelOptions,
+  } = useProgrammingModel();
 
   const { appSettings } = useAppSettingsQuery(resourceId);
 
@@ -246,6 +258,19 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
             selectedKey={selectedDropdownKey}
             disabled={creatingFunction}
           />
+          {enableNewProgrammingModel && (
+            <Dropdown
+              id="function-create-programming-model"
+              aria-labelledby="programming-model-label"
+              disabled={programmingModelDisabled}
+              onChange={onProgrammingModelChange}
+              onRenderLabel={onProgrammingModelRenderLabel}
+              options={programmingModelOptions}
+              responsiveMode={ResponsiveMode.large}
+              selectedKey={programmingModel}
+              styles={programmingModelDropdownStyles}
+            />
+          )}
         </div>
         {selectedDropdownKey === DevelopmentExperience.developInPortal ? (
           <Formik<CreateFunctionFormValues | undefined>
