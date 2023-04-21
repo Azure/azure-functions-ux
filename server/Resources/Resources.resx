@@ -3816,7 +3816,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>HTTP 2.0 Proxy</value>
     </data>
     <data name="basicAuthPublishingCred" xml:space="preserve">
-        <value>Basic Auth</value>
+        <value>Basic Authentication</value>
     </data>
     <data name="dismiss" xml:space="preserve">
         <value>Dismiss</value>
