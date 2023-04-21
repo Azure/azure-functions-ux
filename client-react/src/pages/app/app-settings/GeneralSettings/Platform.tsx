@@ -45,6 +45,14 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     );
   };
 
+  const onBasicAuthenticationCredentialsChange = React.useCallback(
+    (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
+      props.setFieldValue('basicPublishingCredentialsPolicies.properties.scm.allow', option.key);
+      props.setFieldValue('basicPublishingCredentialsPolicies.properties.ftp.allow', option.key);
+    },
+    [props.setFieldValue]
+  );
+
   const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
     // Set HTTP 2.0 Proxy to 'Off' if http 2.0 is not enabled.
     if (!option.key) {
@@ -109,7 +117,15 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
         (disableFtp() ? (
           <DropdownNoFormik
-            onChange={() => {}}
+            onChange={() => {
+              /** @note (joechung): Ignore selection change since there is only a single option. */
+            }}
+            dirty={
+              // @note (krmitta): Dirty state is only calculated, if ftpsState is not Disabled
+              values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
+              initialValues.config.properties.ftpsState !== 'Disabled'
+            }
             infoBubbleMessage={t('ftpDisabledByPolicy')}
             learnMoreLink={Links.ftpDisabledByPolicyLink}
             label={t('ftpState')}
@@ -126,7 +142,13 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         ) : (
           <Field
             name="config.properties.ftpsState"
-            dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
+            dirty={
+              // @note (krmitta): BasicPublishingCredentialsPolicies check if made only if ftpsState is not Disabled
+              values.config.properties.ftpsState !== initialValues.config.properties.ftpsState ||
+              (values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
+                initialValues.config.properties.ftpsState !== 'Disabled')
+            }
             component={Dropdown}
             infoBubbleMessage={t('ftpsInfoMessage')}
             learnMoreLink={Links.ftpInfo}
@@ -149,6 +171,40 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ]}
           />
         ))}
+
+      {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
+        values.basicPublishingCredentialsPolicies && (
+          <Field
+            name="basicPublishingCredentialsPolicies.scm.allow"
+            dirty={
+              values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
+                initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow ||
+              values.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+                initialValues.basicPublishingCredentialsPolicies?.properties.ftp.allow
+            }
+            component={RadioButton}
+            label={t('basicAuthPublishingCred')}
+            infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
+            id="app-settings-basic-authentication-publishing-creds"
+            disabled={disableAllControls}
+            selectedKey={
+              values.basicPublishingCredentialsPolicies?.properties.scm.allow ||
+              values.basicPublishingCredentialsPolicies?.properties.ftp.allow
+            }
+            onChange={onBasicAuthenticationCredentialsChange}
+            options={[
+              {
+                key: true,
+                text: t('on'),
+              },
+              {
+                key: false,
+                text: t('off'),
+              },
+            ]}
+          />
+        )}
+
       {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
         <>
           <Field
