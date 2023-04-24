@@ -7970,5 +7970,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="ibizafication_readOnlyDotnetIsolated" xml:space="preserve">
         <value>Editing .NET Isolated Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>    
+    <data name="consoleContainerTextAreaAriaLabel" xml:space="preserve">
+        <value>Console text area container</value>
     </data>
 </root>
