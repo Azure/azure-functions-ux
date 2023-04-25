@@ -34,7 +34,6 @@ export function useFunctionsQuery(resourceId: string) {
             getTelemetryInfo('error', 'getFunctions', 'failed', {
               error: response.metadata.error,
               message: 'Failed to fetch functions',
-
             })
           );
         }
