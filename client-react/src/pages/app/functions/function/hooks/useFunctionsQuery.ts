@@ -33,7 +33,8 @@ export function useFunctionsQuery(resourceId: string) {
           portalContext.log(
             getTelemetryInfo('error', 'getFunctions', 'failed', {
               error: response.metadata.error,
-              message: 'Failed to fetch site-config',
+              message: 'Failed to fetch functions',
+
             })
           );
         }
