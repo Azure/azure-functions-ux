@@ -27,5 +27,6 @@ import 'core-js/es7/reflect';
 import './polyfills/string';
 
 if (typeof console == 'undefined') {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   (console as any) = { log: function() {}, error: function() {}, warn: function() {}, debug: function() {} };
 }

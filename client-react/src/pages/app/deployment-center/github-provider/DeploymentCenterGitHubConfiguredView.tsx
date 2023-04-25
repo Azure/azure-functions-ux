@@ -119,7 +119,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
   };
 
   const authorizeGitHubAccount = () => {
-    authorizeWithProvider(GitHubService.authorizeUrl, () => {}, completingAuthCallBack);
+    authorizeWithProvider(GitHubService.authorizeUrl, /* startingAuth */ undefined, completingAuthCallBack);
   };
 
   const completingAuthCallBack = (authorizationResult: AuthorizationResult) => {

@@ -59,8 +59,18 @@ export function isPremiumV3(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.premiumV3;
 }
 
+export function isPremium0V3(obj: ArmObj<Site>): boolean {
+  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.premium0V3;
+}
+
+export function isPremiumMV3(obj: ArmObj<Site>): boolean {
+  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.premiumMV3;
+}
+
 export function isPremium(obj: ArmObj<Site>): boolean {
-  return isPremiumV1(obj) || isPremiumV2(obj) || isPremiumV3(obj);
+  return isPremiumV1(obj) || isPremiumV2(obj) || isPremiumV3(obj) || isPremium0V3(obj) || isPremiumMV3(obj);
 }
 
 export function isXenonApp(obj: ArmObj<Site>): boolean {

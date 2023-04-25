@@ -35,7 +35,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = props => {
     }
   };
 
-  const onGetErrorMessage = (value: string) => {
+  const onGetErrorMessage = () => {
     if (!fileUploadSuccess) {
       return errorMsg;
     }

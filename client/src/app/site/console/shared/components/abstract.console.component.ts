@@ -20,6 +20,7 @@ import { PromptComponent } from './prompt.component';
 import { Headers } from '@angular/http';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { Subject } from 'rxjs/Subject';
+import { PortalResources } from 'app/shared/models/portal-resources';
 
 export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   public resourceId: string;
@@ -33,7 +34,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   protected site: ArmObj<Site>;
   protected siteSubscription: Subscription;
   protected publishingCredSubscription: Subscription;
-
+  public Resources = PortalResources;
   /*** Variables for Tab-key ***/
   protected listOfDir: string[] = [];
   protected dirIndex = -1;
