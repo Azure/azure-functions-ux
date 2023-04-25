@@ -377,6 +377,30 @@ export class GithubController {
     }
   }
 
+  @Post('api/github/reRunWorkflow')
+  @HttpCode(200)
+  async rerunWorkflow(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('repo') repo: string,
+    @Body('runId') runId: string,
+    @Body('data') data: string
+  ) {
+    const url = `${this.githubApiUrl}/repos/${repo}/actions/runs/${runId}/rerun`;
+
+    try {
+      await this.httpService.post(url, data, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+    } catch (err) {
+      this.loggingService.error(`Failed to dispatch workflow file.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
   @Get('auth/github/authorize')
   async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
     let stateKey = '';
