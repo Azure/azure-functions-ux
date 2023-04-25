@@ -45,6 +45,7 @@ export interface TemplateListProps {
   selectedTemplate?: FunctionTemplate;
   setArmResources?: TSetArmResourceTemplates;
   templates?: FunctionTemplate[] | null;
+  useNewProgrammingModel?: boolean;
 }
 
 const TemplateList: React.FC<TemplateListProps> = ({
@@ -83,7 +84,8 @@ const TemplateList: React.FC<TemplateListProps> = ({
     [setSelectedTemplate]
   );
 
-  const columns = useTemplateListColumns(hostStatus);
+  /** @todo Do not show the "View Template" column until we get design feedback for this feature. */
+  const columns = useTemplateListColumns(hostStatus, /* useNewProgrammingModel */ false);
 
   const items = useMemo(() => {
     return (

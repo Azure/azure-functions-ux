@@ -52,8 +52,6 @@ export interface FunctionCreateDataLoaderProps {
   resourceId: string;
 }
 
-const enableNewProgrammingModel = Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel);
-
 const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ resourceId }: FunctionCreateDataLoaderProps) => {
   const siteStateContext = useContext(SiteStateContext);
   const site = useMemo(() => siteStateContext.site, [siteStateContext]);
@@ -76,7 +74,8 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
     programmingModelDisabled,
     programmingModelDropdownStyles,
     programmingModelOptions,
-  } = useProgrammingModel();
+    programmingModelVisible,
+  } = useProgrammingModel(resourceId);
 
   const { appSettings } = useAppSettingsQuery(resourceId);
 
@@ -258,7 +257,7 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
             selectedKey={selectedDropdownKey}
             disabled={creatingFunction}
           />
-          {enableNewProgrammingModel && (
+          {programmingModelVisible && (
             <Dropdown
               id="function-create-programming-model"
               aria-labelledby="programming-model-label"
@@ -294,6 +293,7 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
                     setHostStatus={setHostStatus}
                     armResources={armResources}
                     setArmResources={setArmResources}
+                    useNewProgrammingModel={programmingModel === 2}
                   />
                 </div>
                 <ActionBar

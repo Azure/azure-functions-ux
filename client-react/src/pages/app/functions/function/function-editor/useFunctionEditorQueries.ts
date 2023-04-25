@@ -20,19 +20,17 @@ import FunctionEditorData from './FunctionEditor.data';
 export type Status = 'idle' | 'loading' | 'success' | 'error' | 'unauthorized';
 
 export const isNewProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
-  const properties = functionInfo?.properties;
-  const configLanguage = properties?.config.language;
-
-  return (
-    properties?.config_href === null &&
-    (configLanguage === WorkerRuntimeLanguages.python || configLanguage === WorkerRuntimeLanguages.nodejs)
-  );
+  return isNewNodeProgrammingModel(functionInfo) || isNewPythonProgrammingModel(functionInfo);
 };
 
 export const isNewNodeProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   const properties = functionInfo?.properties;
-
   return properties?.config_href === null && properties?.config.language === WorkerRuntimeLanguages.nodejs;
+};
+
+export const isNewPythonProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
+  const properties = functionInfo?.properties;
+  return properties?.config_href === null && properties?.config.language === WorkerRuntimeLanguages.python;
 };
 
 // Currently, Node is the only new programming model which supports storing files in any folders.
