@@ -7,6 +7,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
   const python38EOL = getDateString(new Date(2024, 9, 31), useIsoDateFormat);
   const python39EOL = getDateString(new Date(2025, 9, 31), useIsoDateFormat);
   const python310EOL = getDateString(new Date(2026, 9, 31), useIsoDateFormat);
+  const python311EOL = getDateString(new Date(2027, 9, 31), useIsoDateFormat);
 
   return {
     displayText: 'Python',
