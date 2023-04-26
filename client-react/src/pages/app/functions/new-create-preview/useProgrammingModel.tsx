@@ -40,17 +40,20 @@ const programmingModelLinkStyles: ILinkStyles = {
 
 const enableNewProgrammingModel = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel);
 
+const supportedVersions = ['3.7', '3.8', '3.9', '3.10', '3.11'];
+
 export function useProgrammingModel(resourceId: string) {
   const { t } = useTranslation();
 
   const { functions, programmingModel: selectedProgrammingModel } = useFunctionsQuery(resourceId);
   const { isPythonLanguage, pythonVersion } = useSiteConfigQuery(resourceId);
 
-  /** @todo Check what versions of Python support the v2 programming model. */
-  const isSupported = isPythonLanguage === undefined ? undefined : isPythonLanguage && pythonVersion === '3.10';
+  const isSupportedPythonVersion = pythonVersion === undefined ? undefined : supportedVersions.includes(pythonVersion);
+
+  const isSupported =
+    isPythonLanguage === undefined || isSupportedPythonVersion === undefined ? undefined : isPythonLanguage && isSupportedPythonVersion;
 
   const [programmingModelDisabled, setProgrammingModelDisabled] = useState(false);
-
   const [programmingModel, setProgrammingModel] = useState<number | string | null>(null);
 
   const onProgrammingModelChange = useCallback<NonNullable<IDropdownProps['onChange']>>((_, option?) => {
