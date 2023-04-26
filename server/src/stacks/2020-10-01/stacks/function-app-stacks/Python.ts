@@ -18,6 +18,35 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         value: '3',
         minorVersions: [
           {
+            displayText: 'Python 3.11',
+            value: '3.11',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'Python|3.11',
+                remoteDebuggingSupported: false,
+                isPreview: true,
+                isDefault: false,
+                isHidden: true,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '3.11',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'python',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'Python|3.11',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: python311EOL,
+              },
+            },
+          },
+          {
             displayText: 'Python 3.10',
             value: '3.10',
             stackSettings: {
