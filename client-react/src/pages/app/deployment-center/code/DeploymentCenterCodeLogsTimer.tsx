@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { refreshButtonStyle } from '../DeploymentCenter.styles';
+import { logsButtonStyle } from '../DeploymentCenter.styles';
 
 const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps> = props => {
   const refreshMilliseconds = 30000;
@@ -42,18 +42,32 @@ const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps
   }, []);
 
   return (
-    <CustomCommandBarButton
-      key={'refresh'}
-      name={t('refresh')}
-      iconProps={{ iconName: 'Refresh' }}
-      ariaLabel={t('deploymentCenterRefreshCommandAriaLabel')}
-      onClick={() => {
-        portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
-        props.refreshLogs();
-      }}
-      className={refreshButtonStyle}>
-      {t('refresh')}
-    </CustomCommandBarButton>
+    <>
+      <CustomCommandBarButton
+        key={'refresh'}
+        name={t('refresh')}
+        iconProps={{ iconName: 'Refresh' }}
+        ariaLabel={t('deploymentCenterRefreshCommandAriaLabel')}
+        onClick={() => {
+          portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
+          props.refreshLogs();
+        }}
+        className={logsButtonStyle}>
+        {t('refresh')}
+      </CustomCommandBarButton>
+      <CustomCommandBarButton
+        key={'delete'}
+        name={t('delete')}
+        iconProps={{ iconName: 'Delete' }}
+        ariaLabel={t('deploymentCenterDeleteCommandAriaLabel')}
+        onClick={() => {
+          portalContext.log(getTelemetryInfo('verbose', 'deleteButton', 'clicked'));
+          props.deleteLogs();
+        }}
+        className={logsButtonStyle}>
+        {t('delete')}
+      </CustomCommandBarButton>
+    </>
   );
 };
 

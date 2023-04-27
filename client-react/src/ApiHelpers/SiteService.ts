@@ -140,6 +140,15 @@ export default class SiteService {
     });
   };
 
+  public static deleteSiteDeployment = async (resourceId: string, force?: boolean) => {
+    return MakeArmCall<ArmArray<DeploymentProperties>>({
+      resourceId,
+      commandName: 'deleteDeployment',
+      method: 'DELETE',
+      skipBatching: force,
+    });
+  };
+
   public static redeployCommit = async (resourceId: string, commitId: string) => {
     return MakeArmCall<ArmArray<DeploymentLogsItem>>({
       resourceId: `${resourceId}/deployments/${commitId}`,

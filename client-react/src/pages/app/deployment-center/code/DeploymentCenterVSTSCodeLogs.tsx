@@ -10,7 +10,7 @@ import {
   KuduLogMessage,
   UrlInfo,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, IGroup, Icon } from '@fluentui/react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, IGroup, Icon, SelectionMode } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
   deploymentCenterLogsError,
@@ -38,6 +38,7 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 
 const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
+  // const [isDeleteConfirmDialogOpen, setIsDeleteConfirmDialogOpen] = React.useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
@@ -209,6 +210,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
   const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): CodeDeploymentsRow => {
     return {
       index: index,
+      id: deployment.properties.id,
       rawTime: moment(deployment.properties.received_time),
       // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
@@ -259,6 +261,8 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     }
   };
 
+  const deleteLogs = async () => {};
+
   const rows: CodeDeploymentsRow[] = useMemo(
     () => (deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : []),
     [deployments]
@@ -296,7 +300,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
 
   return (
     <>
-      <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
+      <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} deleteLogs={deleteLogs} />
 
       {isLogsDataRefreshing ? (
         getProgressIndicator()
@@ -304,7 +308,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
         <div className={deploymentCenterCodeLogsBox}>
-          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={SelectionMode.multiple} groups={groups} />
           {items.length === 0 && getZeroDayContent()}
         </div>
       ) : (

@@ -79,6 +79,10 @@ export default class DeploymentCenterData {
     return SiteService.getLogDetails(deploymentId, logId);
   };
 
+  public deleteSiteDeployment = (resourceId: string) => {
+    return SiteService.deleteSiteDeployment(resourceId);
+  };
+
   public redeployCommit = (resourceId: string, commitId: string) => {
     return SiteService.redeployCommit(resourceId, commitId);
   };

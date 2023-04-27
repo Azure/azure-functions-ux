@@ -399,6 +399,7 @@ export interface DeploymentCenterCodeLogsProps {
 
 export interface DeploymentCenterCodeLogsTimerProps {
   refreshLogs: () => void;
+  deleteLogs: () => void;
 }
 
 export interface DeploymentCenterCommitLogsProps {
@@ -524,6 +525,7 @@ export interface DeploymentProperties {
   site_name: string;
   end_time?: string;
   last_success_end_time?: string;
+  commitMessage?: string;
 }
 
 export interface KuduLogMessage {
@@ -583,6 +585,7 @@ export interface DateTimeObj {
 
 export interface CodeDeploymentsRow {
   index: number;
+  id: string;
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;

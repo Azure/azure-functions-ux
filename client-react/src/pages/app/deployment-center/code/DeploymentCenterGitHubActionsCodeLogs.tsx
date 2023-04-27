@@ -9,7 +9,7 @@ import {
   GitHubActionRunConclusion,
   GitHubActionsRun,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, Icon, IGroup } from '@fluentui/react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, Icon, IGroup, SelectionMode } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured, deploymentCenterCodeLogsBox } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -32,6 +32,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const { t } = useTranslation();
 
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
+  // const [isDeleteConfirmDialogOpen, setIsDeleteConfirmDialogOpen] = React.useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const [isLogsLoading, setIsLogsLoading] = useState<boolean>(false);
   const [isSourceControlsLoading, setIsSourcecontrolsLoading] = useState<boolean>(true);
@@ -326,6 +327,8 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     return `${deploymentsError} ${gitHubActionLogsErrorMessage}`;
   };
 
+  const deleteLogs = async () => {};
+
   const gitHubActionsRows: GitHubActionsCodeDeploymentsRow[] = runs ? runs.map((run, index) => getGitHubActionsRunRow(run, index)) : [];
   const zipDeployRows: GitHubActionsCodeDeploymentsRow[] = deployments
     ? deployments.value.map((deployment, index) => getZipDeployRow(deployment, index))
@@ -361,7 +364,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
 
   return (
     <>
-      <DeploymentCenterCodeLogsTimer refreshLogs={refreshGitHubActionsLogs} />
+      <DeploymentCenterCodeLogsTimer refreshLogs={refreshGitHubActionsLogs} deleteLogs={deleteLogs} />
 
       {isLogsDataRefreshing || isLogsLoading ? (
         getProgressIndicator()
@@ -369,7 +372,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         <div className={deploymentCenterLogsError}>{getDeploymentErrorMessage()}</div>
       ) : deployments || runs ? (
         <div className={deploymentCenterCodeLogsBox}>
-          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={SelectionMode.multiple} groups={groups} />
           {items.length === 0 && getZeroDayContent()}
         </div>
       ) : (

@@ -33,7 +33,7 @@ export const defaultCellStyle = style({
   height: '15px',
 });
 type Props = DisplayTableWithEmptyMessageProps & IDetailsListProps;
-const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
+const DisplayTableWithEmptyMessage: React.FC<Props> = props => {
   const theme = useContext(ThemeContext);
   const { emptyMessage, shimmer, columns, ...rest } = props;
 
