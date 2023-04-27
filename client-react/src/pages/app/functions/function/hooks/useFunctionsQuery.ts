@@ -1,15 +1,26 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import { PortalContext } from '../../../../../PortalContext';
+import { ArmArray } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import { useHttpResponseObjectQuery } from '../../../../../utils/useHttpResponseObjectQuery';
 import { isNewPythonProgrammingModel } from '../function-editor/useFunctionEditorQueries';
-import { ArmObj } from '../../../../../models/arm-obj';
 
 export function useFunctionsQuery(resourceId: string) {
-  const portalContext = useContext(PortalContext);
+  const promise = useMemo(() => FunctionsService.getFunctions(resourceId), [resourceId]);
 
-  const [functions, setFunctions] = useState<ArmObj<FunctionInfo>[]>();
+  const onSuccess = useCallback((response: ArmArray<FunctionInfo>) => response.value, []);
+
+  const onError = useCallback(
+    error =>
+      getTelemetryInfo('error', 'getFunctions', 'failed', {
+        error,
+        message: 'Failed to fetch functions',
+      }),
+    []
+  );
+
+  const { data: functions } = useHttpResponseObjectQuery(promise, onSuccess, onError);
 
   /** @note Currently Python only. Change `isNewPythonProgrammingModel` when the v2 programming model becomes GA for other runtimes, e.g., Node.js. */
   const programmingModel = useMemo(() => {
@@ -21,29 +32,6 @@ export function useFunctionsQuery(resourceId: string) {
       return functions.some(isNewPythonProgrammingModel) ? 2 : 1;
     }
   }, [functions]);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    FunctionsService.getFunctions(resourceId).then(response => {
-      if (isMounted) {
-        if (response.metadata.success) {
-          setFunctions(response.data.value);
-        } else {
-          portalContext.log(
-            getTelemetryInfo('error', 'getFunctions', 'failed', {
-              error: response.metadata.error,
-              message: 'Failed to fetch functions',
-            })
-          );
-        }
-      }
-    });
-
-    return () => {
-      isMounted = false;
-    };
-  }, [portalContext, resourceId]);
 
   return {
     functions,
