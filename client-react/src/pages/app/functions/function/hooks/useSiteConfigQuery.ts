@@ -13,13 +13,9 @@ export function useSiteConfigQuery(resourceId: string) {
 
   const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig>>();
 
-  const [language, version] = useMemo(() => siteConfig?.properties.linuxFxVersion?.split('|') ?? [], [
-    siteConfig?.properties.linuxFxVersion,
-  ]);
+  const [language] = useMemo(() => siteConfig?.properties.linuxFxVersion?.split('|') ?? [], [siteConfig?.properties.linuxFxVersion]);
 
   const isPythonLanguage = useMemo(() => (!siteConfig ? undefined : /^python$/i.test(language)), [language, siteConfig]);
-
-  const pythonVersion = isPythonLanguage ? version : undefined;
 
   useEffect(() => {
     let isMounted = true;
@@ -46,7 +42,6 @@ export function useSiteConfigQuery(resourceId: string) {
 
   return {
     isPythonLanguage,
-    pythonVersion,
     siteConfig,
   };
 }

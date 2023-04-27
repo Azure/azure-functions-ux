@@ -40,18 +40,14 @@ const programmingModelLinkStyles: ILinkStyles = {
 
 const enableNewProgrammingModel = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel);
 
-const supportedVersions = ['3.7', '3.8', '3.9', '3.10', '3.11'];
-
 export function useProgrammingModel(resourceId: string) {
   const { t } = useTranslation();
 
   const { functions, programmingModel: selectedProgrammingModel } = useFunctionsQuery(resourceId);
-  const { isPythonLanguage, pythonVersion } = useSiteConfigQuery(resourceId);
+  const { isPythonLanguage } = useSiteConfigQuery(resourceId);
 
-  const isSupportedPythonVersion = pythonVersion === undefined ? undefined : supportedVersions.includes(pythonVersion);
-
-  const isSupported =
-    isPythonLanguage === undefined || isSupportedPythonVersion === undefined ? undefined : isPythonLanguage && isSupportedPythonVersion;
+  /** @todo Add more checks when they go GA, e.g., Node.js, .NET. */
+  const isSupported = isPythonLanguage;
 
   const [programmingModelDisabled, setProgrammingModelDisabled] = useState(false);
   const [programmingModel, setProgrammingModel] = useState<number | string | null>(null);
