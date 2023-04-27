@@ -44,13 +44,12 @@ export function useProgrammingModel(resourceId: string) {
   const { t } = useTranslation();
 
   const { functions, programmingModel: selectedProgrammingModel } = useFunctionsQuery(resourceId);
-  const { isPythonLanguage, pythonVersion } = useSiteConfigQuery(resourceId);
+  const { isPythonLanguage } = useSiteConfigQuery(resourceId);
 
-  /** @todo Check what versions of Python support the v2 programming model. */
-  const isSupported = isPythonLanguage === undefined ? undefined : isPythonLanguage && pythonVersion === '3.10';
+  /** @todo Add more checks when they go GA, e.g., Node.js, .NET. */
+  const isSupported = isPythonLanguage;
 
   const [programmingModelDisabled, setProgrammingModelDisabled] = useState(false);
-
   const [programmingModel, setProgrammingModel] = useState<number | string | null>(null);
 
   const onProgrammingModelChange = useCallback<NonNullable<IDropdownProps['onChange']>>((_, option?) => {

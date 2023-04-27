@@ -84,8 +84,7 @@ const TemplateList: React.FC<TemplateListProps> = ({
     [setSelectedTemplate]
   );
 
-  /** @todo Do not show the "View Template" column until we get design feedback for this feature. */
-  const columns = useTemplateListColumns(hostStatus, /* useNewProgrammingModel */ false);
+  const columns = useTemplateListColumns(hostStatus);
 
   const items = useMemo(() => {
     return (
