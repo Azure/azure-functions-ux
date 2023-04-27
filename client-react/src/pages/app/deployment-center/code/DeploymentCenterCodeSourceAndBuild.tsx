@@ -24,6 +24,7 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import { PortalContext } from '../../../../PortalContext';
 import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -34,8 +35,10 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
   const [isCalloutVisible, setIsCalloutVisible] = useState(false);
   const [showInfoBanner, setShowInfoBanner] = useState(true);
+  const [showBasicAuthError, setShowBasicAuthError] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
 
@@ -219,9 +222,40 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     );
   };
 
+  const openConfigurationBlade = async () => {
+    const result = await portalContext.openBlade({
+      detailBlade: 'SiteConfigSettingsFrameBladeReact',
+      extension: 'WebsitesExtension',
+      detailBladeInputs: {
+        id: deploymentCenterContext.resourceId,
+      },
+    });
+
+    if (result) {
+      deploymentCenterContext.refresh();
+    }
+  };
+
+  useEffect(() => {
+    const isGitHubActionsOrKuduBuild =
+      selectedBuild === BuildProvider.GitHubAction || selectedBuild === BuildProvider.AppServiceBuildService;
+    setShowBasicAuthError(isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow);
+  }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
+
   return (
     <>
-      {getInProductionSlot() && showInfoBanner && (
+      {showBasicAuthError && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner
+            id="deployment-center-scm-basic-auth-warning"
+            message={t('deploymentCenterScmBasicAuthErrorMessage')}
+            type={MessageBarType.error}
+            onClick={openConfigurationBlade}
+          />
+        </div>
+      )}
+
+      {getInProductionSlot() && showInfoBanner && !showBasicAuthError && (
         <div className={deploymentCenterInfoBannerDiv}>
           <CustomBanner
             id="deployment-center-prod-slot-warning"

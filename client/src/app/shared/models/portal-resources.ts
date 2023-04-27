@@ -2610,4 +2610,6 @@ export class PortalResources {
   public static connectionStringInfoMessage = 'connectionStringInfoMessage';
   public static ibizafication_readOnlyDotnetIsolated = 'ibizafication_readOnlyDotnetIsolated';
   public static consoleContainerTextAreaAriaLabel = 'consoleContainerTextAreaAriaLabel';
+  public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
+  public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
 }

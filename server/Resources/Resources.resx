@@ -7974,4 +7974,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="consoleContainerTextAreaAriaLabel" xml:space="preserve">
         <value>Console text area container</value>
     </data>
+    <data name="deploymentCenterScmBasicAuthErrorMessage" xml:space="preserve">
+        <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.</value>
+    </data>
+    <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
+        <value>Basic authentication is disabled for your app.</value>
+    </data>
 </root>
