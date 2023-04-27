@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOption, Link, MessageBarType } from '@fluentui/react';
 import { Field } from 'formik';
@@ -25,8 +25,6 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
-
-  const [showBasicAuthError, setShowBasicAuthError] = useState(false);
 
   const options: IChoiceGroupOption[] = [
     {
@@ -64,11 +62,9 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
     }
   };
 
-  useEffect(() => {
+  const showBasicAuthError = useMemo(() => {
     const isGitHubActionsOrContainerOnly = formProps.values.scmType === ScmType.GitHubAction || formProps.values.scmType === ScmType.None;
-    setShowBasicAuthError(
-      isGitHubActionsOrContainerOnly && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow
-    );
+    return isGitHubActionsOrContainerOnly && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
   }, [formProps.values.scmType, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
 
   return (

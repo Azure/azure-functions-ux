@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from '@fluentui/react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
@@ -35,7 +35,6 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
   const [isCalloutVisible, setIsCalloutVisible] = useState(false);
   const [showInfoBanner, setShowInfoBanner] = useState(true);
-  const [showBasicAuthError, setShowBasicAuthError] = useState(false);
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
@@ -236,10 +235,10 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     }
   };
 
-  useEffect(() => {
+  const showBasicAuthError = useMemo(() => {
     const isGitHubActionsOrKuduBuild =
       selectedBuild === BuildProvider.GitHubAction || selectedBuild === BuildProvider.AppServiceBuildService;
-    setShowBasicAuthError(isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow);
+    return isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
   }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
 
   return (
