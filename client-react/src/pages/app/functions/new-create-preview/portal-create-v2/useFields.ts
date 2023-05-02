@@ -1,5 +1,5 @@
 import { IDropdownOption } from '@fluentui/react';
-import { useEffect, useMemo } from 'react';
+import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../components/form-controls/ReactiveFormControl';
