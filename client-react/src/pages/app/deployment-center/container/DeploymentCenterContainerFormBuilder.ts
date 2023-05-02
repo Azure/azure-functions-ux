@@ -60,7 +60,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       scmType: Yup.mixed()
         .required(this._t('deploymentCenterFieldRequiredMessage'))
         .test('basicAuthEnabledForGitHubActionsAndContainerOnly', this._t('deploymentCenterScmBasicAuthValidationError'), function(value) {
-          return value === ScmType.GitHubAction || value === ScmType.None ? scmAllowed : true;
+          return value === ScmType.GitHubAction ? scmAllowed : true;
         }),
       option: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),
       registrySource: Yup.mixed().required(this._t('deploymentCenterFieldRequiredMessage')),

@@ -63,7 +63,7 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
   };
 
   const showBasicAuthError = useMemo(() => {
-    const isGitHubActionsOrContainerOnly = formProps.values.scmType === ScmType.GitHubAction || formProps.values.scmType === ScmType.None;
+    const isGitHubActionsOrContainerOnly = formProps.values.scmType === ScmType.GitHubAction;
     return isGitHubActionsOrContainerOnly && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
   }, [formProps.values.scmType, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
 
