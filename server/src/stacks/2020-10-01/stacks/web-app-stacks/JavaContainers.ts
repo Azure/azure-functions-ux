@@ -27,6 +27,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Java SE 17.0.3',
+          value: '17.0.3',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
+              java17Runtime: 'JAVA|17.0.3',
+            },
+          },
+        },
+        {
           displayText: 'Java SE 17.0.2',
           value: '17.0.2',
           stackSettings: {
@@ -43,6 +53,16 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
               java17Runtime: 'JAVA|17.0.1',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 11.0.15',
+          value: '11.0.15',
+          stackSettings: {
+            linuxContainerSettings: {
+              // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
+              java11Runtime: 'JAVA|11.0.15',
             },
           },
         },
@@ -234,14 +254,24 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Red Hat JBoss EAP 7.4.5',
+          value: '7.4.5',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.4.5-java8',
+              java11Runtime: 'JBOSSEAP|7.4.5-java11',
+            },
+          },
+        },
+        {
           displayText: 'Red Hat JBoss EAP 7.4.2',
           value: '7.4.2',
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.4.2-java8',
-              java11Runtime: 'JBOSSEAP|7.4.2-java11'
-            }
-          }
+              java11Runtime: 'JBOSSEAP|7.4.2-java11',
+            },
+          },
         },
         {
           displayText: 'Red Hat JBoss EAP 7.4.1',
@@ -249,9 +279,9 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.4.1-java8',
-              java11Runtime: 'JBOSSEAP|7.4.1-java11'
-            }
-          }
+              java11Runtime: 'JBOSSEAP|7.4.1-java11',
+            },
+          },
         },
         {
           displayText: 'Red Hat JBoss EAP 7.4.0',
@@ -259,9 +289,19 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.4.0-java8',
-              java11Runtime: 'JBOSSEAP|7.4.0-java11'
-            }
-          }
+              java11Runtime: 'JBOSSEAP|7.4.0-java11',
+            },
+          },
+        },
+        {
+          displayText: 'Red Hat JBoss EAP 7.3.10',
+          value: '7.3.10',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.3.10-java8',
+              java11Runtime: 'JBOSSEAP|7.3.10-java11',
+            },
+          },
         },
         {
           displayText: 'Red Hat JBoss EAP 7.3.9',
@@ -269,9 +309,9 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.3.9-java8',
-              java11Runtime: 'JBOSSEAP|7.3.9-java11'
-            }
-          }
+              java11Runtime: 'JBOSSEAP|7.3.9-java11',
+            },
+          },
         },
         {
           displayText: 'Red Hat JBoss EAP 7.3',
@@ -281,9 +321,9 @@ export const javaContainersStack: WebAppStack = {
               java8Runtime: 'JBOSSEAP|7.3-java8',
               java11Runtime: 'JBOSSEAP|7.3-java11',
               isAutoUpdate: true,
-              isHidden: true  // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
-            }
-          }
+              isHidden: true, // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
+            },
+          },
         },
         {
           displayText: 'Red Hat JBoss EAP 7.4',
@@ -293,9 +333,9 @@ export const javaContainersStack: WebAppStack = {
               java8Runtime: 'JBOSSEAP|7.4-java8',
               java11Runtime: 'JBOSSEAP|7.4-java11',
               isAutoUpdate: true,
-              isHidden: true  // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
-            }
-          }
+              isHidden: true, // note (jafreebe) March 2022: Only have 1 auto-update lane at the major version (7.x.x)
+            },
+          },
         },
         {
           displayText: 'JBoss EAP 7.2',
@@ -303,7 +343,7 @@ export const javaContainersStack: WebAppStack = {
           stackSettings: {
             linuxContainerSettings: {
               java8Runtime: 'JBOSSEAP|7.2-java8',
-              isDeprecated: true
+              isDeprecated: true,
             },
           },
         },
@@ -331,6 +371,21 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Apache Tomcat 10.0.21',
+          value: '10.0.21',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '10.0.21',
+            },
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|10.0.21-java8',
+              java11Runtime: 'TOMCAT|10.0.21-java11',
+              java17Runtime: 'TOMCAT|10.0.21-java17',
+            },
+          },
+        },
+        {
           displayText: 'Apache Tomcat 10.0.20',
           value: '10.0.20',
           stackSettings: {
@@ -341,7 +396,7 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               java8Runtime: 'TOMCAT|10.0.20-java8',
               java11Runtime: 'TOMCAT|10.0.20-java11',
-              java17Runtime: 'TOMCAT|10.0.20-java17'
+              java17Runtime: 'TOMCAT|10.0.20-java17',
             },
           },
         },
@@ -356,11 +411,11 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               java8Runtime: 'TOMCAT|10.0.12-java8',
               java11Runtime: 'TOMCAT|10.0.12-java11',
-              java17Runtime: 'TOMCAT|10.0.12-java17'
+              java17Runtime: 'TOMCAT|10.0.12-java17',
             },
           },
         },
-      ]
+      ],
     },
     {
       displayText: 'Apache Tomcat 9.0',
@@ -384,6 +439,21 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Apache Tomcat 9.0.63',
+          value: '9.0.63',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '9.0.63',
+            },
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|9.0.63-java8',
+              java11Runtime: 'TOMCAT|9.0.63-java11',
+              java17Runtime: 'TOMCAT|9.0.63-java17',
+            },
+          },
+        },
+        {
           displayText: 'Apache Tomcat 9.0.62',
           value: '9.0.62',
           stackSettings: {
@@ -394,7 +464,7 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               java8Runtime: 'TOMCAT|9.0.62-java8',
               java11Runtime: 'TOMCAT|9.0.62-java11',
-              java17Runtime: 'TOMCAT|9.0.62-java17'
+              java17Runtime: 'TOMCAT|9.0.62-java17',
             },
           },
         },
@@ -409,7 +479,7 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               java8Runtime: 'TOMCAT|9.0.54-java8',
               java11Runtime: 'TOMCAT|9.0.54-java11',
-              java17Runtime: 'TOMCAT|9.0.54-java17'
+              java17Runtime: 'TOMCAT|9.0.54-java17',
             },
           },
         },
@@ -584,6 +654,20 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|8.5-java11',
               java8Runtime: 'TOMCAT|8.5-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 8.5.79',
+          value: '8.5.79',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|8.5.79-java8',
+              java11Runtime: 'TOMCAT|8.5.79-java11',
+            },
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '8.5.79',
             },
           },
         },

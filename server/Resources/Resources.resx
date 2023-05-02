@@ -1594,6 +1594,9 @@
     <data name="https20ProxyInfoBubbleMessage" xml:space="preserve">
         <value>When this setting is enabled, front end will forward HTTP 2.0 traffic to the worker enabling scenarios like GRPC.</value>
     </data>
+    <data name="basicAuthPublishingCredInfoBubbleMessage" xml:space="preserve">
+        <value>Disable basic authentication for FTP and SCM access.</value>
+    </data>
     <data name="minTlsVersionLabel" xml:space="preserve">
         <value>Minimum TLS Version</value>
     </data>
@@ -3811,6 +3814,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="http20Proxy" xml:space="preserve">
         <value>HTTP 2.0 Proxy</value>
+    </data>
+    <data name="basicAuthPublishingCred" xml:space="preserve">
+        <value>Basic Authentication</value>
     </data>
     <data name="dismiss" xml:space="preserve">
         <value>Dismiss</value>
@@ -7029,6 +7035,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="developmentEnvironment" xml:space="preserve">
         <value>Development environment</value>
     </data>
+    <data name="programmingModel" xml:space="preserve">
+        <value>Programming Model</value>
+    </data>
+    <data name="v1ProgrammingModel" xml:space="preserve">
+        <value>v1 Programming Model</value>
+    </data>
+    <data name="v2ProgrammingModel" xml:space="preserve">
+        <value>v2 Programming Model</value>
+    </data>
     <data name="selectTemplate" xml:space="preserve">
         <value>Select a template</value>
     </data>
@@ -7037,6 +7052,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="description" xml:space="preserve">
         <value>Description</value>
+    </data>
+    <data name="viewTemplate" xml:space="preserve">
+        <value>View Template</value>
+    </data>
+    <data name="viewTemplateFormat" xml:space="preserve">
+        <value>View template for '{0}'</value>
     </data>
     <data name="templateDetails" xml:space="preserve">
         <value>Template details</value>
@@ -7949,5 +7970,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="ibizafication_readOnlyDotnetIsolated" xml:space="preserve">
         <value>Editing .NET Isolated Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>    
+    <data name="consoleContainerTextAreaAriaLabel" xml:space="preserve">
+        <value>Console text area container</value>
+    </data>
+    <data name="deploymentCenterScmBasicAuthErrorMessage" xml:space="preserve">
+        <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.</value>
+    </data>
+    <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
+        <value>Basic authentication is disabled for your app.</value>
     </data>
 </root>

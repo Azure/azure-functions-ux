@@ -9,6 +9,7 @@ export const Links = {
   runtimeScaleMonitoringLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2104710',
   remoteDebuggingLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2116583',
   readOnlyPythonAppLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2074230',
+  readOnlyPythonAppV2LearnMore: 'https://go.microsoft.com/fwlink/?linkid=2234387',
   readOnlyVSGeneratedFunctionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=856288',
   staticSiteEnvironmentVariablesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2128074',
   // TODO (krmitta): Update the learn more link with the correct fwlink
@@ -37,6 +38,7 @@ export const Links = {
   ftpDisabledByPolicyLink: 'https://go.microsoft.com/fwlink/?linkid=2137907',
   functionRuntimeV2UpgradeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141453',
   functionCreateSummaryLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141649',
+  functionCreateProgrammingModelLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2234160',
   functionCreateTemplateLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141650',
   functionCreateBindingsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2141857',
   functionV2MigrationLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2147591',

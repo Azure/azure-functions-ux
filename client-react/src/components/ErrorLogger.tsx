@@ -3,7 +3,7 @@ import React from 'react';
 import PortalCommunicator from '../portal-communicator';
 import { PortalContext } from '../PortalContext';
 
-export default class ErrorLogger extends React.Component<{}, {}> {
+export default class ErrorLogger extends React.Component<{ children?: React.ReactNode }> {
   public static contextType = PortalContext;
   public context!: PortalCommunicator;
 

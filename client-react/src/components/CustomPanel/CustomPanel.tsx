@@ -1,4 +1,4 @@
-import { IPanelProps, Overlay, Panel, PanelType } from '@fluentui/react';
+import { IPanelProps, IPanelStyles, Overlay, Panel, PanelType } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as CloseSvg } from '../../images/Common/close.svg';
@@ -8,7 +8,7 @@ import { closeButtonStyle, closeButtonSvgStyle, panelBodyStyle, panelHeaderStyle
 type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' | 'closeButtonAriaLabel' | 'onRenderNavigationContent'>>;
 
 interface CustomPanelProps {
-  customStyle?: {};
+  customStyle?: Partial<IPanelStyles>;
   headerContent?: JSX.Element;
   overlay?: boolean;
 }
