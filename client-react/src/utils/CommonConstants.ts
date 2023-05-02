@@ -120,6 +120,8 @@ export class CommonConstants {
     premium: 'premium',
     premiumV2: 'premiumv2',
     premiumV3: 'premiumv3',
+    premium0V3: 'premium0v3',
+    premiumMV3: 'premiummv3',
     premiumContainer: 'premiumcontainer',
     isolated: 'isolated',
     dynamic: 'dynamic',

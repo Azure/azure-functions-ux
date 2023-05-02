@@ -45,6 +45,7 @@ export interface TemplateListProps {
   selectedTemplate?: FunctionTemplate;
   setArmResources?: TSetArmResourceTemplates;
   templates?: FunctionTemplate[] | null;
+  useNewProgrammingModel?: boolean;
 }
 
 const TemplateList: React.FC<TemplateListProps> = ({

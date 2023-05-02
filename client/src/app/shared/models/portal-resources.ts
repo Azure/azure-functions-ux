@@ -494,6 +494,7 @@ export class PortalResources {
   public static httpsOnlyLabel = 'httpsOnlyLabel';
   public static httpsOnlyInfoBubbleMessage = 'httpsOnlyInfoBubbleMessage';
   public static https20ProxyInfoBubbleMessage = 'https20ProxyInfoBubbleMessage';
+  public static basicAuthPublishingCredInfoBubbleMessage = 'basicAuthPublishingCredInfoBubbleMessage';
   public static minTlsVersionLabel = 'minTlsVersionLabel';
   public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
   public static minTlsCipherSuiteLabel = 'minTlsCipherSuiteLabel';
@@ -1226,6 +1227,7 @@ export class PortalResources {
   public static resetCredentials = 'resetCredentials';
   public static httpVersion = 'httpVersion';
   public static http20Proxy = 'http20Proxy';
+  public static basicAuthPublishingCred = 'basicAuthPublishingCred';
   public static dismiss = 'dismiss';
   public static provider = 'provider';
   public static newAccount = 'newAccount';
@@ -2607,4 +2609,7 @@ export class PortalResources {
   public static resetUserScopeCredentialsConfirmationDescription = 'resetUserScopeCredentialsConfirmationDescription';
   public static connectionStringInfoMessage = 'connectionStringInfoMessage';
   public static ibizafication_readOnlyDotnetIsolated = 'ibizafication_readOnlyDotnetIsolated';
+  public static consoleContainerTextAreaAriaLabel = 'consoleContainerTextAreaAriaLabel';
+  public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
+  public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
 }

@@ -151,7 +151,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
         {isScmLocalGit && (
           <TextFieldNoFormik
             className={textboxStyle}
-            id="deployment-center-ftps-application-username"
+            id="deployment-center-ftps-application-git-username"
             label={t('deploymentCenterLocalGitUsernameLabel')}
             widthOverride="100%"
             value={gitUsername}

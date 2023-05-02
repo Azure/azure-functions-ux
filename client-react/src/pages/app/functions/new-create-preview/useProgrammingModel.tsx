@@ -1,7 +1,11 @@
-import { IDropdownStyles, ILinkStyles, Icon, Link } from '@fluentui/react';
-import { useCallback, useMemo, useState } from 'react';
+import { IDropdownOption, IDropdownProps, IDropdownStyles, ILinkStyles, IRenderFunction, Icon, Link } from '@fluentui/react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import { Links } from '../../../../utils/FwLinks';
+import Url from '../../../../utils/url';
+import { useFunctionsQuery } from '../function/hooks/useFunctionsQuery';
+import { useSiteConfigQuery } from '../function/hooks/useSiteConfigQuery';
 
 const programmingModelDropdownStyles: Partial<IDropdownStyles> = {
   dropdown: {
@@ -26,7 +30,7 @@ const programmingModelDropdownStyles: Partial<IDropdownStyles> = {
   },
 };
 
-const programmingModelLinkStles: ILinkStyles = {
+const programmingModelLinkStyles: ILinkStyles = {
   root: {
     flex: '0 0 192px',
     fontSize: '13px',
@@ -34,24 +38,33 @@ const programmingModelLinkStles: ILinkStyles = {
   },
 };
 
-export function useProgrammingModel(initialDisabled = false, initialSelectedKey: number | string | null = null) {
-  const { t } = useTranslation();
-  const [programmingModelDisabled] = useState(initialDisabled);
-  const [programmingModel, setProgrammingModel] = useState<number | string | null>(initialSelectedKey);
+const enableNewProgrammingModel = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel);
 
-  const onProgrammingModelChange = useCallback((_, option?) => {
+export function useProgrammingModel(resourceId: string) {
+  const { t } = useTranslation();
+
+  const { functions, programmingModel: selectedProgrammingModel } = useFunctionsQuery(resourceId);
+  const { isPythonLanguage } = useSiteConfigQuery(resourceId);
+
+  /** @todo Add more checks when they go GA, e.g., Node.js, .NET. */
+  const isSupported = isPythonLanguage;
+
+  const [programmingModelDisabled, setProgrammingModelDisabled] = useState(false);
+  const [programmingModel, setProgrammingModel] = useState<number | string | null>(null);
+
+  const onProgrammingModelChange = useCallback<NonNullable<IDropdownProps['onChange']>>((_, option?) => {
     if (option?.key) {
       setProgrammingModel(option.key);
     }
   }, []);
 
-  const onProgrammingModelRenderLabel = useCallback(
+  const onProgrammingModelRenderLabel = useCallback<IRenderFunction<IDropdownProps>>(
     () => (
       <Link
         id="programming-model-label"
         href={Links.functionCreateProgrammingModelLearnMore}
         target="_blank"
-        styles={programmingModelLinkStles}>
+        styles={programmingModelLinkStyles}>
         {`${t('programmingModel')} `}
         <Icon iconName="NavigateExternalInline" />
       </Link>
@@ -59,13 +72,26 @@ export function useProgrammingModel(initialDisabled = false, initialSelectedKey:
     [t]
   );
 
-  const programmingModelOptions = useMemo(
+  const programmingModelOptions = useMemo<IDropdownOption<unknown>[]>(
     () => [
       { key: 1, text: t('v1ProgrammingModel') },
       { key: 2, text: t('v2ProgrammingModel') },
     ],
     [t]
   );
+
+  const programmingModelVisible = enableNewProgrammingModel && isSupported;
+
+  /** @note Do not disable or initialize the dropdown until all APIs have completed. */
+  useEffect(() => {
+    if (selectedProgrammingModel !== undefined && functions !== undefined && isSupported !== undefined) {
+      /** @note Disable the dropdown if there is already a selected programming model. */
+      setProgrammingModelDisabled(selectedProgrammingModel !== null);
+
+      /** @note Initialize the dropdown to the selected programming model. Otherwise default to the new programming model is enabled and supported. Otherwise default to the old programming model. */
+      setProgrammingModel(selectedProgrammingModel ?? (enableNewProgrammingModel && isSupported ? 2 : 1));
+    }
+  }, [selectedProgrammingModel, functions, isSupported]);
 
   return {
     onProgrammingModelChange,
@@ -74,5 +100,6 @@ export function useProgrammingModel(initialDisabled = false, initialSelectedKey:
     programmingModelDisabled,
     programmingModelDropdownStyles,
     programmingModelOptions,
+    programmingModelVisible,
   };
 }
