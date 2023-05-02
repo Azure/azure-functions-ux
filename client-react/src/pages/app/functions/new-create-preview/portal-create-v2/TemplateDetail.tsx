@@ -1,4 +1,4 @@
-import { Link, Shimmer } from '@fluentui/react';
+import { Link } from '@fluentui/react';
 import { Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
