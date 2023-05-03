@@ -1,6 +1,6 @@
 import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
-import ActionBar, { StatusMessage } from '../../../../../components/ActionBar';
+import ActionBar from '../../../../../components/ActionBar';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { HostStatus } from '../../../../../models/functions/host-status';
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
@@ -9,21 +9,16 @@ import TemplateList from './TemplateList';
 import { useFormContainer } from './useFormContainer';
 
 interface FormContainerProps {
-  creatingFunction: boolean;
   resourceId: string;
-  createExperienceStatusMessage?: StatusMessage;
   hostStatus?: ArmObj<HostStatus>;
 }
 
-const FormContainer: React.FC<FormContainerProps> = ({
-  createExperienceStatusMessage,
-  creatingFunction,
-  hostStatus,
-  resourceId,
-}: FormContainerProps) => {
+const FormContainer: React.FC<FormContainerProps> = ({ hostStatus, resourceId }: FormContainerProps) => {
   const { t } = useTranslation();
 
-  const { initialValues, onCancel, onSubmit, onTemplateSelect } = useFormContainer(resourceId);
+  const { initialValues, isCreatingFunction, onCancel, onSubmit, onTemplateSelect, selectedTemplate, statusMessage } = useFormContainer(
+    resourceId
+  );
 
   return (
     <Formik<BindingEditorFormValues> enableReinitialize initialValues={initialValues} isInitialValid onSubmit={onSubmit}>
@@ -37,18 +32,18 @@ const FormContainer: React.FC<FormContainerProps> = ({
             fullPageHeight
             primaryButton={{
               id: 'add',
-              disable: creatingFunction,
+              disable: isCreatingFunction || !selectedTemplate,
               onClick: formProps.submitForm,
               title: t('create'),
             }}
             secondaryButton={{
               id: 'cancel',
-              disable: creatingFunction,
+              disable: isCreatingFunction,
               onClick: onCancel,
               title: t('cancel'),
             }}
-            statusMessage={createExperienceStatusMessage}
-            validating={creatingFunction}
+            statusMessage={statusMessage}
+            validating={isCreatingFunction}
             validationMessage={t('creatingFunction')}
           />
         </form>

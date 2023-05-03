@@ -273,12 +273,7 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
           )}
         </div>
         {selectedDropdownKey === DevelopmentExperience.developInPortal && programmingModel === 2 ? (
-          <FormContainer
-            createExperienceStatusMessage={createExperienceStatusMessage}
-            creatingFunction={creatingFunction}
-            hostStatus={hostStatus}
-            resourceId={resourceId}
-          />
+          <FormContainer hostStatus={hostStatus} resourceId={resourceId} />
         ) : selectedDropdownKey === DevelopmentExperience.developInPortal ? (
           <Formik<CreateFunctionFormValues | undefined>
             initialValues={initialFormValues}

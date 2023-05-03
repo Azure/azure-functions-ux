@@ -5778,7 +5778,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deleteBindingNotificationSuccess" xml:space="preserve">
         <value>Succeeded in deleting {0} ({1})</value>
     </data>
-    <data name="createFunctionNotication" xml:space="preserve">
+    <data name="createFunctionNotification" xml:space="preserve">
         <value>Creating function</value>
     </data>
     <data name="createFunctionNotificationDetails" xml:space="preserve">
@@ -7917,11 +7917,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerApp_console_cancel" xml:space="preserve">
         <value>Cancel</value>
     </data>
+    <data name="createFunction_fileContentError" xml:space="preserve">
+        <value>Cannot determine the template file content.</value>
+    </data>
+    <data name="createFunction_filePathError" xml:space="preserve">
+        <value>Cannot determine the template file path.</value>
+    </data>
+    <data name="createFunction_functionAppExistsError" xml:space="preserve">
+        <value>Cannot determine if a "function_app.py" file exists.</value>
+    </data>
+    <data name="createFunction_functionNameError" xml:space="preserve">
+        <value>Cannot determine the function name.</value>
+    </data>
     <data name="createFunction_noAppSettingsPermissionsError" xml:space="preserve">
         <value>You do not have sufficient permissions to update app settings.</value>
     </data>
     <data name="createFunction_noResourceIdError" xml:space="preserve">
         <value>No resource ID</value>
+    </data>
+    <data name="createFunction_selectedTemplateError" xml:space="preserve">
+        <value>Cannot determine the selected template.</value>
     </data>
     <data name="createFunctionDeploymentNotification" xml:space="preserve">
         <value>Deploying function resources</value>

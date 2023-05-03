@@ -275,6 +275,15 @@ export default class FunctionsService {
     });
   }
 
+  public static sync(resourceId: string) {
+    return MakeArmCall<void>({
+      commandName: 'syncTrigger',
+      method: 'POST',
+      resourceId: `${resourceId}/host/default/sync`,
+      skipBatching: true,
+    });
+  }
+
   private static _getVfsApiForRuntimeVersion(endpoint: string, runtimeVersion?: string) {
     switch (runtimeVersion) {
       case RuntimeExtensionMajorVersions.v1:
