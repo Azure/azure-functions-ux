@@ -7,8 +7,8 @@ import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Text
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 const FORM_DEFAULT_WIDTH = '275px';
-const FULL_PAGE_WIDTH = '265px';
-const NOT_FULL_PAGE_WIDTH = '245px';
+const FULL_PAGE_WIDTH = '220px';
+const NOT_FULL_PAGE_WIDTH = '200px';
 
 export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, widthOverride?: string) => styleProps => {
   const baseStyle = DropDownStyles({ ...styleProps, widthOverride });
@@ -106,10 +106,10 @@ export const formStackStyle = (upsellIcon: boolean, fullpage: boolean, horizonta
     paddingRight: '8px',
   });
 
-export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean, horizontal?: boolean) =>
+export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean, horizontal?: boolean, width?: string) =>
   style({
-    minWidth: upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH,
-    maxWidth: horizontal ? (upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH) : '',
+    minWidth: width ? width : upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH,
+    maxWidth: width ? width : horizontal ? (upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH) : '',
     paddingRight: '5px',
   });
 
