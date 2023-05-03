@@ -7110,6 +7110,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionInfoFetchError" xml:space="preserve">
         <value>Unable to fetch your function</value>
     </data>
+    <data name="functionInfoUnavailableError" xml:space="preserve">
+        <value>The function is unavailable for editing in the portal. Click to download app content and use a local development environment to fix the function.</value>
+    </data>
     <data name="createHostKeyNotification" xml:space="preserve">
         <value>Creating host key</value>
     </data>

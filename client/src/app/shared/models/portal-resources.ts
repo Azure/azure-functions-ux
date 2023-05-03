@@ -2321,6 +2321,7 @@ export class PortalResources {
   public static pricing_ACU_Pv3 = 'pricing_ACU_Pv3';
   public static pricing_vCores = 'pricing_vCores';
   public static functionInfoFetchError = 'functionInfoFetchError';
+  public static functionInfoUnavailableError = 'functionInfoUnavailableError';
   public static createHostKeyNotification = 'createHostKeyNotification';
   public static createSystemKeyNotification = 'createSystemKeyNotification';
   public static createFunctionKeyNotification = 'createFunctionKeyNotification';
