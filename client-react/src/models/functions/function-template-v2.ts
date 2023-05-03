@@ -30,7 +30,7 @@ interface Job {
   type: string;
 }
 
-interface JobInput {
+export interface JobInput {
   assignTo: string;
   conditions: unknown;
   defaultValue: string;
