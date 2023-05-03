@@ -1607,7 +1607,7 @@
         <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
     </data>
     <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
-        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.π</value>
+        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.</value>
     </data>
     <data name="minTlsCipherSuiteSelectionInfo" xml:space="preserve">
         <value>Based on your chosen minimum, the TLS cipher suites below will be enabled or disabled accordingly as shown.</value>
