@@ -196,12 +196,12 @@ export function useFields(
       };
     };
 
-    /** @todo (joechung): Change this later to enable inputs for creating functions in new or existing blueprints. */
+    /** @todo (joechung): AB#19990968, AB#19991047 */
     const inputs = functionAppExists
       ? getAppendToFileInputs(selectedTemplate)?.reduce(toInputs, {}) ?? {}
       : getCreateNewAppInputs(selectedTemplate)?.reduce(toInputs, {}) ?? {};
 
-    /** @todo (joechung): Change this later when the app filename (currently hard-coded to `function_app.py`) is configurable. */
+    /** @todo (joechung): AB#20749256 */
     const inputsWithoutFilenameInputs = Object.values(inputs).filter(
       ({ id }) => !/^app-fileName$/i.test(id) && !/^app-selectedFileName$/i.test(id)
     );

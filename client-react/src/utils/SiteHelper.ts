@@ -1,10 +1,10 @@
-import { ArmObj } from '../models/arm-obj';
 import { FunctionAppEditMode } from '../models/portal-models';
-import { SiteConfig } from '../models/site/config';
-import { Site } from '../models/site/site';
-import { Links } from './FwLinks';
-import { isPremiumV2 } from './arm-utils';
 import i18n from './i18n';
+import { ArmObj } from '../models/arm-obj';
+import { Site } from '../models/site/site';
+import { SiteConfig } from '../models/site/config';
+import { isPremiumV2 } from './arm-utils';
+import { Links } from './FwLinks';
 
 export default class SiteHelper {
   public static isFunctionAppReadOnly(editMode: FunctionAppEditMode): boolean {
@@ -26,8 +26,7 @@ export default class SiteHelper {
       editMode === FunctionAppEditMode.ReadOnlyDotnetIsolated ||
       editMode === FunctionAppEditMode.ReadOnlyArc ||
       editMode === FunctionAppEditMode.ReadOnlyAzureFiles ||
-      editMode === FunctionAppEditMode.ReadOnlyNewNodePreview ||
-      editMode === FunctionAppEditMode.ReadOnlyPythonV2
+      editMode === FunctionAppEditMode.ReadOnlyNewNodePreview
     );
   }
 
@@ -54,8 +53,7 @@ export default class SiteHelper {
       case FunctionAppEditMode.ReadOnlyBYOC: {
         return t('readOnlyBYOC');
       }
-      case FunctionAppEditMode.ReadOnlyPython:
-      case FunctionAppEditMode.ReadOnlyPythonV2: {
+      case FunctionAppEditMode.ReadOnlyPython: {
         return t('ibizafication_readOnlyPython');
       }
       case FunctionAppEditMode.ReadOnlyJava: {
@@ -93,9 +91,6 @@ export default class SiteHelper {
     switch (mode) {
       case FunctionAppEditMode.ReadOnlyPython: {
         return Links.readOnlyPythonAppLearnMore;
-      }
-      case FunctionAppEditMode.ReadOnlyPythonV2: {
-        return Links.readOnlyPythonAppV2LearnMore;
       }
       case FunctionAppEditMode.ReadOnlyVSGenerated: {
         return Links.readOnlyVSGeneratedFunctionLearnMore;

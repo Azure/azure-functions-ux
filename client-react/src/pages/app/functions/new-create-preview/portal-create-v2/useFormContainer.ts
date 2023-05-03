@@ -5,6 +5,7 @@ import { FunctionTemplateV2 } from '../../../../../models/functions/function-tem
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
 import { getAppendToFileInputs, getCreateNewAppInputs } from './Helpers';
 import { useFunctionAppFileDetector } from './useFunctionAppFileDetector';
+import { useFunctionCreator } from './useFunctionCreator';
 
 export function useFormContainer(resourceId: string) {
   const portalCommunicator = useContext(PortalContext);
@@ -12,6 +13,8 @@ export function useFormContainer(resourceId: string) {
   const functionAppExists = useFunctionAppFileDetector(resourceId);
 
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplateV2>();
+
+  const { createFunction, isCreatingFunction, statusMessage } = useFunctionCreator(resourceId, functionAppExists, selectedTemplate);
 
   const initialValues = useMemo(() => {
     if (functionAppExists === undefined || !selectedTemplate) {
@@ -25,16 +28,16 @@ export function useFormContainer(resourceId: string) {
       };
     };
 
-    /** @todo (joechung): Change this later to determine initial values when creating functions in new or existing blueprints. */
+    /** @todo (joechung): AB#19990968, AB#19991047 */
     const initialValues = functionAppExists
       ? getAppendToFileInputs(selectedTemplate)?.reduce(toInitialValues, {})
       : getCreateNewAppInputs(selectedTemplate)?.reduce(toInitialValues, {});
 
-    /** @todo (joechung): Consider changing this later when the app filename (currently hard-coded to `function_app.py`) is configurable. */
+    /** @todo (joechung): AB#20749256 */
     return {
       ...initialValues,
-      'app-fileName': 'function_app.py',
-      'app-selectedFileName': 'function_app.py',
+      ...(!functionAppExists ? { 'app-fileName': 'function_app.py' } : undefined),
+      ...(functionAppExists ? { 'app-selectedFileName': 'function_app.py' } : undefined),
     };
   }, [functionAppExists, selectedTemplate]);
 
@@ -42,10 +45,12 @@ export function useFormContainer(resourceId: string) {
     portalCommunicator.closeSelf();
   }, [portalCommunicator]);
 
-  const onSubmit = useCallback<FormikConfig<BindingEditorFormValues>['onSubmit']>(values => {
-    /** @todo #19996457 */
-    console.log('values', values);
-  }, []);
+  const onSubmit = useCallback<FormikConfig<BindingEditorFormValues>['onSubmit']>(
+    values => {
+      createFunction(values);
+    },
+    [createFunction]
+  );
 
   const onTemplateSelect = useCallback((template: FunctionTemplateV2) => {
     setSelectedTemplate(template);
@@ -53,8 +58,11 @@ export function useFormContainer(resourceId: string) {
 
   return {
     initialValues,
+    isCreatingFunction,
     onCancel,
     onSubmit,
     onTemplateSelect,
+    selectedTemplate,
+    statusMessage,
   };
 }
