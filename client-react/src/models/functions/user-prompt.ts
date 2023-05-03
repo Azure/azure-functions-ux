@@ -4,7 +4,7 @@ export interface UserPrompt {
   label: string | null;
   name: string;
   required: boolean;
-  validator: Validator[];
+  validators: Validator[];
   value: string | null;
   defaultValue?: unknown;
   enum?: Enum[];

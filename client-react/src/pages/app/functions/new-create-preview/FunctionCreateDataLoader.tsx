@@ -36,6 +36,7 @@ import {
 import { DevelopmentExperience } from './FunctionCreate.types';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
+import FormContainer from './portal-create-v2/FormContainer';
 import TemplateList from './portal-create/TemplateList';
 import { useCreateFunction } from './useCreateFunction';
 import { useProgrammingModel } from './useProgrammingModel';
@@ -271,7 +272,14 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
             />
           )}
         </div>
-        {selectedDropdownKey === DevelopmentExperience.developInPortal ? (
+        {selectedDropdownKey === DevelopmentExperience.developInPortal && programmingModel === 2 ? (
+          <FormContainer
+            createExperienceStatusMessage={createExperienceStatusMessage}
+            creatingFunction={creatingFunction}
+            hostStatus={hostStatus}
+            resourceId={resourceId}
+          />
+        ) : selectedDropdownKey === DevelopmentExperience.developInPortal ? (
           <Formik<CreateFunctionFormValues | undefined>
             initialValues={initialFormValues}
             enableReinitialize
@@ -293,7 +301,6 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
                     setHostStatus={setHostStatus}
                     armResources={armResources}
                     setArmResources={setArmResources}
-                    useNewProgrammingModel={programmingModel === 2}
                   />
                 </div>
                 <ActionBar
