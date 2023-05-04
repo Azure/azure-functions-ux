@@ -495,6 +495,7 @@ export class PortalResources {
   public static httpsOnlyInfoBubbleMessage = 'httpsOnlyInfoBubbleMessage';
   public static https20ProxyInfoBubbleMessage = 'https20ProxyInfoBubbleMessage';
   public static basicAuthPublishingCredInfoBubbleMessage = 'basicAuthPublishingCredInfoBubbleMessage';
+  public static httpCertWarningInfoBubbleMessage = 'httpCertWarningInfoBubbleMessage';
   public static minTlsVersionLabel = 'minTlsVersionLabel';
   public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
   public static minTlsCipherSuiteLabel = 'minTlsCipherSuiteLabel';
