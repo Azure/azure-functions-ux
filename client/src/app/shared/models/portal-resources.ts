@@ -1868,7 +1868,7 @@ export class PortalResources {
   public static deleteBindingNotificationDetails = 'deleteBindingNotificationDetails';
   public static deleteBindingNotificationFailed = 'deleteBindingNotificationFailed';
   public static deleteBindingNotificationSuccess = 'deleteBindingNotificationSuccess';
-  public static createFunctionNotication = 'createFunctionNotication';
+  public static createFunctionNotification = 'createFunctionNotification';
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
   public static createFunctionNotificationFailedDetails = 'createFunctionNotificationFailedDetails';
@@ -2321,6 +2321,7 @@ export class PortalResources {
   public static pricing_ACU_Pv3 = 'pricing_ACU_Pv3';
   public static pricing_vCores = 'pricing_vCores';
   public static functionInfoFetchError = 'functionInfoFetchError';
+  public static functionInfoUnavailableError = 'functionInfoUnavailableError';
   public static createHostKeyNotification = 'createHostKeyNotification';
   public static createSystemKeyNotification = 'createSystemKeyNotification';
   public static createFunctionKeyNotification = 'createFunctionKeyNotification';
@@ -2590,8 +2591,13 @@ export class PortalResources {
   public static cosmosDb_tooltip_partitionKeyPath = 'cosmosDb_tooltip_partitionKeyPath';
   public static containerApp_console_startUpCommandAriaLabel = 'containerApp_console_startUpCommandAriaLabel';
   public static containerApp_console_cancel = 'containerApp_console_cancel';
+  public static createFunction_fileContentError = 'createFunction_fileContentError';
+  public static createFunction_filePathError = 'createFunction_filePathError';
+  public static createFunction_functionAppExistsError = 'createFunction_functionAppExistsError';
+  public static createFunction_functionNameError = 'createFunction_functionNameError';
   public static createFunction_noAppSettingsPermissionsError = 'createFunction_noAppSettingsPermissionsError';
   public static createFunction_noResourceIdError = 'createFunction_noResourceIdError';
+  public static createFunction_selectedTemplateError = 'createFunction_selectedTemplateError';
   public static createFunctionDeploymentNotification = 'createFunctionDeploymentNotification';
   public static createFunctionDeploymentNotificationDetails = 'createFunctionDeploymentNotificationDetails';
   public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
