@@ -3,14 +3,15 @@ import { useCallback, useContext, useMemo, useState } from 'react';
 import { PortalContext } from '../../../../../PortalContext';
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
-import { getAppendToFileInputs, getCreateNewAppInputs } from './Helpers';
+import { getJobInputs } from './Helpers';
+import { JobType } from './JobType';
 import { useFunctionAppFileDetector } from './useFunctionAppFileDetector';
 import { useFunctionCreator } from './useFunctionCreator';
 
 export function useFormContainer(resourceId: string) {
   const portalCommunicator = useContext(PortalContext);
 
-  const functionAppExists = useFunctionAppFileDetector(resourceId);
+  const { functionAppExists } = useFunctionAppFileDetector(resourceId);
 
   const [selectedTemplate, setSelectedTemplate] = useState<FunctionTemplateV2>();
 
@@ -28,16 +29,20 @@ export function useFormContainer(resourceId: string) {
       };
     };
 
-    /** @todo (joechung): AB#19990968, AB#19991047 */
-    const initialValues = functionAppExists
-      ? getAppendToFileInputs(selectedTemplate)?.reduce(toInitialValues, {})
-      : getCreateNewAppInputs(selectedTemplate)?.reduce(toInitialValues, {});
+    // Combine and dedupe app job and blueprint job initial values.
+    const initialValues = {
+      ...(functionAppExists
+        ? getJobInputs(selectedTemplate, JobType.CreateNewApp)?.reduce(toInitialValues, {})
+        : getJobInputs(selectedTemplate, JobType.AppendToFile)?.reduce(toInitialValues, {})),
+      ...getJobInputs(selectedTemplate, JobType.CreateNewBlueprint)?.reduce(toInitialValues, {}),
+      ...getJobInputs(selectedTemplate, JobType.AppendToBlueprint)?.reduce(toInitialValues, {}),
+    };
 
     /** @todo (joechung): AB#20749256 */
     return {
       ...initialValues,
-      ...(!functionAppExists ? { 'app-fileName': 'function_app.py' } : undefined),
-      ...(functionAppExists ? { 'app-selectedFileName': 'function_app.py' } : undefined),
+      jobType: functionAppExists ? 'AppendToFile' : 'CreateNewApp',
+      ...(functionAppExists ? { 'app-selectedFileName': 'function_app.py' } : { 'app-fileName': 'function_app.py' }),
     };
   }, [functionAppExists, selectedTemplate]);
 

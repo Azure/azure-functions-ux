@@ -1,8 +1,11 @@
 import { Link } from '@fluentui/react';
 import { Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import Dropdown from '../../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../../components/form-controls/ReactiveFormControl';
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
 import { Links } from '../../../../../utils/FwLinks';
+import { horizontalLabelStyle } from '../../common/BindingFormBuilder.styles';
 import { detailContainerStyle } from '../FunctionCreate.styles';
 import { useTemplateDetail } from './useTemplateDetail';
 
@@ -15,7 +18,7 @@ interface TemplateDetailProps {
 const TemplateDetail: React.FC<TemplateDetailProps> = ({ formProps, resourceId, selectedTemplate }: TemplateDetailProps) => {
   const { t } = useTranslation();
 
-  const fields = useTemplateDetail(resourceId, selectedTemplate);
+  const { fields, jobTypeOptions, makeTextValidator } = useTemplateDetail(formProps, resourceId, selectedTemplate);
 
   return (
     <div className={detailContainerStyle}>
@@ -27,6 +30,20 @@ const TemplateDetail: React.FC<TemplateDetailProps> = ({ formProps, resourceId, 
         </Link>
       </p>
       <>
+        <Field
+          id="jobType"
+          component={Dropdown}
+          customLabelClassName={horizontalLabelStyle}
+          customLabelStackClassName={horizontalLabelStyle}
+          dirty={false}
+          label={t('functionNew_functionKind')}
+          layout={Layout.Horizontal}
+          name="jobType"
+          onPanel
+          options={jobTypeOptions}
+          required
+          validate={makeTextValidator(/* required */ true)}
+        />
         {fields?.map(field => (
           <Field key={field.id} {...formProps} {...field} />
         ))}

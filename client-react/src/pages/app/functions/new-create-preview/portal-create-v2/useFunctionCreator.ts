@@ -5,12 +5,14 @@ import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
 import { PortalContext } from '../../../../../PortalContext';
 import { StatusMessage } from '../../../../../components/ActionBar';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { FunctionTemplateV2, JobInput } from '../../../../../models/functions/function-template-v2';
+import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
 import { useAppSettingsQuery } from '../../common/useAppSettingsQuery';
 import { usePermissions } from '../../common/usePermissions';
+import { applySubstitutionsToPaths, getPaths, getSubstitutions } from './Helpers';
+import { JobType } from './JobType';
 import { useAppSettingsMutator } from './useAppSettingsMutator';
 import { useFileMutator } from './useFileMutator';
 
@@ -49,46 +51,48 @@ export function useFunctionCreator(resourceId: string, functionAppExists?: boole
           })
         );
 
-        /** @note The function name has a well-known ID in the v2 user prompts API. */
-        const functionName = values['trigger-functionName'];
+        // The function name has a well-known ID in the v2 user prompts API.
+        const functionName: string | undefined = values['trigger-functionName'];
         if (!functionName) {
           throw new Error(t('createFunction_functionNameError'));
         }
 
-        /** @note Find the path for the new function or function app file. */
-        /** @todo (joechung): AB#19990968, AB#19991047 */
-        const filePath = functionAppExists
-          ? selectedTemplate.actions.find(({ name }) => name === 'readFileContent_FunctionBody')?.filePath
-          : selectedTemplate.actions.find(({ name }) => name === 'readFileContent_FunctionApp')?.filePath;
-        if (!filePath) {
+        // The function kind uses "jobType" as its reserved ID.
+        const jobType: string | undefined = values['jobType'];
+        if (!jobType) {
+          throw new Error(t('createFunction_functionKindError'));
+        }
+
+        // Map substitution variables to their values.
+        const substitutions = getSubstitutions(selectedTemplate, jobType, values);
+        if (!substitutions) {
+          throw new Error(t('createFunction_noSubstitutionsError'));
+        }
+
+        // Find the path for the new function or function app file and apply substitutions to them.
+        const paths = getPaths(selectedTemplate, jobType, substitutions);
+        if (!paths) {
           throw new Error(t('createFunction_filePathError'));
         }
 
-        /** @note Get the function or function app file from the template. */
-        const content = selectedTemplate.files[filePath];
-        if (!content) {
-          throw new Error(t('createFunction_fileContentError'));
+        // Get the function or function app file(s) from the selected template.
+        const files: Record<string, string> = {};
+        for (const path of paths) {
+          const content = selectedTemplate.files[path];
+          if (!content) {
+            throw new Error(t('createFunction_fileContentError'));
+          }
+
+          let contentAfterSubstitutions: string = content;
+          for (const [key, value] of Object.entries(substitutions)) {
+            contentAfterSubstitutions = contentAfterSubstitutions.replaceAll(key, value);
+          }
+
+          files[path] = contentAfterSubstitutions;
         }
 
-        /** @note Modify the file with form values via string interpolation. */
-        const toSubstitution = (previous: Record<string, string>, current: JobInput): Record<string, string> => ({
-          ...previous,
-          [current.assignTo]: values[current.paramId],
-        });
-
-        /** @todo (joechung): AB#19990968, AB#19991047 */
-        const substitutions =
-          (functionAppExists
-            ? selectedTemplate.jobs.find(({ type }) => type === 'AppendToFile')?.inputs.reduce(toSubstitution, {})
-            : selectedTemplate.jobs.find(({ type }) => type === 'CreateNewApp')?.inputs.reduce(toSubstitution, {})) ?? {};
-
-        let contentAfterSubstitutions: string = content;
-        for (const [key, value] of Object.entries(substitutions)) {
-          contentAfterSubstitutions = contentAfterSubstitutions.replaceAll(key, value);
-        }
-
-        /** @note Add new app settings if there are any. */
-        const newAppSettings: ArmObj<Record<string, string>> | undefined = values.newAppSettings;
+        // Add new app settings if there are any.
+        const newAppSettings: ArmObj<Record<string, string>> | undefined = values['newAppSettings'];
         if (newAppSettings) {
           if (!hasAppSettingsPermissions) {
             throw new Error(t('createFunction_noAppSettingsPermissionError'));
@@ -102,32 +106,66 @@ export function useFunctionCreator(resourceId: string, functionAppExists?: boole
           });
         }
 
-        /** @note Notify the user that a "create function" operation is starting. */
+        // Notify the user that a "create function" operation is starting.
         const notificationId = portalCommunicator.startNotification(
           t('createFunctionNotification'),
           t('createFunctionNotificationDetails').format(functionName)
         );
         try {
-          /** @todo (joechung): AB#19990968, AB#19991047, AB#20749256 */
-          if (functionAppExists) {
-            await appendToFile('function_app.py', contentAfterSubstitutions);
-          } else {
-            await createFile('function_app.py', contentAfterSubstitutions);
+          switch (jobType) {
+            case JobType.CreateNewApp: {
+              /** @todo (joechung): AB#20749256 */
+              const appFileName = values['app-fileName'] ?? 'function_app.py';
+              await createFile(appFileName, files[paths[0]]);
+              break;
+            }
+
+            case JobType.AppendToFile: {
+              /** @todo (joechung): AB#20749256 */
+              const appSelectedFileName = values['app-selectedFileName'] ?? 'function_app.py';
+              await appendToFile(appSelectedFileName, files[paths[0]]);
+              break;
+            }
+
+            case JobType.CreateNewBlueprint: {
+              const blueprintFileName = values['blueprint-fileName'];
+              if (!blueprintFileName) {
+                throw new Error(t('createFunction_noBlueprintFilenameError'));
+              } else {
+                await createFile(blueprintFileName, files[paths[0]]);
+                await appendToFile(blueprintFileName, files[paths[1]]);
+              }
+              break;
+            }
+
+            case JobType.AppendToBlueprint: {
+              const blueprintExistingFileName = values['blueprint-existingFileName'];
+              if (!blueprintExistingFileName) {
+                throw new Error(t('createFunction_noBlueprintFilenameError'));
+              } else {
+                await appendToFile(blueprintExistingFileName, files[paths[0]]);
+              }
+              break;
+            }
+
+            default:
+              break;
           }
 
-          /** @note Sync the function app before opening its overview blade. */
+          // Sync the function app before opening its overview blade.
           await sync();
 
-          /** @note Complete the pending notification with a success message. */
+          // Complete the pending notification with a success message.
           portalCommunicator.stopNotification(notificationId, true, t('createFunctionNotificationSuccess').format(functionName));
 
           portalCommunicator.closeSelf(`${resourceId}/functions/${functionName}`);
         } catch (error) {
-          /** @note Complete the pending notification with a failure message. */
           const errorMessage = getErrorMessage(error);
           const description = errorMessage
             ? t('createFunctionNotificationFailedDetails').format(functionName, errorMessage)
             : t('createFunctionNotificationFailed').format(functionName);
+
+          // Complete the pending notification with a failure message. */
           portalCommunicator.stopNotification(notificationId, false, description);
 
           portalCommunicator.closeSelf();
