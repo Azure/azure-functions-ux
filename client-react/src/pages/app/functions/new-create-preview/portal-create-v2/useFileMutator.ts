@@ -10,7 +10,7 @@ export function useFileMutator(resourceId: string) {
 
   const appendToFile = useCallback(
     async (path: string, contentToAppend: string) => {
-      /** @note Get the existing file to append to. */
+      // Get the existing file to append to.
       const getFileContentResponse = await FunctionsService.getFileContent(resourceId, path);
 
       if (!getFileContentResponse.metadata.success) {
@@ -24,10 +24,10 @@ export function useFileMutator(resourceId: string) {
         throw new Error(getErrorMessage(getFileContentResponse.metadata.error));
       }
 
-      /** @note Append `contentToAppend` to the existing file's content. */
+      // Append `contentToAppend` to the existing file's content.
       const content = `${getFileContentResponse.data}\r\n\r\n${contentToAppend}`;
 
-      /** @note Overwrite the existing file with the new content. */
+      // Overwrite the existing file with the new content.
       const saveFileContentResponse = await FunctionsService.saveFileContent(
         resourceId,
         path,
