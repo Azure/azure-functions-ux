@@ -1,19 +1,21 @@
-import { HostStatus } from './../models/functions/host-status';
-import { ArmArray, ArmObj, UntrackedArmObj } from './../models/arm-obj';
-import MakeArmCall from './ArmHelper';
-import { FunctionInfo } from '../models/functions/function-info';
-import { sendHttpRequest, getTextHeaders } from './HttpClient';
-import { FunctionTemplate } from '../models/functions/function-template';
-import { FunctionConfig } from '../models/functions/function-config';
-import Url from '../utils/url';
+import { Method } from 'axios';
+import { NetAjaxSettings } from '../models/ajax-request-model';
 import { Binding } from '../models/functions/binding';
-import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../models/functions/runtime-extension';
+import { FunctionConfig } from '../models/functions/function-config';
+import { FunctionInfo } from '../models/functions/function-info';
+import { FunctionTemplate } from '../models/functions/function-template';
+import { FunctionTemplateV2 } from '../models/functions/function-template-v2';
 import { Host } from '../models/functions/host';
+import { RuntimeExtensionCustomVersions, RuntimeExtensionMajorVersions } from '../models/functions/runtime-extension';
+import { UserPrompt } from '../models/functions/user-prompt';
 import { VfsObject } from '../models/functions/vfs';
 import { KeyValue } from '../models/portal-models';
-import { NetAjaxSettings } from '../models/ajax-request-model';
-import { Method } from 'axios';
 import { NameValuePair } from '../pages/app/functions/function/function-editor/FunctionEditor.types';
+import Url from '../utils/url';
+import { ArmArray, ArmObj, UntrackedArmObj } from './../models/arm-obj';
+import { HostStatus } from './../models/functions/host-status';
+import MakeArmCall from './ArmHelper';
+import { getTextHeaders, sendHttpRequest } from './HttpClient';
 
 export interface RunFunctionControllerOptions {
   resourceId: string;
@@ -138,6 +140,16 @@ export default class FunctionsService {
     return MakeArmCall<ArmObj<FunctionTemplate[]>>({ resourceId, commandName: 'fetchTemplates' });
   };
 
+  public static readonly getTemplatesV2 = (functionAppId: string) => {
+    const resourceId = `${functionAppId}/host/default/templatesV2`;
+    return MakeArmCall<ArmObj<FunctionTemplateV2[]>>({ resourceId, commandName: 'fetchTemplatesv2' });
+  };
+
+  public static readonly getUserPrompts = (functionAppId: string) => {
+    const resourceId = `${functionAppId}/host/default/userPrompts`;
+    return MakeArmCall<ArmObj<UserPrompt[]>>({ resourceId, commandName: 'fetchUserPrompts' });
+  };
+
   public static fetchKeys = (resourceId: string) => {
     const id = `${resourceId}/listkeys`;
     return MakeArmCall<KeyValue<string>>({
@@ -260,6 +272,15 @@ export default class FunctionsService {
       commandName: 'getTestDataOverVfsArm',
       method: 'GET',
       skipBatching: true, // Batch API doesn't accept no-cache headers
+    });
+  }
+
+  public static sync(resourceId: string) {
+    return MakeArmCall<void>({
+      commandName: 'syncTrigger',
+      method: 'POST',
+      resourceId: `${resourceId}/host/default/sync`,
+      skipBatching: true,
     });
   }
 
