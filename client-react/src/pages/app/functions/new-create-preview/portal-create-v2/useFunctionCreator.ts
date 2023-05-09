@@ -11,7 +11,7 @@ import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
 import { useAppSettingsQuery } from '../../common/useAppSettingsQuery';
 import { usePermissions } from '../../common/usePermissions';
-import { applySubstitutionsToPaths, getPaths, getSubstitutions } from './Helpers';
+import { getPaths, getSubstitutions } from './Helpers';
 import { JobType } from './JobType';
 import { useAppSettingsMutator } from './useAppSettingsMutator';
 import { useFileMutator } from './useFileMutator';
