@@ -349,6 +349,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name={'config.properties.minTlsVersion'}
           id={'app-settings-minTlsVersion'}
           component={Dropdown}
+          widthLabel={'230px'}
           label={t('minTlsVersionLabel')}
           infoBubbleMessage={t('minTlsVersionInfoBubbleMessage')}
           dirty={values.config.properties.minTlsVersion !== initialValues.config.properties.minTlsVersion}
@@ -377,6 +378,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           label={t('minTlsCipherSuiteLabel')}
           infoBubbleMessage={t('minTlsCipherSuiteInfoBubbleMessage')}
           dirty={values.config.properties.minTlsCipherSuite !== initialValues.config.properties.minTlsCipherSuite}
+          widthLabel={'230px'}
         />
       )}
     </div>
