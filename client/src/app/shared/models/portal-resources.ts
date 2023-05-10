@@ -35,6 +35,7 @@ export class PortalResources {
   public static subNew_friendlySubNameName = 'subNew_friendlySubNameName';
   public static subNew_invitationCode = 'subNew_invitationCode';
   public static functionNew_experimentalTemplate = 'functionNew_experimentalTemplate';
+  public static functionNew_functionKind = 'functionNew_functionKind';
   public static functionNew_functionName = 'functionNew_functionName';
   public static functionNew_functionNameRequired = 'functionNew_functionNameRequired';
   public static functionNew_nameYourFunction = 'functionNew_nameYourFunction';
@@ -264,7 +265,12 @@ export class PortalResources {
   public static seeRecommendedOptions = 'seeRecommendedOptions';
   public static storageLockNote = 'storageLockNote';
   public static fileExplorer_fileAlreadyExists = 'fileExplorer_fileAlreadyExists';
+  public static functionNew_fileExists = 'functionNew_fileExists';
   public static functionNew_functionExists = 'functionNew_functionExists';
+  public static jobType_appendToBlueprint = 'jobType_appendToBlueprint';
+  public static jobType_appendToFile = 'jobType_appendToFile';
+  public static jobType_createNewApp = 'jobType_createNewApp';
+  public static jobType_createNewBlueprint = 'jobType_createNewBlueprint';
   public static binding_storageAccountKey = 'binding_storageAccountKey';
   public static binding_storageAccountName = 'binding_storageAccountName';
   public static binding_storageInfoFooter = 'binding_storageInfoFooter';
@@ -2596,8 +2602,11 @@ export class PortalResources {
   public static createFunction_filePathError = 'createFunction_filePathError';
   public static createFunction_functionAppExistsError = 'createFunction_functionAppExistsError';
   public static createFunction_functionNameError = 'createFunction_functionNameError';
+  public static createFunction_functionKindError = 'createFunction_functionKindError';
   public static createFunction_noAppSettingsPermissionsError = 'createFunction_noAppSettingsPermissionsError';
+  public static createFunction_noBlueprintFilenameError = 'createFunction_noBlueprintFilenameError';
   public static createFunction_noResourceIdError = 'createFunction_noResourceIdError';
+  public static createFunction_noSubstitutionsError = 'createFunction_noSubstitutionsError';
   public static createFunction_selectedTemplateError = 'createFunction_selectedTemplateError';
   public static createFunctionDeploymentNotification = 'createFunctionDeploymentNotification';
   public static createFunctionDeploymentNotificationDetails = 'createFunctionDeploymentNotificationDetails';
