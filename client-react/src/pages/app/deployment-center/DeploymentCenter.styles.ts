@@ -58,10 +58,11 @@ export const deploymentCenterContainerLogsBox = style({
   marginRight: 'auto',
   whiteSpace: 'pre-line',
   overflowWrap: 'break-word',
+  flex: 1,
 });
 
 export const deploymentCenterCodeLogsBox = style({
-  position: 'fixed',
+  position: 'static',
   height: 'calc(100% - 250px)',
   width: 'calc(100% - 50px)',
   overflowY: 'auto',
