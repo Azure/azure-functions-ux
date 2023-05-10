@@ -58,7 +58,6 @@ export const deploymentCenterContainerLogsBox = style({
   marginRight: 'auto',
   whiteSpace: 'pre-line',
   overflowWrap: 'break-word',
-  flex: 1,
 });
 
 export const deploymentCenterCodeLogsBox = style({
