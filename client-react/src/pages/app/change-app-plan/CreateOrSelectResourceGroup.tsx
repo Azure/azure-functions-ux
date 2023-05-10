@@ -1,6 +1,6 @@
 import i18next from 'i18next';
-import { Callout, DefaultButton, DirectionalHint, IDropdownOption, IDropdownProps, ILink, Link, PrimaryButton } from '@fluentui/react';
-import React, { useContext, useEffect, useRef, useState } from 'react';
+import { Callout, DefaultButton, DirectionalHint, IDropdownOption, IDropdownProps, Link, PrimaryButton, Text } from '@fluentui/react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
@@ -13,7 +13,7 @@ import { PortalContext } from '../../../PortalContext';
 import { ValidationRegex } from '../../../utils/constants/ValidationRegex';
 import RbacConstants from '../../../utils/rbac-constants';
 import { linkStyle, textboxStyle } from './ChangeAppPlan.styles';
-
+import { useId } from '@fluentui/react-hooks';
 export interface CreateOrSelectResourceGroupFormProps {
   onRgChange: (rgInfo: ResourceGroupInfo) => void;
   onRgValidationError: (error: string) => void;
@@ -52,8 +52,9 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
   const [newRgNameValidationError, setNewRgNameValidationError] = useState('');
   const [existingRgWritePermissionError, setExistingRgWritePermissionError] = useState('');
   const { t } = useTranslation();
-  const createNewLinkElement = useRef<ILink | null>(null);
   const portalContext = useContext(PortalContext);
+  const buttonId = useId('create-new-callout-button');
+  const descriptionId = useId('resource-group-callout-description');
 
   const onChangeDropdown = (e: unknown, option: IDropdownOption) => {
     const rgInfo: ResourceGroupInfo = {
@@ -64,12 +65,21 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
     };
 
     onChange(rgInfo);
-
+    setNewRgNameFieldValue(newRgNameFieldValue);
+    setNewRgNameValidationError(newRgNameValidationError);
     const rgResourceId = option.data === NEW_RG ? '' : (option.data as ArmObj<any>).id;
     checkWritePermissionOnRg(portalContext, rgResourceId, setExistingRgWritePermissionError, onRgValidationError, t);
   };
 
-  const menuButtonElement = useRef<HTMLElement | null>(null);
+  const getNewLink = (hasSubscriptionWritePermission: boolean, onShowCallout: () => void) => {
+    if (hasSubscriptionWritePermission) {
+      return (
+        <Link id={buttonId} onClick={onShowCallout}>
+          {t('createNew')}
+        </Link>
+      );
+    }
+  };
 
   const onShowCallout = () => {
     setShowCallout(true);
@@ -77,11 +87,9 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
 
   const onDismissCallout = () => {
     setShowCallout(false);
-    (createNewLinkElement.current as ILink).focus();
   };
 
   const onCompleteCallout = () => {
-    (createNewLinkElement.current as ILink).focus();
     addNewRgOption(newRgNameFieldValue, options, t);
     setShowCallout(false);
     onChange({
@@ -133,23 +141,25 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
         required={true}
       />
 
-      <div className={linkStyle} ref={menuButton => (menuButtonElement.current = menuButton)}>
-        {getNewLink(hasSubscriptionWritePermission, onShowCallout, createNewLinkElement, t)}
+      <div className={linkStyle} id={buttonId}>
+        {getNewLink(hasSubscriptionWritePermission, onShowCallout)}
       </div>
 
-      <Callout
-        role="alertdialog"
-        gapSpace={0}
-        target={menuButtonElement.current}
-        onDismiss={onDismissCallout}
-        setInitialFocus={true}
-        hidden={!showCallout}
-        directionalHint={DirectionalHint.bottomCenter}
-        calloutMaxWidth={320}
-        minPagePadding={3}>
-        <section className={calloutContainerStyle}>
-          <div>{t('resourceGroupDescription')}</div>
+      {showCallout && (
+        <Callout
+          className={calloutContainerStyle}
+          role="dialog"
+          gapSpace={0}
+          target={`#${buttonId}`}
+          onDismiss={onDismissCallout}
+          setInitialFocus
+          directionalHint={DirectionalHint.bottomCenter}
+          calloutMaxWidth={320}
+          minPagePadding={3}
+          ariaDescribedBy={descriptionId}>
+          <Text id={descriptionId}>{t('resourceGroupDescription')}</Text>
           <TextFieldNoFormik
+            ariaLabel={t('_name')}
             label={t('_name')}
             id={'createorselectrg-rgname'}
             layout={Layout.Vertical}
@@ -160,18 +170,16 @@ export const CreateOrSelectResourceGroup = (props: CreateOrSelectResourceGroupFo
             widthOverride="100%"
             className={textboxStyle}
           />
-          <div>
-            <PrimaryButton
-              className={primaryButtonStyle}
-              text={t('ok')}
-              disabled={!newRgNameFieldValue || !!newRgNameValidationError}
-              onClick={onCompleteCallout}
-            />
-
-            <DefaultButton text={t('cancel')} onClick={onDismissCallout} />
-          </div>
-        </section>
-      </Callout>
+          <PrimaryButton
+            className={primaryButtonStyle}
+            text={t('ok')}
+            ariaLabel={t('ok')}
+            disabled={!newRgNameFieldValue || !!newRgNameValidationError}
+            onClick={onCompleteCallout}
+          />
+          <DefaultButton text={t('cancel')} ariaLabel={t('cancel')} onClick={onDismissCallout} />
+        </Callout>
+      )}
     </>
   );
 };
@@ -194,21 +202,6 @@ const checkWritePermissionOnRg = (
     setExistingRgWritePermissionError(validationError);
     onRgValidationError(validationError);
   });
-};
-
-const getNewLink = (
-  hasSubscriptionWritePermission: boolean,
-  onShowCallout: () => void,
-  createNewLinkElement: React.MutableRefObject<ILink | null>,
-  t: i18next.TFunction
-) => {
-  if (hasSubscriptionWritePermission) {
-    return (
-      <Link onClick={onShowCallout} componentRef={ref => (createNewLinkElement.current = ref)}>
-        {t('createNew')}
-      </Link>
-    );
-  }
 };
 
 export const addNewRgOption = (newRgName: string, options: IDropdownOption[], t: i18next.TFunction) => {

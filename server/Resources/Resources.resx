@@ -210,6 +210,9 @@
     <data name="functionNew_experimentalTemplate" xml:space="preserve">
         <value>This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
     </data>
+    <data name="functionNew_functionKind" xml:space="preserve">
+        <value>Job type</value>
+    </data>
     <data name="functionNew_functionName" xml:space="preserve">
         <value>Function name</value>
     </data>
@@ -898,8 +901,23 @@
     <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
         <value>A File with the name {{fileName}} already exists.</value>
     </data>
+    <data name="functionNew_fileExists" xml:space="preserve">
+        <value>A file with the name '{0}' already exists.</value>
+    </data>
     <data name="functionNew_functionExists" xml:space="preserve">
         <value>Function with name '{{name}}' already exists.</value>
+    </data>
+    <data name="jobType_appendToBlueprint" xml:space="preserve">
+        <value>Append to blueprint</value>
+    </data>
+    <data name="jobType_appendToFile" xml:space="preserve">
+        <value>Append to app</value>
+    </data>
+    <data name="jobType_createNewApp" xml:space="preserve">
+        <value>Create new app</value>
+    </data>
+    <data name="jobType_createNewBlueprint" xml:space="preserve">
+        <value>Create new blueprint</value>
     </data>
     <data name="binding_storageAccountKey" xml:space="preserve">
         <value>Account Key:</value>
@@ -1596,6 +1614,9 @@
     </data>
     <data name="basicAuthPublishingCredInfoBubbleMessage" xml:space="preserve">
         <value>Disable basic authentication for FTP and SCM access.</value>
+    </data>
+    <data name="httpCertWarningInfoBubbleMessage" xml:space="preserve">
+        <value>When selecting HTTP version 2.0, incoming client certificates must be ignored.</value>
     </data>
     <data name="minTlsVersionLabel" xml:space="preserve">
         <value>Minimum Inbound TLS Version</value>
@@ -7929,11 +7950,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="createFunction_functionNameError" xml:space="preserve">
         <value>Cannot determine the function name.</value>
     </data>
+    <data name="createFunction_functionKindError" xml:space="preserve">
+        <value>Cannot determine the function kind.</value>
+    </data>
     <data name="createFunction_noAppSettingsPermissionsError" xml:space="preserve">
         <value>You do not have sufficient permissions to update app settings.</value>
     </data>
+    <data name="createFunction_noBlueprintFilenameError" xml:space="preserve">
+        <value>Cannot determine the blueprint filename.</value>
+    </data>
     <data name="createFunction_noResourceIdError" xml:space="preserve">
         <value>No resource ID</value>
+    </data>
+    <data name="createFunction_noSubstitutionsError" xml:space="preserve">
+        <value>Cannot determine the job inputs with which to perform substitutions.</value>
     </data>
     <data name="createFunction_selectedTemplateError" xml:space="preserve">
         <value>Cannot determine the selected template.</value>
