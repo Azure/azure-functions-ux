@@ -3,21 +3,18 @@ import FunctionsService from '../ApiHelpers/FunctionsService';
 import SiteService from '../ApiHelpers/SiteService';
 import { AppSettings } from '../models/app-setting';
 import { ArmArray, ArmObj } from '../models/arm-obj';
-import { FunctionAppContentEditingState, HostStatus } from '../models/functions/host-status';
+import { HostStatus, FunctionAppContentEditingState } from '../models/functions/host-status';
 import { FunctionAppEditMode, SiteReadWriteState } from '../models/portal-models';
 import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
-import {
-  isNewNodeProgrammingModel,
-  isNewPythonProgrammingModel,
-} from '../pages/app/functions/function/function-editor/useFunctionEditorQueries';
 import PortalCommunicator from '../portal-communicator';
+import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
 import { CommonConstants } from './CommonConstants';
 import FunctionAppService from './FunctionAppService';
-import SiteHelper from './SiteHelper';
-import { isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
 import RbacConstants from './rbac-constants';
 import { ArmSiteDescriptor } from './resourceDescriptors';
+import SiteHelper from './SiteHelper';
+import { isNewNodeProgrammingModel } from '../pages/app/functions/function/function-editor/useFunctionEditorQueries';
 import Url from './url';
 
 export async function resolveState(
@@ -53,11 +50,10 @@ async function resolveStateForFunctionApp(
   functionResourceId?: string
 ) {
   // During new Node Preview, we will make it 'Read only' if it is new Node programming model.
-  // The editor will be read-only for the new v2 programming model for Python.
   if (functionResourceId) {
-    const state = await fetchAndResolveNewProgrammingModelState(functionResourceId, portalContext);
-    if (state) {
-      return state;
+    const isNewNodePreviewState = await fetchAndResolveNewNodePreviewState(functionResourceId, portalContext);
+    if (isNewNodePreviewState) {
+      return isNewNodePreviewState;
     }
   }
 
@@ -95,22 +91,15 @@ async function resolveStateForFunctionApp(
   return FunctionAppEditMode.ReadWrite;
 }
 
-async function fetchAndResolveNewProgrammingModelState(
+// When we GA new Node programming model, we will remove 'read only' check and will support read/write.
+async function fetchAndResolveNewNodePreviewState(
   functionResourceId: string,
   portalContext: PortalCommunicator
 ): Promise<FunctionAppEditMode | undefined> {
   const functionResponse = await FunctionsService.getFunction(functionResourceId);
 
   if (functionResponse.metadata.success) {
-    const functionInfo = functionResponse.data;
-
-    // The v2 programming model for Python will remain 'read only' for the foreseeable future.
-    if (isNewPythonProgrammingModel(functionInfo)) {
-      return FunctionAppEditMode.ReadOnlyPythonV2;
-    }
-
-    // When we GA new Node programming model, we will remove 'read only' check and will support read/write.
-    if (isNewNodeProgrammingModel(functionInfo) && !Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewNodeEditMode)) {
+    if (isNewNodeProgrammingModel(functionResponse.data) && !Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewNodeEditMode)) {
       return FunctionAppEditMode.ReadOnlyNewNodePreview;
     }
   } else {
