@@ -29,7 +29,7 @@ export function isContainerApp(obj: ArmObj<Site>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.container]);
 }
 
-export function isCentauriApp(obj: ArmObj<Site>): boolean {
+export function isContainerAppEnvironmentApp(obj: ArmObj<Site>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.azureContainerApps]);
 }
 
