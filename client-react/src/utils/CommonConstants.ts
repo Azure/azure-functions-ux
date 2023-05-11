@@ -74,6 +74,7 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
+    enableNewProgrammingModel: 'enableNewProgrammingModel',
     enableSnippets: 'enableSnippets',
   };
 
@@ -119,6 +120,8 @@ export class CommonConstants {
     premium: 'premium',
     premiumV2: 'premiumv2',
     premiumV3: 'premiumv3',
+    premium0V3: 'premium0v3',
+    premiumMV3: 'premiummv3',
     premiumContainer: 'premiumcontainer',
     isolated: 'isolated',
     dynamic: 'dynamic',
@@ -356,14 +359,12 @@ export class SubscriptionQuotaIds {
 export class ExperimentationConstants {
   public static TreatmentFlight = {
     customErrorPages: 'enable-custom-error-pages',
-    functionsCollateral: '61fci236',
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
   };
 
   public static ControlFlight = {
     customErrorPages: 'disable-custom-error-pages',
-    functionsCollateral: '3f3ej608',
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
   };

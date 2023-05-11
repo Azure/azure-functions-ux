@@ -127,6 +127,14 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = ({
     [portalContext]
   );
 
+  const monthlyCost = useSWACostString(billingInformation, StaticSiteBillingType.SWAMonthly);
+  const incrementalCost = useSWACostString(billingInformation, StaticSiteBillingType.SWAIncremental);
+  const azureFrontDoorCost = useSWACostString(billingInformation, StaticSiteBillingType.SWAAzureFrontDoor);
+  const staticSiteStandardPlanAriaLabel = useMemo(
+    () => t('staticSiteStandardPlanAriaLabel').format(monthlyCost, incrementalCost, azureFrontDoorCost),
+    [azureFrontDoorCost, incrementalCost, monthlyCost, t]
+  );
+
   useEffect(() => {
     if (!isBillingInformationLoading) {
       setSkuCost(<SkuCost billingInformation={billingInformation} />);
@@ -170,7 +178,7 @@ const StaticSiteSkuPicker: React.FC<StaticSiteSkuPickerProps> = ({
                     onChange={handleChange}
                   />
                   <PlanPickerTitleSection
-                    buttonAriaLabel={t('staticSiteStandardPlanAriaLabel')}
+                    buttonAriaLabel={staticSiteStandardPlanAriaLabel}
                     className={selectedSku === StaticSiteSku.Standard ? selectedTitleStyleClassName : unselectedTitleStyleClassName}
                     description={t('staticSiteStandardDescription')}
                     id="static-site-sku-standard"
@@ -336,4 +344,22 @@ const SkuCost: React.FC<SkuCostProps> = ({ billingInformation = [] }) => {
   }
 
   return <PricingCalculatorLink />;
+};
+
+const useSWACostString = (billingInformation: CostEstimate[] = [], id: StaticSiteBillingType) => {
+  const { t } = useTranslation();
+
+  if (billingInformation.length > 0) {
+    const meter = billingInformation.find(val => val.id === id);
+    if (meter?.amount !== undefined) {
+      const cost =
+        id === StaticSiteBillingType.SWAAzureFrontDoor
+          ? (CommonConstants.monthlyHoursForPricing * meter.amount).toFixed(2)
+          : meter.amount.toFixed(2);
+      const currency = meter.currencyCode;
+      return `${cost} ${currency}`;
+    }
+  }
+
+  return t('loading');
 };

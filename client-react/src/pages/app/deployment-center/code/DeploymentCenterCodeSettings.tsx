@@ -270,7 +270,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isExternalGitSetup && <DeploymentCenterExternalConfiguredView formProps={formProps} />}
           {isOneDriveSetup && <DeploymentCenterOneDriveConfiguredView formProps={formProps} />}
           {isDropboxSetup && <DeploymentCenterDropboxConfiguredView formProps={formProps} />}
-          {isVstsSetup && <DeploymentCenterVstsBuildConfiguredView />}
+          {isVstsSetup && <DeploymentCenterVstsBuildConfiguredView formProps={formProps} />}
           {isTfsOrVsoSetup && <DeploymentCenterDevOpsKuduBuildConfiguredView formProps={formProps} />}
           {!isTfsOrVsoSetup && <DeploymentCenterCodeBuildConfiguredView />}
         </>

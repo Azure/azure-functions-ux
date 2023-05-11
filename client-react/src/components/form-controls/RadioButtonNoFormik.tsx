@@ -1,7 +1,6 @@
 import {
   ChoiceGroup,
   IChoiceGroupOption,
-  IChoiceGroupOptionProps,
   IChoiceGroupOptionStyleProps,
   IChoiceGroupOptionStyles,
   IChoiceGroupProps,
@@ -39,7 +38,7 @@ const RadioButtonNoFormik: React.FC<IChoiceGroupProps & RadioButtonProps> = (pro
       options?.map(option => ({
         ...option,
         styles: optionStyles,
-        onRenderField: (fieldProps: IChoiceGroupOptionProps, defaultRenderer?: (props: IChoiceGroupOptionProps) => JSX.Element | null) => (
+        onRenderField: (fieldProps, defaultRenderer?: (props) => JSX.Element | null) => (
           <div className={fieldStyle}>{defaultRenderer?.(fieldProps) ?? null}</div>
         ),
       })) ?? [],

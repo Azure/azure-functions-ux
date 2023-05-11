@@ -188,11 +188,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   const getRedeployButton = (): ICommandBarItemProps => {
     return {
       key: 'redeploy',
-      name: t('deploymentCenterRedeploy'),
+      name: t('deploymentCenterSync'),
       iconProps: {
         iconName: 'Redeploy',
       },
-      ariaLabel: t('deploymentCenterRedeployAriaLabel'),
+      ariaLabel: t('deploymentCenterSyncCommandAriaLabel'),
       disabled: isRedeployDisabled(),
       onClick: onRedeployClick,
     };
@@ -214,7 +214,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   return (
     <CommandBar
       items={getCommandBarItems()}
-      role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}

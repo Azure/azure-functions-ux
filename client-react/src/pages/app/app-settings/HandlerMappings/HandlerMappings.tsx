@@ -221,7 +221,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
       {
@@ -232,7 +232,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         maxWidth: 100,
         isRowHeader: false,
         isResizable: false,
-        isCollapsable: false,
+        isCollapsible: false,
         onRender: onRenderItemColumn,
       },
     ];
@@ -252,6 +252,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyHandlerMappings')}
+        ariaLabelForGrid={t('handlerMappings')}
       />
       <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')}>
         <HandlerMappingsAddEdit handlerMapping={currentHandlerMapping!} updateHandlerMapping={onClosePanel} closeBlade={onCancel} />

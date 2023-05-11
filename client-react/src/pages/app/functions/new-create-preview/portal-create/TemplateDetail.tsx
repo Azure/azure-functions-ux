@@ -48,7 +48,7 @@ const TemplateDetail: React.FC<TemplateDetailProps> = ({
   const functionCreateContext = useContext(FunctionCreateContext);
   const portalCommunicator = useContext(PortalContext);
 
-  const factory = useCreateFunctionFormBuilderFactory(resourceId, selectedTemplate.id);
+  const factory = useCreateFunctionFormBuilderFactory();
 
   const requiredBindingIds = useMemo(() => {
     const bindingIds = new Set<string>();

@@ -102,7 +102,6 @@ export const LogStreamCommandBar: React.FC<LogStreamCommandBarPropsCombined> = p
   return (
     <CommandBar
       items={getItems(reconnect, pause, start, clear, isStreaming, logEntries, logType, logsEnabled, t)}
-      role="nav"
       buttonAs={customButton}
       overflowButtonProps={overflowButtonProps}
       styles={{

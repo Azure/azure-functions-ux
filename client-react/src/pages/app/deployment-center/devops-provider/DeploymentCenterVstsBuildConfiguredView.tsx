@@ -8,9 +8,11 @@ import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import DeploymentCenterVstsDisconnect from './DeploymentCenterVstsDisconnect';
 
-const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
+const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = ({ formProps }) => {
   const { t } = useTranslation();
 
   const [repo, setRepo] = useState<string | undefined>(undefined);
@@ -141,6 +143,13 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
           type={MessageBarType.info}
         />
       </div>
+
+      <ReactiveFormControl id="deployment-center-azure-repos-source-label" label={t('deploymentCenterSettingsSourceLabel')}>
+        <div>
+          {`${t('deploymentCenterCodeSettingsSourceAzureRepos')}`}
+          <DeploymentCenterVstsDisconnect formProps={formProps} />
+        </div>
+      </ReactiveFormControl>
 
       <h3>{t('deploymentCenterCodeAzureReposTitle')}</h3>
 

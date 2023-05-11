@@ -8,13 +8,13 @@ import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoF
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
 import { getAllAppSettingReferences } from '../AppSettings.service';
-import { KeyVaultReference } from '../../../../models/site/config';
+import { Reference } from '../../../../models/site/config';
 import { isLinuxApp } from '../../../../utils/arm-utils';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import KeyVaultReferenceComponent from '../KeyVaultReferenceComponent';
+import { azureAppConfigRefStart, CommonConstants } from '../../../../utils/CommonConstants';
+import ReferenceComponent from '../ReferenceComponent';
 import { PortalContext } from '../../../../PortalContext';
 
 export interface AppSettingAddEditProps {
@@ -29,7 +29,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   const { updateAppSetting, otherAppSettings, closeBlade, appSetting, disableSlotSetting, site } = props;
   const [nameError, setNameError] = useState('');
   const [currentAppSetting, setCurrentAppSetting] = useState(appSetting);
-  const [currentAppSettingReference, setCurrentAppSettingReference] = useState<KeyVaultReference | undefined>(undefined);
+  const [currentAppSettingReference, setCurrentAppSettingReference] = useState<Reference | undefined>(undefined);
 
   const isLinux = isLinuxApp(site);
 
@@ -37,12 +37,12 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
 
   const { t } = useTranslation();
 
-  const getKeyVaultReference = async () => {
+  const getReference = async () => {
     // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
-    const allKeyVaultReferences = await getAllAppSettingReferences(site.id);
-    if (allKeyVaultReferences.metadata.success) {
-      setCurrentAppSettingReference(allKeyVaultReferences.data.properties.keyToReferenceStatuses[currentAppSetting.name]);
+    const allReferences = await getAllAppSettingReferences(site.id);
+    if (allReferences.metadata.success) {
+      setCurrentAppSettingReference(allReferences.data.properties.keyToReferenceStatuses[currentAppSetting.name]);
     } else {
       setCurrentAppSettingReference(undefined);
       portalContext.log({
@@ -51,8 +51,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
         resourceId: site?.id,
         logLevel: 'error',
         data: {
-          error: allKeyVaultReferences?.metadata.error,
-          message: 'Failed to fetch key vault reference',
+          error: allReferences?.metadata.error,
+          message: 'Failed to fetch reference',
         },
       });
     }
@@ -91,11 +91,12 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     );
   };
 
-  const isValidKeyVaultReference = () => {
+  const isValidReference = () => {
     return (
       appSetting.name === currentAppSetting.name &&
       appSetting.value === currentAppSetting.value &&
-      CommonConstants.isKeyVaultReference(currentAppSetting.value)
+      (CommonConstants.isKeyVaultReference(currentAppSetting.value) ||
+        appSetting.name.toLocaleLowerCase().startsWith(azureAppConfigRefStart))
     );
   };
 
@@ -122,8 +123,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   };
 
   useEffect(() => {
-    if (isValidKeyVaultReference()) {
-      getKeyVaultReference();
+    if (isValidReference()) {
+      getReference();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -176,8 +177,8 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
-      {isAppSettingReferenceVisible() && isValidKeyVaultReference() && !!currentAppSettingReference && (
-        <KeyVaultReferenceComponent resourceId={site.id} appSettingReference={currentAppSettingReference} />
+      {isAppSettingReferenceVisible() && isValidReference() && !!currentAppSettingReference && (
+        <ReferenceComponent resourceId={site.id} appSettingReference={currentAppSettingReference} />
       )}
     </>
   );

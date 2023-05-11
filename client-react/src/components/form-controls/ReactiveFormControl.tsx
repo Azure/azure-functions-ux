@@ -33,6 +33,7 @@ interface ReactiveFormControlProps {
   children: JSX.Element;
   id: string;
   upsellMessage?: string;
+  widthLabel?: string;
   infoBubbleMessage?: string;
   label?: string;
   learnMoreLink?: string;
@@ -66,6 +67,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     multiline,
     pushContentRight,
     copyValue,
+    widthLabel,
   } = props;
 
   const { width } = useWindowSize();
@@ -102,7 +104,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           )}
           <Label
             className={css(
-              formLabelStyle(!!upsellMessage, fullPage, horizontal),
+              formLabelStyle(!!upsellMessage, fullPage, horizontal, widthLabel),
               customLabelClassName,
               dirty && dirtyElementStyle(theme, true)
             )}

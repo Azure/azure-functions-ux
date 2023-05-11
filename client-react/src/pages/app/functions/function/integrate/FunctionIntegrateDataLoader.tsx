@@ -1,18 +1,18 @@
 import React from 'react';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import SiteService from '../../../../../ApiHelpers/SiteService';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding } from '../../../../../models/functions/binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { HostStatus } from '../../../../../models/functions/host-status';
+import { Site } from '../../../../../models/site/site';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
+import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 import { FunctionIntegrate } from './FunctionIntegrate';
 import FunctionIntegrateData from './FunctionIntegrate.data';
-import SiteService from '../../../../../ApiHelpers/SiteService';
-import { Site } from '../../../../../models/site/site';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 
 const functionIntegrateData = new FunctionIntegrateData();
 export const FunctionIntegrateContext = React.createContext(functionIntegrateData);
@@ -24,7 +24,8 @@ interface FunctionIntegrateDataLoaderProps {
 interface FunctionIntegrateDataLoaderState {
   functionAppId: string;
   refresh: boolean;
-  functionInfo?: ArmObj<FunctionInfo>;
+  /** @prop `undefined` if not loaded, `null` if error while loading, an ARM function object when loaded. */
+  functionInfo?: ArmObj<FunctionInfo> | null;
   bindings?: Binding[];
   bindingsError: boolean;
   hostStatus?: HostStatus;
@@ -55,7 +56,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   public render() {
-    if (!this.state.site || !this.state.functionInfo || !this.state.bindings || !this.state.hostStatus) {
+    if (!this.state.site || this.state.functionInfo === undefined || !this.state.bindings || !this.state.hostStatus) {
       return <LoadingComponent />;
     }
 
@@ -132,10 +133,12 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
 
       if (r.metadata.success) {
         this.setState({
-          ...this.state,
           functionInfo: r.data,
         });
       } else {
+        this.setState({
+          functionInfo: null,
+        });
         LogService.error(
           LogCategories.functionIntegrate,
           'getFunction',

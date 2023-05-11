@@ -192,7 +192,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
           resizeHandler(width, height);
         };
 
-        ws.current.onerror = (ev: Event) => {
+        ws.current.onerror = () => {
           updateConsoleText(t('containerApp_console_failedToConnect'));
         };
 
@@ -210,10 +210,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
     setCustomTextField(newValue || '');
   };
 
-  const onCustomOptionRender = (
-    props: IChoiceGroupOptionProps,
-    defaultRender: (props?: IChoiceGroupOptionProps) => JSX.Element
-  ): JSX.Element | null => {
+  const onCustomOptionRender = (props, defaultRender: (props?: IChoiceGroupOptionProps) => JSX.Element): JSX.Element | null => {
     return (
       <div className={consoleStyles.customTextField}>
         {defaultRender(props)}

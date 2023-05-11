@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { AvailableStack } from '../../../models/available-stacks';
-import { AzureStorageMount, KeyVaultReference, SiteConfig, VirtualApplication } from '../../../models/site/config';
+import { AzureStorageMount, Reference, SiteConfig, VirtualApplication } from '../../../models/site/config';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
 import { HostStatus } from '../../../models/functions/host-status';
@@ -47,6 +47,7 @@ export interface AppSettingsFormValues {
   currentlySelectedStack: string;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
   references?: KeyVaultReferences;
+  httpTwo?: boolean;
 }
 
 export interface FormState {
@@ -71,7 +72,7 @@ export interface StackProps extends StacksProps {
   fetchConfig?: () => any;
 }
 
-export interface KeyVaultReferenceSummary {
+export interface ReferenceSummary {
   name: string;
   reference: string;
   status: string;
@@ -79,8 +80,8 @@ export interface KeyVaultReferenceSummary {
 }
 
 export interface KeyVaultReferences {
-  appSettings?: KeyVaultReferenceSummary[];
-  connectionStrings?: KeyVaultReferenceSummary[];
+  appSettings?: ReferenceSummary[];
+  connectionStrings?: ReferenceSummary[];
 }
 
 export enum LoadingStates {
@@ -149,13 +150,13 @@ export interface ShareItem {
   properties: ShareProperties;
 }
 
-export enum KeyVaultReferenceStatus {
+export enum ReferenceStatus {
   resolved = 'resolved',
   initialized = 'initialized',
 }
 
-export interface ConfigKeyVaultReferenceList {
-  keyToReferenceStatuses: { [name: string]: KeyVaultReference };
+export interface ConfigReferenceList {
+  keyToReferenceStatuses: Record<string, Reference>;
 }
 
 export enum AppSettingsTabs {

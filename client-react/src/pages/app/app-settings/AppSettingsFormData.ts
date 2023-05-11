@@ -4,21 +4,14 @@ import {
   FormAppSetting,
   FormConnectionString,
   FormAzureStorageMounts,
-  KeyVaultReferenceSummary,
-  KeyVaultReferenceStatus,
-  ConfigKeyVaultReferenceList,
+  ReferenceSummary,
+  ReferenceStatus,
+  ConfigReferenceList,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies, MinTlsVersion } from '../../../models/site/site';
-import {
-  SiteConfig,
-  ArmAzureStorageMount,
-  ConnStringInfo,
-  VirtualApplication,
-  KeyVaultReference,
-  ErrorPage,
-} from '../../../models/site/config';
+import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, Reference, ErrorPage } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
@@ -27,6 +20,7 @@ import { KeyValue } from '../../../models/portal-models';
 import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
+import i18next from 'i18next';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -264,10 +258,10 @@ export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
   }
 
   return sortBy(
-    Object.entries(errorPage.value).map(([key, value]) => ({
+    errorPage.value.map(value => ({
       status: 'Configured',
-      key: errorPage.value[key].properties.statusCode,
-      errorCode: String(errorPage.value[key].properties.statusCode),
+      key: Number(value.properties.statusCode),
+      errorCode: String(value.properties.statusCode),
     }))
   );
 }
@@ -447,7 +441,7 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
   return configCopy;
 }
 
-export function getCleanedReferences(references: ArmObj<ConfigKeyVaultReferenceList>) {
+export function getCleanedReferences(references: ArmObj<ConfigReferenceList>) {
   const keyToReferenceStatuses = !!references && !!references.properties && references.properties.keyToReferenceStatuses;
   if (!keyToReferenceStatuses) {
     return [];
@@ -461,30 +455,46 @@ export function getCleanedReferences(references: ArmObj<ConfigKeyVaultReferenceL
   }));
 }
 
-export function getKeyVaultReferenceStatus(reference: KeyVaultReferenceSummary | KeyVaultReference) {
+export function getReferenceStatus(reference: ReferenceSummary | Reference) {
   return reference.status?.toLowerCase() ?? '';
 }
 
-export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {
-  return getKeyVaultReferenceStatus(reference) === KeyVaultReferenceStatus.resolved;
+export function isReferenceResolved(reference: ReferenceSummary | Reference) {
+  return getReferenceStatus(reference) === ReferenceStatus.resolved;
 }
 
-export function isKeyVaultReferenceUnResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {
-  const status = getKeyVaultReferenceStatus(reference);
-  return status !== KeyVaultReferenceStatus.resolved && status !== KeyVaultReferenceStatus.initialized;
+export function getAzureConfigRefAriaLabel(reference: ReferenceSummary | Reference, t: i18next.TFunction) {
+  const status = isReferenceResolved(reference);
+  if (!status) {
+    return t('azureAppConfigRefAriaLabelNotResolved');
+  } else {
+    return t('azureAppConfigRefAriaLabelResolved');
+  }
 }
 
-export function getKeyVaultReferenceStatusIconProps(
-  reference: KeyVaultReferenceSummary | KeyVaultReference
-): { icon: string; type: string } {
-  const status = getKeyVaultReferenceStatus(reference);
-  if (status === KeyVaultReferenceStatus.resolved) {
+export function getKeyVaultRefAriaLabel(reference: ReferenceSummary | Reference, t: i18next.TFunction) {
+  const status = isReferenceResolved(reference);
+  if (!status) {
+    return t('azureKeyVaultRefNotResolved');
+  } else {
+    return t('azureKeyVaultRefResolved');
+  }
+}
+
+export function isKeyVaultReferenceUnResolved(reference: ReferenceSummary | Reference) {
+  const status = getReferenceStatus(reference);
+  return status !== ReferenceStatus.resolved && status !== ReferenceStatus.initialized;
+}
+
+export function getReferenceStatusIconProps(reference: ReferenceSummary | Reference): { icon: string; type: string } {
+  const status = getReferenceStatus(reference);
+  if (status === ReferenceStatus.resolved) {
     return {
       icon: IconConstants.IconNames.TickBadge,
       type: 'success',
     };
   }
-  if (status === KeyVaultReferenceStatus.initialized) {
+  if (status === ReferenceStatus.initialized) {
     return {
       icon: IconConstants.IconNames.InfoBadge,
       type: 'info',
@@ -496,12 +506,12 @@ export function getKeyVaultReferenceStatusIconProps(
   };
 }
 
-export function getKeyVaultReferenceStatusIconColor(reference: KeyVaultReferenceSummary | KeyVaultReference, theme: ThemeExtended) {
-  const status = getKeyVaultReferenceStatus(reference);
-  if (status === KeyVaultReferenceStatus.resolved) {
+export function getReferenceStatusIconColor(reference: ReferenceSummary | Reference, theme: ThemeExtended) {
+  const status = getReferenceStatus(reference);
+  if (status === ReferenceStatus.resolved) {
     return theme.semanticColors.inlineSuccessText;
   }
-  if (status === KeyVaultReferenceStatus.initialized) {
+  if (status === ReferenceStatus.initialized) {
     return theme.semanticColors.primaryButtonBackground;
   }
   return theme.semanticColors.inlineErrorText;

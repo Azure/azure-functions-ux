@@ -55,4 +55,6 @@ const ErrorPageGridAddEdit: React.FC<ErrorPageGridAddEditProps> = React.memo((pr
   );
 });
 
+ErrorPageGridAddEdit.displayName = 'ErrorPageGridAddEdit';
+
 export default ErrorPageGridAddEdit;
