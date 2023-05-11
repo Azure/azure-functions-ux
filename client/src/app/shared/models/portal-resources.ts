@@ -35,6 +35,7 @@ export class PortalResources {
   public static subNew_friendlySubNameName = 'subNew_friendlySubNameName';
   public static subNew_invitationCode = 'subNew_invitationCode';
   public static functionNew_experimentalTemplate = 'functionNew_experimentalTemplate';
+  public static functionNew_functionKind = 'functionNew_functionKind';
   public static functionNew_functionName = 'functionNew_functionName';
   public static functionNew_functionNameRequired = 'functionNew_functionNameRequired';
   public static functionNew_nameYourFunction = 'functionNew_nameYourFunction';
@@ -264,7 +265,12 @@ export class PortalResources {
   public static seeRecommendedOptions = 'seeRecommendedOptions';
   public static storageLockNote = 'storageLockNote';
   public static fileExplorer_fileAlreadyExists = 'fileExplorer_fileAlreadyExists';
+  public static functionNew_fileExists = 'functionNew_fileExists';
   public static functionNew_functionExists = 'functionNew_functionExists';
+  public static jobType_appendToBlueprint = 'jobType_appendToBlueprint';
+  public static jobType_appendToFile = 'jobType_appendToFile';
+  public static jobType_createNewApp = 'jobType_createNewApp';
+  public static jobType_createNewBlueprint = 'jobType_createNewBlueprint';
   public static binding_storageAccountKey = 'binding_storageAccountKey';
   public static binding_storageAccountName = 'binding_storageAccountName';
   public static binding_storageInfoFooter = 'binding_storageInfoFooter';
@@ -494,6 +500,8 @@ export class PortalResources {
   public static httpsOnlyLabel = 'httpsOnlyLabel';
   public static httpsOnlyInfoBubbleMessage = 'httpsOnlyInfoBubbleMessage';
   public static https20ProxyInfoBubbleMessage = 'https20ProxyInfoBubbleMessage';
+  public static basicAuthPublishingCredInfoBubbleMessage = 'basicAuthPublishingCredInfoBubbleMessage';
+  public static httpCertWarningInfoBubbleMessage = 'httpCertWarningInfoBubbleMessage';
   public static minTlsVersionLabel = 'minTlsVersionLabel';
   public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
   public static minTlsCipherSuiteLabel = 'minTlsCipherSuiteLabel';
@@ -1226,6 +1234,7 @@ export class PortalResources {
   public static resetCredentials = 'resetCredentials';
   public static httpVersion = 'httpVersion';
   public static http20Proxy = 'http20Proxy';
+  public static basicAuthPublishingCred = 'basicAuthPublishingCred';
   public static dismiss = 'dismiss';
   public static provider = 'provider';
   public static newAccount = 'newAccount';
@@ -1468,6 +1477,8 @@ export class PortalResources {
   public static generalSettings = 'generalSettings';
   public static defaultDocuments = 'defaultDocuments';
   public static customErrorPage = 'customErrorPage';
+  public static ErrorPagesGrid = 'ErrorPagesGrid';
+  public static ErrorPagesGridNotAvailable = 'ErrorPagesGridNotAvailable';
   public static errorPage = 'errorPage';
   public static pathMappings = 'pathMappings';
   public static errorPage_columnErrorCode = 'errorPage_columnErrorCode';
@@ -1864,7 +1875,7 @@ export class PortalResources {
   public static deleteBindingNotificationDetails = 'deleteBindingNotificationDetails';
   public static deleteBindingNotificationFailed = 'deleteBindingNotificationFailed';
   public static deleteBindingNotificationSuccess = 'deleteBindingNotificationSuccess';
-  public static createFunctionNotication = 'createFunctionNotication';
+  public static createFunctionNotification = 'createFunctionNotification';
   public static createFunctionNotificationDetails = 'createFunctionNotificationDetails';
   public static createFunctionNotificationFailed = 'createFunctionNotificationFailed';
   public static createFunctionNotificationFailedDetails = 'createFunctionNotificationFailedDetails';
@@ -2292,9 +2303,14 @@ export class PortalResources {
   public static selectDevelopmentEnvironment = 'selectDevelopmentEnvironment';
   public static selectDevelopmentEnvironmentDescription = 'selectDevelopmentEnvironmentDescription';
   public static developmentEnvironment = 'developmentEnvironment';
+  public static programmingModel = 'programmingModel';
+  public static v1ProgrammingModel = 'v1ProgrammingModel';
+  public static v2ProgrammingModel = 'v2ProgrammingModel';
   public static selectTemplate = 'selectTemplate';
   public static selectTemplateDescription = 'selectTemplateDescription';
   public static description = 'description';
+  public static viewTemplate = 'viewTemplate';
+  public static viewTemplateFormat = 'viewTemplateFormat';
   public static templateDetails = 'templateDetails';
   public static detailDescription = 'detailDescription';
   public static developInPortal = 'developInPortal';
@@ -2312,6 +2328,7 @@ export class PortalResources {
   public static pricing_ACU_Pv3 = 'pricing_ACU_Pv3';
   public static pricing_vCores = 'pricing_vCores';
   public static functionInfoFetchError = 'functionInfoFetchError';
+  public static functionInfoUnavailableError = 'functionInfoUnavailableError';
   public static createHostKeyNotification = 'createHostKeyNotification';
   public static createSystemKeyNotification = 'createSystemKeyNotification';
   public static createFunctionKeyNotification = 'createFunctionKeyNotification';
@@ -2581,8 +2598,16 @@ export class PortalResources {
   public static cosmosDb_tooltip_partitionKeyPath = 'cosmosDb_tooltip_partitionKeyPath';
   public static containerApp_console_startUpCommandAriaLabel = 'containerApp_console_startUpCommandAriaLabel';
   public static containerApp_console_cancel = 'containerApp_console_cancel';
+  public static createFunction_fileContentError = 'createFunction_fileContentError';
+  public static createFunction_filePathError = 'createFunction_filePathError';
+  public static createFunction_functionAppExistsError = 'createFunction_functionAppExistsError';
+  public static createFunction_functionNameError = 'createFunction_functionNameError';
+  public static createFunction_functionKindError = 'createFunction_functionKindError';
   public static createFunction_noAppSettingsPermissionsError = 'createFunction_noAppSettingsPermissionsError';
+  public static createFunction_noBlueprintFilenameError = 'createFunction_noBlueprintFilenameError';
   public static createFunction_noResourceIdError = 'createFunction_noResourceIdError';
+  public static createFunction_noSubstitutionsError = 'createFunction_noSubstitutionsError';
+  public static createFunction_selectedTemplateError = 'createFunction_selectedTemplateError';
   public static createFunctionDeploymentNotification = 'createFunctionDeploymentNotification';
   public static createFunctionDeploymentNotificationDetails = 'createFunctionDeploymentNotificationDetails';
   public static createFunctionDeploymentNotificationSuccess = 'createFunctionDeploymentNotificationSuccess';
@@ -2600,4 +2625,7 @@ export class PortalResources {
   public static resetUserScopeCredentialsConfirmationDescription = 'resetUserScopeCredentialsConfirmationDescription';
   public static connectionStringInfoMessage = 'connectionStringInfoMessage';
   public static ibizafication_readOnlyDotnetIsolated = 'ibizafication_readOnlyDotnetIsolated';
+  public static consoleContainerTextAreaAriaLabel = 'consoleContainerTextAreaAriaLabel';
+  public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
+  public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
 }

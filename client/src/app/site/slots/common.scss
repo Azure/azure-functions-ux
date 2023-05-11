@@ -125,6 +125,10 @@ td.message-row {
   text-align: center;
 }
 
+.textOverflow-col {
+  word-break: break-all;
+}
+
 .controls-container {
   width: 100%;
   margin-top: 10px;

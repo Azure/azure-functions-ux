@@ -7,9 +7,11 @@ import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
 import { RepoTypeOptions } from '../../../models/external';
 import { CommonConstants } from '../../../utils/CommonConstants';
+import { PublishingCredentialPolicies } from '../../../models/site/site';
 
 export abstract class DeploymentCenterFormBuilder {
   protected _publishingUser: ArmObj<PublishingUser>;
+  protected _basicPublishingCredentialsPolicies: PublishingCredentialPolicies;
   protected _siteConfig: ArmObj<SiteConfig>;
   protected _applicationSettings: ArmObj<KeyValue<string>>;
   protected _configMetadata: ArmObj<KeyValue<string>>;
@@ -144,6 +146,10 @@ export abstract class DeploymentCenterFormBuilder {
 
   public setPublishingUser(publishingUser: ArmObj<PublishingUser>) {
     this._publishingUser = publishingUser;
+  }
+
+  public setBasicPublishingCredentialsPolicies(policies: PublishingCredentialPolicies) {
+    this._basicPublishingCredentialsPolicies = policies;
   }
 
   public setSiteConfig(siteConfig: ArmObj<SiteConfig>) {

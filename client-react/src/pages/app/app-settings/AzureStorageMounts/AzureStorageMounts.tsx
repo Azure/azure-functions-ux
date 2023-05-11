@@ -282,6 +282,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
           emptyMessage={t('emptyAzureStorageMount')}
+          ariaLabelForGrid={t('mountStorage')}
         />
         <CustomPanel
           type={PanelType.medium}

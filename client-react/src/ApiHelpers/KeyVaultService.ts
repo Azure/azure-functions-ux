@@ -9,6 +9,6 @@ export default class KeyVaultService {
       subscriptions: [subscriptionId],
       query: queryString,
     };
-    return MakeAzureResourceGraphCall<ArmObj<{}>>(request, 'fetchKeyVaultReference');
+    return MakeAzureResourceGraphCall<ArmObj<Record<string, any>>>(request, 'fetchKeyVaultReference');
   };
 }

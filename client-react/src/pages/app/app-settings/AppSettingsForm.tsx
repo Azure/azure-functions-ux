@@ -102,9 +102,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={isWorkflowApp(site) ? t('workflowRuntimeSettings') : t('functionRuntimeSettings')}>
           <FunctionRuntimeSettingsPivot {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {showGeneralSettings ? (
         <PivotItem
@@ -116,9 +114,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={t('generalSettings')}>
           <GeneralSettings {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {enableDefaultDocuments ? (
         <PivotItem
@@ -130,9 +126,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={t('defaultDocuments')}>
           <DefaultDocumentsPivot {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {enablePathMappings || enableAzureStorageMount ? (
         <PivotItem
@@ -144,9 +138,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={t('pathMappings')}>
           <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {enableCustomErrorPages ? (
         <PivotItem
@@ -158,9 +150,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={t('customErrorPage')}>
           <ErrorPagePivot {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </Pivot>
   );
 };
