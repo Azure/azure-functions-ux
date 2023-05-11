@@ -61,7 +61,7 @@ export const deploymentCenterContainerLogsBox = style({
 });
 
 export const deploymentCenterCodeLogsBox = style({
-  position: 'fixed',
+  position: 'static',
   height: 'calc(100% - 250px)',
   width: 'calc(100% - 50px)',
   overflowY: 'auto',
