@@ -111,6 +111,19 @@ export class GithubController {
     this._putGitHubRepoSecret(gitHubToken, publicKey, repo, secretName, secretValue);
   }
 
+  @Put('api/github/addRespositoryVariable')
+  @HttpCode(200)
+  async addRespositoryVariable(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('repo') repo: string,
+    @Body('variableName') variableName: string,
+    @Body('variableValue') variableValue: string,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${repo}/actions/variables`;
+    await this._makePostCallWithLinkAndOAuthHeaders(url, gitHubToken, res, { name: variableName, value: variableValue });
+  }
+
   @Post('api/github/createRepoFromGitHubTemplate')
   @HttpCode(200)
   async createRepoFromGitHubTemplate(
