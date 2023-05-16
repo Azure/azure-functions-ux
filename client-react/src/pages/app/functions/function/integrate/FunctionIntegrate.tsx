@@ -1,5 +1,5 @@
 import { IStackTokens, MessageBarType, Stack } from '@fluentui/react';
-import React, { useCallback, useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { Observable, Subject } from 'rxjs';
@@ -20,6 +20,7 @@ import { HostStatus } from '../../../../../models/functions/host-status';
 import { Links } from '../../../../../utils/FwLinks';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
+import { isNewPythonProgrammingModel } from '../function-editor/useFunctionEditorQueries';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import {
@@ -92,7 +93,11 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const onlyBuiltInBindings = !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle;
-  const readOnly = SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState);
+  const bindingsReadOnly = useMemo(() => !!functionInfo && isNewPythonProgrammingModel(functionInfo), [functionInfo]);
+  const functionAppReadOnly = useMemo(() => SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState), [
+    siteStateContext.siteAppEditState,
+  ]);
+  const readOnly = functionAppReadOnly || bindingsReadOnly;
 
   const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);
@@ -236,6 +241,9 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
         learnMoreLink={Links.bindingDirectionLearnMore}
       />
     );
+  } else if (bindingsReadOnly && !functionAppReadOnly) {
+    // Bindings are read-only for v2 Python progrmaming model functions, which are otherwise read-write.
+    banner = <CustomBanner message={t('integrate_readOnlyPythonV2')} type={MessageBarType.info} />;
   } else if (readOnly) {
     // All readonly situations
     banner = <EditModeBanner />;
