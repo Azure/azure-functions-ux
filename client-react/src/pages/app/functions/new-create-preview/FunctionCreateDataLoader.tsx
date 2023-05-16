@@ -258,7 +258,7 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
             selectedKey={selectedDropdownKey}
             disabled={creatingFunction}
           />
-          {programmingModelVisible && (
+          {selectedDropdownKey === DevelopmentExperience.developInPortal && programmingModelVisible && (
             <Dropdown
               id="function-create-programming-model"
               aria-labelledby="programming-model-label"
