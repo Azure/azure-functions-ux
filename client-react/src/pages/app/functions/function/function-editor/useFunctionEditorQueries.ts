@@ -28,9 +28,16 @@ export const isNewNodeProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): 
   return properties?.config_href === null && properties?.config.language === WorkerRuntimeLanguages.nodejs;
 };
 
+/**
+ * @todo (joechung): The `properties?.config.scriptFile` check is a temporary workaround for a runtime bug where
+ * `properties?.config_href` is being populated for v2 functions created in the portal.
+ */
 export const isNewPythonProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   const properties = functionInfo?.properties;
-  return properties?.config_href === null && properties?.config.language === WorkerRuntimeLanguages.python;
+  return (
+    (properties?.config_href === null || properties?.config.scriptFile === 'function_app.py') &&
+    properties?.config.language === WorkerRuntimeLanguages.python
+  );
 };
 
 // Currently, Node is the only new programming model which supports storing files in any folders.
