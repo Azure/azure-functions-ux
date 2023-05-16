@@ -369,10 +369,6 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     resetInvalidFileSelectedWarningAndFileName();
   };
 
-  const getHeaderContent = (): JSX.Element => {
-    return <></>;
-  };
-
   const toggleLogPanelExpansion = () => {
     if (!logPanelExpanded) {
       expandLogPanel();
@@ -620,7 +616,6 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
         isOpen={showTestPanel}
         onDismiss={onCloseTest}
         overlay={functionRunning || isRefreshing}
-        headerContent={getHeaderContent()}
         isBlocking={false}
         customStyle={testPanelStyle}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}
