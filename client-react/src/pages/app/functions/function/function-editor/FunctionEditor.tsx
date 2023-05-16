@@ -45,7 +45,6 @@ import { FileContent, InputFormValues, LoggingOptions, ResponseContent, UrlObj }
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import FunctionTestIntegration from './function-test-integration/FunctionTestIntegration';
 import FunctionTest from './function-test/FunctionTest';
 import {
   Status,
@@ -63,9 +62,7 @@ export interface FunctionEditorProps {
   functionRunning: boolean;
   urlObjs: UrlObj[];
   showTestPanel: boolean;
-  showTestIntegrationPanel: boolean;
   setShowTestPanel: (showPanel: boolean) => void;
-  setShowTestIntegrationPanel: React.Dispatch<React.SetStateAction<boolean>>;
   refresh: () => void;
   isRefreshing: boolean;
   getFunctionUrl: (key?: string) => string;
@@ -96,9 +93,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     functionRunning,
     urlObjs,
     showTestPanel,
-    showTestIntegrationPanel,
     setShowTestPanel,
-    setShowTestIntegrationPanel,
     testData,
     refresh,
     isRefreshing,
@@ -197,17 +192,9 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     setShowTestPanel(true);
   };
 
-  const testIntegration = useCallback(() => {
-    setShowTestIntegrationPanel(true);
-  }, [setShowTestIntegrationPanel]);
-
   const onCloseTest = () => {
     setShowTestPanel(false);
   };
-
-  const onCloseTestIntegration = useCallback(() => {
-    setShowTestIntegrationPanel(false);
-  }, [setShowTestIntegrationPanel]);
 
   const isDirty = () => {
     return fileContent.default !== fileContent.latest;
@@ -568,7 +555,6 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
           saveFunction={save}
           resetFunction={() => setShowDiscardConfirmDialog(true)}
           testFunction={test}
-          testIntegrationFunction={testIntegration}
           refreshFunction={refresh}
           isGetFunctionUrlVisible={isGetFunctionUrlVisible()}
           dirty={isDirty()}
@@ -645,16 +631,6 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
           enablePortalCall={enablePortalCall}
           addingCorsRules={addingCorsRules}
         />
-      </CustomPanel>
-      <CustomPanel
-        customStyle={testPanelStyle}
-        headerText={t('testIntegration')}
-        isBlocking={false}
-        isOpen={showTestIntegrationPanel}
-        overlay={isRefreshing}
-        onDismiss={onCloseTestIntegration}
-        type={PanelType.medium}>
-        <FunctionTestIntegration functionInfo={functionInfo} />
       </CustomPanel>
       {isLoading() && <LoadingComponent />}
       {!logPanelFullscreen && (
