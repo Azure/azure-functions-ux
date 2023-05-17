@@ -5457,6 +5457,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="keyVaultReferenceDetails" xml:space="preserve">
         <value>Key Vault Reference Details</value>
     </data>
+    <data name="appConfigurationReferenceDetails" xml:space="preserve">
+        <value>App Configuration Reference Details</value>
+    </data>
     <data name="keyVaultName" xml:space="preserve">
         <value>Vault Name</value>
     </data>

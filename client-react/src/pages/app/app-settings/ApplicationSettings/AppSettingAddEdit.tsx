@@ -83,12 +83,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
   };
 
   const isAppSettingReferenceVisible = () => {
-    return (
-      appSetting.name === currentAppSetting.name &&
-      appSetting.value === currentAppSetting.value &&
-      !!currentAppSettingReference &&
-      !!currentAppSettingReference.secretName
-    );
+    return appSetting.name === currentAppSetting.name && appSetting.value === currentAppSetting.value && !!currentAppSettingReference;
   };
 
   const isValidReference = () => {
@@ -96,7 +91,7 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
       appSetting.name === currentAppSetting.name &&
       appSetting.value === currentAppSetting.value &&
       (CommonConstants.isKeyVaultReference(currentAppSetting.value) ||
-        appSetting.name.toLocaleLowerCase().startsWith(azureAppConfigRefStart))
+        appSetting.value.toLocaleLowerCase().startsWith(azureAppConfigRefStart))
     );
   };
 

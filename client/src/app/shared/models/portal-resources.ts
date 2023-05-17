@@ -1762,6 +1762,7 @@ export class PortalResources {
   public static functionCreate_createFunction = 'functionCreate_createFunction';
   public static appSettingsRefreshAriaLabel = 'appSettingsRefreshAriaLabel';
   public static keyVaultReferenceDetails = 'keyVaultReferenceDetails';
+  public static appConfigurationReferenceDetails = 'appConfigurationReferenceDetails';
   public static keyVaultName = 'keyVaultName';
   public static keyVaultSecretName = 'keyVaultSecretName';
   public static keyVaultSecretVersion = 'keyVaultSecretVersion';
