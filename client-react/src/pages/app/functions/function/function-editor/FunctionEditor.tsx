@@ -395,7 +395,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
   };
 
   const isTestDisabled = () => {
-    return !isRuntimeReachable() || isNewPythonProgrammingModel(functionInfo);
+    return !isRuntimeReachable();
   };
 
   const isEditorDisabled = () => {
