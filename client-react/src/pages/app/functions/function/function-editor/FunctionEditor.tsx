@@ -174,11 +174,13 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
 
     setSavingFile(true);
     const fileData = selectedFile.data;
+
+    // AB#22858665 v2 programming model Python functions should be saved to the root folder.
     const fileResponse = await FunctionsService.saveFileContent(
       site.id,
       fileData.name,
       fileContent.latest,
-      functionInfo.properties.name,
+      isNewPythonProgrammingModel(functionInfo) ? undefined : functionInfo.properties.name,
       runtimeVersion,
       functionEditorContext.getSaveFileHeaders(fileData.mime)
     );
