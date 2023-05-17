@@ -53,6 +53,7 @@ import {
   isDotNetIsolatedFunction,
   isNewNodeProgrammingModel,
   isNewProgrammingModel,
+  isNewPythonProgrammingModel,
 } from './useFunctionEditorQueries';
 
 export interface FunctionEditorProps {
@@ -392,7 +393,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
   };
 
   const isTestDisabled = () => {
-    return !isRuntimeReachable();
+    return !isRuntimeReachable() || isNewPythonProgrammingModel(functionInfo);
   };
 
   const isEditorDisabled = () => {
