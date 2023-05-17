@@ -1,7 +1,8 @@
 import { ShimmerElementsGroup, ShimmerElementType } from '@fluentui/react';
+import React from 'react';
 import { wrapperStyle } from './Shimmer.styles';
 
-export const getLineGapShimmerGroup = (): JSX.Element => {
+export const LineGapShimmerGroup: React.FC = () => {
   return (
     <div style={wrapperStyle}>
       <ShimmerElementsGroup
@@ -22,7 +23,7 @@ export const getLineGapShimmerGroup = (): JSX.Element => {
   );
 };
 
-export const getLineCircleShimmerGroup = (): JSX.Element => {
+export const LineCircleShimmerGroup: React.FC = () => {
   return (
     <div style={wrapperStyle}>
       <ShimmerElementsGroup
@@ -43,7 +44,7 @@ export const getLineCircleShimmerGroup = (): JSX.Element => {
   );
 };
 
-export const getLineGapCircleShimmerGroup = (): JSX.Element => {
+export const LineGapCircleShimmerGroup: React.FC = () => {
   return (
     <div style={wrapperStyle}>
       <ShimmerElementsGroup
