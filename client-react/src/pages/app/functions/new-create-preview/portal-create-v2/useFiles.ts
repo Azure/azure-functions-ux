@@ -20,7 +20,7 @@ export function useFiles(resourceId: string) {
         portalCommunicator.log(
           getTelemetryInfo('error', 'getFileContent', 'failed', {
             error: response.metadata.error,
-            message: 'Failed to save content',
+            message: 'Failed to get content',
             path,
           })
         );

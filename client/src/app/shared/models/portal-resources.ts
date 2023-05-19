@@ -1762,6 +1762,7 @@ export class PortalResources {
   public static functionCreate_createFunction = 'functionCreate_createFunction';
   public static appSettingsRefreshAriaLabel = 'appSettingsRefreshAriaLabel';
   public static keyVaultReferenceDetails = 'keyVaultReferenceDetails';
+  public static appConfigurationReferenceDetails = 'appConfigurationReferenceDetails';
   public static keyVaultName = 'keyVaultName';
   public static keyVaultSecretName = 'keyVaultSecretName';
   public static keyVaultSecretVersion = 'keyVaultSecretVersion';
@@ -1980,6 +1981,7 @@ export class PortalResources {
   public static resourceDropdown_missingAppSetting = 'resourceDropdown_missingAppSetting';
   public static resourceDropdown_noAppSettingsFound = 'resourceDropdown_noAppSettingsFound';
   public static integrate_bindingsMissingDirection = 'integrate_bindingsMissingDirection';
+  public static integrate_readOnlyPythonV2 = 'integrate_readOnlyPythonV2';
   public static functionMonitor_invocations = 'functionMonitor_invocations';
   public static functionMonitor_logs = 'functionMonitor_logs';
   public static logStreaming_openInLiveMetrics = 'logStreaming_openInLiveMetrics';

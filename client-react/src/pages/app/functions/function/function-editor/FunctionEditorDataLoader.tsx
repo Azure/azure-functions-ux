@@ -31,7 +31,7 @@ import { FunctionEditor } from './FunctionEditor';
 import FunctionEditorData from './FunctionEditor.data';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { NameValuePair, ResponseContent, UrlObj, UrlType, urlParameterRegExp } from './FunctionEditor.types';
-import { isNewNodeProgrammingModel, useFunctionEditorQueries } from './useFunctionEditorQueries';
+import { isNewNodeProgrammingModel, isNewPythonProgrammingModel, useFunctionEditorQueries } from './useFunctionEditorQueries';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -303,7 +303,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
     setFunctionRunning(true);
 
-    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
+    // Do not update v2 Python functions here since its metadata is derived from code, not from function.json.
+    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) && !isNewPythonProgrammingModel(functionInfo)) {
       const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
       if (updatedFunctionInfo.metadata.success) {
         setFunctionInfo(updatedFunctionInfo.data);
