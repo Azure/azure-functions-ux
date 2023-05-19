@@ -2,6 +2,9 @@ import { IDropdownOption, MessageBarType, PanelType } from '@fluentui/react';
 import { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
@@ -13,27 +16,22 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
 import { Site } from '../../../../../models/site/site';
-import { PortalContext } from '../../../../../PortalContext';
-import { SiteStateContext } from '../../../../../SiteState';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
 import FunctionAppService from '../../../../../utils/FunctionAppService';
 import { Links } from '../../../../../utils/FwLinks';
 import { Guid } from '../../../../../utils/Guid';
-import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
-import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
+import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
+import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import Url from '../../../../../utils/url';
 import { AppKeysInfo } from '../../app-keys/AppKeys.types';
 import { logCommandBarHeight, minimumLogPanelHeight } from '../function-log/FunctionLog.styles';
 import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
 import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
-import FunctionTestIntegration from './function-test-integration/FunctionTestIntegration';
-import FunctionTest from './function-test/FunctionTest';
 import {
   commandBarSticky,
   defaultMonacoEditorHeight,
@@ -47,7 +45,16 @@ import { FileContent, InputFormValues, LoggingOptions, ResponseContent, UrlObj }
 import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
 import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { isNewProgrammingModel, getNewProgrammingModelFolderName, Status, isNewNodeProgrammingModel } from './useFunctionEditorQueries';
+import FunctionTestIntegration from './function-test-integration/FunctionTestIntegration';
+import FunctionTest from './function-test/FunctionTest';
+import {
+  Status,
+  getFunctionDirectory,
+  isDotNetIsolatedFunction,
+  isNewNodeProgrammingModel,
+  isNewProgrammingModel,
+  isNewPythonProgrammingModel,
+} from './useFunctionEditorQueries';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
@@ -167,11 +174,13 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
 
     setSavingFile(true);
     const fileData = selectedFile.data;
+
+    // AB#22858665 v2 programming model Python functions should be saved to the root folder.
     const fileResponse = await FunctionsService.saveFileContent(
       site.id,
       fileData.name,
       fileContent.latest,
-      functionInfo.properties.name,
+      isNewPythonProgrammingModel(functionInfo) ? undefined : functionInfo.properties.name,
       runtimeVersion,
       functionEditorContext.getSaveFileHeaders(fileData.mime)
     );
@@ -284,34 +293,34 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
       };
       // For new programming model, currently Node is the only one returns the specific folder name to get a list of files.
       const functionName = isNewProgrammingModel(functionInfo) ? '' : functionInfo.properties.name;
-      const newProgrammingModelFolderName = getNewProgrammingModelFolderName(functionInfo);
+      const functionDirectory = getFunctionDirectory(functionInfo);
 
-      FunctionsService.getFileContent(site.id, functionName, runtimeVersion, headers, file.name, newProgrammingModelFolderName).then(
-        fileResponse => {
-          setIsFileContentAvailable(fileResponse.metadata.success);
+      FunctionsService.getFileContent(site.id, functionName, runtimeVersion, headers, file.name, functionDirectory).then(fileResponse => {
+        setIsFileContentAvailable(fileResponse.metadata.success);
 
-          if (fileResponse.metadata.success) {
-            const fileText = typeof fileResponse.data === 'string' ? fileResponse.data : JSON.stringify(fileResponse.data, null, 2);
-            setFileContent({ default: fileText, latest: fileText });
-          } else {
-            setFileContent({ default: '', latest: '' });
-            portalCommunicator.log(
-              getTelemetryInfo('error', 'getFileContent', 'failed', {
-                error: fileResponse.metadata.error,
-                message: 'Failed to get file content',
-              })
-            );
-          }
+        if (fileResponse.metadata.success) {
+          const fileText = typeof fileResponse.data === 'string' ? fileResponse.data : JSON.stringify(fileResponse.data, null, 2);
+          setFileContent({ default: fileText, latest: fileText });
+        } else {
+          setFileContent({ default: '', latest: '' });
+          portalCommunicator.log(
+            getTelemetryInfo('error', 'getFileContent', 'failed', {
+              error: fileResponse.metadata.error,
+              message: 'Failed to get file content',
+            })
+          );
         }
-      );
+      });
     },
-    [functionInfo, runtimeVersion, site.id]
+    [functionInfo, portalCommunicator, runtimeVersion, site.id]
   );
 
   const getScriptFileOption = (): IDropdownOption | undefined => {
     let filename = '';
     if (isNewNodeProgrammingModel(functionInfo)) {
       filename = functionInfo.properties.config.scriptFile || '';
+    } else if (isDotNetIsolatedFunction(functionInfo)) {
+      filename = 'functions.metadata';
     } else {
       const scriptHref = functionInfo.properties.script_href;
       filename = ((scriptHref && scriptHref.split('/').pop()) || '').toLocaleLowerCase();
@@ -367,10 +376,6 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     setSelectedDropdownOption(undefined);
     setShowDiscardConfirmDialog(false);
     resetInvalidFileSelectedWarningAndFileName();
-  };
-
-  const getHeaderContent = (): JSX.Element => {
-    return <></>;
   };
 
   const toggleLogPanelExpansion = () => {
@@ -620,7 +625,6 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
         isOpen={showTestPanel}
         onDismiss={onCloseTest}
         overlay={functionRunning || isRefreshing}
-        headerContent={getHeaderContent()}
         isBlocking={false}
         customStyle={testPanelStyle}>
         {functionRunning && <LoadingComponent className={testLoadingStyle} />}

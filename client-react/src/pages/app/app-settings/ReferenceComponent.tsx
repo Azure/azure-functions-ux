@@ -49,6 +49,8 @@ const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
     return identityType.toLocaleLowerCase() === 'userassigned' ? 'User' : 'System';
   };
 
+  const detailsHeadingValue = appSettingReference.secretName ? t('keyVaultReferenceDetails') : t('appConfigurationReferenceDetails');
+
   const appReferenceHeaderStyle = style({
     textDecoration: 'none',
   });
@@ -141,7 +143,7 @@ const ReferenceComponent: React.FC<ReferenceComponentProps> = props => {
   return (
     <>
       <div id="app-settings-key-vault" className={elementWrapperStyle(theme)}>
-        <h3 className={appReferenceHeaderStyle}>{t('keyVaultReferenceDetails')}</h3>
+        <h3 className={appReferenceHeaderStyle}>{detailsHeadingValue}</h3>
         <div>
           {isValidValue(vaultName) && (
             <InformationLabel
