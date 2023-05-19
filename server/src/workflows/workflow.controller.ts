@@ -1,12 +1,42 @@
-import { Controller, Post, Body, Query, HttpException, HttpCode } from '@nestjs/common';
+import { Controller, Post, Body, Query, HttpException, HttpCode, Put } from '@nestjs/common';
 import { Versions } from './versions';
 import { WorkflowService20201201 } from './2020-12-01/WorkflowService';
 import { AppType, Os, PublishType } from './WorkflowModel';
 import { WorkflowService20221001 } from './2022-10-01/WorkflowService';
+import { GitHubCommit } from '../deployment-center/github/github';
+import { HttpService } from '../shared/http/http.service';
+import { LoggingService } from '../shared/logging/logging.service';
 
 @Controller('workflows')
 export class WorkflowController {
-  constructor(private _workflowService20201201: WorkflowService20201201, private _workflowService20221001: WorkflowService20221001) {}
+  private readonly githubApiUrl = 'https://api.github.com';
+
+  constructor(
+    private _workflowService20201201: WorkflowService20201201,
+    private _workflowService20221001: WorkflowService20221001,
+    private loggingService: LoggingService,
+    private httpService: HttpService
+  ) {}
+
+  @Put('getAndUpdateWorkflow')
+  @HttpCode(200)
+  async getAndUpdateWorkflowFile(
+    @Body('appType') appType: string,
+    @Body('publishType') publishType: string,
+    @Body('os') os: string,
+    @Body('variables') variables: { [key: string]: string },
+    @Body('runtimeStack') runtimeStack?: string,
+    @Body('authType') authType?: string,
+    @Body('gitHubToken') gitHubToken?: string,
+    @Body('commit') commit?: GitHubCommit
+  ) {
+    const workflowFile = this._workflowService20221001.getWorkflowFile(appType, publishType, os, runtimeStack, variables, authType);
+
+    await this._commitFile(gitHubToken, {
+      ...commit,
+      contentBase64Encoded: Buffer.from(workflowFile).toString('base64'),
+    });
+  }
 
   @Post('generate')
   @HttpCode(200)
@@ -31,6 +61,39 @@ export class WorkflowController {
     }
 
     return this._workflowService20201201.getWorkflowFile(appType, publishType, os, runtimeStack, variables);
+  }
+
+  private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
+    return {
+      Authorization: `token ${accessToken}`,
+    };
+  }
+
+  private async _commitFile(gitHubToken: string, commit: GitHubCommit) {
+    const url = `${this.githubApiUrl}/repos/${commit.repoName}/contents/${commit.filePath}`;
+
+    const commitContent = {
+      message: commit.message,
+      content: commit.contentBase64Encoded,
+      sha: commit.sha,
+      branch: commit.branchName,
+      comitter: commit.committer,
+    };
+
+    try {
+      await this.httpService.put(url, commitContent, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+    } catch (err) {
+      this.loggingService.error(
+        `Failed to commit action workflow '${commit.filePath}' on branch '${commit.branchName}' in repo '${commit.repoName}'.`
+      );
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
   }
 
   private _validateApiVersion(apiVersion: string, acceptedVersions: string[]) {
