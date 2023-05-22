@@ -24,10 +24,11 @@ import {
   isStackVersionEndOfLife,
   isWindowsNodeApp,
 } from '../../../../../../utils/stacks-utils';
+import StringUtils from '../../../../../../utils/string';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
-  const { initialValues, values } = props;
+  const { initialValues, values, setFieldValue } = props;
   const siteStateContext = useContext(SiteStateContext);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const functionAppStackContext = useContext(FunctionAppStacksContext);
@@ -60,6 +61,23 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     return functionAppFilteredStacks.length > 0 ? initialValues.currentlySelectedStack : undefined;
   }, [functionAppFilteredStacks, initialValues]);
 
+  const isSettingSectionVisible = React.useMemo(
+    () =>
+      siteStateContext.site &&
+      siteStateContext.isFunctionApp &&
+      runtimeStack &&
+      (siteStateContext.isLinuxApp ||
+        StringUtils.isStringInArray(
+          runtimeStack,
+          [WorkerRuntimeLanguages.dotnetIsolated, WorkerRuntimeLanguages.powershell, WorkerRuntimeLanguages.java],
+          true
+        ) ||
+        initialValues.appSettings.some(appSetting =>
+          StringUtils.equalsIgnoreCase(appSetting.name, CommonConstants.AppSettingNames.websiteNodeDefaultVersion)
+        )),
+    [siteStateContext.isLinuxApp, siteStateContext.isFunctionApp, siteStateContext.site, runtimeStack, initialValues.appSettings]
+  );
+
   const onMajorVersionChange = React.useCallback(
     (_, option: IDropdownOption) => {
       // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
@@ -78,16 +96,13 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
               CommonConstants.AppSettingNames.websiteNodeDefaultVersion
             ]
           );
-          props.setFieldValue('appSettings', appSettings);
+          setFieldValue('appSettings', appSettings);
         }
       } else {
-        props.setFieldValue(
-          `config.properties.${getStackVersionConfigPropertyName(siteStateContext.isLinuxApp, runtimeStack)}`,
-          option.key
-        );
+        setFieldValue(`config.properties.${getStackVersionConfigPropertyName(siteStateContext.isLinuxApp, runtimeStack)}`, option.key);
       }
     },
-    [siteStateContext, values, runtimeStack, options]
+    [siteStateContext.isLinuxApp, values, runtimeStack, setFieldValue]
   );
 
   const getEolBanner = React.useCallback(() => {
@@ -102,7 +117,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     }
 
     return null;
-  }, [selectedStackVersion, options, siteStateContext]);
+  }, [selectedStackVersion, options, siteStateContext, t]);
 
   useEffect(() => {
     setDirtyState(initialStackVersion !== selectedStackVersion);
@@ -111,9 +126,8 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   }, [setDirtyState, selectedStackVersion, initialStackVersion]);
 
   useEffect(() => {
-    const isLinux = siteStateContext.isLinuxApp;
-    setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, isLinux, runtimeStack));
-  }, [siteStateContext, functionAppFilteredStacks, runtimeStack, setCurrentStackData]);
+    setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, siteStateContext.isLinuxApp, runtimeStack));
+  }, [siteStateContext.isLinuxApp, functionAppFilteredStacks, runtimeStack, setCurrentStackData]);
 
   useEffect(() => {
     const isLinux = siteStateContext.isLinuxApp;
@@ -124,9 +138,9 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     setSelectedStackVersion(stackVersion);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
+  }, [siteStateContext.isLinuxApp, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
 
-  return siteStateContext.isLinuxApp && currentStackData && siteStateContext.site && !siteStateContext.isContainerApp && runtimeStack ? (
+  return isSettingSectionVisible && currentStackData ? (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
