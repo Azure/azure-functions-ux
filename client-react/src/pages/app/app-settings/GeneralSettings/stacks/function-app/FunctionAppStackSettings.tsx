@@ -69,15 +69,13 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
       (siteStateContext.isLinuxApp ||
         StringUtils.isStringInArray(
           runtimeStack,
-          [
-            WorkerRuntimeLanguages.dotnetIsolated,
-            WorkerRuntimeLanguages.powershell,
-            WorkerRuntimeLanguages.java,
-            WorkerRuntimeLanguages.nodejs,
-          ],
+          [WorkerRuntimeLanguages.dotnetIsolated, WorkerRuntimeLanguages.powershell, WorkerRuntimeLanguages.java],
           true
+        ) ||
+        initialValues.appSettings.some(appSetting =>
+          StringUtils.equalsIgnoreCase(appSetting.name, CommonConstants.AppSettingNames.websiteNodeDefaultVersion)
         )),
-    [siteStateContext.isLinuxApp, siteStateContext.isFunctionApp, siteStateContext.site, runtimeStack]
+    [siteStateContext.isLinuxApp, siteStateContext.isFunctionApp, siteStateContext.site, runtimeStack, initialValues.appSettings]
   );
 
   const onMajorVersionChange = React.useCallback(
