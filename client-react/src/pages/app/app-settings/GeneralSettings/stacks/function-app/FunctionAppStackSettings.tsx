@@ -128,9 +128,8 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   }, [setDirtyState, selectedStackVersion, initialStackVersion]);
 
   useEffect(() => {
-    const isLinux = siteStateContext.isLinuxApp;
-    setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, isLinux, runtimeStack));
-  }, [siteStateContext, functionAppFilteredStacks, runtimeStack, setCurrentStackData]);
+    setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, siteStateContext.isLinuxApp, runtimeStack));
+  }, [siteStateContext.isLinuxApp, functionAppFilteredStacks, runtimeStack, setCurrentStackData]);
 
   useEffect(() => {
     const isLinux = siteStateContext.isLinuxApp;
@@ -141,7 +140,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     setSelectedStackVersion(stackVersion);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
+  }, [siteStateContext.isLinuxApp, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
 
   return isSettingSectionVisible && currentStackData ? (
     <>
