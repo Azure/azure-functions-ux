@@ -7,6 +7,9 @@ import FunctionsService, {
 } from '../../../../../ApiHelpers/FunctionsService';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import SiteService from '../../../../../ApiHelpers/SiteService';
+import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
@@ -15,23 +18,20 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { RuntimeExtensionCustomVersions, RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { KeyValue } from '../../../../../models/portal-models';
-import { PortalContext } from '../../../../../PortalContext';
-import { SiteStateContext } from '../../../../../SiteState';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { Guid } from '../../../../../utils/Guid';
 import { LogCategories } from '../../../../../utils/LogCategories';
+import SiteHelper from '../../../../../utils/SiteHelper';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
-import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
-import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import Url from '../../../../../utils/url';
 import { FunctionEditor } from './FunctionEditor';
 import FunctionEditorData from './FunctionEditor.data';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
-import { NameValuePair, ResponseContent, UrlObj, urlParameterRegExp, UrlType } from './FunctionEditor.types';
-import { isNewNodeProgrammingModel, useFunctionEditorQueries } from './useFunctionEditorQueries';
+import { NameValuePair, ResponseContent, UrlObj, UrlType, urlParameterRegExp } from './FunctionEditor.types';
+import { isNewNodeProgrammingModel, isNewPythonProgrammingModel, useFunctionEditorQueries } from './useFunctionEditorQueries';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -245,7 +245,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
 
       const headers = getHeaders(testDataObject.headers, xFunctionKey);
 
-      let body: any = testDataObject.body;
+      let body: unknown = testDataObject.body;
       if (!body && isNewNodeProgrammingModel(newFunctionInfo)) {
         body = undefined;
       }
@@ -303,7 +303,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
     setFunctionRunning(true);
 
-    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState)) {
+    // Do not update v2 Python functions here since its metadata is derived from code, not from function.json.
+    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) && !isNewPythonProgrammingModel(functionInfo)) {
       const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
       if (updatedFunctionInfo.metadata.success) {
         setFunctionInfo(updatedFunctionInfo.data);
@@ -615,7 +616,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
         }
       });
     }
-  }, [refreshQueries, site]);
+  }, [portalContext, refreshQueries, site]);
 
   const getDefaultXFunctionKey = (): string => {
     return hostKeys && hostKeys.masterKey ? `master - Host` : '';
@@ -744,6 +745,17 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [site, functionInfo, hostKeys, functionKeys]);
 
+  const onCustomBannerClick = useCallback(() => {
+    portalContext.openBlade({
+      detailBlade: 'FunctionDownloadContentTemplateBlade',
+      detailBladeInputs: {
+        id: site?.id,
+      },
+      extension: 'WebsitesExtension',
+      openAsContextBlade: true,
+    });
+  }, [portalContext, site?.id]);
+
   // TODO (krmitta): Show a loading error message site or functionInfo call fails
   if (initialLoading || !site) {
     return <LoadingComponent />;
@@ -783,6 +795,8 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
             status={status}
           />
         </div>
+      ) : site?.id ? (
+        <CustomBanner message={t('functionInfoUnavailableError')} type={MessageBarType.error} onClick={onCustomBannerClick} />
       ) : (
         <CustomBanner message={t('functionInfoFetchError')} type={MessageBarType.error} />
       )}

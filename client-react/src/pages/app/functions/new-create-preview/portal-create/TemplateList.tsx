@@ -1,6 +1,7 @@
 import {
   CheckboxVisibility,
   DetailsListLayoutMode,
+  IColumn,
   IDetailsRowProps,
   IRenderFunction,
   Link,
@@ -12,25 +13,26 @@ import { FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
-import { PortalContext } from '../../../../../PortalContext';
-import { ThemeContext } from '../../../../../ThemeContext';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { SearchFilterWithResultAnnouncement } from '../../../../../components/form-controls/SearchBox';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionTemplate } from '../../../../../models/functions/function-template';
 import { HostStatus } from '../../../../../models/functions/host-status';
+import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
+import { PortalContext } from '../../../../../PortalContext';
+import { ThemeContext } from '../../../../../ThemeContext';
 import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../../utils/ArmTemplateHelper';
 import { Links } from '../../../../../utils/FwLinks';
 import { LogCategories } from '../../../../../utils/LogCategories';
+import StringUtils from '../../../../../utils/string';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../../common/CreateFunctionFormBuilder';
 import { getTelemetryInfo } from '../../common/FunctionsUtility';
 import FunctionCreateData from '../FunctionCreate.data';
-import { containerStyle, tableRowStyle, templateListStyle } from '../FunctionCreate.styles';
+import { containerStyle, tableRowStyle, templateListNameColumnStyle, templateListStyle } from '../FunctionCreate.styles';
 import { sortTemplate } from '../FunctionCreate.types';
 import { FunctionCreateContext } from '../FunctionCreateContext';
 import TemplateDetail from './TemplateDetail';
-import { useTemplateListColumns } from './useTemplateListColumns';
 
 export interface TemplateListProps {
   formProps: FormikProps<CreateFunctionFormValues>;
@@ -45,7 +47,6 @@ export interface TemplateListProps {
   selectedTemplate?: FunctionTemplate;
   setArmResources?: TSetArmResourceTemplates;
   templates?: FunctionTemplate[] | null;
-  useNewProgrammingModel?: boolean;
 }
 
 const TemplateList: React.FC<TemplateListProps> = ({
@@ -84,8 +85,46 @@ const TemplateList: React.FC<TemplateListProps> = ({
     [setSelectedTemplate]
   );
 
-  /** @todo Do not show the "View Template" column until we get design feedback for this feature. */
-  const columns = useTemplateListColumns(hostStatus, /* useNewProgrammingModel */ false);
+  const columns = useMemo(() => {
+    const onRenderItemColumn = (item: FunctionTemplate, _: number, column: IColumn): JSX.Element | null => {
+      if (!column || !item) {
+        return null;
+      }
+
+      if (column.key === 'template') {
+        const runtimeVersion = hostStatus ? StringUtils.getRuntimeVersionString(hostStatus.properties.version) : '';
+        return (
+          <div className={templateListNameColumnStyle}>
+            {runtimeVersion === RuntimeExtensionMajorVersions.v1 ? `${item.name}: ${item.language}` : item.name}
+          </div>
+        );
+      }
+
+      return column.fieldName ? <div>{item[column.fieldName]}</div> : null;
+    };
+
+    return [
+      {
+        key: 'template',
+        name: t('template'),
+        fieldName: 'template',
+        minWidth: 100,
+        maxWidth: 225,
+        isResizable: true,
+        isMultiline: true,
+        onRender: onRenderItemColumn,
+      },
+      {
+        key: 'description',
+        name: t('description'),
+        fieldName: 'description',
+        minWidth: 100,
+        isResizable: true,
+        isMultiline: true,
+        onRender: onRenderItemColumn,
+      },
+    ];
+  }, [hostStatus, t]);
 
   const items = useMemo(() => {
     return (

@@ -126,8 +126,7 @@ td.message-row {
 }
 
 .textOverflow-col {
-  text-overflow: hidden;
-  white-space: nowrap;
+  word-break: break-all;
 }
 
 .controls-container {

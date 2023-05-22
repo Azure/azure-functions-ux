@@ -210,6 +210,9 @@
     <data name="functionNew_experimentalTemplate" xml:space="preserve">
         <value>This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
     </data>
+    <data name="functionNew_functionKind" xml:space="preserve">
+        <value>Job type</value>
+    </data>
     <data name="functionNew_functionName" xml:space="preserve">
         <value>Function name</value>
     </data>
@@ -898,8 +901,23 @@
     <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
         <value>A File with the name {{fileName}} already exists.</value>
     </data>
+    <data name="functionNew_fileExists" xml:space="preserve">
+        <value>A file with the name '{0}' already exists.</value>
+    </data>
     <data name="functionNew_functionExists" xml:space="preserve">
         <value>Function with name '{{name}}' already exists.</value>
+    </data>
+    <data name="jobType_appendToBlueprint" xml:space="preserve">
+        <value>Append to blueprint</value>
+    </data>
+    <data name="jobType_appendToFile" xml:space="preserve">
+        <value>Append to app</value>
+    </data>
+    <data name="jobType_createNewApp" xml:space="preserve">
+        <value>Create new app</value>
+    </data>
+    <data name="jobType_createNewBlueprint" xml:space="preserve">
+        <value>Create new blueprint</value>
     </data>
     <data name="binding_storageAccountKey" xml:space="preserve">
         <value>Account Key:</value>
@@ -1597,17 +1615,20 @@
     <data name="basicAuthPublishingCredInfoBubbleMessage" xml:space="preserve">
         <value>Disable basic authentication for FTP and SCM access.</value>
     </data>
+    <data name="httpCertWarningInfoBubbleMessage" xml:space="preserve">
+        <value>When selecting HTTP version 2.0, incoming client certificates must be ignored.</value>
+    </data>
     <data name="minTlsVersionLabel" xml:space="preserve">
-        <value>Minimum TLS Version</value>
+        <value>Minimum Inbound TLS Version</value>
     </data>
     <data name="minTlsVersionInfoBubbleMessage" xml:space="preserve">
-        <value>Select the minimum TLS encryption version required by your app.</value>
+        <value>Select the minimum TLS encryption version required by clients connecting to your app.</value>
     </data>
     <data name="minTlsCipherSuiteLabel" xml:space="preserve">
-        <value>Minimum TLS Cipher Suite (Preview)</value>
+        <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
     </data>
     <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
-        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites.</value>
+        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.</value>
     </data>
     <data name="minTlsCipherSuiteSelectionInfo" xml:space="preserve">
         <value>Based on your chosen minimum, the TLS cipher suites below will be enabled or disabled accordingly as shown.</value>
@@ -5436,6 +5457,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="keyVaultReferenceDetails" xml:space="preserve">
         <value>Key Vault Reference Details</value>
     </data>
+    <data name="appConfigurationReferenceDetails" xml:space="preserve">
+        <value>App Configuration Reference Details</value>
+    </data>
     <data name="keyVaultName" xml:space="preserve">
         <value>Vault Name</value>
     </data>
@@ -5778,7 +5802,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deleteBindingNotificationSuccess" xml:space="preserve">
         <value>Succeeded in deleting {0} ({1})</value>
     </data>
-    <data name="createFunctionNotication" xml:space="preserve">
+    <data name="createFunctionNotification" xml:space="preserve">
         <value>Creating function</value>
     </data>
     <data name="createFunctionNotificationDetails" xml:space="preserve">
@@ -6092,6 +6116,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="integrate_bindingsMissingDirection" xml:space="preserve">
         <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
+    </data>
+    <data name="integrate_readOnlyPythonV2" xml:space="preserve">
+        <value>Use the code editor to update v2 programming model Python function bindings.</value>
     </data>
     <data name="functionMonitor_invocations" xml:space="preserve">
         <value>Invocations</value>
@@ -7110,6 +7137,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionInfoFetchError" xml:space="preserve">
         <value>Unable to fetch your function</value>
     </data>
+    <data name="functionInfoUnavailableError" xml:space="preserve">
+        <value>The function is unavailable for editing in the portal. Click to download app content and use a local development environment to fix the function.</value>
+    </data>
     <data name="createHostKeyNotification" xml:space="preserve">
         <value>Creating host key</value>
     </data>
@@ -7914,11 +7944,35 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerApp_console_cancel" xml:space="preserve">
         <value>Cancel</value>
     </data>
+    <data name="createFunction_fileContentError" xml:space="preserve">
+        <value>Cannot determine the template file content.</value>
+    </data>
+    <data name="createFunction_filePathError" xml:space="preserve">
+        <value>Cannot determine the template file path.</value>
+    </data>
+    <data name="createFunction_functionAppExistsError" xml:space="preserve">
+        <value>Cannot determine if a "function_app.py" file exists.</value>
+    </data>
+    <data name="createFunction_functionNameError" xml:space="preserve">
+        <value>Cannot determine the function name.</value>
+    </data>
+    <data name="createFunction_functionKindError" xml:space="preserve">
+        <value>Cannot determine the function kind.</value>
+    </data>
     <data name="createFunction_noAppSettingsPermissionsError" xml:space="preserve">
         <value>You do not have sufficient permissions to update app settings.</value>
     </data>
+    <data name="createFunction_noBlueprintFilenameError" xml:space="preserve">
+        <value>Cannot determine the blueprint filename.</value>
+    </data>
     <data name="createFunction_noResourceIdError" xml:space="preserve">
         <value>No resource ID</value>
+    </data>
+    <data name="createFunction_noSubstitutionsError" xml:space="preserve">
+        <value>Cannot determine the job inputs with which to perform substitutions.</value>
+    </data>
+    <data name="createFunction_selectedTemplateError" xml:space="preserve">
+        <value>Cannot determine the selected template.</value>
     </data>
     <data name="createFunctionDeploymentNotification" xml:space="preserve">
         <value>Deploying function resources</value>
@@ -7973,5 +8027,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>    
     <data name="consoleContainerTextAreaAriaLabel" xml:space="preserve">
         <value>Console text area container</value>
+    </data>
+    <data name="deploymentCenterScmBasicAuthErrorMessage" xml:space="preserve">
+        <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.</value>
+    </data>
+    <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
+        <value>Basic authentication is disabled for your app.</value>
     </data>
 </root>

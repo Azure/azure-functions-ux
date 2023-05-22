@@ -106,10 +106,10 @@ export const formStackStyle = (upsellIcon: boolean, fullpage: boolean, horizonta
     paddingRight: '8px',
   });
 
-export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean, horizontal?: boolean) =>
+export const formLabelStyle = (upsellIcon: boolean, fullpage: boolean, horizontal?: boolean, width?: string) =>
   style({
-    minWidth: upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH,
-    maxWidth: horizontal ? (upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH) : '',
+    minWidth: width ? width : upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH,
+    maxWidth: width ? width : horizontal ? (upsellIcon && fullpage ? FULL_PAGE_WIDTH : NOT_FULL_PAGE_WIDTH) : '',
     paddingRight: '5px',
   });
 

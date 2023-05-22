@@ -1,9 +1,12 @@
 import { IStackTokens, MessageBarType, Stack } from '@fluentui/react';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { Observable, Subject } from 'rxjs';
 import { classes } from 'typestyle';
+import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { ThemeContext } from '../../../../../ThemeContext';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
@@ -14,15 +17,10 @@ import { Binding, BindingDirection } from '../../../../../models/functions/bindi
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { HostStatus } from '../../../../../models/functions/host-status';
-import { SiteStateContext } from '../../../../../SiteState';
-import { ThemeContext } from '../../../../../ThemeContext';
+import { Links } from '../../../../../utils/FwLinks';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
-import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
-import InputBindingCard from './binding-card/InputBindingCard';
-import OutputBindingCard from './binding-card/OutputBindingCard';
-import TriggerBindingCard from './binding-card/TriggerBindingCard';
-import UnknownDirectionBindingCard from './binding-card/UnknownDirectionBindingCard';
+import { isNewPythonProgrammingModel } from '../function-editor/useFunctionEditorQueries';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import {
@@ -36,11 +34,15 @@ import {
 } from './FunctionIntegrate.style';
 import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
 import { FunctionIntegrateConstants } from './FunctionIntegrateConstants';
-import { Links } from '../../../../../utils/FwLinks';
+import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
+import InputBindingCard from './binding-card/InputBindingCard';
+import OutputBindingCard from './binding-card/OutputBindingCard';
+import TriggerBindingCard from './binding-card/TriggerBindingCard';
+import UnknownDirectionBindingCard from './binding-card/UnknownDirectionBindingCard';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;
-  functionInfo: ArmObj<FunctionInfo>;
+  functionInfo: ArmObj<FunctionInfo> | null;
   bindings: Binding[];
   bindingsError: boolean;
   hostStatus: HostStatus;
@@ -77,6 +79,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     loadBindingSettings,
   } = props;
   const { t } = useTranslation();
+  const portalCommunicator = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
   const theme = useContext(ThemeContext);
   const { width } = useWindowSize();
@@ -85,12 +88,16 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const bindingUpdate$ = useRef(new Subject<BindingUpdateInfo>());
   const [bindingToUpdate, setBindingToUpdate] = useState<BindingInfo | undefined>(undefined);
   const [bindingDirection, setBindingDirection] = useState<BindingDirection>(BindingDirection.in);
-  const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo>>(initialFunctionInfo);
+  const [functionInfo, setFunctionInfo] = useState<ArmObj<FunctionInfo> | null>(initialFunctionInfo);
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const onlyBuiltInBindings = !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle;
-  const readOnly = SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState);
+  const bindingsReadOnly = useMemo(() => !!functionInfo && isNewPythonProgrammingModel(functionInfo), [functionInfo]);
+  const functionAppReadOnly = useMemo(() => SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState), [
+    siteStateContext.siteAppEditState,
+  ]);
+  const readOnly = functionAppReadOnly || bindingsReadOnly;
 
   const openEditor = (editorBindingDirection: BindingDirection, bindingInfo?: BindingInfo): Observable<BindingUpdateInfo> => {
     setBindingDirection(editorBindingDirection);
@@ -141,7 +148,7 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
     childrenGap: 0,
   };
 
-  const fullPageContent: JSX.Element = (
+  const fullPageContent: JSX.Element | null = functionInfo ? (
     <Stack className={diagramWrapperStyle} horizontal horizontalAlign={'center'} tokens={tokens}>
       <Stack.Item grow>
         <Stack gap={40}>
@@ -181,9 +188,9 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
         </Stack>
       </Stack.Item>
     </Stack>
-  );
+  ) : null;
 
-  const smallPageContent: JSX.Element = (
+  const smallPageContent: JSX.Element | null = functionInfo ? (
     <Stack className={smallPageStyle} gap={40} horizontalAlign={'start'}>
       <TriggerBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
       <InputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
@@ -191,26 +198,41 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       <OutputBindingCard functionInfo={functionInfo} bindings={bindings} readOnly={readOnly} loadBindingSettings={loadBindingSettings} />
       <UnknownDirectionBindingCard functionInfo={functionInfo} bindings={bindings} />
     </Stack>
-  );
+  ) : null;
 
-  const functionConfig = functionInfo.properties.config;
-  const isCompiledFunction = StringUtils.equalsIgnoreCase(
-    functionConfig.configurationSource,
-    FunctionIntegrateConstants.compiledFunctionConfigurationSource
-  );
+  const functionConfig = functionInfo?.properties.config;
 
-  const bindingsMissingDirection = functionConfig.bindings.filter(
+  const isCompiledFunction =
+    functionConfig === undefined
+      ? undefined
+      : StringUtils.equalsIgnoreCase(functionConfig.configurationSource, FunctionIntegrateConstants.compiledFunctionConfigurationSource);
+
+  const bindingsMissingDirection = functionConfig?.bindings.filter(
     binding => !binding.direction && !StringUtils.endsWithIgnoreCase(binding.type.toString(), 'Trigger')
   );
+
+  const onFunctionInfoErrorClick = useCallback(() => {
+    portalCommunicator.openBlade({
+      detailBlade: 'FunctionDownloadContentTemplateBlade',
+      detailBladeInputs: {
+        id: functionAppId,
+      },
+      extension: 'WebsitesExtension',
+      openAsContextBlade: true,
+    });
+  }, [functionAppId, portalCommunicator]);
 
   let banner: JSX.Element | undefined;
   if (bindingsError) {
     // Issue loading bindings or binding settings
     banner = <CustomBanner message={t('integrate_bindingsFailedLoading')} type={MessageBarType.error} />;
-  } else if (isCompiledFunction && bindingsMissingDirection.length === 0) {
+  } else if (!functionInfo) {
+    // Issue loading function info
+    banner = <CustomBanner message={t('functionInfoUnavailableError')} type={MessageBarType.error} onClick={onFunctionInfoErrorClick} />;
+  } else if (isCompiledFunction && bindingsMissingDirection && bindingsMissingDirection.length === 0) {
     // It's a C# compiled function, and older versions of the SDK don't show input/out bindings.
     banner = <CustomBanner message={t('integrate_compiledDoNotShowInputOutput')} type={MessageBarType.info} />;
-  } else if (bindingsMissingDirection.length > 0) {
+  } else if (bindingsMissingDirection && bindingsMissingDirection.length > 0) {
     // Bindings are missing the direction property, we'll likely put them in the wrong spot
     banner = (
       <CustomBanner
@@ -219,6 +241,9 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
         learnMoreLink={Links.bindingDirectionLearnMore}
       />
     );
+  } else if (bindingsReadOnly && !functionAppReadOnly) {
+    // Bindings are read-only for v2 Python progrmaming model functions, which are otherwise read-write.
+    banner = <CustomBanner message={t('integrate_readOnlyPythonV2')} type={MessageBarType.info} />;
   } else if (readOnly) {
     // All readonly situations
     banner = <EditModeBanner />;
@@ -234,20 +259,24 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
           <h3>{t('integratePageTitle')}</h3>
           <div>{t('integratePageDescription')}</div>
         </div>
-        <BindingPanel
-          functionAppId={functionAppId}
-          functionInfo={functionInfo}
-          bindings={bindings}
-          bindingInfo={bindingToUpdate}
-          bindingDirection={bindingDirection}
-          isOpen={isOpen}
-          readOnly={readOnly}
-          onlyBuiltInBindings={onlyBuiltInBindings}
-          onPanelClose={onCancel}
-          onSubmit={onSubmit}
-          onDelete={onDelete}
-        />
-        {width > fullPageWidth ? fullPageContent : smallPageContent}
+        {functionInfo ? (
+          <>
+            <BindingPanel
+              functionAppId={functionAppId}
+              functionInfo={functionInfo}
+              bindings={bindings}
+              bindingInfo={bindingToUpdate}
+              bindingDirection={bindingDirection}
+              isOpen={isOpen}
+              readOnly={readOnly}
+              onlyBuiltInBindings={onlyBuiltInBindings}
+              onPanelClose={onCancel}
+              onSubmit={onSubmit}
+              onDelete={onDelete}
+            />
+            {width > fullPageWidth ? fullPageContent : smallPageContent}
+          </>
+        ) : null}
       </BindingEditorContext.Provider>
     </>
   );

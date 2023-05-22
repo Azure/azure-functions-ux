@@ -29,6 +29,10 @@ export function isContainerApp(obj: ArmObj<Site>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.container]);
 }
 
+export function isContainerAppEnvironmentApp(obj: ArmObj<Site>): boolean {
+  return AppKind.hasKinds(obj, [CommonConstants.Kinds.azureContainerApps]);
+}
+
 export function isElastic(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.elasticPremium || sku === CommonConstants.SkuNames.elasticIsolated;
