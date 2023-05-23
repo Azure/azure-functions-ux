@@ -8,14 +8,13 @@ import {
   IStyleFunctionOrObject,
   Icon,
   Link,
-  mergeStyleSets,
 } from '@fluentui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { Links } from '../../../../utils/FwLinks';
 import { useFunctionsQuery } from '../function/hooks/useFunctionsQuery';
 import { useSiteConfigQuery } from '../function/hooks/useSiteConfigQuery';
-import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
 const programmingModelDropdownStyles: IStyleFunctionOrObject<IDropdownStyleProps, IDropdownStyles> = ({ disabled, theme }) => {
   return {
