@@ -1,33 +1,53 @@
-import { IDropdownOption, IDropdownProps, IDropdownStyles, ILinkStyles, IRenderFunction, Icon, Link } from '@fluentui/react';
+import {
+  IDropdownOption,
+  IDropdownProps,
+  IDropdownStyleProps,
+  IDropdownStyles,
+  ILinkStyles,
+  IRenderFunction,
+  IStyleFunctionOrObject,
+  Icon,
+  Link,
+  mergeStyleSets,
+} from '@fluentui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 import { Links } from '../../../../utils/FwLinks';
-import Url from '../../../../utils/url';
 import { useFunctionsQuery } from '../function/hooks/useFunctionsQuery';
 import { useSiteConfigQuery } from '../function/hooks/useSiteConfigQuery';
+import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
-const programmingModelDropdownStyles: Partial<IDropdownStyles> = {
-  dropdown: {
-    flex: '0 0 384px',
-    maxWidth: '80%',
-    width: '80%',
-  },
-  dropdownOptionText: {
-    fontSize: '13px',
-    lineHeight: '18px',
-  },
-  root: {
-    alignItems: 'center',
-    display: 'flex',
-    flexFlow: 'row wrap',
-    gap: 8,
-    width: '80%',
-  },
-  title: {
-    fontSize: '13px',
-    lineHeight: '30px',
-  },
+const programmingModelDropdownStyles: IStyleFunctionOrObject<IDropdownStyleProps, IDropdownStyles> = ({ disabled, theme }) => {
+  return {
+    dropdown: {
+      flex: '0 0 384px',
+      maxWidth: '80%',
+      width: '80%',
+    },
+    dropdownOptionText: {
+      fontSize: '13px',
+      lineHeight: '18px',
+    },
+    root: {
+      alignItems: 'center',
+      display: 'flex',
+      flexFlow: 'row wrap',
+      gap: 8,
+      width: '80%',
+    },
+    title: [
+      {
+        fontSize: '13px',
+        lineHeight: '30px',
+      },
+      disabled && {
+        backgroundColor: (theme as ThemeExtended)?.semanticColors.disabledControlBackground,
+        border: '1px solid ${(theme as ThemeExtended)?.semanticColors.disabledText}',
+        color: (theme as ThemeExtended)?.semanticColors.textColor,
+        cursor: 'default',
+      },
+    ],
+  };
 };
 
 const programmingModelLinkStyles: ILinkStyles = {
@@ -37,8 +57,6 @@ const programmingModelLinkStyles: ILinkStyles = {
     lineHeight: '30px',
   },
 };
-
-const enableNewProgrammingModel = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel);
 
 export function useProgrammingModel(resourceId: string) {
   const { t } = useTranslation();
@@ -80,8 +98,6 @@ export function useProgrammingModel(resourceId: string) {
     [t]
   );
 
-  const programmingModelVisible = enableNewProgrammingModel && isSupported;
-
   /** @note Do not disable or initialize the dropdown until all APIs have completed. */
   useEffect(() => {
     if (selectedProgrammingModel !== undefined && functions !== undefined && isSupported !== undefined) {
@@ -89,7 +105,7 @@ export function useProgrammingModel(resourceId: string) {
       setProgrammingModelDisabled(selectedProgrammingModel !== null);
 
       /** @note Initialize the dropdown to the selected programming model. Otherwise default to the new programming model is enabled and supported. Otherwise default to the old programming model. */
-      setProgrammingModel(selectedProgrammingModel ?? (enableNewProgrammingModel && isSupported ? 2 : 1));
+      setProgrammingModel(selectedProgrammingModel ?? (isSupported ? 2 : 1));
     }
   }, [selectedProgrammingModel, functions, isSupported]);
 
@@ -100,6 +116,6 @@ export function useProgrammingModel(resourceId: string) {
     programmingModelDisabled,
     programmingModelDropdownStyles,
     programmingModelOptions,
-    programmingModelVisible,
+    programmingModelVisible: isSupported,
   };
 }
