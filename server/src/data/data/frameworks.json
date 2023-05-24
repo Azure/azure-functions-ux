@@ -571,7 +571,43 @@
       "id": "python",
       "name": "Python",
       "kind": "api",
-      "files": ["?(requirements.txt|pyproject.toml|runtime.txt|setup.py)", ""],
+      "files": ["?(requirements.txt|pyproject.toml|runtime.txt|setup.py)", "pyproject.toml", "runtime.txt", "manage.py", "wsgi.py", "app.py"],
       "config": {}
+    },
+    {
+        "id": "php",
+        "name": "Php",
+        "kind": "api",
+        "files": ["index.php"],
+        "config": {}
+    },
+    {
+        "id": "java",
+        "name": "Java",
+        "kind": "api",
+        "files": ["pom.xml", "build.gradle", "*.java"],
+        "config": {}
+    },
+    {
+        "id": "azure-functions",
+        "name": "Azure Functions",
+        "kind": "api",
+        "files": ["host.json"],
+        "config": {}
+    },
+    {
+        "id": "azure-azd",
+        "name": "Azd Template",
+        "kind": "api",
+        "packages": [],
+        "files": ["azure.yaml"],
+        "config": {}
+    },
+    {
+        "id": "docker-file",
+        "name": "Dockerfile",
+        "kind": "api",
+        "files": ["Dockerfile"],
+        "config": {}
     }
   ]
