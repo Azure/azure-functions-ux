@@ -20,7 +20,7 @@
     "test": "./node_modules/.bin/mocha -require ts-node/register ./src/tests/**/*.ts"
   },
   "dependencies": {
-    "@azure/storage-blob": "^12.6.0",
+    "@azure/storage-blob": "^12.14.0",
     "@azure/storage-file": "^10.3.0",
     "@azure/web-apps-framework-detection": "^0.0.7",
     "@nestjs/common": "^8.0.9",
