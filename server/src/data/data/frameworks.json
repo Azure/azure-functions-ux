@@ -599,7 +599,6 @@
         "id": "azure-azd",
         "name": "Azd Template",
         "kind": "api",
-        "packages": [],
         "files": ["azure.yaml"],
         "config": {}
     },
