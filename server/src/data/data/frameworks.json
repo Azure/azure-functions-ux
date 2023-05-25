@@ -6,7 +6,7 @@
       "config": {
         "outputLocation": "."
       },
-      "files": ["@(index.htm|index.html|default.html|default.htm)?(l)"]
+      "files": ["index.html", "index.htm", "default.htm", "default.html"]
     },
     {
       "id": "angular",
