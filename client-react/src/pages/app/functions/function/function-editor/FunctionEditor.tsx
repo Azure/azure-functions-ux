@@ -1,5 +1,5 @@
 import { IDropdownOption, MessageBarType, PanelType } from '@fluentui/react';
-import { useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { PortalContext } from '../../../../../PortalContext';
@@ -307,7 +307,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     if (isNewNodeProgrammingModel(functionInfo)) {
       filename = functionInfo.properties.config.scriptFile || '';
     } else if (isDotNetIsolatedFunction(functionInfo)) {
-      filename = 'functions.metadata';
+      filename = 'host.json';
     } else {
       const scriptHref = functionInfo.properties.script_href;
       filename = ((scriptHref && scriptHref.split('/').pop()) || '').toLocaleLowerCase();
@@ -515,6 +515,8 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     }
   };
 
+  const uploadDisabled = useMemo(() => isDotNetIsolatedFunction(functionInfo), [functionInfo]);
+
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
   }, [logPanelExpanded]);
@@ -564,6 +566,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
           upload={uploadFile}
+          uploadDisabled={uploadDisabled}
           setShowInvalidFileSelectedWarning={setShowInvalidFileSelectedWarning}
           setSelectedFileName={setSelectedFileName}
           resetInvalidFileSelectedWarningAndFileName={resetInvalidFileSelectedWarningAndFileName}
