@@ -65,6 +65,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     () =>
       siteStateContext.site &&
       siteStateContext.isFunctionApp &&
+      !siteStateContext.isContainerApp &&
       runtimeStack &&
       (siteStateContext.isLinuxApp ||
         StringUtils.isStringInArray(
