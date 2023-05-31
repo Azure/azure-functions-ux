@@ -30,6 +30,7 @@ interface FunctionEditorCommandBarProps {
   testDisabled: boolean;
   testFunction: () => void;
   upload: (file) => void;
+  uploadDisabled: boolean;
   urlObjs: UrlObj[];
   runtimeVersion?: string;
 }
@@ -48,6 +49,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
   testDisabled,
   testFunction,
   upload,
+  uploadDisabled,
   urlObjs,
   runtimeVersion,
 }: FunctionEditorCommandBarProps) => {
@@ -154,7 +156,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
         iconProps: {
           iconName: 'Upload',
         },
-        disabled: disabled || testDisabled,
+        disabled: disabled || testDisabled || uploadDisabled,
         ariaLabel: t('fileExplorer_upload'),
         onClick: onUploadButtonClick,
       },
