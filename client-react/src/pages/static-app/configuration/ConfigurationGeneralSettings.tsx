@@ -1,19 +1,22 @@
-import { IChoiceGroupOption, Link, MessageBarType, ProgressIndicator } from '@fluentui/react';
+import { Checkbox, IChoiceGroupOption, Link, MessageBarType, ProgressIndicator } from '@fluentui/react';
 import { Field } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CustomBanner from '../../../components/CustomBanner/CustomBanner';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
-import RadioButton from '../../../components/form-controls/RadioButton';
-import { Checkbox } from '@fluentui/react';
-import TextField from '../../../components/form-controls/TextField';
 import { PortalContext } from '../../../PortalContext';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import RadioButton from '../../../components/form-controls/RadioButton';
+import TextField from '../../../components/form-controls/TextField';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { TextFieldType } from '../../../utils/CommonConstants';
 import { Links } from '../../../utils/FwLinks';
-import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
 import { getTelemetryInfo, stringToPasswordProtectionType } from '../StaticSiteUtility';
 import { useStyles } from './Configuration.styles';
-import { ConfigurationGeneralSettingsProps, PasswordProtectionTypes, StagingEnvironmentPolicyTypes } from './Configuration.types';
+import {
+  ConfigurationGeneralSettingsProps,
+  PasswordProtectionTypes,
+  StagingEnvironmentPolicyTypes,
+  StaticSiteSku,
+} from './Configuration.types';
 
 const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> = ({
   disabled,
