@@ -4854,7 +4854,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Share name</value>
     </data>
     <data name="shareNameInfoBubbleMessage" xml:space="preserve">
-        <value>Azure storage mount supports only SMB file shares</value>
+        <value>Azure storage mount supports only SMB file shares.</value>
     </data>
     <data name="accessKey" xml:space="preserve">
         <value>Access key</value>
