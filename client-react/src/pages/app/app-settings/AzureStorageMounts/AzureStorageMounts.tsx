@@ -185,6 +185,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         isPadded: true,
         isResizable: true,
         onRender: onRenderItemColumn,
+        ariaLabel: 'name',
       },
       {
         key: 'mountPath',
@@ -197,6 +198,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         isPadded: true,
         isResizable: true,
         onRender: onRenderItemColumn,
+        ariaLabel: 'mountPath',
       },
       {
         key: 'type',
@@ -209,6 +211,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         isPadded: true,
         isResizable: true,
         onRender: onRenderItemColumn,
+        ariaLabel: 'type',
       },
       {
         key: 'accountName',
@@ -221,6 +224,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         isPadded: true,
         isResizable: true,
         onRender: onRenderItemColumn,
+        ariaLabel: 'accountName',
       },
       {
         key: 'shareName',
@@ -233,6 +237,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         isPadded: true,
         isResizable: true,
         onRender: onRenderItemColumn,
+        ariaLabel: 'shareName',
       },
       {
         key: 'sticky',
@@ -244,6 +249,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         data: 'boolean',
         isPadded: true,
         isResizable: true,
+        ariaLabel: 'sticky',
       },
       {
         key: 'delete',
@@ -255,6 +261,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         isResizable: false,
         isCollapsible: false,
         onRender: onRenderItemColumn,
+        ariaLabel: 'delete',
       },
       {
         key: 'edit',
@@ -266,6 +273,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         isResizable: false,
         isCollapsible: false,
         onRender: onRenderItemColumn,
+        ariaLabel: 'edit',
       },
     ];
   };
