@@ -54,7 +54,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     initializeStorageContainerErrorSchemaValue()
   );
   const storageAccounts = useContext(StorageAccountsContext);
-  const { site } = useContext(SiteStateContext);
+  const { site, isLinuxApp } = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
@@ -189,9 +189,12 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
               errorSchema.filesContainerIsEmpty = true;
               errorSchema.getFilesFailure = true;
             } else {
-              filesData = (files.data.value || []).filter(
-                file => file.properties.enabledProtocols.toLocaleLowerCase() === FileShareEnabledProtocols.SMB.toLocaleLowerCase()
-              );
+              const accountFileShares = files.data.value || [];
+              filesData = isLinuxApp
+                ? accountFileShares.filter(
+                    file => file.properties.enabledProtocols.toLocaleLowerCase() === FileShareEnabledProtocols.SMB.toLocaleLowerCase()
+                  )
+                : accountFileShares;
               errorSchema.filesContainerIsEmpty = filesData.length === 0;
             }
 
@@ -212,7 +215,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.accountName]);
+  }, [values.accountName, isLinuxApp]);
 
   useEffect(() => {
     validateForm();
