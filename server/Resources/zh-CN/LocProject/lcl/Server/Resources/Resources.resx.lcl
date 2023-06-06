@@ -912,6 +912,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";appConfigurationReferenceDetails" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Configuration Reference Details]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[应用程序配置参考详细信息]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";appCreds" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Credentials]]></Val>
@@ -13944,6 +13953,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Outputs]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";integrate_readOnlyPythonV2" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Use the code editor to update v2 programming model Python function bindings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[请使用代码编辑器更新 v2 编程模型 Python 函数绑定。]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
