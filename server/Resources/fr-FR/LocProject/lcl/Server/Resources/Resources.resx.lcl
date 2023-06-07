@@ -4611,12 +4611,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";createFunctionNotification" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";createFunctionNotication" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Creating function]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Création de la fonction]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Creating Function]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -4659,65 +4662,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";createFunction_fileContentError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Cannot determine the template file content.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Impossible de déterminer le contenu du modèle de fichier.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";createFunction_filePathError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Cannot determine the template file path.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Impossible de déterminer le chemin d’accès au modèle de fichier.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";createFunction_functionAppExistsError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Cannot determine if a "function_app.py" file exists.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Impossible de déterminer si un fichier « function_app.py » existe.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";createFunction_functionKindError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Cannot determine the function kind.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Impossible de déterminer le genre de fonction.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";createFunction_functionNameError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Cannot determine the function name.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Impossible de déterminer le nom de la fonction.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";createFunction_noAppSettingsPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[You do not have sufficient permissions to update app settings.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Vous ne disposez pas des autorisations suffisantes pour mettre à jour les paramètres de l’application.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";createFunction_noBlueprintFilenameError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Cannot determine the blueprint filename.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Impossible de déterminer le nom du fichier de blueprint.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4731,29 +4680,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";createFunction_noSubstitutionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Cannot determine the job inputs with which to perform substitutions.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Impossible de déterminer les entrées de travail avec lesquelles effectuer des substitutions.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";createFunction_search" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Search by trigger, language, or description]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Rechercher par déclencheur, langage ou description]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";createFunction_selectedTemplateError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Cannot determine the selected template.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Impossible de déterminer le modèle sélectionné.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11670,15 +11601,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionInfoUnavailableError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The function is unavailable for editing in the portal. Click to download app content and use a local development environment to fix the function.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[La fonction n’est pas disponible pour des modifications dans le portail. Cliquez pour télécharger du contenu de l’application et utilisez un environnement de développement local pour corriger la fonction.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";functionIntegrateRefreshAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Refresh all bindings for your function]]></Val>
@@ -12237,29 +12159,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionNew_fileExists" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[A file with the name '{0}' already exists.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Un fichier portant le nom '{0}' existe déjà.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";functionNew_functionExists" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Function with name '{{name}}' already exists.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[La fonction portant le nom « {{name}} » existe déjà.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionNew_functionKind" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Job type]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Type de travail]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13325,15 +13229,6 @@
           <Val><![CDATA[A function that will be run whenever it receives an HTTP request]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Fonction qui est exécutée quand elle reçoit une requête HTTP]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";httpCertWarningInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[When selecting HTTP version 2.0, incoming client certificates must be ignored.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Lorsque vous sélectionnez HTTP version 2.0, les certificats clients entrants doivent être ignorés.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14480,42 +14375,6 @@
           <Val><![CDATA[Click below to get started with documentation on how to build your first Azure Function with Java.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Cliquez ci-dessous pour consulter la documentation permettant de créer votre première fonction Azure avec Java.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";jobType_appendToBlueprint" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Append to blueprint]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ajouter au blueprint]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";jobType_appendToFile" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Append to app]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ajouter à l’application]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";jobType_createNewApp" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Create new app]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Créer une application]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";jobType_createNewBlueprint" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Create new blueprint]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Créer un blueprint]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
