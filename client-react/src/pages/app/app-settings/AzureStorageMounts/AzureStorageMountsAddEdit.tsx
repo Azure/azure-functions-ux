@@ -293,17 +293,22 @@ type AzureStorageMountsAddEdtSubFormProps = FormikProps<FormAzureStorageMounts> 
   AzureStorageMountsAddEditPropsCombined & {
     configurationOption: string;
   };
+
 const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubFormProps> = props => {
   const { configurationOption, ...rest } = props;
+
+  const siteState = useContext(SiteStateContext);
 
   const [fileShareInfoBubbleMessage, setFileShareInfoBubbleMessage] = useState<string>();
   const { t } = useTranslation();
 
   React.useEffect(() => {
-    setFileShareInfoBubbleMessage(rest.values.type === StorageType.azureFiles ? t('shareNameInfoBubbleMessage') : undefined);
+    setFileShareInfoBubbleMessage(
+      rest.values.type === StorageType.azureFiles && siteState.isLinuxApp ? t('shareNameInfoBubbleMessage') : undefined
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [rest.values.type]);
+  }, [rest.values.type, siteState.isLinuxApp]);
 
   return (
     <>
