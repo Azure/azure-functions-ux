@@ -15,6 +15,9 @@ import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { Links } from '../../../../utils/FwLinks';
 import { useFunctionsQuery } from '../function/hooks/useFunctionsQuery';
 import { useSiteConfigQuery } from '../function/hooks/useSiteConfigQuery';
+import Url from '../../../../utils/url';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
 const programmingModelDropdownStyles: IStyleFunctionOrObject<IDropdownStyleProps, IDropdownStyles> = ({ disabled, theme }) => {
   return {
@@ -57,6 +60,9 @@ const programmingModelLinkStyles: ILinkStyles = {
   },
 };
 
+const enableNewProgrammingModel =
+  !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel) && !NationalCloudEnvironment.isNationalCloud();
+
 export function useProgrammingModel(resourceId: string) {
   const { t } = useTranslation();
 
@@ -97,14 +103,27 @@ export function useProgrammingModel(resourceId: string) {
     [t]
   );
 
+  const programmingModelVisible = enableNewProgrammingModel && isSupported;
+
   /** @note Do not disable or initialize the dropdown until all APIs have completed. */
   useEffect(() => {
     if (selectedProgrammingModel !== undefined && functions !== undefined && isSupported !== undefined) {
       /** @note Disable the dropdown if there is already a selected programming model. */
       setProgrammingModelDisabled(selectedProgrammingModel !== null);
 
-      /** @note Initialize the dropdown to the selected programming model. Otherwise default to the new programming model is enabled and supported. Otherwise default to the old programming model. */
-      setProgrammingModel(selectedProgrammingModel ?? (isSupported ? 2 : 1));
+      /**
+       * @note Set the programming model to v1 if the v2 programming model is not enabled.
+       * Otherwise initialize the dropdown to the selected programming model, if functions already exist.
+       * Otherwise default to the v2 programming model, if supported (Python only).
+       * Otherwise default to the v1 programming model.
+       */
+      if (!enableNewProgrammingModel) {
+        setProgrammingModel(1);
+      } else if (selectedProgrammingModel) {
+        setProgrammingModel(selectedProgrammingModel);
+      } else {
+        setProgrammingModel(isSupported ? 2 : 1);
+      }
     }
   }, [selectedProgrammingModel, functions, isSupported]);
 
@@ -115,6 +134,6 @@ export function useProgrammingModel(resourceId: string) {
     programmingModelDisabled,
     programmingModelDropdownStyles,
     programmingModelOptions,
-    programmingModelVisible: isSupported,
+    programmingModelVisible,
   };
 }
