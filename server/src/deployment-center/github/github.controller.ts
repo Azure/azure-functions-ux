@@ -22,7 +22,14 @@ import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
-import { EnvironmentUrlMappings, Environments, SandboxEnvironment, SandboxEnvironmentUrlMappings } from '../deployment-center';
+import {
+  EnvironmentUrlMappings,
+  Environments,
+  ReactViewsEnvironmentUrlMappings,
+  ReactViewsEnvironment,
+  SandboxEnvironment,
+  SandboxEnvironmentUrlMappings,
+} from '../deployment-center';
 import { CloudType, StaticReactConfig } from '../../types/config';
 import { detectProjectFolders } from '@azure/web-apps-framework-detection';
 
@@ -433,6 +440,15 @@ export class GithubController {
     );
   }
 
+  @Get('auth/github/reactviews/callback/env/:env')
+  async callbackReactViewRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
+    const envToUpper = (env && (env as string).toUpperCase()) || '';
+    const envUri =
+      ReactViewsEnvironmentUrlMappings.environmentToUrlMap[envToUpper] ||
+      ReactViewsEnvironmentUrlMappings.environmentToUrlMap[ReactViewsEnvironment.Prod];
+    res.redirect(`${envUri}/TokenAuthorize/ExtensionName/WebsitesExtension?code=${code}&state=${state}`);
+  }
+
   @Get('auth/github/callback/env/:env')
   async callbackRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
     const envToUpper = (env && (env as string).toUpperCase()) || '';
@@ -498,6 +514,11 @@ export class GithubController {
     return { client_id: this._getGitHubForReactViewClientId() };
   }
 
+  @Get('auth/github/reactViewsClientId')
+  reactViewsClientId() {
+    return { client_id: this._getGitHubForReactViewsClientId() };
+  }
+
   @Post('auth/github/generateReactViewAccessToken')
   @HttpCode(200)
   async generateReactViewAccessToken(@Body('code') code: string, @Body('state') state: string) {
@@ -511,6 +532,35 @@ export class GithubController {
         state,
         client_id: this._getGitHubForReactViewClientId(),
         client_secret: this._getGitHubForReactViewClientSecret(),
+      });
+      const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
+      return {
+        accessToken: token,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
+  }
+
+  @Post('auth/github/generateReactViewsAccessToken')
+  @HttpCode(200)
+  async generateReactViewsAccessToken(@Body('code') code: string, @Body('state') state: string) {
+    console.log('here');
+    if (!code || !state) {
+      throw new HttpException('Code and State are required', 400);
+    }
+
+    try {
+      const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
+        code,
+        state,
+        client_id: this._getGitHubForReactViewsClientId(),
+        client_secret: this._getGitHubForReactViewsClientSecret(),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
@@ -824,6 +874,14 @@ export class GithubController {
 
   private _getGitHubForReactViewClientSecret() {
     return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_SECRET');
+  }
+
+  private _getGitHubForReactViewsClientId() {
+    return this.configService.get('GITHUB_FOR_REACTVIEWS_CLIENT_ID');
+  }
+
+  private _getGitHubForReactViewsClientSecret() {
+    return this.configService.get('GITHUB_FOR_REACTVIEWS_CLIENT_SECRET');
   }
 
   private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res) {

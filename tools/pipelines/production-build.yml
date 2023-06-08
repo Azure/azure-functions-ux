@@ -243,6 +243,8 @@ jobs:
           githubForCreatesNationalCloudsClientSecret: $(githubForCreatesNationalCloudsClientSecret)
           githubForReactViewClientId: $(githubForReactViewClientId)
           githubForReactViewClientSecret: $(githubForReactViewClientSecret)
+          githubForReactViewsClientId: $(githubForReactViewsClientId)
+          githubForReactViewsClientSecret: $(githubForReactViewsClientSecret)
 
       - script: |
           cd server/dist
