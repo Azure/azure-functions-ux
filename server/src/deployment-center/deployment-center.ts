@@ -18,6 +18,13 @@ export enum SandboxEnvironment {
   Preview = 'PREVIEW',
 }
 
+export enum ReactViewsEnvironment {
+  Prod = 'PROD',
+  Mpac = 'MPAC',
+  Rc = 'RC',
+  Preview = 'PREVIEW',
+}
+
 export class EnvironmentUrlMappings {
   static readonly environmentToUrlMap: { [id in Environments]: string } = {
     PROD: 'https://functions.azure.com',
@@ -37,6 +44,22 @@ export class EnvironmentUrlMappings {
     'https://functions-next.azure.com': Environments.Next,
     'https://azure-functions-ux-next.azurewebsites.net': Environments.Next,
     'https://localhost:44300': Environments.Dev,
+  };
+}
+
+export class ReactViewsEnvironmentUrlMappings {
+  static readonly environmentToUrlMap: { [id in ReactViewsEnvironment]: string } = {
+    PROD: 'https://portal.azure.com',
+    MPAC: 'https://ms.portal.azure.com',
+    RC: 'https://rc.portal.azure.com',
+    PREVIEW: 'https://preview.portal.azure.com',
+  };
+
+  static readonly urlToEnvironmentMap: { [id: string]: ReactViewsEnvironment } = {
+    'https://portal.azure.com': ReactViewsEnvironment.Prod,
+    'https://ms.portal.azure.com': ReactViewsEnvironment.Mpac,
+    'https://rc.portal.azure.com': ReactViewsEnvironment.Rc,
+    'https://preview.portal.azure.com': ReactViewsEnvironment.Preview,
   };
 }
 
