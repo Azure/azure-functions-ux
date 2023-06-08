@@ -42,7 +42,13 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
     const allReferences = await getAllAppSettingReferences(site.id);
     if (allReferences.metadata.success) {
-      setCurrentAppSettingReference(allReferences.data.properties.keyToReferenceStatuses[currentAppSetting.name]);
+      const currentRefrence = allReferences.data.properties.keyToReferenceStatuses[currentAppSetting.name];
+      if (site.properties.keyVaultReferenceIdentity) {
+        if (site.properties.keyVaultReferenceIdentity.includes('userAssignedIdentities')) {
+          currentRefrence.identityType = 'userassigned';
+        }
+      }
+      setCurrentAppSettingReference(currentRefrence);
     } else {
       setCurrentAppSettingReference(undefined);
       portalContext.log({
