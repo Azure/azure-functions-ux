@@ -514,9 +514,9 @@ export class GithubController {
     return { client_id: this._getGitHubForReactViewClientId() };
   }
 
-  @Get('auth/github/reactViewsClientId')
-  reactViewsClientId() {
-    return { client_id: this._getGitHubForReactViewsClientId() };
+  @Get('auth/github/reactViewsV2ClientId')
+  reactViewsV2ClientId() {
+    return { client_id: this._getGitHubForReactViewsV2ClientId() };
   }
 
   @Post('auth/github/generateReactViewAccessToken')
@@ -547,10 +547,9 @@ export class GithubController {
     }
   }
 
-  @Post('auth/github/generateReactViewsAccessToken')
+  @Post('auth/github/generateReactViewsV2AccessToken')
   @HttpCode(200)
-  async generateReactViewsAccessToken(@Body('code') code: string, @Body('state') state: string) {
-    console.log('here');
+  async generateReactViewsV2AccessToken(@Body('code') code: string, @Body('state') state: string) {
     if (!code || !state) {
       throw new HttpException('Code and State are required', 400);
     }
@@ -559,8 +558,8 @@ export class GithubController {
       const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
         code,
         state,
-        client_id: this._getGitHubForReactViewsClientId(),
-        client_secret: this._getGitHubForReactViewsClientSecret(),
+        client_id: this._getGitHubForReactViewsV2ClientId(),
+        client_secret: this._getGitHubForReactViewsV2ClientSecret(),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
@@ -876,12 +875,12 @@ export class GithubController {
     return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_SECRET');
   }
 
-  private _getGitHubForReactViewsClientId() {
-    return this.configService.get('GITHUB_FOR_REACTVIEWS_CLIENT_ID');
+  private _getGitHubForReactViewsV2ClientId() {
+    return this.configService.get('GITHUB_FOR_REACTVIEWS_V2_CLIENT_ID');
   }
 
-  private _getGitHubForReactViewsClientSecret() {
-    return this.configService.get('GITHUB_FOR_REACTVIEWS_CLIENT_SECRET');
+  private _getGitHubForReactViewsV2ClientSecret() {
+    return this.configService.get('GITHUB_FOR_REACTVIEWS_V2_CLIENT_SECRET');
   }
 
   private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res) {
