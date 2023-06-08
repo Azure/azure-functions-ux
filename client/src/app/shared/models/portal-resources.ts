@@ -2532,20 +2532,6 @@ export class PortalResources {
   public static deploymentCenterOneDriveDescriptionText = 'deploymentCenterOneDriveDescriptionText';
   public static disconnecting = 'disconnecting';
   public static connectedAndFilteredMessage = 'connectedAndFilteredMessage';
-  public static logicAppPlanPickerHeaderText = 'logicAppPlanPickerHeaderText';
-  public static logicAppPlanPickerGridHeaderAriaLabel = 'logicAppPlanPickerGridHeaderAriaLabel';
-  public static logicAppPlanPickerGridHeaderFeatures = 'logicAppPlanPickerGridHeaderFeatures';
-  public static logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel =
-    'logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel';
-  public static logicAppPlanPickerGridHeaderConsumptionSectionDescription = 'logicAppPlanPickerGridHeaderConsumptionSectionDescription';
-  public static logicAppPlanPickerGridHeaderConsumptionSectionTitle = 'logicAppPlanPickerGridHeaderConsumptionSectionTitle';
-  public static logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel = 'logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel';
-  public static logicAppPlanPickerGridHeaderStandardSectionDescription = 'logicAppPlanPickerGridHeaderStandardSectionDescription';
-  public static logicAppPlanPickerGridHeaderStandardSectionTitle = 'logicAppPlanPickerGridHeaderStandardSectionTitle';
-  public static logicAppPlanPickerGridScaleRowTitle = 'logicAppPlanPickerGridScaleRowTitle';
-  public static logicAppPlanPickerGridNetworkRowTitle = 'logicAppPlanPickerGridNetworkRowTitle';
-  public static logicAppPlanPickerGridInstancesRowTitle = 'logicAppPlanPickerGridInstancesRowTitle';
-  public static logicAppPlanPickerGridUsageRowTitle = 'logicAppPlanPickerGridUsageRowTitle';
   public static containerApp_console_chooseStartUpCommand = 'containerApp_console_chooseStartUpCommand';
   public static containerApp_console_failedToConnect = 'containerApp_console_failedToConnect';
   public static containerApp_console_connect = 'containerApp_console_connect';

@@ -7737,45 +7737,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectedAndFilteredMessage" xml:space="preserve">
         <value>Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.</value>
     </data>
-    <data name="logicAppPlanPickerHeaderText" xml:space="preserve">
-        <value>Select plan</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderAriaLabel" xml:space="preserve">
-        <value>Plan or features</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderFeatures" xml:space="preserve">
-        <value>Plan/Features</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel" xml:space="preserve">
-        <value>Consumption plan. Serverless, event-driven scaling for lowest minimum cost. Fast dynamic scale. Pay as you go usage.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionDescription" xml:space="preserve">
-        <value>Serverless, event-driven scaling for lowest minimum cost.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionTitle" xml:space="preserve">
-        <value>Consumption</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel" xml:space="preserve">
-        <value>Standard plan. Best for enterprise-level, serverless applications with event-based scaling and network isolation. Fast dynamic scale. Network isolation. Always on instances.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionDescription" xml:space="preserve">
-        <value>Best for enterprise-level, serverless applications with event-based scaling and network isolation.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionTitle" xml:space="preserve">
-        <value>Standard</value>
-    </data>
-    <data name="logicAppPlanPickerGridScaleRowTitle" xml:space="preserve">
-        <value>Fast dynamic scale</value>
-    </data>
-    <data name="logicAppPlanPickerGridNetworkRowTitle" xml:space="preserve">
-        <value>Network isolation</value>
-    </data>
-    <data name="logicAppPlanPickerGridInstancesRowTitle" xml:space="preserve">
-        <value>Always on instances</value>
-    </data>
-    <data name="logicAppPlanPickerGridUsageRowTitle" xml:space="preserve">
-        <value>Pay as you go usage</value>
-    </data>
     <data name="containerApp_console_chooseStartUpCommand" xml:space="preserve">
         <value>Choose start up command</value>
     </data>
