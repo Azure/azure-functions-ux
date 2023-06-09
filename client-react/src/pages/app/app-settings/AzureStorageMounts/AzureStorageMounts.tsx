@@ -12,6 +12,9 @@ import {
   DetailsListLayoutMode,
   SelectionMode,
   IColumn,
+  IDetailsRowStyles,
+  DetailsRow,
+  IDetailsListProps,
 } from '@fluentui/react';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
@@ -122,6 +125,18 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     return !!currentRow && initialstorageMounts.findIndex(x => isAzureStorageMountEqual(x, currentRow)) < 0;
   };
 
+  const onRenderRow: IDetailsListProps['onRenderRow'] = props => {
+    const customStyles: Partial<IDetailsRowStyles> = {};
+    if (props) {
+      if (isAzureStorageMountDirty(props?.itemIndex)) {
+        customStyles.fields = dirtyElementStyle(theme);
+      }
+
+      return <DetailsRow {...props} styles={customStyles} />;
+    }
+    return null;
+  };
+
   const onRenderItemColumn = (item: FormAzureStorageMounts, index: number, column: IColumn) => {
     if (!column || !item) {
       return null;
@@ -162,12 +177,6 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
           />
         </TooltipHost>
       );
-    }
-    if (column.key === 'name') {
-      column.className = '';
-      if (isAzureStorageMountDirty(index)) {
-        column.className = dirtyElementStyle(theme);
-      }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
@@ -274,6 +283,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     return (
       <>
         <DisplayTableWithCommandBar
+          onRenderRow={onRenderRow}
           commandBarItems={getCommandBarItems()}
           items={values.azureStorageMounts || []}
           columns={getColumns()}

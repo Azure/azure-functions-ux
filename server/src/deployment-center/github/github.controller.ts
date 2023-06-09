@@ -22,8 +22,16 @@ import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
 import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
-import { EnvironmentUrlMappings, Environments, SandboxEnvironment, SandboxEnvironmentUrlMappings } from '../deployment-center';
+import {
+  EnvironmentUrlMappings,
+  Environments,
+  ReactViewsEnvironmentUrlMappings,
+  ReactViewsEnvironment,
+  SandboxEnvironment,
+  SandboxEnvironmentUrlMappings,
+} from '../deployment-center';
 import { CloudType, StaticReactConfig } from '../../types/config';
+import { detectProjectFolders } from '@azure/web-apps-framework-detection';
 
 const githubOrigin = 'https://github.com';
 
@@ -432,6 +440,15 @@ export class GithubController {
     );
   }
 
+  @Get('auth/github/reactviews/callback/env/:env')
+  async callbackReactViewRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
+    const envToUpper = (env && (env as string).toUpperCase()) || '';
+    const envUri =
+      ReactViewsEnvironmentUrlMappings.environmentToUrlMap[envToUpper] ||
+      ReactViewsEnvironmentUrlMappings.environmentToUrlMap[ReactViewsEnvironment.Prod];
+    res.redirect(`${envUri}/TokenAuthorize/ExtensionName/WebsitesExtension?code=${code}&state=${state}`);
+  }
+
   @Get('auth/github/callback/env/:env')
   async callbackRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
     const envToUpper = (env && (env as string).toUpperCase()) || '';
@@ -497,6 +514,11 @@ export class GithubController {
     return { client_id: this._getGitHubForReactViewClientId() };
   }
 
+  @Get('auth/github/reactViewsV2ClientId')
+  reactViewsV2ClientId() {
+    return { client_id: this._getGitHubForReactViewsV2ClientId() };
+  }
+
   @Post('auth/github/generateReactViewAccessToken')
   @HttpCode(200)
   async generateReactViewAccessToken(@Body('code') code: string, @Body('state') state: string) {
@@ -510,6 +532,34 @@ export class GithubController {
         state,
         client_id: this._getGitHubForReactViewClientId(),
         client_secret: this._getGitHubForReactViewClientSecret(),
+      });
+      const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
+      return {
+        accessToken: token,
+        refreshToken: null,
+        environment: null,
+      };
+    } catch (err) {
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException('Internal Server Error', 500);
+    }
+  }
+
+  @Post('auth/github/generateReactViewsV2AccessToken')
+  @HttpCode(200)
+  async generateReactViewsV2AccessToken(@Body('code') code: string, @Body('state') state: string) {
+    if (!code || !state) {
+      throw new HttpException('Code and State are required', 400);
+    }
+
+    try {
+      const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
+        code,
+        state,
+        client_id: this._getGitHubForReactViewsV2ClientId(),
+        client_secret: this._getGitHubForReactViewsV2ClientSecret(),
       });
       const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
       return {
@@ -574,6 +624,30 @@ export class GithubController {
       };
     } catch (err) {
       this.loggingService.error(`Failed to refresh token.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
+  @Post('api/github/detectFrameworks')
+  @HttpCode(200)
+  async detectFrameworks(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branch') branch: string,
+    @Body('frameworksUri') frameworksUri: string,
+    @Res() res
+  ) {
+    try {
+      const frameworks = await detectProjectFolders(`${githubOrigin}/${org}/${repo}/tree/${branch}`, gitHubToken, null, frameworksUri);
+      res.json(frameworks);
+    } catch (err) {
+      this.loggingService.error(`Failed to detect frameworks.`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
@@ -799,6 +873,14 @@ export class GithubController {
 
   private _getGitHubForReactViewClientSecret() {
     return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_SECRET');
+  }
+
+  private _getGitHubForReactViewsV2ClientId() {
+    return this.configService.get('GITHUB_FOR_REACTVIEWS_V2_CLIENT_ID');
+  }
+
+  private _getGitHubForReactViewsV2ClientSecret() {
+    return this.configService.get('GITHUB_FOR_REACTVIEWS_V2_CLIENT_SECRET');
   }
 
   private async _makeGetCallWithLinkAndOAuthHeaders(url: string, gitHubToken: string, res) {

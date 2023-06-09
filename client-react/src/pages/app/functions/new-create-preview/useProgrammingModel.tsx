@@ -1,33 +1,55 @@
-import { IDropdownOption, IDropdownProps, IDropdownStyles, ILinkStyles, IRenderFunction, Icon, Link } from '@fluentui/react';
+import {
+  IDropdownOption,
+  IDropdownProps,
+  IDropdownStyleProps,
+  IDropdownStyles,
+  ILinkStyles,
+  IRenderFunction,
+  IStyleFunctionOrObject,
+  Icon,
+  Link,
+} from '@fluentui/react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 import { Links } from '../../../../utils/FwLinks';
-import Url from '../../../../utils/url';
 import { useFunctionsQuery } from '../function/hooks/useFunctionsQuery';
 import { useSiteConfigQuery } from '../function/hooks/useSiteConfigQuery';
+import Url from '../../../../utils/url';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
-const programmingModelDropdownStyles: Partial<IDropdownStyles> = {
-  dropdown: {
-    flex: '0 0 384px',
-    maxWidth: '80%',
-    width: '80%',
-  },
-  dropdownOptionText: {
-    fontSize: '13px',
-    lineHeight: '18px',
-  },
-  root: {
-    alignItems: 'center',
-    display: 'flex',
-    flexFlow: 'row wrap',
-    gap: 8,
-    width: '80%',
-  },
-  title: {
-    fontSize: '13px',
-    lineHeight: '30px',
-  },
+const programmingModelDropdownStyles: IStyleFunctionOrObject<IDropdownStyleProps, IDropdownStyles> = ({ disabled, theme }) => {
+  return {
+    dropdown: {
+      flex: '0 0 384px',
+      maxWidth: '80%',
+      width: '80%',
+    },
+    dropdownOptionText: {
+      fontSize: '13px',
+      lineHeight: '18px',
+    },
+    root: {
+      alignItems: 'center',
+      display: 'flex',
+      flexFlow: 'row wrap',
+      gap: 8,
+      width: '80%',
+    },
+    title: [
+      {
+        fontSize: '13px',
+        lineHeight: '30px',
+      },
+      disabled && {
+        backgroundColor: (theme as ThemeExtended)?.semanticColors.disabledControlBackground,
+        border: '1px solid ${(theme as ThemeExtended)?.semanticColors.disabledText}',
+        color: (theme as ThemeExtended)?.semanticColors.textColor,
+        cursor: 'default',
+      },
+    ],
+  };
 };
 
 const programmingModelLinkStyles: ILinkStyles = {
@@ -38,7 +60,8 @@ const programmingModelLinkStyles: ILinkStyles = {
   },
 };
 
-const enableNewProgrammingModel = !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel);
+const enableNewProgrammingModel =
+  !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableNewProgrammingModel) && !NationalCloudEnvironment.isNationalCloud();
 
 export function useProgrammingModel(resourceId: string) {
   const { t } = useTranslation();
@@ -88,8 +111,19 @@ export function useProgrammingModel(resourceId: string) {
       /** @note Disable the dropdown if there is already a selected programming model. */
       setProgrammingModelDisabled(selectedProgrammingModel !== null);
 
-      /** @note Initialize the dropdown to the selected programming model. Otherwise default to the new programming model is enabled and supported. Otherwise default to the old programming model. */
-      setProgrammingModel(selectedProgrammingModel ?? (enableNewProgrammingModel && isSupported ? 2 : 1));
+      /**
+       * @note Set the programming model to v1 if the v2 programming model is not enabled.
+       * Otherwise initialize the dropdown to the selected programming model, if functions already exist.
+       * Otherwise default to the v2 programming model, if supported (Python only).
+       * Otherwise default to the v1 programming model.
+       */
+      if (!enableNewProgrammingModel) {
+        setProgrammingModel(1);
+      } else if (selectedProgrammingModel) {
+        setProgrammingModel(selectedProgrammingModel);
+      } else {
+        setProgrammingModel(isSupported ? 2 : 1);
+      }
     }
   }, [selectedProgrammingModel, functions, isSupported]);
 
