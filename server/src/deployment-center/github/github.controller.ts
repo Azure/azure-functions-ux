@@ -29,6 +29,8 @@ import {
   ReactViewsEnvironment,
   SandboxEnvironment,
   SandboxEnvironmentUrlMappings,
+  ExtensionMappings,
+  ExtensionNames,
 } from '../deployment-center';
 import { CloudType, StaticReactConfig } from '../../types/config';
 import { detectProjectFolders } from '@azure/web-apps-framework-detection';
@@ -440,13 +442,18 @@ export class GithubController {
     );
   }
 
-  @Get('auth/github/reactviews/callback/env/:env')
-  async callbackReactViewRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env) {
+  @Get('auth/github/reactviews/callback/env/:env/extension/:extension')
+  async callbackReactViewRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('env') env, @Param('extension') extension) {
     const envToUpper = (env && (env as string).toUpperCase()) || '';
     const envUri =
       ReactViewsEnvironmentUrlMappings.environmentToUrlMap[envToUpper] ||
       ReactViewsEnvironmentUrlMappings.environmentToUrlMap[ReactViewsEnvironment.Prod];
-    res.redirect(`${envUri}/TokenAuthorize/ExtensionName/WebsitesExtension?code=${code}&state=${state}`);
+
+    const extensionToUpper = (extension && (extension as string).toUpperCase()) || '';
+    const extensionName =
+      ExtensionMappings.extensionToExtensionNameMap[extensionToUpper] ||
+      ExtensionMappings.extensionToExtensionNameMap[ExtensionNames.Websites];
+    res.redirect(`${envUri}/TokenAuthorize/ExtensionName/${extensionName}?code=${code}&state=${state}`);
   }
 
   @Get('auth/github/callback/env/:env')
