@@ -133,7 +133,7 @@ jobs:
           locProj: 'server/LocProject.json'
           outDir: '$(Build.ArtifactStagingDirectory)'
           packageSourceAuth: 'patAuth'
-          dependencyPackageSource: 'https://azure-functions-ux.visualstudio.com/azure-functions-react/_artifacts/feed/azure-functions-ux-loc/nuget/v3/index.json'
+          dependencyPackageSource: 'https://azure-functions-ux.pkgs.visualstudio.com/azure-functions-react/_packaging/azure-functions-ux-loc/nuget/v3/index.json'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: loc'
