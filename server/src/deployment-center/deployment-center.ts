@@ -25,6 +25,11 @@ export enum ReactViewsEnvironment {
   Preview = 'PREVIEW',
 }
 
+export enum ExtensionNames {
+  Websites = 'WEBSITES',
+  PaasServerless = 'PAASSERVERLESS',
+}
+
 export class EnvironmentUrlMappings {
   static readonly environmentToUrlMap: { [id in Environments]: string } = {
     PROD: 'https://functions.azure.com',
@@ -60,6 +65,18 @@ export class ReactViewsEnvironmentUrlMappings {
     'https://ms.portal.azure.com': ReactViewsEnvironment.Mpac,
     'https://rc.portal.azure.com': ReactViewsEnvironment.Rc,
     'https://preview.portal.azure.com': ReactViewsEnvironment.Preview,
+  };
+}
+
+export class ExtensionMappings {
+  static readonly extensionToExtensionNameMap: { [id in ExtensionNames]: string } = {
+    WEBSITES: 'WebsitesExtension',
+    PAASSERVERLESS: 'Microsoft_Azure_PaasServerless',
+  };
+
+  static readonly extensionNameToExtensionMap: { [id: string]: ExtensionNames } = {
+    WebsitesExtension: ExtensionNames.Websites,
+    Microsoft_Azure_PaasServerless: ExtensionNames.PaasServerless,
   };
 }
 
