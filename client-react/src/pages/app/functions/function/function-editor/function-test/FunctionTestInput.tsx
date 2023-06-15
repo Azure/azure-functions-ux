@@ -1,9 +1,10 @@
+import { IDropdownOption, ITextFieldProps, Label, TextField } from '@fluentui/react';
 import { Field, FieldArray, FieldProps, FormikProps } from 'formik';
 import get from 'lodash-es/get';
-import { IDropdownOption, ITextFieldProps, Label, TextField } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Subject } from 'rxjs';
+
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import IconButton from '../../../../../../components/IconButton/IconButton';
@@ -17,6 +18,7 @@ import { BindingManager } from '../../../../../../utils/BindingManager';
 import StringUtils from '../../../../../../utils/string';
 import { EmptyNameValuePair, HttpMethods, InputFormValues, NameValuePair, UrlObj } from '../FunctionEditor.types';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
+import { isNewNodeProgrammingModel } from '../useFunctionEditorQueries';
 import {
   bodyEditorStyle,
   functionTestGroupStyle,
@@ -30,7 +32,6 @@ import {
   pivotItemWrapper,
   testFormLabelStyle,
 } from './FunctionTest.styles';
-import { isNewNodeProgrammingModel } from '../useFunctionEditorQueries';
 
 export interface FunctionTestInputProps {
   functionInfo: ArmObj<FunctionInfo>;

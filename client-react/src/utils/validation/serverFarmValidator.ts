@@ -1,6 +1,7 @@
+import i18next from 'i18next';
+
 import ServerFarmService from '../../ApiHelpers/ServerFarmService';
 import { Guid } from '../Guid';
-import i18next from 'i18next';
 
 const SERVERFARM_MAX_LENGTH = 40;
 const RESTRICTED_NAME = 'default';

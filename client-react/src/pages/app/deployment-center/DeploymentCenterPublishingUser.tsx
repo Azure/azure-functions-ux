@@ -1,13 +1,17 @@
-import React, { useContext, useState } from 'react';
-import { Field } from 'formik';
-import {
-  DeploymentCenterFtpsProps,
-  DeploymentCenterFieldProps,
-  DeploymentCenterContainerFormData,
-  DeploymentCenterCodeFormData,
-} from './DeploymentCenter.types';
 import { ActionButton, Link, MessageBarType, ProgressIndicator } from '@fluentui/react';
+import { Field } from 'formik';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import TextField from '../../../components/form-controls/TextField';
+import { PortalContext } from '../../../PortalContext';
+import { TextFieldType } from '../../../utils/CommonConstants';
+import { DeploymentCenterLinks } from '../../../utils/FwLinks';
+import DeploymentCenterData from './DeploymentCenter.data';
 import {
   additionalTextFieldControl,
   deploymentCenterInfoBannerDiv,
@@ -16,18 +20,15 @@ import {
   textboxStyle,
   userHeaderStyle,
 } from './DeploymentCenter.styles';
-import TextField from '../../../components/form-controls/TextField';
+import {
+  DeploymentCenterCodeFormData,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterFieldProps,
+  DeploymentCenterFtpsProps,
+} from './DeploymentCenter.types';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
-import CustomBanner from '../../../components/CustomBanner/CustomBanner';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
-import { DeploymentCenterLinks } from '../../../utils/FwLinks';
-import { TextFieldType } from '../../../utils/CommonConstants';
-import { PortalContext } from '../../../PortalContext';
-import DeploymentCenterData from './DeploymentCenter.data';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
-import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
-import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
 
 const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {

@@ -1,30 +1,31 @@
-import React, { useState, useContext, useMemo } from 'react';
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { IColumn, Icon, IGroup, Link, PanelType, PrimaryButton, ProgressIndicator } from '@fluentui/react';
 import moment from 'moment';
+import React, { useContext, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
+import { ArmObj } from '../../../../models/arm-obj';
+import { ScmType } from '../../../../models/site/config';
 import {
-  DeploymentCenterCodeLogsProps,
-  DateTimeObj,
-  DeploymentStatus,
-  DeploymentProperties,
+  deploymentCenterCodeLogsBox,
+  deploymentCenterCodeLogsNotConfigured,
+  deploymentCenterLogsError,
+  deploymentCenterVstsCodeLogsLinkStyle,
+} from '../DeploymentCenter.styles';
+import {
   CodeDeploymentsRow,
+  DateTimeObj,
+  DeploymentCenterCodeLogsProps,
+  DeploymentProperties,
+  DeploymentStatus,
   KuduLogMessage,
   UrlInfo,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, IGroup, Icon } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
-import {
-  deploymentCenterLogsError,
-  deploymentCenterCodeLogsNotConfigured,
-  deploymentCenterCodeLogsBox,
-  deploymentCenterVstsCodeLogsLinkStyle,
-} from '../DeploymentCenter.styles';
-import { ArmObj } from '../../../../models/arm-obj';
-import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
-import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
-import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
-import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
+import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {

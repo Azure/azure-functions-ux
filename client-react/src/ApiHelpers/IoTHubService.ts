@@ -1,8 +1,8 @@
+import { ArmArray } from '../models/arm-obj';
+import { IotHub, KeyList } from '../models/iothub';
+import { CommonConstants } from '../utils/CommonConstants';
 import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
 import MakeArmCall from './ArmHelper';
-import { ArmArray } from '../models/arm-obj';
-import { CommonConstants } from '../utils/CommonConstants';
-import { IotHub, KeyList } from '../models/iothub';
 
 export default class IotHubService {
   public static fetchIotHubs = (resourceId: string) => {

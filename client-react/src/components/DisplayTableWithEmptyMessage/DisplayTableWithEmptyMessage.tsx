@@ -1,8 +1,9 @@
 import { DetailsList, IDetailsListProps, ShimmeredDetailsList, ThemeProvider } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { style } from 'typestyle';
-import { ThemeContext } from '../../ThemeContext';
+
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../ThemeContext';
 import { detailListHeaderStyle } from '../form-controls/formControl.override.styles';
 import { shimmerTheme } from '../shimmer/Shimmer.styles';
 

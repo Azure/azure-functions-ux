@@ -1,8 +1,9 @@
+import { ComboBox, IComboBoxOption, IComboBoxProps } from '@fluentui/react';
 import { useContext } from 'react';
-import { ComboBox, IComboBoxProps, IComboBoxOption } from '@fluentui/react';
+import { useWindowSize } from 'react-use';
+
 import { ThemeContext } from '../../ThemeContext';
 import { comboboxStyleOverrides } from './formControl.override.styles';
-import { useWindowSize } from 'react-use';
 import ReactiveFormControl from './ReactiveFormControl';
 
 interface CustomComboboxProps {

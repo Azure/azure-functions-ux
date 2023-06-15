@@ -1,12 +1,13 @@
-import React from 'react';
 import { ITextFieldProps } from '@fluentui/react';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
-import TextFieldNoFormik from './TextFieldNoFormik';
+import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 import { Links } from '../../utils/FwLinks';
 import { Layout } from './ReactiveFormControl';
-import { useTranslation } from 'react-i18next';
-import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
+import TextFieldNoFormik from './TextFieldNoFormik';
 
 export interface CustomTextFieldProps {
   id: string;

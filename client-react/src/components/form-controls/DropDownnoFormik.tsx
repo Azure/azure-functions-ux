@@ -1,12 +1,13 @@
 import { Dropdown as OfficeDropdown, IDropdownOption, IDropdownProps } from '@fluentui/react';
+import { Spinner, SpinnerSize } from '@fluentui/react';
 import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
+
 import { ThemeContext } from '../../ThemeContext';
 import { LoadingDropdownSpinnerStyle } from './DropDown';
 import { dropdownStyleOverrides } from './formControl.override.styles';
 import ReactiveFormControl, { Layout } from './ReactiveFormControl';
-import { Spinner, SpinnerSize } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
 
 interface CustomDropdownProps {
   id: string;

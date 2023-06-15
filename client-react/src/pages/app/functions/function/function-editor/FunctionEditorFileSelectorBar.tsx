@@ -1,10 +1,11 @@
-import { IDropdownOption, Label, Dropdown as OfficeDropdown, Stack } from '@fluentui/react';
+import { Dropdown as OfficeDropdown, IDropdownOption, Label, Stack } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-import { ThemeContext } from '../../../../../ThemeContext';
+
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { ThemeContext } from '../../../../../ThemeContext';
 import StringUtils from '../../../../../utils/string';
 import { fileSelectorDropdownStyle, fileSelectorStackStyle } from './FunctionEditor.styles';
 import { isDotNetIsolatedFunction, isNewProgrammingModel } from './useFunctionEditorQueries';

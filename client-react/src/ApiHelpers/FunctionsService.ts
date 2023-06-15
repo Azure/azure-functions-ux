@@ -1,4 +1,5 @@
 import { Method } from 'axios';
+
 import { NetAjaxSettings } from '../models/ajax-request-model';
 import { Binding } from '../models/functions/binding';
 import { FunctionConfig } from '../models/functions/function-config';

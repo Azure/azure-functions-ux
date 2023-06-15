@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+
 import { CommonConstants } from '../../utils/CommonConstants';
 
 const svgIconStyle = { width: '13px', height: '13px' };

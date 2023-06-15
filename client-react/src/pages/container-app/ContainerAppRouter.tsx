@@ -1,8 +1,9 @@
 import { RouteComponentProps, Router } from '@reach/router';
-import React, { useContext, lazy } from 'react';
-import { ThemeContext } from '../../ThemeContext';
-import { iconStyles } from '../../theme/iconStyles';
+import React, { lazy, useContext } from 'react';
+
 import { StartupInfoContext } from '../../StartupInfoContext';
+import { iconStyles } from '../../theme/iconStyles';
+import { ThemeContext } from '../../ThemeContext';
 
 const ConsoleLoadable: any = lazy(() => import(/* webpackChunkName: "containerappconsole" */ './console/ConsoleDataLoader'));
 const LogStreamDataLoader: any = lazy(() => import(/* webpackChunkName: "containerapplogstream" */ './log-stream/LogStreamDataLoader'));

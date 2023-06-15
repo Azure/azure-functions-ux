@@ -1,5 +1,6 @@
-import { ThemeExtended } from './SemanticColorsExtended';
 import { style } from 'typestyle';
+
+import { ThemeExtended } from './SemanticColorsExtended';
 
 export const iconStyles = (theme: ThemeExtended) =>
   style({

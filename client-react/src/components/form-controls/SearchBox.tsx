@@ -3,6 +3,7 @@ import { SearchBox } from '@fluentui/react';
 import { debounce } from 'lodash';
 import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { IconConstants } from '../../utils/constants/IconConstants';
 import { filterTextFieldStyle } from './formControl.override.styles';
 

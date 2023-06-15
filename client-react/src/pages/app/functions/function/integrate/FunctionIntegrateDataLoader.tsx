@@ -1,13 +1,14 @@
 import React from 'react';
+
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import SiteService from '../../../../../ApiHelpers/SiteService';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Binding } from '../../../../../models/functions/binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { HostStatus } from '../../../../../models/functions/host-status';
 import { Site } from '../../../../../models/site/site';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';

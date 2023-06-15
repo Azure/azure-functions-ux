@@ -1,9 +1,10 @@
+import { Field } from 'formik';
 import React from 'react';
+import { useTranslation } from 'react-i18next';
+
+import ComboBox from '../../../../components/form-controls/ComboBox';
 import { DeploymentCenterBitbucketProviderProps } from '../DeploymentCenter.types';
 import DeploymentCenterBitbucketAccount from './DeploymentCenterBitbucketAccount';
-import { Field } from 'formik';
-import ComboBox from '../../../../components/form-controls/ComboBox';
-import { useTranslation } from 'react-i18next';
 
 const DeploymentCenterBitbucketProvider: React.FC<DeploymentCenterBitbucketProviderProps> = props => {
   const {

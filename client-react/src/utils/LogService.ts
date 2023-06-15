@@ -1,5 +1,6 @@
-import Url from './url';
 import { AppInsights } from 'applicationinsights-js';
+
+import Url from './url';
 export default class LogService {
   public static initialize() {
     if (process.env.REACT_APP_APPLICATION_INSIGHTS_KEY) {

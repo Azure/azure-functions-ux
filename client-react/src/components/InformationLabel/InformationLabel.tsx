@@ -1,9 +1,10 @@
+import { Icon, Label, Link } from '@fluentui/react';
 import { FC, useContext } from 'react';
-import ReactiveFormControl from '../form-controls/ReactiveFormControl';
-import { Label, Link, Icon } from '@fluentui/react';
 import { style } from 'typestyle';
-import { ThemeContext } from '../../ThemeContext';
+
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../ThemeContext';
+import ReactiveFormControl from '../form-controls/ReactiveFormControl';
 import { labelValueStyle } from './InformationLabel.styles';
 
 export interface CustomInformationLabelProps {

@@ -1,9 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
+
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { SiteStateContext } from '../../../../SiteState';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterContainerSettingsReadOnlyView: React.FC = () => {
   const { t } = useTranslation();

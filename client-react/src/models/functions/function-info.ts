@@ -1,5 +1,5 @@
-import { FunctionConfig } from './function-config';
 import { KeyValue } from '../portal-models';
+import { FunctionConfig } from './function-config';
 
 export interface FunctionInfo {
   name: string;

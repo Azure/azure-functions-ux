@@ -1,5 +1,5 @@
+import { Environment, ScenarioCheckInput } from './scenario.models';
 import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 export class ElasticPremiumAppEnvironment extends Environment {
   public name = 'ElasticPremiumApp';
 

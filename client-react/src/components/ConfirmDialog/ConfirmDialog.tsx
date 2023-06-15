@@ -10,6 +10,7 @@ import {
   PrimaryButton,
 } from '@fluentui/react';
 import React from 'react';
+
 import { headerStyle, modalContentStyles, modalFooterStyles, modalStyles } from './ConfirmDialog.styles';
 
 interface ConfirmDialogProps {

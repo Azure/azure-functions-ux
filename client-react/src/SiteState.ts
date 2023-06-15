@@ -1,6 +1,7 @@
 import React from 'react';
-import { FunctionAppEditMode } from './models/portal-models';
+
 import { ArmObj } from './models/arm-obj';
+import { FunctionAppEditMode } from './models/portal-models';
 import { Site } from './models/site/site';
 
 export interface ISiteState {

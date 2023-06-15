@@ -1,10 +1,11 @@
+import { Field } from 'formik';
 import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import Dropdown from '../../../../components/form-controls/DropDown';
+import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterDropboxProviderProps } from '../DeploymentCenter.types';
 import DeploymentCenterDropboxAccount from './DeploymentCenterDropboxAccount';
-import { useTranslation } from 'react-i18next';
-import { Field } from 'formik';
-import { SiteStateContext } from '../../../../SiteState';
-import Dropdown from '../../../../components/form-controls/DropDown';
 
 const DeploymentCenterDropboxProvider: React.FC<DeploymentCenterDropboxProviderProps> = props => {
   const { formProps, accountUser, folderOptions, loadingFolders } = props;

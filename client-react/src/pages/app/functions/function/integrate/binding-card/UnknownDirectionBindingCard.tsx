@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { ReactComponent as WarningSvg } from '../../../../../../images/Common/Warning.svg';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../../models/functions/function-binding';

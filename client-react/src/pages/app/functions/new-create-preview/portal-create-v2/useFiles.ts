@@ -1,8 +1,9 @@
 import { useCallback, useContext } from 'react';
+
 import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import { PortalContext } from '../../../../../PortalContext';
 import { VfsObject } from '../../../../../models/functions/vfs';
+import { PortalContext } from '../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 
 export function useFiles(resourceId: string) {

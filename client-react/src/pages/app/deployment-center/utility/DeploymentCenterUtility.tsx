@@ -1,31 +1,32 @@
-import {
-  RuntimeStackSetting,
-  AuthorizationResult,
-  DeploymentCenterFormData,
-  DeploymentCenterContainerFormData,
-  ContainerRegistrySources,
-  RuntimeVersionOptions,
-  RuntimeVersionDisplayNames,
-  RuntimeStackOptions,
-  RuntimeStackDisplayNames,
-  JavaContainerDisplayNames,
-} from '../DeploymentCenter.types';
+import { ISelectableOption, Link } from '@fluentui/react';
+import { FieldProps, FormikProps } from 'formik';
+
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ArmObj } from '../../../../models/arm-obj';
-import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
-import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
-import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
-import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { PublishingCredentials } from '../../../../models/site/publish';
 import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { FieldProps, FormikProps } from 'formik';
-import { IDeploymentCenterContext } from '../DeploymentCenterContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import { JavaContainers, RuntimeStacks } from '../../../../utils/stacks-utils';
 import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { ISelectableOption, Link } from '@fluentui/react';
+import {
+  AuthorizationResult,
+  ContainerRegistrySources,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterFormData,
+  JavaContainerDisplayNames,
+  RuntimeStackDisplayNames,
+  RuntimeStackOptions,
+  RuntimeStackSetting,
+  RuntimeVersionDisplayNames,
+  RuntimeVersionOptions,
+} from '../DeploymentCenter.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { IDeploymentCenterContext } from '../DeploymentCenterContext';
+import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,

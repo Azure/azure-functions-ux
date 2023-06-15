@@ -1,6 +1,6 @@
+import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { ScenarioIds } from './scenario-ids';
 import { ServerFarmSkuConstants } from './ServerFarmSku';
-import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 
 export class XenonSiteEnvironment extends Environment {
   public name = 'XenonSite';

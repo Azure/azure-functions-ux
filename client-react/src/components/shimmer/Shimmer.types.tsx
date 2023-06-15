@@ -1,5 +1,6 @@
 import { ShimmerElementsGroup, ShimmerElementType } from '@fluentui/react';
 import React from 'react';
+
 import { wrapperStyle } from './Shimmer.styles';
 
 export const LineGapShimmerGroup: React.FC = () => {

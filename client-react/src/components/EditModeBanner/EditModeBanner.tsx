@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
-import { SiteStateContext } from '../../SiteState';
-import { useTranslation } from 'react-i18next';
-import SiteHelper from '../../utils/SiteHelper';
 import { MessageBarType } from '@fluentui/react';
+import React, { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { SiteStateContext } from '../../SiteState';
+import SiteHelper from '../../utils/SiteHelper';
 import CustomBanner from '../CustomBanner/CustomBanner';
 
 interface EditModeBannerProps {

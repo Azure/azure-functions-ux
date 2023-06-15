@@ -2,6 +2,7 @@ import { IDropdownOption } from '@fluentui/react';
 import { FormikProps } from 'formik';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
 import { useUserPromptQuery } from '../../function/hooks/useUserPromptQuery';
 import { JobType } from './JobType';

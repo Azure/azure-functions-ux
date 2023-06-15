@@ -1,7 +1,8 @@
+import { ActionButton, IButtonProps } from '@fluentui/react';
 import React, { useContext } from 'react';
-import { IButtonProps, ActionButton } from '@fluentui/react';
-import { tableCommandBarButtonStyle } from './DisplayTableWithCommandBar.style';
+
 import { ThemeContext } from '../../ThemeContext';
+import { tableCommandBarButtonStyle } from './DisplayTableWithCommandBar.style';
 
 const DisplayTableCommandBarButton: React.FC<IButtonProps> = props => {
   const theme = useContext(ThemeContext);

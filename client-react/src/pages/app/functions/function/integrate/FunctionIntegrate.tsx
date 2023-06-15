@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { Observable, Subject } from 'rxjs';
 import { classes } from 'typestyle';
-import { PortalContext } from '../../../../../PortalContext';
-import { SiteStateContext } from '../../../../../SiteState';
-import { ThemeContext } from '../../../../../ThemeContext';
+
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
@@ -17,10 +15,18 @@ import { Binding, BindingDirection } from '../../../../../models/functions/bindi
 import { BindingInfo } from '../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { HostStatus } from '../../../../../models/functions/host-status';
+import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { ThemeContext } from '../../../../../ThemeContext';
 import { Links } from '../../../../../utils/FwLinks';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
 import { isNewPythonProgrammingModel } from '../function-editor/useFunctionEditorQueries';
+import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
+import InputBindingCard from './binding-card/InputBindingCard';
+import OutputBindingCard from './binding-card/OutputBindingCard';
+import TriggerBindingCard from './binding-card/TriggerBindingCard';
+import UnknownDirectionBindingCard from './binding-card/UnknownDirectionBindingCard';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import {
@@ -34,11 +40,6 @@ import {
 } from './FunctionIntegrate.style';
 import FunctionIntegrateCommandBar from './FunctionIntegrateCommandBar';
 import { FunctionIntegrateConstants } from './FunctionIntegrateConstants';
-import FunctionNameBindingCard from './binding-card/FunctionNameBindingCard';
-import InputBindingCard from './binding-card/InputBindingCard';
-import OutputBindingCard from './binding-card/OutputBindingCard';
-import TriggerBindingCard from './binding-card/TriggerBindingCard';
-import UnknownDirectionBindingCard from './binding-card/UnknownDirectionBindingCard';
 
 export interface FunctionIntegrateProps {
   functionAppId: string;

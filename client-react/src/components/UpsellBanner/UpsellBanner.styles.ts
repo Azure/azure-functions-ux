@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+
 import { CommonConstants } from '../../utils/CommonConstants';
 
 export const BannerStyle = style({ backgroundColor: CommonConstants.NonThemeColors.upsellBackground, height: '30px' });

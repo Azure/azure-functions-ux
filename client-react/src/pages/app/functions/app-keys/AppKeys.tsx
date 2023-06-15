@@ -1,6 +1,7 @@
 import React from 'react';
-import { AppKeysFormValues } from './AppKeys.types';
+
 import { commandBarSticky, formStyle } from './AppKeys.styles';
+import { AppKeysFormValues } from './AppKeys.types';
 import AppKeysCommandBar from './AppKeysCommandBar';
 import AppKeysPivot from './AppKeysPivot';
 

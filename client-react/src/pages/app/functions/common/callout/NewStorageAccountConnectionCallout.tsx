@@ -1,15 +1,17 @@
+import { IDropdownProps } from '@fluentui/react';
+import { FieldProps } from 'formik';
 import React from 'react';
-import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
+
+import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
+import { NewConnectionCalloutProps } from './Callout.properties';
 import { paddingSidesStyle } from './Callout.styles';
 import StorageAccountPivotDataLoader from './storageAccountPivot/StorageAccountPivotDataLoader';
-import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
-import { FieldProps } from 'formik';
-import { IDropdownProps } from '@fluentui/react';
 
-const NewStorageAccountConnectionCallout: React.SFC<
-  NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps
-> = props => {
+const NewStorageAccountConnectionCallout: React.SFC<NewConnectionCalloutProps &
+  CustomDropdownProps &
+  FieldProps &
+  IDropdownProps> = props => {
   const { t } = useTranslation();
 
   return (

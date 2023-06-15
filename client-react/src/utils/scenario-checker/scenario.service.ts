@@ -1,18 +1,18 @@
-import { EmbeddedFunctionsEnvironment } from './embedded-functions.environment';
-import { NationalCloudEnvironment } from './national-cloud.environment';
-import { DynamicSiteEnvironment } from './dynamic-site.environment';
 import { AzureEnvironment } from './azure.environment';
-import { ScenarioCheckResult, ScenarioResult, ScenarioCheckInput, Environment } from './scenario.models';
-import { LinuxSiteEnvironment } from './linux-site.environment';
-import { XenonSiteEnvironment } from './xenon-site.environment';
-import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
-import { FunctionAppEnvironment } from './function-app.environment';
-import { WindowsCode } from './windows-code.environment';
 import { ContainerApp } from './container.environment';
-import { KubeApp } from './kube-app.environment';
+import { DynamicLinuxEnvironment } from './dynamic-linux.environment';
+import { DynamicSiteEnvironment } from './dynamic-site.environment';
 import { ElasticPremiumAppEnvironment } from './elastic-premium.environment';
-import { WorkflowAppEnvironment } from './workflow-app.environment';
+import { EmbeddedFunctionsEnvironment } from './embedded-functions.environment';
+import { FunctionAppEnvironment } from './function-app.environment';
+import { KubeApp } from './kube-app.environment';
+import { LinuxSiteEnvironment } from './linux-site.environment';
+import { NationalCloudEnvironment } from './national-cloud.environment';
 import { PremiumAppEnvironment } from './premium.environment';
+import { Environment, ScenarioCheckInput, ScenarioCheckResult, ScenarioResult } from './scenario.models';
+import { WindowsCode } from './windows-code.environment';
+import { WorkflowAppEnvironment } from './workflow-app.environment';
+import { XenonSiteEnvironment } from './xenon-site.environment';
 
 export interface IScenarioService {
   checkScenario(id: string, input?: ScenarioCheckInput): ScenarioCheckResult;

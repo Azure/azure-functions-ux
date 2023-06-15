@@ -1,11 +1,12 @@
-import React, { useContext, useRef } from 'react';
-import { Field } from 'formik';
-import { useTranslation } from 'react-i18next';
-import { ContainerRegistrySources, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DefaultButton } from '@fluentui/react';
-import { extractConfigFromFile, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { Field } from 'formik';
+import React, { useContext, useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { PortalContext } from '../../../../PortalContext';
+import { ContainerRegistrySources, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { extractConfigFromFile, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterContainerComposeFileUploader: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;

@@ -1,4 +1,4 @@
-import { Spinner, SpinnerSize, Overlay } from '@fluentui/react';
+import { Overlay, Spinner, SpinnerSize } from '@fluentui/react';
 import React from 'react';
 import { style } from 'typestyle/lib';
 

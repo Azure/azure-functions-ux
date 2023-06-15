@@ -1,6 +1,7 @@
-import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { IDetailsListStyles } from '@fluentui/react';
 import { style } from 'typestyle';
+
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 export const DEFAULTLISTHEIGHT = '31px';
 

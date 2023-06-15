@@ -1,6 +1,7 @@
-import { ScmType, BuildProvider } from '../../../../models/site/config';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
 import * as Yup from 'yup';
+
+import { BuildProvider, ScmType } from '../../../../models/site/config';
+import { DeploymentCenterCodeFormData, DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType } from '../DeploymentCenter.types';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 
 export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder {

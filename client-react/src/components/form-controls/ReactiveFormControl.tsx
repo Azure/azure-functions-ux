@@ -3,25 +3,26 @@ import { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { style } from 'typestyle';
+
 import { ReactComponent as InfoSvg } from '../../images/Common/Info.svg';
 import { dirtyElementStyle } from '../../pages/app/app-settings/AppSettings.styles';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
+import { TextUtilitiesService } from '../../utils/textUtilities';
+import IconButton from '../IconButton/IconButton';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import UpsellIcon from '../TooltipIcons/UpsellIcon';
-import IconButton from '../IconButton/IconButton';
-import { TextUtilitiesService } from '../../utils/textUtilities';
 import {
   controlContainerStyle,
+  copyButtonStyle,
   formLabelStyle,
   formStackStyle,
   hostStyle,
   infoMessageStyle,
   learnMoreLinkStyle,
+  stackControlStyle,
   tooltipStyle,
   upsellIconStyle,
-  stackControlStyle,
-  copyButtonStyle,
 } from './formControl.override.styles';
 
 export enum Layout {

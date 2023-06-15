@@ -1,4 +1,5 @@
-import { IPivotItemProps, Icon } from '@fluentui/react';
+import { Icon, IPivotItemProps } from '@fluentui/react';
+
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 const CustomTabRenderer = (
   link: IPivotItemProps,

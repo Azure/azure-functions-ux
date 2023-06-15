@@ -1,8 +1,9 @@
 import React from 'react';
-import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
+
 import { ArmObj } from '../../../models/arm-obj';
-import { SiteConfig } from '../../../models/site/config';
 import { KeyValue } from '../../../models/portal-models';
+import { SiteConfig } from '../../../models/site/config';
+import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 
 export interface IDeploymentCenterContext {
   resourceId: string;

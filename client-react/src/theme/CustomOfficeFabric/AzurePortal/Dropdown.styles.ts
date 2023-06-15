@@ -1,4 +1,5 @@
 import { getGlobalClassNames, IStyle } from '@fluentui/react';
+
 import { ThemeExtended } from '../../SemanticColorsExtended';
 import * as StyleConstants from './Constants';
 

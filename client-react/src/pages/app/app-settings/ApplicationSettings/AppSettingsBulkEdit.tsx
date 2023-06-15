@@ -1,10 +1,11 @@
+import { MessageBarType } from '@fluentui/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FormAppSetting } from '../AppSettings.types';
+
 import ActionBar from '../../../../components/ActionBar';
-import { MessageBarType } from '@fluentui/react';
-import { getErrorMessage, formAppSettingToUseSlotSetting, formAppSettingToUseStickySetting } from './ApplicationSettings.utils';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
+import { FormAppSetting } from '../AppSettings.types';
+import { formAppSettingToUseSlotSetting, formAppSettingToUseStickySetting, getErrorMessage } from './ApplicationSettings.utils';
 
 interface AppSettingsBulkEditProps {
   updateAppSetting: (item: FormAppSetting[]) => void;

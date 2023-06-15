@@ -1,5 +1,6 @@
 import { Label, Stack } from '@fluentui/react';
 import { useContext } from 'react';
+
 import { ThemeContext } from '../../ThemeContext';
 import { InfoTooltip } from '../InfoTooltip/InfoTooltip';
 import { labelStyle, requiredIconStyle } from './InputLabel.styles';

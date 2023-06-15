@@ -1,6 +1,7 @@
 import i18next from 'i18next';
-import { FormAppSetting } from '../AppSettings.types';
 import * as Joi from 'joi';
+
+import { FormAppSetting } from '../AppSettings.types';
 const getSchema = (disableSlotSetting: boolean, isLinux: boolean): Joi.ArraySchema => {
   const slotSettingSchema = disableSlotSetting ? Joi.boolean().forbidden() : Joi.boolean().optional();
   const nameSchema = isLinux

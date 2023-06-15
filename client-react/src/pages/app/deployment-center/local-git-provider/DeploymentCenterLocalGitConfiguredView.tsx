@@ -1,9 +1,10 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { deploymentCenterContent } from '../DeploymentCenter.styles';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { getGitCloneUri } from '../utility/DeploymentCenterUtility';
-import { deploymentCenterContent } from '../DeploymentCenter.styles';
 
 const DeploymentCenterLocalGitConfiguredView: React.FC = () => {
   const { t } = useTranslation();

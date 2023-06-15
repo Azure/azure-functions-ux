@@ -1,4 +1,4 @@
-import { PartialTheme, mergeStyles } from '@fluentui/react';
+import { mergeStyles, PartialTheme } from '@fluentui/react';
 import { style } from 'typestyle';
 
 export const wrapperClass = mergeStyles({

@@ -1,6 +1,7 @@
 import { IPalette } from '@fluentui/react';
-import { ThemeExtended } from './SemanticColorsExtended';
+
 import { AzurePortalColors as LightThemePortalColors } from './light';
+import { ThemeExtended } from './SemanticColorsExtended';
 
 export const AzurePortalColors = {
   lineSeparator: 'rgba(107, 132, 156, 0.25)',

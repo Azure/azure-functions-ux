@@ -1,8 +1,8 @@
 import { ArmObj } from '../models/arm-obj';
-import { Site, HostType } from '../models/site/site';
 import { KeyValue } from '../models/portal-models';
-import { NationalCloudEnvironment } from './scenario-checker/national-cloud.environment';
+import { HostType, Site } from '../models/site/site';
 import { CommonConstants } from './CommonConstants';
+import { NationalCloudEnvironment } from './scenario-checker/national-cloud.environment';
 
 export default class Url {
   public static serviceHost =

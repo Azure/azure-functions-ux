@@ -1,26 +1,27 @@
+import i18next from 'i18next';
+import { isEqual, sortBy } from 'lodash-es';
+
 import SiteService from '../../../ApiHelpers/SiteService';
+import { ArmArray, ArmObj } from '../../../models/arm-obj';
+import { NameValuePair } from '../../../models/name-value-pair';
+import { KeyValue } from '../../../models/portal-models';
+import { ArmAzureStorageMount, ConnStringInfo, ErrorPage, Reference, SiteConfig, VirtualApplication } from '../../../models/site/config';
+import { MinTlsVersion, PublishingCredentialPolicies, Site } from '../../../models/site/site';
+import { SlotConfigNames } from '../../../models/site/slot-config-names';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
+import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
+import { CommonConstants } from '../../../utils/CommonConstants';
+import { IconConstants } from '../../../utils/constants/IconConstants';
+import StringUtils from '../../../utils/string';
 import {
   AppSettingsFormValues,
-  FormAppSetting,
-  FormConnectionString,
-  FormAzureStorageMounts,
-  ReferenceSummary,
-  ReferenceStatus,
   ConfigReferenceList,
+  FormAppSetting,
+  FormAzureStorageMounts,
+  FormConnectionString,
+  ReferenceStatus,
+  ReferenceSummary,
 } from './AppSettings.types';
-import { sortBy, isEqual } from 'lodash-es';
-import { ArmArray, ArmObj } from '../../../models/arm-obj';
-import { Site, PublishingCredentialPolicies, MinTlsVersion } from '../../../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, Reference, ErrorPage } from '../../../models/site/config';
-import { SlotConfigNames } from '../../../models/site/slot-config-names';
-import { NameValuePair } from '../../../models/name-value-pair';
-import StringUtils from '../../../utils/string';
-import { CommonConstants } from '../../../utils/CommonConstants';
-import { KeyValue } from '../../../models/portal-models';
-import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
-import { IconConstants } from '../../../utils/constants/IconConstants';
-import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
-import i18next from 'i18next';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;

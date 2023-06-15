@@ -1,13 +1,13 @@
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
-import { BindingInfo } from '../../../../models/functions/function-binding';
-import { BindingEditorFormValues } from '../common/BindingFormBuilder';
-import { FunctionConfig } from '../../../../models/functions/function-config';
-import { ArmObj } from '../../../../models/arm-obj';
-import { KeyValue } from '../../../../models/portal-models';
 import SiteService from '../../../../ApiHelpers/SiteService';
+import { ArmObj } from '../../../../models/arm-obj';
+import { BindingInfo } from '../../../../models/functions/function-binding';
+import { FunctionConfig } from '../../../../models/functions/function-config';
 import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
+import { KeyValue } from '../../../../models/portal-models';
 import Url from '../../../../utils/url';
+import { BindingEditorFormValues } from '../common/BindingFormBuilder';
 
 export default class FunctionCreateData {
   public static getTemplates(resourceId: string) {

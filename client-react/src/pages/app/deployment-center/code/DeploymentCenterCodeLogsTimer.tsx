@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { DeploymentCenterCodeLogsTimerProps } from '../DeploymentCenter.types';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { refreshButtonStyle } from '../DeploymentCenter.styles';
+import { DeploymentCenterCodeLogsTimerProps } from '../DeploymentCenter.types';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps> = props => {
   const refreshMilliseconds = 30000;

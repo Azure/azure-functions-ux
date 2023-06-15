@@ -1,6 +1,7 @@
 import { IPanelProps, IPanelStyles, Overlay, Panel, PanelType } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { panelBodyStyle, panelStyle } from './CustomPanel.styles';
 
 type IPanelPropsReduced = Pick<IPanelProps, Exclude<keyof IPanelProps, 'styles' | 'closeButtonAriaLabel' | 'onRenderNavigationContent'>>;

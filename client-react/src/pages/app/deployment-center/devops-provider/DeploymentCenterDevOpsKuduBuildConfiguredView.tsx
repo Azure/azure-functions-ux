@@ -1,11 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterDevOpsKuduBuildConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;

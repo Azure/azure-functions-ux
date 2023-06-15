@@ -7,9 +7,10 @@ import {
 } from '@fluentui/react';
 import { FieldProps } from 'formik';
 import { useCallback } from 'react';
+
+import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 import { ChoiceGroupStyles, ChoiceGroupVerticalStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
 import RadioButtonNoFormik from './RadioButtonNoFormik';
-import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 
 interface RadioButtonProps {
   id: string;

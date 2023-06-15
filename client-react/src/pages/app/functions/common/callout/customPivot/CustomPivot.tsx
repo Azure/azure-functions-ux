@@ -1,7 +1,8 @@
-import { Formik, FormikProps } from 'formik';
 import { IDropdownOption, PrimaryButton, TextField } from '@fluentui/react';
+import { Formik, FormikProps } from 'formik';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
 

@@ -1,10 +1,11 @@
 import React from 'react';
-import WindowsStacks, { StackProps } from '../../WindowsStacks/WindowsStacks';
-import { ScenarioService } from '../../../../../../utils/scenario-checker/scenario.service';
 import { useTranslation } from 'react-i18next';
+
+import { ScenarioService } from '../../../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../../../utils/scenario-checker/scenario-ids';
-import LinuxStacks from '../../LinuxStacks/LinuxStacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
+import LinuxStacks from '../../LinuxStacks/LinuxStacks';
+import WindowsStacks, { StackProps } from '../../WindowsStacks/WindowsStacks';
 
 const WebAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();

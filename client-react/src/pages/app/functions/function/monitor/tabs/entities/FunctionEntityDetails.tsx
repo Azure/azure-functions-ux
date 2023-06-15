@@ -1,10 +1,11 @@
+import { DetailsListLayoutMode, IColumn, ICommandBarItemProps, SelectionMode } from '@fluentui/react';
 import React, { useContext } from 'react';
-import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { AppInsightsOrchestrationTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
+
+import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { AppInsightsEntityTraceDetail, AppInsightsOrchestrationTrace } from '../../../../../../../models/app-insights';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
-import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { tabStyle } from '../FunctionMonitorTab.styles';
 import { FunctionEntitiesContext } from './FunctionEntitiesDataLoader';
 

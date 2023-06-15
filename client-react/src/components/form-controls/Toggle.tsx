@@ -1,7 +1,8 @@
-import { FieldProps } from 'formik';
 import { IToggleProps } from '@fluentui/react';
-import ToggleNoFormik from './ToggleNoFormik';
+import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
+
+import ToggleNoFormik from './ToggleNoFormik';
 
 export interface CustomToggleProps {
   id: string;

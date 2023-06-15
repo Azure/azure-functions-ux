@@ -1,8 +1,9 @@
-import { Field, Formik, FormikProps } from 'formik';
 import { Link } from '@fluentui/react';
+import { Field, Formik, FormikProps } from 'formik';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
+
 import ConfirmDialog from '../../../../../../components/ConfirmDialog/ConfirmDialog';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
@@ -14,13 +15,13 @@ import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
 import { BindingManager } from '../../../../../../utils/BindingManager';
 import { ArmFunctionDescriptor } from '../../../../../../utils/resourceDescriptors';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { dialogModelStyle } from '../FunctionIntegrate.style';
 import { getBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
 import { DeleteDialog } from './BindingPanel';
 import EditBindingCommandBar from './EditBindingCommandBar';
-import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 
 export interface BindingEditorProps {
   allBindings: Binding[];

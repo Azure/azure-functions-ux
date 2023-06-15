@@ -1,5 +1,6 @@
 import { IMessageBarStyles, MessageBarType } from '@fluentui/react';
 import { style } from 'typestyle';
+
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 export const messageBannerStyles = (isCustomIcon: boolean, undocked?: boolean) => {

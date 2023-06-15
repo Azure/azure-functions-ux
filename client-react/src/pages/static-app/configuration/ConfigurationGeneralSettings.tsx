@@ -2,11 +2,12 @@ import { Checkbox, IChoiceGroupOption, Link, MessageBarType, ProgressIndicator }
 import { Field } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PortalContext } from '../../../PortalContext';
+
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../components/form-controls/RadioButton';
 import TextField from '../../../components/form-controls/TextField';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import { PortalContext } from '../../../PortalContext';
 import { TextFieldType } from '../../../utils/CommonConstants';
 import { Links } from '../../../utils/FwLinks';
 import { getTelemetryInfo, stringToPasswordProtectionType } from '../StaticSiteUtility';

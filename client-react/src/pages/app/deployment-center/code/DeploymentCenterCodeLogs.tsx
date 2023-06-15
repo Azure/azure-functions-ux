@@ -1,23 +1,24 @@
-import React, { useState, useContext } from 'react';
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { IColumn, IGroup, Link, PanelType, PrimaryButton, ProgressIndicator } from '@fluentui/react';
 import moment from 'moment';
-import {
-  DeploymentCenterCodeLogsProps,
-  DateTimeObj,
-  DeploymentStatus,
-  DeploymentProperties,
-  CodeDeploymentsRow,
-} from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, IGroup } from '@fluentui/react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured, deploymentCenterCodeLogsBox } from '../DeploymentCenter.styles';
-import { ArmObj } from '../../../../models/arm-obj';
+
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
-import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
+import { ArmObj } from '../../../../models/arm-obj';
 import { ScmType } from '../../../../models/site/config';
+import { deploymentCenterCodeLogsBox, deploymentCenterCodeLogsNotConfigured, deploymentCenterLogsError } from '../DeploymentCenter.styles';
+import {
+  CodeDeploymentsRow,
+  DateTimeObj,
+  DeploymentCenterCodeLogsProps,
+  DeploymentProperties,
+  DeploymentStatus,
+} from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
+import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {

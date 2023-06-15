@@ -1,7 +1,8 @@
 import { IModalStyles } from '@fluentui/react';
-import { style } from 'typestyle';
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 import { SVGAttributes } from 'react';
+import { style } from 'typestyle';
+
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 
 export const defaultArrowStyle = (theme: ThemeExtended) => {
   return style({

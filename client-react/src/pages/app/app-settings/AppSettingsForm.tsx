@@ -1,24 +1,25 @@
-import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
-import React, { useRef, useContext } from 'react';
+import { IPivotItemProps, Pivot, PivotItem } from '@fluentui/react';
+import React, { useContext, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-import { AppSettingsFormProps, AppSettingsTabs } from './AppSettings.types';
-import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
-import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
-import FunctionRuntimeSettingsPivot, { functionRuntimeSettingsDirty } from './Sections/FunctionRuntimeSettingsPivot';
-import DefaultDocumentsPivot, { defaultDocumentsDirty, defaultDocumentsError } from './Sections/DefaultDocumentsPivot';
-import PathMappingsPivot, { pathMappingsDirty } from './Sections/PathMappingsPivot';
-import CustomTabRenderer from './Sections/CustomTabRenderer';
+
+import { PortalContext } from '../../../PortalContext';
+import { ThemeContext } from '../../../ThemeContext';
+import { isWorkflowApp } from '../../../utils/arm-utils';
+import { ExperimentationConstants, OverflowBehavior } from '../../../utils/CommonConstants';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
-import { ThemeContext } from '../../../ThemeContext';
-import { SiteContext } from './Contexts';
-import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
-import { ExperimentationConstants, OverflowBehavior } from '../../../utils/CommonConstants';
+import { AppSettingsFormProps, AppSettingsTabs } from './AppSettings.types';
+import { SiteContext } from './Contexts';
+import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
+import CustomTabRenderer from './Sections/CustomTabRenderer';
+import DefaultDocumentsPivot, { defaultDocumentsDirty, defaultDocumentsError } from './Sections/DefaultDocumentsPivot';
 import { errorPagesDirty } from './Sections/ErrorPage';
 import ErrorPagePivot from './Sections/ErrorPage';
-import { PortalContext } from '../../../PortalContext';
+import FunctionRuntimeSettingsPivot, { functionRuntimeSettingsDirty } from './Sections/FunctionRuntimeSettingsPivot';
+import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
+import PathMappingsPivot, { pathMappingsDirty } from './Sections/PathMappingsPivot';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',

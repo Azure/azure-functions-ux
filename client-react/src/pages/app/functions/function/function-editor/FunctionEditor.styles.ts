@@ -1,7 +1,8 @@
-import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
-import { style } from 'typestyle';
-import { DropDownStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
 import { IDropdownStyles, ITooltipHostStyles } from '@fluentui/react';
+import { style } from 'typestyle';
+
+import { DropDownStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/Dropdown.styles';
+import { ThemeExtended } from '../../../../../theme/SemanticColorsExtended';
 
 export const fileSelectorStackStyle = (theme: ThemeExtended) =>
   style({

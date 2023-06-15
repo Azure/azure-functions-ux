@@ -1,9 +1,9 @@
-import MakeArmCall from '../ArmHelper';
-import { CommonConstants } from '../../utils/CommonConstants';
+import { ArmArray, ArmObj } from '../../models/arm-obj';
+import { KeyValue } from '../../models/portal-models';
 import { Environment } from '../../models/static-site/environment';
 import { Function as StaticSiteFunction } from '../../models/static-site/function';
-import { ArmObj, ArmArray } from '../../models/arm-obj';
-import { KeyValue } from '../../models/portal-models';
+import { CommonConstants } from '../../utils/CommonConstants';
+import MakeArmCall from '../ArmHelper';
 
 export default class EnvironmentService {
   // Environment is called build in the backend

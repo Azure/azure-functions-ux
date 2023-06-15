@@ -2,6 +2,7 @@ import { DefaultButton, Link, MessageBar, MessageBarType, Overlay, PrimaryButton
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
+
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { ThemeContext } from '../ThemeContext';
 

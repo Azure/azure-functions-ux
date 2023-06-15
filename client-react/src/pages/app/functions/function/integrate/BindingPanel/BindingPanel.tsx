@@ -1,7 +1,8 @@
-import i18next from 'i18next';
 import { PanelType } from '@fluentui/react';
+import i18next from 'i18next';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
 import CustomPanel from '../../../../../../components/CustomPanel/CustomPanel';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
