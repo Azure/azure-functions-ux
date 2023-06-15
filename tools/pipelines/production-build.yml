@@ -127,11 +127,13 @@ jobs:
       vmImage: 'windows-2019'
     steps:
       - task: OneLocBuild@2
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
         inputs:
           locProj: 'server/LocProject.json'
           outDir: '$(Build.ArtifactStagingDirectory)'
           packageSourceAuth: 'patAuth'
-          patVariable: $(OneLocBuildPAT)
+          dependencyPackageSource: 'https://azure-functions-ux.pkgs.visualstudio.com/_packaging/azure-functions-ux-loc/nuget/v3/index.json'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: loc'
