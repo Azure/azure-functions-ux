@@ -10,8 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { StorageAccountsContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { IChoiceGroupOption, MessageBarType } from '@fluentui/react';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { IChoiceGroupOption } from '@fluentui/react';
 import { Links } from '../../../../utils/FwLinks';
 import { StorageType } from '../../../../models/site/config';
 import StorageService from '../../../../ApiHelpers/StorageService';
@@ -251,15 +250,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
       />
       {showStorageTypeOption && (
         <Field component={RadioButton} name="type" id="azure-storage-mounts-name" label={t('storageType')} options={storageTypeOptions} />
-      )}
-      {values.type === StorageType.azureBlob && supportsBlobStorage && (
-        <CustomBanner
-          id="azure-storage-mount-blob-warning"
-          message={t('readonlyBlobStorageWarning')}
-          learnMoreLink={Links.byosBlobReadonlyLearnMore}
-          type={MessageBarType.info}
-          undocked={true}
-        />
       )}
       <Field
         component={ComboBox}

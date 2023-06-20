@@ -73,7 +73,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         required={true}
         validate={validateShareName}
       />
-      {values.type === StorageType.azureFiles && Url.getFeatureValue(CommonConstants.FeatureFlags.showBYOSStorageAccess) && (
+      {values.type === StorageType.azureFiles && Url.getFeatureValue(CommonConstants.FeatureFlags.showBYOSStorageAccess) === 'true' && (
         <Field
           id="storageAccess"
           name={'storageAccess'}
