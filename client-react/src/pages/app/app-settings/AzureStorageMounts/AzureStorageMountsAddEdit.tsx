@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { ConfigurationOption, FormAppSetting, FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
-import { Checkbox } from '@fluentui/react';
+import { Checkbox, IChoiceGroupOption, Link } from '@fluentui/react';
 import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
 import { Formik, FormikProps, Field, Form } from 'formik';
@@ -16,8 +16,10 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
 import { StorageType } from '../../../../models/site/config';
-import { formElementStyle } from '../AppSettings.styles';
+import { azureStorageTypeLabelStyle, formElementStyle } from '../AppSettings.styles';
 import { isStorageAccessAppSetting } from '../AppSettingsFormData';
+import { Links } from '../../../../utils/FwLinks';
+import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -305,6 +307,37 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
   const [fileShareInfoBubbleMessage, setFileShareInfoBubbleMessage] = useState<string>();
   const { t } = useTranslation();
 
+  const storageTypeOptions = React.useMemo<IChoiceGroupOption[]>(() => {
+    return [
+      {
+        key: StorageType.azureBlob,
+        text: t('azureBlob'),
+        onRenderLabel: (props, defaultRender) => {
+          return (
+            <div className={azureStorageTypeLabelStyle}>
+              {defaultRender?.(props)}
+              <InfoTooltip
+                id={'azure-blob-tooltip'}
+                content={
+                  <span>
+                    {t('readonlyBlobStorageWarning')}{' '}
+                    <Link href={Links.byosBlobReadonlyLearnMore} target="_blank" aria-label={t('learnMore')}>
+                      {t('learnMore')}
+                    </Link>
+                  </span>
+                }
+              />
+            </div>
+          );
+        },
+      },
+      {
+        key: StorageType.azureFiles,
+        text: t('azureFiles'),
+      },
+    ] as IChoiceGroupOption[];
+  }, []);
+
   React.useEffect(() => {
     setFileShareInfoBubbleMessage(props.values.type === StorageType.azureFiles ? t('shareNameInfoBubbleMessage') : undefined);
 
@@ -314,10 +347,18 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
   return (
     <>
       {props.values.configurationOption === ConfigurationOption.Basic && (
-        <AzureStorageMountsAddEditBasic {...props} fileShareInfoBubbleMessage={fileShareInfoBubbleMessage} />
+        <AzureStorageMountsAddEditBasic
+          {...props}
+          storageTypeOptions={storageTypeOptions}
+          fileShareInfoBubbleMessage={fileShareInfoBubbleMessage}
+        />
       )}
       {props.values.configurationOption === ConfigurationOption.Advanced && (
-        <AzureStorageMountsAddEditAdvanced {...props} fileShareInfoBubbleMessage={fileShareInfoBubbleMessage} />
+        <AzureStorageMountsAddEditAdvanced
+          {...props}
+          storageTypeOptions={storageTypeOptions}
+          fileShareInfoBubbleMessage={fileShareInfoBubbleMessage}
+        />
       )}
     </>
   );

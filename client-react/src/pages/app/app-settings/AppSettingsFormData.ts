@@ -213,7 +213,9 @@ export const isStorageMountsModified = (initialValues: AppSettingsFormValues | n
 
 export const isStorageAccessAppSetting = (configurationOption: ConfigurationOption, type: StorageType, storageAccess: StorageAccess) => {
   return (
-    configurationOption === ConfigurationOption.Advanced && type === StorageType.azureFiles && storageAccess === StorageAccess.AccessKey
+    configurationOption === ConfigurationOption.Advanced &&
+    type === StorageType.azureFiles &&
+    storageAccess === StorageAccess.KeyVaultReference
   );
 };
 

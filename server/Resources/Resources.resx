@@ -5013,7 +5013,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Account Name</value>
     </data>
     <data name="azureBlob" xml:space="preserve">
-        <value>Azure Blob</value>
+        <value>Azure Blob (Read-only)</value>
     </data>
     <data name="azureFiles" xml:space="preserve">
         <value>Azure Files</value>

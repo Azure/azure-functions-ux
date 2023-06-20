@@ -10,7 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { StorageAccountsContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { MessageBarType } from '@fluentui/react';
+import { IChoiceGroupOption, MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
 import { StorageType } from '../../../../models/site/config';
@@ -43,9 +43,10 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
 
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
+    storageTypeOptions: IChoiceGroupOption[];
     fileShareInfoBubbleMessage?: string;
   }> = props => {
-  const { values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm } = props;
+  const { values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm, storageTypeOptions } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
@@ -249,22 +250,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         required={true}
       />
       {showStorageTypeOption && (
-        <Field
-          component={RadioButton}
-          name="type"
-          id="azure-storage-mounts-name"
-          label={t('storageType')}
-          options={[
-            {
-              key: StorageType.azureBlob,
-              text: t('azureBlob'),
-            },
-            {
-              key: StorageType.azureFiles,
-              text: t('azureFiles'),
-            },
-          ]}
-        />
+        <Field component={RadioButton} name="type" id="azure-storage-mounts-name" label={t('storageType')} options={storageTypeOptions} />
       )}
       {values.type === StorageType.azureBlob && supportsBlobStorage && (
         <CustomBanner

@@ -6,9 +6,8 @@ import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
 import { StorageType } from '../../../../models/site/config';
-import { MessageBarType } from '@fluentui/react';
+import { IChoiceGroupOption, MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { Links } from '../../../../utils/FwLinks';
 import { SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
@@ -19,9 +18,10 @@ import { IDropdownOption } from '@fluentui/react';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
+    storageTypeOptions: IChoiceGroupOption[];
     fileShareInfoBubbleMessage?: string;
   }> = props => {
-  const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings } = props;
+  const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings, storageTypeOptions } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
   const scenarioService = new ScenarioService(t);
@@ -62,31 +62,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
     <>
       <Field component={TextField} name="accountName" label={t('storageAccounts')} id="azure-storage-mounts-account-name" required={true} />
       {supportsBlobStorage && (
-        <Field
-          component={RadioButton}
-          name="type"
-          id="azure-storage-mounts-name"
-          label={t('storageType')}
-          options={[
-            {
-              key: StorageType.azureBlob,
-              text: t('azureBlob'),
-            },
-            {
-              key: StorageType.azureFiles,
-              text: t('azureFiles'),
-            },
-          ]}
-        />
-      )}
-      {values.type === StorageType.azureBlob && supportsBlobStorage && (
-        <CustomBanner
-          id="azure-storage-mount-blob-warning"
-          message={t('readonlyBlobStorageWarning')}
-          learnMoreLink={Links.byosBlobReadonlyLearnMore}
-          type={MessageBarType.info}
-          undocked={true}
-        />
+        <Field component={RadioButton} name="type" id="azure-storage-mounts-name" label={t('storageType')} options={storageTypeOptions} />
       )}
       <Field
         component={TextField}
