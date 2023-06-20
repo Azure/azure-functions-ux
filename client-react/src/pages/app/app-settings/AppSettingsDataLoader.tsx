@@ -155,6 +155,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     if (!isKube) {
       azureStorageMounts = await SiteService.fetchAzureStorageMounts(resourceId);
       loadingFailed = loadingFailed || armCallFailed(azureStorageMounts, true);
+      console.log(azureStorageMounts);
     }
 
     // Get stacks response

@@ -45,7 +45,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   AzureStorageMountsAddEditPropsCombined & {
     fileShareInfoBubbleMessage?: string;
   }> = props => {
-  const { errors, values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm } = props;
+  const { values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
@@ -244,7 +244,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         styles={{
           root: formElementStyle,
         }}
-        errorMessage={errors.accountName}
         infoBubbleMessage={t('byos_storageAccountInfoMessage')}
         learnMoreLink={Links.byosStorageAccountLearnMore}
         required={true}
@@ -291,7 +290,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           return validateStorageContainer(value);
         }}
         infoBubbleMessage={fileShareInfoBubbleMessage}
-        errorMessage={errors.shareName}
         required={true}
       />
     </>

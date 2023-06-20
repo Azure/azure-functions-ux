@@ -26,6 +26,9 @@ export interface FormConnectionString {
 
 export interface FormAzureStorageMounts extends AzureStorageMount {
   name: string;
+  configurationOption: ConfigurationOption;
+  storageAccess: number;
+  appSettings?: string;
   sticky?: boolean;
 }
 
@@ -166,4 +169,19 @@ export enum AppSettingsTabs {
   defaultDocuments = 'defaultDocuments',
   pathMappings = 'pathMappings',
   customErrorPage = 'customErrorPage',
+}
+
+export enum StorageAccess {
+  AccessKey,
+  KeyVaultReference,
+}
+
+export enum ConfigurationOption {
+  Basic = 'basic',
+  Advanced = 'advanced',
+}
+
+export class AppSettingReference {
+  public static readonly prefix = '@AppSettingRef(';
+  public static readonly suffix = ')';
 }
