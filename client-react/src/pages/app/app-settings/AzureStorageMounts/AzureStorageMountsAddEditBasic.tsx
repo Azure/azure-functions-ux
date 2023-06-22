@@ -10,8 +10,7 @@ import { useTranslation } from 'react-i18next';
 import { StorageAccountsContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { MessageBarType } from '@fluentui/react';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { IChoiceGroupOption } from '@fluentui/react';
 import { Links } from '../../../../utils/FwLinks';
 import { StorageType } from '../../../../models/site/config';
 import StorageService from '../../../../ApiHelpers/StorageService';
@@ -43,9 +42,10 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
 
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
+    storageTypeOptions: IChoiceGroupOption[];
     fileShareInfoBubbleMessage?: string;
   }> = props => {
-  const { errors, values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm } = props;
+  const { values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm, storageTypeOptions } = props;
   const [accountSharesFiles, setAccountSharesFiles] = useState([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
   const [sharesLoading, setSharesLoading] = useState(false);
@@ -244,37 +244,12 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         styles={{
           root: formElementStyle,
         }}
-        errorMessage={errors.accountName}
         infoBubbleMessage={t('byos_storageAccountInfoMessage')}
         learnMoreLink={Links.byosStorageAccountLearnMore}
         required={true}
       />
       {showStorageTypeOption && (
-        <Field
-          component={RadioButton}
-          name="type"
-          id="azure-storage-mounts-name"
-          label={t('storageType')}
-          options={[
-            {
-              key: StorageType.azureBlob,
-              text: t('azureBlob'),
-            },
-            {
-              key: StorageType.azureFiles,
-              text: t('azureFiles'),
-            },
-          ]}
-        />
-      )}
-      {values.type === StorageType.azureBlob && supportsBlobStorage && (
-        <CustomBanner
-          id="azure-storage-mount-blob-warning"
-          message={t('readonlyBlobStorageWarning')}
-          learnMoreLink={Links.byosBlobReadonlyLearnMore}
-          type={MessageBarType.info}
-          undocked={true}
-        />
+        <Field component={RadioButton} name="type" id="azure-storage-mounts-name" label={t('storageType')} options={storageTypeOptions} />
       )}
       <Field
         component={ComboBox}
@@ -291,7 +266,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           return validateStorageContainer(value);
         }}
         infoBubbleMessage={fileShareInfoBubbleMessage}
-        errorMessage={errors.shareName}
         required={true}
       />
     </>

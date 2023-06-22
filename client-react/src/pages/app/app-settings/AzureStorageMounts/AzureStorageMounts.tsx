@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import React, { useContext, useState } from 'react';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { AppSettingsFormValues, FormAzureStorageMounts } from '../AppSettings.types';
+import { AppSettingsFormValues, ConfigurationOption, FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
 import {
@@ -58,9 +58,11 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
   const createNewAzureStorageMount = () => {
     const blankAzureStorageMount: FormAzureStorageMounts = {
       name: '',
+      configurationOption: ConfigurationOption.Basic,
       type: StorageType.azureBlob,
       accountName: '',
       shareName: '',
+      storageAccess: StorageAccess.AccessKey,
       accessKey: '',
       mountPath: '',
     };
@@ -300,6 +302,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
           onDismiss={onCancel}
           headerText={createNewItem ? t('newAzureStorageMount') : t('editAzureStorageMount')}>
           <AzureStorageMountsAddEdit
+            appSettings={values.appSettings}
             azureStorageMount={currentAzureStorageMount!}
             otherAzureStorageMounts={values.azureStorageMounts}
             updateAzureStorageMount={item => onClosePanel(item)}

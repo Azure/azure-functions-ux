@@ -232,7 +232,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (site.data.properties.targetSwapSlot) {
         setEditable(false);
       }
-
       setInitialValues({
         ...convertStateToForm({
           site: site.data,

@@ -5013,7 +5013,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Account Name</value>
     </data>
     <data name="azureBlob" xml:space="preserve">
-        <value>Azure Blob</value>
+        <value>Azure Blob (Read-only)</value>
     </data>
     <data name="azureFiles" xml:space="preserve">
         <value>Azure Files</value>
@@ -5032,6 +5032,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="virtualPathUnique" xml:space="preserve">
         <value>Virtual paths must be unique</value>
+    </data>
+    <data name="storageAccessLabel" xml:space="preserve">
+        <value>Storage access</value>
+    </data>
+    <data name="manualInput" xml:space="preserve">
+        <value>Manual input</value>
+    </data>
+    <data name="keyVaultReference" xml:space="preserve">
+        <value>Key vault reference</value>
     </data>
     <data name="configurationOptions" xml:space="preserve">
         <value>Configuration options</value>
@@ -5816,6 +5825,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readonlyBlobStorageWarning" xml:space="preserve">
         <value>Mounted Blob containers are read only.</value>
+    </data>
+    <data name="BYOSDeploymentSettingsWarning" xml:space="preserve">
+        <value>Selected App Setting is not marked as deployment slot setting. This may cause inconsistencies during the slot swap operation.</value>
     </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>

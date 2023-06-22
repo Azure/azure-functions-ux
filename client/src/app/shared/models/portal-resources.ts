@@ -1623,6 +1623,9 @@ export class PortalResources {
   public static emptyAzureStorageMount = 'emptyAzureStorageMount';
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
   public static virtualPathUnique = 'virtualPathUnique';
+  public static storageAccessLabel = 'storageAccessLabel';
+  public static manualInput = 'manualInput';
+  public static keyVaultReference = 'keyVaultReference';
   public static configurationOptions = 'configurationOptions';
   public static storageAccountNameMustBeLowerCase = 'storageAccountNameMustBeLowerCase';
   public static noBlobsOrFilesShares = 'noBlobsOrFilesShares';
@@ -1881,6 +1884,7 @@ export class PortalResources {
   public static createFunctionNotificationFailedDetails = 'createFunctionNotificationFailedDetails';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
   public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
+  public static BYOSDeploymentSettingsWarning = 'BYOSDeploymentSettingsWarning';
   public static quickstartHeader = 'quickstartHeader';
   public static quickstartDesc = 'quickstartDesc';
   public static viewDocumentation = 'viewDocumentation';
