@@ -337,6 +337,10 @@ export default class DeploymentCenterData {
     return GitHubService.listWorkflowRuns(gitHubToken, org, repo, workflowFileName);
   };
 
+  public deleteWorkflowRun = (gitHubToken: string, org: string, repo: string, runId: number) => {
+    return GitHubService.deleteWorkflowRun(gitHubToken, org, repo, runId);
+  };
+
   public cancelWorkflowRun = (gitHubToken: string, url: string) => {
     return GitHubService.cancelWorkflowRun(gitHubToken, url);
   };
