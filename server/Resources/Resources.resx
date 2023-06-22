@@ -7891,4 +7891,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
         <value>Basic authentication is disabled for your app.</value>
     </data>
+    <data name="configureDeploymentCredentialsLinkAriaLabel" xml:space="preserve">
+        <value>Configure deployment credentials for Azure App Service</value>
+    </data>
 </root>

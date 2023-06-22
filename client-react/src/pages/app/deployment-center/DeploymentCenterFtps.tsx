@@ -27,6 +27,7 @@ import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
 import { PortalContext } from '../../../PortalContext';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { TextFieldType } from '../../../utils/CommonConstants';
+import { useWindowSize } from 'react-use';
 
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {
@@ -46,6 +47,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
   const gitCloneUri = getGitCloneUri(deploymentCenterPublishingContext);
   const gitUsername = publishingProfile?.userName.split('\\')[1];
+
+  const { width } = useWindowSize();
+  const fullpage = width > 550; // Max element with label width
 
   const toggleResetCalloutVisibility = () => {
     setIsResetCalloutHidden(!isResetCalloutHidden);
@@ -133,7 +137,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             href={DeploymentCenterLinks.publishingUserDocumentation}
             target="_blank"
             className={learnMoreLinkStyle}
-            aria-labelledby="deployment-center-settings-message">
+            aria-label={t('configureDeploymentCredentialsLinkAriaLabel')}>
             {` ${t('learnMore')}`}
           </Link>
         </div>
@@ -160,7 +164,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           />
         )}
 
-        <div className={ftpsPasswordTextboxStyle}>
+        <div className={ftpsPasswordTextboxStyle(fullpage)}>
           <TextFieldNoFormik
             className={textboxStyle}
             id="deployment-center-ftps-application-password"

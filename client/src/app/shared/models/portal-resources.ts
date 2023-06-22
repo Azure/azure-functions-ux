@@ -2584,4 +2584,5 @@ export class PortalResources {
   public static consoleContainerTextAreaAriaLabel = 'consoleContainerTextAreaAriaLabel';
   public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
   public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
+  public static configureDeploymentCredentialsLinkAriaLabel = 'configureDeploymentCredentialsLinkAriaLabel';
 }
