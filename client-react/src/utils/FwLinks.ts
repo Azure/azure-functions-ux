@@ -1,4 +1,5 @@
 export const Links = {
+  customErrorPageInfo: 'https://github.com/Azure/app-service-linux-docs/blob/master/HowTo/configure_custom_error_page.md',
   applicationSettingsInfo: 'https://go.microsoft.com/fwlink/?linkid=2086665',
   pythonStackInfo: 'https://go.microsoft.com/fwlink/?linkid=852196',
   clientAffinityInfo: 'https://go.microsoft.com/fwlink/?linkid=798249',
