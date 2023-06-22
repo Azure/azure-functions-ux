@@ -886,7 +886,7 @@
     <data name="fileExplorer_upload" xml:space="preserve">
         <value>Upload</value>
     </data>
-       <data name="upload" xml:space="preserve">
+    <data name="upload" xml:space="preserve">
         <value>Upload</value>
     </data>
     <data name="seeAllOptions" xml:space="preserve">
@@ -5013,7 +5013,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Account Name</value>
     </data>
     <data name="azureBlob" xml:space="preserve">
-        <value>Azure Blob</value>
+        <value>Azure Blob (Read-only)</value>
     </data>
     <data name="azureFiles" xml:space="preserve">
         <value>Azure Files</value>
@@ -5032,6 +5032,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="virtualPathUnique" xml:space="preserve">
         <value>Virtual paths must be unique</value>
+    </data>
+    <data name="storageAccessLabel" xml:space="preserve">
+        <value>Storage access</value>
+    </data>
+    <data name="manualInput" xml:space="preserve">
+        <value>Manual input</value>
+    </data>
+    <data name="keyVaultReference" xml:space="preserve">
+        <value>Key vault reference</value>
     </data>
     <data name="configurationOptions" xml:space="preserve">
         <value>Configuration options</value>
@@ -5586,10 +5595,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="azureAppConfigRefValue" xml:space="preserve">
         <value>App Configuration Reference</value>
     </data>
-     <data name="azureAppConfigRefAriaLabelResolved" xml:space="preserve">
+    <data name="azureAppConfigRefAriaLabelResolved" xml:space="preserve">
         <value>App Configuration Reference resolved</value>
     </data>
-     <data name="azureAppConfigRefAriaLabelNotResolved" xml:space="preserve">
+    <data name="azureAppConfigRefAriaLabelNotResolved" xml:space="preserve">
         <value>App Configuration Reference not resolved</value>
     </data>
     <data name="appSettingKeyvaultAPIError" xml:space="preserve">
@@ -5816,6 +5825,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readonlyBlobStorageWarning" xml:space="preserve">
         <value>Mounted Blob containers are read only.</value>
+    </data>
+    <data name="BYOSDeploymentSettingsWarning" xml:space="preserve">
+        <value>Selected App Setting is not marked as deployment slot setting. This may cause inconsistencies during the slot swap operation.</value>
     </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>
@@ -7302,116 +7314,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_workflowStandardNotAvailable" xml:space="preserve">
         <value>Workflow Standard is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
     </data>
-    <data name="staticSitePlanComparison" xml:space="preserve">
-        <value>Plan comparison</value>
-    </data>
-    <data name="staticSiteIncludedBandwidth" xml:space="preserve">
-        <value>Included bandwidth</value>
-    </data>
-    <data name="staticSiteBandwidthOverage" xml:space="preserve">
-        <value>Bandwidth overage</value>
-    </data>
-    <data name="staticSiteCustomDomains" xml:space="preserve">
-        <value>Custom domains</value>
-    </data>
-    <data name="staticSiteSslCertificates" xml:space="preserve">
-        <value>SSL certificates</value>
-    </data>
-    <data name="staticSitePrivateEndpoints" xml:space="preserve">
-        <value>Private endpoints</value>
-    </data>
-    <data name="staticSiteCustomAuthentication" xml:space="preserve">
-        <value>Custom authentication</value>
-    </data>
-    <data name="staticSiteMaxAppSize" xml:space="preserve">
-        <value>Max app size</value>
-    </data>
-    <data name="staticSiteAzureFunctions" xml:space="preserve">
-        <value>Azure Functions</value>
-    </data>
-    <data name="staticSiteIncludedBandwidthAmount" xml:space="preserve">
-        <value>100GB per subscription</value>
-    </data>
-    <data name="staticSiteFreeCustomDomainAmount" xml:space="preserve">
-        <value>2 per app</value>
-    </data>
-    <data name="staticSiteStandardCustomDomainAmount" xml:space="preserve">
-        <value>5 per app</value>
-    </data>
-    <data name="staticSiteFreeAzureFunctionsAmount" xml:space="preserve">
-        <value>Managed</value>
-    </data>
-    <data name="staticSiteStandardAzureFunctionsAmount" xml:space="preserve">
-        <value>Managed or Bring your own</value>
-    </data>
-    <data name="staticSiteFreeAppSizeAmount" xml:space="preserve">
-        <value>250MB</value>
-    </data>
-    <data name="staticSiteStandardAppSizeAmount" xml:space="preserve">
-        <value>500MB</value>
-    </data>
-    <data name="staticSiteFree" xml:space="preserve">
-        <value>Free</value>
-    </data>
-    <data name="staticSiteStandard" xml:space="preserve">
-        <value>Standard</value>
-    </data>
-    <data name="staticSiteFreeDescription" xml:space="preserve">
-        <value>For hobby or personal projects</value>
-    </data>
-    <data name="staticSiteStandardDescription" xml:space="preserve">
-        <value>For general purpose production apps</value>
-    </data>
-    <data name="staticSiteApply" xml:space="preserve">
-        <value>Apply</value>
-    </data>
-    <data name="staticSitePlanFeatures" xml:space="preserve">
-        <value>Plan/Features</value>
-    </data>
-    <data name="staticSitePlanFeaturesAriaLabel" xml:space="preserve">
-        <value>Plan or Features</value>
-    </data>
-    <data name="staticSiteFreePlanAriaLabel" xml:space="preserve">
-        <value>Free plan Price free 100GB bandwidth per subscription with free overage. 2 app custom domains SSL certs free No custom authentication No private endpoints Max app size 250 MB 3 Staging environments Managed functions only. No enterprise grade edge</value>
-    </data>
-    <data name="staticSiteStandardPlanAriaLabel" xml:space="preserve">
-        <value>Standard plan Price {0} 100GB bandwidth with {1} overage per GB 5 app custom domains SSL certs free Custom auth private endpoints supported Max app size 500 MB 10 staging environments Managed or bring your functions Enterprise grade edge {2}</value>
-    </data>
-    <data name="staticSitePrice" xml:space="preserve">
-        <value>Price</value>
-    </data>
-    <data name="staticSiteHostingPlanDescription" xml:space="preserve">
-        <value>The hosting plan dictates your bandwidth, custom domain, storage, and other available features.</value>
-    </data>
-    <data name="staticSiteChoosePlan" xml:space="preserve">
-        <value>Choose your plan</value>
-    </data>
-    <data name="staticSiteUpdatingHostingPlan" xml:space="preserve">
-        <value>Updating hosting plan</value>
-    </data>
-    <data name="staticSiteUpdatingHostingPlanSuccess" xml:space="preserve">
-        <value>Successfully updated hosting plan</value>
-    </data>
-    <data name="staticSiteUpdatingHostingPlanFailure" xml:space="preserve">
-        <value>Failed to update hosting plan</value>
-    </data>
-    <data name="staticWebAppSkuPickerCalculatePrice" xml:space="preserve">
-        <value>Calculate price</value>
-    </data>
     <data name="staticSiteStagingEnvironments" xml:space="preserve">
         <value>Staging environments</value>
-    </data>
-    <data name="staticSiteFreeStagingEnvironmentsAmount" xml:space="preserve">
-        <value>3</value>
-    </data>
-    <data name="staticSiteStandardStagingEnvironmentsAmount" xml:space="preserve">
-        <value>10</value>
-    </data>
-    <data name="staticSiteStandardPrice" xml:space="preserve">
-        <value>{0}/per app/month</value>
-    </data>
-    <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
-        <value>{0} per GB per subscription</value>
     </data>
     <data name="configurationFeedbackCESQuestion" xml:space="preserve">
         <value>How easy or difficult is it to use this App Service configuration page?</value>
@@ -7463,12 +7367,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="switchToJbossWarningBaner" xml:space="preserve">
         <value>JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. </value>
-    </data>
-    <data name="staticSiteEnterpriseGradeEdge" xml:space="preserve">
-        <value>Enterprise-grade edge</value>
-    </data>
-    <data name="staticSiteEnterpriseGradeEdgePrice" xml:space="preserve">
-        <value>{0}/per app/month</value>
     </data>
     <data name="adminCredentials" xml:space="preserve">
         <value>Admin Credentials</value>
@@ -7563,7 +7461,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_snippets" xml:space="preserve">
         <value>Snippets (preview)</value>
     </data>
-     <data name="staticSite_snippetsMax" xml:space="preserve">
+    <data name="staticSite_snippetsMax" xml:space="preserve">
         <value>Static Web Apps may only have a maximum of ten snippets. You have reached this limit.</value>
     </data>
     <data name="staticSite_appliesTo" xml:space="preserve">
@@ -7581,7 +7479,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_snippetInsertionLocationRequired" xml:space="preserve">
         <value>Snippet insertion location is required</value>
     </data>
-     <data name="staticSite_snippetLocationRequired" xml:space="preserve">
+    <data name="staticSite_snippetLocationRequired" xml:space="preserve">
         <value>Snippet location is required</value>
     </data>
     <data name="staticSite_snippetEnironmentRequired" xml:space="preserve">
@@ -7632,7 +7530,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_deletingSnippetFailureWithMessage" xml:space="preserve">
         <value>Failed to delete snippet '{0}' with error: '{1}'</value>
     </data>
-     <data name="staticSite_addingSnippet" xml:space="preserve">
+    <data name="staticSite_addingSnippet" xml:space="preserve">
         <value>Creating snippet '{0}'</value>
     </data>
     <data name="staticSite_addingSnippetSuccess" xml:space="preserve">
@@ -7665,7 +7563,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_snippetContentPlaceholder" xml:space="preserve">
         <value>Insert your HTML below</value>
     </data>
-      <data name="staticSite_selectEnvironments" xml:space="preserve">
+    <data name="staticSite_selectEnvironments" xml:space="preserve">
         <value>Select environments</value>
     </data>
     <data name="staticSite_loadingSnippets" xml:space="preserve">
@@ -7736,45 +7634,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="connectedAndFilteredMessage" xml:space="preserve">
         <value>Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.</value>
-    </data>
-    <data name="logicAppPlanPickerHeaderText" xml:space="preserve">
-        <value>Select plan</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderAriaLabel" xml:space="preserve">
-        <value>Plan or features</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderFeatures" xml:space="preserve">
-        <value>Plan/Features</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel" xml:space="preserve">
-        <value>Consumption plan. Serverless, event-driven scaling for lowest minimum cost. Fast dynamic scale. Pay as you go usage.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionDescription" xml:space="preserve">
-        <value>Serverless, event-driven scaling for lowest minimum cost.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionTitle" xml:space="preserve">
-        <value>Consumption</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel" xml:space="preserve">
-        <value>Standard plan. Best for enterprise-level, serverless applications with event-based scaling and network isolation. Fast dynamic scale. Network isolation. Always on instances.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionDescription" xml:space="preserve">
-        <value>Best for enterprise-level, serverless applications with event-based scaling and network isolation.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionTitle" xml:space="preserve">
-        <value>Standard</value>
-    </data>
-    <data name="logicAppPlanPickerGridScaleRowTitle" xml:space="preserve">
-        <value>Fast dynamic scale</value>
-    </data>
-    <data name="logicAppPlanPickerGridNetworkRowTitle" xml:space="preserve">
-        <value>Network isolation</value>
-    </data>
-    <data name="logicAppPlanPickerGridInstancesRowTitle" xml:space="preserve">
-        <value>Always on instances</value>
-    </data>
-    <data name="logicAppPlanPickerGridUsageRowTitle" xml:space="preserve">
-        <value>Pay as you go usage</value>
     </data>
     <data name="containerApp_console_chooseStartUpCommand" xml:space="preserve">
         <value>Choose start up command</value>

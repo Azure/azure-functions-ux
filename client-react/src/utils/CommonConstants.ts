@@ -77,6 +77,7 @@ export class CommonConstants {
     customErrorPage: 'customErrorPage',
     enableNewProgrammingModel: 'enableNewProgrammingModel',
     enableSnippets: 'enableSnippets',
+    showBYOSStorageAccess: 'showBYOSStorageAccess',
   };
 
   public static readonly AppDensityLimit = 8;

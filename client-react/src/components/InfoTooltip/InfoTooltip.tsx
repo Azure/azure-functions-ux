@@ -7,7 +7,7 @@ import { ThemeContext } from '../../ThemeContext';
 
 export interface InfoTooltipProps {
   id: string;
-  content: string;
+  content: string | JSX.Element | JSX.Element[];
   iconClassName?: string;
 }
 
