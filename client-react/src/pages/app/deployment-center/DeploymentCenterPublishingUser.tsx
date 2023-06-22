@@ -28,6 +28,7 @@ import DeploymentCenterData from './DeploymentCenter.data';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
+import { useFullPage } from '../../../utils/hooks/useFullPage';
 
 const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {
@@ -38,6 +39,8 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const [isResetUserCalloutHidden, setIsResetUserCalloutHidden] = useState<boolean>(true);
+
+  const { fullpageElementWithLabel } = useFullPage();
 
   const { publishingUser, publishingUserFetchFailedMessage } = deploymentCenterPublishingContext;
 
@@ -118,7 +121,7 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
           href={DeploymentCenterLinks.publishingUserDocumentation}
           target="_blank"
           className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-settings-message">
+          aria-label={t('configureDeploymentCredentialsLinkAriaLabel')}>
           {` ${t('learnMore')}`}
         </Link>
       </div>
@@ -147,7 +150,7 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
             widthOverride={'100%'}
           />
 
-          <div className={ftpsPasswordTextboxStyle}>
+          <div className={ftpsPasswordTextboxStyle(fullpageElementWithLabel)}>
             <Field
               className={textboxStyle}
               id="deployment-center-ftps-provider-password"
