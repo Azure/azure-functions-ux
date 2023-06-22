@@ -27,7 +27,7 @@ import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
 import { PortalContext } from '../../../PortalContext';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { TextFieldType } from '../../../utils/CommonConstants';
-import { useWindowSize } from 'react-use';
+import { useFullPage } from '../../../utils/hooks/useFullPage';
 
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {
@@ -48,8 +48,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
   const gitCloneUri = getGitCloneUri(deploymentCenterPublishingContext);
   const gitUsername = publishingProfile?.userName.split('\\')[1];
 
-  const { width } = useWindowSize();
-  const fullpage = width > 550; // Max element with label width
+  const { fullpageElementWithLabel } = useFullPage();
 
   const toggleResetCalloutVisibility = () => {
     setIsResetCalloutHidden(!isResetCalloutHidden);
@@ -164,7 +163,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           />
         )}
 
-        <div className={ftpsPasswordTextboxStyle(fullpage)}>
+        <div className={ftpsPasswordTextboxStyle(fullpageElementWithLabel)}>
           <TextFieldNoFormik
             className={textboxStyle}
             id="deployment-center-ftps-application-password"
