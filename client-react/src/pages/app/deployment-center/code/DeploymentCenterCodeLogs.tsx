@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useMemo, useCallback } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import {
@@ -35,6 +35,19 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
   const { t } = useTranslation();
+  const [selectedLogs, setSelectedLogs] = React.useState<CodeDeploymentsRow[]>([]);
+  const selection = useMemo(
+    () =>
+      new Selection({
+        onSelectionChanged: () => {
+          const selectedItems = selection.getSelection();
+          setSelectedLogs(selectedItems as CodeDeploymentsRow[]);
+        },
+        selectionMode: SelectionMode.multiple,
+      }),
+    [setSelectedLogs]
+  );
+  const pauseTimer = useMemo(() => selectedLogs.length > 0, [selectedLogs]);
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
     setIsLogPanelOpen(true);
@@ -61,9 +74,19 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     }
   };
 
-  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): CodeDeploymentsRow => {
+  const getZipDeployMessage = (message: string) => {
+    try {
+      const parsed = JSON.parse(message);
+      return parsed.commitMessage;
+    } catch (e) {
+      return message;
+    }
+  };
+
+  const getDeploymentRow = useCallback((deployment: ArmObj<DeploymentProperties>, index: number): CodeDeploymentsRow => {
     return {
       index: index,
+      id: deployment.id,
       rawTime: moment(deployment.properties.received_time),
       // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
@@ -78,9 +101,9 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
         : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
     };
-  };
+  }, []);
 
-  const getItemGroups = (items: CodeDeploymentsRow[]): IGroup[] => {
+  const getItemGroups = useCallback((items: CodeDeploymentsRow[]): IGroup[] => {
     const groups: IGroup[] = [];
     items.forEach((item, index) => {
       if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
@@ -97,7 +120,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       }
     });
     return groups;
-  };
+  }, []);
 
   const getProgressIndicator = () => {
     return (
@@ -114,18 +137,56 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
     }
   };
 
-  const rows: CodeDeploymentsRow[] = deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
-  const items: CodeDeploymentsRow[] = rows.sort(dateTimeComparatorReverse);
+  const deleteLogs = async () => {
+    dismissDeleteConfirmDialog();
+    const notificationId = portalContext.startNotification(
+      t('deploymentCenterDeleteLogsNotificationTitle'),
+      t('deploymentCenterDeleteLogsNotificationDescription')
+    );
+    portalContext.log(
+      getTelemetryInfo('info', 'deletingKuduLogs', 'submit', {
+        publishType: 'code',
+      })
+    );
+    const promises = selectedLogs.map(async log => await deploymentCenterData.deleteSiteDeployment(log.id));
+    const responses = await Promise.all(promises);
+    if (responses.some(response => !response.metadata.success)) {
+      const errorMessages = responses
+        .filter(response => !response.metadata.success)
+        .map(response => getErrorMessage(response.metadata.error));
+      const message = errorMessages.join(' - ');
+      const description =
+        errorMessages.length > 0
+          ? t('deploymentCenterDeleteLogsFailureWithErrorNotificationDescription').format(message)
+          : t('deploymentCenterDeleteLogsFailureNotificationDescription');
+      portalContext.stopNotification(notificationId, false, description);
+      portalContext.log(getTelemetryInfo('error', 'deleteLogs', 'failed'));
+      props.refreshLogs();
+    } else {
+      portalContext.stopNotification(notificationId, true, t('deploymentCenterDeleteLogsSuccessNotificationDescription'));
+      props.refreshLogs();
+    }
+  };
 
-  const columns: IColumn[] = [
-    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 75, maxWidth: 150 },
-    { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 75, maxWidth: 100 },
-    { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 75, maxWidth: 200 },
-    { key: 'status', name: t('status'), fieldName: 'status', minWidth: 100, maxWidth: 150 },
-    { key: 'message', name: t('message'), fieldName: 'message', minWidth: 210, isMultiline: true },
-  ];
+  const rows: CodeDeploymentsRow[] = useMemo(() => {
+    return deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : [];
+  }, [deployments, getDeploymentRow]);
 
-  const groups: IGroup[] = getItemGroups(items);
+  const items: CodeDeploymentsRow[] = useMemo(() => {
+    return rows.sort(dateTimeComparatorReverse);
+  }, [rows]);
+
+  const columns: IColumn[] = useMemo(() => {
+    return [
+      { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 75, maxWidth: 150 },
+      { key: 'commit', name: t('commitId'), fieldName: 'commit', minWidth: 75, maxWidth: 100 },
+      { key: 'author', name: t('commitAuthor'), fieldName: 'author', minWidth: 75, maxWidth: 200 },
+      { key: 'status', name: t('status'), fieldName: 'status', minWidth: 100, maxWidth: 150 },
+      { key: 'message', name: t('message'), fieldName: 'message', minWidth: 210, isMultiline: true },
+    ];
+  }, []);
+
+  const groups: IGroup[] = useMemo(() => getItemGroups(items), [items]);
 
   const getZeroDayContent = () => {
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
@@ -152,7 +213,22 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
 
   return (
     <>
-      <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
+      <DeploymentCenterCodeLogsTimer pauseTimer={pauseTimer} refreshLogs={refreshLogs} deleteLogs={showDeleteConfirmDialog} />
+
+      <ConfirmDialog
+        primaryActionButton={{
+          title: t('delete'),
+          onClick: deleteLogs,
+        }}
+        defaultActionButton={{
+          title: t('cancel'),
+          onClick: dismissDeleteConfirmDialog,
+        }}
+        title={t('deploymentCenterDeleteLogsConfirmationTitle')}
+        content={t('deploymentCenterDeleteLogsConfirmationDescription')}
+        hidden={!isDeleteConfirmDialogOpen}
+        onDismiss={dismissDeleteConfirmDialog}
+      />
 
       {isLogsDataRefreshing ? (
         getProgressIndicator()
@@ -160,7 +236,13 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
         <div className={deploymentCenterCodeLogsBox}>
-          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+          <DisplayTableWithEmptyMessage
+            columns={columns}
+            items={items}
+            selection={selection}
+            selectionMode={SelectionMode.multiple}
+            groups={groups}
+          />
           {items.length === 0 && getZeroDayContent()}
         </div>
       ) : (

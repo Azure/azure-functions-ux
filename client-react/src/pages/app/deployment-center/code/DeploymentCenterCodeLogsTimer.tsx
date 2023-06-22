@@ -15,8 +15,8 @@ const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps
 
   const setAndGetIntervalToUpdateTimeLeft = () => {
     return setInterval(() => {
-      if (timeLeft > 0) {
-        setTimeLeft(timeLeft => timeLeft - 1);
+      if (timeLeft > 0 && !props.pauseTimer) {
+        setTimeLeft(timeLeft - 1);
       } else {
         setTimeLeft(refreshMilliseconds / 1000);
       }
@@ -39,7 +39,7 @@ const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps
       clearInterval(updateTimeLeftAndRefreshLogsInterval);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [props.pauseTimer]);
 
   return (
     <CustomCommandBarButton

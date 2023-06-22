@@ -230,8 +230,8 @@ const _extractErrorMessage = (error: any, recursionLimit: number): string => {
   }
 
   // Check if a "message" property is present on the error object.
-  if (error.message || error.Message) {
-    return error.message || error.Message;
+  if (error.message || error.ExceptionMessage || error.Message) {
+    return error.message || error.ExceptionMessage || error.Message;
   }
 
   // No "message" property was present, so check if there is an inner error object with a "message" property.
