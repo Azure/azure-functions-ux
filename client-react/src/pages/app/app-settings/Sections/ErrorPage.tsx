@@ -15,13 +15,13 @@ const ErrorPagePivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     <>
       <h3>{t('customErrorPage')}</h3>
       <p>
-        <span id="default-documents-info-message">{t('errorPagesInfoMessage')}</span>
+        <span id="custom-error-page-info-message">{t('errorPagesInfoMessage')}</span>
         <Link
-          id="application-settings-info-learnMore"
+          id="custom-error-page-info-learnMore"
           href={Links.customErrorPageInfo}
           target="_blank"
           className={learnMoreLinkStyle}
-          aria-labelledby="application-settings-info-message application-settings-info-learnMore">
+          aria-labelledby="custom-error-page-info-message custom-error-page-info-learnMore">
           {` ${t('learnMore')}`}
         </Link>
       </p>
