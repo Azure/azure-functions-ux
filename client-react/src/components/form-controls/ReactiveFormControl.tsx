@@ -23,6 +23,7 @@ import {
   stackControlStyle,
   copyButtonStyle,
 } from './formControl.override.styles';
+import { Guid } from '../../utils/Guid';
 
 export enum Layout {
   Horizontal = 'horizontal',
@@ -117,7 +118,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
               {label}
             </TooltipHost>
             {getRequiredIcon(theme, required)}
-            {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
+            {getMouseOverToolTip(children.props.id ?? '', mouseOverToolTip)}
           </Label>
         </Stack>
       )}
@@ -187,7 +188,7 @@ const getRequiredIcon = (theme: ThemeExtended, required?: boolean) => {
 
 const getMouseOverToolTip = (id: string, content?: string) => {
   if (content) {
-    return <InfoTooltip id={id} content={content} />;
+    return <InfoTooltip id={`${id ? id : Guid.newTinyGuid()}-tooltip`} content={content} />;
   }
 };
 
