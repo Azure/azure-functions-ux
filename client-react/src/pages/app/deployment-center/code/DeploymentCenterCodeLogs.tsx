@@ -93,7 +93,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
   const getZipDeployMessage = (message: string) => {
     try {
       const parsed = JSON.parse(message);
-      return parsed.commitMessage;
+      return parsed?.commitMessage ?? message;
     } catch (e) {
       return message;
     }
