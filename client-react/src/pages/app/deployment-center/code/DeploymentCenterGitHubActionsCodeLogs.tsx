@@ -18,7 +18,12 @@ import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { delay, getSourceControlsWorkflowFileName, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import {
+  deleteDeploymentCenterLogs,
+  getSourceControlsWorkflowFileName,
+  getTelemetryInfo,
+  getWorkflowFileName,
+} from '../utility/DeploymentCenterUtility';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
@@ -354,43 +359,18 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     return `${deploymentsError} ${gitHubActionLogsErrorMessage}`;
   };
 
-  const deleteLogs = async () => {
-    dismissDeleteConfirmDialog();
-    const notificationId = portalContext.startNotification(
-      t('deploymentCenterDeleteLogsNotificationTitle'),
-      t('deploymentCenterDeleteLogsNotificationDescription')
+  const deleteLogs = React.useCallback(() => {
+    deleteDeploymentCenterLogs(
+      portalContext,
+      deploymentCenterContext,
+      deploymentCenterData,
+      selectedLogs,
+      refreshGitHubActionsLogs,
+      t,
+      org,
+      repo
     );
-    portalContext.log(
-      getTelemetryInfo('info', 'deletingKuduLogs', 'submit', {
-        publishType: 'code',
-      })
-    );
-
-    const promises = selectedLogs.map(async log => {
-      if (typeof log.id === 'string') {
-        return await deploymentCenterData.deleteSiteDeployment(log.id);
-      } else if (typeof log.id === 'number' && org && repo) {
-        return await deploymentCenterData.deleteWorkflowRun(deploymentCenterContext.gitHubToken, org, repo, log.id);
-      }
-    });
-    const responses = await Promise.all(promises);
-    if (responses.some(response => !response?.metadata.success)) {
-      const errorMessages = responses
-        .filter(response => !response?.metadata.success)
-        .map(response => getErrorMessage(response?.metadata.error));
-      const message = errorMessages.join(' - ');
-      const description =
-        errorMessages.length > 0
-          ? t('deploymentCenterDeleteLogsFailureWithErrorNotificationDescription').format(message)
-          : t('deploymentCenterDeleteLogsFailureNotificationDescription');
-      await delay(async () => await refreshGitHubActionsLogs());
-      portalContext.stopNotification(notificationId, false, description);
-      portalContext.log(getTelemetryInfo('error', 'deleteLogs', 'failed'));
-    } else {
-      await delay(async () => await refreshGitHubActionsLogs());
-      portalContext.stopNotification(notificationId, true, t('deploymentCenterDeleteLogsSuccessNotificationDescription'));
-    }
-  };
+  }, [portalContext, deploymentCenterContext, deploymentCenterData, selectedLogs, refreshGitHubActionsLogs, t]);
 
   const gitHubActionsRows: GitHubActionsCodeDeploymentsRow[] = useMemo(
     () => (runs ? runs.map((run, index) => getGitHubActionsRunRow(run, index)) : []),
@@ -436,7 +416,10 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       <ConfirmDialog
         primaryActionButton={{
           title: t('delete'),
-          onClick: deleteLogs,
+          onClick: () => {
+            deleteLogs();
+            dismissDeleteConfirmDialog();
+          },
         }}
         defaultActionButton={{
           title: t('cancel'),

@@ -2032,6 +2032,15 @@ export class PortalResources {
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
   public static deploymentCenterTfsVsoInfoMessage = 'deploymentCenterTfsVsoInfoMessage';
+  public static deploymentCenterDeleteCommandAriaLabel = 'deploymentCenterDeleteCommandAriaLabel';
+  public static deploymentCenterDeleteLogsConfirmationTitle = 'deploymentCenterDeleteLogsConfirmationTitle';
+  public static deploymentCenterDeleteLogsConfirmationDescription = 'deploymentCenterDeleteLogsConfirmationDescription';
+  public static deploymentCenterDeleteLogsNotificationTitle = 'deploymentCenterDeleteLogsNotificationTitle';
+  public static deploymentCenterDeleteLogsNotificationDescription = 'deploymentCenterDeleteLogsNotificationDescription';
+  public static deploymentCenterDeleteLogsSuccessNotificationDescription = 'deploymentCenterDeleteLogsSuccessNotificationDescription';
+  public static deploymentCenterDeleteLogsFailureNotificationDescription = 'deploymentCenterDeleteLogsFailureNotificationDescription';
+  public static deploymentCenterDeleteLogsFailureWithErrorNotificationDescription =
+    'deploymentCenterDeleteLogsFailureWithErrorNotificationDescription';
   public static managePublishProfile = 'managePublishProfile';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';

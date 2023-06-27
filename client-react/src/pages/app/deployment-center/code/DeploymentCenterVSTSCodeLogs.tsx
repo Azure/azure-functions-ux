@@ -27,9 +27,8 @@ import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { PortalContext } from '../../../../PortalContext';
-import { delay, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { deleteDeploymentCenterLogs } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -288,36 +287,9 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     }
   };
 
-  const deleteLogs = async () => {
-    dismissDeleteConfirmDialog();
-    const notificationId = portalContext.startNotification(
-      t('deploymentCenterDeleteLogsNotificationTitle'),
-      t('deploymentCenterDeleteLogsNotificationDescription')
-    );
-    portalContext.log(
-      getTelemetryInfo('info', 'deletingKuduLogs', 'submit', {
-        publishType: 'code',
-      })
-    );
-    const promises = selectedLogs.map(async log => await deploymentCenterData.deleteSiteDeployment(log.id));
-    const responses = await Promise.all(promises);
-    if (responses.some(response => !response.metadata.success)) {
-      const errorMessages = responses
-        .filter(response => !response.metadata.success)
-        .map(response => getErrorMessage(response.metadata.error));
-      const message = errorMessages.join(' - ');
-      const description =
-        errorMessages.length > 0
-          ? t('deploymentCenterDeleteLogsFailureWithErrorNotificationDescription').format(message)
-          : t('deploymentCenterDeleteLogsFailureNotificationDescription');
-      await delay(async () => await refreshLogs());
-      portalContext.stopNotification(notificationId, false, description);
-      portalContext.log(getTelemetryInfo('error', 'deleteLogs', 'failed'));
-    } else {
-      await delay(async () => await refreshLogs());
-      portalContext.stopNotification(notificationId, true, t('deploymentCenterDeleteLogsSuccessNotificationDescription'));
-    }
-  };
+  const deleteLogs = React.useCallback(() => {
+    deleteDeploymentCenterLogs(portalContext, deploymentCenterContext, deploymentCenterData, selectedLogs, refreshLogs, t);
+  }, [portalContext, deploymentCenterContext, deploymentCenterData, selectedLogs, refreshLogs, t]);
 
   const rows: CodeDeploymentsRow[] = useMemo(
     () => (deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : []),
@@ -361,7 +333,10 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
       <ConfirmDialog
         primaryActionButton={{
           title: t('delete'),
-          onClick: deleteLogs,
+          onClick: () => {
+            deleteLogs();
+            dismissDeleteConfirmDialog();
+          },
         }}
         defaultActionButton={{
           title: t('cancel'),
