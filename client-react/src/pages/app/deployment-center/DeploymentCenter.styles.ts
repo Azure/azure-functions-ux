@@ -189,7 +189,7 @@ export const vstsDescriptionStyle = style({
   paddingTop: '15px',
 });
 
-export const refreshButtonStyle = style({
+export const logsButtonStyle = style({
   marginTop: '10px',
   height: '36px',
 });

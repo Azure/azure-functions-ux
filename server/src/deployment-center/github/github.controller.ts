@@ -299,6 +299,29 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
+  @Post('api/github/deleteWorkflowRun')
+  @HttpCode(200)
+  async deleteWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('runId') runId: number
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}`;
+    try {
+      await this.httpService.delete(url, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+    } catch (err) {
+      this.loggingService.error(`Failed to delete workflow run.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
   @Post('api/github/cancelWorkflowRun')
   @HttpCode(200)
   async cancelWorkflowRun(

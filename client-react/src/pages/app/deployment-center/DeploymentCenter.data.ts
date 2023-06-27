@@ -75,6 +75,10 @@ export default class DeploymentCenterData {
     return SiteService.getDeploymentLogs(deploymentId);
   };
 
+  public deleteSiteDeployment = (deploymentId: string) => {
+    return SiteService.deleteSiteDeployment(deploymentId);
+  };
+
   public getLogDetails = (deploymentId: string, logId: string) => {
     return SiteService.getLogDetails(deploymentId, logId);
   };
@@ -335,6 +339,10 @@ export default class DeploymentCenterData {
 
   public listWorkflowRuns = (gitHubToken: string, org: string, repo: string, workflowFileName: string) => {
     return GitHubService.listWorkflowRuns(gitHubToken, org, repo, workflowFileName);
+  };
+
+  public deleteWorkflowRun = (gitHubToken: string, org: string, repo: string, runId: number) => {
+    return GitHubService.deleteWorkflowRun(gitHubToken, org, repo, runId);
   };
 
   public cancelWorkflowRun = (gitHubToken: string, url: string) => {

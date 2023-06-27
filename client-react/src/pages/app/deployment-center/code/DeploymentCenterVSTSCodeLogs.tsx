@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo } from 'react';
+import React, { useState, useContext, useMemo, useCallback } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import {
@@ -10,7 +10,7 @@ import {
   KuduLogMessage,
   UrlInfo,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, IGroup, Icon } from '@fluentui/react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, IGroup, Icon, Selection, SelectionMode } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
   deploymentCenterLogsError,
@@ -25,6 +25,10 @@ import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { PortalContext } from '../../../../PortalContext';
+import { deleteDeploymentCenterLogs } from '../utility/DeploymentCenterUtility';
+import DeploymentCenterData from '../DeploymentCenter.data';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -38,10 +42,26 @@ export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
 
 const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
+  const [isDeleteConfirmDialogOpen, setIsDeleteConfirmDialogOpen] = React.useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
+  const portalContext = useContext(PortalContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const deploymentCenterData = new DeploymentCenterData();
   const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
   const { t } = useTranslation();
+  const [selectedLogs, setSelectedLogs] = React.useState<CodeDeploymentsRow[]>([]);
+  const selection = useMemo(
+    () =>
+      new Selection({
+        onSelectionChanged: () => {
+          const selectedItems = selection.getSelection();
+          setSelectedLogs(selectedItems as CodeDeploymentsRow[]);
+        },
+        selectionMode: SelectionMode.multiple,
+      }),
+    [setSelectedLogs]
+  );
+  const pauseTimer = useMemo(() => selectedLogs.length > 0, [selectedLogs]);
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
     setIsLogPanelOpen(true);
@@ -51,6 +71,14 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
   const dismissLogPanel = () => {
     setIsLogPanelOpen(false);
     setCurrentCommitId(undefined);
+  };
+
+  const showDeleteConfirmDialog = () => {
+    setIsDeleteConfirmDialogOpen(true);
+  };
+
+  const dismissDeleteConfirmDialog = () => {
+    setIsDeleteConfirmDialogOpen(false);
   };
 
   const getStatusString = (status: DeploymentStatus, progressString: string) => {
@@ -105,7 +133,6 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     const urlInfo: UrlInfo[] = [];
     if (messageJSON.commitId) {
       const commitUrl: string = getCommitUrl(messageJSON);
-      console.log(commitUrl);
       urlInfo.push({
         urlIcon: 'BranchCommit',
         urlText: t('sourceVersionUrl').format(messageJSON.commitId.substr(0, 10)),
@@ -206,9 +233,10 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     return '';
   };
 
-  const getDeploymentRow = (deployment: ArmObj<DeploymentProperties>, index: number): CodeDeploymentsRow => {
+  const getDeploymentRow = useCallback((deployment: ArmObj<DeploymentProperties>, index: number): CodeDeploymentsRow => {
     return {
       index: index,
+      id: deployment.id,
       rawTime: moment(deployment.properties.received_time),
       // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
@@ -223,9 +251,9 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
         ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
         : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
     };
-  };
+  }, []);
 
-  const getItemGroups = (items: CodeDeploymentsRow[]): IGroup[] => {
+  const getItemGroups = useCallback((items: CodeDeploymentsRow[]): IGroup[] => {
     const groups: IGroup[] = [];
     items.forEach((item, index) => {
       if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
@@ -242,7 +270,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
       }
     });
     return groups;
-  };
+  }, []);
 
   const getProgressIndicator = () => {
     return (
@@ -258,6 +286,10 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
       goToSettings();
     }
   };
+
+  const deleteLogs = React.useCallback(() => {
+    deleteDeploymentCenterLogs(portalContext, deploymentCenterContext, deploymentCenterData, selectedLogs, refreshLogs, t);
+  }, [portalContext, deploymentCenterContext, deploymentCenterData, selectedLogs, refreshLogs, t]);
 
   const rows: CodeDeploymentsRow[] = useMemo(
     () => (deployments ? deployments.value.map((deployment, index) => getDeploymentRow(deployment, index)) : []),
@@ -296,7 +328,25 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
 
   return (
     <>
-      <DeploymentCenterCodeLogsTimer refreshLogs={refreshLogs} />
+      <DeploymentCenterCodeLogsTimer pauseTimer={pauseTimer} refreshLogs={refreshLogs} deleteLogs={showDeleteConfirmDialog} />
+
+      <ConfirmDialog
+        primaryActionButton={{
+          title: t('delete'),
+          onClick: () => {
+            deleteLogs();
+            dismissDeleteConfirmDialog();
+          },
+        }}
+        defaultActionButton={{
+          title: t('cancel'),
+          onClick: dismissDeleteConfirmDialog,
+        }}
+        title={t('deploymentCenterDeleteLogsConfirmationTitle')}
+        content={t('deploymentCenterDeleteLogsConfirmationDescription')}
+        hidden={!isDeleteConfirmDialogOpen}
+        onDismiss={dismissDeleteConfirmDialog}
+      />
 
       {isLogsDataRefreshing ? (
         getProgressIndicator()
@@ -304,7 +354,13 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
         <div className={deploymentCenterLogsError}>{deploymentsError}</div>
       ) : deployments ? (
         <div className={deploymentCenterCodeLogsBox}>
-          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+          <DisplayTableWithEmptyMessage
+            columns={columns}
+            items={items}
+            selection={selection}
+            selectionMode={SelectionMode.multiple}
+            groups={groups}
+          />
           {items.length === 0 && getZeroDayContent()}
         </div>
       ) : (
