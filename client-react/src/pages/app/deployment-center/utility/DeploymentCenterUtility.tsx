@@ -488,3 +488,7 @@ export function formikOnBlur<T>(e: React.FocusEvent<T>, props: FieldProps) {
   form.setFieldTouched(field.name);
   field.onBlur(e);
 }
+export const delay = async (func: () => Promise<any>, ms: number = 3000) => {
+  const sleepPromise = new Promise(resolve => setTimeout(resolve, ms));
+  return await sleepPromise.then(func);
+};

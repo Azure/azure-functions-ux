@@ -27,7 +27,7 @@ import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { PortalContext } from '../../../../PortalContext';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { delay, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
@@ -310,12 +310,12 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
         errorMessages.length > 0
           ? t('deploymentCenterDeleteLogsFailureWithErrorNotificationDescription').format(message)
           : t('deploymentCenterDeleteLogsFailureNotificationDescription');
+      await delay(async () => await refreshLogs());
       portalContext.stopNotification(notificationId, false, description);
       portalContext.log(getTelemetryInfo('error', 'deleteLogs', 'failed'));
-      props.refreshLogs();
     } else {
+      await delay(async () => await refreshLogs());
       portalContext.stopNotification(notificationId, true, t('deploymentCenterDeleteLogsSuccessNotificationDescription'));
-      props.refreshLogs();
     }
   };
 

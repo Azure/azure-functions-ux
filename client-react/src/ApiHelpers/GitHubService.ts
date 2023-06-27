@@ -199,7 +199,7 @@ export default class GitHubService {
       runId,
     };
 
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/deleteWorkflowRun`, method: 'DELETE', data });
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/deleteWorkflowRun`, method: 'POST', data });
   };
 
   public static cancelWorkflowRun = (gitHubToken: string, url: string) => {

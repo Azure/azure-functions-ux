@@ -18,7 +18,7 @@ import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { getSourceControlsWorkflowFileName, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { delay, getSourceControlsWorkflowFileName, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
@@ -383,12 +383,12 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         errorMessages.length > 0
           ? t('deploymentCenterDeleteLogsFailureWithErrorNotificationDescription').format(message)
           : t('deploymentCenterDeleteLogsFailureNotificationDescription');
+      await delay(async () => await refreshGitHubActionsLogs());
       portalContext.stopNotification(notificationId, false, description);
       portalContext.log(getTelemetryInfo('error', 'deleteLogs', 'failed'));
-      props.refreshLogs();
     } else {
+      await delay(async () => await refreshGitHubActionsLogs());
       portalContext.stopNotification(notificationId, true, t('deploymentCenterDeleteLogsSuccessNotificationDescription'));
-      props.refreshLogs();
     }
   };
 

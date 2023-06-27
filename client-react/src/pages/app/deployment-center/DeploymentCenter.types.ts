@@ -585,6 +585,7 @@ export interface DateTimeObj {
 
 export interface CodeDeploymentsRow {
   index: number;
+  id: string;
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
