@@ -80,9 +80,9 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
   const horizontal = layout ? layout !== Layout.Vertical : fullPage;
 
   const copyToClipboard = useCallback(
-    (event: React.MouseEvent<any>) => {
+    async (event: React.MouseEvent<any>) => {
       event?.stopPropagation();
-      TextUtilitiesService.copyContentToClipboard(copyValue || '', copyButtonRef);
+      await TextUtilitiesService.copyContentToClipboard(copyValue || '', copyButtonRef);
       setCopied(true);
     },
     [copyValue, copyButtonRef]
