@@ -20,6 +20,10 @@ export class TextUtilitiesService {
       return;
     }
     // This method should work on most modern browsers
-    nav.clipboard.writeText(text).catch(() => this.fallbackCopyTextToClipboard(text, componentRef));
+    try {
+      nav.clipboard.writeText(text);
+    } catch (error) {
+      this.fallbackCopyTextToClipboard(text, componentRef);
+    }
   }
 }

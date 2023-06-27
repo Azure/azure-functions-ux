@@ -855,6 +855,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";appConfigurationReferenceDetails" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Configuration Reference Details]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Referensi App Configuration Details]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";appCreds" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Credentials]]></Val>
@@ -13335,6 +13344,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";integrate_readOnlyPythonV2" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Use the code editor to update v2 programming model Python function bindings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Gunakan editor kode untuk memperbarui pengikatan fungsi Python model pemrograman v2.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";integrate_triggersHelp" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Triggers are what will start your function. For instance, you can trigger on a new queue message. You must always have a trigger.]]></Val>
@@ -14750,19 +14768,25 @@
       </Item>
       <Item ItemId=";minTlsCipherSuiteInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select the minimum TLS cipher suite to disable less secure TLS cipher suites.]]></Val>
+          <Val><![CDATA[Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pilih suite cipher TLS minimum untuk menonaktifkan suite cipher TLS yang kurang aman.]]></Val>
+            <Val><![CDATA[Pilih cipher suite TLS minimum untuk menonaktifkan cipher suite TLS yang kurang aman.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select the minimum TLS cipher suite to disable less secure TLS cipher suites.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";minTlsCipherSuiteLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Minimum TLS Cipher Suite (Preview)]]></Val>
+          <Val><![CDATA[Minimum Inbound TLS Cipher Suite (Preview)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Suite Cipher TLS minimum (Pratinjau)]]></Val>
+            <Val><![CDATA[Cipher Suite TLS Masuk Minimum (Pratinjau)]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Minimum TLS Cipher Suite (Preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14804,19 +14828,25 @@
       </Item>
       <Item ItemId=";minTlsVersionInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select the minimum TLS encryption version required by your app.]]></Val>
+          <Val><![CDATA[Select the minimum TLS encryption version required by clients connecting to your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pilih versi minimum enkripsi TLS yang diwajibkan oleh aplikasi Anda.]]></Val>
+            <Val><![CDATA[Pilih versi enkripsi TLS minimum yang diperlukan oleh klien untuk terhubung dengan aplikasi Anda.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select the minimum TLS encryption version required by your app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";minTlsVersionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Minimum TLS Version]]></Val>
+          <Val><![CDATA[Minimum Inbound TLS Version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Versi TLS Minimum]]></Val>
+            <Val><![CDATA[Versi TLS Masuk Minimum]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Minimum TLS Version]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

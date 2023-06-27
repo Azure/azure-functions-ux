@@ -74,22 +74,26 @@ const ConfigurationAddEdit: React.FC<ConfigurationAddEditProps> = props => {
       <form className={addEditFormStyle}>
         <TextFieldNoFormik
           label={t('nameRes')}
+          ariaLabel={t('nameRes')}
           id="environment-variable-edit-name"
           widthOverride="100%"
           value={currentEnvironmentVariable.name}
           onChange={onNameChange}
           copyButton={true}
           errorMessage={nameError}
+          required={true}
           autoFocus
         />
         <TextFieldNoFormik
           label={t('value')}
+          ariaLabel={t('value')}
           id="environment-variable-edit-value"
           widthOverride="100%"
           value={currentEnvironmentVariable.value}
           onChange={onValueChange}
           copyButton={true}
           autoComplete={'off'}
+          required={true}
         />
         <ActionBar
           id="environment-variable-edit-footer"
