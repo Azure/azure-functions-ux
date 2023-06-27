@@ -25,6 +25,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                 isPreview: false,
                 isHidden: false,
                 isAutoUpdate: true,
+                 isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -137,7 +138,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
               windowsRuntimeSettings: {
                 runtimeVersion: '1.8',
                 isAutoUpdate: true,
-                isDefault: true,
+                isDefault: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
