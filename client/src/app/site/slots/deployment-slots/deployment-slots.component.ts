@@ -668,10 +668,12 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   openSlotBlade(resourceId: string) {
-    if (resourceId) {
+    const siteOrSlot = this.prodSiteArm || (this.deploymentSlotsArm && this.deploymentSlotsArm[0]);
+    if (resourceId && siteOrSlot) {
+      const bladeName = ArmUtil.isFunctionApp(siteOrSlot) ? 'FunctionAppOverview.ReactView' : 'AppsOverview.ReactView';
       this._portalService.openBladeDeprecated(
         {
-          detailBlade: 'AppsOverviewBlade',
+          detailBlade: bladeName,
           detailBladeInputs: { id: resourceId },
         },
         'deployment-slots'
