@@ -25,7 +25,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                 isPreview: false,
                 isHidden: false,
                 isAutoUpdate: true,
-                 isDefault: true,
+                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
