@@ -6,7 +6,15 @@ import { CustomFormControl } from '../../../controls/click-to-edit/click-to-edit
 import { ArmSiteDescriptor } from '../../../shared/resourceDescriptors';
 import { FeatureComponent } from '../../../shared/components/feature-component';
 import { BroadcastEvent, EventMessage } from '../../../shared/models/broadcast-event';
-import { Links, LogCategories, ScenarioIds, SiteTabIds, SlotOperationState, SwapOperationType } from '../../../shared/models/constants';
+import {
+  Links,
+  LogCategories,
+  ScenarioIds,
+  SiteTabIds,
+  SlotOperationState,
+  SupportedFeatures,
+  SwapOperationType,
+} from '../../../shared/models/constants';
 import { HttpResult } from '../../../shared/models/http-result';
 import { OpenBladeInfo, EventVerbs, FrameBladeParams } from '../../../shared/models/portal';
 import { PortalResources } from '../../../shared/models/portal-resources';
@@ -25,6 +33,7 @@ import { RoutingSumValidator } from '../../../shared/validators/routingSumValida
 import { TreeViewInfo, SiteData } from '../../../tree-view/models/tree-view-info';
 import { ScenarioCheckResult } from 'app/shared/services/scenario/scenario.models';
 import { ArmUtil } from '../../../shared/Utilities/arm-utils';
+import { Url } from '../../../shared/Utilities/url';
 
 @Component({
   selector: 'deployment-slots',
@@ -667,13 +676,22 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
       });
   }
 
+  private _getOverviewBladeName() {
+    if (Url.getParameterByName(null, SupportedFeatures.NewOverviewBlades) === 'true') {
+      const siteOrSlot = this.prodSiteArm || (this.deploymentSlotsArm && this.deploymentSlotsArm[0]);
+      if (siteOrSlot) {
+        return ArmUtil.isFunctionApp(siteOrSlot) ? 'FunctionAppOverview.ReactView' : 'AppsOverview.ReactView';
+      }
+    }
+
+    return 'AppsOverviewBlade';
+  }
+
   openSlotBlade(resourceId: string) {
-    const siteOrSlot = this.prodSiteArm || (this.deploymentSlotsArm && this.deploymentSlotsArm[0]);
-    if (resourceId && siteOrSlot) {
-      const bladeName = ArmUtil.isFunctionApp(siteOrSlot) ? 'FunctionAppOverview.ReactView' : 'AppsOverview.ReactView';
+    if (resourceId) {
       this._portalService.openBladeDeprecated(
         {
-          detailBlade: bladeName,
+          detailBlade: this._getOverviewBladeName(),
           detailBladeInputs: { id: resourceId },
         },
         'deployment-slots'
