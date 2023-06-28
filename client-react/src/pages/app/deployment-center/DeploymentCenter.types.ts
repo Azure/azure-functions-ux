@@ -398,7 +398,9 @@ export interface DeploymentCenterCodeLogsProps {
 }
 
 export interface DeploymentCenterCodeLogsTimerProps {
+  pauseTimer?: boolean;
   refreshLogs: () => void;
+  deleteLogs: () => void;
 }
 
 export interface DeploymentCenterCommitLogsProps {
@@ -583,6 +585,7 @@ export interface DateTimeObj {
 
 export interface CodeDeploymentsRow {
   index: number;
+  id: string;
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
@@ -727,6 +730,7 @@ export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContain
 }
 export interface GitHubActionsCodeDeploymentsRow {
   index: number;
+  id: number | string;
   rawTime: moment.Moment;
   displayTime: string;
   commit: string;
@@ -739,6 +743,7 @@ export interface GitHubActionsCodeDeploymentsRow {
 }
 
 export interface GitHubActionsRun {
+  id: number;
   cancel_url: string;
   html_url: string;
   logs_url: string;

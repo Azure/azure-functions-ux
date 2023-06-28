@@ -6267,6 +6267,30 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
     </data>
+    <data name="deploymentCenterDeleteCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center delete logs command</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsConfirmationTitle" xml:space="preserve">
+        <value>Delete logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsConfirmationDescription" xml:space="preserve">
+        <value>Do you want to delete all the selected logs? This will permanently delete the selected logs, and this action cannot be undone. Do you wish to continue?</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsNotificationTitle" xml:space="preserve">
+        <value>Delete Logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsNotificationDescription" xml:space="preserve">
+        <value>Deleting logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsSuccessNotificationDescription" xml:space="preserve">
+        <value>Successfully deleted logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsFailureNotificationDescription" xml:space="preserve">
+        <value>Failed to delete logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsFailureWithErrorNotificationDescription" xml:space="preserve">
+        <value>Failed to delete logs: {0}</value>
+    </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>

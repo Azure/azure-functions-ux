@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import {
   logsTimerStyle,
   deploymentCenterContainerLogsBox,
-  refreshButtonStyle,
+  logsButtonStyle,
   downloadButtonStyle,
   deploymentCenterContent,
 } from '../DeploymentCenter.styles';
@@ -62,7 +62,7 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
                     portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
                     refresh();
                   }}
-                  className={refreshButtonStyle}>
+                  className={logsButtonStyle}>
                   {t('refresh')}
                 </CustomCommandBarButton>
                 <CustomCommandBarButton
