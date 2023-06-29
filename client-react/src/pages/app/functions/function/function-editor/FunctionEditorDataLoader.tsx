@@ -396,7 +396,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       let errorCount = 0;
       let functionSuccess = false;
       for (errorCount = 0; errorCount < 5 && !functionSuccess; ++errorCount) {
-        runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+        runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings, /* setContentType */ true);
         const jqXHR = getJQXHR(runFunctionResponse, LogCategories.FunctionEdit, 'makeHttpRequestForRunFunction');
         if (jqXHR && jqXHR.status && jqXHR.status !== 200) {
           functionSuccess = true;
@@ -404,7 +404,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       }
       setRetryFunctionTest(false);
     } else {
-      runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+      runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings, /* setContentType */ true);
     }
 
     const runFunctionResponseResult = runFunctionResponse.result;
