@@ -19,7 +19,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
             value: '4.8',
             stackSettings: {
               windowsRuntimeSettings: {
-                runtimeVersion: 'v6.0',
+                runtimeVersion: 'v4.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -33,7 +33,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
-                  netFrameworkVersion: 'v6.0',
+                  netFrameworkVersion: 'v4.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
               },
