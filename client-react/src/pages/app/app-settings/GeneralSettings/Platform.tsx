@@ -117,6 +117,40 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
+
+      {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
+        values.basicPublishingCredentialsPolicies && (
+          <Field
+            name="basicPublishingCredentialsPolicies.scm.allow"
+            dirty={
+              values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
+                initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow ||
+              values.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+                initialValues.basicPublishingCredentialsPolicies?.properties.ftp.allow
+            }
+            component={RadioButton}
+            label={t('basicAuthPublishingCred')}
+            infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
+            id="app-settings-basic-authentication-publishing-creds"
+            disabled={disableAllControls}
+            selectedKey={
+              values.basicPublishingCredentialsPolicies?.properties.scm.allow ||
+              values.basicPublishingCredentialsPolicies?.properties.ftp.allow
+            }
+            onChange={onBasicAuthenticationCredentialsChange}
+            options={[
+              {
+                key: true,
+                text: t('on'),
+              },
+              {
+                key: false,
+                text: t('off'),
+              },
+            ]}
+          />
+        )}
+
       {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
         (disableFtp() ? (
           <DropdownNoFormik
@@ -174,39 +208,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ]}
           />
         ))}
-
-      {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
-        values.basicPublishingCredentialsPolicies && (
-          <Field
-            name="basicPublishingCredentialsPolicies.scm.allow"
-            dirty={
-              values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
-                initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow ||
-              values.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-                initialValues.basicPublishingCredentialsPolicies?.properties.ftp.allow
-            }
-            component={RadioButton}
-            label={t('basicAuthPublishingCred')}
-            infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
-            id="app-settings-basic-authentication-publishing-creds"
-            disabled={disableAllControls}
-            selectedKey={
-              values.basicPublishingCredentialsPolicies?.properties.scm.allow ||
-              values.basicPublishingCredentialsPolicies?.properties.ftp.allow
-            }
-            onChange={onBasicAuthenticationCredentialsChange}
-            options={[
-              {
-                key: true,
-                text: t('on'),
-              },
-              {
-                key: false,
-                text: t('off'),
-              },
-            ]}
-          />
-        )}
 
       {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
         <>
