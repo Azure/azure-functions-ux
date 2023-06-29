@@ -23,6 +23,10 @@ export const isDotNetIsolatedFunction = (functionInfo?: ArmObj<FunctionInfo>): b
   return functionInfo?.properties.config.language === WorkerRuntimeLanguages.dotnetIsolated;
 };
 
+export const isNodeFunction = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
+  return functionInfo?.properties.language === WorkerRuntimeLanguages.nodejs;
+};
+
 export const isNewProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   return isNewNodeProgrammingModel(functionInfo) || isNewPythonProgrammingModel(functionInfo);
 };
