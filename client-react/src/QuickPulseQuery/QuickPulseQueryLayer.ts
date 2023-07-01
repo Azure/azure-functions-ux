@@ -1,7 +1,9 @@
-﻿import * as qpschema from './QuickPulseSchema';
-import { QPSchemaConfigurationMetric, QPSchemaDocumentStreamInfo, RequestFieldsEnum, DependencyFieldsEnum } from './QuickPulseSchema';
-import axios, { AxiosRequestConfig } from 'axios';
+﻿import axios, { AxiosRequestConfig } from 'axios';
+
 import { CommonConstants } from '../utils/CommonConstants';
+
+import * as qpschema from './QuickPulseSchema';
+import { DependencyFieldsEnum, QPSchemaConfigurationMetric, QPSchemaDocumentStreamInfo, RequestFieldsEnum } from './QuickPulseSchema';
 import { TelemetryTypesEnum } from '.';
 
 export function makeQuickPulseId() {

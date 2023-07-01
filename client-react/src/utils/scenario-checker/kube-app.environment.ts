@@ -1,8 +1,9 @@
-import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 import { isKubeApp } from '../arm-utils';
 import { CommonConstants } from '../CommonConstants';
 import Url from '../url';
+
+import { Environment, ScenarioCheckInput } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 
 export class KubeApp extends Environment {
   public name = 'KubeApp';

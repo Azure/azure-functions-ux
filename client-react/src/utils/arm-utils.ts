@@ -1,9 +1,10 @@
-import { AppKind } from './AppKind';
-import { ArmObj, ResourceGraphColumn, Identity, ArmSku } from '../models/arm-obj';
+import { ArmObj, ArmSku, Identity, ResourceGraphColumn } from '../models/arm-obj';
 import { Site } from '../models/site/site';
+
+import { AppKind } from './AppKind';
 import { CommonConstants } from './CommonConstants';
-import Url from './url';
 import { ArmSubcriptionDescriptor } from './resourceDescriptors';
+import Url from './url';
 
 export function isFunctionApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.functionApp]) && !AppKind.hasKinds(obj, [CommonConstants.Kinds.botapp]);

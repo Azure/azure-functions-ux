@@ -1,7 +1,8 @@
 import { useContext, useEffect, useState } from 'react';
+
 import { HttpResponseObject } from '../ArmHelper.types';
-import { PortalContext } from '../PortalContext';
 import { TelemetryInfo } from '../models/telemetry';
+import { PortalContext } from '../PortalContext';
 
 export function useHttpResponseObjectQuery<TResponse, TData>(
   promise: Promise<HttpResponseObject<TResponse>> | undefined,

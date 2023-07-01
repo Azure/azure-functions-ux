@@ -1,14 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { Link, Icon } from '@fluentui/react';
+
+import { Icon, Link } from '@fluentui/react';
+
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { PortalContext } from '../../../../PortalContext';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterExternalConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;

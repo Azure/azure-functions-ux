@@ -1,13 +1,16 @@
 import React, { FC, useCallback, useContext, useState } from 'react';
-import { TextField as OfficeTextField, ITextFieldProps } from '@fluentui/react';
-import ReactiveFormControl from './ReactiveFormControl';
-import { useWindowSize } from 'react-use';
-import { ThemeContext } from '../../ThemeContext';
-import { textFieldStyleOverrides, copyButtonStyle } from './formControl.override.styles';
-import { TooltipHost, Stack, IButton } from '@fluentui/react';
-import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
+import { useWindowSize } from 'react-use';
+
+import { ITextFieldProps, TextField as OfficeTextField } from '@fluentui/react';
+import { IButton, Stack, TooltipHost } from '@fluentui/react';
+
+import { ThemeContext } from '../../ThemeContext';
 import { TextUtilitiesService } from '../../utils/textUtilities';
+import IconButton from '../IconButton/IconButton';
+
+import { copyButtonStyle, textFieldStyleOverrides } from './formControl.override.styles';
+import ReactiveFormControl from './ReactiveFormControl';
 import { CustomTextFieldProps } from './TextField';
 
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {

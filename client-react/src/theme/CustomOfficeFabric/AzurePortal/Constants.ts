@@ -1,4 +1,4 @@
-import { ScreenWidthMaxMedium, ScreenWidthMaxSmall, ScreenWidthMinMedium, getScreenSelector } from '@fluentui/react';
+import { getScreenSelector, ScreenWidthMaxMedium, ScreenWidthMaxSmall, ScreenWidthMinMedium } from '@fluentui/react';
 
 export const borderWidth = '1px';
 export const borderWidthError = '2px';

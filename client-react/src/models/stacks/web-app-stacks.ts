@@ -1,5 +1,5 @@
 // NOTE (krmitta): Should match with the schema coming from the backend: stacks/webapp/2020-06-01/stack.model.ts
-import { AppInsightsSettings, CommonSettings, AppStack } from './app-stacks';
+import { AppInsightsSettings, AppStack, CommonSettings } from './app-stacks';
 
 export interface WebAppRuntimes {
   linuxRuntimeSettings?: WebAppRuntimeSettings;

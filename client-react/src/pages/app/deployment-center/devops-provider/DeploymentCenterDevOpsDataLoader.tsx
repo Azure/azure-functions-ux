@@ -1,11 +1,14 @@
-import { IDropdownOption } from '@fluentui/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { IDropdownOption } from '@fluentui/react';
+
 import { PortalContext } from '../../../../PortalContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+
 import DeploymentCenterDevOpsProvider from './DeploymentCenterDevOpsProvider';
 
 const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = props => {

@@ -1,28 +1,31 @@
-import React, { useEffect, useState, useContext, useRef, useMemo } from 'react';
-import {
-  DeploymentCenterFieldProps,
-  DeploymentCenterContainerFormData,
-  ACRCredentialType,
-  ManagedIdentityType,
-  UserAssignedIdentity,
-  SettingOption,
-} from '../DeploymentCenter.types';
-import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import { IComboBoxOption, IDropdownOption, MessageBarType, SelectableOptionMenuItemType } from '@fluentui/react';
-import DeploymentCenterData from '../DeploymentCenter.data';
+
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential } from '../../../../models/acr';
-import { getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
-import { PortalContext } from '../../../../PortalContext';
-import { useTranslation } from 'react-i18next';
-import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import { AcrDependency } from '../../../../utils/dependency/Dependency';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 import { IDataMessageResult } from '../../../../models/portal-models';
-import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
-import { SiteStateContext } from '../../../../SiteState';
 import { ScmType } from '../../../../models/site/config';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { AcrDependency } from '../../../../utils/dependency/Dependency';
+import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import {
+  ACRCredentialType,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterFieldProps,
+  ManagedIdentityType,
+  SettingOption,
+  UserAssignedIdentity,
+} from '../DeploymentCenter.types';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterContainerAcrSettings from './DeploymentCenterContainerAcrSettings';
 interface RegistryIdentifiers {
   resourceId: string;
   location: string;

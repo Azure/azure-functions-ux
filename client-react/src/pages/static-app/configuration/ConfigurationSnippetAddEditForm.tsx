@@ -1,6 +1,21 @@
 import { useContext, useEffect, useMemo } from 'react';
-import { ProgressIndicator, IDropdownOption, IChoiceGroupOption, MessageBarType } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
+import { IChoiceGroupOption, IDropdownOption, MessageBarType, ProgressIndicator } from '@fluentui/react';
+
+import ActionBar from '../../../components/ActionBar';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import Dropdown from '../../../components/form-controls/DropDown';
+import RadioButton from '../../../components/form-controls/RadioButton';
+import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
+import TextField from '../../../components/form-controls/TextField';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
+import { PortalTheme } from '../../../models/portal-models';
+import { StartupInfoContext } from '../../../StartupInfoContext';
+import { EditorLanguage } from '../../../utils/EditorManager';
+import { bodyEditorStyle } from '../../app/functions/function/function-editor/function-test/FunctionTest.styles';
+
 import { useStyles } from './Configuration.styles';
 import {
   ApplicableEnvironmentsMode,
@@ -8,18 +23,6 @@ import {
   SnippetInsetionLocation,
   SnippetLocation,
 } from './Configuration.types';
-import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
-import { StartupInfoContext } from '../../../StartupInfoContext';
-import { PortalTheme } from '../../../models/portal-models';
-import { bodyEditorStyle } from '../../app/functions/function/function-editor/function-test/FunctionTest.styles';
-import { EditorLanguage } from '../../../utils/EditorManager';
-import RadioButtonNoFormik from '../../../components/form-controls/RadioButtonNoFormik';
-import { Field } from 'formik';
-import ActionBar from '../../../components/ActionBar';
-import Dropdown from '../../../components/form-controls/DropDown';
-import TextField from '../../../components/form-controls/TextField';
-import RadioButton from '../../../components/form-controls/RadioButton';
-import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 
 const ConfigurationSnippetsAddEditForm: React.FC<ConfigurationSnippetsAddEditFormProps> = ({
   hasWritePermissions,

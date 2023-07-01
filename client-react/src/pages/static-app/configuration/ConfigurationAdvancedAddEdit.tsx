@@ -1,13 +1,16 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EnvironmentVariable } from './Configuration.types';
-import ActionBar from '../../../components/ActionBar';
-import { ConfigurationUtils } from './Configuration.utils';
+
 import { MessageBarType } from '@fluentui/react';
+
+import ActionBar from '../../../components/ActionBar';
 import MonacoEditor, { getMonacoEditorTheme } from '../../../components/monaco-editor/monaco-editor';
-import { EditorLanguage } from '../../../utils/EditorManager';
-import { StartupInfoContext } from '../../../StartupInfoContext';
 import { PortalTheme } from '../../../models/portal-models';
+import { StartupInfoContext } from '../../../StartupInfoContext';
+import { EditorLanguage } from '../../../utils/EditorManager';
+
+import { EnvironmentVariable } from './Configuration.types';
+import { ConfigurationUtils } from './Configuration.utils';
 
 interface ConfigurationAdvancedAddEditProps {
   cancel: () => void;

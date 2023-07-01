@@ -1,8 +1,9 @@
-import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
-import MakeArmCall from './ArmHelper';
 import { ArmArray } from '../models/arm-obj';
 import { BlobContainer, FileShareContainer, StorageAccount, StorageAccountKeys } from '../models/storage-account';
 import { CommonConstants } from '../utils/CommonConstants';
+import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
+
+import MakeArmCall from './ArmHelper';
 
 export default class StorageService {
   public static fetchAzureStorageAccounts = (resourceId: string) => {

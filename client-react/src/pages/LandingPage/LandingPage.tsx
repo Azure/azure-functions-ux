@@ -1,7 +1,8 @@
 import React from 'react';
-import { style } from 'typestyle';
-import { RouteComponentProps } from '@reach/router';
 import ReactSVG from 'react-svg';
+import { style } from 'typestyle';
+
+import { RouteComponentProps } from '@reach/router';
 
 const divStyle = style({
   backgroundColor: '#babcbe',

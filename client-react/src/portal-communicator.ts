@@ -1,49 +1,51 @@
-import { BatchUpdateSettings, BatchResponseItemEx } from './models/batch-models';
+import { Dispatch, SetStateAction } from 'react';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
+
+import { loadTheme } from '@fluentui/style-utilities';
+
+import { getJsonHeaders, sendHttpRequest } from './ApiHelpers/HttpClient';
+import { NetAjaxSettings } from './models/ajax-request-model';
+import { BatchResponseItemEx, BatchUpdateSettings } from './models/batch-models';
 import { SpecCostQueryInput, SpecCostQueryResult } from './models/BillingModels';
 import {
   BroadcastMessage,
   BroadcastMessageId,
+  CheckLockRequest,
+  CheckLockResponse,
+  CheckPermissionRequest,
+  CheckPermissionResponse,
+  FrameBladeParams,
+  HighContrastTheme,
   IBladeResult,
   IDataMessage,
   IDataMessageResult,
   IDirtyStateInfo,
   IEvent,
+  IFeatureInfo,
   INotificationInfo,
   INotificationStartedInfo,
   IOpenBladeInfo,
   IStartupInfo,
   ISubscriptionRequest,
   IUpdateBladeInfo,
-  LogEntryLevel,
-  Verbs,
-  TokenType,
-  CheckPermissionRequest,
-  CheckPermissionResponse,
-  CheckLockRequest,
-  CheckLockResponse,
   LockType,
+  LogEntryLevel,
   PortalDebugInformation,
-  FrameBladeParams,
   PortalTheme,
-  IFeatureInfo,
-  HighContrastTheme,
+  TokenType,
+  Verbs,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
+import { TelemetryInfo } from './models/telemetry';
+import { blackHighContrast } from './theme/blackHighContrast';
 import { darkTheme } from './theme/dark';
 import { lightTheme } from './theme/light';
-import { blackHighContrast } from './theme/blackHighContrast';
+import { ThemeExtended } from './theme/SemanticColorsExtended';
 import { whiteHighContrast } from './theme/whiteHighContrast';
 import { Guid } from './utils/Guid';
-import Url from './utils/url';
-import { Dispatch, SetStateAction } from 'react';
-import { ThemeExtended } from './theme/SemanticColorsExtended';
-import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
-import { TelemetryInfo } from './models/telemetry';
-import { loadTheme } from '@fluentui/style-utilities';
-import { NetAjaxSettings } from './models/ajax-request-model';
 import { isPortalCommunicationStatusSuccess } from './utils/portal-utils';
+import Url from './utils/url';
 
 export default class PortalCommunicator {
   public static shellSrc: string;

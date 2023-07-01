@@ -1,11 +1,13 @@
-import { IColumn, IDetailsRowProps, IRenderFunction, Selection, SelectionMode } from '@fluentui/react';
 import { useCallback, useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ThemeContext } from '../../../../../ThemeContext';
+
+import { IColumn, IDetailsRowProps, IRenderFunction, Selection, SelectionMode } from '@fluentui/react';
+
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
 import { HostStatus } from '../../../../../models/functions/host-status';
 import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
+import { ThemeContext } from '../../../../../ThemeContext';
 import StringUtils from '../../../../../utils/string';
 import { useTemplatesQuery } from '../../function/hooks/useTemplatesQuery';
 import { tableRowStyle, templateListNameColumnStyle } from '../FunctionCreate.styles';

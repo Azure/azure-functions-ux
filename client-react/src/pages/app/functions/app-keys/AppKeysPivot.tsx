@@ -1,9 +1,10 @@
 import React from 'react';
-import { AppKeysFormValues } from './AppKeys.types';
 import { useTranslation } from 'react-i18next';
+
+import { formDescriptionStyle } from './AppKeys.styles';
+import { AppKeysFormValues } from './AppKeys.types';
 import HostKeys from './HostKeys';
 import SystemKeys from './SystemKeys';
-import { formDescriptionStyle } from './AppKeys.styles';
 
 interface AppKeysPivotProps {
   resourceId: string;

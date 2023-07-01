@@ -1,16 +1,19 @@
-import { MessageBarType } from '@fluentui/react';
 import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { MessageBarType } from '@fluentui/react';
+
 import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
-import { PortalContext } from '../../../../../PortalContext';
 import { StatusMessage } from '../../../../../components/ActionBar';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
+import { PortalContext } from '../../../../../PortalContext';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
 import { useAppSettingsQuery } from '../../common/useAppSettingsQuery';
 import { usePermissions } from '../../common/usePermissions';
+
 import { getPaths, getSubstitutions } from './Helpers';
 import { JobType } from './JobType';
 import { useAppSettingsMutator } from './useAppSettingsMutator';

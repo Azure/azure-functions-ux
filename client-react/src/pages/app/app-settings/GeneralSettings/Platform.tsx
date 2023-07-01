@@ -1,19 +1,21 @@
-import { Field, FormikProps } from 'formik';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field, FormikProps } from 'formik';
+
+import { MessageBarType } from '@fluentui/react';
+
+import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import Dropdown from '../../../../components/form-controls/DropDown';
+import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
-import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { MinTlsVersion, SslState } from '../../../../models/site/site';
+import { ScmHosts } from '../../../../utils/CommonConstants';
+import { Links } from '../../../../utils/FwLinks';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
-import { Links } from '../../../../utils/FwLinks';
-import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { MinTlsVersion, SslState } from '../../../../models/site/site';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from '@fluentui/react';
-import { ScmHosts } from '../../../../utils/CommonConstants';
-import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);

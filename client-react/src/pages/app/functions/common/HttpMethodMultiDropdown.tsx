@@ -1,8 +1,10 @@
 import React from 'react';
-import { BindingSetting } from '../../../../models/functions/binding';
 import { FieldProps } from 'formik';
-import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
+
 import { IDropdownOption, IDropdownProps } from '@fluentui/react';
+
+import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
+import { BindingSetting } from '../../../../models/functions/binding';
 
 export interface HttpMethodMultiDropdownProps {
   setting: BindingSetting;

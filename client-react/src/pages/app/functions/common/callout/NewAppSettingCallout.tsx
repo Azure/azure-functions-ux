@@ -1,7 +1,8 @@
 import React from 'react';
-import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
+
 import CustomPivot from './customPivot/CustomPivot';
+import { NewConnectionCalloutProps } from './Callout.properties';
 import { paddingSidesStyle } from './Callout.styles';
 
 const NewAppSettingCallout: React.SFC<NewConnectionCalloutProps> = props => {

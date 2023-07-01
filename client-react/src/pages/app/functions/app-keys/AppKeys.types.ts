@@ -1,6 +1,6 @@
 import { ArmObj } from '../../../../models/arm-obj';
-import { Site } from '../../../../models/site/site';
 import { KeyValue } from '../../../../models/portal-models';
+import { Site } from '../../../../models/site/site';
 
 export interface AppKeysModel {
   name: string;

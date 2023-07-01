@@ -1,15 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ICommandBarItemProps, CommandBar, IButtonProps } from '@fluentui/react';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { DeploymentCenterPublishProfileCommandBarProps } from '../DeploymentCenter.types';
-import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
-import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
-import CustomFocusTrapCallout from '../../../../components/CustomCallout/CustomFocusTrapCallout';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { PortalContext } from '../../../../PortalContext';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+
+import { CommandBar, IButtonProps, ICommandBarItemProps } from '@fluentui/react';
+
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import CustomFocusTrapCallout from '../../../../components/CustomCallout/CustomFocusTrapCallout';
+import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
+import { PortalContext } from '../../../../PortalContext';
+import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { DeploymentCenterPublishProfileCommandBarProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterPublishProfileCommandBar: React.FC<DeploymentCenterPublishProfileCommandBarProps> = props => {
   const { resetApplicationPassword } = props;

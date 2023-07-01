@@ -1,17 +1,20 @@
-import { FieldProps, Formik, FormikProps } from 'formik';
-import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FieldProps, Formik, FormikProps } from 'formik';
+
+import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
+
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { DatabaseAccount, KeyList } from '../../../../../../models/documentDB';
+import { PortalContext } from '../../../../../../PortalContext';
+import { getTelemetryInfo } from '../../FunctionsUtility';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
 import { paddingSidesStyle, paddingTopStyle } from '../Callout.styles';
+
 import { DocumentDBPivotContext } from './DocumentDBDataLoader';
-import { PortalContext } from '../../../../../../PortalContext';
-import { getTelemetryInfo } from '../../FunctionsUtility';
 
 interface DocumentDBPivotFormValues {
   databaseAccount: ArmObj<DatabaseAccount> | undefined;

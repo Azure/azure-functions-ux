@@ -1,8 +1,10 @@
-import { Field, Formik, FormikProps } from 'formik';
-import i18next from 'i18next';
-import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field, Formik, FormikProps } from 'formik';
+import i18next from 'i18next';
+
+import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
+
 import ActionBar from '../../../../../../components/ActionBar';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import { learnMoreLinkStyle } from '../../../../../../components/form-controls/formControl.override.styles';
@@ -11,11 +13,11 @@ import LoadingComponent from '../../../../../../components/Loading/LoadingCompon
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../../../models/functions/function-binding';
 import { KeyValue } from '../../../../../../models/portal-models';
+import { CommonConstants } from '../../../../../../utils/CommonConstants';
+import { Links } from '../../../../../../utils/FwLinks';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { getFunctionBindingDirection } from '../FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
-import { Links } from '../../../../../../utils/FwLinks';
-import { CommonConstants } from '../../../../../../utils/CommonConstants';
 
 export interface BindingCreatorProps {
   bindingDirection: BindingDirection;

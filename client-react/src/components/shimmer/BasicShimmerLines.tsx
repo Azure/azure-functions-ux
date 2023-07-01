@@ -1,5 +1,7 @@
-import { Shimmer, ThemeProvider } from '@fluentui/react';
 import React from 'react';
+
+import { Shimmer, ThemeProvider } from '@fluentui/react';
+
 import { shimmerStyle, shimmerTheme, wrapperClass } from './Shimmer.styles';
 
 interface BasicShimmerLinesProps {

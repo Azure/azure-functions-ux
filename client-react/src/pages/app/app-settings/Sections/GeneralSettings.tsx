@@ -1,17 +1,18 @@
 import React, { useRef } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FormikProps } from 'formik';
+import { isEqual } from 'lodash-es';
+
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import { settingsWrapper } from '../AppSettingsForm';
+import ClientCert from '../GeneralSettings/ClientCert/ClientCert';
+import DebuggingLinux from '../GeneralSettings/DebuggingLinux';
+import DebuggingWindows from '../GeneralSettings/DebuggingWindows';
 import Platform from '../GeneralSettings/Platform';
 import SlotAutoSwap from '../GeneralSettings/SlotAutoSwap';
 import Stacks from '../GeneralSettings/Stacks';
-import { settingsWrapper } from '../AppSettingsForm';
-import { useTranslation } from 'react-i18next';
-import { AppSettingsFormValues } from '../AppSettings.types';
-import { FormikProps } from 'formik';
-import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import DebuggingWindows from '../GeneralSettings/DebuggingWindows';
-import DebuggingLinux from '../GeneralSettings/DebuggingLinux';
-import { isEqual } from 'lodash-es';
-import ClientCert from '../GeneralSettings/ClientCert/ClientCert';
 
 const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values } = props;

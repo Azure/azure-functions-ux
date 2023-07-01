@@ -1,24 +1,27 @@
-import {
-  WebAppStack,
-  WebAppRuntimeSettings,
-  LinuxJavaContainerSettings,
-  WindowsJavaContainerSettings,
-  WebAppRuntimes,
-  JavaContainers as JavaContainersInterface,
-} from '../models/stacks/web-app-stacks';
+import i18next from 'i18next';
+
 import { IDropdownOption, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../components/CustomBanner/CustomBanner';
 import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../models/stacks/app-stacks';
 import { FunctionAppStack } from '../models/stacks/function-app-stacks';
-import i18next from 'i18next';
-import LogService from './LogService';
-import { LogCategories } from './LogCategories';
-import { getDateAfterXSeconds } from './DateUtilities';
-import { Links } from './FwLinks';
-import CustomBanner from '../components/CustomBanner/CustomBanner';
+import {
+  JavaContainers as JavaContainersInterface,
+  LinuxJavaContainerSettings,
+  WebAppRuntimes,
+  WebAppRuntimeSettings,
+  WebAppStack,
+  WindowsJavaContainerSettings,
+} from '../models/stacks/web-app-stacks';
 import { AppSettingsFormValues } from '../pages/app/app-settings/AppSettings.types';
-import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { findFormAppSettingIndex } from '../pages/app/app-settings/AppSettingsFormData';
 import { filterDeprecatedFunctionAppStack } from '../pages/app/app-settings/GeneralSettings/stacks/function-app/FunctionAppStackSettings.data';
+
+import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
+import { getDateAfterXSeconds } from './DateUtilities';
+import { Links } from './FwLinks';
+import { LogCategories } from './LogCategories';
+import LogService from './LogService';
 
 const ENDOFLIFEMAXSECONDS = 15780000; // 6 months
 export const NETFRAMEWORKVERSION5 = 5;

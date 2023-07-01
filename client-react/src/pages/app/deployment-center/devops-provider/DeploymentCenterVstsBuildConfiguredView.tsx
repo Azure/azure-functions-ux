@@ -1,6 +1,8 @@
-import { Icon, Link, MessageBarType } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Icon, Link, MessageBarType } from '@fluentui/react';
+
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { KeyValue } from '../../../../models/portal-models';
@@ -10,6 +12,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
+
 import DeploymentCenterVstsDisconnect from './DeploymentCenterVstsDisconnect';
 
 const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = ({ formProps }) => {

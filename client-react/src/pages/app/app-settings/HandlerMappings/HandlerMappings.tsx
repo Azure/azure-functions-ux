@@ -1,18 +1,21 @@
-import { FormikProps } from 'formik';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
 import React, { useContext, useState } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
-import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues } from '../AppSettings.types';
-import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
-import { PermissionsContext } from '../Contexts';
-import { HandlerMapping } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps, PanelType, IDetailsRowStyles, DetailsRow, IDetailsListProps } from '@fluentui/react';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { FormikProps } from 'formik';
+
+import { DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
+import { DetailsRow, ICommandBarItemProps, IDetailsListProps, IDetailsRowStyles, PanelType, TooltipHost } from '@fluentui/react';
+
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import IconButton from '../../../../components/IconButton/IconButton';
+import { HandlerMapping } from '../../../../models/site/config';
 import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import { PermissionsContext } from '../Contexts';
+
+import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 
 const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTranslation> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);

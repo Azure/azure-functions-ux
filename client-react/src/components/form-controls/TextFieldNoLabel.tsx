@@ -1,8 +1,10 @@
 import React from 'react';
-import { TextField as OfficeTextField, ITextFieldProps } from '@fluentui/react';
 import { FieldProps } from 'formik';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
+
+import { ITextFieldProps, TextField as OfficeTextField } from '@fluentui/react';
+
 import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 interface EventMsg {
   e: any;

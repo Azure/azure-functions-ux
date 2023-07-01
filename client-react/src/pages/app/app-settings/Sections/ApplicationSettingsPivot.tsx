@@ -1,16 +1,18 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppSettingsFormikPropsCombined, AppSettingsFormValues } from '../AppSettings.types';
-import { MessageBarType, Link } from '@fluentui/react';
-import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
-import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
 import { isEqual } from 'lodash-es';
-import { PermissionsContext, SiteContext } from '../Contexts';
+
+import { Link, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
+import { AppSettingsFormikPropsCombined, AppSettingsFormValues } from '../AppSettings.types';
+import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
+import { PermissionsContext, SiteContext } from '../Contexts';
 
 const ApplicationSettingsPivot: React.FC<AppSettingsFormikPropsCombined> = props => {
   const { t } = useTranslation();

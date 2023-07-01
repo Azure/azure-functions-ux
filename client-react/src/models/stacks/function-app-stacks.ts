@@ -1,6 +1,7 @@
-import { AppInsightsSettings, CommonSettings, AppStack } from './app-stacks';
 import { WorkerRuntimeLanguages } from '../../utils/CommonConstants';
 import { RuntimeExtensionMajorVersions } from '../functions/runtime-extension';
+
+import { AppInsightsSettings, AppStack, CommonSettings } from './app-stacks';
 
 export interface FunctionAppRuntimes {
   linuxRuntimeSettings?: FunctionAppRuntimeSettings;

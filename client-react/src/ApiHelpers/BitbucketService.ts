@@ -1,9 +1,10 @@
-import Url from '../utils/url';
 import { HttpResponseObject } from '../ArmHelper.types';
+import { BitbucketArrayResponse, BitbucketBranch, BitbucketRepository, BitbucketUser } from '../models/bitbucket';
 import { ProviderToken } from '../models/provider';
-import { BitbucketUser, BitbucketRepository, BitbucketBranch, BitbucketArrayResponse } from '../models/bitbucket';
-import { sendHttpRequest } from './HttpClient';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
+import Url from '../utils/url';
+
+import { sendHttpRequest } from './HttpClient';
 
 export default class BitbucketService {
   public static authorizeUrl = `${Url.serviceHost}auth/bitbucket/authorize`;

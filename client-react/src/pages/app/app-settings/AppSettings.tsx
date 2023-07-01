@@ -1,26 +1,29 @@
-import { Formik, FormikProps } from 'formik';
 import React, { useContext, useRef, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Formik, FormikProps } from 'formik';
+import i18n from 'i18next';
+
+import { MessageBarType } from '@fluentui/react';
+
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
+import { ArmObj } from '../../../models/arm-obj';
+import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
+import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
+import { Site } from '../../../models/site/site';
+import { PortalContext } from '../../../PortalContext';
+import { SiteStateContext } from '../../../SiteState';
+import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
+
+import { commandBarSticky, formStyle } from './AppSettings.styles';
 import { AppSettingsFormValues } from './AppSettings.types';
+import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
 import AppSettingsForm from './AppSettingsForm';
-import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
-import { useTranslation } from 'react-i18next';
-import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
-import i18n from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
-import { commandBarSticky, formStyle } from './AppSettings.styles';
-import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
-import { ArmObj } from '../../../models/arm-obj';
-import { Site } from '../../../models/site/site';
-import { MessageBarType } from '@fluentui/react';
-import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
-import CustomBanner from '../../../components/CustomBanner/CustomBanner';
-import { ServiceLinkerBladeResponse } from '../../../models/service-linker';
-import { PortalContext } from '../../../PortalContext';
-import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
-import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
-import { SiteStateContext } from '../../../SiteState';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {

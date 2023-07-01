@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
+import { SiteStateContext } from '../../../SiteState';
+import { isFunctionApp } from '../../../utils/arm-utils';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import AppInsightsFunctionAppDataLoader from '../functions/log-stream/LogStreamDataLoader';
+
 import FileBasedLogStreamingDataLoader from './LogStreamDataLoader';
-import { isFunctionApp } from '../../../utils/arm-utils';
-import { SiteStateContext } from '../../../SiteState';
 
 export interface LogStreamRouterProps {
   resourceId: string;

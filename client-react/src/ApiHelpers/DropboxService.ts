@@ -1,10 +1,12 @@
-import Url from '../utils/url';
-import { HttpResponseObject } from '../ArmHelper.types';
-import { ProviderToken } from '../models/provider';
-import { DropboxUser, DropboxFolder, DropboxArrayResponse } from '../models/dropbox';
-import { sendHttpRequest } from './HttpClient';
-import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 import { Method } from 'axios';
+
+import { HttpResponseObject } from '../ArmHelper.types';
+import { DropboxArrayResponse, DropboxFolder, DropboxUser } from '../models/dropbox';
+import { ProviderToken } from '../models/provider';
+import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
+import Url from '../utils/url';
+
+import { sendHttpRequest } from './HttpClient';
 
 export default class DropboxService {
   public static authorizeUrl = `${Url.serviceHost}auth/dropbox/authorize`;

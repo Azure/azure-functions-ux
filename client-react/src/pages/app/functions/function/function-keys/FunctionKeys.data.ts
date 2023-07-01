@@ -1,7 +1,9 @@
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import { FunctionKeysFormValues, FunctionKeysModel } from './FunctionKeys.types';
 import { sortBy } from 'lodash-es';
+
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { KeyValue } from '../../../../../models/portal-models';
+
+import { FunctionKeysFormValues, FunctionKeysModel } from './FunctionKeys.types';
 
 export default class FunctionKeysData {
   public convertStateToForm = (props: { keys: KeyValue<string> | null }): FunctionKeysFormValues => {

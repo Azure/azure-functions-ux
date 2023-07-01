@@ -1,25 +1,27 @@
-import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react';
-import { ArmObj } from '../../../../../models/arm-obj';
-import { AppInsightsComponent, QuickPulseToken } from '../../../../../models/app-insights';
-import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
-import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import { SchemaDocument, QuickPulseQueryLayer } from '../../../../../QuickPulseQuery';
-import { LogLevel, LogEntry } from './FunctionLog.types';
-import { getQuickPulseQueryEndpoint, defaultClient, getDefaultDocumentStreams } from './FunctionLog.constants';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FunctionLog from './FunctionLog';
-import { getLogTextColor } from './FunctionLog.styles';
-import { SiteStateContext } from '../../../../../SiteState';
-import SiteHelper from '../../../../../utils/SiteHelper';
-import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+
+import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import SiteService from '../../../../../ApiHelpers/SiteService';
+import { AppInsightsComponent, QuickPulseToken } from '../../../../../models/app-insights';
+import { ArmObj } from '../../../../../models/arm-obj';
 import { KeyValue } from '../../../../../models/portal-models';
 import { PortalContext } from '../../../../../PortalContext';
-import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import { QuickPulseQueryLayer, SchemaDocument } from '../../../../../QuickPulseQuery';
+import { SiteStateContext } from '../../../../../SiteState';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
+import { LogCategories } from '../../../../../utils/LogCategories';
 import RbacConstants from '../../../../../utils/rbac-constants';
+import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
+import SiteHelper from '../../../../../utils/SiteHelper';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+
+import FunctionLog from './FunctionLog';
+import { defaultClient, getDefaultDocumentStreams, getQuickPulseQueryEndpoint } from './FunctionLog.constants';
+import { getLogTextColor } from './FunctionLog.styles';
+import { LogEntry, LogLevel } from './FunctionLog.types';
 
 interface FunctionLogAppInsightsDataLoaderProps {
   resourceId: string;

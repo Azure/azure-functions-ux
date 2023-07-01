@@ -1,32 +1,35 @@
 import React, { useContext, useState } from 'react';
-import { FunctionKeysFormValues, FunctionKeysModel, DialogType } from './FunctionKeys.types';
 import { useTranslation } from 'react-i18next';
+
+import { ActionButton, DetailsListLayoutMode, IColumn, ICommandBarItemProps, PanelType, SelectionMode, TooltipHost } from '@fluentui/react';
+
+import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
+import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
+import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
+import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { defaultCellStyle } from '../../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { getSearchFilter } from '../../../../../components/form-controls/SearchBox';
+import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
+import IconButton from '../../../../../components/IconButton/IconButton';
+import { PortalContext } from '../../../../../PortalContext';
+import { ThemeContext } from '../../../../../ThemeContext';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+
+import FunctionKeyAddEdit from './FunctionKeyAddEdit';
 import {
   commandBarSticky,
+  deleteButtonStyle,
+  formDescriptionStyle,
   formStyle,
   renewTextStyle,
-  deleteButtonStyle,
   tableValueComponentStyle,
-  tableValueIconStyle,
   tableValueFormFieldStyle,
-  formDescriptionStyle,
+  tableValueIconStyle,
   tableValueTextFieldStyle,
 } from './FunctionKeys.styles';
+import { DialogType, FunctionKeysFormValues, FunctionKeysModel } from './FunctionKeys.types';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
-import { ActionButton, IColumn, TooltipHost, ICommandBarItemProps, DetailsListLayoutMode, SelectionMode, PanelType } from '@fluentui/react';
-import { defaultCellStyle } from '../../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
-import IconButton from '../../../../../components/IconButton/IconButton';
-import { ThemeContext } from '../../../../../ThemeContext';
-import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
-import FunctionKeyAddEdit from './FunctionKeyAddEdit';
-import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
-import { PortalContext } from '../../../../../PortalContext';
-import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
-import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
-import { getSearchFilter } from '../../../../../components/form-controls/SearchBox';
-import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 
 interface FunctionKeysProps {
   resourceId: string;

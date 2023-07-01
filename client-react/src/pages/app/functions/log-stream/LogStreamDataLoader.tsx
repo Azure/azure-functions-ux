@@ -1,20 +1,22 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { StartupInfoContext } from '../../../../StartupInfoContext';
-import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import React, { useContext, useEffect, useState } from 'react';
+
 import AppInsightsService from '../../../../ApiHelpers/AppInsightsService';
-import { ArmObj } from '../../../../models/arm-obj';
-import { AppInsightsComponent } from '../../../../models/app-insights';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import AppInsightsSetup from '../../functions/function/monitor/AppInsightsSetup';
-import FunctionLogAppInsightsDataLoader from '../../functions/function/function-log/FunctionLogAppInsightsDataLoader';
-import { paddingStyle } from './LogStream.styles';
-import { minimumLogPanelHeight, logCommandBarHeight } from '../function/function-log/FunctionLog.styles';
-import { SiteStateContext } from '../../../../SiteState';
-import { isLinuxDynamic } from '../../../../utils/arm-utils';
-import { LoggingOptions } from '../function/function-editor/FunctionEditor.types';
-import FunctionLogFileStreamDataLoader from '../function/function-log/FunctionLogFileStreamDataLoader';
+import { AppInsightsComponent } from '../../../../models/app-insights';
+import { ArmObj } from '../../../../models/arm-obj';
 import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { isLinuxDynamic } from '../../../../utils/arm-utils';
+import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+import FunctionLogAppInsightsDataLoader from '../../functions/function/function-log/FunctionLogAppInsightsDataLoader';
+import AppInsightsSetup from '../../functions/function/monitor/AppInsightsSetup';
+import { LoggingOptions } from '../function/function-editor/FunctionEditor.types';
+import { logCommandBarHeight, minimumLogPanelHeight } from '../function/function-log/FunctionLog.styles';
+import FunctionLogFileStreamDataLoader from '../function/function-log/FunctionLogFileStreamDataLoader';
+
+import { paddingStyle } from './LogStream.styles';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;

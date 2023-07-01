@@ -1,21 +1,23 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Checkbox, MessageBarType } from '@fluentui/react';
+
 import ActionBar from '../../../../components/ActionBar';
-import { formElementStyle } from '../AppSettings.styles';
-import { FormAppSetting } from '../AppSettings.types';
-import { MessageBarType, Checkbox } from '@fluentui/react';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { ArmObj } from '../../../../models/arm-obj';
-import { Site } from '../../../../models/site/site';
-import { getAllAppSettingReferences } from '../AppSettings.service';
 import { Reference } from '../../../../models/site/config';
-import { isLinuxApp } from '../../../../utils/arm-utils';
-import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { azureAppConfigRefStart, CommonConstants } from '../../../../utils/CommonConstants';
-import ReferenceComponent from '../ReferenceComponent';
+import { Site } from '../../../../models/site/site';
 import { PortalContext } from '../../../../PortalContext';
+import { isLinuxApp } from '../../../../utils/arm-utils';
+import { azureAppConfigRefStart, CommonConstants } from '../../../../utils/CommonConstants';
+import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
+import { getAllAppSettingReferences } from '../AppSettings.service';
+import { formElementStyle } from '../AppSettings.styles';
+import { FormAppSetting } from '../AppSettings.types';
+import ReferenceComponent from '../ReferenceComponent';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;

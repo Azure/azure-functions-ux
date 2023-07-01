@@ -1,8 +1,9 @@
-import { ManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
-import { Guid } from '../utils/Guid';
-import { CommonConstants } from '../utils/CommonConstants';
-import MakeArmCall from './ArmHelper';
 import { ArmArray, ArmObj, MsiIdentity } from '../models/arm-obj';
+import { ManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { CommonConstants } from '../utils/CommonConstants';
+import { Guid } from '../utils/Guid';
+
+import MakeArmCall from './ArmHelper';
 
 export default class AuthService {
   public static async hasRoleAssignment(roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) {

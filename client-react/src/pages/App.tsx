@@ -1,22 +1,25 @@
+import React, { Suspense, useEffect, useState } from 'react';
+import { I18nextProvider } from 'react-i18next';
+
 import { Router } from '@reach/router';
 import { Fabric } from '@fluentui/react';
-import React, { useState, useEffect, Suspense } from 'react';
-import SiteRouter from './app/SiteRouter';
-import LandingPage from './LandingPage/LandingPage';
+
 import ErrorLogger from '../components/ErrorLogger';
-import { I18nextProvider } from 'react-i18next';
-import i18n from '../utils/i18n';
-import { PortalContext } from '../PortalContext';
+import LoadingComponent from '../components/Loading/LoadingComponent';
+import { IFeatureInfo, IStartupInfo } from '../models/portal-models';
 import PortalCommunicator from '../portal-communicator';
+import { PortalContext } from '../PortalContext';
+import { StartupInfoContext } from '../StartupInfoContext';
 import { lightTheme } from '../theme/light';
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { ThemeContext } from '../ThemeContext';
-import { IFeatureInfo, IStartupInfo } from '../models/portal-models';
-import { StartupInfoContext } from '../StartupInfoContext';
-import LoadingComponent from '../components/Loading/LoadingComponent';
-import StaticSiteRouter from './static-app/StaticSiteRouter';
-import ContainerAppRouter from './container-app/ContainerAppRouter';
+import i18n from '../utils/i18n';
+
+import SiteRouter from './app/SiteRouter';
 import ContainerAppEnvironmentRouter from './container-app/ContainerAppEnvironmentRouter';
+import ContainerAppRouter from './container-app/ContainerAppRouter';
+import LandingPage from './LandingPage/LandingPage';
+import StaticSiteRouter from './static-app/StaticSiteRouter';
 
 const portalCommunicator = new PortalCommunicator();
 

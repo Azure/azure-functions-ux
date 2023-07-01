@@ -1,6 +1,7 @@
-import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 import { ArmSiteDescriptor } from '../resourceDescriptors';
+
+import { Environment, ScenarioCheckInput } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 
 export class SiteSlotEnvironment extends Environment {
   public name = 'SiteSlot';

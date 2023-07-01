@@ -1,9 +1,11 @@
 import { useContext, useEffect, useState } from 'react';
+
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import { ArmObj } from '../../../../models/arm-obj';
 import { PortalContext } from '../../../../PortalContext';
 import { LogCategories } from '../../../../utils/LogCategories';
+
 import { getTelemetryInfo } from './FunctionsUtility';
 
 export const useAppSettingsQuery = (resourceId: string) => {

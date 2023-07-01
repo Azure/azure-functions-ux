@@ -1,3 +1,5 @@
+import { useContext, useMemo } from 'react';
+
 import {
   IStyleFunctionOrObject,
   IToggleProps,
@@ -6,8 +8,9 @@ import {
   mergeStyleSets,
   Toggle as OfficeToggle,
 } from '@fluentui/react';
-import { useContext, useMemo } from 'react';
+
 import { ThemeContext } from '../../ThemeContext';
+
 import ReactiveFormControl from './ReactiveFormControl';
 
 interface CustomToggleProps {

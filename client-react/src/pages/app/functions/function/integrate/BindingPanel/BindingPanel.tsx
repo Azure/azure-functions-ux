@@ -1,12 +1,15 @@
-import i18next from 'i18next';
-import { PanelType } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
+
+import { PanelType } from '@fluentui/react';
+
 import CustomPanel from '../../../../../../components/CustomPanel/CustomPanel';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../../models/functions/function-binding';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
+
 import BindingCreator from './BindingCreator';
 import BindingEditor from './BindingEditor';
 

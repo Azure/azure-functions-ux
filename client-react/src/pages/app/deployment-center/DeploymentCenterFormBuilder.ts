@@ -1,13 +1,15 @@
-import { ArmObj } from '../../../models/arm-obj';
-import { PublishingUser } from '../../../models/site/publish';
-import { SiteConfig, BuildProvider, ScmType } from '../../../models/site/config';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
 import i18next from 'i18next';
-import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
+
+import { ArmObj } from '../../../models/arm-obj';
 import { RepoTypeOptions } from '../../../models/external';
-import { CommonConstants } from '../../../utils/CommonConstants';
+import { KeyValue } from '../../../models/portal-models';
+import { BuildProvider, ScmType, SiteConfig } from '../../../models/site/config';
+import { PublishingUser } from '../../../models/site/publish';
 import { PublishingCredentialPolicies } from '../../../models/site/site';
+import { CommonConstants } from '../../../utils/CommonConstants';
+
+import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
 
 export abstract class DeploymentCenterFormBuilder {
   protected _publishingUser: ArmObj<PublishingUser>;

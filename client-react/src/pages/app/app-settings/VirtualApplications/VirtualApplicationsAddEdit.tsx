@@ -1,13 +1,15 @@
-import { Checkbox } from '@fluentui/react';
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ActionBar from '../../../../components/ActionBar';
-import { formElementStyle } from '../AppSettings.styles';
 import { isEqual } from 'lodash-es';
-import StringUtils from '../../../../utils/string';
+
+import { Checkbox } from '@fluentui/react';
+
+import ActionBar from '../../../../components/ActionBar';
+import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { VirtualApplication } from '../../../../models/site/config';
-import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
+import StringUtils from '../../../../utils/string';
+import { formElementStyle } from '../AppSettings.styles';
 
 export interface HandlerMappingAddEditProps {
   updateVirtualApplication: (item: VirtualApplication) => any;

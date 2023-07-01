@@ -1,4 +1,5 @@
 import { NameValuePair } from '../name-value-pair';
+
 import { ApiDefinition } from './api-definition';
 
 export enum ScmType {

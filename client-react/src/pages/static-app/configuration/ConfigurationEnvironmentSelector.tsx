@@ -1,12 +1,15 @@
 import React from 'react';
-import { environmentSelectorStackStyle, environmentSelectorLabelStyle } from './Configuration.styles';
 import { useTranslation } from 'react-i18next';
-import { Stack, Label, IDropdownOption } from '@fluentui/react';
-import { fileSelectorDropdownStyle } from '../../app/functions/function/function-editor/FunctionEditor.styles';
+
+import { IDropdownOption, Label, Stack } from '@fluentui/react';
+
+import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
+import { fileSelectorDropdownStyle } from '../../app/functions/function/function-editor/FunctionEditor.styles';
+
 import ConfigurationData from './Configuration.data';
-import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
+import { environmentSelectorLabelStyle, environmentSelectorStackStyle } from './Configuration.styles';
 
 interface ConfigurationEnvironmentSelectorProps {
   environments: ArmObj<Environment>[];

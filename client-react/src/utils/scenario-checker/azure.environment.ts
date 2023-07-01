@@ -1,9 +1,10 @@
+import ServerFarmService from '../../ApiHelpers/ServerFarmService';
+import { CommonConstants } from '../../utils/CommonConstants';
+import { ArmPlanDescriptor } from '../../utils/resourceDescriptors';
+
+import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
 import { ScenarioIds } from './scenario-ids';
 import { ServerFarmSkuConstants } from './ServerFarmSku';
-import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
-import ServerFarmService from '../../ApiHelpers/ServerFarmService';
-import { ArmPlanDescriptor } from '../../utils/resourceDescriptors';
-import { CommonConstants } from '../../utils/CommonConstants';
 
 export class AzureEnvironment extends Environment {
   public name = 'Azure';

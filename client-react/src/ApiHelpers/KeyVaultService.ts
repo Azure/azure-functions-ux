@@ -1,5 +1,6 @@
-import { ARGRequest, MakeAzureResourceGraphCall } from './ArgHelper';
 import { ArmObj } from '../models/arm-obj';
+
+import { ARGRequest, MakeAzureResourceGraphCall } from './ArgHelper';
 
 export default class KeyVaultService {
   public static fetchKeyVaultReference = (subscriptionId: string, keyVaultUri: string) => {

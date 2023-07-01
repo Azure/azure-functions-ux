@@ -1,5 +1,7 @@
-import { IDetailsRowStyleProps, IDetailsRowStyles, IStyleFunctionOrObject } from '@fluentui/react';
 import { style } from 'typestyle';
+
+import { IDetailsRowStyleProps, IDetailsRowStyles, IStyleFunctionOrObject } from '@fluentui/react';
+
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
 export const containerStyle = style({

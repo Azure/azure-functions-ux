@@ -1,34 +1,37 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { Suspense, useState, useContext, useEffect } from 'react';
+import React, { Suspense, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormikPropsCombined, FormConnectionString } from '../AppSettings.types';
-import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
-import { typeValueToString } from './connectionStringTypes';
-import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
-import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
+
 import {
-  TooltipHost,
-  ICommandBarItemProps,
   ActionButton,
   DetailsListLayoutMode,
-  IColumn,
-  SelectionMode,
-  IDetailsRowStyles,
   DetailsRow,
+  IColumn,
+  ICommandBarItemProps,
   IDetailsListProps,
+  IDetailsRowStyles,
+  SelectionMode,
+  TooltipHost,
 } from '@fluentui/react';
-import { dirtyElementStyle } from '../AppSettings.styles';
-import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import { ThemeContext } from '../../../../ThemeContext';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
-import SettingSourceColumn from '../SettingSourceColumn';
-import { isSettingServiceLinker, isServiceLinkerVisible } from '../AppSettings.utils';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { SearchFilterWithResultAnnouncement } from '../../../../components/form-controls/SearchBox';
+import IconButton from '../../../../components/IconButton/IconButton';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
+import { ThemeContext } from '../../../../ThemeContext';
+import { dirtyElementStyle } from '../AppSettings.styles';
+import { AppSettingsFormikPropsCombined, FormConnectionString } from '../AppSettings.types';
+import { isServiceLinkerVisible, isSettingServiceLinker } from '../AppSettings.utils';
+import { PermissionsContext } from '../Contexts';
+import SettingSourceColumn from '../SettingSourceColumn';
+
+import ConnectionStringsAddEdit from './ConnectionStringsAddEdit';
+import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
+import { typeValueToString } from './connectionStringTypes';
 
 const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);

@@ -1,10 +1,11 @@
 import React from 'react';
-import { FormikProps } from 'formik';
-import { AppSettingsFormValues } from '../AppSettings.types';
 import { useTranslation } from 'react-i18next';
-import DefaultDocuments from '../DefaultDocuments/DefaultDocuments';
-import { style } from 'typestyle';
+import { FormikProps } from 'formik';
 import { isEqual } from 'lodash-es';
+import { style } from 'typestyle';
+
+import { AppSettingsFormValues } from '../AppSettings.types';
+import DefaultDocuments from '../DefaultDocuments/DefaultDocuments';
 const defaultDocumentsWrapper = style({
   width: '565px',
 });

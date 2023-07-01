@@ -1,15 +1,17 @@
 import React, { useContext, useState } from 'react';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { useTranslation } from 'react-i18next';
+
+import { Icon, Link } from '@fluentui/react';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
-import { Link, Icon } from '@fluentui/react';
-import { disconnectLink } from '../DeploymentCenter.styles';
 import { PortalContext } from '../../../../PortalContext';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { disconnectLink } from '../DeploymentCenter.styles';
+import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {

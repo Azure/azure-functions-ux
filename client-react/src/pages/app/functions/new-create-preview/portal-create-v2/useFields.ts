@@ -1,6 +1,8 @@
-import { IDropdownOption } from '@fluentui/react';
 import { useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { IDropdownOption } from '@fluentui/react';
+
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../../components/form-controls/TextField';
@@ -10,6 +12,7 @@ import { UserPrompt } from '../../../../../models/functions/user-prompt';
 import { horizontalLabelStyle } from '../../common/BindingFormBuilder.styles';
 import ResourceDropdown from '../../common/ResourceDropdown';
 import { useFunctionsQuery } from '../../function/hooks/useFunctionsQuery';
+
 import ExistingFileDropdown from './ExistingFileDropdown';
 import { FieldProps } from './FieldProps';
 import { getJobInputs } from './Helpers';

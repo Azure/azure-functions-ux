@@ -1,16 +1,18 @@
 import React, { useContext } from 'react';
-import { FormikProps } from 'formik';
-import { AppSettingsFormValues } from '../AppSettings.types';
 import { useTranslation } from 'react-i18next';
-import HandlerMappings from '../HandlerMappings/HandlerMappings';
-import VirtualApplications from '../VirtualApplications/VirtualApplications';
+import { FormikProps } from 'formik';
 import { isEqual } from 'lodash-es';
-import AzureStorageMounts from '../AzureStorageMounts/AzureStorageMounts';
-import { PermissionsContext } from '../Contexts';
-import { MessageBarType, Link } from '@fluentui/react';
+
+import { Link, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { Links } from '../../../../utils/FwLinks';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import AzureStorageMounts from '../AzureStorageMounts/AzureStorageMounts';
+import { PermissionsContext } from '../Contexts';
+import HandlerMappings from '../HandlerMappings/HandlerMappings';
+import VirtualApplications from '../VirtualApplications/VirtualApplications';
 
 interface PathMappingsPivotProps {
   enablePathMappings: boolean;

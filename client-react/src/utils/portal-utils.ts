@@ -1,5 +1,6 @@
 import { getErrorMessageOrStringify } from '../ApiHelpers/ArmHelper';
 import { DataMessageStatus, IDataMessageResult } from '../models/portal-models';
+
 import LogService from './LogService';
 
 export function isPortalCommunicationStatusSuccess(status: DataMessageStatus) {

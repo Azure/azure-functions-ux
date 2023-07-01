@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps, SettingOption } from '../DeploymentCenter.types';
-import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import TextField from '../../../../components/form-controls/TextField';
-import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
-import ComboBox from '../../../../components/form-controls/ComboBox';
-import { ScmType } from '../../../../models/site/config';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { Field } from 'formik';
+
 import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import ComboBox from '../../../../components/form-controls/ComboBox';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import TextField from '../../../../components/form-controls/TextField';
+import { ScmType } from '../../../../models/site/config';
 import { addIdentityLinkStyle, deploymentCenterAcrBannerDiv, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps, SettingOption } from '../DeploymentCenter.types';
+
+import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {

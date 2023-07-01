@@ -1,9 +1,10 @@
 import MakeArmCall from '../ApiHelpers/ArmHelper';
-import { QuotaSettings, QuotaScope } from '../models/quotaSettings';
+import { QuotaScope, QuotaSettings } from '../models/quotaSettings';
+import { ComputeMode } from '../models/site/compute-mode';
+import { CommonConstants } from '../utils/CommonConstants';
+
 import { LogCategories } from './LogCategories';
 import LogService from './LogService';
-import { CommonConstants } from '../utils/CommonConstants';
-import { ComputeMode } from '../models/site/compute-mode';
 
 export class QuotaService {
   private static readonly _site = 'site';

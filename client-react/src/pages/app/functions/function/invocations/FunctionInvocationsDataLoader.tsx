@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import FunctionInvocationsData from './FunctionInvocations.data';
-import FunctionInvocations from './FunctionInvocations';
+
 import {
-  AppInsightsMonthlySummary,
   AppInsightsInvocationTrace,
   AppInsightsInvocationTraceDetail,
+  AppInsightsMonthlySummary,
 } from '../../../../../models/app-insights';
+
+import FunctionInvocations from './FunctionInvocations';
+import FunctionInvocationsData from './FunctionInvocations.data';
 
 const invocationsData = new FunctionInvocationsData();
 export const FunctionInvocationsContext = React.createContext(invocationsData);

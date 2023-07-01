@@ -1,6 +1,9 @@
 import { FC } from 'react';
-import { TooltipHost, Icon, registerIcons } from '@fluentui/react';
+
+import { Icon, registerIcons, TooltipHost } from '@fluentui/react';
+
 import { ReactComponent as UpsellIconSvg } from '../../upsell.svg';
+
 import { upsellIconStyle } from './Icon.styles';
 registerIcons({
   icons: {

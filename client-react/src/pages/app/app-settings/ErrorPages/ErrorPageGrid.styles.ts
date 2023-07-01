@@ -1,5 +1,7 @@
-import { mergeStyleSets, FontWeights, IIconProps } from '@fluentui/react';
 import { style } from 'typestyle';
+
+import { FontWeights, IIconProps, mergeStyleSets } from '@fluentui/react';
+
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
 
 export const stackTokens = { childrenGap: 5 };

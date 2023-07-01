@@ -1,26 +1,29 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { addEditFormStyle } from '../../../../../../components/form-controls/formControl.override.styles';
-import ActionBar, { StatusMessage } from '../../../../../../components/ActionBar';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FunctionTestInput from './FunctionTestInput';
-import FunctionTestOutput from './FunctionTestOutput';
-import { InputFormValues, HttpMethods, ResponseContent, PivotType, UrlObj, urlParameterRegExp } from '../FunctionEditor.types';
-import { Form, FormikProps, Formik, FormikActions } from 'formik';
+import { Form, Formik, FormikActions, FormikProps } from 'formik';
+
+import { MessageBarType, Pivot, PivotItem } from '@fluentui/react';
+
+import ActionBar, { StatusMessage } from '../../../../../../components/ActionBar';
+import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
+import { addEditFormStyle } from '../../../../../../components/form-controls/formControl.override.styles';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
-import { functionTestBodyStyle } from './FunctionTest.styles';
-import { MessageBarType, Pivot, PivotItem } from '@fluentui/react';
-import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
-import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
-import { Links } from '../../../../../../utils/FwLinks';
-import { FunctionEditorContext } from '../FunctionEditorDataLoader';
-import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
-import Url from '../../../../../../utils/url';
 import { PortalContext } from '../../../../../../PortalContext';
-import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 import { BindingManager } from '../../../../../../utils/BindingManager';
+import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
+import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
+import { Links } from '../../../../../../utils/FwLinks';
 import StringUtils from '../../../../../../utils/string';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
+import Url from '../../../../../../utils/url';
 import { AppKeysInfo } from '../../../app-keys/AppKeys.types';
+import { HttpMethods, InputFormValues, PivotType, ResponseContent, UrlObj, urlParameterRegExp } from '../FunctionEditor.types';
+import { FunctionEditorContext } from '../FunctionEditorDataLoader';
+
+import { functionTestBodyStyle } from './FunctionTest.styles';
+import FunctionTestInput from './FunctionTestInput';
+import FunctionTestOutput from './FunctionTestOutput';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;

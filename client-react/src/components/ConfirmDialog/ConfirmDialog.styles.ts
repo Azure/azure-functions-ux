@@ -1,5 +1,6 @@
-import { IDialogContentStyles, IDialogFooterStyles, IModalStyles } from '@fluentui/react';
 import { style } from 'typestyle';
+
+import { IDialogContentStyles, IDialogFooterStyles, IModalStyles } from '@fluentui/react';
 
 export const modalStyles: Pick<IModalStyles, 'main'> = {
   main: {

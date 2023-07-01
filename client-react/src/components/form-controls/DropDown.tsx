@@ -1,12 +1,15 @@
+import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
+import { style } from 'typestyle';
+
 import { IDropdownOption, IDropdownProps, ResponsiveMode } from '@fluentui/react';
+import { Spinner, SpinnerSize } from '@fluentui/react';
+
+import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
+
 import DropdownNoFormik from './DropDownnoFormik';
 import { Layout } from './ReactiveFormControl';
-import { Spinner, SpinnerSize } from '@fluentui/react';
-import { style } from 'typestyle';
-import { useTranslation } from 'react-i18next';
-import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 
 export interface CustomDropdownProps {
   id: string;

@@ -1,11 +1,14 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { PrimaryButton } from '@fluentui/react';
+
 import FeatureDescriptionCard from '../../../../../components/feature-description-card/FeatureDescriptionCard';
 import { ReactComponent as AppInsightsSvg } from '../../../../../images/Common/AppInsights.svg';
-import { paddingStyle, bottomButtonStyle } from './FunctionMonitor.styles';
-import { PrimaryButton } from '@fluentui/react';
 import { PortalContext } from '../../../../../PortalContext';
 import { SiteStateContext } from '../../../../../SiteState';
+
+import { bottomButtonStyle, paddingStyle } from './FunctionMonitor.styles';
 
 interface AppInsightsSetupProps {
   siteId: string;
@@ -30,7 +33,7 @@ const AppInsightsSetup: React.FC<AppInsightsSetupProps> = props => {
         resourceUri: siteId,
         os: os,
         linuxFxVersion: linuxFxVersion,
-        windowsFxVersion: winFxVersion
+        windowsFxVersion: winFxVersion,
       },
     });
     fetchNewAppInsightsComponent();

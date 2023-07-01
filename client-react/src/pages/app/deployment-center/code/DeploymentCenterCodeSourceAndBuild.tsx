@@ -1,30 +1,33 @@
-import React, { useContext, useState, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from '@fluentui/react';
-import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { Field } from 'formik';
+
+import { DropdownMenuItemType, IDropdownOption, Link, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { BuildProvider, ScmType } from '../../../../models/site/config';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { deploymentCenterInfoBannerDiv, additionalTextFieldControl } from '../DeploymentCenter.styles';
+import { Guid } from '../../../../utils/Guid';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { additionalTextFieldControl, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import {
-  DeploymentCenterFieldProps,
-  DeploymentCenterCodeFormData,
   BuildChoiceGroupOption,
+  DeploymentCenterCodeFormData,
+  DeploymentCenterFieldProps,
   RuntimeStackOptions,
   RuntimeStackSetting,
 } from '../DeploymentCenter.types';
-import { Guid } from '../../../../utils/Guid';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout';
-import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { SiteStateContext } from '../../../../SiteState';
-import { PortalContext } from '../../../../PortalContext';
-import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterCodeBuildCallout from './DeploymentCenterCodeBuildCallout';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;

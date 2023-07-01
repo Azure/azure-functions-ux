@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import ActionBar from '../../../../components/ActionBar';
-import { formElementStyle } from '../AppSettings.styles';
+import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { HandlerMapping } from '../../../../models/site/config';
-import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { formElementStyle } from '../AppSettings.styles';
 
 export interface HandlerMappingAddEditProps {
   updateHandlerMapping: (item: HandlerMapping) => any;

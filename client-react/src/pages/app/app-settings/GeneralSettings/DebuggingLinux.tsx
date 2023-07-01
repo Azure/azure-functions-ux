@@ -1,12 +1,13 @@
-import { Field, FormikProps } from 'formik';
-import React, { useContext, useState, useEffect, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field, FormikProps } from 'formik';
+
 import RadioButton from '../../../../components/form-controls/RadioButton';
+import { Links } from '../../../../utils/FwLinks';
+import SiteHelper from '../../../../utils/SiteHelper';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { settingsWrapper } from '../AppSettingsForm';
 import { PermissionsContext, WebAppStacksContext } from '../Contexts';
-import SiteHelper from '../../../../utils/SiteHelper';
-import { Links } from '../../../../utils/FwLinks';
 
 const DebuggingLinux: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();

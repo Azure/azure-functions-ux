@@ -1,6 +1,7 @@
 import { ArmObj } from '../models/arm-obj';
-import { Site, HostType } from '../models/site/site';
 import { KeyValue } from '../models/portal-models';
+import { HostType, Site } from '../models/site/site';
+
 import { NationalCloudEnvironment } from './scenario-checker/national-cloud.environment';
 import { CommonConstants } from './CommonConstants';
 

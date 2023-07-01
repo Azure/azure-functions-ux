@@ -1,14 +1,17 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
-import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
+
 import { ChoiceGroup, IChoiceGroupOption } from '@fluentui/react';
-import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
-import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
-import { getLogTextColor } from './LogStreamData';
-import { ChoiceGroupStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
+
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
+import { ChoiceGroupStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/ChoiceGroup.styles';
+import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
+
+import { LogEntry, LogsEnabled, LogType } from './LogStream.types';
+import { getLogTextColor } from './LogStreamData';
 
 interface LogStreamLogContainerProps {
   clearLogs: boolean;

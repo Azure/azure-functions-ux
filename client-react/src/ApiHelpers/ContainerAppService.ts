@@ -1,7 +1,8 @@
-import MakeArmCall from './ArmHelper';
 import { ArmObj } from '../models/arm-obj';
-import { CommonConstants } from '../utils/CommonConstants';
 import { AuthTokenInfo } from '../models/container-app';
+import { CommonConstants } from '../utils/CommonConstants';
+
+import MakeArmCall from './ArmHelper';
 
 export default class ContainerAppService {
   public static getAuthToken = (resourceId: string) => {

@@ -1,19 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { Field } from 'formik';
-import TextField from '../../../../components/form-controls/TextField';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
 import { IChoiceGroupOptionProps } from '@fluentui/react';
-import {
-  ContainerDockerAccessTypes,
-  DeploymentCenterFieldProps,
-  DeploymentCenterContainerFormData,
-  ContainerOptions,
-} from '../DeploymentCenter.types';
+
 import Dropdown from '../../../../components/form-controls/DropDown';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import TextField from '../../../../components/form-controls/TextField';
 import { ScmType } from '../../../../models/site/config';
 import { SiteStateContext } from '../../../../SiteState';
+import {
+  ContainerDockerAccessTypes,
+  ContainerOptions,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterFieldProps,
+} from '../DeploymentCenter.types';
+
 import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 
 const DeploymentCenterContainerDockerHubSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;

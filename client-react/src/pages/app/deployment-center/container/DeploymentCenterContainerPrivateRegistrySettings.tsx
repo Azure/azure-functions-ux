@@ -1,12 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Field } from 'formik';
-import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import TextField from '../../../../components/form-controls/TextField';
+import { ScmType } from '../../../../models/site/config';
 import { SiteStateContext } from '../../../../SiteState';
 import { ContainerOptions, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+
 import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterContainerComposeFileUploader';
-import { ScmType } from '../../../../models/site/config';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 
 const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;

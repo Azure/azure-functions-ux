@@ -1,15 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { MessageBar, MessageBarType } from '@fluentui/react';
+
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import { SiteRouterContext } from '../../SiteRouter';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
-import FunctionQuickstartData from './FunctionQuickstart.data';
-import FunctionQuickstart from './FunctionQuickstart';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import { MessageBar, MessageBarType } from '@fluentui/react';
-import { messageBannerStyle } from '../../app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
-import { useTranslation } from 'react-i18next';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { messageBannerStyle } from '../../app-settings/AppSettings.styles';
+import { SiteRouterContext } from '../../SiteRouter';
+
+import FunctionQuickstart from './FunctionQuickstart';
+import FunctionQuickstartData from './FunctionQuickstart.data';
 
 const quickstartData = new FunctionQuickstartData();
 export const FunctionQuickstartContext = React.createContext(quickstartData);

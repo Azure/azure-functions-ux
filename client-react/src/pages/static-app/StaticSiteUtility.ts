@@ -2,6 +2,7 @@ import { ArmObj } from '../../models/arm-obj';
 import { KeyValue } from '../../models/portal-models';
 import { Environment } from '../../models/static-site/environment';
 import { LogLevel, TelemetryInfo } from '../../models/telemetry';
+
 import { PasswordProtectionTypes } from './configuration/Configuration.types';
 
 export const getTelemetryInfo = (

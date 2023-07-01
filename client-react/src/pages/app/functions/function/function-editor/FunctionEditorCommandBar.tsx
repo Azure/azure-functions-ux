@@ -1,15 +1,18 @@
-import { CommandBar, ICommandBarItemProps, IContextualMenuRenderItem, TooltipHost } from '@fluentui/react';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PortalContext } from '../../../../../PortalContext';
-import { SiteStateContext } from '../../../../../SiteState';
+
+import { CommandBar, ICommandBarItemProps, IContextualMenuRenderItem, TooltipHost } from '@fluentui/react';
+
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
+import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
 import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import Url from '../../../../../utils/url';
+
 import { toolTipStyle } from './FunctionEditor.styles';
 import { UrlObj, UrlType } from './FunctionEditor.types';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+
 import { ReactComponent as WarningSvg } from '../../../../../../images/Common/Warning.svg';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
 import { BindingInfo } from '../../../../../../models/functions/function-binding';
@@ -7,6 +8,7 @@ import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { getBindingDirection } from '../FunctionIntegrate.utils';
+
 import BindingCard, { BindingCardChildProps } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
 

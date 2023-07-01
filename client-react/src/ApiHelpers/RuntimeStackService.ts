@@ -1,13 +1,14 @@
-import { CommonConstants } from '../utils/CommonConstants';
-import Url from '../utils/url';
-import { WebAppStack } from '../models/stacks/web-app-stacks';
-import { FunctionAppStack } from '../models/stacks/function-app-stacks';
-import { AppStackOs } from '../models/stacks/app-stacks';
-import MakeArmCall from './ArmHelper';
-import { ArmArray, ArmObj } from '../models/arm-obj';
-import { sendHttpRequest } from './HttpClient';
 import { HttpResponseObject } from '../ArmHelper.types';
+import { ArmArray, ArmObj } from '../models/arm-obj';
+import { AppStackOs } from '../models/stacks/app-stacks';
+import { FunctionAppStack } from '../models/stacks/function-app-stacks';
+import { WebAppStack } from '../models/stacks/web-app-stacks';
+import { CommonConstants } from '../utils/CommonConstants';
 import { NationalCloudEnvironment } from '../utils/scenario-checker/national-cloud.environment';
+import Url from '../utils/url';
+
+import MakeArmCall from './ArmHelper';
+import { sendHttpRequest } from './HttpClient';
 
 export default class RuntimeStackService {
   public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {

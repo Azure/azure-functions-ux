@@ -1,23 +1,24 @@
+import * as yamlLint from 'yaml-lint';
+import * as Yup from 'yup';
+
 import { ScmType } from '../../../../models/site/config';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import {
-  DeploymentCenterFormData,
+  ACRCredentialType,
+  AcrFormData,
+  ContainerDockerAccessTypes,
   ContainerOptions,
   ContainerRegistrySources,
-  ContainerDockerAccessTypes,
-  DeploymentCenterYupValidationSchemaType,
   DeploymentCenterContainerFormData,
-  SettingOption,
-  AcrFormData,
+  DeploymentCenterFormData,
+  DeploymentCenterYupValidationSchemaType,
   DockerHubFormData,
-  PrivateRegistryFormData,
-  ACRCredentialType,
   ManagedIdentityType,
+  PrivateRegistryFormData,
+  SettingOption,
 } from '../DeploymentCenter.types';
-import * as Yup from 'yup';
-import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import * as yamlLint from 'yaml-lint';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 
 interface YamlValidationResult {
   valid: boolean;

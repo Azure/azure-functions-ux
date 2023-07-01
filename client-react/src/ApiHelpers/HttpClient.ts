@@ -1,8 +1,10 @@
-import { HttpResponseObject } from './../ArmHelper.types';
 import axios, { AxiosRequestConfig } from 'axios';
-import { Guid } from '../utils/Guid';
+
 import { KeyValue } from '../models/portal-models';
+import { Guid } from '../utils/Guid';
 import Url from '../utils/url';
+
+import { HttpResponseObject } from './../ArmHelper.types';
 
 export class WellKnownHeaders {
   static readonly REQUEST_ID = 'x-ms-client-request-id';

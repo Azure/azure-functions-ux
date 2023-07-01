@@ -1,11 +1,14 @@
 import React, { useContext } from 'react';
-import { PortalContext } from '../../../../../PortalContext';
-import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
-import { AppInsightsInvocationTraceDetail, AppInsightsInvocationTrace } from '../../../../../models/app-insights';
-import { invocationsTabStyle } from './FunctionInvocations.style';
-import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+
+import { DetailsListLayoutMode, IColumn, ICommandBarItemProps, SelectionMode } from '@fluentui/react';
+
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { AppInsightsInvocationTrace, AppInsightsInvocationTraceDetail } from '../../../../../models/app-insights';
+import { PortalContext } from '../../../../../PortalContext';
+
+import { invocationsTabStyle } from './FunctionInvocations.style';
+import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 
 export interface FunctionInvocationDetailsProps {
   appInsightsResourceId: string;

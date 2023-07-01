@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import { DeploymentCenterOneDriveProviderProps } from '../DeploymentCenter.types';
-import DeploymentCenterOneDriveAccount from './DeploymentCenterOneDriveAccount';
-import { Field } from 'formik';
-import Dropdown from '../../../../components/form-controls/DropDown';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
+import Dropdown from '../../../../components/form-controls/DropDown';
 import { SiteStateContext } from '../../../../SiteState';
+import { DeploymentCenterOneDriveProviderProps } from '../DeploymentCenter.types';
+
+import DeploymentCenterOneDriveAccount from './DeploymentCenterOneDriveAccount';
 
 const DeploymentCenterOneDriveProvider: React.FC<DeploymentCenterOneDriveProviderProps> = props => {
   const { formProps, accountUser, folderOptions, loadingFolders } = props;

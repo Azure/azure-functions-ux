@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { logStyle } from './../../FunctionMonitor.styles';
-import { isKubeApp, isLinuxDynamic } from '../../../../../../../utils/arm-utils';
-import { LoggingOptions } from '../../../function-editor/FunctionEditor.types';
+import React, { useContext, useEffect, useState } from 'react';
+
 import LoadingComponent from '../../../../../../../components/Loading/LoadingComponent';
-import FunctionLogFileStreamDataLoader from '../../../function-log/FunctionLogFileStreamDataLoader';
-import FunctionLogAppInsightsDataLoader from '../../../function-log/FunctionLogAppInsightsDataLoader';
 import { SiteStateContext } from '../../../../../../../SiteState';
+import { isKubeApp, isLinuxDynamic } from '../../../../../../../utils/arm-utils';
 import { ArmFunctionDescriptor } from '../../../../../../../utils/resourceDescriptors';
+import { LoggingOptions } from '../../../function-editor/FunctionEditor.types';
+import FunctionLogAppInsightsDataLoader from '../../../function-log/FunctionLogAppInsightsDataLoader';
+import FunctionLogFileStreamDataLoader from '../../../function-log/FunctionLogFileStreamDataLoader';
+
+import { logStyle } from './../../FunctionMonitor.styles';
 
 interface FunctionLogsDataLoaderProps {
   resourceId: string;

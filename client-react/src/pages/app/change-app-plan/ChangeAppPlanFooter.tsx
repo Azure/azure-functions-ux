@@ -1,7 +1,10 @@
-import { PrimaryButton } from '@fluentui/react';
 import { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { PrimaryButton } from '@fluentui/react';
+
 import { ThemeContext } from '../../../ThemeContext';
+
 import { buttonFooterStyle, buttonPadding } from './ChangeAppPlan.styles';
 import { ChangeAppPlanFooterProps } from './ChangeAppPlan.types';
 

@@ -1,29 +1,31 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterData from '../DeploymentCenter.data';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { ChoiceGroup, Icon, Link, PanelType, ProgressIndicator } from '@fluentui/react';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import ActionBar from '../../../../components/ActionBar';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterData from '../DeploymentCenter.data';
 import { choiceGroupSubLabel, disconnectLink, disconnectWorkflowInfoStyle } from '../DeploymentCenter.styles';
-import { Link, Icon, PanelType, ChoiceGroup, ProgressIndicator } from '@fluentui/react';
 import {
+  DeployDisconnectStep,
   DeploymentCenterGitHubDisconnectProps,
   DeploymentDisconnectStatus,
-  DeployDisconnectStep,
-  WorkflowFileDeleteOptions,
   WorkflowChoiceGroupOption,
+  WorkflowFileDeleteOptions,
 } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import {
+  getSourceControlsWorkflowFileName,
+  getSourceControlsWorkflowFilePath,
+  getTelemetryInfo,
   getWorkflowFileName,
   getWorkflowFilePath,
-  getSourceControlsWorkflowFilePath,
-  getSourceControlsWorkflowFileName,
-  getTelemetryInfo,
 } from '../utility/DeploymentCenterUtility';
-import { PortalContext } from '../../../../PortalContext';
-import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import ActionBar from '../../../../components/ActionBar';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { SiteStateContext } from '../../../../SiteState';
 import { clearGitHubActionSourceControlPropertiesManually } from '../utility/GitHubActionUtility';
 
 const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnectProps> = props => {

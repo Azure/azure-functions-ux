@@ -1,20 +1,22 @@
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+
 import AppKeyService from '../../../../../ApiHelpers/AppKeysService';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import SiteService from '../../../../../ApiHelpers/SiteService';
-import { PortalContext } from '../../../../../PortalContext';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { Host } from '../../../../../models/functions/host';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { SiteConfig } from '../../../../../models/site/config';
 import { Site } from '../../../../../models/site/site';
+import { PortalContext } from '../../../../../PortalContext';
 import { CommonConstants, ExperimentationConstants, WorkerRuntimeLanguages } from '../../../../../utils/CommonConstants';
-import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import StringUtils from '../../../../../utils/string';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { SiteRouterContext } from '../../../SiteRouter';
 import { AppKeysInfo } from '../../app-keys/AppKeys.types';
+
 import FunctionEditorData from './FunctionEditor.data';
 
 export type Status = 'idle' | 'loading' | 'success' | 'error' | 'unauthorized';

@@ -1,6 +1,6 @@
 import { ArmObj } from '../../models/arm-obj';
-import { Site } from '../../models/site/site';
 import { ServerFarm } from '../../models/serverFarm/serverfarm';
+import { Site } from '../../models/site/site';
 
 export interface ScenarioCheckInput {
   site?: ArmObj<Site>;

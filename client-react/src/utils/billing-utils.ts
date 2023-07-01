@@ -1,4 +1,5 @@
 import { ISubscription } from '../models/subscription';
+
 import { SubscriptionQuotaIds } from './CommonConstants';
 
 export const isQuotaIdPresent = (subscription: ISubscription, quotaId: string): boolean => {

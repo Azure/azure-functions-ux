@@ -1,27 +1,30 @@
-import { FormikProps } from 'formik';
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
-import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues } from '../AppSettings.types';
-import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
-import { PermissionsContext } from '../Contexts';
-import { VirtualApplication } from '../../../../models/site/config';
+import { FormikProps } from 'formik';
+
 import {
-  TooltipHost,
-  ICommandBarItemProps,
-  PanelType,
   DetailsListLayoutMode,
-  IColumn,
-  SelectionMode,
-  IDetailsRowStyles,
   DetailsRow,
+  IColumn,
+  ICommandBarItemProps,
   IDetailsListProps,
+  IDetailsRowStyles,
+  PanelType,
+  SelectionMode,
+  TooltipHost,
 } from '@fluentui/react';
+
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import IconButton from '../../../../components/IconButton/IconButton';
+import { VirtualApplication } from '../../../../models/site/config';
 import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import { PermissionsContext } from '../Contexts';
+
+import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 
 export interface VirtualApplicationsState {
   showPanel: boolean;

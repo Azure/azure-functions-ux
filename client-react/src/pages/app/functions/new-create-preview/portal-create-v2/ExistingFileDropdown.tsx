@@ -1,11 +1,14 @@
-import { IDropdownOption } from '@fluentui/react';
-import { Field } from 'formik';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
+import { IDropdownOption } from '@fluentui/react';
+
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../components/form-controls/ReactiveFormControl';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { horizontalLabelStyle } from '../../common/BindingFormBuilder.styles';
+
 import { useFiles } from './useFiles';
 
 interface ExistingFileDropdownProps {

@@ -1,17 +1,19 @@
-import { Field } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
 import Dropdown from '../../../../../components/form-controls/DropDown';
-import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 import {
+  checkAndGetStackEOLOrDeprecatedBanner,
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
-  checkAndGetStackEOLOrDeprecatedBanner,
   getStacksSummaryForDropdown,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
 } from '../../../../../utils/stacks-utils';
-import { AppStackOs } from '../../../../../models/stacks/app-stacks';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+
 import { StackProps } from './WindowsStacks';
 
 const PhpStack: React.SFC<StackProps> = props => {

@@ -1,9 +1,11 @@
-import { FormikProps } from 'formik';
 import React from 'react';
-import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import { AppSettingsFormValues } from '../AppSettings.types';
 import { useTranslation } from 'react-i18next';
+import { FormikProps } from 'formik';
+
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { AppSettingsFormValues } from '../AppSettings.types';
+
 import FunctionAppStackSettings from './stacks/function-app/FunctionAppStackSettings';
 import WebAppStackSettings from './stacks/web-app/WebAppStackSettings';
 

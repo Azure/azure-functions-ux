@@ -1,12 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
-import { PrimaryButton, Label, Link, TooltipHost, IconButton } from '@fluentui/react';
+
+import { IconButton, Label, Link, PrimaryButton, TooltipHost } from '@fluentui/react';
+
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
-import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { additionalTextFieldControl, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
+import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const { accountUser, accountStatusMessage, authorizeAccount, isGitHubActions } = props;

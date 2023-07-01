@@ -1,36 +1,39 @@
-import React, { useState, useContext, useEffect } from 'react';
-import DeploymentCenterContainerSource from './DeploymentCenterContainerSource';
-import {
-  ContainerRegistrySources,
-  DeploymentCenterFieldProps,
-  DeploymentCenterContainerFormData,
-  WorkflowOption,
-  AppType,
-  PublishType,
-} from '../DeploymentCenter.types';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { ProgressIndicator } from '@fluentui/react';
+
 import { ScmType } from '../../../../models/site/config';
-import DeploymentCenterContainerRegistrySettings from './DeploymentCenterContainerRegistrySettings';
+import { AppOs } from '../../../../models/site/site';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { Guid } from '../../../../utils/Guid';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import {
+  AppType,
+  ContainerRegistrySources,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterFieldProps,
+  PublishType,
+  WorkflowOption,
+} from '../DeploymentCenter.types';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
+import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
+import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
+import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
+import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/DeploymentCenterGitHubWorkflowConfigSelector';
+import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterContainerAcrDataLoader from './DeploymentCenterContainerAcrDataLoader';
+import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
 import DeploymentCenterContainerDockerHubSettings from './DeploymentCenterContainerDockerHubSettings';
 import DeploymentCenterContainerPrivateRegistrySettings from './DeploymentCenterContainerPrivateRegistrySettings';
-import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
-import DeploymentCenterContainerAcrDataLoader from './DeploymentCenterContainerAcrDataLoader';
-import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/DeploymentCenterGitHubWorkflowConfigSelector';
-import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { useTranslation } from 'react-i18next';
-import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
-import { Guid } from '../../../../utils/Guid';
-import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
-import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
+import DeploymentCenterContainerRegistrySettings from './DeploymentCenterContainerRegistrySettings';
 import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterContainerSettingsReadOnlyView';
-import { SiteStateContext } from '../../../../SiteState';
-import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
-import { ProgressIndicator } from '@fluentui/react';
-import { AppOs } from '../../../../models/site/site';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { PortalContext } from '../../../../PortalContext';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import DeploymentCenterContainerSource from './DeploymentCenterContainerSource';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps, isDataRefreshing } = props;

@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import IconButton from '../../../../../components/IconButton/IconButton';
-import { TextField, ActionButton } from '@fluentui/react';
+
+import { ActionButton, TextField } from '@fluentui/react';
+
 import ActionBar from '../../../../../components/ActionBar';
-import { newButtonOfficeFabricStyle, textBoxListStyle, textBoxInListStyle, textBoxInListDeleteButtonStyle } from '../../AppSettings.styles';
+import IconButton from '../../../../../components/IconButton/IconButton';
+import { newButtonOfficeFabricStyle, textBoxInListDeleteButtonStyle, textBoxInListStyle, textBoxListStyle } from '../../AppSettings.styles';
 
 interface Props {
   clientExclusionPaths: string;

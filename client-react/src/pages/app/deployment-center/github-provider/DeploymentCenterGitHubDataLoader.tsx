@@ -1,17 +1,20 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
-import { GitHubUser } from '../../../../models/github';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import GitHubService from '../../../../ApiHelpers/GitHubService';
-import { DeploymentCenterFieldProps, AuthorizationResult, SearchTermObserverInfo } from '../DeploymentCenter.types';
-import { IDropdownOption } from '@fluentui/react';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { PortalContext } from '../../../../PortalContext';
-import { KeyValue } from '../../../../models/portal-models';
 import { Subject } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
+
+import { IDropdownOption } from '@fluentui/react';
+
+import GitHubService from '../../../../ApiHelpers/GitHubService';
+import { GitHubUser } from '../../../../models/github';
+import { KeyValue } from '../../../../models/portal-models';
+import { PortalContext } from '../../../../PortalContext';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { AuthorizationResult, DeploymentCenterFieldProps, SearchTermObserverInfo } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterGitHubProvider from './DeploymentCenterGitHubProvider';
 
 const searchTermObserver = new Subject<SearchTermObserverInfo>();
 searchTermObserver

@@ -1,22 +1,28 @@
-import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react';
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import React, { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
 import moment from 'moment';
+
+import { IColumn, Icon, IGroup, Link, PanelType, PrimaryButton, ProgressIndicator, Selection, SelectionMode } from '@fluentui/react';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
+import { ArmObj } from '../../../../models/arm-obj';
+import { ScmType } from '../../../../models/site/config';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { deploymentCenterCodeLogsBox, deploymentCenterCodeLogsNotConfigured, deploymentCenterLogsError } from '../DeploymentCenter.styles';
 import {
   DeploymentCenterCodeLogsProps,
-  DeploymentStatus,
   DeploymentProperties,
-  GitHubActionsCodeDeploymentsRow,
+  DeploymentStatus,
   GitHubActionRunConclusion,
+  GitHubActionsCodeDeploymentsRow,
   GitHubActionsRun,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, Icon, IGroup, Selection, SelectionMode } from '@fluentui/react';
-import { useTranslation } from 'react-i18next';
-import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured, deploymentCenterCodeLogsBox } from '../DeploymentCenter.styles';
-import { ArmObj } from '../../../../models/arm-obj';
-import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
-import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
-import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import {
   deleteDeploymentCenterLogs,
@@ -24,13 +30,10 @@ import {
   getTelemetryInfo,
   getWorkflowFileName,
 } from '../utility/DeploymentCenterUtility';
-import { SiteStateContext } from '../../../../SiteState';
-import DeploymentCenterData from '../DeploymentCenter.data';
+
 import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
-import { PortalContext } from '../../../../PortalContext';
 import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 
 const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;

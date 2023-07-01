@@ -1,14 +1,17 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { ActionButton, CommandBar, IButtonProps, ICommandBarItemProps, IContextualMenuItem } from '@fluentui/react';
+
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
-import { logCommandBarStyle, getCommandBarStyle, logFilterItemStyle } from './FunctionLog.styles';
 import { PortalContext } from '../../../../../PortalContext';
 import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
-import { LogLevel } from './FunctionLog.types';
-import { LoggingOptions } from '../function-editor/FunctionEditor.types';
-import FunctionLogOptionsCallout from './FunctionLogOptionsCallout';
-import { IContextualMenuItem, ActionButton, IButtonProps, CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { getTelemetryInfo } from '../../common/FunctionsUtility';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+
+import { getCommandBarStyle, logCommandBarStyle, logFilterItemStyle } from './FunctionLog.styles';
+import { LogLevel } from './FunctionLog.types';
+import FunctionLogOptionsCallout from './FunctionLogOptionsCallout';
 
 interface FunctionLogCommandBarProps {
   isPanelVisible: boolean;

@@ -1,12 +1,15 @@
 import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
-import { PortalContext } from '../../../PortalContext';
+
+import { CommandBar, IButtonProps, ICommandBarItemProps } from '@fluentui/react';
+
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
-import { IButtonProps, CommandBar, ICommandBarItemProps } from '@fluentui/react';
+import { PortalContext } from '../../../PortalContext';
+import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import StringUtils from '../../../utils/string';
-import { isServiceLinkerVisible } from './AppSettings.utils';
+
 import { ServiceLinkerProps } from './AppSettings.types';
+import { isServiceLinkerVisible } from './AppSettings.utils';
 
 interface AppSettingsCommandBarProps {
   onSave: () => void;

@@ -1,14 +1,15 @@
+import MakeArmCall from '../../../ApiHelpers/ArmHelper';
+import FunctionsService from '../../../ApiHelpers/FunctionsService';
 import SiteService from '../../../ApiHelpers/SiteService';
 import StorageService from '../../../ApiHelpers/StorageService';
-import RbacConstants from '../../../utils/rbac-constants';
-import { ArmObj } from '../../../models/arm-obj';
-import { Site } from '../../../models/site/site';
-import { SiteConfig, Reference } from '../../../models/site/config';
-import { SlotConfigNames } from '../../../models/site/slot-config-names';
-import MakeArmCall from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
+import { ArmObj } from '../../../models/arm-obj';
+import { Reference, SiteConfig } from '../../../models/site/config';
+import { Site } from '../../../models/site/site';
+import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import PortalCommunicator from '../../../portal-communicator';
-import FunctionsService from '../../../ApiHelpers/FunctionsService';
+import RbacConstants from '../../../utils/rbac-constants';
+
 import { ConfigReferenceList } from './AppSettings.types';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {

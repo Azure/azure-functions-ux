@@ -1,16 +1,30 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Link } from '@fluentui/react';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { ArmArray } from '../../../../models/arm-obj';
+import { KeyValue } from '../../../../models/portal-models';
+import { AppStackOs } from '../../../../models/stacks/app-stacks';
+import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks/function-app-stacks';
+import { JavaContainers as JavaContainersInterface, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import { RuntimeStacks } from '../../../../utils/stacks-utils';
+import { AppSettingsTabs } from '../../app-settings/AppSettings.types';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
 import {
-  DeploymentCenterFieldProps,
   DeploymentCenterCodeFormData,
+  DeploymentCenterFieldProps,
+  DotnetRuntimeVersion,
+  RuntimeStackOptions,
   RuntimeStackSetting,
   RuntimeVersionOptions,
-  RuntimeStackOptions,
-  DotnetRuntimeVersion,
 } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import {
   getDefaultVersionDisplayName,
   getJavaContainerDisplayName,
@@ -18,18 +32,6 @@ import {
   getRuntimeStackSetting,
   getTelemetryInfo,
 } from '../utility/DeploymentCenterUtility';
-import { titleWithPaddingStyle } from '../DeploymentCenter.styles';
-import { SiteStateContext } from '../../../../SiteState';
-import { JavaContainers as JavaContainersInterface, WebAppRuntimes, WebAppStack } from '../../../../models/stacks/web-app-stacks';
-import { RuntimeStacks } from '../../../../utils/stacks-utils';
-import { FunctionAppRuntimes, FunctionAppStack } from '../../../../models/stacks/function-app-stacks';
-import { AppStackOs } from '../../../../models/stacks/app-stacks';
-import { PortalContext } from '../../../../PortalContext';
-import { ArmArray } from '../../../../models/arm-obj';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { KeyValue } from '../../../../models/portal-models';
-import { Link } from '@fluentui/react';
-import { AppSettingsTabs } from '../../app-settings/AppSettings.types';
 
 type StackSettings = (WebAppRuntimes & JavaContainersInterface) | FunctionAppRuntimes;
 

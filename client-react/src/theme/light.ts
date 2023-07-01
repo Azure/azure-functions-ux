@@ -1,4 +1,5 @@
 import { IPalette } from '@fluentui/react';
+
 import { ThemeExtended } from './SemanticColorsExtended';
 
 export const AzurePortalColors = {

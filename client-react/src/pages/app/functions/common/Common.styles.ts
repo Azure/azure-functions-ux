@@ -1,4 +1,5 @@
 import { style } from 'typestyle';
+
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 
 export const getCalloutContainerStyles = (layout: Layout): string => {

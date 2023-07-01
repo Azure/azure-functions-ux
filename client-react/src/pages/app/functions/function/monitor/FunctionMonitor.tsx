@@ -1,23 +1,26 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pivot, PivotItem, MessageBarType } from '@fluentui/react';
-import { paddingStyle } from './FunctionMonitor.styles';
-import { PivotState } from './FunctionMonitor.types';
+
+import { MessageBarType, Pivot, PivotItem } from '@fluentui/react';
+
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { bannerLinkStyle } from '../../../../../components/CustomBanner/CustomBanner.styles';
+import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
+import { AppInsightsComponent, AppInsightsKeyType } from '../../../../../models/app-insights';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { BindingType } from '../../../../../models/functions/function-binding';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { PortalContext } from '../../../../../PortalContext';
+import { ThemeContext } from '../../../../../ThemeContext';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 import FunctionInvocationsDataLoader from '../invocations/FunctionInvocationsDataLoader';
-import { AppInsightsComponent, AppInsightsKeyType } from '../../../../../models/app-insights';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
-import { ArmObj } from '../../../../../models/arm-obj';
-import AppInsightsSetup from './AppInsightsSetup';
-import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { PortalContext } from '../../../../../PortalContext';
-import { bannerLinkStyle } from '../../../../../components/CustomBanner/CustomBanner.styles';
-import { ThemeContext } from '../../../../../ThemeContext';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
-import { BindingType } from '../../../../../models/functions/function-binding';
-import FunctionOrchestrationsDataLoader from './tabs/orchestrations/FunctionOrchestrationsDataLoader';
+
 import FunctionEntitiesDataLoader from './tabs/entities/FunctionEntitiesDataLoader';
 import FunctionLogsDataLoader from './tabs/logs/FunctionLogsDataLoader';
+import FunctionOrchestrationsDataLoader from './tabs/orchestrations/FunctionOrchestrationsDataLoader';
+import AppInsightsSetup from './AppInsightsSetup';
+import { paddingStyle } from './FunctionMonitor.styles';
+import { PivotState } from './FunctionMonitor.types';
 
 interface FunctionMonitorProps {
   resourceId: string;

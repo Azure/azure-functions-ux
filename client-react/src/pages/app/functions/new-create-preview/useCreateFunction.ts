@@ -1,6 +1,8 @@
-import { MessageBarType } from '@fluentui/react';
 import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { MessageBarType } from '@fluentui/react';
+
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { StatusMessage } from '../../../../components/ActionBar';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -12,10 +14,11 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getDeploymentTemplate } from '../../../../utils/CosmosDbArmTemplateHelper';
 import { Guid } from '../../../../utils/Guid';
 import { LogCategories } from '../../../../utils/LogCategories';
+import { COSMOS_DB_TRIGGER } from '../common/BindingTypeRegex';
 import { CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { getTelemetryInfo } from '../common/FunctionsUtility';
-import { COSMOS_DB_TRIGGER } from '../common/BindingTypeRegex';
 import { usePermissions } from '../common/usePermissions';
+
 import FunctionCreateData from './FunctionCreate.data';
 
 export const useCreateFunction = (

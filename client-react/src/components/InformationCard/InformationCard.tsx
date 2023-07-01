@@ -1,7 +1,8 @@
-import { Link } from '@fluentui/react';
 import { useContext } from 'react';
 import ReactSVG from 'react-svg';
 import { style } from 'typestyle';
+
+import { Link } from '@fluentui/react';
 
 import { ThemeContext } from '../../ThemeContext';
 

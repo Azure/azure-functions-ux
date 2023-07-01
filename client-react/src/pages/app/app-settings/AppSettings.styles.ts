@@ -1,6 +1,8 @@
-import { IButtonProps, ICommandBarStyles, MessageBarType } from '@fluentui/react';
-import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
+
+import { IButtonProps, ICommandBarStyles, MessageBarType } from '@fluentui/react';
+
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const formElementStyle = {
   paddingBottom: '16px',

@@ -1,51 +1,53 @@
-import React, { useState, useContext } from 'react';
-import { Formik, FormikProps } from 'formik';
-import {
-  DeploymentCenterFormData,
-  DeploymentCenterContainerFormProps,
-  DeploymentCenterContainerFormData,
-  SettingOption,
-  ContainerRegistrySources,
-  ContainerOptions,
-  SiteSourceControlRequestBody,
-  WorkflowOption,
-  ContainerDockerAccessTypes,
-  ACRCredentialType,
-  ManagedIdentityType,
-} from '../DeploymentCenter.types';
-import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
-import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { Formik, FormikProps } from 'formik';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { ACRWebhookPayload } from '../../../../models/acr';
+import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
+import { KeyValue } from '../../../../models/portal-models';
+import { ScmType, SiteConfig } from '../../../../models/site/config';
+import { AppOs } from '../../../../models/site/site';
 import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
+import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
+import { Guid } from '../../../../utils/Guid';
 import DeploymentCenterData from '../DeploymentCenter.data';
+import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
+import {
+  ACRCredentialType,
+  ContainerDockerAccessTypes,
+  ContainerOptions,
+  ContainerRegistrySources,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterContainerFormProps,
+  DeploymentCenterFormData,
+  ManagedIdentityType,
+  SettingOption,
+  SiteSourceControlRequestBody,
+  WorkflowOption,
+} from '../DeploymentCenter.types';
+import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import {
   getAcrWebhookName,
   getAppDockerWebhookUrl,
-  getWorkflowFilePath,
   getArmToken,
   getTelemetryInfo,
-  isSettingsDirty,
+  getWorkflowFilePath,
   isFtpsDirty,
+  isSettingsDirty,
 } from '../utility/DeploymentCenterUtility';
-import { ACRWebhookPayload } from '../../../../models/acr';
-import { ScmType, SiteConfig } from '../../../../models/site/config';
-import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import {
   getContainerAppWorkflowInformation,
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
-import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../models/github';
-import { AppOs } from '../../../../models/site/site';
-import { Guid } from '../../../../utils/Guid';
-import { KeyValue } from '../../../../models/portal-models';
-import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
+
+import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
 
 interface ResponseResult {
   success: boolean;

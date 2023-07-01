@@ -1,16 +1,19 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Label } from '@fluentui/react';
+
+import { HttpConstants } from '../../../../../../utils/constants/HttpConstants';
+import StringUtils from '../../../../../../utils/string';
+import { ResponseContent } from '../FunctionEditor.types';
+
 import {
-  pivotItemWrapper,
   functionTestGroupStyle,
+  pivotItemWrapper,
   responseCodeStyle,
   responseContentStyle,
   testFormLabelStyle,
 } from './FunctionTest.styles';
-import { Label } from '@fluentui/react';
-import { ResponseContent } from '../FunctionEditor.types';
-import { HttpConstants } from '../../../../../../utils/constants/HttpConstants';
-import StringUtils from '../../../../../../utils/string';
 
 export interface FunctionTestOutputProps {
   responseContent?: ResponseContent;

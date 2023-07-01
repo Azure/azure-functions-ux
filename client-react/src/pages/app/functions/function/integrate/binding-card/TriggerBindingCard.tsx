@@ -1,7 +1,9 @@
-import { Link } from '@fluentui/react';
-import i18next from 'i18next';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
+
+import { Link } from '@fluentui/react';
+
 import { ReactComponent as PowerSvg } from '../../../../../../images/Common/power.svg';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Binding, BindingDirection } from '../../../../../../models/functions/binding';
@@ -13,6 +15,7 @@ import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import { getBindingDirection } from '../FunctionIntegrate.utils';
+
 import BindingCard, { createNew, EditableBindingCardProps, emptyList } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
 import BindingCardLink from './BindingCardLink';

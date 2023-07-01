@@ -1,9 +1,10 @@
-import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
-import { ScenarioIds } from './scenario-ids';
-import { ArmSiteDescriptor } from '../resourceDescriptors';
-import { QuotaService } from '../QuotaService';
 import { QuotaNames, QuotaScope } from '../../models/quotaSettings';
 import { ComputeMode } from '../../models/site/compute-mode';
+import { QuotaService } from '../QuotaService';
+import { ArmSiteDescriptor } from '../resourceDescriptors';
+
+import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 
 export class OnPremEnvironment extends Environment {
   public name = 'OnPrem';

@@ -1,9 +1,10 @@
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
-import { NameValuePair, HttpMethods } from './FunctionEditor.types';
-import { BindingManager } from '../../../../../utils/BindingManager';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { SiteConfig } from '../../../../../models/site/config';
+import { BindingManager } from '../../../../../utils/BindingManager';
+
+import { HttpMethods, NameValuePair } from './FunctionEditor.types';
 
 interface IFunctionData {
   siteConfig: ArmObj<SiteConfig>;

@@ -1,9 +1,10 @@
+import { IPalette } from '@fluentui/react';
+
 import {
   AzurePortalColors as LightThemePortalColors,
   semanticColors as lightThemeSemanticColors,
   themePalette as lightThemePalette,
 } from './light';
-import { IPalette } from '@fluentui/react';
 import { ThemeExtended } from './SemanticColorsExtended';
 
 export const AzurePortalColors = {

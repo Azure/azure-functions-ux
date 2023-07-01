@@ -1,12 +1,14 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { WorkflowOption, DeploymentCenterGitHubWorkflowConfigSelectorProps } from '../DeploymentCenter.types';
-import { IDropdownOption, ProgressIndicator } from '@fluentui/react';
 import { Field } from 'formik';
-import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
+
+import { IDropdownOption, ProgressIndicator } from '@fluentui/react';
+
 import RadioButton from '../../../../components/form-controls/RadioButton';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { DeploymentCenterGitHubWorkflowConfigSelectorProps, WorkflowOption } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterGitHubWorkflowConfigSelector: React.FC<DeploymentCenterGitHubWorkflowConfigSelectorProps> = props => {
   const { formProps, setGithubActionExistingWorkflowContents } = props;

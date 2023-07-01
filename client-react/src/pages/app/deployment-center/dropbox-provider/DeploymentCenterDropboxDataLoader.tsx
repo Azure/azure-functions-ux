@@ -1,16 +1,19 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DropboxFolder, DropboxUser } from '../../../../models/dropbox';
-import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+
 import { IDropdownOption } from '@fluentui/react';
-import DeploymentCenterDropboxProvider from './DeploymentCenterDropboxProvider';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { SiteStateContext } from '../../../../SiteState';
-import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import DropboxService from '../../../../ApiHelpers/DropboxService';
-import { PortalContext } from '../../../../PortalContext';
+
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import DropboxService from '../../../../ApiHelpers/DropboxService';
+import { DropboxFolder, DropboxUser } from '../../../../models/dropbox';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterDropboxProvider from './DeploymentCenterDropboxProvider';
 
 const DeploymentCenterDropboxDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();

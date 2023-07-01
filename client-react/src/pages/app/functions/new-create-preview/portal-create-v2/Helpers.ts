@@ -1,5 +1,6 @@
 import { FunctionTemplateV2, JobInput } from '../../../../../models/functions/function-template-v2';
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
+
 import { JobType } from './JobType';
 
 export function getJobInputs(selectedTemplate: FunctionTemplateV2, jobType: string) {

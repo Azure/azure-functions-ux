@@ -1,34 +1,36 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { DeploymentCenterDataLoaderProps } from './DeploymentCenter.types';
-import DeploymentCenterData from './DeploymentCenter.data';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
+import { HttpResponseObject } from '../../../ArmHelper.types';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
+import { ArmArray, ArmObj } from '../../../models/arm-obj';
+import { InternalLoadBalancingMode } from '../../../models/hostingEnvironment/hosting-environment';
+import { KeyValue } from '../../../models/portal-models';
+import { SourceControl } from '../../../models/provider';
+import { SiteConfig } from '../../../models/site/config';
+import {
+  parsePublishProfileXml,
+  PublishingCredentials,
+  PublishingProfile,
+  PublishingUser,
+  PublishMethod,
+} from '../../../models/site/publish';
+import { PublishingCredentialPolicies } from '../../../models/site/site';
 import { PortalContext } from '../../../PortalContext';
 import { SiteStateContext } from '../../../SiteState';
 import RbacConstants from '../../../utils/rbac-constants';
-import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
-import {
-  parsePublishProfileXml,
-  PublishMethod,
-  PublishingUser,
-  PublishingCredentials,
-  PublishingProfile,
-} from '../../../models/site/publish';
-import { useTranslation } from 'react-i18next';
-import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
+
+import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
+import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
+import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
+import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import DeploymentCenterData from './DeploymentCenter.data';
+import { DeploymentCenterDataLoaderProps } from './DeploymentCenter.types';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
-import { HttpResponseObject } from '../../../ArmHelper.types';
-import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
-import LoadingComponent from '../../../components/Loading/LoadingComponent';
-import { SiteConfig } from '../../../models/site/config';
-import { KeyValue } from '../../../models/portal-models';
-import { SourceControl } from '../../../models/provider';
-import { PublishingCredentialPolicies } from '../../../models/site/site';
-import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
-import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
-import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
-import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
-import { InternalLoadBalancingMode } from '../../../models/hostingEnvironment/hosting-environment';
 
 enum SourceControlTypes {
   oneDrive = 'onedrive',

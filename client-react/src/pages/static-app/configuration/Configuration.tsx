@@ -1,3 +1,7 @@
+import { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { sortBy } from 'lodash-es';
+
 import {
   ActionButton,
   Checkbox,
@@ -11,9 +15,7 @@ import {
   SelectionMode,
   TooltipHost,
 } from '@fluentui/react';
-import { sortBy } from 'lodash-es';
-import { useContext, useEffect, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import CustomPanel from '../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
@@ -29,6 +31,7 @@ import { PortalContext } from '../../../PortalContext';
 import { ThemeContext } from '../../../ThemeContext';
 import { Links } from '../../../utils/FwLinks';
 import { dirtyElementStyle } from '../../app/app-settings/AppSettings.styles';
+
 import ConfigurationData from './Configuration.data';
 import {
   formDescriptionStyle,

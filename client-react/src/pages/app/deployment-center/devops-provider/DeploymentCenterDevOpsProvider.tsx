@@ -1,13 +1,15 @@
-import { Field } from 'formik';
-import Dropdown from '../../../../components/form-controls/DropDown';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { Field } from 'formik';
+
 import { MessageBarType } from '@fluentui/react';
-import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import Dropdown from '../../../../components/form-controls/DropDown';
 import { ScmType } from '../../../../models/site/config';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderProps> = props => {
   const {

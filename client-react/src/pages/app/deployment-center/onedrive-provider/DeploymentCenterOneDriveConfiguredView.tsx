@@ -1,16 +1,18 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+
 import { Link, MessageBarType } from '@fluentui/react';
-import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import OneDriveService from '../../../../ApiHelpers/OneDriveService';
-import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { PortalContext } from '../../../../PortalContext';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { AuthorizationResult, DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;

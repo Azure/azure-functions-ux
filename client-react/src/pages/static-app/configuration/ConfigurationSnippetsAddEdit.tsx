@@ -1,6 +1,17 @@
-import { useEffect, useState, useMemo, useContext } from 'react';
-import { IDropdownOption, MessageBarType } from '@fluentui/react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Form, Formik, FormikProps } from 'formik';
+import * as Yup from 'yup';
+
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
+
+import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
+import { StatusMessage } from '../../../components/ActionBar';
+import { PortalContext } from '../../../PortalContext';
+import { CommonConstants } from '../../../utils/CommonConstants';
+import { getTelemetryInfo } from '../StaticSiteUtility';
+
+import ConfigurationData from './Configuration.data';
 import {
   ApplicableEnvironmentsMode,
   ConfigurationSnippetsAddEditFormData,
@@ -8,15 +19,7 @@ import {
   ConfigurationSnippetsYupValidationSchemaType,
   SnippetLocation,
 } from './Configuration.types';
-import ConfigurationData from './Configuration.data';
-import { Form, FormikProps, Formik } from 'formik';
-import { StatusMessage } from '../../../components/ActionBar';
 import ConfigurationSnippetsAddEditForm from './ConfigurationSnippetAddEditForm';
-import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
-import { PortalContext } from '../../../PortalContext';
-import { getTelemetryInfo } from '../StaticSiteUtility';
-import * as Yup from 'yup';
-import { CommonConstants } from '../../../utils/CommonConstants';
 
 const ConfigurationSnippetsAddEdit: React.FC<ConfigurationSnippetsAddEditProps> = ({
   hasWritePermissions,

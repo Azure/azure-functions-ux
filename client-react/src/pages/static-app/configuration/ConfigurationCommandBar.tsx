@@ -1,8 +1,10 @@
 import React from 'react';
-import { ICommandBarItemProps, CommandBar, IButtonProps } from '@fluentui/react';
-import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
-import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { useTranslation } from 'react-i18next';
+
+import { CommandBar, IButtonProps, ICommandBarItemProps } from '@fluentui/react';
+
+import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
+import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 
 interface ConfigurationCommandBarProps {
   save: () => void;

@@ -1,25 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { Link, Icon, MessageBarType } from '@fluentui/react';
-import {
-  AuthorizationResult,
-  DeploymentCenterFieldProps,
-  DeploymentCenterCodeFormData,
-  DeploymentCenterContainerFormData,
-} from '../DeploymentCenter.types';
+
+import { Icon, Link, MessageBarType } from '@fluentui/react';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
-import { SiteStateContext } from '../../../../SiteState';
-import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import {
+  AuthorizationResult,
+  DeploymentCenterCodeFormData,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterFieldProps,
+} from '../DeploymentCenter.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterGitHubDisconnect from './DeploymentCenterGitHubDisconnect';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
   DeploymentCenterCodeFormData | DeploymentCenterContainerFormData

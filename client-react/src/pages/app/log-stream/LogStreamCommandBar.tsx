@@ -1,9 +1,12 @@
 import React, { useContext } from 'react';
-import { IButtonProps, CommandBarButton, CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { LogEntry, LogType, LogsEnabled } from './LogStream.types';
+
+import { CommandBar, CommandBarButton, IButtonProps, ICommandBarItemProps } from '@fluentui/react';
+
 import { ThemeContext } from '../../../ThemeContext';
-import { logStreamEnabled, copyLogEntries } from './LogStreamData';
+
+import { LogEntry, LogsEnabled, LogType } from './LogStream.types';
+import { copyLogEntries, logStreamEnabled } from './LogStreamData';
 
 // Data for CommandBar
 const getItems = (

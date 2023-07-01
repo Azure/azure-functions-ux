@@ -1,54 +1,56 @@
-import { FormikActions } from 'formik';
-import React, { useState, useEffect, useContext } from 'react';
-import {
-  AppSettingsFormValues,
-  KeyVaultReferences,
-  AppSettingsAsyncData,
-  LoadingStates,
-  FormAzureStorageMounts,
-  FormErrorPage,
-} from './AppSettings.types';
-import { convertStateToForm, convertFormToState, getCleanedReferences } from './AppSettingsFormData';
-import LoadingComponent from '../../../components/Loading/LoadingComponent';
-import {
-  fetchApplicationSettingValues,
-  fetchSlots,
-  updateSite,
-  updateSlotConfigNames,
-  getProductionAppWritePermissions,
-  getAllAppSettingReferences,
-  fetchAzureStorageAccounts,
-  getFunctions,
-  fetchFunctionsHostStatus,
-  getAllConnectionStringsReferences,
-  getCustomErrorPagesForSite,
-  deleteCustomErrorPageForSite,
-} from './AppSettings.service';
-import {
-  PermissionsContext,
-  StorageAccountsContext,
-  SlotsListContext,
-  SiteContext,
-  WebAppStacksContext,
-  FunctionAppStacksContext,
-} from './Contexts';
-import { PortalContext } from '../../../PortalContext';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { HttpResponseObject } from '../../../ArmHelper.types';
-import SiteService from '../../../ApiHelpers/SiteService';
-import { ArmArray, ArmObj } from '../../../models/arm-obj';
-import { SlotConfigNames } from '../../../models/site/slot-config-names';
-import { StorageAccount } from '../../../models/storage-account';
-import { Site } from '../../../models/site/site';
-import { SiteRouterContext } from '../SiteRouter';
-import { isFunctionApp, isKubeApp, isLinuxApp } from '../../../utils/arm-utils';
-import { KeyValue } from '../../../models/portal-models';
+import { FormikActions } from 'formik';
+
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
-import { WebAppStack } from '../../../models/stacks/web-app-stacks';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
+import SiteService from '../../../ApiHelpers/SiteService';
+import { HttpResponseObject } from '../../../ArmHelper.types';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
+import { ArmArray, ArmObj } from '../../../models/arm-obj';
+import { KeyValue } from '../../../models/portal-models';
+import { Site } from '../../../models/site/site';
+import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
+import { WebAppStack } from '../../../models/stacks/web-app-stacks';
+import { StorageAccount } from '../../../models/storage-account';
+import { PortalContext } from '../../../PortalContext';
+import { isFunctionApp, isKubeApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ExperimentationConstants } from '../../../utils/CommonConstants';
+import { SiteRouterContext } from '../SiteRouter';
+
+import {
+  deleteCustomErrorPageForSite,
+  fetchApplicationSettingValues,
+  fetchAzureStorageAccounts,
+  fetchFunctionsHostStatus,
+  fetchSlots,
+  getAllAppSettingReferences,
+  getAllConnectionStringsReferences,
+  getCustomErrorPagesForSite,
+  getFunctions,
+  getProductionAppWritePermissions,
+  updateSite,
+  updateSlotConfigNames,
+} from './AppSettings.service';
+import {
+  AppSettingsAsyncData,
+  AppSettingsFormValues,
+  FormAzureStorageMounts,
+  FormErrorPage,
+  KeyVaultReferences,
+  LoadingStates,
+} from './AppSettings.types';
+import { convertFormToState, convertStateToForm, getCleanedReferences } from './AppSettingsFormData';
+import {
+  FunctionAppStacksContext,
+  PermissionsContext,
+  SiteContext,
+  SlotsListContext,
+  StorageAccountsContext,
+  WebAppStacksContext,
+} from './Contexts';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {

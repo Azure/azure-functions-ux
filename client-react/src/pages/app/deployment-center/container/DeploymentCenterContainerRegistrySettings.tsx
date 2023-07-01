@@ -1,21 +1,23 @@
 import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
+import { IChoiceGroupOptionProps, IDropdownOption } from '@fluentui/react';
+
+import Dropdown from '../../../../components/form-controls/DropDown';
+import { ScmType } from '../../../../models/site/config';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import {
-  DeploymentCenterFieldProps,
+  ContainerOptions,
   ContainerRegistrySources,
   DeploymentCenterContainerFormData,
-  ContainerOptions,
+  DeploymentCenterFieldProps,
 } from '../DeploymentCenter.types';
-import { useTranslation } from 'react-i18next';
-import { IChoiceGroupOptionProps, IDropdownOption } from '@fluentui/react';
-import { Field } from 'formik';
-import Dropdown from '../../../../components/form-controls/DropDown';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { PortalContext } from '../../../../PortalContext';
-import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import { SiteStateContext } from '../../../../SiteState';
-import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps } = props;

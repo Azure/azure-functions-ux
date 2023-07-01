@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { Field } from 'formik';
-import TextField from '../../../../components/form-controls/TextField';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
 import RadioButton from '../../../../components/form-controls/RadioButton';
+import TextField from '../../../../components/form-controls/TextField';
 import { RepoTypeOptions } from '../../../../models/external';
+import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
-import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;

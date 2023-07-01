@@ -1,12 +1,14 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DefaultButton, Callout, ChoiceGroup, PrimaryButton } from '@fluentui/react';
+
+import { Callout, ChoiceGroup, DefaultButton, PrimaryButton } from '@fluentui/react';
+
 import { BuildProvider, ScmType } from '../../../../models/site/config';
-import { calloutStyle, calloutContent, calloutContentButton, additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps, RuntimeStackOptions } from '../DeploymentCenter.types';
+import { SiteStateContext } from '../../../../SiteState';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { SiteStateContext } from '../../../../SiteState';
+import { additionalTextFieldControl, calloutContent, calloutContentButton, calloutStyle } from '../DeploymentCenter.styles';
+import { BuildChoiceGroupOption, DeploymentCenterCodeBuildCalloutProps, RuntimeStackOptions } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterCodeBuildCallout: React.FC<DeploymentCenterCodeBuildCalloutProps> = props => {

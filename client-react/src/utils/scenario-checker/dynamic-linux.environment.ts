@@ -1,6 +1,7 @@
-import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 import { isLinuxDynamic } from '../arm-utils';
+
+import { Environment, ScenarioCheckInput } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 
 export class DynamicLinuxEnvironment extends Environment {
   public name = 'DynamicLinux';

@@ -1,9 +1,9 @@
-import MakeArmCall from '../ArmHelper';
 import { ArmArray, ArmObj } from '../../models/arm-obj';
-import { StaticSite } from '../../models/static-site/static-site';
-import { CommonConstants } from '../../utils/CommonConstants';
 import { StaticSiteBasicAuth } from '../../models/static-site/basic-auth';
+import { StaticSite } from '../../models/static-site/static-site';
 import { Snippet } from '../../pages/static-app/configuration/Configuration.types';
+import { CommonConstants } from '../../utils/CommonConstants';
+import MakeArmCall from '../ArmHelper';
 
 export default class StaticSiteService {
   public static getStaticSite = (resourceId: string) => {

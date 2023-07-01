@@ -1,8 +1,11 @@
-import { initializeIcons, loadTheme } from '@fluentui/react';
-import 'react-app-polyfill/ie11';
 import * as ReactDOM from 'react-dom';
-import App from './pages/App';
+
+import 'react-app-polyfill/ie11';
 import './polyfills';
+
+import { initializeIcons, loadTheme } from '@fluentui/react';
+
+import App from './pages/App';
 import { lightTheme } from './theme/light';
 import LogService from './utils/LogService';
 import Url from './utils/url';

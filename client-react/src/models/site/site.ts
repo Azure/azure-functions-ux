@@ -1,10 +1,11 @@
-import { SiteProperties } from './site-properties';
-import { HostingEnvironmentProfile } from '../hostingEnvironment/hosting-environment-profile';
-import { Certificate, Csr } from './certificate';
-import { SiteConfig } from './config';
-import { CloningInfo } from './cloning-info';
-import { KeyValue } from '../portal-models';
 import { MsiIdentity } from '../arm-obj';
+import { HostingEnvironmentProfile } from '../hostingEnvironment/hosting-environment-profile';
+import { KeyValue } from '../portal-models';
+
+import { Certificate, Csr } from './certificate';
+import { CloningInfo } from './cloning-info';
+import { SiteConfig } from './config';
+import { SiteProperties } from './site-properties';
 
 export enum ContentAvailabilityState {
   Normal = 'Normal',

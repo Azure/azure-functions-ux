@@ -65,6 +65,7 @@
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-simple-import-sort": "^10.0.0",
     "jest-date-mock": "^1.0.7",
     "jest-junit": "^6.4.0",
     "jest-mock-axios": "^2.4.0",

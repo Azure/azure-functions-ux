@@ -1,10 +1,12 @@
-import Url from '../utils/url';
-import { HttpResponseObject } from '../ArmHelper.types';
-import { ProviderToken } from '../models/provider';
-import { OneDriveUser, OneDriveFolder, OneDriveArrayResponse } from '../models/onedrive';
-import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
-import { sendHttpRequest } from './HttpClient';
 import { Method } from 'axios';
+
+import { HttpResponseObject } from '../ArmHelper.types';
+import { OneDriveArrayResponse, OneDriveFolder, OneDriveUser } from '../models/onedrive';
+import { ProviderToken } from '../models/provider';
+import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
+import Url from '../utils/url';
+
+import { sendHttpRequest } from './HttpClient';
 
 export default class OneDriveService {
   public static authorizeUrl = `${Url.serviceHost}auth/onedrive/authorize`;

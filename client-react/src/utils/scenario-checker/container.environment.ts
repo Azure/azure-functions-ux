@@ -1,6 +1,7 @@
-import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 import { isContainerApp, isLinuxApp } from '../arm-utils';
+
+import { Environment, ScenarioCheckInput } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 
 export class ContainerApp extends Environment {
   public name = 'ContainerApp';

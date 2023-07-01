@@ -1,6 +1,7 @@
-import { LogEntry, LogLevel } from './FunctionLog.types';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
-import { LogRegex, LogLevel as FBLogLevel, maxLogEntries } from '../../../log-stream/LogStream.types';
+import { LogLevel as FBLogLevel, LogRegex, maxLogEntries } from '../../../log-stream/LogStream.types';
+
+import { LogEntry, LogLevel } from './FunctionLog.types';
 
 export function processLogs(logStream: string, oldLogs: LogEntry[]): LogEntry[] {
   let updatedLogs = [...oldLogs];

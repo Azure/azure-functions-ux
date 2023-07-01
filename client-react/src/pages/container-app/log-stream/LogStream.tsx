@@ -2,10 +2,11 @@ import React, { useContext, useEffect, useMemo, useRef } from 'react';
 import useWindowSize from 'react-use/lib/useWindowSize';
 import { debounce } from 'lodash-es';
 import { XTerm } from 'xterm-for-react';
-import { getTerminalDimensions } from '../xtermHelper';
+
 import { PortalContext } from '../../../PortalContext';
-import { containerAppStyles } from '../ContainerApp.styles';
 import { TextUtilitiesService } from '../../../utils/textUtilities';
+import { containerAppStyles } from '../ContainerApp.styles';
+import { getTerminalDimensions } from '../xtermHelper';
 
 export interface LogStreamProps {
   resourceId: string;
