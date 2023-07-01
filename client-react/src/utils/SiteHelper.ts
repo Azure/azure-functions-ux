@@ -1,10 +1,11 @@
-import { FunctionAppEditMode } from '../models/portal-models';
-import i18n from './i18n';
 import { ArmObj } from '../models/arm-obj';
-import { Site } from '../models/site/site';
+import { FunctionAppEditMode } from '../models/portal-models';
 import { SiteConfig } from '../models/site/config';
+import { Site } from '../models/site/site';
+
 import { isPremiumV2 } from './arm-utils';
 import { Links } from './FwLinks';
+import i18n from './i18n';
 
 export default class SiteHelper {
   public static isFunctionAppReadOnly(editMode: FunctionAppEditMode): boolean {

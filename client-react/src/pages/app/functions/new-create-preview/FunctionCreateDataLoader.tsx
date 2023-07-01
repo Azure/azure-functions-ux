@@ -1,7 +1,9 @@
-import { Dropdown, Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
-import { Formik, FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Formik, FormikProps } from 'formik';
+
+import { Dropdown, Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
+
 import ActionBar from '../../../../components/ActionBar';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
@@ -23,6 +25,10 @@ import Url from '../../../../utils/url';
 import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
 import { getTelemetryInfo } from '../common/FunctionsUtility';
 import { useAppSettingsQuery } from '../common/useAppSettingsQuery';
+
+import LocalCreateInstructions from './local-create/LocalCreateInstructions';
+import TemplateList from './portal-create/TemplateList';
+import FormContainer from './portal-create-v2/FormContainer';
 import {
   containerStyle,
   developInPortalIconStyle,
@@ -35,9 +41,6 @@ import {
 } from './FunctionCreate.styles';
 import { DevelopmentExperience } from './FunctionCreate.types';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
-import LocalCreateInstructions from './local-create/LocalCreateInstructions';
-import FormContainer from './portal-create-v2/FormContainer';
-import TemplateList from './portal-create/TemplateList';
 import { useCreateFunction } from './useCreateFunction';
 import { useProgrammingModel } from './useProgrammingModel';
 

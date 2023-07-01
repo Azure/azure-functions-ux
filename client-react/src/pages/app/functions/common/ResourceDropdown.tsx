@@ -1,26 +1,29 @@
-import { FieldProps, FormikProps } from 'formik';
-import { Callout, DirectionalHint, IDropdownOption, IDropdownProps, Link } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FieldProps, FormikProps } from 'formik';
+
+import { Callout, DirectionalHint, IDropdownOption, IDropdownProps, Link } from '@fluentui/react';
+
 import SiteService from '../../../../ApiHelpers/SiteService';
 import Dropdown, { CustomDropdownProps } from '../../../../components/form-controls/DropDown';
+import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../models/arm-obj';
 import { BindingSetting, BindingSettingResource } from '../../../../models/functions/binding';
 import { KeyValue } from '../../../../models/portal-models';
+import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
 import SiteHelper from '../../../../utils/SiteHelper';
 import StringUtils from '../../../../utils/string';
-import { BindingEditorFormValues } from './BindingFormBuilder';
-import { calloutStyleField, linkPaddingStyle, horizontalLinkPaddingStyle } from './callout/Callout.styles';
-import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+
+import { calloutStyleField, horizontalLinkPaddingStyle, linkPaddingStyle } from './callout/Callout.styles';
 import NewAppSettingCallout from './callout/NewAppSettingCallout';
 import NewDocumentDBConnectionCallout from './callout/NewDocumentDBConnectionCallout';
 import NewEventHubConnectionCallout from './callout/NewEventHubConnectionCallout';
 import NewServiceBusConnectionCallout from './callout/NewServiceBusConnectionCallout';
 import NewStorageAccountConnectionCallout from './callout/NewStorageAccountConnectionCallout';
-import { PortalContext } from '../../../../PortalContext';
-import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+import { BindingEditorFormValues } from './BindingFormBuilder';
 
 export interface ResourceDropdownProps {
   setting: BindingSetting;

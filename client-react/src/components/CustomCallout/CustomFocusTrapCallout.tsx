@@ -1,5 +1,7 @@
-import { DefaultButton, FocusTrapCallout, PrimaryButton, Stack, FocusZone } from '@fluentui/react';
 import React from 'react';
+
+import { DefaultButton, FocusTrapCallout, FocusZone, PrimaryButton, Stack } from '@fluentui/react';
+
 import { focusTrapCalloutStyle } from './CustomCallout.styles';
 
 export interface CustomFocusTrapCalloutProps {

@@ -1,7 +1,8 @@
-import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.models';
 import { isLinuxApp } from '../arm-utils';
+
 import { NationalCloudEnvironment } from './national-cloud.environment';
+import { Environment, ScenarioCheckInput, ScenarioResult } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 
 export class LinuxSiteEnvironment extends Environment {
   public name = 'LinuxSite';

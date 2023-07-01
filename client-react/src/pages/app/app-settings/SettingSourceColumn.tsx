@@ -1,18 +1,21 @@
-import { Icon } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Icon } from '@fluentui/react';
+
 import { defaultCellStyle } from '../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { ThemeContext } from '../../../ThemeContext';
+import { azureAppConfigRefStart } from '../../../utils/CommonConstants';
+
 import { iconStyle, sourceTextStyle } from './AppSettings.styles';
 import { ReferenceSummary } from './AppSettings.types';
 import { isServiceLinkerVisible, isSettingServiceLinker } from './AppSettings.utils';
 import {
-  getReferenceStatusIconProps,
-  getReferenceStatusIconColor,
   getAzureConfigRefAriaLabel,
   getKeyVaultRefAriaLabel,
+  getReferenceStatusIconColor,
+  getReferenceStatusIconProps,
 } from './AppSettingsFormData';
-import { azureAppConfigRefStart } from '../../../utils/CommonConstants';
 
 export interface SettingSourceColumnProps {
   name: string;

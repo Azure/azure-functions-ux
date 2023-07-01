@@ -1,19 +1,21 @@
-import { sendHttpRequest, getLinksFromLinkHeader, getLastPageNumberFromLinks } from './HttpClient';
-import Url from '../utils/url';
+import { Method } from 'axios';
+
+import { HttpResponseObject } from '../ArmHelper.types';
 import {
-  GitHubUser,
+  FileContent,
+  GitHubActionWorkflowRequestContent,
+  GitHubBranch,
+  GitHubCommit,
   GitHubOrganizations,
   GitHubRepository,
-  GitHubBranch,
-  FileContent,
-  GitHubCommit,
-  GitHubActionWorkflowRequestContent,
+  GitHubUser,
 } from '../models/github';
-import { HttpResponseObject } from '../ArmHelper.types';
-import { ProviderToken } from '../models/provider';
-import { Method } from 'axios';
-import { CommonConstants } from '../utils/CommonConstants';
 import { KeyValue } from '../models/portal-models';
+import { ProviderToken } from '../models/provider';
+import { CommonConstants } from '../utils/CommonConstants';
+import Url from '../utils/url';
+
+import { getLastPageNumberFromLinks, getLinksFromLinkHeader, sendHttpRequest } from './HttpClient';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;

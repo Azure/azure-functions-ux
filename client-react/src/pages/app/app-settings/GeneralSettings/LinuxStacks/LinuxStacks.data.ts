@@ -1,4 +1,5 @@
 import i18next from 'i18next';
+
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';
 

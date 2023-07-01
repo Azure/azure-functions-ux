@@ -1,5 +1,6 @@
-import { IButtonProps, IconButton as OfficeIconButton } from '@fluentui/react';
 import React, { useContext } from 'react';
+
+import { IButtonProps, IconButton as OfficeIconButton } from '@fluentui/react';
 
 import { ThemeContext } from '../../ThemeContext';
 

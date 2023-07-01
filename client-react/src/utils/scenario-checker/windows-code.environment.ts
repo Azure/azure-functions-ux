@@ -1,6 +1,7 @@
 import { isWindowsCode } from '../arm-utils';
-import { ScenarioIds } from './scenario-ids';
+
 import { Environment, ScenarioCheckInput } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 
 export class WindowsCode extends Environment {
   public name = 'WindowCode';

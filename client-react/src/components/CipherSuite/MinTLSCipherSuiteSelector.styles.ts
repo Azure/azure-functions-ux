@@ -1,5 +1,7 @@
-import { FontWeights, mergeStyleSets } from '@fluentui/style-utilities';
 import { style } from 'typestyle';
+
+import { FontWeights, mergeStyleSets } from '@fluentui/style-utilities';
+
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
 export const cipherSuiteStyle = mergeStyleSets({

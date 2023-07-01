@@ -1,9 +1,12 @@
 import React, { useContext, useRef } from 'react';
-import { IconButton, Stack, StackItem, TextField } from '@fluentui/react';
-import { Text } from '@fluentui/react/lib/components/Text';
 import { useTranslation } from 'react-i18next';
-import { uploadStyle, stackStyle, stackTokens, FabricFolder, browseButtonStyle } from './ErrorPageGrid.styles';
+
+import { Text } from '@fluentui/react/lib/components/Text';
+import { IconButton, Stack, StackItem, TextField } from '@fluentui/react';
+
 import { ThemeContext } from '../../../../ThemeContext';
+
+import { browseButtonStyle, FabricFolder, stackStyle, stackTokens, uploadStyle } from './ErrorPageGrid.styles';
 
 interface ErrorPageFileUploaderProps {
   setFileUploadSuccess: (upload: boolean) => void;

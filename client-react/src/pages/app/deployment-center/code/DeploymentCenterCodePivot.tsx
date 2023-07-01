@@ -1,23 +1,26 @@
-import React, { useState, useContext, useEffect } from 'react';
-import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
-import DeploymentCenterFtps from '../DeploymentCenterFtps';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterCodePivotProps } from '../DeploymentCenter.types';
-import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
-import DeploymentCenterCodeSettings from './DeploymentCenterCodeSettings';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { ScmType, BuildProvider } from '../../../../models/site/config';
-import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
-import { ThemeContext } from '../../../../ThemeContext';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+
+import { IPivotItemProps, Pivot, PivotItem } from '@fluentui/react';
+
+import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
-import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActionsCodeLogs';
+import { ThemeContext } from '../../../../ThemeContext';
 import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
+import { DeploymentCenterCodePivotProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import DeploymentCenterFtps from '../DeploymentCenterFtps';
+import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
+import DeploymentCenterCodeSettings from './DeploymentCenterCodeSettings';
+import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActionsCodeLogs';
 import DeploymentCenterVSTSCodeLogs from './DeploymentCenterVSTSCodeLogs';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {

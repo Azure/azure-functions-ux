@@ -1,19 +1,21 @@
-import React, { useState, useEffect, useCallback } from 'react';
-import {
-  logStreamStyle,
-  logEntryDivStyle,
-  logErrorDivStyle,
-  logConnectingDivStyle,
-  getMaximizedLogPanelHeight,
-  minimumLogPanelHeight,
-} from './FunctionLog.styles';
+import React, { useCallback, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Resizable } from 're-resizable';
+
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { TextUtilitiesService } from '../../../../../utils/textUtilities';
-import FunctionLogCommandBar from './FunctionLogCommandBar';
-import { Resizable } from 're-resizable';
-import { LogLevel, LogEntry } from './FunctionLog.types';
-import { useTranslation } from 'react-i18next';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+
+import {
+  getMaximizedLogPanelHeight,
+  logConnectingDivStyle,
+  logEntryDivStyle,
+  logErrorDivStyle,
+  logStreamStyle,
+  minimumLogPanelHeight,
+} from './FunctionLog.styles';
+import { LogEntry, LogLevel } from './FunctionLog.types';
+import FunctionLogCommandBar from './FunctionLogCommandBar';
 
 interface FunctionLogProps {
   isExpanded: boolean;

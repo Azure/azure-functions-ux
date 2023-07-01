@@ -1,27 +1,30 @@
-import React, { useState, useContext, useMemo, useCallback } from 'react';
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import moment from 'moment';
-import {
-  DeploymentCenterCodeLogsProps,
-  DateTimeObj,
-  DeploymentStatus,
-  DeploymentProperties,
-  CodeDeploymentsRow,
-} from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, IGroup, Selection, SelectionMode } from '@fluentui/react';
+import React, { useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured, deploymentCenterCodeLogsBox } from '../DeploymentCenter.styles';
-import { ArmObj } from '../../../../models/arm-obj';
-import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
-import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
-import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
-import { ScmType } from '../../../../models/site/config';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { PortalContext } from '../../../../PortalContext';
-import { deleteDeploymentCenterLogs } from '../utility/DeploymentCenterUtility';
-import DeploymentCenterData from '../DeploymentCenter.data';
+import moment from 'moment';
+
+import { IColumn, IGroup, Link, PanelType, PrimaryButton, ProgressIndicator, Selection, SelectionMode } from '@fluentui/react';
+
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
+import { ArmObj } from '../../../../models/arm-obj';
+import { ScmType } from '../../../../models/site/config';
+import { PortalContext } from '../../../../PortalContext';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { deploymentCenterCodeLogsBox, deploymentCenterCodeLogsNotConfigured, deploymentCenterLogsError } from '../DeploymentCenter.styles';
+import {
+  CodeDeploymentsRow,
+  DateTimeObj,
+  DeploymentCenterCodeLogsProps,
+  DeploymentProperties,
+  DeploymentStatus,
+} from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { deleteDeploymentCenterLogs } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
+import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {

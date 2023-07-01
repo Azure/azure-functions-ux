@@ -1,10 +1,13 @@
 import React from 'react';
-import { DeploymentCenterPublishProfilePanelProps } from '../DeploymentCenter.types';
 import { useTranslation } from 'react-i18next';
-import DeploymentCenterPublishProfileCommandBar from './DeploymentCenterPublishProfileCommandBar';
-import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
+
 import { PanelType, PrimaryButton } from '@fluentui/react';
+
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { closePublishProfileButtonStyle, panelOverflowStyle } from '../DeploymentCenter.styles';
+import { DeploymentCenterPublishProfilePanelProps } from '../DeploymentCenter.types';
+
+import DeploymentCenterPublishProfileCommandBar from './DeploymentCenterPublishProfileCommandBar';
 
 const DeploymentCenterPublishProfilePanel: React.FC<DeploymentCenterPublishProfilePanelProps> = props => {
   const { isPanelOpen: isOpen, dismissPanel, resetApplicationPassword } = props;

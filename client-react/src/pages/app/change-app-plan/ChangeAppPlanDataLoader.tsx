@@ -1,22 +1,24 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ResourceGroup } from '../../../models/resource-group';
-import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
-import { ChangeAppPlan } from './ChangeAppPlan';
-import LoadingComponent from '../../../components/Loading/LoadingComponent';
-import SiteService from '../../../ApiHelpers/SiteService';
+import React, { useContext, useEffect, useState } from 'react';
+
+import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
 import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
-import { ServerFarmSkuConstants } from '../../../utils/scenario-checker/ServerFarmSku';
+import SiteService from '../../../ApiHelpers/SiteService';
 import { HttpResponseObject } from '../../../ArmHelper.types';
-import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
+import LoadingComponent from '../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../models/arm-obj';
-import { Site } from '../../../models/site/site';
-import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
+import { ResourceGroup } from '../../../models/resource-group';
+import { ServerFarm } from '../../../models/serverFarm/serverfarm';
+import { Site } from '../../../models/site/site';
 import { PortalContext } from '../../../PortalContext';
-import { ChangeAppPlanTierTypes } from './ChangeAppPlan.types';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
+import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
+import { ServerFarmSkuConstants } from '../../../utils/scenario-checker/ServerFarmSku';
 import { getTelemetryInfo } from '../../../utils/TelemetryUtils';
+
+import { ChangeAppPlan } from './ChangeAppPlan';
+import { ChangeAppPlanTierTypes } from './ChangeAppPlan.types';
 
 interface ChangeAppPlanDataLoaderProps {
   resourceId: string;

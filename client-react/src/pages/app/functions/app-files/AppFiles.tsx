@@ -1,29 +1,32 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ArmObj } from '../../../../models/arm-obj';
-import { Site } from '../../../../models/site/site';
-import AppFilesCommandBar from './AppFilesCommandBar';
-import { commandBarSticky, editorStyle } from './AppFiles.styles';
-import FunctionEditorFileSelectorBar from '../function/function-editor/FunctionEditorFileSelectorBar';
-import { IDropdownOption, MessageBarType } from '@fluentui/react';
-import MonacoEditor, { getMonacoEditorTheme } from '../../../../components/monaco-editor/monaco-editor';
-import { VfsObject } from '../../../../models/functions/vfs';
-import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
+
 import FunctionsService from '../../../../ApiHelpers/FunctionsService';
-import { FileContent } from '../function/function-editor/FunctionEditor.types';
-import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import { SiteStateContext } from '../../../../SiteState';
-import SiteHelper from '../../../../utils/SiteHelper';
-import { StartupInfoContext } from '../../../../StartupInfoContext';
-import { PortalTheme } from '../../../../models/portal-models';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import EditModeBanner from '../../../../components/EditModeBanner/EditModeBanner';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../../components/monaco-editor/monaco-editor';
+import { ArmObj } from '../../../../models/arm-obj';
+import { VfsObject } from '../../../../models/functions/vfs';
+import { PortalTheme } from '../../../../models/portal-models';
+import { Site } from '../../../../models/site/site';
 import { PortalContext } from '../../../../PortalContext';
-import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
-import { Status } from './AppFilesDataLoader';
+import { SiteStateContext } from '../../../../SiteState';
+import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import EditorManager, { EditorLanguage } from '../../../../utils/EditorManager';
 import { Links } from '../../../../utils/FwLinks';
+import SiteHelper from '../../../../utils/SiteHelper';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+import { FileContent } from '../function/function-editor/FunctionEditor.types';
+import FunctionEditorFileSelectorBar from '../function/function-editor/FunctionEditorFileSelectorBar';
+
+import { commandBarSticky, editorStyle } from './AppFiles.styles';
+import AppFilesCommandBar from './AppFilesCommandBar';
+import { Status } from './AppFilesDataLoader';
 
 interface AppFilesProps {
   site: ArmObj<Site>;

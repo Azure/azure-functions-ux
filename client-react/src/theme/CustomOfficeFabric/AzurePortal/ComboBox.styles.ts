@@ -1,4 +1,5 @@
-import { ITheme, IComboBoxStyles } from '@fluentui/react';
+import { IComboBoxStyles, ITheme } from '@fluentui/react';
+
 import { Depths } from './AzureDepths';
 import * as StyleConstants from './Constants';
 

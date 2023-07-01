@@ -1,6 +1,6 @@
 module.exports = {
   parser: '@typescript-eslint/parser',
-  plugins: ['@typescript-eslint', 'react', 'react-hooks'],
+  plugins: ['@typescript-eslint', 'react', 'react-hooks', 'simple-import-sort'],
   extends: [
     'eslint:recommended',
     'plugin:@typescript-eslint/recommended',
@@ -21,5 +21,23 @@ module.exports = {
     'react/jsx-uses-react': 'off',
     'react/react-in-jsx-scope': 'off',
     'no-bitwise': 'warn',
+    'simple-import-sort/imports': [
+      'error',
+      {
+        groups: [
+          // Packages `react` related packages come first.
+          ['^react', '^\\w'],
+          // Side effect imports.
+          ['^\\u0000'],
+          // Internal packages.
+          ['^@(?!.*/react$)', '^@', '^\\w', '^(@|components)(/.*|$)'],
+          // Parent imports. Put `..` last.
+          ['^\\.\\.(?!/?$)', '^\\.\\./?$'],
+          // Other relative imports. Put same-folder imports and `.` last.
+          ['^\\./(?=.*/)(?!/?$)', '^\\.(?!/?$)', '^\\./?$'],
+        ],
+      },
+    ],
+    'simple-import-sort/exports': 'error',
   },
 };

@@ -1,6 +1,7 @@
-import i18next from 'i18next';
 import React, { useContext } from 'react';
+import i18next from 'i18next';
 import { first } from 'rxjs/operators';
+
 import { getErrorMessage } from '../../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../../ApiHelpers/FunctionsService';
 import SiteService from '../../../../../../ApiHelpers/SiteService';
@@ -14,6 +15,7 @@ import { ArmFunctionDescriptor } from '../../../../../../utils/resourceDescripto
 import { ClosedReason } from '../BindingPanel/BindingEditor';
 import { BindingEditorContextInfo } from '../FunctionIntegrate';
 import { FunctionIntegrateConstants } from '../FunctionIntegrateConstants';
+
 import { cardStyle, headerStyle } from './BindingCard.styles';
 
 export interface BindingCardChildProps {

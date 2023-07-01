@@ -1,9 +1,12 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import { SearchBox } from '@fluentui/react';
-import { debounce } from 'lodash';
 import { memo, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { debounce } from 'lodash';
+
+import { SearchBox } from '@fluentui/react';
+
 import { IconConstants } from '../../utils/constants/IconConstants';
+
 import { filterTextFieldStyle } from './formControl.override.styles';
 
 export const getSearchFilter = (

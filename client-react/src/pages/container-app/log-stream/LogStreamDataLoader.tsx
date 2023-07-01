@@ -1,6 +1,8 @@
 import React from 'react';
-import LogStream, { LogStreamProps } from './LogStream';
+
 import LogService from '../../../utils/LogService';
+
+import LogStream, { LogStreamProps } from './LogStream';
 
 class LogStreamDataLoader extends React.Component<LogStreamProps> {
   constructor(props) {

@@ -1,3 +1,5 @@
+import React from 'react';
+
 import {
   DefaultButton,
   Dialog,
@@ -9,7 +11,7 @@ import {
   IStyleFunctionOrObject,
   PrimaryButton,
 } from '@fluentui/react';
-import React from 'react';
+
 import { headerStyle, modalContentStyles, modalFooterStyles, modalStyles } from './ConfirmDialog.styles';
 
 interface ConfirmDialogProps {

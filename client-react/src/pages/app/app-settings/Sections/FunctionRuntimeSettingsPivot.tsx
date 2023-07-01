@@ -1,19 +1,21 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
+import { isEqual } from 'lodash';
 import { style } from 'typestyle';
-import { AppSettingsFormValues, AppSettingsFormProps } from '../AppSettings.types';
+
+import { MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { SiteStateContext } from '../../../../SiteState';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { AppSettingsFormProps, AppSettingsFormValues } from '../AppSettings.types';
 import { findFormAppSettingValue } from '../AppSettingsFormData';
+import { PermissionsContext } from '../Contexts';
 import DailyUsageQuota from '../FunctionRuntimeSettings/DailyUsageQuota';
 import RuntimeScaleMonitoring from '../FunctionRuntimeSettings/RuntimeScaleMonitoring';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
-import { PermissionsContext } from '../Contexts';
-import { MessageBarType } from '@fluentui/react';
-import { SiteStateContext } from '../../../../SiteState';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import RuntimeVersionNew from '../FunctionRuntimeSettings/RuntimeVersionNew';
-import { isEqual } from 'lodash';
 
 const tabContainerStyle = style({
   marginTop: '15px',

@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { findDOMNode } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint, DropdownMenuItemType } from '@fluentui/react';
-import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
 import { style } from 'typestyle';
+
+import { Callout, DirectionalHint, Dropdown as OfficeDropdown, DropdownMenuItemType, IDropdownOption } from '@fluentui/react';
+
+import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
+
 import { fileSelectorDropdownStyle, keyDivStyle, urlDivStyle, urlFieldStyle, urlFormStyle } from './FunctionEditor.styles';
 import { UrlObj, UrlType } from './FunctionEditor.types';
 

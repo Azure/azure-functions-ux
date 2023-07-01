@@ -1,32 +1,35 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { ArmObj } from '../../../../models/arm-obj';
-import { Site } from '../../../../models/site/site';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, IDropdownOption, registerIcons, Icon, ResponsiveMode } from '@fluentui/react';
+import Markdown from 'markdown-to-jsx';
+
+import { Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
+
+import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import { MarkdownHighlighter } from '../../../../components/MarkdownComponents/MarkdownComponents';
+import { ReactComponent as TerminalIconSvg } from '../../../../images/Functions/terminal.svg';
+import { ReactComponent as VisualStudioIconSvg } from '../../../../images/Functions/visual_studio.svg';
+import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
+import { ArmObj } from '../../../../models/arm-obj';
+import { KeyValue } from '../../../../models/portal-models';
+import { Site } from '../../../../models/site/site';
+import { StartupInfoContext } from '../../../../StartupInfoContext';
+import { ThemeContext } from '../../../../ThemeContext';
+import { isElastic, isLinuxApp } from '../../../../utils/arm-utils';
+import { WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
+import { Links } from '../../../../utils/FwLinks';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
+import StringUtils from '../../../../utils/string';
+
 import {
-  formStyle,
   dropdownIconStyle,
+  formStyle,
+  markdownIconStyle,
   quickstartDropdownContainerStyle,
   quickstartDropdownLabelStyle,
   quickstartLinkStyle,
-  markdownIconStyle,
 } from './FunctionQuickstart.styles';
-import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
-import { ReactComponent as TerminalIconSvg } from '../../../../images/Functions/terminal.svg';
-import { ReactComponent as VisualStudioIconSvg } from '../../../../images/Functions/visual_studio.svg';
-import { FunctionQuickstartContext } from './FunctionQuickstartDataLoader';
-import { isLinuxApp, isElastic } from '../../../../utils/arm-utils';
-import Markdown from 'markdown-to-jsx';
-import { MarkdownHighlighter } from '../../../../components/MarkdownComponents/MarkdownComponents';
-import { StartupInfoContext } from '../../../../StartupInfoContext';
-import { ThemeContext } from '../../../../ThemeContext';
-import StringUtils from '../../../../utils/string';
-import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 import { QuickstartOptions } from './FunctionQuickstart.types';
-import { WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
-import { KeyValue } from '../../../../models/portal-models';
-import { Links } from '../../../../utils/FwLinks';
+import { FunctionQuickstartContext } from './FunctionQuickstartDataLoader';
 
 registerIcons({
   icons: {

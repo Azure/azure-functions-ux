@@ -1,19 +1,22 @@
-import { DetailsListLayoutMode, IColumn, PanelType, SelectionMode, TooltipHost } from '@fluentui/react';
-import { FormikProps } from 'formik';
 import React, { useContext, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { AppSettingsFormValues, FormErrorPage } from '../AppSettings.types';
-import IconButton from '../../../../components/IconButton/IconButton';
+import { FormikProps } from 'formik';
+
+import { DetailsListLayoutMode, IColumn, PanelType, SelectionMode, TooltipHost } from '@fluentui/react';
+
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithEmptyMessage, {
   defaultCellStyle,
 } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { PermissionsContext, SiteContext } from '../Contexts';
-import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import ErrorPageGridAddEdit from './ErrorPageGridAddEdit';
-import { boldCellStyle, overlayStyle } from './ErrorPageGrid.styles';
+import IconButton from '../../../../components/IconButton/IconButton';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import { AppSettingsFormValues, FormErrorPage } from '../AppSettings.types';
+import { PermissionsContext, SiteContext } from '../Contexts';
+
+import { boldCellStyle, overlayStyle } from './ErrorPageGrid.styles';
+import ErrorPageGridAddEdit from './ErrorPageGridAddEdit';
 
 const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);

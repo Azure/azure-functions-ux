@@ -1,7 +1,9 @@
+import i18next from 'i18next';
+
 import { IDropdownOption } from '@fluentui/react';
+
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
-import i18next from 'i18next';
 import { AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';

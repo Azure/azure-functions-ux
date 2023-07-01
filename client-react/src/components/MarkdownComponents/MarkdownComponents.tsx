@@ -1,9 +1,11 @@
 import React, { useContext } from 'react';
+
 import { ThemeContext } from '../../ThemeContext';
-import { markdownHighlighter, markdownHighlighterText, markdownCopyButtonStyle } from './MarkdownComponents.styles';
-import IconButton from '../IconButton/IconButton';
-import { TextUtilitiesService } from '../../utils/textUtilities';
 import { WorkerRuntimeLanguages } from '../../utils/CommonConstants';
+import { TextUtilitiesService } from '../../utils/textUtilities';
+import IconButton from '../IconButton/IconButton';
+
+import { markdownCopyButtonStyle, markdownHighlighter, markdownHighlighterText } from './MarkdownComponents.styles';
 
 export const MarkdownHighlighter: React.FC = props => {
   const theme = useContext(ThemeContext);

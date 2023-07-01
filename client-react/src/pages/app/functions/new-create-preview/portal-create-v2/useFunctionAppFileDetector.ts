@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+
 import { useFiles } from './useFiles';
 
 export function useFunctionAppFileDetector(resourceId: string) {

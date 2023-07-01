@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { EnvironmentVariable } from './Configuration.types';
+
+import ActionBar from '../../../components/ActionBar';
 import { addEditFormStyle } from '../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
-import ActionBar from '../../../components/ActionBar';
+
+import { EnvironmentVariable } from './Configuration.types';
 
 interface ConfigurationAddEditProps {
   cancel: () => void;

@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
-import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { AppInsightsOrchestrationTraceDetail, AppInsightsOrchestrationTrace } from '../../../../../../../models/app-insights';
+
+import { DetailsListLayoutMode, IColumn, ICommandBarItemProps, SelectionMode } from '@fluentui/react';
+
+import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { AppInsightsOrchestrationTrace, AppInsightsOrchestrationTraceDetail } from '../../../../../../../models/app-insights';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
-import { FunctionOrchestrationsContext } from './FunctionOrchestrationsDataLoader';
-import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { tabStyle } from '../FunctionMonitorTab.styles';
+
+import { FunctionOrchestrationsContext } from './FunctionOrchestrationsDataLoader';
 
 export interface FunctionOrchestrationDetailsProps {
   appInsightsResourceId: string;

@@ -1,7 +1,8 @@
-import { LogEntry, newLine, LogLevel, LogRegex, maxLogEntries, LogsEnabled, LogType } from './LogStream.types';
-import { TextUtilitiesService } from '../../../utils/textUtilities';
-import { Site } from '../../../models/site/site';
 import { SiteLogsConfig } from '../../../models/site/logs-config';
+import { Site } from '../../../models/site/site';
+import { TextUtilitiesService } from '../../../utils/textUtilities';
+
+import { LogEntry, LogLevel, LogRegex, LogsEnabled, LogType, maxLogEntries, newLine } from './LogStream.types';
 
 export function processLogs(logStream: string, oldLogs: LogEntry[]): LogEntry[] {
   let updatedLogs = oldLogs;

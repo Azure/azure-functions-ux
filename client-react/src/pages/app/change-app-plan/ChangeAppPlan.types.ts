@@ -1,11 +1,14 @@
-import { IDropdownOption } from '@fluentui/react';
 import { FormikProps } from 'formik';
+
+import { IDropdownOption } from '@fluentui/react';
+
 import { ArmObj } from '../../../models/arm-obj';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
 import { HostingEnvironmentProfile } from '../../../models/hostingEnvironment/hosting-environment-profile';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { Site } from '../../../models/site/site';
+
 import { ResourceGroupInfo } from './CreateOrSelectResourceGroup';
 
 export interface ChangeAppPlanProps {

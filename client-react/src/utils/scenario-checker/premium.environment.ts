@@ -1,6 +1,7 @@
 import { isPremium } from '../arm-utils';
+
+import { Environment, ScenarioCheckInput } from './scenario.models';
 import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 export class PremiumAppEnvironment extends Environment {
   public name = 'PremiumApp';
 

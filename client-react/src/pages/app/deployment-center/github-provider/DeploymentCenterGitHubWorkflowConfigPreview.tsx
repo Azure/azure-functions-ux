@@ -1,17 +1,19 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
-import { PanelType, DefaultButton, MessageBarType, PrimaryButton } from '@fluentui/react';
-import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import {
-  panelBanner,
-  deploymentCenterConsole,
-  closePreviewButtonStyle,
-  titleWithPaddingStyle,
-  buttonFooterStyle,
-} from '../DeploymentCenter.styles';
+
+import { DefaultButton, MessageBarType, PanelType, PrimaryButton } from '@fluentui/react';
+
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
+import {
+  buttonFooterStyle,
+  closePreviewButtonStyle,
+  deploymentCenterConsole,
+  panelBanner,
+  titleWithPaddingStyle,
+} from '../DeploymentCenter.styles';
+import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
 
 const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitHubWorkflowConfigPreviewProps> = props => {
   const { isPreviewFileButtonDisabled, getWorkflowFileContent, workflowFilePath, panelMessage } = props;

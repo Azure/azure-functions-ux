@@ -1,6 +1,7 @@
-import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, Environment } from './scenario.models';
 import { isLinuxApp, isLinuxDynamic, isWorkflowApp } from '../arm-utils';
+
+import { Environment, ScenarioCheckInput } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 export class FunctionAppEnvironment extends Environment {
   public name = 'FunctionApp';
 

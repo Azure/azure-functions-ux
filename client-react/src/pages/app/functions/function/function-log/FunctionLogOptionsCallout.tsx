@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
-import { LoggingOptions } from '../function-editor/FunctionEditor.types';
-import { Callout, DirectionalHint, PrimaryButton, DefaultButton } from '@fluentui/react';
-import { calloutStyle } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
-import { ThemeContext } from '../../../../../ThemeContext';
+
+import { Callout, DefaultButton, DirectionalHint, PrimaryButton } from '@fluentui/react';
+
 import { buttonStyle, buttonsWrapperStyle } from '../../../../../components/ActionBar';
-import { getTelemetryInfo } from '../../common/FunctionsUtility';
 import { PortalContext } from '../../../../../PortalContext';
+import { ThemeContext } from '../../../../../ThemeContext';
+import { getTelemetryInfo } from '../../common/FunctionsUtility';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+
+import { calloutStyle } from './FunctionLog.styles';
 
 interface FunctionLogOptionsCalloutProps {
   setIsDialogVisible: (isVisible: boolean) => void;

@@ -1,22 +1,24 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { style } from 'typestyle';
+
+import KeyVaultService from '../../../ApiHelpers/KeyVaultService';
 import InformationLabel from '../../../components/InformationLabel/InformationLabel';
 import { Reference } from '../../../models/site/config';
-import { ThemeContext } from '../../../ThemeContext';
-import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
-import { style } from 'typestyle';
 import { PortalContext } from '../../../PortalContext';
+import { SiteStateContext } from '../../../SiteState';
+import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
+import { ThemeContext } from '../../../ThemeContext';
 import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
-import KeyVaultService from '../../../ApiHelpers/KeyVaultService';
+import Url from '../../../utils/url';
+
 import { bladeLinkStyle } from './AppSettings.styles';
+import { ReferenceStatus } from './AppSettings.types';
 import {
   getReferenceStatus,
-  isKeyVaultReferenceUnResolved as isReferenceUnResolved,
   getReferenceStatusIconProps,
+  isKeyVaultReferenceUnResolved as isReferenceUnResolved,
 } from './AppSettingsFormData';
-import { ReferenceStatus } from './AppSettings.types';
-import { SiteStateContext } from '../../../SiteState';
-import Url from '../../../utils/url';
 
 export interface ReferenceComponentProps {
   appSettingReference: Reference;

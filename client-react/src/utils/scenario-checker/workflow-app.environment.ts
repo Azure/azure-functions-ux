@@ -1,7 +1,8 @@
-import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput } from './scenario.models';
-import { FunctionAppEnvironment } from './function-app.environment';
 import { isWorkflowApp } from '../arm-utils';
+
+import { FunctionAppEnvironment } from './function-app.environment';
+import { ScenarioCheckInput } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 export class WorkflowAppEnvironment extends FunctionAppEnvironment {
   public name = 'WorkflowApp';
 

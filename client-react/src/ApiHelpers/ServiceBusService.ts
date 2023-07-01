@@ -1,8 +1,9 @@
-import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
-import MakeArmCall from './ArmHelper';
 import { ArmArray } from '../models/arm-obj';
+import { AuthorizationRule, KeyList, Namespace } from '../models/servicebus';
 import { CommonConstants } from '../utils/CommonConstants';
-import { Namespace, AuthorizationRule, KeyList } from '../models/servicebus';
+import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
+
+import MakeArmCall from './ArmHelper';
 
 export default class ServiceBusService {
   public static fetchNamespaces = (resourceId: string) => {

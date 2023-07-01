@@ -1,9 +1,12 @@
-import { IDropdownOption } from '@fluentui/react';
-import { FormikProps } from 'formik';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FormikProps } from 'formik';
+
+import { IDropdownOption } from '@fluentui/react';
+
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
 import { useUserPromptQuery } from '../../function/hooks/useUserPromptQuery';
+
 import { JobType } from './JobType';
 import { useFields } from './useFields';
 import { useFunctionAppFileDetector } from './useFunctionAppFileDetector';

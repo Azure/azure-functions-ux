@@ -1,8 +1,10 @@
-import { RouteComponentProps, Router } from '@reach/router';
 import React, { lazy, useContext } from 'react';
+
+import { RouteComponentProps, Router } from '@reach/router';
+
 import { StartupInfoContext } from '../../StartupInfoContext';
-import { ThemeContext } from '../../ThemeContext';
 import { iconStyles } from '../../theme/iconStyles';
+import { ThemeContext } from '../../ThemeContext';
 
 const ConfigurationLoadable: any = lazy(() => import(/* webpackChunkName: "configuration" */ './configuration/ConfigurationDataLoader'));
 

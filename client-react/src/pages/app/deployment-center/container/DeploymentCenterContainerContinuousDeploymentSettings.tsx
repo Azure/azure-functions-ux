@@ -1,12 +1,13 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { DeploymentCenterFieldProps, DeploymentCenterContainerFormData, SettingOption } from '../DeploymentCenter.types';
-import { Field } from 'formik';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import { TextFieldType } from '../../../../utils/CommonConstants';
+import { DeploymentCenterContainerFormData, DeploymentCenterFieldProps, SettingOption } from '../DeploymentCenter.types';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { getAppDockerWebhookUrl } from '../utility/DeploymentCenterUtility';
-import { TextFieldType } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterContainerContinuousDeploymentSettings: React.FC<DeploymentCenterFieldProps<
   DeploymentCenterContainerFormData

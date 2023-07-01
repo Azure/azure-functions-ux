@@ -1,6 +1,7 @@
 import { ServiceLinkerWebAppConfiguration } from '../../../models/service-linker';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import Url from '../../../utils/url';
+
 import { AppSettingsFormValues, FormAppSetting, FormConnectionString } from './AppSettings.types';
 
 export const isServiceLinkerVisible = () => {

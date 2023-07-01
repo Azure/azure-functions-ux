@@ -1,22 +1,24 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { DeploymentCenterCommitLogsProps, DeploymentLogsItem } from '../DeploymentCenter.types';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { ArmArray, ArmObj } from '../../../../models/arm-obj';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ProgressIndicator, IColumn, Link, PrimaryButton, CommandBar, ICommandBarItemProps } from '@fluentui/react';
-import { deploymentCenterLogsError, deploymentCenterConsole, closePublishProfileButtonStyle } from '../DeploymentCenter.styles';
-import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
-import { ThemeContext } from '../../../../ThemeContext';
-import { PortalContext } from '../../../../PortalContext';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { ScmType } from '../../../../models/site/config';
-import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
-import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
+
+import { CommandBar, IColumn, ICommandBarItemProps, Link, PrimaryButton, ProgressIndicator } from '@fluentui/react';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import CustomFocusTrapCallout from '../../../../components/CustomCallout/CustomFocusTrapCallout';
+import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
+import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
+import { ArmArray, ArmObj } from '../../../../models/arm-obj';
+import { ScmType } from '../../../../models/site/config';
+import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
+import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { ThemeContext } from '../../../../ThemeContext';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { closePublishProfileButtonStyle, deploymentCenterConsole, deploymentCenterLogsError } from '../DeploymentCenter.styles';
+import { DeploymentCenterCommitLogsProps, DeploymentLogsItem } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = props => {
   const { commitId, dismissLogPanel } = props;

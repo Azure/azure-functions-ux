@@ -1,12 +1,15 @@
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import DeploymentCenterGitHubAccount from './DeploymentCenterGitHubAccount';
-import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
-import { SiteStateContext } from '../../../../SiteState';
+
+import { DefaultButton, Dialog, DialogFooter, DialogType, MessageBar, MessageBarType, PrimaryButton } from '@fluentui/react';
+
 import ComboBox from '../../../../components/form-controls/ComboBox';
-import { Dialog, DialogFooter, DialogType, MessageBar, MessageBarType, PrimaryButton, DefaultButton } from '@fluentui/react';
+import { SiteStateContext } from '../../../../SiteState';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
+
+import DeploymentCenterGitHubAccount from './DeploymentCenterGitHubAccount';
 
 const DeploymentCenterGitHubProvider: React.FC<DeploymentCenterGitHubProviderProps> = props => {
   const { t } = useTranslation();

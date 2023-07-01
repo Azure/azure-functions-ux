@@ -1,21 +1,24 @@
 import React, { useContext } from 'react';
-import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
-import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
-import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterContainerPivotProps } from '../DeploymentCenter.types';
-import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
+
+import { IPivotItemProps, Pivot, PivotItem } from '@fluentui/react';
+
 import { ScmType } from '../../../../models/site/config';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
-import { ThemeContext } from '../../../../ThemeContext';
-import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
-import { SiteStateContext } from '../../../../SiteState';
-import DeploymentCenterGitHubActionsCodeLogs from '../code/DeploymentCenterGitHubActionsCodeLogs';
-import { getTelemetryInfo, isFtpsDirty, isSettingsDirty } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { SiteStateContext } from '../../../../SiteState';
+import { ThemeContext } from '../../../../ThemeContext';
 import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
+import DeploymentCenterGitHubActionsCodeLogs from '../code/DeploymentCenterGitHubActionsCodeLogs';
+import { DeploymentCenterContainerPivotProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import DeploymentCenterFtps from '../DeploymentCenterFtps';
+import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { getTelemetryInfo, isFtpsDirty, isSettingsDirty } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
+import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
   const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh, tab } = props;

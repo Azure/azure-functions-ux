@@ -1,6 +1,7 @@
-import { Spinner, SpinnerSize, Overlay } from '@fluentui/react';
 import React from 'react';
 import { style } from 'typestyle/lib';
+
+import { Overlay, Spinner, SpinnerSize } from '@fluentui/react';
 
 interface LoadingComponentProps {
   className?: string;

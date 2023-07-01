@@ -1,18 +1,21 @@
-import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
-import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluentui/react/lib/ChoiceGroup';
-import Dialog, { DialogFooter, DialogType, IDialogContentProps } from '@fluentui/react/lib/Dialog';
-import { TextField } from '@fluentui/react/lib/TextField';
-import { debounce } from 'lodash-es';
 import React, { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import useBoolean from 'react-use/lib/useBoolean';
 import useWindowSize from 'react-use/lib/useWindowSize';
+import { debounce } from 'lodash-es';
 import { XTerm } from 'xterm-for-react';
+
+import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
+import { ChoiceGroup, IChoiceGroupOption, IChoiceGroupOptionProps } from '@fluentui/react/lib/ChoiceGroup';
+import Dialog, { DialogFooter, DialogType, IDialogContentProps } from '@fluentui/react/lib/Dialog';
+import { TextField } from '@fluentui/react/lib/TextField';
+
 import ContainerAppService from '../../../ApiHelpers/ContainerAppService';
 import { PortalContext } from '../../../PortalContext';
 import { KeyBoard } from '../../../utils/CommonConstants';
 import { containerAppStyles } from '../ContainerApp.styles';
 import { getTerminalDimensions } from '../xtermHelper';
+
 import { consoleStyles, dialogFooterStyles, dialogTitleStyles } from './ConsoleDataLoader.styles';
 
 export interface ConsoleDataLoaderProps {

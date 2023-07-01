@@ -1,8 +1,10 @@
-import { Formik, FormikProps } from 'formik';
-import i18next from 'i18next';
-import { Link, MessageBar, MessageBarType, Stack } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Formik, FormikProps } from 'formik';
+import i18next from 'i18next';
+
+import { Link, MessageBar, MessageBarType, Stack } from '@fluentui/react';
+
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import ResourceGroupService from '../../../ApiHelpers/ResourceGroupService';
 import ServerFarmService from '../../../ApiHelpers/ServerFarmService';
@@ -12,14 +14,17 @@ import { BroadcastMessageId, KeyValue } from '../../../models/portal-models';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { Site } from '../../../models/site/site';
+import { LogLevel, TelemetryInfo } from '../../../models/telemetry';
 import PortalCommunicator from '../../../portal-communicator';
 import { PortalContext } from '../../../PortalContext';
+import { CommonConstants } from '../../../utils/CommonConstants';
+import { Links } from '../../../utils/FwLinks';
 import { LogCategories } from '../../../utils/LogCategories';
 import { ArmPlanDescriptor, ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
-import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { getDefaultServerFarmName } from '../../../utils/validation/serverFarmValidator';
-import { Links } from '../../../utils/FwLinks';
+
 import { formStyle, wrapperStyle } from './ChangeAppPlan.styles';
 import {
   ChangeAppPlanFormValues,
@@ -28,13 +33,10 @@ import {
   CreateOrSelectPlanFormValues,
   NewServerFarmInfo,
 } from './ChangeAppPlan.types';
-
-import { ChangeAppPlanFooter } from './ChangeAppPlanFooter';
 import { CurrentPlanDetails } from './ChangeAppPlanCurrentPlanDetails';
 import { DestinationPlanDetails } from './ChangeAppPlanDestinationPlanDetails';
+import { ChangeAppPlanFooter } from './ChangeAppPlanFooter';
 import { ChangeAppPlanHeader } from './ChangeAppPlanHeader';
-import { LogLevel, TelemetryInfo } from '../../../models/telemetry';
-import { CommonConstants } from '../../../utils/CommonConstants';
 
 export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
   const { serverFarms, resourceGroups, site, currentServerFarm, hostingEnvironment, onChangeComplete } = props;

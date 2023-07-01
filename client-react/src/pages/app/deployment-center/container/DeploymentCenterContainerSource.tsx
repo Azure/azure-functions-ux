@@ -1,20 +1,22 @@
 import React, { useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IChoiceGroupOption, Link, MessageBarType } from '@fluentui/react';
 import { Field } from 'formik';
+
+import { IChoiceGroupOption, Link, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScmType } from '../../../../models/site/config';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { SiteStateContext } from '../../../../SiteState';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
-import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { t } = useTranslation();

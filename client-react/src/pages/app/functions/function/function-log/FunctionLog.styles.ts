@@ -1,7 +1,9 @@
 import { style } from 'typestyle';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
-import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+
 import { IButtonStyles } from '@fluentui/react';
+
+import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 export const getMaximizedLogPanelHeight = (readOnlyBannerHeight?: number) => {
   return window.innerHeight - (164 + (readOnlyBannerHeight || 0));

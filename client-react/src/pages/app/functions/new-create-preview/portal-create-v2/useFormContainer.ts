@@ -1,8 +1,10 @@
-import { FormikConfig } from 'formik';
 import { useCallback, useContext, useMemo, useState } from 'react';
-import { PortalContext } from '../../../../../PortalContext';
+import { FormikConfig } from 'formik';
+
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
+import { PortalContext } from '../../../../../PortalContext';
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
+
 import { getJobInputs } from './Helpers';
 import { JobType } from './JobType';
 import { useFunctionAppFileDetector } from './useFunctionAppFileDetector';

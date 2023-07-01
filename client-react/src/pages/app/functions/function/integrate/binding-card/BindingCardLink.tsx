@@ -1,6 +1,8 @@
-import { Link } from '@fluentui/react';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Link } from '@fluentui/react';
+
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { Binding } from '../../../../../../models/functions/binding';
 import { BindingDirection } from '../../../../../../models/functions/binding';
@@ -10,6 +12,7 @@ import PortalCommunicator from '../../../../../../portal-communicator';
 import { BindingManager } from '../../../../../../utils/BindingManager';
 import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { BindingEditorContextInfo } from '../FunctionIntegrate';
+
 import { editExisting } from './BindingCard';
 
 interface BindingCardLinkProps {

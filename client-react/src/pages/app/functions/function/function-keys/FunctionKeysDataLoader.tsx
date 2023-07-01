@@ -1,11 +1,13 @@
-import React, { useState, useContext, useEffect } from 'react';
-import FunctionKeysData from './FunctionKeys.data';
-import { FunctionKeysFormValues } from './FunctionKeys.types';
-import { PortalContext } from '../../../../../PortalContext';
-import FunctionKeys from './FunctionKeys';
+import React, { useContext, useEffect, useState } from 'react';
+
 import SiteService from '../../../../../ApiHelpers/SiteService';
+import { PortalContext } from '../../../../../PortalContext';
 import { SiteStateContext } from '../../../../../SiteState';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+
+import FunctionKeys from './FunctionKeys';
+import FunctionKeysData from './FunctionKeys.data';
+import { FunctionKeysFormValues } from './FunctionKeys.types';
 
 const functionKeysData = new FunctionKeysData();
 export const FunctionKeysContext = React.createContext(functionKeysData);

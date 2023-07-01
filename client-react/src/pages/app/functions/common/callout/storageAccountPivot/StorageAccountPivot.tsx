@@ -1,19 +1,22 @@
-import { FieldProps, Formik, FormikProps } from 'formik';
-import { IDropdownOption, IDropdownProps, PrimaryButton, DefaultButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FieldProps, Formik, FormikProps } from 'formik';
+
+import { DefaultButton, IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
+
 import Dropdown, { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../../components/form-controls/ReactiveFormControl';
 import LoadingComponent from '../../../../../../components/Loading/LoadingComponent';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { StorageAccount, StorageAccountKeys } from '../../../../../../models/storage-account';
+import { PortalContext } from '../../../../../../PortalContext';
 import { NationalCloudEnvironment } from '../../../../../../utils/scenario-checker/national-cloud.environment';
+import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 import { generateAppSettingName } from '../../ResourceDropdown';
 import { NewConnectionCalloutProps } from '../Callout.properties';
+
 import { primaryButtonStyle } from './StorageAccountPivot.styles';
 import { StorageAccountPivotContext } from './StorageAccountPivotDataLoader';
-import { PortalContext } from '../../../../../../PortalContext';
-import { getTelemetryInfo } from '../../../../../../utils/TelemetryUtils';
 
 interface StorageAccountPivotFormValues {
   storageAccount: ArmObj<StorageAccount> | undefined;

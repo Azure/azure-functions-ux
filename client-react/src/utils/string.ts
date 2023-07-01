@@ -1,5 +1,7 @@
 import { isEqual } from 'lodash-es';
+
 import { KeyValue } from '../models/portal-models';
+
 import { ValidationRegex } from './constants/ValidationRegex';
 
 export default class StringUtils {

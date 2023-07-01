@@ -1,14 +1,16 @@
 import React from 'react';
-import { LogEntry, LogsEnabled, LogType } from './LogStream.types';
-import { processLogs, processLogConfig, logStreamEnabled } from './LogStreamData';
-import LogStream from './LogStream';
+
 import SiteService from '../../../ApiHelpers/SiteService';
-import LogService from '../../../utils/LogService';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { isFunctionApp } from '../../../utils/arm-utils';
 import { LogCategories } from '../../../utils/LogCategories';
+import LogService from '../../../utils/LogService';
 import Url from '../../../utils/url';
+
+import LogStream from './LogStream';
+import { LogEntry, LogsEnabled, LogType } from './LogStream.types';
+import { logStreamEnabled, processLogConfig, processLogs } from './LogStreamData';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;

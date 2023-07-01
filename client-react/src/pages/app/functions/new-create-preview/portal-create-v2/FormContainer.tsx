@@ -1,10 +1,12 @@
-import { Formik } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Formik } from 'formik';
+
 import ActionBar from '../../../../../components/ActionBar';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { HostStatus } from '../../../../../models/functions/host-status';
 import { BindingEditorFormValues } from '../../common/BindingFormBuilder';
 import { formContainerDivStyle, formContainerStyle } from '../FunctionCreate.styles';
+
 import TemplateList from './TemplateList';
 import { useFormContainer } from './useFormContainer';
 

@@ -1,11 +1,14 @@
-import { css, IComboBox, IComboBoxOption, IComboBoxProps, IDropdownOption, Spinner, SpinnerSize } from '@fluentui/react';
+import { useContext, useEffect, useState } from 'react';
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
-import { useContext, useEffect, useState } from 'react';
+
+import { css, IComboBox, IComboBoxOption, IComboBoxProps, IDropdownOption, Spinner, SpinnerSize } from '@fluentui/react';
+
 import { comboBoxSpinnerStyle, loadingComboBoxStyle } from '../../pages/app/deployment-center/DeploymentCenter.styles';
 import { formikOnBlur } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
 import { ThemeContext } from '../../ThemeContext';
+
 import ComboBoxNoFormik from './ComboBoxnoFormik';
 
 interface CustomComboBoxProps {

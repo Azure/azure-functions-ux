@@ -1,16 +1,18 @@
-import React, { useEffect, useState, useContext } from 'react';
-import AppFilesData from './AppFiles.data';
-import AppFiles from './AppFiles';
-import { ArmObj } from '../../../../models/arm-obj';
-import { Site } from '../../../../models/site/site';
+import React, { useContext, useEffect, useState } from 'react';
+
+import FunctionsService from '../../../../ApiHelpers/FunctionsService';
 import SiteService from '../../../../ApiHelpers/SiteService';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
+import { ArmObj } from '../../../../models/arm-obj';
 import { VfsObject } from '../../../../models/functions/vfs';
+import { Site } from '../../../../models/site/site';
+import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
-import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+
+import AppFiles from './AppFiles';
+import AppFilesData from './AppFiles.data';
 
 interface AppFilesDataLoaderProps {
   resourceId: string;

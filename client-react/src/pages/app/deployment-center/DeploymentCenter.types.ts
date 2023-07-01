@@ -1,19 +1,22 @@
-import { ArmArray } from '../../../models/arm-obj';
 import { FormikProps } from 'formik';
-import * as Yup from 'yup';
-import { ScmType, BuildProvider } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
-import { GitHubUser } from '../../../models/github';
-import { IDropdownOption, IChoiceGroupOption, MessageBarType } from '@fluentui/react';
+import * as Yup from 'yup';
+
+import { IChoiceGroupOption, IDropdownOption, MessageBarType } from '@fluentui/react';
+
+import { ArmArray } from '../../../models/arm-obj';
 import { BitbucketUser } from '../../../models/bitbucket';
-import { RepoTypeOptions } from '../../../models/external';
-import { OneDriveUser } from '../../../models/onedrive';
 import { DropboxUser } from '../../../models/dropbox';
+import { RepoTypeOptions } from '../../../models/external';
+import { GitHubUser } from '../../../models/github';
+import { OneDriveUser } from '../../../models/onedrive';
 import { KeyValue } from '../../../models/portal-models';
+import { BuildProvider, ScmType } from '../../../models/site/config';
+import PortalCommunicator from '../../../portal-communicator';
+
 import DeploymentCenterData from './DeploymentCenter.data';
 import { IDeploymentCenterContext } from './DeploymentCenterContext';
-import PortalCommunicator from '../../../portal-communicator';
 
 export enum SourceControlOptions {
   GitHub = 'github',

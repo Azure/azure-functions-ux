@@ -1,25 +1,28 @@
-import { Checkbox, IDropdownOption } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import ActionBar from '../../../../components/ActionBar';
-import { formElementStyle } from '../AppSettings.styles';
-import { FormConnectionString } from '../AppSettings.types';
-import { DatabaseType, typeValueToString } from './connectionStringTypes';
+
+import { Checkbox, IDropdownOption } from '@fluentui/react';
 import { MessageBarType } from '@fluentui/react';
-import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+
+import ActionBar from '../../../../components/ActionBar';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { isLinuxApp } from '../../../../utils/arm-utils';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { ArmObj } from '../../../../models/arm-obj';
-import { Site } from '../../../../models/site/site';
-import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import ReferenceComponent from '../ReferenceComponent';
 import { Reference } from '../../../../models/site/config';
-import { CommonConstants, azureAppConfigRefStart } from '../../../../utils/CommonConstants';
-import { getAllConnectionStringsReferences } from '../AppSettings.service';
+import { Site } from '../../../../models/site/site';
 import { PortalContext } from '../../../../PortalContext';
+import { isLinuxApp } from '../../../../utils/arm-utils';
+import { azureAppConfigRefStart, CommonConstants } from '../../../../utils/CommonConstants';
+import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import { Links } from '../../../../utils/FwLinks';
+import { getAllConnectionStringsReferences } from '../AppSettings.service';
+import { formElementStyle } from '../AppSettings.styles';
+import { FormConnectionString } from '../AppSettings.types';
+import ReferenceComponent from '../ReferenceComponent';
+
+import { DatabaseType, typeValueToString } from './connectionStringTypes';
 
 export interface ConnectionStringAddEditProps {
   updateConnectionString: (item: FormConnectionString) => any;

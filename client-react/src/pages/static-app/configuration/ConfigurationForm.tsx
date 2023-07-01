@@ -1,8 +1,10 @@
-import { MessageBarType } from '@fluentui/react';
-import { Formik, FormikActions, FormikProps } from 'formik';
-import { sortBy } from 'lodash-es';
 import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Formik, FormikActions, FormikProps } from 'formik';
+import { sortBy } from 'lodash-es';
+
+import { MessageBarType } from '@fluentui/react';
+
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
@@ -11,6 +13,7 @@ import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { PortalContext } from '../../../PortalContext';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { getTelemetryInfo } from '../StaticSiteUtility';
+
 import ConfigurationData from './Configuration.data';
 import { commandBarSticky } from './Configuration.styles';
 import {

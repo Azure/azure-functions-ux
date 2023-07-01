@@ -1,4 +1,8 @@
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import {
+  Icon,
   IDropdownOption,
   IDropdownProps,
   IDropdownStyleProps,
@@ -6,13 +10,14 @@ import {
   ILinkStyles,
   IRenderFunction,
   IStyleFunctionOrObject,
-  Icon,
   Link,
 } from '@fluentui/react';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+
 import { ThemeExtended } from '../../../../theme/SemanticColorsExtended';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import { Links } from '../../../../utils/FwLinks';
+import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
+import Url from '../../../../utils/url';
 import { useFunctionsQuery } from '../function/hooks/useFunctionsQuery';
 import { useSiteConfigQuery } from '../function/hooks/useSiteConfigQuery';
 

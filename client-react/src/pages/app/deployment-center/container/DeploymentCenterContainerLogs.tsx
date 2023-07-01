@@ -1,19 +1,21 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { ProgressIndicator } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
+
+import { ProgressIndicator } from '@fluentui/react';
+
+import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
+import { BladeCloseData, BladeCloseReason } from '../../../../models/portal-models';
+import { PortalContext } from '../../../../PortalContext';
 import {
-  logsTimerStyle,
   deploymentCenterContainerLogsBox,
-  logsButtonStyle,
-  downloadButtonStyle,
   deploymentCenterContent,
+  downloadButtonStyle,
+  logsButtonStyle,
+  logsTimerStyle,
 } from '../DeploymentCenter.styles';
 import { DeploymentCenterContainerLogsProps } from '../DeploymentCenter.types';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { PortalContext } from '../../../../PortalContext';
-import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { BladeCloseData, BladeCloseReason } from '../../../../models/portal-models';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 interface ArchiveSettingsBladeResponse {
   openArchiveSetting: boolean;

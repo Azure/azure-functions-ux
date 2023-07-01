@@ -3,18 +3,19 @@ import FunctionsService from '../ApiHelpers/FunctionsService';
 import SiteService from '../ApiHelpers/SiteService';
 import { AppSettings } from '../models/app-setting';
 import { ArmArray, ArmObj } from '../models/arm-obj';
-import { HostStatus, FunctionAppContentEditingState } from '../models/functions/host-status';
+import { FunctionAppContentEditingState, HostStatus } from '../models/functions/host-status';
 import { FunctionAppEditMode, SiteReadWriteState } from '../models/portal-models';
 import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
+import { isNewNodeProgrammingModel } from '../pages/app/functions/function/function-editor/useFunctionEditorQueries';
 import PortalCommunicator from '../portal-communicator';
-import { isContainerAppEnvironmentApp, isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
+
+import { isContainerApp, isContainerAppEnvironmentApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
 import { CommonConstants } from './CommonConstants';
 import FunctionAppService from './FunctionAppService';
 import RbacConstants from './rbac-constants';
 import { ArmSiteDescriptor } from './resourceDescriptors';
 import SiteHelper from './SiteHelper';
-import { isNewNodeProgrammingModel } from '../pages/app/functions/function/function-editor/useFunctionEditorQueries';
 import Url from './url';
 
 export async function resolveState(

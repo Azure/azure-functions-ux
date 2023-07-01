@@ -1,15 +1,16 @@
-import { Field } from 'formik';
 import React, { useContext } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
-import { AppSettingsFormProps } from '../AppSettings.types';
-import { PermissionsContext } from '../Contexts';
-import RadioButton from '../../../../components/form-controls/RadioButton';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { Field } from 'formik';
 import { isEqual } from 'lodash-es';
-import { Links } from '../../../../utils/FwLinks';
-import { findFormAppSettingValue } from '../AppSettingsFormData';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+
+import RadioButton from '../../../../components/form-controls/RadioButton';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import { FunctionsRuntimeVersionHelper } from '../../../../utils/FunctionsRuntimeVersionHelper';
+import { Links } from '../../../../utils/FwLinks';
+import { AppSettingsFormProps } from '../AppSettings.types';
+import { findFormAppSettingValue } from '../AppSettingsFormData';
+import { PermissionsContext } from '../Contexts';
 
 const RuntimeScaleMonitoring: React.FC<AppSettingsFormProps & WithTranslation> = props => {
   const { t, values, initialValues, asyncData } = props;

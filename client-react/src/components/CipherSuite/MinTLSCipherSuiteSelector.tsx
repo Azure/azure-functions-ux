@@ -1,20 +1,23 @@
 import React from 'react';
+import { useContext } from 'react';
+import { useTranslation } from 'react-i18next';
 import { FieldProps } from 'formik';
+
 import { Link } from '@fluentui/react/lib/components/Link';
 import { Text } from '@fluentui/react/lib/components/Text';
-import CustomPanel from '../CustomPanel/CustomPanel';
-import { CipherSuite } from '../../models/site/site';
 import { PanelType } from '@fluentui/react/lib/Panel';
-import ReactiveFormControl from '../form-controls/ReactiveFormControl';
-import DropdownNoFormik from '../form-controls/DropDownnoFormik';
 import { IDropdownOption, MessageBar, MessageBarType } from '@fluentui/react';
-import { cipherSuiteSelectorStyle, cipherSuiteStyle } from './MinTLSCipherSuiteSelector.styles';
-import { useTranslation } from 'react-i18next';
+
 import { ReactComponent as ErrorSvg } from '../../images/Common/Error.svg';
 import { ReactComponent as SuccessSvg } from '../../images/Common/Success.svg';
-import ActionBar from '../ActionBar';
+import { CipherSuite } from '../../models/site/site';
 import { ThemeContext } from '../../ThemeContext';
-import { useContext } from 'react';
+import ActionBar from '../ActionBar';
+import CustomPanel from '../CustomPanel/CustomPanel';
+import DropdownNoFormik from '../form-controls/DropDownnoFormik';
+import ReactiveFormControl from '../form-controls/ReactiveFormControl';
+
+import { cipherSuiteSelectorStyle, cipherSuiteStyle } from './MinTLSCipherSuiteSelector.styles';
 
 export interface MinTLSCipherSuiteSelectorProps {
   onChange?: (_e, checked: boolean) => void;

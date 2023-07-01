@@ -1,9 +1,10 @@
-import { CommonConstants } from '../utils/CommonConstants';
-import MakeArmCall from './ArmHelper';
-import { ARGRequest, MakeAzureResourceGraphCall } from './ArgHelper';
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ServerFarm } from '../models/serverFarm/serverfarm';
 import PortalCommunicator from '../portal-communicator';
+import { CommonConstants } from '../utils/CommonConstants';
+
+import { ARGRequest, MakeAzureResourceGraphCall } from './ArgHelper';
+import MakeArmCall from './ArmHelper';
 
 export default class ServerFarmService {
   public static fetchServerFarm = (resourceId: string) => {

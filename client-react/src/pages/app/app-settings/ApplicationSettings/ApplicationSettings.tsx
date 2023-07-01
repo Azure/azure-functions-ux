@@ -1,34 +1,37 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import React, { lazy, Suspense, useState, useContext, useEffect } from 'react';
+import React, { lazy, Suspense, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormikPropsCombined, FormAppSetting } from '../AppSettings.types';
-import AppSettingAddEdit from './AppSettingAddEdit';
-import { PermissionsContext } from '../Contexts';
+import { sortBy } from 'lodash-es';
+
 import {
-  TooltipHost,
-  ICommandBarItemProps,
   ActionButton,
   DetailsListLayoutMode,
-  IColumn,
-  SelectionMode,
-  IDetailsList,
-  IDetailsRowStyles,
   DetailsRow,
+  IColumn,
+  ICommandBarItemProps,
+  IDetailsList,
   IDetailsListProps,
+  IDetailsRowStyles,
+  SelectionMode,
+  TooltipHost,
 } from '@fluentui/react';
-import { sortBy } from 'lodash-es';
-import LoadingComponent from '../../../../components/Loading/LoadingComponent';
-import { dirtyElementStyle } from '../AppSettings.styles';
-import { isLinuxApp } from '../../../../utils/arm-utils';
-import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import { ThemeContext } from '../../../../ThemeContext';
+import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
-import SettingSourceColumn from '../SettingSourceColumn';
-import { isServiceLinkerVisible, isSettingServiceLinker } from '../AppSettings.utils';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { SearchFilterWithResultAnnouncement } from '../../../../components/form-controls/SearchBox';
+import IconButton from '../../../../components/IconButton/IconButton';
+import LoadingComponent from '../../../../components/Loading/LoadingComponent';
+import { ThemeContext } from '../../../../ThemeContext';
+import { isLinuxApp } from '../../../../utils/arm-utils';
+import { dirtyElementStyle } from '../AppSettings.styles';
+import { AppSettingsFormikPropsCombined, FormAppSetting } from '../AppSettings.types';
+import { isServiceLinkerVisible, isSettingServiceLinker } from '../AppSettings.utils';
+import { PermissionsContext } from '../Contexts';
+import SettingSourceColumn from '../SettingSourceColumn';
+
+import AppSettingAddEdit from './AppSettingAddEdit';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 

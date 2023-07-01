@@ -1,12 +1,15 @@
-import { IPivotItemProps, Pivot, PivotItem } from '@fluentui/react';
 import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { IPivotItemProps, Pivot, PivotItem } from '@fluentui/react';
+
 import { PortalContext } from '../../../PortalContext';
 import { ThemeContext } from '../../../ThemeContext';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import Url from '../../../utils/url';
 import CustomTabRenderer from '../../app/app-settings/Sections/CustomTabRenderer';
 import { getTelemetryInfo } from '../StaticSiteUtility';
+
 import Configuration from './Configuration';
 import { ConfigurationPivotProps, StaticSiteSku } from './Configuration.types';
 import ConfigurationGeneralSettings from './ConfigurationGeneralSettings';

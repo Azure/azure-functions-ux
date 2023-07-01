@@ -1,10 +1,12 @@
-import { Field } from 'formik';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
+import { Layout } from '../../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../../components/form-controls/TextField';
 import { horizontalLabelStyle } from '../../common/BindingFormBuilder.styles';
+
 import { useFiles } from './useFiles';
-import { Layout } from '../../../../../components/form-controls/ReactiveFormControl';
 
 interface NewFileTextFieldProps {
   id: string;

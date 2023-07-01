@@ -1,15 +1,16 @@
+import PortalCommunicator from '../../../../portal-communicator';
+import { JavaContainers, RuntimeStacks } from '../../../../utils/stacks-utils';
+import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+import DeploymentCenterData from '../DeploymentCenter.data';
 import {
   CodeWorkflowInformation,
   ContainerWorkflowInformation,
-  WorkflowOption,
   SiteSourceControlRequestBody,
+  WorkflowOption,
 } from '../DeploymentCenter.types';
-import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
-import { getWorkflowFileName } from './DeploymentCenterUtility';
-import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
-import PortalCommunicator from '../../../../portal-communicator';
-import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
+
+import { getWorkflowFileName } from './DeploymentCenterUtility';
 
 export const updateGitHubActionAppSettingsForPython = async (
   deploymentCenterData: DeploymentCenterData,

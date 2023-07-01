@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../ThemeContext';
-import { CommandBarButtonStyle } from '../pages/app/app-settings/AppSettings.styles';
+
 import { CommandBarButton, IButtonProps } from '@fluentui/react';
+
+import { CommandBarButtonStyle } from '../pages/app/app-settings/AppSettings.styles';
+import { ThemeContext } from '../ThemeContext';
 
 export const CustomCommandBarButton: React.FC<IButtonProps> = props => {
   const theme = useContext(ThemeContext);

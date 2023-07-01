@@ -1,25 +1,28 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+import { toInteger } from 'lodash-es';
+
+import { IDropdownOption } from '@fluentui/react';
+
+import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
+import { AppStackMinorVersion, AppStackOs } from '../../../../../models/stacks/app-stacks';
+import { JavaContainers as JavaContainersInterface, WebAppRuntimes, WebAppStack } from '../../../../../models/stacks/web-app-stacks';
+import { PortalContext } from '../../../../../PortalContext';
 import {
+  checkAndGetStackEOLOrDeprecatedBanner,
+  defaultDotnetCoreMajorVersion,
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
   getStacksSummaryForDropdown,
-  RuntimeStacks,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
-  checkAndGetStackEOLOrDeprecatedBanner,
-  defaultDotnetCoreMajorVersion,
   NETFRAMEWORKVERSION5,
+  RuntimeStacks,
 } from '../../../../../utils/stacks-utils';
-import { AppStackMinorVersion, AppStackOs } from '../../../../../models/stacks/app-stacks';
-import { StackProps } from './WindowsStacks';
-import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { IDropdownOption } from '@fluentui/react';
-import { WebAppRuntimes, WebAppStack, JavaContainers as JavaContainersInterface } from '../../../../../models/stacks/web-app-stacks';
 import { AppSettingsFormValues } from '../../AppSettings.types';
-import { toInteger } from 'lodash-es';
-import { PortalContext } from '../../../../../PortalContext';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+
+import { StackProps } from './WindowsStacks';
 
 const DotNetStack: React.SFC<StackProps> = props => {
   const { values, initialValues } = props;

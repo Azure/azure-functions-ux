@@ -1,19 +1,21 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { DevelopmentExperience } from '../FunctionCreate.types';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { ThemeContext } from '../../../../../ThemeContext';
-import FunctionCreateData from '../FunctionCreate.data';
-import StringUtils from '../../../../../utils/string';
-import { ArmResourceDescriptor, ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
-import { SiteStateContext } from '../../../../../SiteState';
+import React, { useContext, useEffect, useState } from 'react';
 import Markdown from 'markdown-to-jsx';
+
 import { MarkdownHighlighter, SlotComponent, StackInstructions } from '../../../../../components/MarkdownComponents/MarkdownComponents';
-import { ChevronUp } from './CustomMarkdownComponents';
-import { linkStyle } from './LocalCreateInstructions.style';
-import { localCreateContainerStyle } from '../FunctionCreate.styles';
 import CustomElementsShimmer from '../../../../../components/shimmer/CustomElementsShimmer';
 import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { ThemeContext } from '../../../../../ThemeContext';
+import { ArmResourceDescriptor, ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
+import StringUtils from '../../../../../utils/string';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import FunctionCreateData from '../FunctionCreate.data';
+import { localCreateContainerStyle } from '../FunctionCreate.styles';
+import { DevelopmentExperience } from '../FunctionCreate.types';
+
+import { ChevronUp } from './CustomMarkdownComponents';
+import { linkStyle } from './LocalCreateInstructions.style';
 
 export interface LocalCreateInstructionsProps {
   resourceId: string;

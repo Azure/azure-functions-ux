@@ -1,8 +1,9 @@
-import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
-import MakeArmCall from './ArmHelper';
 import { ArmArray } from '../models/arm-obj';
+import { AuthorizationRule, EventHub, KeyList, Namespace } from '../models/eventhub';
 import { CommonConstants } from '../utils/CommonConstants';
-import { Namespace, EventHub, AuthorizationRule, KeyList } from '../models/eventhub';
+import { ArmResourceDescriptor } from '../utils/resourceDescriptors';
+
+import MakeArmCall from './ArmHelper';
 
 export default class EventHubService {
   public static fetchNamespaces = (resourceId: string) => {

@@ -1,10 +1,12 @@
 import { createContext } from 'react';
-import { Permissions } from './AppSettings.types';
+
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
-import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
-import { WebAppStack } from '../../../models/stacks/web-app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
+import { WebAppStack } from '../../../models/stacks/web-app-stacks';
+import { StorageAccount } from '../../../models/storage-account';
+
+import { Permissions } from './AppSettings.types';
 
 export const WebAppStacksContext = createContext<WebAppStack[]>([]);
 export const FunctionAppStacksContext = createContext<FunctionAppStack[]>([]);

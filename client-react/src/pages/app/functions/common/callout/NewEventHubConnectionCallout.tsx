@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
-import { NewConnectionCalloutProps } from './Callout.properties';
 import { useTranslation } from 'react-i18next';
+import { FieldProps } from 'formik';
+
+import { IDropdownProps } from '@fluentui/react';
+
+import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
+import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
+
+import CustomPivot from './customPivot/CustomPivot';
 import EventHubPivotDataLoader from './eventHubPivot/EventHubPivotDataLoader';
 import IoTHubPivotDataLoader from './iotHubPivot/IoTHubPivotDataLoader';
-import CustomPivot from './customPivot/CustomPivot';
-import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
+import { NewConnectionCalloutProps } from './Callout.properties';
 import { paddingSidesStyle } from './Callout.styles';
-import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
-import { FieldProps } from 'formik';
-import { IDropdownProps } from '@fluentui/react';
 
 enum RadioState {
   eventHub = 'eventHub',

@@ -1,7 +1,8 @@
-import MakeArmCall from './ArmHelper';
-import { ArmObj, ArmArray } from '../models/arm-obj';
-import { PublishingUser } from '../models/site/publish';
+import { ArmArray, ArmObj } from '../models/arm-obj';
 import { SourceControl } from '../models/provider';
+import { PublishingUser } from '../models/site/publish';
+
+import MakeArmCall from './ArmHelper';
 
 export default class ProviderService {
   public static getUserSourceControls = () => {

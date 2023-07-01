@@ -1,6 +1,8 @@
-import { TooltipDelay, TooltipHost } from '@fluentui/react';
 import { useContext } from 'react';
 import { style } from 'typestyle';
+
+import { TooltipDelay, TooltipHost } from '@fluentui/react';
+
 import { ReactComponent as InfoTooltipSvg } from '../../images/Common/InfoTooltip.svg';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';

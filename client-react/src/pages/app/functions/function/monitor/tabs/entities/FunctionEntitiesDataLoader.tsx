@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import FunctionEntitiesData from './FunctionEntities.data';
-import FunctionEntities from './FunctionEntities';
+import React, { useEffect, useState } from 'react';
+
 import { AppInsightsEntityTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
+
+import FunctionEntities from './FunctionEntities';
+import FunctionEntitiesData from './FunctionEntities.data';
 
 interface FunctionEntitiesDataLoaderProps {
   resourceId: string;

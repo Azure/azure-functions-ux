@@ -1,9 +1,9 @@
 import SiteService from '../../ApiHelpers/SiteService';
 import TagsService from '../../ApiHelpers/TagsService';
 import { KeyValue } from '../../models/portal-models';
+import { getTelemetryInfo } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 import PortalCommunicator from '../../portal-communicator';
 import { CommonConstants } from '../CommonConstants';
-import { getTelemetryInfo } from '../../pages/app/deployment-center/utility/DeploymentCenterUtility';
 
 export abstract class Dependency {
   public async updateTags(portalContext: PortalCommunicator, resourceId: string, resourceName: string): Promise<string> {

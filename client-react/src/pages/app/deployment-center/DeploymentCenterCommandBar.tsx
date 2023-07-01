@@ -1,14 +1,17 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ICommandBarItemProps, CommandBar, IButtonProps } from '@fluentui/react';
-import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+
+import { CommandBar, IButtonProps, ICommandBarItemProps } from '@fluentui/react';
+
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
-import { SiteStateContext } from '../../../SiteState';
-import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
-import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { ScmType } from '../../../models/site/config';
 import { PortalContext } from '../../../PortalContext';
+import { SiteStateContext } from '../../../SiteState';
+import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
+
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import { DeploymentCenterCommandBarProps } from './DeploymentCenter.types';
+import { DeploymentCenterContext } from './DeploymentCenterContext';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const {

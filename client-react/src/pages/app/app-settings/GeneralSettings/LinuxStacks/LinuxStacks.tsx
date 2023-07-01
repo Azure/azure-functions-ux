@@ -1,34 +1,36 @@
-import { Field, FormikProps } from 'formik';
-import React, { useContext, useState, useEffect } from 'react';
-import Dropdown from '../../../../../components/form-controls/DropDown';
-import { AppSettingsFormValues } from '../../AppSettings.types';
-import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
-import TextField from '../../../../../components/form-controls/TextField';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field, FormikProps } from 'formik';
+
+import Dropdown from '../../../../../components/form-controls/DropDown';
+import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
+import TextField from '../../../../../components/form-controls/TextField';
+import { SiteStateContext } from '../../../../../SiteState';
+import { Links } from '../../../../../utils/FwLinks';
 import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
-import { Links } from '../../../../../utils/FwLinks';
-import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import {
-  getRuntimeStacks,
-  getSelectedRuntimeStack,
-  getSelectedMajorVersion,
-  getVersionDetails,
-  getSelectedMinorVersion,
-  getMajorVersions,
-  getMinorVersions,
-  LINUXJAVASTACKKEY,
-  isJavaStackSelected,
-} from './LinuxStacks.data';
-import JavaStack from './JavaStack';
-import {
+  checkAndGetStackEOLOrDeprecatedBanner,
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
-  checkAndGetStackEOLOrDeprecatedBanner,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
 } from '../../../../../utils/stacks-utils';
-import { SiteStateContext } from '../../../../../SiteState';
+import { AppSettingsFormValues } from '../../AppSettings.types';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+
+import JavaStack from './JavaStack';
+import {
+  getMajorVersions,
+  getMinorVersions,
+  getRuntimeStacks,
+  getSelectedMajorVersion,
+  getSelectedMinorVersion,
+  getSelectedRuntimeStack,
+  getVersionDetails,
+  isJavaStackSelected,
+  LINUXJAVASTACKKEY,
+} from './LinuxStacks.data';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 

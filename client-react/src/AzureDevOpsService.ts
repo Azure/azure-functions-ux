@@ -1,6 +1,6 @@
 import { uniqBy } from 'lodash-es';
+
 import { sendHttpRequest } from './ApiHelpers/HttpClient';
-import { HttpResponseObject } from './ArmHelper.types';
 import {
   AuthenticatedUser,
   AuthenticatedUserContext,
@@ -17,6 +17,7 @@ import { CommonConstants } from './utils/CommonConstants';
 import { LogCategories } from './utils/LogCategories';
 import LogService from './utils/LogService';
 import Url from './utils/url';
+import { HttpResponseObject } from './ArmHelper.types';
 
 export default class AzureDevOpsService {
   private readonly _targetAzDevDeployment = (

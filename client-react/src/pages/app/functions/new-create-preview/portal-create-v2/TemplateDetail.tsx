@@ -1,12 +1,15 @@
-import { Link } from '@fluentui/react';
-import { Field, FormikProps } from 'formik';
 import { useTranslation } from 'react-i18next';
+import { Field, FormikProps } from 'formik';
+
+import { Link } from '@fluentui/react';
+
 import Dropdown from '../../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../../components/form-controls/ReactiveFormControl';
 import { FunctionTemplateV2 } from '../../../../../models/functions/function-template-v2';
 import { Links } from '../../../../../utils/FwLinks';
 import { horizontalLabelStyle } from '../../common/BindingFormBuilder.styles';
 import { detailContainerStyle } from '../FunctionCreate.styles';
+
 import { useTemplateDetail } from './useTemplateDetail';
 
 interface TemplateDetailProps {

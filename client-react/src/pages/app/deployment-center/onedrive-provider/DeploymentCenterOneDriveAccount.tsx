@@ -1,12 +1,14 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterOneDriveProviderProps } from '../DeploymentCenter.types';
-import { PrimaryButton, Label, Link } from '@fluentui/react';
+
+import { Label, Link, PrimaryButton } from '@fluentui/react';
+
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { additionalTextFieldControl } from '../DeploymentCenter.styles';
+import { DeploymentCenterOneDriveProviderProps } from '../DeploymentCenter.types';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterOneDriveAccount: React.FC<DeploymentCenterOneDriveProviderProps> = props => {
   const { accountUser, accountStatusMessage, authorizeAccount } = props;

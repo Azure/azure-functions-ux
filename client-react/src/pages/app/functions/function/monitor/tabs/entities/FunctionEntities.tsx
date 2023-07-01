@@ -1,15 +1,18 @@
 import React, { useContext, useState } from 'react';
-import { AppInsightsEntityTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
-import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
 import { useTranslation } from 'react-i18next';
-import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn, Link, PanelType } from '@fluentui/react';
-import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
-import { PortalContext } from '../../../../../../../PortalContext';
-import { FunctionEntitiesContext } from './FunctionEntitiesDataLoader';
+
+import { DetailsListLayoutMode, IColumn, ICommandBarItemProps, Link, PanelType, SelectionMode } from '@fluentui/react';
+
 import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
-import FunctionEntityDetails from './FunctionEntityDetails';
+import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { getSearchFilter } from '../../../../../../../components/form-controls/SearchBox';
+import { AppInsightsEntityTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
+import { PortalContext } from '../../../../../../../PortalContext';
+import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
+import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
+
+import { FunctionEntitiesContext } from './FunctionEntitiesDataLoader';
+import FunctionEntityDetails from './FunctionEntityDetails';
 
 interface FunctionEntitiesProps {
   functionResourceId: string;

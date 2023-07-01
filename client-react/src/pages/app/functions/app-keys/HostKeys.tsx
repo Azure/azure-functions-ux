@@ -1,40 +1,43 @@
-import React, { useState, useContext } from 'react';
-import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
+import React, { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+
 import {
   ActionButton,
+  Callout,
+  DefaultButton,
   DetailsListLayoutMode,
-  SelectionMode,
   IColumn,
-  TooltipHost,
   ICommandBarItemProps,
   PanelType,
-  Callout,
   PrimaryButton,
-  DefaultButton,
+  SelectionMode,
+  TooltipHost,
 } from '@fluentui/react';
-import {
-  renewTextStyle,
-  tableValueComponentStyle,
-  tableValueIconStyle,
-  tableValueFormFieldStyle,
-  tableValueTextFieldStyle,
-  appKeyDeleteConfirmDialogInnerDivStyle,
-  appKeyDeleteConfirmButtonStyle,
-} from './AppKeys.styles';
-import { useTranslation } from 'react-i18next';
-import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { emptyKey } from './AppKeys';
-import AppKeyAddEdit from './AppKeyAddEdit';
-import IconButton from '../../../../components/IconButton/IconButton';
-import { AppKeysContext } from './AppKeysDataLoader';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
-import { ThemeContext } from '../../../../ThemeContext';
-import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
-import { PortalContext } from '../../../../PortalContext';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { getSearchFilter } from '../../../../components/form-controls/SearchBox';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import IconButton from '../../../../components/IconButton/IconButton';
+import { PortalContext } from '../../../../PortalContext';
+import { ThemeContext } from '../../../../ThemeContext';
+
+import AppKeyAddEdit from './AppKeyAddEdit';
+import { emptyKey } from './AppKeys';
+import {
+  appKeyDeleteConfirmButtonStyle,
+  appKeyDeleteConfirmDialogInnerDivStyle,
+  renewTextStyle,
+  tableValueComponentStyle,
+  tableValueFormFieldStyle,
+  tableValueIconStyle,
+  tableValueTextFieldStyle,
+} from './AppKeys.styles';
+import { AppKeysModel, AppKeysTypes } from './AppKeys.types';
+import { AppKeysContext } from './AppKeysDataLoader';
 
 interface HostKeysProps {
   resourceId: string;

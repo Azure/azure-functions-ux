@@ -1,16 +1,17 @@
-import MakeArmCall from './ArmHelper';
+import { ArmArray, ArmObj } from '../models/arm-obj';
 import { AvailableStack } from '../models/available-stacks';
-import { CommonConstants } from '../utils/CommonConstants';
-import LogService from '../utils/LogService';
-import { ArmObj, ArmArray } from '../models/arm-obj';
-import { Site, PublishingCredentialPolicies, CredentialPolicy } from '../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, ErrorPage } from '../models/site/config';
-import { SlotConfigNames } from '../models/site/slot-config-names';
-import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
 import { KeyValue } from '../models/portal-models';
+import { ArmAzureStorageMount, ErrorPage, SiteConfig } from '../models/site/config';
+import { SiteLogsConfig } from '../models/site/logs-config';
 import { PublishingCredentials } from '../models/site/publish';
-import { DeploymentProperties, DeploymentLogsItem, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { CredentialPolicy, PublishingCredentialPolicies, Site } from '../models/site/site';
+import { SlotConfigNames } from '../models/site/slot-config-names';
+import { DeploymentLogsItem, DeploymentProperties, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { CommonConstants } from '../utils/CommonConstants';
+import LogService from '../utils/LogService';
+
+import MakeArmCall from './ArmHelper';
 
 export default class SiteService {
   private static readonly _configSettingsToIgnore = ['ipSecurityRestrictions', 'scmIpSecurityRestrictions', 'azureStorageAccounts'];

@@ -1,6 +1,6 @@
+import { QPSchemaDocumentStreamInfo, TelemetryTypesEnum } from '../../../../../QuickPulseQuery/QuickPulseSchema';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import { NationalCloudEnvironment } from '../../../../../utils/scenario-checker/national-cloud.environment';
-import { QPSchemaDocumentStreamInfo, TelemetryTypesEnum } from '../../../../../QuickPulseQuery/QuickPulseSchema';
 
 export function getDefaultDocumentStreams(): QPSchemaDocumentStreamInfo[] {
   return [

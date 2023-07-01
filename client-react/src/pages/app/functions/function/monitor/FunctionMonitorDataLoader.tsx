@@ -1,18 +1,20 @@
-import React, { useState, useEffect, useContext } from 'react';
-import FunctionMonitor from './FunctionMonitor';
+import React, { useContext, useEffect, useState } from 'react';
+
+import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import SiteService from '../../../../../ApiHelpers/SiteService';
 import { AppInsightsComponent, AppInsightsKeyType } from '../../../../../models/app-insights';
 import { ArmObj } from '../../../../../models/arm-obj';
-import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
-import SiteService from '../../../../../ApiHelpers/SiteService';
-import { LogCategories } from '../../../../../utils/LogCategories';
-import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
+import { FunctionAppEditMode } from '../../../../../models/portal-models';
 import { PortalContext } from '../../../../../PortalContext';
 import { SiteStateContext } from '../../../../../SiteState';
-import { FunctionAppEditMode } from '../../../../../models/portal-models';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { LogCategories } from '../../../../../utils/LogCategories';
+import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+
+import FunctionMonitor from './FunctionMonitor';
 
 interface FunctionMonitorDataLoaderProps {
   resourceId: string;

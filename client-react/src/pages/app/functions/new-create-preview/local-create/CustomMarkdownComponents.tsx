@@ -1,6 +1,9 @@
 import React, { useContext } from 'react';
-import { ThemeContext } from '../../../../../ThemeContext';
+
 import { Icon } from '@fluentui/react';
+
+import { ThemeContext } from '../../../../../ThemeContext';
+
 import { markdownIconStyle } from './LocalCreateInstructions.style';
 
 export const ChevronUp: React.FC = () => {

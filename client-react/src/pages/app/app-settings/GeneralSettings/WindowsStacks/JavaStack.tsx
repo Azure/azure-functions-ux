@@ -1,30 +1,33 @@
-import { Field } from 'formik';
-import React, { useState, useEffect, useContext } from 'react';
-import Dropdown from '../../../../../components/form-controls/DropDown';
-import {
-  getJavaMajorMinorVersion,
-  getJavaContainersOptions,
-  getFrameworkVersionOptions,
-  getJavaMinorVersionAsDropdownOptions,
-  getJavaMajorVersionAsDropdownOptions,
-  getJavaContainerKey,
-} from './JavaData';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+import { Field } from 'formik';
+
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import Dropdown from '../../../../../components/form-controls/DropDown';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { StackProps } from './WindowsStacks';
+import { WorkerRuntimeLanguages } from '../../../../../utils/CommonConstants';
+import { Links } from '../../../../../utils/FwLinks';
 import {
+  checkAndGetStackEOLOrDeprecatedBanner,
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
-  checkAndGetStackEOLOrDeprecatedBanner,
+  isJBossWarningBannerShown,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
-  isJBossWarningBannerShown,
 } from '../../../../../utils/stacks-utils';
-import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType, IDropdownOption } from '@fluentui/react';
-import { Links } from '../../../../../utils/FwLinks';
-import { WorkerRuntimeLanguages } from '../../../../../utils/CommonConstants';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+
+import {
+  getFrameworkVersionOptions,
+  getJavaContainerKey,
+  getJavaContainersOptions,
+  getJavaMajorMinorVersion,
+  getJavaMajorVersionAsDropdownOptions,
+  getJavaMinorVersionAsDropdownOptions,
+} from './JavaData';
+import { StackProps } from './WindowsStacks';
 
 const JavaStack: React.FC<StackProps> = props => {
   const [earlyAccessInfoVisible, setEarlyAccessInfoVisible] = useState(false);

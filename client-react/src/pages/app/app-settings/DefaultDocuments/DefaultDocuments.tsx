@@ -1,13 +1,15 @@
-import { Field, FormikProps } from 'formik';
-import { ActionButton } from '@fluentui/react';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field, FormikProps } from 'formik';
+
+import { ActionButton } from '@fluentui/react';
+
 import TextField from '../../../../components/form-controls/TextFieldNoLabel';
 import IconButton from '../../../../components/IconButton/IconButton';
-import { AppSettingsFormValues } from '../AppSettings.types';
-import { PermissionsContext } from '../Contexts';
 import { ThemeContext } from '../../../../ThemeContext';
 import { dirtyElementStyle } from '../AppSettings.styles';
+import { AppSettingsFormValues } from '../AppSettings.types';
+import { PermissionsContext } from '../Contexts';
 
 const DefaultDocuments: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const [focusLast, setFocusLast] = useState(false);

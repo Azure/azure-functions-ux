@@ -1,14 +1,17 @@
-import React, { useState, useEffect, useContext, useRef } from 'react';
-import { BitbucketUser } from '../../../../models/bitbucket';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterFieldProps, AuthorizationResult } from '../DeploymentCenter.types';
+
 import { IDropdownOption } from '@fluentui/react';
-import DeploymentCenterBitbucketProvider from './DeploymentCenterBitbucketProvider';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
+
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
-import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { BitbucketUser } from '../../../../models/bitbucket';
 import { PortalContext } from '../../../../PortalContext';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { AuthorizationResult, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+
+import DeploymentCenterBitbucketProvider from './DeploymentCenterBitbucketProvider';
 
 const DeploymentCenterBitbucketDataLoader: React.FC<DeploymentCenterFieldProps> = props => {
   const { t } = useTranslation();

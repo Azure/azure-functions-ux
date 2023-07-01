@@ -1,15 +1,17 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
-import { LogEntry } from './FunctionLog.types';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import FunctionLog from './FunctionLog';
-import Url from '../../../../../utils/url';
-import { processLogs } from './FunctionLogFileStreamData';
-import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+
+import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { Site } from '../../../../../models/site/site';
-import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { PortalContext } from '../../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
+import Url from '../../../../../utils/url';
+import { LoggingOptions } from '../function-editor/FunctionEditor.types';
+
+import FunctionLog from './FunctionLog';
+import { LogEntry } from './FunctionLog.types';
+import { processLogs } from './FunctionLogFileStreamData';
 
 interface FunctionLogFileStreamDataLoaderProps {
   site: ArmObj<Site>;

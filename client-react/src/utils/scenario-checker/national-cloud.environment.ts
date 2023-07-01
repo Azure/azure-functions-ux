@@ -1,8 +1,9 @@
-import { CommonConstants } from './../CommonConstants';
-import { ScenarioIds } from './scenario-ids';
-import { ScenarioResult } from './scenario.models';
-import { AzureEnvironment } from './azure.environment';
 import Url from '../url';
+
+import { CommonConstants } from './../CommonConstants';
+import { AzureEnvironment } from './azure.environment';
+import { ScenarioResult } from './scenario.models';
+import { ScenarioIds } from './scenario-ids';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {

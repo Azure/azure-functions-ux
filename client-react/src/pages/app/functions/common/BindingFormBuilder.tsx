@@ -1,6 +1,8 @@
-import { IDropdownOption } from '@fluentui/react';
 import { Field, FormikProps } from 'formik';
 import i18next from 'i18next';
+
+import { IDropdownOption } from '@fluentui/react';
+
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../components/form-controls/TextField';
@@ -11,6 +13,7 @@ import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../util
 import { BindingManager } from '../../../../utils/BindingManager';
 import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
+
 import { horizontalLabelStyle } from './BindingFormBuilder.styles';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';

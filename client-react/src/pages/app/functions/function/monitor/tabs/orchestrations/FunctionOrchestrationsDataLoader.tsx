@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import FunctionOrchestrationsData from './FunctionOrchestrations.data';
-import FunctionOrchestrations from './FunctionOrchestrations';
+
 import { AppInsightsOrchestrationTrace, AppInsightsOrchestrationTraceDetail } from '../../../../../../../models/app-insights';
+
+import FunctionOrchestrations from './FunctionOrchestrations';
+import FunctionOrchestrationsData from './FunctionOrchestrations.data';
 
 interface FunctionOrchestrationsDataLoaderProps {
   resourceId: string;

@@ -1,6 +1,10 @@
+import React, { createContext, lazy, useCallback, useContext, useState } from 'react';
+
 import { RouteComponentProps, Router } from '@reach/router';
-import React, { createContext, lazy, useContext, useCallback, useState } from 'react';
+
 import SiteService from '../../ApiHelpers/SiteService';
+import LoadingComponent from '../../components/Loading/LoadingComponent';
+import { AppSettings } from '../../models/app-setting';
 import { ArmObj } from '../../models/arm-obj';
 import { FunctionAppEditMode } from '../../models/portal-models';
 import { Site } from '../../models/site/site';
@@ -9,13 +13,12 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerAppEnvironmentApp, isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
+import { resolveState } from '../../utils/app-state-utils';
+import { isContainerApp, isContainerAppEnvironmentApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
+
 import { SiteRouterData } from './SiteRouter.data';
-import LoadingComponent from '../../components/Loading/LoadingComponent';
-import { AppSettings } from '../../models/app-setting';
-import { resolveState } from '../../utils/app-state-utils';
 
 export interface SiteRouterProps {
   subscriptionId?: string;

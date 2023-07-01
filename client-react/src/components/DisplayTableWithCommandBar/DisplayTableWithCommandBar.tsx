@@ -1,12 +1,15 @@
 import React, { useContext } from 'react';
-import { ICommandBarItemProps, CommandBar, IDetailsListProps, IButtonProps } from '@fluentui/react';
+import { useTranslation } from 'react-i18next';
+
+import { CommandBar, IButtonProps, ICommandBarItemProps, IDetailsListProps } from '@fluentui/react';
+
 import { ThemeContext } from '../../ThemeContext';
-import { commandBarStyles, DetailListStyles } from './DisplayTableWithCommandBar.style';
-import DisplayTableCommandBarButton from './DisplayTableCommandBarButton';
 import DisplayTableWithEmptyMessage, {
   DisplayTableWithEmptyMessageProps,
 } from '../DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { useTranslation } from 'react-i18next';
+
+import DisplayTableCommandBarButton from './DisplayTableCommandBarButton';
+import { commandBarStyles, DetailListStyles } from './DisplayTableWithCommandBar.style';
 
 interface DisplayTableWithCommandBarProps {
   commandBarItems?: ICommandBarItemProps[];

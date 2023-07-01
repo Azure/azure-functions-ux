@@ -1,6 +1,8 @@
 import i18next from 'i18next';
-import { FormConnectionString } from '../AppSettings.types';
 import * as Joi from 'joi';
+
+import { FormConnectionString } from '../AppSettings.types';
+
 import { TypeStrings } from './connectionStringTypes';
 const getSchema = (disableSlotSetting: boolean): Joi.ArraySchema => {
   const slotSettingSchema = disableSlotSetting ? Joi.boolean().forbidden() : Joi.boolean().optional();
@@ -77,7 +79,11 @@ const getConnectionStringStickyValue = (connectionStringName: string, initialCon
 };
 
 export const formConnectionStringsoUseSlotSetting = (connectionStrings: FormConnectionString[], disableSlotSetting: boolean): string => {
-  return JSON.stringify(connectionStrings.map(x => getConnectionStringObjectForMonacoEditor(x, disableSlotSetting)), null, 2);
+  return JSON.stringify(
+    connectionStrings.map(x => getConnectionStringObjectForMonacoEditor(x, disableSlotSetting)),
+    null,
+    2
+  );
 };
 
 export const formAppSettingToUseStickySetting = (

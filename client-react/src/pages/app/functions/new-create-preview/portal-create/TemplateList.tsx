@@ -1,3 +1,7 @@
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { FormikProps } from 'formik';
+
 import {
   CheckboxVisibility,
   DetailsListLayoutMode,
@@ -9,9 +13,7 @@ import {
   Selection,
   SelectionMode,
 } from '@fluentui/react';
-import { FormikProps } from 'formik';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+
 import { getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
@@ -32,6 +34,7 @@ import FunctionCreateData from '../FunctionCreate.data';
 import { containerStyle, tableRowStyle, templateListNameColumnStyle, templateListStyle } from '../FunctionCreate.styles';
 import { sortTemplate } from '../FunctionCreate.types';
 import { FunctionCreateContext } from '../FunctionCreateContext';
+
 import TemplateDetail from './TemplateDetail';
 
 export interface TemplateListProps {

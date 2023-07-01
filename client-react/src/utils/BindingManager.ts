@@ -1,5 +1,5 @@
-import { FunctionInfo } from '../models/functions/function-info';
 import { BindingInfo, BindingType } from '../models/functions/function-binding';
+import { FunctionInfo } from '../models/functions/function-info';
 
 export class BindingManager {
   public static getHttpTriggerTypeInfo = (functionInfo: FunctionInfo): BindingInfo | undefined => {

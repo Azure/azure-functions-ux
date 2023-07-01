@@ -1,8 +1,9 @@
-import { KeyValue } from '../../../models/portal-models';
-import { EnvironmentVariable } from './Configuration.types';
 import { ArmObj } from '../../../models/arm-obj';
+import { KeyValue } from '../../../models/portal-models';
 import { Environment } from '../../../models/static-site/environment';
 import { getPreviewsTitleValue } from '../StaticSiteUtility';
+
+import { EnvironmentVariable } from './Configuration.types';
 
 export default class ConfigurationData {
   public static convertEnvironmentVariablesObjectToArray(environmentVariableObject: KeyValue<string>) {

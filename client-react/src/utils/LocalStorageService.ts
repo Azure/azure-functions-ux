@@ -1,8 +1,9 @@
-import { StorageKeys, StorageItem } from '../models/LocalStorage.model';
+import { StorageItem, StorageKeys } from '../models/LocalStorage.model';
 import { KeyValue } from '../models/portal-models';
+
 import { getDateAfterXSeconds } from './DateUtilities';
-import LogService from './LogService';
 import { LogCategories } from './LogCategories';
+import LogService from './LogService';
 
 export class LocalStorageService {
   public static supportsLocalStorage(): boolean {

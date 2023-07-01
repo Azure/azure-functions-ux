@@ -1,36 +1,38 @@
-import {
-  RuntimeStackSetting,
-  AuthorizationResult,
-  DeploymentCenterFormData,
-  DeploymentCenterContainerFormData,
-  ContainerRegistrySources,
-  RuntimeVersionOptions,
-  RuntimeVersionDisplayNames,
-  RuntimeStackOptions,
-  RuntimeStackDisplayNames,
-  JavaContainerDisplayNames,
-  GitHubActionsCodeDeploymentsRow,
-  CodeDeploymentsRow,
-} from '../DeploymentCenter.types';
+import { FieldProps, FormikProps } from 'formik';
+
+import { ISelectableOption, Link } from '@fluentui/react';
+
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ArmObj } from '../../../../models/arm-obj';
-import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
-import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
-import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
-import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { PublishingCredentials } from '../../../../models/site/publish';
 import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { FieldProps, FormikProps } from 'formik';
-import { IDeploymentCenterContext } from '../DeploymentCenterContext';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { ISelectableOption, Link } from '@fluentui/react';
-import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import PortalCommunicator from '../../../../portal-communicator';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { LogCategories } from '../../../../utils/LogCategories';
+import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import { JavaContainers, RuntimeStacks } from '../../../../utils/stacks-utils';
 import DeploymentCenterData from '../DeploymentCenter.data';
+import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles';
+import {
+  AuthorizationResult,
+  CodeDeploymentsRow,
+  ContainerRegistrySources,
+  DeploymentCenterContainerFormData,
+  DeploymentCenterFormData,
+  GitHubActionsCodeDeploymentsRow,
+  JavaContainerDisplayNames,
+  RuntimeStackDisplayNames,
+  RuntimeStackOptions,
+  RuntimeStackSetting,
+  RuntimeVersionDisplayNames,
+  RuntimeVersionOptions,
+} from '../DeploymentCenter.types';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { IDeploymentCenterContext } from '../DeploymentCenterContext';
+import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,

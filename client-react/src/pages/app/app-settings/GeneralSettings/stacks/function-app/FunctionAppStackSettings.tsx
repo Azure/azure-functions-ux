@@ -1,20 +1,16 @@
-import { StackProps } from '../../WindowsStacks/WindowsStacks';
-import DropdownNoFormik from '../../../../../../components/form-controls/DropDownnoFormik';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FunctionAppStacksContext, PermissionsContext } from '../../../Contexts';
-import { FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
-import { CommonConstants, WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';
-import { addOrUpdateFormAppSetting, findFormAppSettingValue } from '../../../AppSettingsFormData';
-import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/FunctionsRuntimeVersionHelper';
-import { SiteStateContext } from '../../../../../../SiteState';
 import { Field } from 'formik';
-import { getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
-import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
-import { settingsWrapper } from '../../../AppSettingsForm';
+
 import { IDropdownOption } from '@fluentui/react';
-import { FormAppSetting } from '../../../AppSettings.types';
+
 import Dropdown from '../../../../../../components/form-controls/DropDown';
+import DropdownNoFormik from '../../../../../../components/form-controls/DropDownnoFormik';
+import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
+import { FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
+import { SiteStateContext } from '../../../../../../SiteState';
+import { CommonConstants, WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';
+import { FunctionsRuntimeVersionHelper } from '../../../../../../utils/FunctionsRuntimeVersionHelper';
 import {
   checkAndGetStackEOLOrDeprecatedBanner,
   filterFunctionAppStack,
@@ -25,6 +21,13 @@ import {
   isWindowsNodeApp,
 } from '../../../../../../utils/stacks-utils';
 import StringUtils from '../../../../../../utils/string';
+import { FormAppSetting } from '../../../AppSettings.types';
+import { settingsWrapper } from '../../../AppSettingsForm';
+import { addOrUpdateFormAppSetting, findFormAppSettingValue } from '../../../AppSettingsFormData';
+import { FunctionAppStacksContext, PermissionsContext } from '../../../Contexts';
+import { StackProps } from '../../WindowsStacks/WindowsStacks';
+
+import { getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();

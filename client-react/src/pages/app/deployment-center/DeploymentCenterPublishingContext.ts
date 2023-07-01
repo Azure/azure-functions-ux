@@ -1,7 +1,8 @@
 import React from 'react';
-import { PublishingCredentialPolicies } from '../../../models/site/site';
+
 import { ArmObj } from '../../../models/arm-obj';
-import { PublishingCredentials, PublishingUser, PublishingProfile } from '../../../models/site/publish';
+import { PublishingCredentials, PublishingProfile, PublishingUser } from '../../../models/site/publish';
+import { PublishingCredentialPolicies } from '../../../models/site/site';
 
 export interface IDeploymentCenterPublishingContext {
   showPublishProfilePanel: () => void;

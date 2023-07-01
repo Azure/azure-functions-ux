@@ -1,36 +1,39 @@
-import { useState, useCallback, useContext, useMemo } from 'react';
-import { useBoolean } from '@fluentui/react-hooks';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { useBoolean } from '@fluentui/react-hooks';
 import {
-  Link,
-  ProgressIndicator,
-  PanelType,
-  IColumn,
-  TooltipHost,
-  IconButton,
   ActionButton,
-  DetailsListLayoutMode,
-  SelectionMode,
-  DetailsRow,
   Checkbox,
   DetailsHeader,
+  DetailsListLayoutMode,
+  DetailsRow,
+  IColumn,
   ICommandBarItemProps,
+  IconButton,
+  Link,
+  PanelType,
+  ProgressIndicator,
+  SelectionMode,
+  TooltipHost,
 } from '@fluentui/react';
+
+import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
+import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
+import CustomPanel from '../../../components/CustomPanel/CustomPanel';
+import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
+import { commandBarSeparator } from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
+import { getSearchFilter } from '../../../components/form-controls/SearchBox';
+import { PortalContext } from '../../../PortalContext';
+import { ThemeContext } from '../../../ThemeContext';
 import { Links } from '../../../utils/FwLinks';
+import { getTelemetryInfo } from '../StaticSiteUtility';
+
+import ConfigurationData from './Configuration.data';
 import { useStyles } from './Configuration.styles';
 import { ApplicableEnvironmentsMode, ConfigurationSnippetsProps, Snippet } from './Configuration.types';
 import ConfigurationSnippetsAddEdit from './ConfigurationSnippetsAddEdit';
-import CustomPanel from '../../../components/CustomPanel/CustomPanel';
-import DisplayTableWithCommandBar from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { getSearchFilter } from '../../../components/form-controls/SearchBox';
-import { commandBarSeparator } from '../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
-import { ThemeContext } from '../../../ThemeContext';
-import ConfigurationData from './Configuration.data';
-import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
-import { PortalContext } from '../../../PortalContext';
-import { getTelemetryInfo } from '../StaticSiteUtility';
-import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 
 const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
   hasWritePermissions,

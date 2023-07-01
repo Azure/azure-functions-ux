@@ -1,12 +1,15 @@
-import React, { useState, useContext } from 'react';
-import { AppKeysModel } from './AppKeys.types';
+import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
-import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
+
+import { Icon, Label } from '@fluentui/react';
+
 import ActionBar from '../../../../components/ActionBar';
-import { Label, Icon } from '@fluentui/react';
+import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { ThemeContext } from '../../../../ThemeContext';
-import { renewPanelStyle, renewPanelIconStyle, renewPanelTextStyle } from './AppKeys.styles';
+
+import { renewPanelIconStyle, renewPanelStyle, renewPanelTextStyle } from './AppKeys.styles';
+import { AppKeysModel } from './AppKeys.types';
 
 export interface AppKeyAddEditProps {
   createAppKey: (item: AppKeysModel) => void;

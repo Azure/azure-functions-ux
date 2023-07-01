@@ -1,20 +1,22 @@
-import { Field } from 'formik';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
 import Dropdown from '../../../../../components/form-controls/DropDown';
-import { FormApi, FormState } from '../../AppSettings.types';
-import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+import { AppStackOs } from '../../../../../models/stacks/app-stacks';
 import { Links } from '../../../../../utils/FwLinks';
 import {
+  checkAndGetStackEOLOrDeprecatedBanner,
   filterDeprecatedWebAppStack,
   getEarlyStackMessageParameters,
-  checkAndGetStackEOLOrDeprecatedBanner,
   getStacksSummaryForDropdown,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
   RuntimeStacks,
 } from '../../../../../utils/stacks-utils';
-import { AppStackOs } from '../../../../../models/stacks/app-stacks';
+import { FormApi, FormState } from '../../AppSettings.types';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+
 import { StackProps } from './WindowsStacks';
 
 export interface OwnProps {

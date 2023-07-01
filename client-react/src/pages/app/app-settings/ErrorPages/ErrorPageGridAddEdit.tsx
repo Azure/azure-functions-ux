@@ -1,10 +1,13 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { Stack } from '@fluentui/react/lib/Stack';
+
 import ActionBar from '../../../../components/ActionBar';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
-import { Stack } from '@fluentui/react/lib/Stack';
-import ErrorPageFileUploader from './ErrorPageFileUpload';
 import { FormErrorPage } from '../AppSettings.types';
+
+import ErrorPageFileUploader from './ErrorPageFileUpload';
 
 export interface ErrorPageGridAddEditProps {
   errorPage: FormErrorPage;

@@ -1,8 +1,10 @@
-import { AppKeysFormValues, AppKeysInfo, AppKeysModel, AppKeysTypes } from './AppKeys.types';
+import { sortBy } from 'lodash-es';
+
 import AppKeyService from '../../../../ApiHelpers/AppKeysService';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Site } from '../../../../models/site/site';
-import { sortBy } from 'lodash-es';
+
+import { AppKeysFormValues, AppKeysInfo, AppKeysModel, AppKeysTypes } from './AppKeys.types';
 
 export default class AppKeysData {
   public convertStateToForm = (props: { site: ArmObj<Site>; keys: AppKeysInfo | null }): AppKeysFormValues => {

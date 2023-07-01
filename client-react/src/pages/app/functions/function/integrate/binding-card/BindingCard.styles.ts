@@ -1,5 +1,6 @@
 import { color } from 'csx';
 import { style } from 'typestyle';
+
 import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 
 export const cardStyle = (theme: ThemeExtended) => {

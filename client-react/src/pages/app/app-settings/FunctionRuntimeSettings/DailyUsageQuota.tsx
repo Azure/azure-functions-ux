@@ -1,12 +1,14 @@
-import { FormikProps, Field } from 'formik';
 import React, { useContext } from 'react';
-import { withTranslation, WithTranslation } from 'react-i18next';
+import { WithTranslation, withTranslation } from 'react-i18next';
+import { Field, FormikProps } from 'formik';
+
+import { KeyCodes, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import TextField from '../../../../components/form-controls/TextField';
+import { SiteDisabledReason } from '../../../../models/site/site';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext } from '../Contexts';
-import TextField from '../../../../components/form-controls/TextField';
-import { KeyCodes, MessageBarType } from '@fluentui/react';
-import { SiteDisabledReason } from '../../../../models/site/site';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
 const onKeyDown = keyEvent => {
   const keyCode = keyEvent.charCode || keyEvent.keyCode;

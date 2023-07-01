@@ -1,15 +1,14 @@
-import { MessageBarType } from '@fluentui/react';
 import { createContext, useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+
+import { MessageBarType } from '@fluentui/react';
+
 import FunctionsService, {
   GetTestDataFromFunctionHrefOptions,
   RunFunctionControllerOptions,
 } from '../../../../../ApiHelpers/FunctionsService';
 import { getJsonHeaders } from '../../../../../ApiHelpers/HttpClient';
 import SiteService from '../../../../../ApiHelpers/SiteService';
-import { PortalContext } from '../../../../../PortalContext';
-import { SiteStateContext } from '../../../../../SiteState';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
 import { NetAjaxSettings } from '../../../../../models/ajax-request-model';
@@ -18,15 +17,19 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { RuntimeExtensionCustomVersions, RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { KeyValue } from '../../../../../models/portal-models';
+import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { BindingManager } from '../../../../../utils/BindingManager';
 import { Guid } from '../../../../../utils/Guid';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import SiteHelper from '../../../../../utils/SiteHelper';
-import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { getJQXHR, isPortalCommunicationStatusSuccess } from '../../../../../utils/portal-utils';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
+import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import Url from '../../../../../utils/url';
+
 import { FunctionEditor } from './FunctionEditor';
 import FunctionEditorData from './FunctionEditor.data';
 import { shrinkEditorStyle } from './FunctionEditor.styles';

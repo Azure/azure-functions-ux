@@ -1,23 +1,26 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { StackProps } from '../WindowsStacks/WindowsStacks';
-import { WebAppStacksContext, PermissionsContext } from '../../Contexts';
-import { LINUXJAVASTACKKEY, LINUXJAVACONTAINERKEY } from './LinuxStacks.data';
-import { AppStackMinorVersion } from '../../../../../models/stacks/app-stacks';
-import { IDropdownOption, MessageBarType } from '@fluentui/react';
-import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
-import { Field } from 'formik';
-import Dropdown from '../../../../../components/form-controls/DropDown';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Field } from 'formik';
+
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
+
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import Dropdown from '../../../../../components/form-controls/DropDown';
+import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
+import { AppStackMinorVersion } from '../../../../../models/stacks/app-stacks';
+import { Links } from '../../../../../utils/FwLinks';
 import {
-  getEarlyStackMessageParameters,
   checkAndGetStackEOLOrDeprecatedBanner,
+  getEarlyStackMessageParameters,
   getMinorVersionText,
+  isJBossWarningBannerShown,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
-  isJBossWarningBannerShown,
 } from '../../../../../utils/stacks-utils';
-import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { Links } from '../../../../../utils/FwLinks';
+import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
+import { StackProps } from '../WindowsStacks/WindowsStacks';
+
+import { LINUXJAVACONTAINERKEY, LINUXJAVASTACKKEY } from './LinuxStacks.data';
 
 // NOTE(krmitta): These keys should be similar to what is being returned from the backend
 const JAVA8KEY = '8';
