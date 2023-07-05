@@ -31,7 +31,12 @@ import { FunctionEditor } from './FunctionEditor';
 import FunctionEditorData from './FunctionEditor.data';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { NameValuePair, ResponseContent, UrlObj, UrlType, urlParameterRegExp } from './FunctionEditor.types';
-import { isNewNodeProgrammingModel, isNewPythonProgrammingModel, useFunctionEditorQueries } from './useFunctionEditorQueries';
+import {
+  isNewNodeProgrammingModel,
+  isNewPythonProgrammingModel,
+  isNodeFunction,
+  useFunctionEditorQueries,
+} from './useFunctionEditorQueries';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -302,8 +307,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
     setFunctionRunning(true);
 
+    // Do not update Node.js functions here because of a runtime bug when worker indexing is enabled.
     // Do not update v2 Python functions here since its metadata is derived from code, not from function.json.
-    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) && !isNewPythonProgrammingModel(functionInfo)) {
+    if (
+      !SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) &&
+      !isNewPythonProgrammingModel(functionInfo) &&
+      !isNodeFunction(functionInfo)
+    ) {
       const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
       if (updatedFunctionInfo.metadata.success) {
         setFunctionInfo(updatedFunctionInfo.data);
