@@ -44,22 +44,37 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const [selectedStackVersion, setSelectedStackVersion] = useState<string | undefined>(undefined);
   const [dirtyState, setDirtyState] = useState(false);
 
+  const runtimeStack = React.useMemo(() => {
+    return functionAppFilteredStacks.length > 0 ? initialValues.currentlySelectedStack : undefined;
+  }, [functionAppFilteredStacks, initialValues]);
+
   const options = React.useMemo(() => {
     const runtimeVersion = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) ?? '';
     const isLinux = siteStateContext.isLinuxApp;
     const osType = isLinux ? AppStackOs.linux : AppStackOs.windows;
-    return currentStackData
+    const dropdownOptions = currentStackData
       ? getStackVersionDropdownOptions(
           currentStackData,
           FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersionWithV4(runtimeVersion),
           osType
         )
       : [];
-  }, [values, siteStateContext, currentStackData]);
 
-  const runtimeStack = React.useMemo(() => {
-    return functionAppFilteredStacks.length > 0 ? initialValues.currentlySelectedStack : undefined;
-  }, [functionAppFilteredStacks, initialValues]);
+    if (StringUtils.equalsIgnoreCase(runtimeStack, WorkerRuntimeLanguages.dotnetIsolated)) {
+      return dropdownOptions.filter(option => {
+        const settings =
+          osType === AppStackOs.windows
+            ? option.data?.stackSettings?.windowsRuntimeSettings
+            : option.data?.stackSettings?.linuxRuntimeSettings;
+        return (
+          !settings?.appSettingsDictionary?.FUNCTIONS_WORKER_RUNTIME ||
+          StringUtils.equalsIgnoreCase(settings.appSettingsDictionary?.FUNCTIONS_WORKER_RUNTIME, WorkerRuntimeLanguages.dotnetIsolated)
+        );
+      });
+    } else {
+      return dropdownOptions;
+    }
+  }, [values, siteStateContext, currentStackData, runtimeStack]);
 
   const isSettingSectionVisible = React.useMemo(
     () =>
