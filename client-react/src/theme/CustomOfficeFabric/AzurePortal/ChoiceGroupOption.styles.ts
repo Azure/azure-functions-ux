@@ -36,11 +36,11 @@ function getChoiceGroupFocusStyle(palette: Partial<IPalette>, hasIconOrImage?: b
     {
       selectors: {
         [`.${IsFocusVisibleClassName} &`]: {
-          position: 'relative',
+          position: 'relative' as const,
           outline: 'transparent',
           selectors: {
             '::-moz-focus-inner': {
-              border: 0,
+              border: 0 as const,
             },
             ':after': {
               content: '""',
@@ -50,7 +50,7 @@ function getChoiceGroupFocusStyle(palette: Partial<IPalette>, hasIconOrImage?: b
               left: -2,
               pointerEvents: 'none',
               border: `1px solid ${hasIconOrImage ? palette.neutralSecondary : palette.neutralPrimary}`,
-              position: 'absolute',
+              position: 'absolute' as const,
               selectors: {
                 [HighContrastSelector]: {
                   borderColor: 'WindowText',
@@ -83,12 +83,12 @@ function getImageWrapperStyle(isSelectedImageWrapper: boolean, className?: strin
     (checked ? !isSelectedImageWrapper : isSelectedImageWrapper) && [
       'is-hidden',
       {
-        position: 'absolute',
+        position: 'absolute' as const,
         left: 0,
         top: 0,
         width: '100%',
         height: '100%',
-        overflow: 'hidden',
+        overflow: 'hidden' as const,
         opacity: 0,
       },
     ],
@@ -133,7 +133,7 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
       width: choiceFieldSize,
       height: choiceFieldSize,
       fontWeight: 'normal',
-      position: 'absolute',
+      position: 'absolute' as const,
       top: 0,
       left: 0,
       boxSizing: 'border-box',
@@ -175,7 +175,7 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
       width: 0,
       height: 0,
       borderRadius: '50%',
-      position: 'absolute',
+      position: 'absolute' as const,
       left: choiceFieldSize / 2,
       right: 0,
       transitionProperty: 'border-width',
@@ -218,7 +218,7 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
         fontWeight: FontWeights.regular,
         minHeight: 26,
         border: 'none',
-        position: 'relative',
+        position: 'relative' as const,
         marginTop: 8,
         marginRight: 10,
         selectors: {
@@ -252,7 +252,7 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
     input: [
       classNames.input,
       {
-        position: 'absolute',
+        position: 'absolute' as const,
         opacity: 0,
         top: 8,
       },
@@ -271,7 +271,7 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
         display: 'inline-block',
         cursor: 'pointer',
         marginTop: 0,
-        position: 'relative',
+        position: 'relative' as const,
         verticalAlign: 'top',
         userSelect: 'none',
         minHeight: 20,
@@ -328,7 +328,7 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
     innerField: [
       classNames.innerField,
       (hasIcon || hasImage) && {
-        position: 'relative',
+        position: 'relative' as const,
         display: 'inline-block',
         paddingLeft: 30,
         paddingRight: 30,
@@ -363,11 +363,11 @@ export const ChoiceGroupOptionStyles = (props: IChoiceGroupOptionStyleProps): IC
       classNames.labelWrapper,
       (hasIcon || hasImage) && {
         display: 'block',
-        position: 'relative',
+        position: 'relative' as const,
         margin: '4px 8px',
         height: labelWrapperLineHeight * 2,
         lineHeight: labelWrapperLineHeight,
-        overflow: 'hidden',
+        overflow: 'hidden' as const,
         whiteSpace: 'pre-wrap',
         textOverflow: 'ellipsis',
         fontSize: FontSizes.medium,
