@@ -140,6 +140,11 @@ export class FunctionAppEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.ftpSource] = {
+      id: ScenarioIds.ftpSource,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
