@@ -198,7 +198,8 @@ const getRequiredIcon = (theme: ThemeExtended, required?: boolean) => {
           fontWeight: 'bold',
           color: theme.palette.red,
           marginLeft: '2px',
-        })}>
+        })}
+        aria-hidden="true">
         *
       </span>
     );
