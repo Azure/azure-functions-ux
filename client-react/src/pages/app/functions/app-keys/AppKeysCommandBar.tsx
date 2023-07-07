@@ -33,7 +33,6 @@ const AppKeysCommandBar: React.FC<AppKeysCommandBarProps> = props => {
   return (
     <CommandBar
       items={getItems()}
-      role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('appSettingsCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}

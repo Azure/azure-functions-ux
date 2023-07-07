@@ -13,13 +13,17 @@ export class TextUtilitiesService {
     }
   }
 
-  public static copyContentToClipboard(text: string, componentRef?: any) {
+  public static async copyContentToClipboard(text: string, componentRef?: any) {
     const nav = navigator as any;
     if (!nav.clipboard) {
       this.fallbackCopyTextToClipboard(text, componentRef);
       return;
     }
     // This method should work on most modern browsers
-    nav.clipboard.writeText(text).catch(() => this.fallbackCopyTextToClipboard(text, componentRef));
+    try {
+      await nav.clipboard.writeText(text);
+    } catch (error) {
+      this.fallbackCopyTextToClipboard(text, componentRef);
+    }
   }
 }

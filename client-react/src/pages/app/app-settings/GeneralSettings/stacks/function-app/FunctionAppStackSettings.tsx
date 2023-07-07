@@ -24,10 +24,11 @@ import {
   isStackVersionEndOfLife,
   isWindowsNodeApp,
 } from '../../../../../../utils/stacks-utils';
+import StringUtils from '../../../../../../utils/string';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
-  const { initialValues, values } = props;
+  const { initialValues, values, setFieldValue } = props;
   const siteStateContext = useContext(SiteStateContext);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const functionAppStackContext = useContext(FunctionAppStacksContext);
@@ -43,22 +44,55 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const [selectedStackVersion, setSelectedStackVersion] = useState<string | undefined>(undefined);
   const [dirtyState, setDirtyState] = useState(false);
 
+  const runtimeStack = React.useMemo(() => {
+    return functionAppFilteredStacks.length > 0 ? initialValues.currentlySelectedStack : undefined;
+  }, [functionAppFilteredStacks, initialValues]);
+
   const options = React.useMemo(() => {
     const runtimeVersion = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) ?? '';
     const isLinux = siteStateContext.isLinuxApp;
     const osType = isLinux ? AppStackOs.linux : AppStackOs.windows;
-    return currentStackData
+    const dropdownOptions = currentStackData
       ? getStackVersionDropdownOptions(
           currentStackData,
           FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersionWithV4(runtimeVersion),
           osType
         )
       : [];
-  }, [values, siteStateContext, currentStackData]);
 
-  const runtimeStack = React.useMemo(() => {
-    return functionAppFilteredStacks.length > 0 ? initialValues.currentlySelectedStack : undefined;
-  }, [functionAppFilteredStacks, initialValues]);
+    if (StringUtils.equalsIgnoreCase(runtimeStack, WorkerRuntimeLanguages.dotnetIsolated)) {
+      return dropdownOptions.filter(option => {
+        const settings =
+          osType === AppStackOs.windows
+            ? option.data?.stackSettings?.windowsRuntimeSettings
+            : option.data?.stackSettings?.linuxRuntimeSettings;
+        return (
+          !settings?.appSettingsDictionary?.FUNCTIONS_WORKER_RUNTIME ||
+          StringUtils.equalsIgnoreCase(settings.appSettingsDictionary?.FUNCTIONS_WORKER_RUNTIME, WorkerRuntimeLanguages.dotnetIsolated)
+        );
+      });
+    } else {
+      return dropdownOptions;
+    }
+  }, [values, siteStateContext, currentStackData, runtimeStack]);
+
+  const isSettingSectionVisible = React.useMemo(
+    () =>
+      siteStateContext.site &&
+      siteStateContext.isFunctionApp &&
+      !siteStateContext.isContainerApp &&
+      runtimeStack &&
+      (siteStateContext.isLinuxApp ||
+        StringUtils.isStringInArray(
+          runtimeStack,
+          [WorkerRuntimeLanguages.dotnetIsolated, WorkerRuntimeLanguages.powershell, WorkerRuntimeLanguages.java],
+          true
+        ) ||
+        initialValues.appSettings.some(appSetting =>
+          StringUtils.equalsIgnoreCase(appSetting.name, CommonConstants.AppSettingNames.websiteNodeDefaultVersion)
+        )),
+    [siteStateContext.isLinuxApp, siteStateContext.isFunctionApp, siteStateContext.site, runtimeStack, initialValues.appSettings]
+  );
 
   const onMajorVersionChange = React.useCallback(
     (_, option: IDropdownOption) => {
@@ -78,16 +112,13 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
               CommonConstants.AppSettingNames.websiteNodeDefaultVersion
             ]
           );
-          props.setFieldValue('appSettings', appSettings);
+          setFieldValue('appSettings', appSettings);
         }
       } else {
-        props.setFieldValue(
-          `config.properties.${getStackVersionConfigPropertyName(siteStateContext.isLinuxApp, runtimeStack)}`,
-          option.key
-        );
+        setFieldValue(`config.properties.${getStackVersionConfigPropertyName(siteStateContext.isLinuxApp, runtimeStack)}`, option.key);
       }
     },
-    [siteStateContext, values, runtimeStack, options]
+    [siteStateContext.isLinuxApp, values, runtimeStack, setFieldValue]
   );
 
   const getEolBanner = React.useCallback(() => {
@@ -102,7 +133,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     }
 
     return null;
-  }, [selectedStackVersion, options, siteStateContext]);
+  }, [selectedStackVersion, options, siteStateContext, t]);
 
   useEffect(() => {
     setDirtyState(initialStackVersion !== selectedStackVersion);
@@ -111,9 +142,8 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
   }, [setDirtyState, selectedStackVersion, initialStackVersion]);
 
   useEffect(() => {
-    const isLinux = siteStateContext.isLinuxApp;
-    setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, isLinux, runtimeStack));
-  }, [siteStateContext, functionAppFilteredStacks, runtimeStack, setCurrentStackData]);
+    setCurrentStackData(getFunctionAppStackObject(functionAppFilteredStacks, siteStateContext.isLinuxApp, runtimeStack));
+  }, [siteStateContext.isLinuxApp, functionAppFilteredStacks, runtimeStack, setCurrentStackData]);
 
   useEffect(() => {
     const isLinux = siteStateContext.isLinuxApp;
@@ -124,9 +154,9 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     setSelectedStackVersion(stackVersion);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
+  }, [siteStateContext.isLinuxApp, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
 
-  return siteStateContext.isLinuxApp && currentStackData && siteStateContext.site && !siteStateContext.isContainerApp && runtimeStack ? (
+  return isSettingSectionVisible && currentStackData ? (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
@@ -134,7 +164,9 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
           id="function-app-stack"
           selectedKey={runtimeStack}
           disabled={true}
-          onChange={() => {}}
+          onChange={() => {
+            /** @note (joechung): Ignore selection change since there is only a single option. */
+          }}
           options={[{ key: runtimeStack ?? '', text: currentStackData?.displayText ?? '' }]}
           label={t('stack')}
         />

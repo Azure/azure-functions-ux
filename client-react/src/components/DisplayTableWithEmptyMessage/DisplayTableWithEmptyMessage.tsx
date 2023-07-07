@@ -1,9 +1,10 @@
-import { DetailsList, IDetailsListProps, ShimmeredDetailsList } from '@fluentui/react';
+import { DetailsList, IDetailsListProps, ShimmeredDetailsList, ThemeProvider } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { style } from 'typestyle';
-import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
+import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { detailListHeaderStyle } from '../form-controls/formControl.override.styles';
+import { shimmerTheme } from '../shimmer/Shimmer.styles';
 
 export interface ShimmerProps {
   lines: number;
@@ -46,15 +47,17 @@ const DisplayTableWithEmptyMessage: React.SFC<Props> = props => {
   return (
     <>
       {shimmer ? (
-        <ShimmeredDetailsList
-          enableShimmer={shimmer.show}
-          shimmerLines={shimmer.lines}
-          className={initialShimmerTableStyle(shimmer.show)}
-          removeFadingOverlay={true}
-          columns={updatedColumns}
-          detailsListStyles={rest.styles}
-          {...rest}
-        />
+        <ThemeProvider theme={shimmerTheme}>
+          <ShimmeredDetailsList
+            enableShimmer={shimmer.show}
+            shimmerLines={shimmer.lines}
+            className={initialShimmerTableStyle(shimmer.show)}
+            removeFadingOverlay={true}
+            columns={updatedColumns}
+            detailsListStyles={rest.styles}
+            {...rest}
+          />
+        </ThemeProvider>
       ) : (
         <DetailsList columns={updatedColumns} {...rest} />
       )}

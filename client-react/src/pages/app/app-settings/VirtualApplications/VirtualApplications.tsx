@@ -7,7 +7,17 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import VirtualApplicationsAddEdit from './VirtualApplicationsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { VirtualApplication } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps, PanelType, DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
+import {
+  TooltipHost,
+  ICommandBarItemProps,
+  PanelType,
+  DetailsListLayoutMode,
+  IColumn,
+  SelectionMode,
+  IDetailsRowStyles,
+  DetailsRow,
+  IDetailsListProps,
+} from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -160,13 +170,20 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     if (column.key === 'type') {
       return <div className={defaultCellStyle}>{item.virtualDirectory ? t('directory') : t('application')}</div>;
     }
-    if (column.key === 'virtualPath') {
-      column.className = '';
-      if (isAppSettingDirty(index)) {
-        column.className = dirtyElementStyle(theme);
-      }
-    }
+
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
+  };
+
+  const onRenderRow: IDetailsListProps['onRenderRow'] = props => {
+    const customStyles: Partial<IDetailsRowStyles> = {};
+    if (props) {
+      if (isAppSettingDirty(props?.itemIndex)) {
+        customStyles.fields = dirtyElementStyle(theme);
+      }
+
+      return <DetailsRow {...props} styles={customStyles} />;
+    }
+    return null;
   };
 
   const getColumns = () => {
@@ -239,6 +256,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   return (
     <>
       <DisplayTableWithCommandBar
+        onRenderRow={onRenderRow}
         commandBarItems={getCommandBarItems()}
         items={values.virtualApplications || []}
         columns={getColumns()}
@@ -246,6 +264,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
+        ariaLabelForGrid={t('virtualApplications')}
         emptyMessage={t('emptyVirtualDirectories')}
       />
       <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancelPanel} headerText={t('newApp')}>

@@ -7,6 +7,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
   const python38EOL = getDateString(new Date(2024, 9, 31), useIsoDateFormat);
   const python39EOL = getDateString(new Date(2025, 9, 31), useIsoDateFormat);
   const python310EOL = getDateString(new Date(2026, 9, 31), useIsoDateFormat);
+  const python311EOL = getDateString(new Date(2027, 9, 31), useIsoDateFormat);
 
   return {
     displayText: 'Python',
@@ -17,6 +18,35 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         displayText: 'Python 3',
         value: '3',
         minorVersions: [
+          {
+            displayText: 'Python 3.11',
+            value: '3.11',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'Python|3.11',
+                remoteDebuggingSupported: false,
+                isPreview: true,
+                isDefault: false,
+                isHidden: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '3.11',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'python',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'Python|3.11',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: python311EOL,
+              },
+            },
+          },
           {
             displayText: 'Python 3.10',
             value: '3.10',

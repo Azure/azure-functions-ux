@@ -17,7 +17,7 @@ const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>>
   const theme = useContext(ThemeContext);
 
   return (
-    <main className={iconStyles(theme)}>
+    <div className={iconStyles(theme)}>
       <StartupInfoContext.Consumer>
         {value => {
           return (
@@ -31,7 +31,7 @@ const ContainerAppRouter: React.FC<RouteComponentProps<ContainerAppRouterProps>>
           );
         }}
       </StartupInfoContext.Consumer>
-    </main>
+    </div>
   );
 };
 

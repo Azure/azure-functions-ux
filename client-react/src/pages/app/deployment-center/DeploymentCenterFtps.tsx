@@ -27,6 +27,7 @@ import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
 import { PortalContext } from '../../../PortalContext';
 import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
 import { TextFieldType } from '../../../utils/CommonConstants';
+import { useFullPage } from '../../../utils/hooks/useFullPage';
 
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {
@@ -46,6 +47,8 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
   const isScmLocalGit = deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.LocalGit;
   const gitCloneUri = getGitCloneUri(deploymentCenterPublishingContext);
   const gitUsername = publishingProfile?.userName.split('\\')[1];
+
+  const { fullpageElementWithLabel } = useFullPage();
 
   const toggleResetCalloutVisibility = () => {
     setIsResetCalloutHidden(!isResetCalloutHidden);
@@ -133,7 +136,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             href={DeploymentCenterLinks.publishingUserDocumentation}
             target="_blank"
             className={learnMoreLinkStyle}
-            aria-labelledby="deployment-center-settings-message">
+            aria-label={t('configureDeploymentCredentialsLinkAriaLabel')}>
             {` ${t('learnMore')}`}
           </Link>
         </div>
@@ -151,7 +154,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
         {isScmLocalGit && (
           <TextFieldNoFormik
             className={textboxStyle}
-            id="deployment-center-ftps-application-username"
+            id="deployment-center-ftps-application-git-username"
             label={t('deploymentCenterLocalGitUsernameLabel')}
             widthOverride="100%"
             value={gitUsername}
@@ -160,7 +163,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           />
         )}
 
-        <div className={ftpsPasswordTextboxStyle}>
+        <div className={ftpsPasswordTextboxStyle(fullpageElementWithLabel)}>
           <TextFieldNoFormik
             className={textboxStyle}
             id="deployment-center-ftps-application-password"

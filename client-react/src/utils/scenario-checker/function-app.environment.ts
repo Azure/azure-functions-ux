@@ -133,6 +133,13 @@ export class FunctionAppEnvironment extends Environment {
       id: ScenarioIds.clientAffinitySupported,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.dockerCompose] = {
+      id: ScenarioIds.dockerCompose,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -254,6 +254,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             layoutMode={DetailsListLayoutMode.justified}
             selectionMode={SelectionMode.none}
             selectionPreservedOnEmptyClick={true}
+            ariaLabelForGrid={t('ErrorPagesGridNotAvailable')}
           />
         </div>
       ) : (
@@ -264,6 +265,7 @@ const ErrorPageGrid: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           layoutMode={DetailsListLayoutMode.justified}
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
+          ariaLabelForGrid={t('ErrorPagesGrid')}
         />
       )}
 

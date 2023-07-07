@@ -210,6 +210,9 @@
     <data name="functionNew_experimentalTemplate" xml:space="preserve">
         <value>This language is experimental and does not yet have full support. If you run into issues, please file a bug on our &lt;a href="https://github.com/Azure/azure-webjobs-sdk-templates/issues" target="_blank"&gt;GitHub repository.&lt;/a&gt;</value>
     </data>
+    <data name="functionNew_functionKind" xml:space="preserve">
+        <value>Job type</value>
+    </data>
     <data name="functionNew_functionName" xml:space="preserve">
         <value>Function name</value>
     </data>
@@ -883,7 +886,7 @@
     <data name="fileExplorer_upload" xml:space="preserve">
         <value>Upload</value>
     </data>
-       <data name="upload" xml:space="preserve">
+    <data name="upload" xml:space="preserve">
         <value>Upload</value>
     </data>
     <data name="seeAllOptions" xml:space="preserve">
@@ -898,8 +901,23 @@
     <data name="fileExplorer_fileAlreadyExists" xml:space="preserve">
         <value>A File with the name {{fileName}} already exists.</value>
     </data>
+    <data name="functionNew_fileExists" xml:space="preserve">
+        <value>A file with the name '{0}' already exists.</value>
+    </data>
     <data name="functionNew_functionExists" xml:space="preserve">
         <value>Function with name '{{name}}' already exists.</value>
+    </data>
+    <data name="jobType_appendToBlueprint" xml:space="preserve">
+        <value>Append to blueprint</value>
+    </data>
+    <data name="jobType_appendToFile" xml:space="preserve">
+        <value>Append to app</value>
+    </data>
+    <data name="jobType_createNewApp" xml:space="preserve">
+        <value>Create new app</value>
+    </data>
+    <data name="jobType_createNewBlueprint" xml:space="preserve">
+        <value>Create new blueprint</value>
     </data>
     <data name="binding_storageAccountKey" xml:space="preserve">
         <value>Account Key:</value>
@@ -1594,17 +1612,23 @@
     <data name="https20ProxyInfoBubbleMessage" xml:space="preserve">
         <value>When this setting is enabled, front end will forward HTTP 2.0 traffic to the worker enabling scenarios like GRPC.</value>
     </data>
+    <data name="basicAuthPublishingCredInfoBubbleMessage" xml:space="preserve">
+        <value>Disable basic authentication for FTP and SCM access.</value>
+    </data>
+    <data name="httpCertWarningInfoBubbleMessage" xml:space="preserve">
+        <value>When selecting HTTP version 2.0, incoming client certificates must be ignored.</value>
+    </data>
     <data name="minTlsVersionLabel" xml:space="preserve">
-        <value>Minimum TLS Version</value>
+        <value>Minimum Inbound TLS Version</value>
     </data>
     <data name="minTlsVersionInfoBubbleMessage" xml:space="preserve">
-        <value>Select the minimum TLS encryption version required by your app.</value>
+        <value>Select the minimum TLS encryption version required by clients connecting to your app.</value>
     </data>
     <data name="minTlsCipherSuiteLabel" xml:space="preserve">
-        <value>Minimum TLS Cipher Suite (Preview)</value>
+        <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
     </data>
     <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
-        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites.</value>
+        <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.</value>
     </data>
     <data name="minTlsCipherSuiteSelectionInfo" xml:space="preserve">
         <value>Based on your chosen minimum, the TLS cipher suites below will be enabled or disabled accordingly as shown.</value>
@@ -3812,6 +3836,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="http20Proxy" xml:space="preserve">
         <value>HTTP 2.0 Proxy</value>
     </data>
+    <data name="basicAuthPublishingCred" xml:space="preserve">
+        <value>Basic Auth Publishing Credentials</value>
+    </data>
     <data name="dismiss" xml:space="preserve">
         <value>Dismiss</value>
     </data>
@@ -4544,6 +4571,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="customErrorPage" xml:space="preserve">
         <value>Error pages (preview)</value>
     </data>
+    <data name="ErrorPagesGrid" xml:space="preserve">
+        <value>Error pages grid</value>
+    </data>
+    <data name="ErrorPagesGridNotAvailable" xml:space="preserve">
+        <value>Error pages grid not available</value>
+    </data>
     <data name="errorPage" xml:space="preserve">
         <value>Error page</value>
     </data>
@@ -4980,7 +5013,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Account Name</value>
     </data>
     <data name="azureBlob" xml:space="preserve">
-        <value>Azure Blob</value>
+        <value>Azure Blob (Read-only)</value>
     </data>
     <data name="azureFiles" xml:space="preserve">
         <value>Azure Files</value>
@@ -4999,6 +5032,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="virtualPathUnique" xml:space="preserve">
         <value>Virtual paths must be unique</value>
+    </data>
+    <data name="storageAccessLabel" xml:space="preserve">
+        <value>Storage access</value>
+    </data>
+    <data name="manualInput" xml:space="preserve">
+        <value>Manual input</value>
+    </data>
+    <data name="keyVaultReference" xml:space="preserve">
+        <value>Key vault reference</value>
     </data>
     <data name="configurationOptions" xml:space="preserve">
         <value>Configuration options</value>
@@ -5424,6 +5466,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="keyVaultReferenceDetails" xml:space="preserve">
         <value>Key Vault Reference Details</value>
     </data>
+    <data name="appConfigurationReferenceDetails" xml:space="preserve">
+        <value>App Configuration Reference Details</value>
+    </data>
     <data name="keyVaultName" xml:space="preserve">
         <value>Vault Name</value>
     </data>
@@ -5550,10 +5595,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="azureAppConfigRefValue" xml:space="preserve">
         <value>App Configuration Reference</value>
     </data>
-     <data name="azureAppConfigRefAriaLabelResolved" xml:space="preserve">
+    <data name="azureAppConfigRefAriaLabelResolved" xml:space="preserve">
         <value>App Configuration Reference resolved</value>
     </data>
-     <data name="azureAppConfigRefAriaLabelNotResolved" xml:space="preserve">
+    <data name="azureAppConfigRefAriaLabelNotResolved" xml:space="preserve">
         <value>App Configuration Reference not resolved</value>
     </data>
     <data name="appSettingKeyvaultAPIError" xml:space="preserve">
@@ -5594,9 +5639,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionEditorTestAriaLabel" xml:space="preserve">
         <value>Open test panel to test run your function.</value>
-    </data>
-    <data name="functionEditorTestIntegrationAriaLabel" xml:space="preserve">
-        <value>Open test integration panel for code and data samples.</value>
     </data>
     <data name="functionEditorGetFunctionUrlAriaLabel" xml:space="preserve">
         <value>Open popup to get function URL for your function.</value>
@@ -5766,7 +5808,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deleteBindingNotificationSuccess" xml:space="preserve">
         <value>Succeeded in deleting {0} ({1})</value>
     </data>
-    <data name="createFunctionNotication" xml:space="preserve">
+    <data name="createFunctionNotification" xml:space="preserve">
         <value>Creating function</value>
     </data>
     <data name="createFunctionNotificationDetails" xml:space="preserve">
@@ -5783,6 +5825,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readonlyBlobStorageWarning" xml:space="preserve">
         <value>Mounted Blob containers are read only.</value>
+    </data>
+    <data name="BYOSDeploymentSettingsWarning" xml:space="preserve">
+        <value>Selected App Setting is not marked as deployment slot setting. This may cause inconsistencies during the slot swap operation.</value>
     </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>
@@ -6081,6 +6126,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrate_bindingsMissingDirection" xml:space="preserve">
         <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
     </data>
+    <data name="integrate_readOnlyPythonV2" xml:space="preserve">
+        <value>Use the code editor to update v2 programming model Python function bindings.</value>
+    </data>
     <data name="functionMonitor_invocations" xml:space="preserve">
         <value>Invocations</value>
     </data>
@@ -6218,6 +6266,30 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+    <data name="deploymentCenterDeleteCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center delete logs command</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsConfirmationTitle" xml:space="preserve">
+        <value>Delete logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsConfirmationDescription" xml:space="preserve">
+        <value>Do you want to delete all the selected logs? This will permanently delete the selected logs, and this action cannot be undone. Do you wish to continue?</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsNotificationTitle" xml:space="preserve">
+        <value>Delete Logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsNotificationDescription" xml:space="preserve">
+        <value>Deleting logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsSuccessNotificationDescription" xml:space="preserve">
+        <value>Successfully deleted logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsFailureNotificationDescription" xml:space="preserve">
+        <value>Failed to delete logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsFailureWithErrorNotificationDescription" xml:space="preserve">
+        <value>Failed to delete logs: {0}</value>
     </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
@@ -6699,9 +6771,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="testAndRun" xml:space="preserve">
         <value>Test/Run</value>
     </data>
-    <data name="testIntegration" xml:space="preserve">
-        <value>Test integration</value>
-    </data>
     <data name="appInsightsKeyVaultWarningMessage" xml:space="preserve">
         <value>We have detected that your Application Insights instrumentation key or connection string is stored in key vault which causes issues with Monitoring experience. </value>
     </data>
@@ -7023,6 +7092,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="developmentEnvironment" xml:space="preserve">
         <value>Development environment</value>
     </data>
+    <data name="programmingModel" xml:space="preserve">
+        <value>Programming Model</value>
+    </data>
+    <data name="v1ProgrammingModel" xml:space="preserve">
+        <value>v1 Programming Model</value>
+    </data>
+    <data name="v2ProgrammingModel" xml:space="preserve">
+        <value>v2 Programming Model</value>
+    </data>
     <data name="selectTemplate" xml:space="preserve">
         <value>Select a template</value>
     </data>
@@ -7031,6 +7109,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="description" xml:space="preserve">
         <value>Description</value>
+    </data>
+    <data name="viewTemplate" xml:space="preserve">
+        <value>View Template</value>
+    </data>
+    <data name="viewTemplateFormat" xml:space="preserve">
+        <value>View template for '{0}'</value>
     </data>
     <data name="templateDetails" xml:space="preserve">
         <value>Template details</value>
@@ -7082,6 +7166,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionInfoFetchError" xml:space="preserve">
         <value>Unable to fetch your function</value>
+    </data>
+    <data name="functionInfoUnavailableError" xml:space="preserve">
+        <value>The function is unavailable for editing in the portal. Click to download app content and use a local development environment to fix the function.</value>
     </data>
     <data name="createHostKeyNotification" xml:space="preserve">
         <value>Creating host key</value>
@@ -7251,116 +7338,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="pricing_workflowStandardNotAvailable" xml:space="preserve">
         <value>Workflow Standard is not supported for this scale unit. Please consider redeploying or cloning your app.</value>
     </data>
-    <data name="staticSitePlanComparison" xml:space="preserve">
-        <value>Plan comparison</value>
-    </data>
-    <data name="staticSiteIncludedBandwidth" xml:space="preserve">
-        <value>Included bandwidth</value>
-    </data>
-    <data name="staticSiteBandwidthOverage" xml:space="preserve">
-        <value>Bandwidth overage</value>
-    </data>
-    <data name="staticSiteCustomDomains" xml:space="preserve">
-        <value>Custom domains</value>
-    </data>
-    <data name="staticSiteSslCertificates" xml:space="preserve">
-        <value>SSL certificates</value>
-    </data>
-    <data name="staticSitePrivateEndpoints" xml:space="preserve">
-        <value>Private endpoints</value>
-    </data>
-    <data name="staticSiteCustomAuthentication" xml:space="preserve">
-        <value>Custom authentication</value>
-    </data>
-    <data name="staticSiteMaxAppSize" xml:space="preserve">
-        <value>Max app size</value>
-    </data>
-    <data name="staticSiteAzureFunctions" xml:space="preserve">
-        <value>Azure Functions</value>
-    </data>
-    <data name="staticSiteIncludedBandwidthAmount" xml:space="preserve">
-        <value>100GB per subscription</value>
-    </data>
-    <data name="staticSiteFreeCustomDomainAmount" xml:space="preserve">
-        <value>2 per app</value>
-    </data>
-    <data name="staticSiteStandardCustomDomainAmount" xml:space="preserve">
-        <value>5 per app</value>
-    </data>
-    <data name="staticSiteFreeAzureFunctionsAmount" xml:space="preserve">
-        <value>Managed</value>
-    </data>
-    <data name="staticSiteStandardAzureFunctionsAmount" xml:space="preserve">
-        <value>Managed or Bring your own</value>
-    </data>
-    <data name="staticSiteFreeAppSizeAmount" xml:space="preserve">
-        <value>250MB</value>
-    </data>
-    <data name="staticSiteStandardAppSizeAmount" xml:space="preserve">
-        <value>500MB</value>
-    </data>
-    <data name="staticSiteFree" xml:space="preserve">
-        <value>Free</value>
-    </data>
-    <data name="staticSiteStandard" xml:space="preserve">
-        <value>Standard</value>
-    </data>
-    <data name="staticSiteFreeDescription" xml:space="preserve">
-        <value>For hobby or personal projects</value>
-    </data>
-    <data name="staticSiteStandardDescription" xml:space="preserve">
-        <value>For general purpose production apps</value>
-    </data>
-    <data name="staticSiteApply" xml:space="preserve">
-        <value>Apply</value>
-    </data>
-    <data name="staticSitePlanFeatures" xml:space="preserve">
-        <value>Plan/Features</value>
-    </data>
-    <data name="staticSitePlanFeaturesAriaLabel" xml:space="preserve">
-        <value>Plan or Features</value>
-    </data>
-    <data name="staticSiteFreePlanAriaLabel" xml:space="preserve">
-        <value>Free plan Price free 100GB bandwidth per subscription with free overage. 2 app custom domains SSL certs free No custom authentication No private endpoints Max app size 250 MB 3 Staging environments Managed functions only. No enterprise grade edge</value>
-    </data>
-    <data name="staticSiteStandardPlanAriaLabel" xml:space="preserve">
-        <value>Standard plan Price {0} 100GB bandwidth with {1} overage per GB 5 app custom domains SSL certs free Custom auth private endpoints supported Max app size 500 MB 10 staging environments Managed or bring your functions Enterprise grade edge {2}</value>
-    </data>
-    <data name="staticSitePrice" xml:space="preserve">
-        <value>Price</value>
-    </data>
-    <data name="staticSiteHostingPlanDescription" xml:space="preserve">
-        <value>The hosting plan dictates your bandwidth, custom domain, storage, and other available features.</value>
-    </data>
-    <data name="staticSiteChoosePlan" xml:space="preserve">
-        <value>Choose your plan</value>
-    </data>
-    <data name="staticSiteUpdatingHostingPlan" xml:space="preserve">
-        <value>Updating hosting plan</value>
-    </data>
-    <data name="staticSiteUpdatingHostingPlanSuccess" xml:space="preserve">
-        <value>Successfully updated hosting plan</value>
-    </data>
-    <data name="staticSiteUpdatingHostingPlanFailure" xml:space="preserve">
-        <value>Failed to update hosting plan</value>
-    </data>
-    <data name="staticWebAppSkuPickerCalculatePrice" xml:space="preserve">
-        <value>Calculate price</value>
-    </data>
     <data name="staticSiteStagingEnvironments" xml:space="preserve">
         <value>Staging environments</value>
-    </data>
-    <data name="staticSiteFreeStagingEnvironmentsAmount" xml:space="preserve">
-        <value>3</value>
-    </data>
-    <data name="staticSiteStandardStagingEnvironmentsAmount" xml:space="preserve">
-        <value>10</value>
-    </data>
-    <data name="staticSiteStandardPrice" xml:space="preserve">
-        <value>{0}/per app/month</value>
-    </data>
-    <data name="staticSiteStandardBandwidthOverage" xml:space="preserve">
-        <value>{0} per GB per subscription</value>
     </data>
     <data name="configurationFeedbackCESQuestion" xml:space="preserve">
         <value>How easy or difficult is it to use this App Service configuration page?</value>
@@ -7412,12 +7391,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="switchToJbossWarningBaner" xml:space="preserve">
         <value>JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. </value>
-    </data>
-    <data name="staticSiteEnterpriseGradeEdge" xml:space="preserve">
-        <value>Enterprise-grade edge</value>
-    </data>
-    <data name="staticSiteEnterpriseGradeEdgePrice" xml:space="preserve">
-        <value>{0}/per app/month</value>
     </data>
     <data name="adminCredentials" xml:space="preserve">
         <value>Admin Credentials</value>
@@ -7512,7 +7485,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_snippets" xml:space="preserve">
         <value>Snippets (preview)</value>
     </data>
-     <data name="staticSite_snippetsMax" xml:space="preserve">
+    <data name="staticSite_snippetsMax" xml:space="preserve">
         <value>Static Web Apps may only have a maximum of ten snippets. You have reached this limit.</value>
     </data>
     <data name="staticSite_appliesTo" xml:space="preserve">
@@ -7530,7 +7503,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_snippetInsertionLocationRequired" xml:space="preserve">
         <value>Snippet insertion location is required</value>
     </data>
-     <data name="staticSite_snippetLocationRequired" xml:space="preserve">
+    <data name="staticSite_snippetLocationRequired" xml:space="preserve">
         <value>Snippet location is required</value>
     </data>
     <data name="staticSite_snippetEnironmentRequired" xml:space="preserve">
@@ -7581,7 +7554,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_deletingSnippetFailureWithMessage" xml:space="preserve">
         <value>Failed to delete snippet '{0}' with error: '{1}'</value>
     </data>
-     <data name="staticSite_addingSnippet" xml:space="preserve">
+    <data name="staticSite_addingSnippet" xml:space="preserve">
         <value>Creating snippet '{0}'</value>
     </data>
     <data name="staticSite_addingSnippetSuccess" xml:space="preserve">
@@ -7614,7 +7587,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_snippetContentPlaceholder" xml:space="preserve">
         <value>Insert your HTML below</value>
     </data>
-      <data name="staticSite_selectEnvironments" xml:space="preserve">
+    <data name="staticSite_selectEnvironments" xml:space="preserve">
         <value>Select environments</value>
     </data>
     <data name="staticSite_loadingSnippets" xml:space="preserve">
@@ -7686,45 +7659,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="connectedAndFilteredMessage" xml:space="preserve">
         <value>Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.</value>
     </data>
-    <data name="logicAppPlanPickerHeaderText" xml:space="preserve">
-        <value>Select plan</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderAriaLabel" xml:space="preserve">
-        <value>Plan or features</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderFeatures" xml:space="preserve">
-        <value>Plan/Features</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel" xml:space="preserve">
-        <value>Consumption plan. Serverless, event-driven scaling for lowest minimum cost. Fast dynamic scale. Pay as you go usage.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionDescription" xml:space="preserve">
-        <value>Serverless, event-driven scaling for lowest minimum cost.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderConsumptionSectionTitle" xml:space="preserve">
-        <value>Consumption</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel" xml:space="preserve">
-        <value>Standard plan. Best for enterprise-level, serverless applications with event-based scaling and network isolation. Fast dynamic scale. Network isolation. Always on instances.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionDescription" xml:space="preserve">
-        <value>Best for enterprise-level, serverless applications with event-based scaling and network isolation.</value>
-    </data>
-    <data name="logicAppPlanPickerGridHeaderStandardSectionTitle" xml:space="preserve">
-        <value>Standard</value>
-    </data>
-    <data name="logicAppPlanPickerGridScaleRowTitle" xml:space="preserve">
-        <value>Fast dynamic scale</value>
-    </data>
-    <data name="logicAppPlanPickerGridNetworkRowTitle" xml:space="preserve">
-        <value>Network isolation</value>
-    </data>
-    <data name="logicAppPlanPickerGridInstancesRowTitle" xml:space="preserve">
-        <value>Always on instances</value>
-    </data>
-    <data name="logicAppPlanPickerGridUsageRowTitle" xml:space="preserve">
-        <value>Pay as you go usage</value>
-    </data>
     <data name="containerApp_console_chooseStartUpCommand" xml:space="preserve">
         <value>Choose start up command</value>
     </data>
@@ -7741,145 +7675,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>(new)</value>
         <comment>Prefix for dropdown option text indicating their newness, e.g., (new) CosmosDatabase</comment>
     </data>
-    <data name="automatic" xml:space="preserve">
-        <value>Automatic</value>
-    </data>
-    <data name="manual" xml:space="preserve">
-        <value>Manual</value>
-    </data>
-    <data name="cosmosDb_apiType_coreSql" xml:space="preserve">
-        <value>Core (SQL)</value>
-    </data>
-    <data name="cosmosDb_error_accountNameRequired" xml:space="preserve">
-        <value>The account name is required.</value>
-    </data>
-    <data name="cosmosDb_error_accountNameInvalid" xml:space="preserve">
-        <value>The account name must consist of minimum 3 and maximum 44 lowercase letters, numbers, or '-' characters.</value>
-    </data>
-    <data name="cosmosDb_error_accountNameTaken" xml:space="preserve">
-        <value>The account name is already taken.</value>
-    </data>
-    <data name="cosmosDb_error_containerAlreadyExists" xml:space="preserve">
-        <value>The container already exists.</value>
-    </data>
-    <data name="cosmosDb_error_containerNameCharacters" xml:space="preserve">
-        <value>The container name cannot contain any special characters.</value>
-    </data>
-    <data name="cosmosDb_error_containerNameSpace" xml:space="preserve">
-        <value>The container name cannot end with a space.</value>
-    </data>
-    <data name="cosmosDb_error_databaseAlreadyExists" xml:space="preserve">
-        <value>The database already exists.</value>
-    </data>
-    <data name="cosmosDb_error_databaseNameCharacters" xml:space="preserve">
-        <value>The database name cannot contain any special characters.</value>
-    </data>
-    <data name="cosmosDb_error_databaseNameSpace" xml:space="preserve">
-        <value>The database name cannot end with a space.</value>
-    </data>
-    <data name="cosmosDb_error_fieldRequired" xml:space="preserve">
-        <value>The field is required.</value>
-    </data>
-    <data name="cosmosDb_error_partitionKeyPathSlash" xml:space="preserve">
-        <value>The partition key path must contain at least one \'/\' at the beginning of the string.</value>
-    </data>
-    <data name="cosmosDb_error_writePermissionsRequired" xml:space="preserve">
-        <value>Automatic mode is disabled for users with read-only permissions in their subscription or resource group.</value>
-    </data>
-    <data name="cosmosDb_header_customAppSetting" xml:space="preserve">
-        <value>Custom app setting</value>
-    </data>
-    <data name="cosmosDb_header_details" xml:space="preserve">
-        <value>Cosmos DB details</value>
-    </data>
-    <data name="cosmosDb_label_accountName" xml:space="preserve">
-        <value>Account name</value>
-    </data>
-    <data name="cosmosDb_label_apiType" xml:space="preserve">
-        <value>API</value>
-    </data>
     <data name="nodeStackLearnMore" xml:space="preserve">
         <value>Node version is defined through the {0} app setting.</value>
-    </data>
-    <data name="cosmosDb_label_connection" xml:space="preserve">
-        <value>Cosmos DB connection</value>
-    </data>
-    <data name="cosmosDb_label_container" xml:space="preserve">
-        <value>Container</value>
-    </data>
-    <data name="cosmosDb_label_cosmosDbAccount" xml:space="preserve">
-        <value>Cosmos DB account</value>
-    </data>
-    <data name="cosmosDb_label_createAContainer" xml:space="preserve">
-        <value>Create a container</value>
-    </data>
-    <data name="cosmosDb_label_createADatabase" xml:space="preserve">
-        <value>Create a database</value>
-    </data>
-    <data name="cosmosDb_label_createAnAccount" xml:space="preserve">
-        <value>Create an account</value>
-    </data>
-    <data name="cosmosDb_label_customAppSettingKey" xml:space="preserve">
-        <value>Name</value>
-    </data>
-    <data name="cosmosDb_label_customAppSettingValue" xml:space="preserve">
-        <value>Connection string setting</value>
-    </data>
-    <data name="cosmosDb_label_database" xml:space="preserve">
-        <value>Database</value>
-    </data>
-    <data name="cosmosDb_label_partitionKeyPath" xml:space="preserve">
-        <value>Partition key path</value>
-    </data>
-    <data name="cosmosDb_newAccountDialog_description" xml:space="preserve">
-        <value>Create a new serverless account in the same Azure region and resource group as the function. For more options, go to </value>
-    </data>
-    <data name="cosmosDb_newAccountDialog_link" xml:space="preserve">
-        <value>Create Cosmos DB account.</value>
-    </data>
-    <data name="cosmosDb_newAccountDialog_title" xml:space="preserve">
-        <value>Create a Cosmos DB account</value>
-    </data>
-    <data name="cosmosDb_placeholder_noExistingAccounts" xml:space="preserve">
-        <value>Select an account</value>
-    </data>
-    <data name="cosmosDb_placeholder_selectAContainer" xml:space="preserve">
-        <value>Select a container</value>
-    </data>
-    <data name="cosmosDb_placeholder_selectADatabase" xml:space="preserve">
-        <value>Select a database</value>
-    </data>
-    <data name="cosmosDb_placeholder_selectAnAccount" xml:space="preserve">
-        <value>Select an account</value>
-    </data>
-    <data name="cosmosDb_testIntegration_description" xml:space="preserve">
-        <value>Modify or replace the existing code contained within your function's entry point with the code snippet provided below.</value>
-    </data>
-    <data name="cosmosDb_testIntegration_input_headerText" xml:space="preserve">
-        <value>{0} input</value>
-        <comment>{0} = "Cosmos DB" (or other product)</comment>
-    </data>
-    <data name="cosmosDb_testIntegration_linkText" xml:space="preserve">
-        <value>Go to {0}</value>
-        <comment>{0} = "Cosmos DB" (or other product)</comment>
-    </data>
-    <data name="cosmosDb_testIntegration_output_headerText" xml:space="preserve">
-        <value>{0} output</value>
-        <comment>{0} = "Cosmos DB" (or other product)</comment>
-    </data>
-    <data name="cosmosDb_testIntegration_trigger_description" xml:space="preserve">
-        <value>Test the {0} trigger on your function app by copy and pasting the following JSON object into Data Explorer for {1}. You can follow the link below to go to your {0} account.</value>
-        <comment>{0} = "Cosmos DB" (or other product). {1} = "Azure Cosmos DB" (or other Azure-prefixed product).</comment>
-    </data>
-    <data name="cosmosDb_testIntegration_trigger_headerText" xml:space="preserve">
-        <value>{0} trigger</value>
-        <comment>{0} = "Cosmos DB" (or other product)</comment>
-    </data>
-    <data name="cosmosDb_tooltip_customAppSettingKey" xml:space="preserve">
-        <value>Enter the key/value pair for the Cosmos DB custom app setting.</value>
-    </data>
-    <data name="cosmosDb_tooltip_partitionKeyPath" xml:space="preserve">
-        <value>The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size.</value>
     </data>
     <data name="containerApp_console_startUpCommandAriaLabel" xml:space="preserve">
         <value>Custom start up command</value>
@@ -7887,11 +7684,35 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerApp_console_cancel" xml:space="preserve">
         <value>Cancel</value>
     </data>
+    <data name="createFunction_fileContentError" xml:space="preserve">
+        <value>Cannot determine the template file content.</value>
+    </data>
+    <data name="createFunction_filePathError" xml:space="preserve">
+        <value>Cannot determine the template file path.</value>
+    </data>
+    <data name="createFunction_functionAppExistsError" xml:space="preserve">
+        <value>Cannot determine if a "function_app.py" file exists.</value>
+    </data>
+    <data name="createFunction_functionNameError" xml:space="preserve">
+        <value>Cannot determine the function name.</value>
+    </data>
+    <data name="createFunction_functionKindError" xml:space="preserve">
+        <value>Cannot determine the function kind.</value>
+    </data>
     <data name="createFunction_noAppSettingsPermissionsError" xml:space="preserve">
         <value>You do not have sufficient permissions to update app settings.</value>
     </data>
+    <data name="createFunction_noBlueprintFilenameError" xml:space="preserve">
+        <value>Cannot determine the blueprint filename.</value>
+    </data>
     <data name="createFunction_noResourceIdError" xml:space="preserve">
         <value>No resource ID</value>
+    </data>
+    <data name="createFunction_noSubstitutionsError" xml:space="preserve">
+        <value>Cannot determine the job inputs with which to perform substitutions.</value>
+    </data>
+    <data name="createFunction_selectedTemplateError" xml:space="preserve">
+        <value>Cannot determine the selected template.</value>
     </data>
     <data name="createFunctionDeploymentNotification" xml:space="preserve">
         <value>Deploying function resources</value>
@@ -7940,5 +7761,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="connectionStringInfoMessage" xml:space="preserve">
         <value>At runtime, connection strings are available as environment variables.</value>
+    </data>
+    <data name="ibizafication_readOnlyDotnetIsolated" xml:space="preserve">
+        <value>Editing .NET Isolated Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
+    </data>    
+    <data name="consoleContainerTextAreaAriaLabel" xml:space="preserve">
+        <value>Console text area container</value>
+    </data>
+    <data name="deploymentCenterScmBasicAuthErrorMessage" xml:space="preserve">
+        <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.</value>
+    </data>
+    <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
+        <value>Basic authentication is disabled for your app.</value>
+    </data>
+    <data name="configureDeploymentCredentialsLinkAriaLabel" xml:space="preserve">
+        <value>Configure deployment credentials for Azure App Service</value>
     </data>
 </root>

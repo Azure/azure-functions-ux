@@ -1,5 +1,6 @@
 import { css, Label, Link, Stack, TooltipHost, TooltipOverflowMode } from '@fluentui/react';
-import { useContext, useState } from 'react';
+import { IButton } from '@fluentui/react/lib/Button';
+import { useContext, useState, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useWindowSize } from 'react-use';
 import { style } from 'typestyle';
@@ -23,6 +24,7 @@ import {
   stackControlStyle,
   copyButtonStyle,
 } from './formControl.override.styles';
+import { Guid } from '../../utils/Guid';
 
 export enum Layout {
   Horizontal = 'horizontal',
@@ -33,6 +35,7 @@ interface ReactiveFormControlProps {
   children: JSX.Element;
   id: string;
   upsellMessage?: string;
+  widthLabel?: string;
   infoBubbleMessage?: string;
   label?: string;
   learnMoreLink?: string;
@@ -66,30 +69,48 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
     multiline,
     pushContentRight,
     copyValue,
+    widthLabel,
   } = props;
 
   const { width } = useWindowSize();
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const [copied, setCopied] = useState(false);
+  const [copyButtonRef, setCopyButtonRef] = useState<IButton | undefined>(undefined);
   const fullPage = width > 1000;
   const horizontal = layout ? layout !== Layout.Vertical : fullPage;
 
-  const copyToClipboard = (event: React.MouseEvent<any>) => {
-    event?.stopPropagation();
-    TextUtilitiesService.copyContentToClipboard(copyValue || '');
-    setCopied(true);
-  };
+  const copyToClipboard = useCallback(
+    async (event: React.MouseEvent<any>) => {
+      event?.stopPropagation();
+      await TextUtilitiesService.copyContentToClipboard(copyValue || '', copyButtonRef);
+      setCopied(true);
+    },
+    [copyValue, copyButtonRef]
+  );
 
-  const getCopiedLabel = () => {
+  const getCopiedLabel = useCallback(() => {
     return copied ? t('copypre_copied') : t('copypre_copyClipboard');
-  };
+  }, [copied]);
 
-  const changeCopiedLabel = isToolTipVisible => {
-    if (copied && !isToolTipVisible) {
-      setCopied(false);
+  const getCopiedAriaLabel = useCallback(() => {
+    if (label) {
+      const copiedAriaLabel = label + ' ' + t('copypre_copied');
+      const copyClipboardAriaLabel = label + ' ' + t('copypre_copyClipboard');
+      return copied ? copiedAriaLabel : copyClipboardAriaLabel;
+    } else {
+      return getCopiedLabel();
     }
-  };
+  }, [copied, label]);
+
+  const changeCopiedLabel = useCallback(
+    isToolTipVisible => {
+      if (copied && !isToolTipVisible) {
+        setCopied(false);
+      }
+    },
+    [copied]
+  );
 
   return (
     <Stack horizontal={horizontal} className={css(formControlClassName, controlContainerStyle(!!upsellMessage, fullPage))}>
@@ -102,7 +123,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
           )}
           <Label
             className={css(
-              formLabelStyle(!!upsellMessage, fullPage, horizontal),
+              formLabelStyle(!!upsellMessage, fullPage, horizontal, widthLabel),
               customLabelClassName,
               dirty && dirtyElementStyle(theme, true)
             )}
@@ -115,7 +136,7 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
               {label}
             </TooltipHost>
             {getRequiredIcon(theme, required)}
-            {getMouseOverToolTip(`${children.props.id}-tooltip`, mouseOverToolTip)}
+            {getMouseOverToolTip(children.props.id ?? '', mouseOverToolTip)}
           </Label>
         </Stack>
       )}
@@ -159,7 +180,8 @@ const ReactiveFormControl = (props: ReactiveFormControlProps) => {
               id={`${id}-copy-button`}
               iconProps={{ iconName: 'Copy', styles: copyButtonStyle }}
               onClick={copyToClipboard}
-              ariaLabel={getCopiedLabel()}
+              ariaLabel={getCopiedAriaLabel()}
+              componentRef={ref => ref && setCopyButtonRef(ref)}
             />
           </TooltipHost>
         )}
@@ -186,7 +208,7 @@ const getRequiredIcon = (theme: ThemeExtended, required?: boolean) => {
 
 const getMouseOverToolTip = (id: string, content?: string) => {
   if (content) {
-    return <InfoTooltip id={id} content={content} />;
+    return <InfoTooltip id={`${id ? id : Guid.newTinyGuid()}-tooltip`} content={content} />;
   }
 };
 

@@ -1,4 +1,4 @@
-import { Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
+import { Dropdown, Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
 import { Formik, FormikProps } from 'formik';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -36,8 +36,10 @@ import {
 import { DevelopmentExperience } from './FunctionCreate.types';
 import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
 import LocalCreateInstructions from './local-create/LocalCreateInstructions';
+import FormContainer from './portal-create-v2/FormContainer';
 import TemplateList from './portal-create/TemplateList';
 import { useCreateFunction } from './useCreateFunction';
+import { useProgrammingModel } from './useProgrammingModel';
 
 registerIcons({
   icons: {
@@ -65,6 +67,16 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus>>();
   const [creatingFunction, setCreatingFunction] = useState(false);
   const [armResources, setArmResources] = useState<IArmResourceTemplate[]>([]);
+
+  const {
+    onProgrammingModelChange,
+    onProgrammingModelRenderLabel,
+    programmingModel,
+    programmingModelDisabled,
+    programmingModelDropdownStyles,
+    programmingModelOptions,
+    programmingModelVisible,
+  } = useProgrammingModel(resourceId);
 
   const { appSettings } = useAppSettingsQuery(resourceId);
 
@@ -246,8 +258,23 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
             selectedKey={selectedDropdownKey}
             disabled={creatingFunction}
           />
+          {selectedDropdownKey === DevelopmentExperience.developInPortal && programmingModelVisible && (
+            <Dropdown
+              id="function-create-programming-model"
+              aria-labelledby="programming-model-label"
+              disabled={programmingModelDisabled}
+              onChange={onProgrammingModelChange}
+              onRenderLabel={onProgrammingModelRenderLabel}
+              options={programmingModelOptions}
+              responsiveMode={ResponsiveMode.large}
+              selectedKey={programmingModel}
+              styles={programmingModelDropdownStyles}
+            />
+          )}
         </div>
-        {selectedDropdownKey === DevelopmentExperience.developInPortal ? (
+        {selectedDropdownKey === DevelopmentExperience.developInPortal && programmingModel === 2 ? (
+          <FormContainer hostStatus={hostStatus} resourceId={resourceId} />
+        ) : selectedDropdownKey === DevelopmentExperience.developInPortal ? (
           <Formik<CreateFunctionFormValues | undefined>
             initialValues={initialFormValues}
             enableReinitialize

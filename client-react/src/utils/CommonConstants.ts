@@ -18,6 +18,7 @@ export class CommonConstants {
     // to 'kubernetes' se we need to account for both during the transition.
     kubeApp: 'kubeapp',
     kubernetes: 'kubernetes',
+    azureContainerApps: 'azurecontainerapps',
   };
 
   public static readonly ApiVersions = {
@@ -74,7 +75,9 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
+    enableNewProgrammingModel: 'enableNewProgrammingModel',
     enableSnippets: 'enableSnippets',
+    showBYOSStorageAccess: 'showBYOSStorageAccess',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -119,6 +122,8 @@ export class CommonConstants {
     premium: 'premium',
     premiumV2: 'premiumv2',
     premiumV3: 'premiumv3',
+    premium0V3: 'premium0v3',
+    premiumMV3: 'premiummv3',
     premiumContainer: 'premiumcontainer',
     isolated: 'isolated',
     dynamic: 'dynamic',
@@ -355,13 +360,11 @@ export class SubscriptionQuotaIds {
 // File - https://msazure.visualstudio.com/One/_git/AAPT-Antares-AntUX?path=/src/src/Ux/Extensions/Websites/TypeScript/ExtensionAssets/Constants.ts&version=GBdev&line=3444&lineEnd=3444&lineStartColumn=14&lineEndColumn=29&lineStyle=plain&_a=contents
 export class ExperimentationConstants {
   public static TreatmentFlight = {
-    customErrorPages: 'enable-custom-error-pages',
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
   };
 
   public static ControlFlight = {
-    customErrorPages: 'disable-custom-error-pages',
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
   };

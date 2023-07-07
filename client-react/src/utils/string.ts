@@ -39,6 +39,14 @@ export default class StringUtils {
     return !!stringA && !!stringB && stringA.toUpperCase() === stringB.toUpperCase();
   }
 
+  public static isStringInArray(str: string, array: string[], ignoreCase?: boolean) {
+    if (typeof str !== 'string' || !Array.isArray(array)) {
+      return false;
+    }
+
+    return array.some((arrayStr: string) => (ignoreCase ? StringUtils.equalsIgnoreCase(str, arrayStr) : str === arrayStr));
+  }
+
   public static endsWithIgnoreCase(source?: string, substring?: string): boolean {
     return !!source && !!substring && source.toUpperCase().endsWith(substring.toUpperCase());
   }

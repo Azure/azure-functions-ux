@@ -10,7 +10,17 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { TooltipHost, ICommandBarItemProps, ActionButton, DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
+import {
+  TooltipHost,
+  ICommandBarItemProps,
+  ActionButton,
+  DetailsListLayoutMode,
+  IColumn,
+  SelectionMode,
+  IDetailsRowStyles,
+  DetailsRow,
+  IDetailsListProps,
+} from '@fluentui/react';
 import { dirtyElementStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
@@ -158,6 +168,18 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
     return currentAppSettingIndex < 0;
   };
 
+  const onRenderRow: IDetailsListProps['onRenderRow'] = props => {
+    const customStyles: Partial<IDetailsRowStyles> = {};
+    if (props) {
+      if (isConnectionStringDirty(props?.itemIndex)) {
+        customStyles.fields = dirtyElementStyle(theme);
+      }
+
+      return <DetailsRow {...props} styles={customStyles} />;
+    }
+    return null;
+  };
+
   const onRenderItemColumn = (item: FormConnectionString, index: number, column: IColumn) => {
     const itemKey = item.name;
     const hidden = !shownValues.includes(itemKey) && !showAllValues;
@@ -239,10 +261,6 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
       );
     }
     if (column.key === 'name') {
-      column.className = '';
-      if (isConnectionStringDirty(index)) {
-        column.className = dirtyElementStyle(theme);
-      }
       return (
         <ActionButton
           id={`app-settings-connection-strings-name-${index}`}
@@ -391,6 +409,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   return (
     <>
       <DisplayTableWithCommandBar
+        onRenderRow={onRenderRow}
         commandBarItems={getCommandBarItems()}
         items={gridItems}
         columns={getColumns()}
@@ -398,7 +417,8 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
-        emptyMessage={t('emptyConnectionStrings')}>
+        emptyMessage={t('emptyConnectionStrings')}
+        ariaLabelForGrid={t('connectionStrings')}>
         <SearchFilterWithResultAnnouncement
           id="app-settings-connection-strings-search"
           setFilterValue={setFilter}

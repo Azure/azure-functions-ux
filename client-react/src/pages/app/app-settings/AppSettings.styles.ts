@@ -95,3 +95,10 @@ export const messageBannerStyle = (theme: ThemeExtended, type: MessageBarType) =
 export const pivotWrapper = style({
   paddingLeft: '8px',
 });
+
+export const azureStorageTypeLabelStyle = style({
+  display: 'flex',
+  flexDirection: 'row',
+  gap: '2px',
+  marginRight: '8px',
+});

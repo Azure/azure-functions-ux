@@ -4,14 +4,13 @@ import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
 import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService';
+import { PortalContext } from '../../../PortalContext';
 import { ArmObj } from '../../../models/arm-obj';
 import { KeyValue } from '../../../models/portal-models';
 import { Environment } from '../../../models/static-site/environment';
-import { PortalContext } from '../../../PortalContext';
 import { LogCategories } from '../../../utils/LogCategories';
 import LogService from '../../../utils/LogService';
 import RbacConstants from '../../../utils/rbac-constants';
-import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
 import { getTelemetryInfo, stringToPasswordProtectionType } from '../StaticSiteUtility';
 import ConfigurationData from './Configuration.data';
 import {
@@ -22,6 +21,7 @@ import {
   PasswordProtectionTypes,
   Snippet,
   StagingEnvironmentPolicyTypes,
+  StaticSiteSku,
 } from './Configuration.types';
 import ConfigurationForm from './ConfigurationForm';
 import { ConfigurationFormBuilder } from './ConfigurationFormBuilder';

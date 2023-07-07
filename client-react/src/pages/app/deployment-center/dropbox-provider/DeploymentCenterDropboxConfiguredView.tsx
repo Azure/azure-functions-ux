@@ -84,7 +84,7 @@ const DeploymentCenterDropboxConfiguredView: React.FC<DeploymentCenterFieldProps
   };
 
   const authorizeDropboxAccount = () => {
-    authorizeWithProvider(DropboxService.authorizeUrl, () => {}, completingAuthCallback);
+    authorizeWithProvider(DropboxService.authorizeUrl, /* startingAuth */ undefined, completingAuthCallback);
   };
 
   const completingAuthCallback = async (authorizationResult: AuthorizationResult) => {

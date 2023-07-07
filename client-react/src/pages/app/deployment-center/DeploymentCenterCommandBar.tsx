@@ -214,7 +214,6 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   return (
     <CommandBar
       items={getCommandBarItems()}
-      role="nav"
       styles={CommandBarStyles}
       ariaLabel={t('deploymentCenterCommandBarAriaLabel')}
       buttonAs={CustomCommandBarButton}

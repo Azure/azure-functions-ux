@@ -1,6 +1,7 @@
+import { Shimmer, ThemeProvider } from '@fluentui/react';
 import React from 'react';
-import { wrapperClass, shimmerStyle } from './Shimmer.styles';
-import { Shimmer, Fabric } from '@fluentui/react';
+import { shimmerStyle, shimmerTheme, wrapperClass } from './Shimmer.styles';
+
 interface BasicShimmerLinesProps {
   repeatShimmer?: number;
 }
@@ -25,7 +26,11 @@ const BasicShimmerLines: React.FC<BasicShimmerLinesProps> = ({ repeatShimmer = 1
     return elements;
   };
 
-  return <Fabric className={wrapperClass}>{getLines()}</Fabric>;
+  return (
+    <ThemeProvider className={wrapperClass} theme={shimmerTheme}>
+      {getLines()}
+    </ThemeProvider>
+  );
 };
 
 export default BasicShimmerLines;

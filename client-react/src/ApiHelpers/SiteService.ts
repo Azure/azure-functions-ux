@@ -3,7 +3,7 @@ import { AvailableStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
 import LogService from '../utils/LogService';
 import { ArmObj, ArmArray } from '../models/arm-obj';
-import { Site, PublishingCredentialPolicies } from '../models/site/site';
+import { Site, PublishingCredentialPolicies, CredentialPolicy } from '../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ErrorPage } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
@@ -132,6 +132,14 @@ export default class SiteService {
     });
   };
 
+  public static deleteSiteDeployment = async (deploymentId: string) => {
+    return MakeArmCall({
+      resourceId: `${deploymentId}`,
+      commandName: 'deleteSiteDeployment',
+      method: 'DELETE',
+    });
+  };
+
   public static getDeploymentLogs = async (deploymentId: string) => {
     return MakeArmCall<ArmArray<DeploymentLogsItem>>({
       resourceId: `${deploymentId}/log`,
@@ -174,7 +182,7 @@ export default class SiteService {
       ? `${resourceId}/sourcecontrols/web`
       : `${resourceId}/sourcecontrols/web/?additionalFlags=ScmGitHubActionSkipWorkflowDelete`;
 
-    return MakeArmCall<{}>({
+    return MakeArmCall<void>({
       resourceId: id,
       commandName: 'deleteSourceControl',
       method: 'DELETE',
@@ -345,6 +353,26 @@ export default class SiteService {
       method: 'GET',
       resourceId: id,
       commandName: 'getBasicPublishingCredentialsPolicies',
+    });
+  };
+
+  public static putBasicAuthCredentials = async (
+    resourceId: string,
+    newBasicPublishingCredentials: ArmObj<PublishingCredentialPolicies>,
+    type: 'scm' | 'ftp'
+  ) => {
+    const id = `${resourceId}/basicPublishingCredentialsPolicies/${type}`;
+    const content = {
+      ...newBasicPublishingCredentials,
+      properties: {
+        allow: type === 'scm' ? newBasicPublishingCredentials.properties.scm.allow : newBasicPublishingCredentials.properties.ftp.allow,
+      },
+    };
+    return MakeArmCall<ArmObj<CredentialPolicy>>({
+      method: 'PUT',
+      resourceId: id,
+      body: content,
+      commandName: `put${type}BasicPublishingCredentialsPolicies`,
     });
   };
 

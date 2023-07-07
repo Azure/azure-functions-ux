@@ -280,6 +280,7 @@ export const getStackVersionConfigPropertyName = (isLinuxApp: boolean, runtimeSt
 
   switch (runtimeStack) {
     case WorkerRuntimeLanguages.dotnet:
+    case WorkerRuntimeLanguages.dotnetIsolated:
       return 'netFrameworkVersion';
     case WorkerRuntimeLanguages.java:
       return 'javaVersion';

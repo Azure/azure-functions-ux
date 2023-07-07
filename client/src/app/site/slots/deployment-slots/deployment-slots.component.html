@@ -137,7 +137,7 @@
                 [name]="'feature_deploymentSlotsName' | translate">
 
                 <tr class="header-row" table-row>
-                    <th class="padded-col" table-cell>
+                    <th class="padded-col textOverflow-col" table-cell>
                         {{ 'slotsList_nameHeader' | translate }}
                     </th>
                     <th class="padded-col" table-cell>
@@ -153,18 +153,18 @@
 
                 <tr *ngIf="!!deploymentSlotsArm" table-row>
 
-                    <td class="padded-col" table-cell>
+                    <td class="padded-col textOverflow-col" table-cell>
                         {{ (prodSiteArm && prodSiteArm.name) || prodSiteName || '-' }}
                         <div class="pill">
                             {{ 'production' | translate }}
                         </div>
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="padded-col textOverflow-col" table-cell>
                         {{ prodSiteArm ? prodSiteArm.properties.state : '-' }}
                     </td>
 
-                    <td class="padded-col" table-cell>
+                    <td class="padded-col textOverflow-col" table-cell>
                         {{ prodSiteArm ? getSegment(prodSiteArm.properties.serverFarmId, 8) : '-' }}
                     </td>
 

@@ -232,7 +232,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (site.data.properties.targetSwapSlot) {
         setEditable(false);
       }
-
       setInitialValues({
         ...convertStateToForm({
           site: site.data,
@@ -409,19 +408,125 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     return true;
   };
 
-  const errorPagesUpdated = (updatedErrorPage: FormErrorPage[], currentErrorPage: FormErrorPage[] = []) => {
-    const filteredUpdatedErrorPages = updatedErrorPage.filter(errorPage => errorPage.content);
-    const filteredCurrentErrorPages = currentErrorPage.filter(errorPage => !updatedErrorPage.find(e => e.key === errorPage.key));
+  const errorPagesUpdated = React.useCallback(
+    (updatedErrorPage: FormErrorPage[], currentErrorPage: FormErrorPage[] = []) => {
+      const filteredUpdatedErrorPages = updatedErrorPage.filter(errorPage => errorPage.content);
+      const filteredCurrentErrorPages = currentErrorPage.filter(errorPage => !updatedErrorPage.find(e => e.key === errorPage.key));
 
-    return [
-      Promise.all(
-        filteredUpdatedErrorPages.map(errorPage =>
-          SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content ?? '')
-        )
-      ),
-      Promise.all(filteredCurrentErrorPages.map(errorPage => deleteCustomErrorPageForSite(resourceId, errorPage.errorCode))),
-    ];
-  };
+      return [
+        Promise.all(
+          filteredUpdatedErrorPages.map(errorPage =>
+            SiteService.AddOrUpdateCustomErrorPageForSite(resourceId, errorPage.errorCode, errorPage.content ?? '')
+          )
+        ),
+        Promise.all(filteredCurrentErrorPages.map(errorPage => deleteCustomErrorPageForSite(resourceId, errorPage.errorCode))),
+      ];
+    },
+    [resourceId]
+  );
+
+  const updateBasicPublishingAuthCredentials = React.useCallback(
+    async (values: AppSettingsFormValues) => {
+      let scmBasicPublishingCredentialsSuccess = true;
+      let ftpBasicPublishingCredentialsSuccess = true;
+      let scmBasicPublishingCredentialsError: any;
+      let ftpBasicPublishingCredentialsError;
+
+      if (values.basicPublishingCredentialsPolicies) {
+        // NOTE(krmitta): Update scm only if the value has changed from before
+        if (
+          initialValues?.basicPublishingCredentialsPolicies?.properties.scm?.allow !==
+          values.basicPublishingCredentialsPolicies?.properties.scm?.allow
+        ) {
+          const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
+            resourceId,
+            values.basicPublishingCredentialsPolicies,
+            'scm'
+          );
+
+          if (!basicAuthCredentialsResponse.metadata.success) {
+            scmBasicPublishingCredentialsSuccess = false;
+            scmBasicPublishingCredentialsError = basicAuthCredentialsResponse.metadata.error;
+            portalContext.log({
+              action: 'putScmBasicAuthCredentials',
+              actionModifier: 'failed',
+              resourceId: resourceId,
+              logLevel: 'error',
+              data: {
+                error: basicAuthCredentialsResponse.metadata.error,
+                message: 'Failed to update basic auth credentials',
+              },
+            });
+          }
+        }
+
+        // NOTE(krmitta): Update ftp only if the value has changed from before
+        if (
+          initialValues?.basicPublishingCredentialsPolicies?.properties.ftp?.allow !==
+          values.basicPublishingCredentialsPolicies?.properties.ftp?.allow
+        ) {
+          const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
+            resourceId,
+            values.basicPublishingCredentialsPolicies,
+            'ftp'
+          );
+
+          if (!basicAuthCredentialsResponse.metadata.success) {
+            ftpBasicPublishingCredentialsSuccess = false;
+            ftpBasicPublishingCredentialsError = basicAuthCredentialsResponse.metadata.error;
+            portalContext.log({
+              action: 'putFtpBasicAuthCredentials',
+              actionModifier: 'failed',
+              resourceId: resourceId,
+              logLevel: 'error',
+              data: {
+                error: basicAuthCredentialsResponse.metadata.error,
+                message: 'Failed to update basic auth credentials',
+              },
+            });
+          }
+        }
+      }
+
+      return {
+        status: [scmBasicPublishingCredentialsSuccess, ftpBasicPublishingCredentialsSuccess],
+        error: [scmBasicPublishingCredentialsError, ftpBasicPublishingCredentialsError],
+      };
+    },
+    [initialValues, resourceId, portalContext]
+  );
+
+  const updateCustomErrorPages = React.useCallback(
+    async (values: AppSettingsFormValues) => {
+      const [updatedErrorPagesPromise, deleteErrorPagesPromise] = errorPagesUpdated(values.errorPages, initialValues?.errorPages);
+      const updatedErrorPagesPromiseResolved = await updatedErrorPagesPromise;
+      const deleteErrorPagesPromiseResolved = await deleteErrorPagesPromise;
+      const errorPageUpdateSuccess = !updatedErrorPagesPromiseResolved.some(promiseResponse => !promiseResponse.metadata.success);
+      const errorPageDeleteSuccess = !deleteErrorPagesPromiseResolved.some(promiseResponse => !promiseResponse.metadata.success);
+
+      const errorPageUpdateError = updatedErrorPagesPromiseResolved.flatMap(errorPage => {
+        if (!errorPage.metadata.success) {
+          return errorPage.metadata.error;
+        } else {
+          return [];
+        }
+      })[0];
+
+      const errorPageDeleteError = deleteErrorPagesPromiseResolved.flatMap(errorPage => {
+        if (!errorPage.metadata.success) {
+          return errorPage.metadata.error;
+        } else {
+          return [];
+        }
+      })[0];
+
+      return {
+        status: [errorPageUpdateSuccess, errorPageDeleteSuccess],
+        error: [errorPageUpdateError, errorPageDeleteError],
+      };
+    },
+    [initialValues, errorPagesUpdated]
+  );
 
   const onSubmit = async (values: AppSettingsFormValues) => {
     setSaving(true);
@@ -442,24 +547,29 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       configSettingToIgnore = configSettingToIgnore.filter(config => config !== 'azureStorageAccounts');
     }
 
-    const [updatedErrorPagesPromise, deleteErrorPagesPromise] = errorPagesUpdated(values.errorPages, initialValues?.errorPages);
-    const updatedErrorPagesPromiseResolved = await updatedErrorPagesPromise;
-    const deleteErrorPagesPromiseResolved = await deleteErrorPagesPromise;
-    const errorPageUpdateSuccess = !updatedErrorPagesPromiseResolved.some(promiseResponse => !promiseResponse.metadata.success);
-    const errorPageDeleteSuccess = !deleteErrorPagesPromiseResolved.some(promiseResponse => !promiseResponse.metadata.success);
-
-    const [siteUpdate, slotConfigNamesUpdate] = [
+    const [siteResult, slotConfigNamesResult, basicAuthCredentialsResult, customErrorPageResult] = await Promise.all([
       updateSite(resourceId, site, configSettingToIgnore, usePatchOnSubmit),
       productionPermissions && slotConfigNamesModified ? updateSlotConfigNames(resourceId, slotConfigNames) : Promise.resolve(null),
-    ];
+      updateBasicPublishingAuthCredentials(values),
+      updateCustomErrorPages(values),
+    ]);
 
-    const [siteResult, slotConfigNamesResult] = await Promise.all([siteUpdate, slotConfigNamesUpdate]);
+    const {
+      status: [scmBasicPublishingCredentialsSuccess, ftpBasicPublishingCredentialsSuccess],
+      error: [scmBasicPublishingCredentialsError, ftpBasicPublishingCredentialsError],
+    } = basicAuthCredentialsResult;
+    const {
+      status: [errorPageUpdateSuccess, errorPageDeleteSuccess],
+      error: [errorPageUpdateError, errorPageDeleteError],
+    } = customErrorPageResult;
 
     const success =
       siteResult!.metadata.success &&
       (!slotConfigNamesResult || slotConfigNamesResult.metadata.success) &&
       errorPageDeleteSuccess &&
-      errorPageUpdateSuccess;
+      errorPageUpdateSuccess &&
+      ftpBasicPublishingCredentialsSuccess &&
+      scmBasicPublishingCredentialsSuccess;
     if (success) {
       setInitialValues({
         ...values,
@@ -488,28 +598,29 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       }
       portalContext.stopNotification(notificationId, true, t('configUpdateSuccess'));
     } else {
-      const errorPageUpdateErrorMsg = updatedErrorPagesPromiseResolved.flatMap(errorPage => {
-        if (!errorPage.metadata.success) {
-          return errorPage.metadata.error;
-        } else {
-          return [];
-        }
-      })[0];
-      const errorPageDeleteErrorMsg = deleteErrorPagesPromiseResolved.flatMap(errorPage => {
-        if (!errorPage.metadata.success) {
-          return errorPage.metadata.error;
-        } else {
-          return [];
-        }
-      })[0];
-
-      const [siteError, slotConfigError, errorPageDeleteError, errorPageUpdateError] = [
+      const [
+        siteError,
+        slotConfigError,
+        errorPageDeleteErrorMsg,
+        errorPageUpdateErrorMsg,
+        scmBasicPublishingCredentialsErrorMsg,
+        ftpBasicPublishingCredentialsErrorMsg,
+      ] = [
         getErrorMessage(siteResult!.metadata.error),
         getErrorMessage(slotConfigNamesResult && slotConfigNamesResult.metadata.error),
-        getErrorMessage(errorPageDeleteErrorMsg),
-        getErrorMessage(errorPageUpdateErrorMsg),
+        getErrorMessage(errorPageDeleteError),
+        getErrorMessage(errorPageUpdateError),
+        getErrorMessage(scmBasicPublishingCredentialsError),
+        getErrorMessage(ftpBasicPublishingCredentialsError),
       ];
-      const errorMessage = siteError || slotConfigError || errorPageDeleteError || errorPageUpdateError;
+
+      const errorMessage =
+        siteError ||
+        slotConfigError ||
+        errorPageDeleteErrorMsg ||
+        errorPageUpdateErrorMsg ||
+        scmBasicPublishingCredentialsErrorMsg ||
+        ftpBasicPublishingCredentialsErrorMsg;
       const message = errorMessage ? t('configUpdateFailureExt').format(errorMessage) : t('configUpdateFailure');
       portalContext.stopNotification(notificationId, false, message);
     }

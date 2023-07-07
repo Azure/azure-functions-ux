@@ -1,7 +1,7 @@
 import { FormikProps } from 'formik';
 import React, { useContext, useState } from 'react';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { AppSettingsFormValues, FormAzureStorageMounts } from '../AppSettings.types';
+import { AppSettingsFormValues, ConfigurationOption, FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
 import {
@@ -12,6 +12,9 @@ import {
   DetailsListLayoutMode,
   SelectionMode,
   IColumn,
+  IDetailsRowStyles,
+  DetailsRow,
+  IDetailsListProps,
 } from '@fluentui/react';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
@@ -55,9 +58,11 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
   const createNewAzureStorageMount = () => {
     const blankAzureStorageMount: FormAzureStorageMounts = {
       name: '',
+      configurationOption: ConfigurationOption.Basic,
       type: StorageType.azureBlob,
       accountName: '',
       shareName: '',
+      storageAccess: StorageAccess.AccessKey,
       accessKey: '',
       mountPath: '',
     };
@@ -122,6 +127,18 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     return !!currentRow && initialstorageMounts.findIndex(x => isAzureStorageMountEqual(x, currentRow)) < 0;
   };
 
+  const onRenderRow: IDetailsListProps['onRenderRow'] = props => {
+    const customStyles: Partial<IDetailsRowStyles> = {};
+    if (props) {
+      if (isAzureStorageMountDirty(props?.itemIndex)) {
+        customStyles.fields = dirtyElementStyle(theme);
+      }
+
+      return <DetailsRow {...props} styles={customStyles} />;
+    }
+    return null;
+  };
+
   const onRenderItemColumn = (item: FormAzureStorageMounts, index: number, column: IColumn) => {
     if (!column || !item) {
       return null;
@@ -162,12 +179,6 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
           />
         </TooltipHost>
       );
-    }
-    if (column.key === 'name') {
-      column.className = '';
-      if (isAzureStorageMountDirty(index)) {
-        column.className = dirtyElementStyle(theme);
-      }
     }
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
@@ -274,6 +285,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     return (
       <>
         <DisplayTableWithCommandBar
+          onRenderRow={onRenderRow}
           commandBarItems={getCommandBarItems()}
           items={values.azureStorageMounts || []}
           columns={getColumns()}
@@ -282,6 +294,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
           selectionMode={SelectionMode.none}
           selectionPreservedOnEmptyClick={true}
           emptyMessage={t('emptyAzureStorageMount')}
+          ariaLabelForGrid={t('mountStorage')}
         />
         <CustomPanel
           type={PanelType.medium}
@@ -289,6 +302,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
           onDismiss={onCancel}
           headerText={createNewItem ? t('newAzureStorageMount') : t('editAzureStorageMount')}>
           <AzureStorageMountsAddEdit
+            appSettings={values.appSettings}
             azureStorageMount={currentAzureStorageMount!}
             otherAzureStorageMounts={values.azureStorageMounts}
             updateAzureStorageMount={item => onClosePanel(item)}

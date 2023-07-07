@@ -81,6 +81,12 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
       deploymentCenterCodeFormBuilder.setPublishingUser(deploymentCenterPublishingContext.publishingUser);
     }
 
+    if (deploymentCenterPublishingContext.basicPublishingCredentialsPolicies) {
+      deploymentCenterCodeFormBuilder.setBasicPublishingCredentialsPolicies(
+        deploymentCenterPublishingContext.basicPublishingCredentialsPolicies
+      );
+    }
+
     const formData = deploymentCenterCodeFormBuilder.generateFormData();
     setCodeFormData(formData);
     setCodeFormValidationSchema(deploymentCenterCodeFormBuilder.generateYupValidationSchema());

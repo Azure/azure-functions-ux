@@ -2,47 +2,58 @@ import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import AppKeyService from '../../../../../ApiHelpers/AppKeysService';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import SiteService from '../../../../../ApiHelpers/SiteService';
+import { PortalContext } from '../../../../../PortalContext';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { Host } from '../../../../../models/functions/host';
 import { VfsObject } from '../../../../../models/functions/vfs';
 import { SiteConfig } from '../../../../../models/site/config';
 import { Site } from '../../../../../models/site/site';
-import { PortalContext } from '../../../../../PortalContext';
 import { CommonConstants, ExperimentationConstants, WorkerRuntimeLanguages } from '../../../../../utils/CommonConstants';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import StringUtils from '../../../../../utils/string';
-import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { SiteRouterContext } from '../../../SiteRouter';
 import { AppKeysInfo } from '../../app-keys/AppKeys.types';
 import FunctionEditorData from './FunctionEditor.data';
 
 export type Status = 'idle' | 'loading' | 'success' | 'error' | 'unauthorized';
 
-export const isNewProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
-  const properties = functionInfo?.properties;
-  const configLanguage = properties?.config.language;
+export const isDotNetIsolatedFunction = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
+  return functionInfo?.properties.config.language === WorkerRuntimeLanguages.dotnetIsolated;
+};
 
-  return (
-    properties?.config_href === null &&
-    (configLanguage === WorkerRuntimeLanguages.python || configLanguage === WorkerRuntimeLanguages.nodejs)
-  );
+export const isNodeFunction = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
+  return functionInfo?.properties.language === WorkerRuntimeLanguages.nodejs;
+};
+
+export const isNewProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
+  return isNewNodeProgrammingModel(functionInfo) || isNewPythonProgrammingModel(functionInfo);
 };
 
 export const isNewNodeProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
   const properties = functionInfo?.properties;
-
   return properties?.config_href === null && properties?.config.language === WorkerRuntimeLanguages.nodejs;
 };
 
-// Currently, Node is the only new programming model which supports storing files in any folders.
+export const isNewPythonProgrammingModel = (functionInfo?: ArmObj<FunctionInfo>): boolean => {
+  const properties = functionInfo?.properties;
+  return properties?.config_href === null && properties?.config.language === WorkerRuntimeLanguages.python;
+};
+
+// Currently, Node is the only new programming model which supports storing files in any folder.
 // Therefore, we need to check 'functionDirectory' property to decide where to get files.
-export const getNewProgrammingModelFolderName = (functionInfo?: ArmObj<FunctionInfo>): string => {
+export const getFunctionDirectory = (functionInfo?: ArmObj<FunctionInfo>): string => {
   const functionDirectory = functionInfo?.properties.config.functionDirectory;
   if (isNewNodeProgrammingModel(functionInfo) && functionDirectory) {
     // It should always contain 'wwwroot' and a folder name is always after 'wwwroot'.
     const arr = functionDirectory.split(CommonConstants.wwwrootFolder);
     return arr[arr.length - 1].replaceAll('\\', '/');
+  }
+
+  //.NET Isolated function apps store their files in the root folder.
+  if (isDotNetIsolatedFunction(functionInfo)) {
+    return '/';
   }
 
   return '';
@@ -149,7 +160,7 @@ const useAppKeysQuery = (updated: number, siteResourceId: string) => {
         );
       }
     });
-  }, [siteResourceId, updated]);
+  }, [portalContext, siteResourceId, updated]);
 
   return {
     hostKeys,
@@ -180,7 +191,7 @@ const useAppSettingsQuery = (updated: number, siteResourceId: string) => {
         );
       }
     });
-  }, [siteResourceId, updated]);
+  }, [portalContext, siteResourceId, updated]);
 
   return {
     status,
@@ -194,9 +205,7 @@ const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?
     return isNewProgrammingModel(functionInfo) ? '' : functionInfo?.properties.name;
   }, [functionInfo]);
 
-  const newProgrammingModelFolderName = useMemo(() => {
-    return getNewProgrammingModelFolderName(functionInfo);
-  }, [functionInfo]);
+  const functionDirectory = useMemo(() => getFunctionDirectory(functionInfo), [functionInfo]);
 
   const [fileList, setFileList] = useState<VfsObject[]>();
   const [status, setStatus] = useState<Status>('idle');
@@ -207,35 +216,30 @@ const useFileListQuery = (updated: number, siteResourceId: string, functionInfo?
     if (functionName !== undefined && runtimeVersion) {
       setStatus('loading');
 
-      FunctionsService.getFileContent(
-        siteResourceId,
-        functionName,
-        runtimeVersion,
-        undefined,
-        undefined,
-        newProgrammingModelFolderName
-      ).then(response => {
-        if (response.metadata.success) {
-          setStatus('success');
-          setFileList(response.data as VfsObject[]);
-        } else {
-          if (response.metadata.status === 401) {
-            setStatus('unauthorized');
+      FunctionsService.getFileContent(siteResourceId, functionName, runtimeVersion, undefined, undefined, functionDirectory).then(
+        response => {
+          if (response.metadata.success) {
+            setStatus('success');
+            setFileList(response.data as VfsObject[]);
           } else {
-            setStatus('error');
+            if (response.metadata.status === 401) {
+              setStatus('unauthorized');
+            } else {
+              setStatus('error');
+            }
+            portalContext.log(
+              getTelemetryInfo('error', 'getFileContent', 'failed', {
+                error: response.metadata.error,
+                message: 'Failed to get file content',
+              })
+            );
           }
-          portalContext.log(
-            getTelemetryInfo('error', 'getFileContent', 'failed', {
-              error: response.metadata.error,
-              message: 'Failed to get file content',
-            })
-          );
         }
-      });
+      );
     } else {
       setStatus('idle');
     }
-  }, [functionName, newProgrammingModelFolderName, runtimeVersion, siteResourceId, updated]);
+  }, [functionName, functionDirectory, portalContext, runtimeVersion, siteResourceId, updated]);
 
   return {
     fileList,
@@ -267,7 +271,7 @@ const useFunctionInfoQuery = (updated: number, resourceId: string, functionEdito
         );
       }
     });
-  }, [functionEditorData, resourceId, updated]);
+  }, [functionEditorData, portalContext, resourceId, updated]);
 
   return {
     functionInfo,
@@ -299,7 +303,7 @@ const useFunctionKeysQuery = (updated: number, resourceId: string) => {
         );
       }
     });
-  }, [resourceId, updated]);
+  }, [portalContext, resourceId, updated]);
 
   return {
     functionKeys,
@@ -338,7 +342,7 @@ const useHostJsonQuery = (updated: number, siteResourceId: string, runtimeVersio
     } else {
       setStatus('idle');
     }
-  }, [runtimeVersion, siteResourceId, updated]);
+  }, [portalContext, runtimeVersion, siteResourceId, updated]);
 
   return {
     hostJsonContent,
@@ -371,7 +375,7 @@ const useHostStatusQuery = (updated: number, siteResourceId: string) => {
         );
       }
     });
-  }, [siteResourceId, updated]);
+  }, [portalContext, siteResourceId, updated]);
 
   return {
     runtimeVersion,
@@ -428,7 +432,7 @@ const useSiteQuery = (updated: number, siteResourceId: string) => {
         );
       }
     });
-  }, [context, siteResourceId, updated]);
+  }, [context, portalContext, siteResourceId, updated]);
 
   return {
     site,
@@ -465,7 +469,7 @@ const useSiteConfigQuery = (updated: number, siteResourceId: string, functionEdi
         );
       }
     });
-  }, [functionEditorData, siteResourceId, updated]);
+  }, [functionEditorData, portalContext, siteResourceId, updated]);
 
   return {
     siteConfig,

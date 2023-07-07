@@ -8,7 +8,7 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps, PanelType } from '@fluentui/react';
+import { TooltipHost, ICommandBarItemProps, PanelType, IDetailsRowStyles, DetailsRow, IDetailsListProps } from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -125,6 +125,18 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
     return initialHandlerMappingIndex < 0;
   };
 
+  const onRenderRow: IDetailsListProps['onRenderRow'] = props => {
+    const customStyles: Partial<IDetailsRowStyles> = {};
+    if (props) {
+      if (isAppSettingDirty(props?.itemIndex)) {
+        customStyles.fields = dirtyElementStyle(theme);
+      }
+
+      return <DetailsRow {...props} styles={customStyles} />;
+    }
+    return null;
+  };
+
   const onRenderItemColumn = (item: HandlerMapping, index: number, column: IColumn) => {
     if (!column || !item) {
       return null;
@@ -166,12 +178,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         </TooltipHost>
       );
     }
-    if (column.key === 'extension') {
-      column.className = '';
-      if (isAppSettingDirty(index)) {
-        column.className = dirtyElementStyle(theme);
-      }
-    }
+
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
@@ -244,6 +251,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   return (
     <>
       <DisplayTableWithCommandBar
+        onRenderRow={onRenderRow}
         commandBarItems={getCommandBarItems()}
         items={values.config.properties.handlerMappings || []}
         columns={getColumns()}
@@ -252,6 +260,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyHandlerMappings')}
+        ariaLabelForGrid={t('handlerMappings')}
       />
       <CustomPanel type={PanelType.medium} isOpen={showPanel} onDismiss={onCancel} headerText={t('newHandlerMapping')}>
         <HandlerMappingsAddEdit handlerMapping={currentHandlerMapping!} updateHandlerMapping={onClosePanel} closeBlade={onCancel} />

@@ -23,7 +23,9 @@ export const getSearchFilter = (
       styles={filterTextFieldStyle}
       disabled={disabled}
       autoFocus={autoFocus}
-      onSearch={() => {}}
+      onSearch={() => {
+        /** @note (joechung): Ignore Enter key press. */
+      }}
     />
   );
 };

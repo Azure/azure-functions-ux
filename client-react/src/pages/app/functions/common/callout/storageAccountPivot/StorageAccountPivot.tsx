@@ -81,8 +81,7 @@ const StorageAccountPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownP
           appSettingKeys,
           props.setNewAppSetting,
           props.setSelectedItem,
-          props.setIsDialogVisible,
-          setKeyList
+          props.setIsDialogVisible
         )
       }>
       {(formProps: FormikProps<StorageAccountPivotFormValues>) => {
@@ -130,8 +129,7 @@ const setStorageAccountConnection = (
   appSettingKeys: string[],
   setNewAppSetting: React.Dispatch<React.SetStateAction<{ key: string; value: string }>>,
   setSelectedItem: React.Dispatch<React.SetStateAction<IDropdownOption | undefined>>,
-  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>,
-  setKeyList: React.Dispatch<React.SetStateAction<StorageAccountKeys | undefined>>
+  setIsDialogVisible: React.Dispatch<React.SetStateAction<boolean>>
 ) => {
   if (formValues.storageAccount && keyList) {
     let appSettingName = generateAppSettingName(appSettingKeys, `${formValues.storageAccount.name}_STORAGE`);

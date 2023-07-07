@@ -1,4 +1,5 @@
 import { IDialogContentStyles, IDialogFooterStyles, IModalStyles } from '@fluentui/react';
+import { style } from 'typestyle';
 
 export const modalStyles: Pick<IModalStyles, 'main'> = {
   main: {
@@ -11,7 +12,7 @@ export const modalStyles: Pick<IModalStyles, 'main'> = {
 export const modalContentStyles: Pick<IDialogContentStyles, 'header' | 'inner' | 'innerContent' | 'title'> = {
   inner: {
     paddingLeft: '0px',
-    paddingBottom: '10px',
+    paddingBottom: '0px',
     paddingRight: '3px',
     overflow: 'hidden',
   },
@@ -29,12 +30,21 @@ export const modalContentStyles: Pick<IDialogContentStyles, 'header' | 'inner' |
   },
 };
 
-export const modalFooterStyles: Pick<IDialogFooterStyles, 'actionsRight'> = {
-  actionsRight: {
+export const modalFooterStyles: Pick<IDialogFooterStyles, 'actions'> = {
+  actions: {
     width: 'calc(100vw - 25px)',
+    display: 'flex',
+    flexDirection: 'row',
+    alignContent: 'start',
     borderTop: '1px solid rgba(204,204,204,.8)',
     paddingTop: '10px',
-    paddingLeft: '28px',
+    paddingLeft: '26px',
+    paddingBottom: '10px',
     textAlign: 'left',
   },
 };
+
+export const headerStyle = style({
+  fontWeight: 600,
+  fontSize: '18px',
+});

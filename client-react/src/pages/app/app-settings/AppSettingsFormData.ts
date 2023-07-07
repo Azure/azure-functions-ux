@@ -7,11 +7,22 @@ import {
   ReferenceSummary,
   ReferenceStatus,
   ConfigReferenceList,
+  AppSettingReference,
+  StorageAccess,
+  ConfigurationOption,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies, MinTlsVersion } from '../../../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, Reference, ErrorPage } from '../../../models/site/config';
+import {
+  SiteConfig,
+  ArmAzureStorageMount,
+  ConnStringInfo,
+  VirtualApplication,
+  Reference,
+  ErrorPage,
+  StorageType,
+} from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
@@ -20,7 +31,7 @@ import { KeyValue } from '../../../models/portal-models';
 import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
-import { useTranslation } from 'react-i18next';
+import i18next from 'i18next';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -200,6 +211,21 @@ export const isStorageMountsModified = (initialValues: AppSettingsFormValues | n
   return !isEqual(azureStorageMountsInitialSorted, azureStorageMountsSorted);
 };
 
+export const isStorageAccessAppSetting = (configurationOption: ConfigurationOption, type: StorageType, storageAccess: StorageAccess) => {
+  return (
+    configurationOption === ConfigurationOption.Advanced &&
+    type === StorageType.azureFiles &&
+    storageAccess === StorageAccess.KeyVaultReference
+  );
+};
+
+export const getStorageMountAccessKey = (value: FormAzureStorageMounts) => {
+  const { configurationOption, type, storageAccess, appSettings, accessKey } = value;
+  return isStorageAccessAppSetting(configurationOption, type, storageAccess)
+    ? `${AppSettingReference.prefix}${appSettings}${AppSettingReference.suffix}`
+    : accessKey;
+};
+
 export function getStickySettings(
   appSettings: FormAppSetting[],
   connectionStrings: FormConnectionString[],
@@ -258,10 +284,10 @@ export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
   }
 
   return sortBy(
-    Object.entries(errorPage.value).map(([key, value]) => ({
+    errorPage.value.map(value => ({
       status: 'Configured',
-      key: errorPage.value[key].properties.statusCode,
-      errorCode: String(errorPage.value[key].properties.statusCode),
+      key: Number(value.properties.statusCode),
+      errorCode: String(value.properties.statusCode),
     }))
   );
 }
@@ -275,11 +301,30 @@ export function getFormAzureStorageMount(
   }
   const appSettingNames = slotConfigNames?.properties.azureStorageConfigNames || [];
   return sortBy(
-    Object.keys(storageData.properties).map(key => ({
-      name: key,
-      sticky: appSettingNames.indexOf(key) > -1,
-      ...storageData.properties[key],
-    })),
+    Object.keys(storageData.properties).map(key => {
+      const { accessKey, ...rest } = storageData.properties[key];
+      const storageAccess =
+        accessKey.startsWith(AppSettingReference.prefix) && accessKey.endsWith(AppSettingReference.suffix)
+          ? StorageAccess.KeyVaultReference
+          : StorageAccess.AccessKey;
+      const appSettings =
+        storageAccess === StorageAccess.KeyVaultReference
+          ? accessKey.substring(AppSettingReference.prefix.length, accessKey.length - 1)
+          : undefined;
+      const accessKeyValue = storageAccess === StorageAccess.KeyVaultReference ? undefined : accessKey;
+      const configurationOption =
+        storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
+
+      return {
+        name: key,
+        sticky: appSettingNames.indexOf(key) > -1,
+        storageAccess,
+        appSettings,
+        configurationOption,
+        accessKey: accessKeyValue,
+        ...rest,
+      } as FormAzureStorageMounts;
+    }),
     o => o.name.toLowerCase()
   );
 }
@@ -287,8 +332,11 @@ export function getFormAzureStorageMount(
 export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
   const storageMountFromForm: ArmAzureStorageMount = {};
   storageData.forEach(store => {
-    const { name, sticky, ...rest } = store;
-    storageMountFromForm[name] = rest;
+    const { name, sticky, configurationOption, storageAccess, appSettings, accessKey, ...rest } = store;
+    storageMountFromForm[name] = {
+      accessKey: getStorageMountAccessKey(store),
+      ...rest,
+    };
   });
   return storageMountFromForm;
 }
@@ -463,8 +511,7 @@ export function isReferenceResolved(reference: ReferenceSummary | Reference) {
   return getReferenceStatus(reference) === ReferenceStatus.resolved;
 }
 
-export function useAzureConfigRefAriaLabel(reference: ReferenceSummary | Reference) {
-  const { t } = useTranslation();
+export function getAzureConfigRefAriaLabel(reference: ReferenceSummary | Reference, t: i18next.TFunction) {
   const status = isReferenceResolved(reference);
   if (!status) {
     return t('azureAppConfigRefAriaLabelNotResolved');
@@ -473,8 +520,7 @@ export function useAzureConfigRefAriaLabel(reference: ReferenceSummary | Referen
   }
 }
 
-export function useKeyVaultRefAriaLabel(reference: ReferenceSummary | Reference) {
-  const { t } = useTranslation();
+export function getKeyVaultRefAriaLabel(reference: ReferenceSummary | Reference, t: i18next.TFunction) {
   const status = isReferenceResolved(reference);
   if (!status) {
     return t('azureKeyVaultRefNotResolved');
