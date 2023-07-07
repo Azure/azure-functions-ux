@@ -97,6 +97,8 @@ export class FunctionAppEnvironment extends Environment {
       Tier.premiumV2.toLocaleLowerCase(),
       Tier.premiumContainer.toLocaleLowerCase(),
       Tier.elasticPremium.toLocaleLowerCase(),
+      Tier.premium0V3.toLocaleLowerCase(),
+      Tier.premiumMV3.toLocaleLowerCase(),
     ];
 
     return premiumSkuTiers.findIndex(sku => sku === siteSku) > -1;

@@ -9,7 +9,6 @@ import { PortalService } from '../../../../shared/services/portal.service';
 
 export abstract class AbstractWindowsComponent extends AbstractConsoleComponent {
   private _defaultDirectory = 'D:\\home\\site\\wwwroot';
-
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService,

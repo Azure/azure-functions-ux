@@ -143,6 +143,7 @@ export interface Site {
   virtualNetworkSubnetId?: string;
   identity: MsiIdentity;
   vnetImagePullEnabled: boolean;
+  keyVaultReferenceIdentity: string;
 }
 
 export interface HostNameSslState {

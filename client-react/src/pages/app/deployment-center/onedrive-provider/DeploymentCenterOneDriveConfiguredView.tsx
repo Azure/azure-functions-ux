@@ -83,7 +83,7 @@ const DeploymentCenterOneDriveConfiguredView: React.FC<DeploymentCenterFieldProp
   };
 
   const authorizeOneDriveAccount = () => {
-    authorizeWithProvider(OneDriveService.authorizeUrl, () => {}, completingAuthCallback);
+    authorizeWithProvider(OneDriveService.authorizeUrl, /* startingAuth */ undefined, completingAuthCallback);
   };
 
   const completingAuthCallback = async (authorizationResult: AuthorizationResult) => {

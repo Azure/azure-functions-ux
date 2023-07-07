@@ -71,7 +71,7 @@ const ConfigurationSnippetsAddEdit: React.FC<ConfigurationSnippetsAddEditProps> 
 
   const atSnippetsLimit = useMemo<boolean>(() => {
     return !selectedSnippet && (formProps.values.snippets?.length ?? 0) >= 10;
-  }, [formProps.values.snippets]);
+  }, [selectedSnippet, formProps.values.snippets]);
 
   const validateForm = (values: ConfigurationSnippetsAddEditFormData) => {
     if (values.snippetApplicableEnvironmentsMode === ApplicableEnvironmentsMode.SpecifiedEnvironments) {
@@ -184,7 +184,7 @@ const ConfigurationSnippetsAddEdit: React.FC<ConfigurationSnippetsAddEditProps> 
               hasWritePermissions={hasWritePermissions}
               dismissPanel={dismissPanel}
               formProps={formProps}
-              disabled={disabled || atSnippetsLimit}
+              disabled={formProps.isSubmitting || disabled || atSnippetsLimit}
               environmentDropdownOptions={snippetEnvironmentDropdownOptions}
               isLoading={isLoading}
               statusMessage={statusMessage}

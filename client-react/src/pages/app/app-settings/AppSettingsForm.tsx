@@ -15,10 +15,9 @@ import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
 import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
-import { ExperimentationConstants, OverflowBehavior } from '../../../utils/CommonConstants';
+import { OverflowBehavior } from '../../../utils/CommonConstants';
 import { errorPagesDirty } from './Sections/ErrorPage';
 import ErrorPagePivot from './Sections/ErrorPage';
-import { PortalContext } from '../../../PortalContext';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -27,13 +26,11 @@ export const settingsWrapper = style({
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
   const { values, initialValues, tab, errors } = props;
-  const portalContext = useContext(PortalContext);
   const site = useContext(SiteContext);
 
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
-  const [flighting, setFlighting] = React.useState(false);
 
   const generalSettingsDirtyCheck = () => {
     return generalSettingsDirty(values, initialValues);
@@ -67,18 +64,13 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
     return generalSettingsError(errors);
   };
 
-  React.useEffect(() => {
-    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.customErrorPages).then(setFlighting);
-  }, [portalContext]);
-
   const dirtyLabel = t('modifiedTag');
   const enableDefaultDocuments = scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled';
   const enablePathMappings = scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled';
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
-  const enableCustomErrorPages =
-    scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status !== 'disabled' && flighting;
+  const enableCustomErrorPages = scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status !== 'disabled';
 
   return (
     <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
@@ -102,9 +94,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={isWorkflowApp(site) ? t('workflowRuntimeSettings') : t('functionRuntimeSettings')}>
           <FunctionRuntimeSettingsPivot {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {showGeneralSettings ? (
         <PivotItem
@@ -116,9 +106,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={t('generalSettings')}>
           <GeneralSettings {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {enableDefaultDocuments ? (
         <PivotItem
@@ -130,9 +118,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={t('defaultDocuments')}>
           <DefaultDocumentsPivot {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {enablePathMappings || enableAzureStorageMount ? (
         <PivotItem
@@ -144,9 +130,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={t('pathMappings')}>
           <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
 
       {enableCustomErrorPages ? (
         <PivotItem
@@ -158,9 +142,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
           headerText={t('customErrorPage')}>
           <ErrorPagePivot {...props} />
         </PivotItem>
-      ) : (
-        <></>
-      )}
+      ) : null}
     </Pivot>
   );
 };

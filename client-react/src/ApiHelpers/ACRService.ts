@@ -108,7 +108,7 @@ export default class ACRService {
     do {
       nextLink = '';
       const requestUrl = `${url}${pageableRequest}`;
-      const pageResponse = await this._sendSpecificACRRequest<T>(portalContext, data, requestUrl, method, headers);
+      const pageResponse = await this._sendSpecificACRRequest(portalContext, data, requestUrl, method, headers);
       if (isPortalCommunicationStatusSuccess(pageResponse.status)) {
         acrObjectList.push(pageResponse.result.content);
         const headers: string[] = pageResponse.result?.headers?.split(CommonConstants.newlineRegex) ?? [];
@@ -129,7 +129,7 @@ export default class ACRService {
     return acrObjectList;
   }
 
-  private static _sendSpecificACRRequest = async <T>(
+  private static _sendSpecificACRRequest = async (
     portalContext: PortalCommunicator,
     data: any,
     url: string,

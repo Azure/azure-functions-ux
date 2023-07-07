@@ -117,4 +117,5 @@ export class ScenarioIds {
   public static readonly enableTLSVersion = 'enableTLSVersion';
   public static readonly enableCustomErrorPages = 'enableCustomErrorPages';
   public static readonly enableCustomErrorPagesOverlay = 'enableCustomErrorPagesOverlay';
+  public static readonly basicAuthPublishingCreds = 'basicAuthPublishingCreds';
 }

@@ -14,6 +14,9 @@ import {
   IColumn,
   SelectionMode,
   IDetailsList,
+  IDetailsRowStyles,
+  DetailsRow,
+  IDetailsListProps,
 } from '@fluentui/react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
@@ -159,6 +162,18 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
     setShownValues([...newShownValues]);
   };
 
+  const onRenderRow: IDetailsListProps['onRenderRow'] = props => {
+    const customStyles: Partial<IDetailsRowStyles> = {};
+    if (props) {
+      if (isAppSettingDirty(props?.itemIndex)) {
+        customStyles.fields = dirtyElementStyle(theme);
+      }
+
+      return <DetailsRow {...props} styles={customStyles} />;
+    }
+    return null;
+  };
+
   const onRenderItemColumn = (item: FormAppSetting, index: number, column: IColumn) => {
     const itemKey = item.name;
     const hidden = !shownValues.includes(itemKey) && !showAllValues;
@@ -233,10 +248,6 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
       );
     }
     if (column.key === 'name') {
-      column.className = '';
-      if (isAppSettingDirty(index)) {
-        column.className = dirtyElementStyle(theme);
-      }
       return (
         <ActionButton
           className={defaultCellStyle}
@@ -388,6 +399,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
   return (
     <>
       <DisplayTableWithCommandBar
+        onRenderRow={onRenderRow}
         commandBarItems={getCommandBarItems()}
         items={gridItems}
         columns={getColumns()}
@@ -400,6 +412,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
+        ariaLabelForGrid={t('applicationSettings')}
         emptyMessage={t('emptyAppSettings')}>
         <SearchFilterWithResultAnnouncement
           id="app-settings-application-settings-search"

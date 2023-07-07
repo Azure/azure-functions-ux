@@ -16,7 +16,7 @@ import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import ReferenceComponent from '../ReferenceComponent';
 import { Reference } from '../../../../models/site/config';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants, azureAppConfigRefStart } from '../../../../utils/CommonConstants';
 import { getAllConnectionStringsReferences } from '../AppSettings.service';
 import { PortalContext } from '../../../../PortalContext';
 import { Links } from '../../../../utils/FwLinks';
@@ -84,17 +84,16 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
       connectionString.name === currentConnectionString.name &&
       connectionString.value === currentConnectionString.value &&
       currentConnectionStringReference &&
-      currentConnectionStringReference.secretName &&
-      currentConnectionString.name &&
-      currentConnectionString.name.toLowerCase() === currentConnectionStringReference.secretName.toLowerCase()
+      currentConnectionString.name
     );
   };
 
-  const isValidKeyVaultReference = () => {
+  const isValidReference = () => {
     return (
       connectionString.name === currentConnectionString.name &&
       connectionString.value === currentConnectionString.value &&
-      CommonConstants.isKeyVaultReference(currentConnectionString.value)
+      (CommonConstants.isKeyVaultReference(currentConnectionString.value) ||
+        currentConnectionString.value.toLocaleLowerCase().startsWith(azureAppConfigRefStart))
     );
   };
 
@@ -149,7 +148,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   }, [otherConnectionStrings, currentConnectionString.name, currentConnectionString.value]);
 
   useEffect(() => {
-    if (isValidKeyVaultReference()) {
+    if (isValidReference()) {
       getKeyVaultReference();
     }
 
@@ -236,7 +235,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
           secondaryButton={actionBarSecondaryButtonProps}
         />
       </form>
-      {isConnectionStringReferenceVisible() && isValidKeyVaultReference() && currentConnectionStringReference && (
+      {isConnectionStringReferenceVisible() && isValidReference() && currentConnectionStringReference && (
         <ReferenceComponent resourceId={site.id} appSettingReference={currentConnectionStringReference} />
       )}
     </>

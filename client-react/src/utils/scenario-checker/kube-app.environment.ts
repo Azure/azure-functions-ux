@@ -104,6 +104,11 @@ export class KubeApp extends Environment {
       runCheck: () => ({ status: 'disabled' }),
     };
 
+    this.scenarioChecks[ScenarioIds.basicAuthPublishingCreds] = {
+      id: ScenarioIds.basicAuthPublishingCreds,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
     this.scenarioChecks[ScenarioIds.incomingClientCertSupported] = {
       id: ScenarioIds.incomingClientCertSupported,
       runCheck: () => ({

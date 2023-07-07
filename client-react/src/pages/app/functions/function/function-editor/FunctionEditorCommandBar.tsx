@@ -1,16 +1,15 @@
 import { CommandBar, ICommandBarItemProps, IContextualMenuRenderItem, TooltipHost } from '@fluentui/react';
 import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { RuntimeExtensionMajorVersions } from '../../../../../models/functions/runtime-extension';
-import { PortalContext } from '../../../../../PortalContext';
-import { SiteStateContext } from '../../../../../SiteState';
 import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
 import Url from '../../../../../utils/url';
-import { useCosmosDbExamples } from './function-test-integration/useCosmosDbExamples';
 import { toolTipStyle } from './FunctionEditor.styles';
 import { UrlObj, UrlType } from './FunctionEditor.types';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
@@ -30,8 +29,8 @@ interface FunctionEditorCommandBarProps {
   setShowInvalidFileSelectedWarning: (isValid: boolean | undefined) => void;
   testDisabled: boolean;
   testFunction: () => void;
-  testIntegrationFunction: () => void;
   upload: (file) => void;
+  uploadDisabled: boolean;
   urlObjs: UrlObj[];
   runtimeVersion?: string;
 }
@@ -49,8 +48,8 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
   setShowInvalidFileSelectedWarning,
   testDisabled,
   testFunction,
-  testIntegrationFunction,
   upload,
+  uploadDisabled,
   urlObjs,
   runtimeVersion,
 }: FunctionEditorCommandBarProps) => {
@@ -60,12 +59,6 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
   const siteStateContext = useContext(SiteStateContext);
 
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
-
-  const examples = useCosmosDbExamples(functionInfo);
-
-  const testIntegrationDisabled = useMemo<boolean>(() => {
-    return !Object.values(examples).some(value => !!value);
-  }, [examples]);
 
   const onClickGetFunctionUrlCommand = useCallback(() => {
     resetInvalidFileSelectedWarningAndFileName();
@@ -158,22 +151,12 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
         onRender: onTestItemRender,
       },
       {
-        key: 'testIntegration',
-        text: t('testIntegration'),
-        iconProps: {
-          iconName: 'TestBeaker',
-        },
-        disabled: disabled || testIntegrationDisabled,
-        ariaLabel: t('functionEditorTestIntegrationAriaLabel'),
-        onClick: testIntegrationFunction,
-      },
-      {
         key: 'upload',
         text: t('fileExplorer_upload'),
         iconProps: {
           iconName: 'Upload',
         },
-        disabled: disabled || testDisabled,
+        disabled: disabled || testDisabled || uploadDisabled,
         ariaLabel: t('fileExplorer_upload'),
         onClick: onUploadButtonClick,
       },
@@ -212,9 +195,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
     saveFunction,
     t,
     testDisabled,
-    testIntegrationDisabled,
     testFunction,
-    testIntegrationFunction,
     uploadFile,
   ]);
 
@@ -299,7 +280,6 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = ({
         buttonAs={CustomCommandBarButton}
         items={items}
         overflowButtonProps={{ ariaLabel: t('moreCommands') }}
-        role="nav"
         styles={CommandBarStyles}
       />
       {isDialogVisible && (

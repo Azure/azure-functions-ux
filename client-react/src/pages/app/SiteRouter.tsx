@@ -9,7 +9,7 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
+import { isContainerAppEnvironmentApp, isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import { SiteRouterData } from './SiteRouter.data';
@@ -120,7 +120,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));
-        setIsContainerApplication(isContainerApp(site));
+        setIsContainerApplication(isContainerApp(site) || isContainerAppEnvironmentApp(site));
         setIsFunctionApplication(isFunctionApp(site));
         setIsKubeApplication(isKubeApp(site));
         setSiteAppEditState(editMode);
@@ -129,7 +129,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
   }, []);
 
   return (
-    <main className={iconStyles(theme)}>
+    <div className={iconStyles(theme)}>
       <SiteRouterContext.Provider value={siteRouterData}>
         <StartupInfoContext.Consumer>
           {value => {
@@ -177,7 +177,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
           }}
         </StartupInfoContext.Consumer>
       </SiteRouterContext.Provider>
-    </main>
+    </div>
   );
 };
 export default SiteRouter;

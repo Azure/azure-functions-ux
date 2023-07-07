@@ -10,7 +10,7 @@ import {
   PrimaryButton,
 } from '@fluentui/react';
 import React from 'react';
-import { modalContentStyles, modalFooterStyles, modalStyles } from './ConfirmDialog.styles';
+import { headerStyle, modalContentStyles, modalFooterStyles, modalStyles } from './ConfirmDialog.styles';
 
 interface ConfirmDialogProps {
   primaryActionButton: { title: string; onClick: () => void; disabled?: boolean };
@@ -48,7 +48,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
       }}
       onDismiss={onDismiss}>
       <div>
-        <h3>{title}</h3>
+        <h3 className={headerStyle}>{title}</h3>
         <p>{content}</p>
       </div>
       <DialogFooter styles={modalFooterStyles}>

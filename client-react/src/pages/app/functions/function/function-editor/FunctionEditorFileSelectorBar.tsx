@@ -1,13 +1,13 @@
-import { Dropdown as OfficeDropdown, IDropdownOption, Stack, Label } from '@fluentui/react';
+import { IDropdownOption, Label, Dropdown as OfficeDropdown, Stack } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ThemeContext } from '../../../../../ThemeContext';
 import { style } from 'typestyle';
+import { ThemeContext } from '../../../../../ThemeContext';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import StringUtils from '../../../../../utils/string';
-import { fileSelectorStackStyle, fileSelectorDropdownStyle } from './FunctionEditor.styles';
-import { isNewProgrammingModel } from './useFunctionEditorQueries';
+import { fileSelectorDropdownStyle, fileSelectorStackStyle } from './FunctionEditor.styles';
+import { isDotNetIsolatedFunction, isNewProgrammingModel } from './useFunctionEditorQueries';
 
 export interface FunctionEditorFileSelectorBarProps {
   fileDropdownOptions: IDropdownOption[];
@@ -26,12 +26,12 @@ const FunctionEditorFileSelectorBar: React.FC<FunctionEditorFileSelectorBarProps
   const { functionAppNameLabel, fileDropdownOptions, fileDropdownSelectedKey, onChangeDropdown, functionInfo, disabled } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
-  const isNewProgramming = isNewProgrammingModel(functionInfo);
+  const showFunctionAppNameOnly = isNewProgrammingModel(functionInfo) || isDotNetIsolatedFunction(functionInfo);
 
   return (
     <>
       <Stack horizontal className={fileSelectorStackStyle(theme)}>
-        {isNewProgramming ? (
+        {showFunctionAppNameOnly ? (
           <Label className={fileSeparatorStyle}>{functionAppNameLabel}</Label>
         ) : (
           <>

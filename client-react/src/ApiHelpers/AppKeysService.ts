@@ -30,7 +30,7 @@ export default class AppKeyService {
 
   public static deleteKey = (resourceId: string, keyName: string, keyType: AppKeysTypes) => {
     const id = `${resourceId}/host/default/${keyType}/${keyName}`;
-    return MakeArmCall<{}>({
+    return MakeArmCall<void>({
       resourceId: id,
       commandName: 'deleteAppKey',
       method: 'DELETE',

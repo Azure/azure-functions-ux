@@ -1,11 +1,10 @@
+import { IDropdownOption } from '@fluentui/react';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
+import { StatusMessage } from '../../../components/ActionBar';
 import { ArmObj } from '../../../models/arm-obj';
 import { KeyValue } from '../../../models/portal-models';
 import { Environment } from '../../../models/static-site/environment';
-import { StaticSiteSku } from '../skupicker/StaticSiteSkuPicker.types';
-import { IDropdownOption } from '@fluentui/react';
-import { StatusMessage } from '../../../components/ActionBar';
 
 export interface EnvironmentVariable {
   name: string;
@@ -176,4 +175,9 @@ export interface ConfigurationPivotProps {
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
   staticSiteSku: StaticSiteSku;
   refresh: (currentEnvironment?: ArmObj<Environment>) => Promise<void>;
+}
+
+export enum StaticSiteSku {
+  Free = 'Free',
+  Standard = 'Standard',
 }

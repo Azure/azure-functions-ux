@@ -65,7 +65,6 @@ const ConfigurationCommandBar: React.FC<ConfigurationCommandBarProps> = props =>
   return (
     <CommandBar
       items={getItems(dirty, isLoading)}
-      role="nav"
       styles={CommandBarStyles}
       buttonAs={CustomCommandBarButton}
       overflowButtonProps={overflowButtonProps}

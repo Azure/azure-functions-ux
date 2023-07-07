@@ -192,7 +192,7 @@ const ConsoleDataLoader: React.FC<ConsoleDataLoaderProps> = props => {
           resizeHandler(width, height);
         };
 
-        ws.current.onerror = (ev: Event) => {
+        ws.current.onerror = () => {
           updateConsoleText(t('containerApp_console_failedToConnect'));
         };
 

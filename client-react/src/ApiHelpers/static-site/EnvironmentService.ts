@@ -1,7 +1,7 @@
 import MakeArmCall from '../ArmHelper';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { Environment } from '../../models/static-site/environment';
-import { Function } from '../../models/static-site/function';
+import { Function as StaticSiteFunction } from '../../models/static-site/function';
 import { ArmObj, ArmArray } from '../../models/arm-obj';
 import { KeyValue } from '../../models/portal-models';
 
@@ -35,7 +35,7 @@ export default class EnvironmentService {
   };
 
   public static fetchFunctions = (resourceId: string) => {
-    return MakeArmCall<ArmArray<Function>>({
+    return MakeArmCall<ArmArray<StaticSiteFunction>>({
       resourceId: `${resourceId}/functions`,
       commandName: 'fetchFunctions',
       method: 'GET',

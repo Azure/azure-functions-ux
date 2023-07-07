@@ -180,7 +180,7 @@ export const useCreateFunction = (
         }
 
         const notificationId = portalCommunicator.startNotification(
-          t('createFunctionNotication'),
+          t('createFunctionNotification'),
           t('createFunctionNotificationDetails').format(functionName)
         );
 

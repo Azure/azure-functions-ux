@@ -48,15 +48,15 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
   const { values } = formProps;
   const [isOpen, { setTrue: openAddEditPanel, setFalse: dismissAddEditPanel }] = useBoolean(false);
   const [filter, setFilter] = useState('');
-  const [selectedSnippet, setSelectedSnippet] = useState();
+  const [selectedSnippet, setSelectedSnippet] = useState<Snippet>();
   const [isDeleteConfirmDialogVisible, { setTrue: showDiscardConfirmDialog, setFalse: hideDeleteConfirmDialog }] = useBoolean(false);
 
-  const setSnippetAndOpenPanel = (currentSnippet: any) => {
+  const setSnippetAndOpenPanel = (currentSnippet: Snippet) => {
     setSelectedSnippet(currentSnippet);
     openAddEditPanel();
   };
 
-  const setSnippetAndDismissPanel = (_ev?: React.SyntheticEvent<HTMLElement, Event> | KeyboardEvent | undefined) => {
+  const setSnippetAndDismissPanel = () => {
     setSelectedSnippet(undefined);
     dismissAddEditPanel();
   };
@@ -428,7 +428,7 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
               formProps={formProps}
               isLoading={isLoading}
               disabled={disabled}
-              dismissPanel={ev => setSnippetAndDismissPanel(ev)}
+              dismissPanel={() => setSnippetAndDismissPanel()}
               selectedSnippet={selectedSnippet}
             />
           </CustomPanel>
