@@ -37,6 +37,7 @@ export interface HostingEnvironment {
   clusterSettings: NameValuePair;
   hasLinuxWorkers: boolean;
   suspended: boolean;
+  osPreference: 'Windows' | 'Linux';
 }
 
 export interface VirtualNetworkProfile {
