@@ -2417,6 +2417,7 @@ export class PortalResources {
   public static validFileShouldBeSelectedWarning = 'validFileShouldBeSelectedWarning';
   public static invalidFileSelectedWarning = 'invalidFileSelectedWarning';
   public static switchToJbossWarningBaner = 'switchToJbossWarningBaner';
+  public static jbossClusteringInfo = 'jbossClusteringInfo';
   public static adminCredentials = 'adminCredentials';
   public static managedIdentity = 'managedIdentity';
   public static functionTestInputDescription = 'functionTestInputDescription';

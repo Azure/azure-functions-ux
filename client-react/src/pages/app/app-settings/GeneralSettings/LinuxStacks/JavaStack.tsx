@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useMemo } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { StackProps } from '../WindowsStacks/WindowsStacks';
 import { WebAppStacksContext, PermissionsContext } from '../../Contexts';
 import { LINUXJAVASTACKKEY, LINUXJAVACONTAINERKEY } from './LinuxStacks.data';
@@ -15,7 +15,6 @@ import {
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
   isJBossWarningBannerShown,
-  isJBossStack,
   isJBossClusteringShown,
 } from '../../../../../utils/stacks-utils';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
@@ -254,7 +253,7 @@ const JavaStack: React.SFC<StackProps> = props => {
   };
 
   const isJBossClusteringDirty = () => {
-    return !!initialValues.config.properties.clusteringEnabled !== !!values.config.properties.clusteringEnabled;
+    return !!initialValues.config.properties.ClusteringEnabled !== !!values.config.properties.ClusteringEnabled;
   };
 
   const setStackBannerAndInfoMessage = () => {
@@ -342,17 +341,15 @@ const JavaStack: React.SFC<StackProps> = props => {
           options={[
             {
               key: true,
-              text: 'On',
+              text: t('on'),
             },
             {
               key: false,
-              text: 'Off',
+              text: t('off'),
             },
           ]}
-          infoBubbleMessage={'Clustering support requires VNet integration for instance to instance communication'}
-          learnMoreLink={
-            'https://learn.microsoft.com/en-us/azure/app-service/configure-language-java?pivots=platform-linux#clustering-in-jboss-eap'
-          }
+          infoBubbleMessage={t('jbossClusteringInfo')}
+          learnMoreLink={Links.jbossClusteringLearnMore}
         />
       )}
       {isJBossWarningBannerShown(values.config.properties.linuxFxVersion, initialValues.config.properties.linuxFxVersion) && (
