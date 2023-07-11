@@ -41,7 +41,7 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   };
 
   const getCopiedLabel = () => {
-    return copied ? t('copypre_copied') : t('copypre_copyClipboard');
+    return copied ? t('copypre_copied') : t('copypre_copyClipboard').format(label);
   };
 
   const changeCopiedLabel = isToolTipVisible => {
