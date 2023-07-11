@@ -1,17 +1,19 @@
-import { IDropdownOption, ILink, Link, MessageBarType, Stack } from '@fluentui/react';
+import { Checkbox, IDropdownOption, ILink, Link, MessageBarType, Stack } from '@fluentui/react';
 import { useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { PortalContext } from '../../../PortalContext';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
+import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
 import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
 import { ArmObj, ArmSku } from '../../../models/arm-obj';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
-import { PortalContext } from '../../../PortalContext';
+import { AppKind } from '../../../utils/AppKind';
+import { CommonConstants } from '../../../utils/CommonConstants';
+import { Links } from '../../../utils/FwLinks';
 import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { ArmPlanDescriptor } from '../../../utils/resourceDescriptors';
 import { bannerStyle, checkBoxStyle, formBannerStyle, headerStyle, labelSectionStyle, planTypeStyle } from './ChangeAppPlan.styles';
-import { Links } from '../../../utils/FwLinks';
-
 import {
   ChangeAppPlanDefaultSkuCodes,
   ChangeAppPlanTierTypes,
@@ -21,8 +23,6 @@ import {
 import { consumptionToPremiumEnabled } from './ChangeAppPlanDataLoader';
 import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
-import { Checkbox } from '@fluentui/react';
-import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
 
 interface SpecPickerOutput {
   skuCode: string; // Like "S1"
@@ -213,10 +213,24 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     setSkuTier(planTier);
   };
 
+  const filteredServerFarmOptions = useMemo(() => {
+    const filteredServerFarms = serverFarms;
+    if (isConsumptionToPremiumEnabled) {
+      return filteredServerFarms.filter(serverFarm => serverFarm?.sku?.tier === skuTier);
+    }
+
+    if (
+      hostingEnvironment &&
+      AppKind.hasAnyKind(hostingEnvironment, [CommonConstants.Kinds.aseV1, CommonConstants.Kinds.aseV2, CommonConstants.Kinds.aseV3])
+    ) {
+      const aseKind = hostingEnvironment.properties.osPreference === 'Linux' ? CommonConstants.Kinds.linux : CommonConstants.Kinds.app;
+      return filteredServerFarms.filter(serverFarm => AppKind.hasAnyKind(serverFarm, [aseKind]));
+    }
+
+    return filteredServerFarms;
+  }, [serverFarms, hostingEnvironment, isConsumptionToPremiumEnabled, skuTier]);
+
   const serverFarmOptions = useMemo(() => {
-    const filteredServerFarmOptions = isConsumptionToPremiumEnabled
-      ? serverFarms.filter(serverFarm => serverFarm?.sku?.tier === skuTier)
-      : serverFarms;
     setUsingDefaultPlan(false);
     const options = getDropdownOptions(filteredServerFarmOptions);
     if (options.length === 0) {
@@ -230,7 +244,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     return options;
-  }, [skuTier, serverFarms, isConsumptionToPremiumEnabled, t]);
+  }, [filteredServerFarmOptions, t]);
 
   const rgOptions = useMemo(() => {
     const options = getDropdownOptions(resourceGroups);
