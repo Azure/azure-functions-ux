@@ -178,6 +178,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           stacksResponse.data.value.forEach(stack => {
             allWebAppStacks.push(stack.properties);
           });
+          console.log(allWebAppStacks);
           setWebAppStacks(allWebAppStacks);
         } else {
           loadingFailed = true;
