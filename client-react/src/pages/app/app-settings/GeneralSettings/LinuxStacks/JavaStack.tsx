@@ -334,8 +334,8 @@ const JavaStack: React.SFC<StackProps> = props => {
       )}
       {isJBossClusteringShown(values.config.properties.linuxFxVersion, site) && (
         <Field
-          name="config.properties.clusteringEnabled"
-          id={'config.properties.clusteringEnabled'}
+          name="config.properties.ClusteringEnabled"
+          id={'config.properties.ClusteringEnabled'}
           dirty={isJBossClusteringDirty()}
           component={RadioButton}
           label={'JBOSS Clustering'}

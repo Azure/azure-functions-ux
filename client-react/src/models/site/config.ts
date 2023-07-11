@@ -92,7 +92,7 @@ export interface SiteConfig {
   reservedInstanceCount?: number;
   functionsRuntimeScaleMonitoringEnabled?: boolean;
   powerShellVersion?: string;
-  clusteringEnabled?: boolean;
+  ClusteringEnabled?: boolean;
 }
 
 export interface IpRestriction {

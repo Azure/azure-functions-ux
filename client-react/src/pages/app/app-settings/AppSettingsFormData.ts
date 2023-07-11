@@ -117,7 +117,7 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
   }
 
   const minTlsVersion = config.properties.minTlsVersion || MinTlsVersion.tLS12;
-  const clusteringEnabled = !!config.properties.clusteringEnabled;
+  const ClusteringEnabled = !!config.properties.ClusteringEnabled;
 
   const newConfig: ArmObj<SiteConfig> = {
     ...config,
@@ -126,7 +126,7 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
       linuxFxVersion,
       remoteDebuggingVersion,
       minTlsVersion,
-      clusteringEnabled,
+      ClusteringEnabled,
     },
   };
   return newConfig;
@@ -480,7 +480,7 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
     configCopy.javaVersion = '';
   }
 
-  configCopy.clusteringEnabled = isJBossClusteringShown(config.linuxFxVersion, values.site) && configCopy.clusteringEnabled;
+  configCopy.ClusteringEnabled = isJBossClusteringShown(config.linuxFxVersion, values.site) && configCopy.ClusteringEnabled;
 
   // NOTE (krmitta): We need to explicitly mark node and php versions as null,
   // whenever these are empty since it prevents the backend from disabling the alwaysOn property.
