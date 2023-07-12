@@ -63,7 +63,7 @@ export const DropDownStyles = props => {
       minHeight: DROPDOWN_ITEMHEIGHT,
       lineHeight: DROPDOWN_ITEMHEIGHT - 2,
       height: 'auto',
-      position: 'relative',
+      position: 'relative' as const,
       border: '1px solid transparent',
       wordWrap: 'break-word',
       overflowWrap: 'break-word',
