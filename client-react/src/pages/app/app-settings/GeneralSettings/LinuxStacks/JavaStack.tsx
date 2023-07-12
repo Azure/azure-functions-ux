@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { StackProps } from '../WindowsStacks/WindowsStacks';
 import { WebAppStacksContext, PermissionsContext } from '../../Contexts';
 import { LINUXJAVASTACKKEY, LINUXJAVACONTAINERKEY } from './LinuxStacks.data';
@@ -252,9 +252,9 @@ const JavaStack: React.SFC<StackProps> = props => {
     return initialValues.config.properties.linuxFxVersion !== values.config.properties.linuxFxVersion;
   };
 
-  const isJBossClusteringDirty = () => {
+  const isJBossClusteringDirty = useCallback(() => {
     return !!initialValues.config.properties.ClusteringEnabled !== !!values.config.properties.ClusteringEnabled;
-  };
+  }, [initialValues.config.properties.ClusteringEnabled, values.config.properties.ClusteringEnabled]);
 
   const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
