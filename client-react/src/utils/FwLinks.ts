@@ -45,6 +45,7 @@ export const Links = {
   staticWebAppsPricingCalculator: 'https://go.microsoft.com/fwlink/?linkid=2162300',
   setupLocalFunctionEnvironment: 'https://go.microsoft.com/fwlink/?linkid=2173647',
   jbossAdditionalCostLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2169219',
+  jbossClusteringLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2241416',
   corsLearnMore: 'https://go.microsoft.com/fwlink/?linkid=870118',
   staticSitePasswordProtectionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2187127',
   configureNodeLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2195169',

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import { StackProps } from '../WindowsStacks/WindowsStacks';
 import { WebAppStacksContext, PermissionsContext } from '../../Contexts';
 import { LINUXJAVASTACKKEY, LINUXJAVACONTAINERKEY } from './LinuxStacks.data';
@@ -15,9 +15,12 @@ import {
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
   isJBossWarningBannerShown,
+  isJBossClusteringShown,
 } from '../../../../../utils/stacks-utils';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../utils/FwLinks';
+import { SiteStateContext } from '../../../../../SiteState';
+import RadioButton from '../../../../../components/form-controls/RadioButton';
 
 // NOTE(krmitta): These keys should be similar to what is being returned from the backend
 const JAVA8KEY = '8';
@@ -42,6 +45,7 @@ const JavaStack: React.SFC<StackProps> = props => {
   const { t } = useTranslation();
   const stacks = useContext(WebAppStacksContext);
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const { site } = useContext(SiteStateContext);
   const disableAllControls = !app_write || !editable || saving;
   const javaStack = stacks.find(stack => stack.value === LINUXJAVASTACKKEY);
   const javaContainer = stacks.find(stack => stack.value === LINUXJAVACONTAINERKEY);
@@ -248,6 +252,10 @@ const JavaStack: React.SFC<StackProps> = props => {
     return initialValues.config.properties.linuxFxVersion !== values.config.properties.linuxFxVersion;
   };
 
+  const isJBossClusteringDirty = useCallback(() => {
+    return !!initialValues.config.properties.ClusteringEnabled !== !!values.config.properties.ClusteringEnabled;
+  }, [initialValues.config.properties.ClusteringEnabled, values.config.properties.ClusteringEnabled]);
+
   const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
     setEolStackDate(undefined);
@@ -322,6 +330,27 @@ const JavaStack: React.SFC<StackProps> = props => {
           />
           {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
         </>
+      )}
+      {isJBossClusteringShown(values.config.properties.linuxFxVersion, site) && (
+        <Field
+          name="config.properties.ClusteringEnabled"
+          id={'config.properties.ClusteringEnabled'}
+          dirty={isJBossClusteringDirty()}
+          component={RadioButton}
+          label={'JBOSS Clustering'}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+          infoBubbleMessage={t('jbossClusteringInfo')}
+          learnMoreLink={Links.jbossClusteringLearnMore}
+        />
       )}
       {isJBossWarningBannerShown(values.config.properties.linuxFxVersion, initialValues.config.properties.linuxFxVersion) && (
         <CustomBanner

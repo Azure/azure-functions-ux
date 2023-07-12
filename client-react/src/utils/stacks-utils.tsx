@@ -19,6 +19,9 @@ import { AppSettingsFormValues } from '../pages/app/app-settings/AppSettings.typ
 import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { findFormAppSettingIndex } from '../pages/app/app-settings/AppSettingsFormData';
 import { filterDeprecatedFunctionAppStack } from '../pages/app/app-settings/GeneralSettings/stacks/function-app/FunctionAppStackSettings.data';
+import { Site } from '../models/site/site';
+import { ArmObj } from '../models/arm-obj';
+import Url from './url';
 
 const ENDOFLIFEMAXSECONDS = 15780000; // 6 months
 export const NETFRAMEWORKVERSION5 = 5;
@@ -272,6 +275,18 @@ export const isJBossStack = (stackVersion: string) => !!stackVersion && stackVer
 
 // NOTE(krmitta): The banner should only be shown when the new selected stack version is JBoss, and the current stack is different
 export const isJBossWarningBannerShown = (newVersion: string, oldVersion: string) => isJBossStack(newVersion) && !isJBossStack(oldVersion);
+
+export const isJBossClusteringShown = (version: string, site?: ArmObj<Site>) => {
+  if (Url.getFeatureValue(CommonConstants.FeatureFlags.showJBossClustering) !== 'true') {
+    return false;
+  }
+
+  if (version && site) {
+    return isJBossStack(version) && !!site.properties.virtualNetworkSubnetId;
+  }
+
+  return false;
+};
 
 export const getStackVersionConfigPropertyName = (isLinuxApp: boolean, runtimeStack?: string) => {
   if (isLinuxApp) {

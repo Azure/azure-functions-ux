@@ -32,6 +32,7 @@ import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import i18next from 'i18next';
+import { isJBossClusteringShown } from '../../../utils/stacks-utils';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -116,6 +117,7 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
   }
 
   const minTlsVersion = config.properties.minTlsVersion || MinTlsVersion.tLS12;
+  const ClusteringEnabled = !!config.properties.ClusteringEnabled;
 
   const newConfig: ArmObj<SiteConfig> = {
     ...config,
@@ -124,6 +126,7 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
       linuxFxVersion,
       remoteDebuggingVersion,
       minTlsVersion,
+      ClusteringEnabled,
     },
   };
   return newConfig;
@@ -476,6 +479,8 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
     configCopy.javaContainerVersion = '';
     configCopy.javaVersion = '';
   }
+
+  configCopy.ClusteringEnabled = isJBossClusteringShown(config.linuxFxVersion, values.site) && configCopy.ClusteringEnabled;
 
   // NOTE (krmitta): We need to explicitly mark node and php versions as null,
   // whenever these are empty since it prevents the backend from disabling the alwaysOn property.

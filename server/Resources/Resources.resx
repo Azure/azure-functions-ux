@@ -7392,6 +7392,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="switchToJbossWarningBaner" xml:space="preserve">
         <value>JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. </value>
     </data>
+    <data name="jbossClusteringInfo" xml:space="preserve">
+        <value>Clustering support requires VNet integration for instance to instance communication.</value>
+    </data>
     <data name="adminCredentials" xml:space="preserve">
         <value>Admin Credentials</value>
     </data>

@@ -78,6 +78,7 @@ export class CommonConstants {
     enableNewProgrammingModel: 'enableNewProgrammingModel',
     enableSnippets: 'enableSnippets',
     showBYOSStorageAccess: 'showBYOSStorageAccess',
+    showJBossClustering: 'showJBossClustering',
   };
 
   public static readonly AppDensityLimit = 8;
