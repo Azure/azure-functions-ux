@@ -38,7 +38,7 @@ export function useFormContainer(resourceId: string) {
       ...getJobInputs(selectedTemplate, JobType.AppendToBlueprint)?.reduce(toInitialValues, {}),
     };
 
-    /** @todo (joechung): AB#20749256 */
+    /** @todo Check with Eric (`erijiz`) if v4 Node supports something like v2 Python's `function_app.py`. */
     return {
       ...initialValues,
       jobType: functionAppExists ? 'AppendToFile' : 'CreateNewApp',

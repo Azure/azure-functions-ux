@@ -6126,8 +6126,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrate_bindingsMissingDirection" xml:space="preserve">
         <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
     </data>
-    <data name="integrate_readOnlyPythonV2" xml:space="preserve">
-        <value>Use the code editor to update v2 programming model Python function bindings.</value>
+    <data name="integrate_readOnlyNewProgrammingModel" xml:space="preserve">
+        <value>Use the code editor to update new programming model function bindings.</value>
     </data>
     <data name="functionMonitor_invocations" xml:space="preserve">
         <value>Invocations</value>
