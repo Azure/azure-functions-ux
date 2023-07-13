@@ -1984,7 +1984,7 @@ export class PortalResources {
   public static resourceDropdown_missingAppSetting = 'resourceDropdown_missingAppSetting';
   public static resourceDropdown_noAppSettingsFound = 'resourceDropdown_noAppSettingsFound';
   public static integrate_bindingsMissingDirection = 'integrate_bindingsMissingDirection';
-  public static integrate_readOnlyPythonV2 = 'integrate_readOnlyPythonV2';
+  public static integrate_readOnlyNewProgrammingModel = 'integrate_readOnlyNewProgrammingModel';
   public static functionMonitor_invocations = 'functionMonitor_invocations';
   public static functionMonitor_logs = 'functionMonitor_logs';
   public static logStreaming_openInLiveMetrics = 'logStreaming_openInLiveMetrics';

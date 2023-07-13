@@ -75,7 +75,6 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
-    enableNewProgrammingModel: 'enableNewProgrammingModel',
     enableSnippets: 'enableSnippets',
     showBYOSStorageAccess: 'showBYOSStorageAccess',
     showJBossClustering: 'showJBossClustering',

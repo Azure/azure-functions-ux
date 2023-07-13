@@ -225,7 +225,6 @@ export function useFields(resourceId: string, jobType?: string, selectedTemplate
     // The blueprint filename input can be used for both the blueprint filename and the function name.
     const inputs = getJobInputs(selectedTemplate, jobType)?.reduce(toInputs, {}) ?? {};
 
-    /** @todo (joechung): AB#20749256 */
     const inputsWithoutFilenameInputs = Object.values(inputs).filter(
       ({ id }) => !/^app-fileName$/i.test(id) && !/^app-selectedFileName$/i.test(id)
     );
