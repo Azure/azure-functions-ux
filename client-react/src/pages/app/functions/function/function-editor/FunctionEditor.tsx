@@ -446,11 +446,22 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
         }
         portalCommunicator.stopNotification(notificationId, true, t('uploadingFileSuccessWithName').format(fileName));
       } else {
-        portalCommunicator.stopNotification(notificationId, false, t('uploadingFileFailureWithName').format(fileName));
+        let errorMessage = t('uploadingFileFailureForUnknownWithName').format(fileName);
+        if (loadEndEvent.target) {
+          if (loadEndEvent.target['status'] === 404) {
+            // Invalid file types are filtered out by IIS and a 404.7 is returned
+            errorMessage = t('uploadingFileFailureForExtWithName').format(fileName);
+          } else {
+            // A status code of 0 is likely a too big file size
+            errorMessage = t('uploadingFileFailureForSizeWithName').format(fileName);
+          }
+        }
+
+        portalCommunicator.stopNotification(notificationId, false, errorMessage);
         portalCommunicator.log(
           getTelemetryInfo('error', 'functionEditorFileUpload', 'failed', {
             error: loadEndEvent.target && loadEndEvent.target['response'],
-            message: 'Failed to upload file',
+            message: errorMessage,
           })
         );
       }

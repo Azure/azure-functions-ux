@@ -2355,7 +2355,9 @@ export class PortalResources {
   public static uploadingFile = 'uploadingFile';
   public static uploadingFileWithName = 'uploadingFileWithName';
   public static uploadingFileSuccessWithName = 'uploadingFileSuccessWithName';
-  public static uploadingFileFailureWithName = 'uploadingFileFailureWithName';
+  public static uploadingFileFailureForSizeWithName = 'uploadingFileFailureForSizeWithName';
+  public static uploadingFileFailureForExtWithName = 'uploadingFileFailureForExtWithName';
+  public static uploadingFileFailureForUnknownWithName = 'uploadingFileFailureForUnknownWithName';
   public static earlyAccessTemplate = 'earlyAccessTemplate';
   public static pricing_iv2NotAvailable = 'pricing_iv2NotAvailable';
   public static movingFromV2Warning = 'movingFromV2Warning';
