@@ -7209,8 +7209,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="uploadingFileSuccessWithName" xml:space="preserve">
         <value>Successfully uploaded '{0}'</value>
     </data>
-    <data name="uploadingFileFailureWithName" xml:space="preserve">
+    <data name="uploadingFileFailureForSizeWithName" xml:space="preserve">
         <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+    </data>
+    <data name="uploadingFileFailureForExtWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. File is an unsupported file type.</value>
+    </data>
+    <data name="uploadingFileFailureForUnknownWithName" xml:space="preserve">
+        <value>Failed to upload '{0}' for unknown reason.</value>
     </data>
     <data name="earlyAccessTemplate" xml:space="preserve">
         <value>{0} (Early Access)</value>
