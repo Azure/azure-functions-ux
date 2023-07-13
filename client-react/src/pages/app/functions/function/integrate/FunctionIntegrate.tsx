@@ -20,7 +20,7 @@ import { HostStatus } from '../../../../../models/functions/host-status';
 import { Links } from '../../../../../utils/FwLinks';
 import SiteHelper from '../../../../../utils/SiteHelper';
 import StringUtils from '../../../../../utils/string';
-import { isNewPythonProgrammingModel } from '../function-editor/useFunctionEditorQueries';
+import { isNewNodeProgrammingModel, isNewPythonProgrammingModel } from '../function-editor/useFunctionEditorQueries';
 import { ClosedReason } from './BindingPanel/BindingEditor';
 import BindingPanel from './BindingPanel/BindingPanel';
 import {
@@ -93,7 +93,10 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
   const [isUpdating, setIsUpdating] = useState<boolean>(false);
 
   const onlyBuiltInBindings = !hostStatus.version.startsWith('1') && !hostStatus.extensionBundle;
-  const bindingsReadOnly = useMemo(() => !!functionInfo && isNewPythonProgrammingModel(functionInfo), [functionInfo]);
+  const bindingsReadOnly = useMemo(
+    () => !!functionInfo && (isNewNodeProgrammingModel(functionInfo) || isNewPythonProgrammingModel(functionInfo)),
+    [functionInfo]
+  );
   const functionAppReadOnly = useMemo(() => SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState), [
     siteStateContext.siteAppEditState,
   ]);
@@ -242,8 +245,8 @@ export const FunctionIntegrate: React.FunctionComponent<FunctionIntegrateProps> 
       />
     );
   } else if (bindingsReadOnly && !functionAppReadOnly) {
-    // Bindings are read-only for v2 Python progrmaming model functions, which are otherwise read-write.
-    banner = <CustomBanner message={t('integrate_readOnlyPythonV2')} type={MessageBarType.info} />;
+    // Bindings are read-only for v2 Python and v4 Node.js progrmaming model functions, which are otherwise read-write.
+    banner = <CustomBanner message={t('integrate_readOnlyNewProgrammingModel')} type={MessageBarType.info} />;
   } else if (readOnly) {
     // All readonly situations
     banner = <EditModeBanner />;

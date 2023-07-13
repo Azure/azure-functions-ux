@@ -24,12 +24,16 @@ export function useSiteConfigQuery(resourceId: string) {
 
   const { data: siteConfig } = useHttpResponseObjectQuery(promise, onSuccess, onError);
 
-  const [language] = useMemo(() => siteConfig?.properties.linuxFxVersion?.split('|') ?? [], [siteConfig?.properties.linuxFxVersion]);
+  const [language, version] = useMemo(() => siteConfig?.properties.linuxFxVersion?.split('|') ?? [], [
+    siteConfig?.properties.linuxFxVersion,
+  ]);
 
   const isPythonLanguage = useMemo(() => (!siteConfig ? undefined : /^python$/i.test(language)), [language, siteConfig]);
 
   return {
     isPythonLanguage,
+    language: language as string | undefined,
     siteConfig,
+    version: version as string | undefined,
   };
 }

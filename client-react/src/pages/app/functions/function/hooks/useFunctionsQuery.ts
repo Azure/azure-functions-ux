@@ -4,7 +4,7 @@ import { ArmArray } from '../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { useHttpResponseObjectQuery } from '../../../../../utils/useHttpResponseObjectQuery';
-import { isNewPythonProgrammingModel } from '../function-editor/useFunctionEditorQueries';
+import { isNewNodeProgrammingModel, isNewPythonProgrammingModel } from '../function-editor/useFunctionEditorQueries';
 
 export function useFunctionsQuery(resourceId: string) {
   const promise = useMemo(() => FunctionsService.getFunctions(resourceId), [resourceId]);
@@ -22,14 +22,14 @@ export function useFunctionsQuery(resourceId: string) {
 
   const { data: functions } = useHttpResponseObjectQuery(promise, onSuccess, onError);
 
-  /** @note Currently Python only. Change `isNewPythonProgrammingModel` when the v2 programming model becomes GA for other runtimes, e.g., Node.js. */
   const programmingModel = useMemo(() => {
     if (!functions) {
       return undefined;
     } else if (functions.length === 0) {
       return null;
     } else {
-      return functions.some(isNewPythonProgrammingModel) ? 2 : 1;
+      /** @todo Update this check when new frameworks and languages start supporting the v2 templates API. */
+      return functions.some(fn => isNewNodeProgrammingModel(fn) || isNewPythonProgrammingModel(fn)) ? 2 : 1;
     }
   }, [functions]);
 
