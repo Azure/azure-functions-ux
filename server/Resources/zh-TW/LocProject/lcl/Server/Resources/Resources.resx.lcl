@@ -2300,10 +2300,13 @@
       </Item>
       <Item ItemId=";basicAuthPublishingCred" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic Authentication]]></Val>
+          <Val><![CDATA[Basic Auth Publishing Credentials]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[基本驗證]]></Val>
+            <Val><![CDATA[基本驗證發佈認證]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic Authentication]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -4121,10 +4124,13 @@
       </Item>
       <Item ItemId=";copypre_copyClipboard" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Copy to clipboard]]></Val>
+          <Val><![CDATA[Copy the value for {0} to clipboard]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[複製到剪貼簿]]></Val>
+            <Val><![CDATA[將 {0} 的值複製到剪貼簿]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Copy to clipboard]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14207,6 +14213,15 @@
           <Val><![CDATA[Click below to get started with documentation on how to build your first Azure Function with Java.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[按一下下方，利用說明如何使用 Java 建置您第一個 Azure 函數的文件開始著手。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";jbossClusteringInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clustering support requires VNet integration for instance to instance communication.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[叢集支援需要 VNet 整合，執行個體才能進行執行個體通訊。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

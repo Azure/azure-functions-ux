@@ -2303,10 +2303,13 @@
       </Item>
       <Item ItemId=";basicAuthPublishingCred" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic Authentication]]></Val>
+          <Val><![CDATA[Basic Auth Publishing Credentials]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Basisverificatie]]></Val>
+            <Val><![CDATA[Basisreferenties voor verificatiepublicaties]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic Authentication]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -4124,10 +4127,13 @@
       </Item>
       <Item ItemId=";copypre_copyClipboard" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Copy to clipboard]]></Val>
+          <Val><![CDATA[Copy the value for {0} to clipboard]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kopiëren naar het klembord]]></Val>
+            <Val><![CDATA[De waarde voor {0} kopiëren naar het klembord]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Copy to clipboard]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14207,6 +14213,15 @@
           <Val><![CDATA[Click below to get started with documentation on how to build your first Azure Function with Java.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Klik hieronder om aan de slag te gaan met de documentatie over het maken van uw eerste Azure Function met Java.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";jbossClusteringInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clustering support requires VNet integration for instance to instance communication.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Voor clusterondersteuning is VNET-integratie vereist voor communicatie tussen instanties.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
