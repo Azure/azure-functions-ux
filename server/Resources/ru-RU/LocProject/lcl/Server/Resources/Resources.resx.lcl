@@ -2300,10 +2300,13 @@
       </Item>
       <Item ItemId=";basicAuthPublishingCred" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic Authentication]]></Val>
+          <Val><![CDATA[Basic Auth Publishing Credentials]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Обычная проверка подлинности]]></Val>
+            <Val><![CDATA[Учетные данные публикации с обычной проверкой подлинности]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic Authentication]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -4121,10 +4124,13 @@
       </Item>
       <Item ItemId=";copypre_copyClipboard" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Copy to clipboard]]></Val>
+          <Val><![CDATA[Copy the value for {0} to clipboard]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Копировать в буфер]]></Val>
+            <Val><![CDATA[Копировать в буфер обмена значение для {0}]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Copy to clipboard]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
