@@ -16,6 +16,61 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
     preferredOs: 'windows',
     majorVersions: [
       {
+        displayText: 'Node.js 20',
+        value: '20',
+        minorVersions: [
+          {
+            displayText: 'Node.js 20',
+            value: '20 LTS',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '~20',
+                isPreview: true,
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '20.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'node',
+                  WEBSITE_NODE_DEFAULT_VERSION: '~20',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  netFrameworkVersion: 'v6.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'Node|20',
+                isPreview: true,
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '20.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'node',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'Node|20',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+              },
+            },
+          },
+        ],
+      },
+      {
         displayText: 'Node.js 18',
         value: '18',
         minorVersions: [
