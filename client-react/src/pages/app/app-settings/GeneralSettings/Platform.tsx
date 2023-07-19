@@ -14,6 +14,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
 import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
+import TextField from '../../../../components/form-controls/TextField';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -380,6 +381,17 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           infoBubbleMessage={t('minTlsCipherSuiteInfoBubbleMessage')}
           dirty={values.config.properties.minTlsCipherSuite !== initialValues.config.properties.minTlsCipherSuite}
           widthLabel={'230px'}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.vnetPrivatePortsCount, { site }).status === 'enabled' && (
+        <Field
+          name={'config.properties.vnetPrivatePortsCount'}
+          id={'app-settings-vnetPrivatePortsCount'}
+          component={TextField}
+          label={t('vnetPrivatePortsCount')}
+          dirty={values.config.properties.vnetPrivatePortsCount !== initialValues.config.properties.vnetPrivatePortsCount}
+          widthLabel={'230px'}
+          type={'number'}
         />
       )}
     </div>
