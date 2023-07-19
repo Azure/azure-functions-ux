@@ -43,6 +43,11 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
       id: ScenarioIds.incomingClientCertSupported,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.vnetPrivatePortsCount] = {
+      id: ScenarioIds.vnetPrivatePortsCount,
+      runCheck: () => ({ status: 'enabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

@@ -1627,6 +1627,9 @@
     <data name="minTlsCipherSuiteLabel" xml:space="preserve">
         <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
     </data>
+    <data name="vnetPrivatePortsCount" xml:space="preserve">
+        <value>VNet Private Ports</value>
+    </data>
     <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
         <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.</value>
     </data>
@@ -7785,5 +7788,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="configureDeploymentCredentialsLinkAriaLabel" xml:space="preserve">
         <value>Configure deployment credentials for Azure App Service</value>
+    </data>
+    <data name="portCountRange" xml:space="preserve">
+        <value>The port value must be between {0} and {1}.</value>
     </data>
 </root>
