@@ -7789,4 +7789,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="configureDeploymentCredentialsLinkAriaLabel" xml:space="preserve">
         <value>Configure deployment credentials for Azure App Service</value>
     </data>
+    <data name="portCountRange" xml:space="preserve">
+        <value>The port value must be between {0} and {1}.</value>
+    </data>
 </root>
