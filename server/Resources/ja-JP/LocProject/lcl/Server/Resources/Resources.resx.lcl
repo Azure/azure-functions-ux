@@ -13665,11 +13665,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";integrate_readOnlyPythonV2" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";integrate_readOnlyNewProgrammingModel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Use the code editor to update v2 programming model Python function bindings.]]></Val>
+          <Val><![CDATA[Use the code editor to update new programming model function bindings.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[コード エディターを使用して、v2 プログラミング モデルの Python 関数バインドを更新します。]]></Val>
+            <Val><![CDATA[コード エディターを使用して、新規プログラミング モデルの関数バインドを更新します。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -23049,11 +23049,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";uploadingFileFailureWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";uploadingFileFailureForExtWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}'. File is an unsupported file type.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA['{0}' をアップロードできませんでした。ファイルはサポートされていないファイルの種類です。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForSizeWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA['{0}' をアップロードできませんでした。5 MB を超えるファイルのアップロードは Azure portal ではサポートされていません]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForUnknownWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}' for unknown reason.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[不明な理由により、'{0}' をアップロードできませんでした。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

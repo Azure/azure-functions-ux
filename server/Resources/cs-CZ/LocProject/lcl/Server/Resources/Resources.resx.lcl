@@ -13677,11 +13677,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";integrate_readOnlyPythonV2" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";integrate_readOnlyNewProgrammingModel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Use the code editor to update v2 programming model Python function bindings.]]></Val>
+          <Val><![CDATA[Use the code editor to update new programming model function bindings.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pomocí editoru kódu aktualizujte vazby funkcí pythonového programovacího modelu v2.]]></Val>
+            <Val><![CDATA[Pomocí editoru kódu aktualizujte nové vazby funkcí programovacího modelu.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14228,6 +14228,15 @@
           <Val><![CDATA[Click below to get started with documentation on how to build your first Azure Function with Java.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kliknutím níže si otevřete dokumentaci, jak sestavit první funkci Java v Azure.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";jbossClusteringInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clustering support requires VNet integration for instance to instance communication.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Podpora clusteringu vyžaduje integraci virtuální sítě pro komunikaci mezi instancemi.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -23034,11 +23043,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";uploadingFileFailureWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";uploadingFileFailureForExtWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}'. File is an unsupported file type.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nepovedlo se nahrát {0}. Soubor je nepodporovaný typ souboru.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForSizeWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Nepovedlo se nahrát {0}. Nahrávání souborů větších než 5 MB se na portálu Azure Portal nepodporuje.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForUnknownWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}' for unknown reason.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nepovedlo se nahrát {0} z neznámého důvodu.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

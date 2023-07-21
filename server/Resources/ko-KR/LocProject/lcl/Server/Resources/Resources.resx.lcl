@@ -13647,11 +13647,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";integrate_readOnlyPythonV2" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";integrate_readOnlyNewProgrammingModel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Use the code editor to update v2 programming model Python function bindings.]]></Val>
+          <Val><![CDATA[Use the code editor to update new programming model function bindings.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[코드 편집기를 사용하여 v2 프로그래밍 모델 Python 함수 바인딩을 업데이트합니다.]]></Val>
+            <Val><![CDATA[코드 편집기를 사용하여 새로운 프로그래밍 모델 함수 바인딩을 업데이트합니다.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14195,6 +14195,15 @@
           <Val><![CDATA[Click below to get started with documentation on how to build your first Azure Function with Java.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Java를 사용하여 첫 번째 Azure Functions를 빌드하는 방법에 대한 문서를 시작하려면 아래를 클릭하세요.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";jbossClusteringInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clustering support requires VNet integration for instance to instance communication.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[클러스터링 지원에는 인스턴스 간 통신을 위한 VNet 통합이 필요합니다.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22998,11 +23007,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";uploadingFileFailureWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";uploadingFileFailureForExtWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}'. File is an unsupported file type.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA['{0}'을(를) 업로드하지 못했습니다. 지원되지 않는 파일 형식입니다.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForSizeWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA['{0}'을(를) 업로드하지 못했습니다. Azure Portal에서 5MB가 넘는 파일 업로드는 지원되지 않습니다.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForUnknownWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}' for unknown reason.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[알 수 없는 이유로 '{0}'을(를) 업로드하지 못했습니다.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
