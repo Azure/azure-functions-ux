@@ -408,7 +408,7 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       for (errorCount = 0; errorCount < 5 && !functionSuccess; ++errorCount) {
         runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings, /* setContentType */ true);
         const jqXHR = getJQXHR(runFunctionResponse, LogCategories.FunctionEdit, 'makeHttpRequestForRunFunction');
-        if (jqXHR && jqXHR.status && jqXHR.status !== 200) {
+        if (jqXHR && jqXHR.status && jqXHR.status < 300) {
           functionSuccess = true;
         }
       }
