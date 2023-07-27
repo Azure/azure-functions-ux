@@ -427,34 +427,8 @@ const templateVersionMap = {
   '3': '3.1.1',
 };
 /*****
- * Download and unzip nuget packages with templates
+ * Copy function templates
  */
-// gulp.task('download-templates', function() {
-//   const mygetUrl = 'https://www.myget.org/F/azure-appservice/api/v2/package/Azure.Functions.Ux.Templates/';
-//   const templateLocations = Object.keys(templateVersionMap);
-//   return download(
-//     templateLocations.map(tempLoc => ({
-//       file: path.join(tempLoc, tempLoc),
-//       url: mygetUrl + templateVersionMap[tempLoc],
-//     }))
-//   ).pipe(gulp.dest('template-downloads/'));
-// });
-
-// gulp.task('unzip-templates', function() {
-//   const versions = getSubDirectories('template-downloads');
-
-//   let streams = [];
-//   versions.forEach(version => {
-//     streams.push(
-//       gulp
-//         .src(`template-downloads/${version}/*`)
-//         .pipe(decompress())
-//         .pipe(gulp.dest(`templates/${version}`))
-//     );
-//   });
-//   return gulpMerge(streams);
-// });
-
 gulp.task('copy-templates', function() {
   return gulpMerge(gulp.src("./function-templates/*").pipe(gulp.dest(`templates`)));
 });
