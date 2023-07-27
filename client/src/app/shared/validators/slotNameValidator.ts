@@ -34,9 +34,24 @@ export class SlotNameValidator implements Validator {
       return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_slotNameReserved).format(control.value) });
     }
 
-    const matchingChar = control.value.match(Regex.invalidEntityName);
-    if (matchingChar) {
-      return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameInvalidChar).format(matchingChar[0]) });
+    const reg = new RegExp(Regex.invalidEntityName);
+    const input = control.value;
+
+    // Append matching strings to properly display utf-32 characters.
+    let match = reg.exec(input);
+    let matchIndex = -1;
+    let matchString = '';
+    while (match !== null) {
+      if (match.index === matchIndex + 1 || matchIndex === -1) {
+        matchIndex = match.index;
+        matchString += match?.['0'];
+      } else {
+        break;
+      }
+      match = reg.exec(input);
+    }
+    if (matchString) {
+      Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameInvalidChar).format(matchString) });
     }
 
     return new Promise(resolve => {
