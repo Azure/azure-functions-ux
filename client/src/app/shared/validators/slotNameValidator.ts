@@ -44,7 +44,7 @@ export class SlotNameValidator implements Validator {
     while (match !== null) {
       if (match.index === matchIndex + 1 || matchIndex === -1) {
         matchIndex = match.index;
-        matchString += match?.['0'];
+        matchString += match['0'];
       } else {
         break;
       }
