@@ -51,7 +51,7 @@ export class SlotNameValidator implements Validator {
       match = reg.exec(input);
     }
     if (matchString) {
-      Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameInvalidChar).format(matchString) });
+      return Promise.resolve({ invalidSiteName: this._ts.instant(PortalResources.validation_siteNameInvalidChar).format(matchString) });
     }
 
     return new Promise(resolve => {
