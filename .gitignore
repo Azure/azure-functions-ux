@@ -91,7 +91,4 @@ AzureFunctions/app_data
 /AzureFunctions/schemas
 
 # NPM Registry
-!.npmrc
-!server/.npmrc
-!client/.npmrc
-!client-react/.npmrc
+!**/.npmrc
