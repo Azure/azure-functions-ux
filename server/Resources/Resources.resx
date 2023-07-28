@@ -2249,7 +2249,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The combined site name and slot name must be fewer than 59 characters</value>
     </data>
     <data name="validation_siteNameInvalidChar" xml:space="preserve">
-        <value>'{0}' is an invalid character</value>
+        <value>Invalid character(s): {0}</value>
     </data>
     <data name="validation_siteNameNotAvailable" xml:space="preserve">
         <value>The app name '{0}' is not available</value>
