@@ -359,66 +359,6 @@ function makeStreams() {
   streams = streams.filter(stream => stream.length >= 1);
 }
 
-/***********************************************************
- * Templates Building
- */
-
-gulp.task('build-templates', function(cb) {
-  const templateRuntimeVersions = getSubDirectories('templates');
-  templateRuntimeVersions.forEach(version => {
-    let templateListJson = [];
-    const templates = getSubDirectories(path.join(__dirname, 'templates', version, 'Templates'));
-    templates.forEach(template => {
-      let templateObj = {};
-      const filePath = path.join(__dirname, 'templates', version, 'Templates', template);
-      let files = getFilesWithContent(filePath, ['function.json', 'metadata.json']);
-
-      templateObj.id = template;
-      templateObj.runtime = version;
-      templateObj.files = files;
-
-      templateObj.function = require(path.join(filePath, 'function.json'));
-      templateObj.metadata = require(path.join(filePath, 'metadata.json'));
-      templateListJson.push(templateObj);
-    });
-    let writePath = path.join(__dirname, 'src', 'data', 'templates');
-    if (!fs.existsSync(writePath)) {
-      fs.mkdirSync(writePath);
-    }
-    writePath = path.join(writePath, version + '.json');
-    fs.writeFileSync(writePath, new Buffer.from(JSON.stringify(templateListJson)));
-  });
-  cb();
-});
-
-/********
- * Place Binding Templates
- */
-
-gulp.task('build-bindings', function(cb) {
-  const templateRuntimeVersions = getSubDirectories('templates');
-  templateRuntimeVersions.forEach(version => {
-    const bindingFile = require(path.join(__dirname, 'templates', version, 'Bindings', 'bindings.json'));
-    bindingFile.bindings.forEach(binding => {
-      if (binding.documentation) {
-        const documentationSplit = binding.documentation.split('\\');
-        const documentationFile = documentationSplit[documentationSplit.length - 1];
-        const documentationString = fs.readFileSync(path.join(__dirname, 'templates', version, 'Documentation', documentationFile), {
-          encoding: 'utf8',
-        });
-        binding.documentation = documentationString;
-      }
-    });
-    let writePath = path.join(__dirname, 'src', 'data', 'bindings');
-    if (!fs.existsSync(writePath)) {
-      fs.mkdirSync(writePath);
-    }
-    writePath = path.join(writePath, version + '.json');
-    fs.writeFileSync(writePath, new Buffer.from(JSON.stringify(bindingFile)));
-  });
-  cb();
-});
-
 const templateVersionMap = {
   default: '1.0.3.10338',
   '1': '1.0.3.10338',
@@ -429,8 +369,8 @@ const templateVersionMap = {
 /*****
  * Copy function templates
  */
-gulp.task('copy-templates', function() {
-  return gulpMerge(gulp.src("./function-templates/*").pipe(gulp.dest(`templates`)));
+gulp.task('copy-function-resources', function() {
+  return gulp.src("./function-resources/**").pipe(gulp.dest(`src/data/data/`));
 });
 
 gulp.task('list-numeric-versions', function(cb) {
@@ -454,19 +394,17 @@ gulp.task(
   'build-all',
   gulp.series(
     'resources-clean',
-    'copy-templates',
+    'copy-function-resources',
     'resources-convert',
     'resources-build',
     'resources-combine',
-    'build-templates',
-    'build-bindings',
     'resx-to-typescript-models',
     'list-numeric-versions',
     'resources-clean'
   )
 );
 
-gulp.task('build-test', gulp.series('resources-convert', 'resources-build', 'resources-combine', 'build-templates', 'build-bindings'));
+gulp.task('build-test', gulp.series('resources-convert', 'resources-build', 'resources-combine', 'copy-function-resources'));
 gulp.task('copy-data-to-dist', () => {
   return gulp.src('./src/data/**').pipe(gulp.dest('./dist/data'));
 });
