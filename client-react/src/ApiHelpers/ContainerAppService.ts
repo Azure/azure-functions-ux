@@ -10,7 +10,7 @@ export default class ContainerAppService {
       resourceId: id,
       method: 'POST',
       commandName: 'getAuthToken',
-      apiVersion: CommonConstants.ApiVersions.containerAppApiVersion20221101Preview,
+      apiVersion: CommonConstants.ApiVersions.containerAppApiVersion20230401Preview,
     });
   };
 }
