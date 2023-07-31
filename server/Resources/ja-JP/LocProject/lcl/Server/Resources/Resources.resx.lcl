@@ -16350,6 +16350,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";portCountRange" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The port value must be between {0} and {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ポートの値は {0} から {1} までの範囲内である必要があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";portalCardDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Author functions quickly in the portal]]></Val>
@@ -23609,6 +23618,15 @@
           <Val><![CDATA[Pull image over VNet]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[VNet 経由でイメージをプルする]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetPrivatePortsCount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[VNet Private Ports]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[VNet プライベート ポート]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

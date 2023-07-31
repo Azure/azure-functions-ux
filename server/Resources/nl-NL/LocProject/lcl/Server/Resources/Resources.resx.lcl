@@ -16347,6 +16347,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";portCountRange" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The port value must be between {0} and {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[De poortwaarde moet tussen {0} en {1} liggen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";portalCardDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Author functions quickly in the portal]]></Val>
@@ -23591,6 +23600,15 @@
           <Val><![CDATA[Pull image over VNet]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Installatiekopie ophalen via VNet]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetPrivatePortsCount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[VNet Private Ports]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[VNet-privépoorten]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

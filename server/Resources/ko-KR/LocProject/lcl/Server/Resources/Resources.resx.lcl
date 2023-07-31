@@ -16326,6 +16326,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";portCountRange" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The port value must be between {0} and {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[포트 값은 {0}에서 {1} 사이여야 합니다.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";portalCardDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Author functions quickly in the portal]]></Val>
@@ -23567,6 +23576,15 @@
           <Val><![CDATA[Pull image over VNet]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[VNet을 통해 이미지 끌어오기]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetPrivatePortsCount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[VNet Private Ports]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[VNet 프라이빗 포트]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
