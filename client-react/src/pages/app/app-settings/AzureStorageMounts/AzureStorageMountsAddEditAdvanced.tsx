@@ -54,9 +54,16 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   }, [values.appSettings, values.sticky, appSettings]);
 
   useEffect(() => {
-    portalContext
-      .hasFlightEnabled(ExperimentationConstants.TreatmentFlight.showByosKeyVault)
-      .then(enabled => setShowKeyvaultReference(enabled));
+    let isSubscribed = true;
+    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.showByosKeyVault).then(enabled => {
+      if (isSubscribed) {
+        setShowKeyvaultReference(enabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
   }, [portalContext]);
 
   useEffect(() => {
