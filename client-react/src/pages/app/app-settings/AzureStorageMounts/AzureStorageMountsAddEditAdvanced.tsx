@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import { FormikProps, Field } from 'formik';
 import { FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
@@ -11,10 +11,11 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import Url from '../../../../utils/url';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { ExperimentationConstants } from '../../../../utils/CommonConstants';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { IDropdownOption } from '@fluentui/react';
+import { PortalContext } from '../../../../PortalContext';
+import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
@@ -24,7 +25,10 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings, storageTypeOptions } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
+  const portalContext = useContext(PortalContext);
   const scenarioService = new ScenarioService(t);
+
+  const [showKeyvaultReference, setShowKeyvaultReference] = useState(false);
 
   const validateShareName = (value: any): string | undefined => {
     return value ? undefined : t('validation_requiredError');
@@ -50,6 +54,19 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   }, [values.appSettings, values.sticky, appSettings]);
 
   useEffect(() => {
+    let isSubscribed = true;
+    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.showByosKeyVault).then(enabled => {
+      if (isSubscribed) {
+        setShowKeyvaultReference(enabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [portalContext]);
+
+  useEffect(() => {
     if (!supportsBlobStorage) {
       setFieldValue('type', StorageType.azureFiles);
     }
@@ -73,7 +90,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         required={true}
         validate={validateShareName}
       />
-      {values.type === StorageType.azureFiles && Url.getFeatureValue(CommonConstants.FeatureFlags.showBYOSStorageAccess) === 'true' && (
+      {values.type === StorageType.azureFiles && showKeyvaultReference && !NationalCloudEnvironment.isNationalCloud() && (
         <Field
           id="storageAccess"
           name={'storageAccess'}
