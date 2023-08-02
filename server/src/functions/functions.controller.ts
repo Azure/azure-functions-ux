@@ -2,7 +2,7 @@ import { Controller, Get, Post, Query, HttpException, Headers, Header, Param, Bo
 import { FunctionsService, NameValuePair } from './functions.service';
 import { RuntimeTokenService } from './runtime-token/runtime-token.service';
 import { Response } from 'express';
-import { ArmSiteDescriptor } from '../shared/resourceDescriptors';
+import { ArmSiteDescriptor, FunctionDescriptor } from '../shared/resourceDescriptors';
 import { isValidString } from '../utilities/string.util';
 
 @Controller('api')
@@ -88,7 +88,7 @@ const isPathValid = (path: string): boolean => {
 const isResourceIdValid = (resourceId: string): boolean => {
   try {
     const siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(resourceId);
-    if (!isValidString(resourceId) || resourceId.includes('@') || !(siteDescriptor instanceof ArmSiteDescriptor)) {
+    if (!isValidString(resourceId) || resourceId.includes('@') || !(siteDescriptor instanceof FunctionDescriptor)) {
       return false;
     }
     const siteName = siteDescriptor.getFormattedTargetSiteName();

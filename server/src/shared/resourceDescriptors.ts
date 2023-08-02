@@ -48,25 +48,29 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
 
   public static getSiteResourceIdFromProperties;
 
-  public static getSiteDescriptor(resourceId: string): ArmSiteDescriptor | CdsEntityDescriptor {
+  public static getSiteDescriptor(resourceId: string): ArmSiteDescriptor | FunctionDescriptor {
     const parts = resourceId.split('/').filter(part => !!part);
     let siteId = '';
     let maxIndex: number;
 
-    if (parts.length >= 10 && parts[6].toLowerCase() === 'sites' && parts[8].toLowerCase() === 'slots') {
+    if (parts.length === 10 && parts[6].toLowerCase() === 'sites' && parts[8].toLowerCase() === 'slots') {
+      maxIndex = 9;
+    } else if (
+      parts.length == 11 &&
+      parts[6].toLowerCase() === 'sites' &&
+      parts[9].toLowerCase() === 'new' &&
+      parts[10].toLowerCase() === 'slot'
+    ) {
       // handle the scenario where the resourceId is actually the routing path for SlotNewComponent (i.e. "<siteUri>/slots/new/slot")
-      if (parts.length >= 11 && parts[9].toLowerCase() === 'new' && parts[10].toLowerCase() === 'slot') {
-        maxIndex = 7;
-      } else {
-        maxIndex = 9;
-      }
-    } else if (parts.length >= 8 && parts[6].toLowerCase() === 'sites') {
       maxIndex = 7;
-    } else if (parts.length >= 6 && parts[4].toLowerCase() === 'scopes') {
-      return new CdsEntityDescriptor(resourceId);
+    } else if (parts.length === 8 && parts[6].toLowerCase() === 'sites') {
+      maxIndex = 7;
+    } else if (parts.length === 10 && parts[6].toLowerCase() === 'sites' && parts[8].toLowerCase() === 'function') {
+      return new FunctionDescriptor(resourceId);
     } else {
-      throw Error(`Not enough segments in site or slot or scope id`);
+      throw Error(`Incorrect segments in the resourceId: ${resourceId}`);
     }
+
     for (let i = 0; i <= maxIndex; i++) {
       siteId = siteId + '/' + parts[i];
     }
@@ -138,23 +142,21 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
   }
 }
 
-export class CdsEntityDescriptor extends Descriptor {
-  public environment: string;
-  public scope: string;
+export class FunctionDescriptor extends ArmSiteDescriptor {
+  public functionName: string;
 
   constructor(resourceId: string) {
     super(resourceId);
 
-    if (this.parts.length < 6) {
-      throw Error(`resourceId length is too short for CDS: ${resourceId}`);
+    if (this.parts.length < 10) {
+      throw Error(`resourceId length is too short for function: ${resourceId}`);
     }
 
-    this.environment = this.parts[3];
-    this.scope = this.parts[5];
+    this.functionName = this.parts[9];
   }
 
   getTrimmedResourceId() {
-    return `/providers/Microsoft.Blueridge/environments/${this.environment}/scopes/${this.scope}`;
+    return `/subscriptions/${this.subscription}/resourceGroups/${this.resourceGroup}/providers/Microsoft.Web/sites/${this.site}/function/${this.functionName}`;
   }
 }
 
