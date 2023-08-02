@@ -68,7 +68,7 @@ export class ArmSiteDescriptor extends ArmResourceDescriptor {
     } else if (parts.length === 10 && parts[6].toLowerCase() === 'sites' && parts[8].toLowerCase() === 'function') {
       return new FunctionDescriptor(resourceId);
     } else {
-      throw Error(`Incorrect egments in the resourceId: ${resourceId}`);
+      throw Error(`Incorrect segments in the resourceId: ${resourceId}`);
     }
 
     for (let i = 0; i <= maxIndex; i++) {
