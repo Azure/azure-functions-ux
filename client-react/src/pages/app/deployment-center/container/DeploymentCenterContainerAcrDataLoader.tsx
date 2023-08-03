@@ -13,7 +13,7 @@ import { IComboBoxOption, IDropdownOption, MessageBarType, SelectableOptionMenuI
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential } from '../../../../models/acr';
-import { getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
+import { getAcrNameFromLoginServer, getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
@@ -440,11 +440,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     ];
     setManagedIdentityOptions(identities);
     setLoadingManagedIdentities(false);
-  };
-
-  const getAcrNameFromLoginServer = (loginServer: string): string => {
-    const loginServerParts = loginServer?.split('.') ?? [];
-    return loginServerParts.length > 0 ? loginServerParts[0] : '';
   };
 
   const parseHiddenTag = (tagValue: string) => {
