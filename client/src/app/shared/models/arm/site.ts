@@ -8,6 +8,11 @@ export enum ComputeMode {
   Dynamic,
 }
 
+export enum EnableState {
+  Enabled = 'Enabled',
+  Disabled = 'Disabled',
+}
+
 export enum SiteAvailabilityState {
   Normal = 'Normal',
   Limited = 'Limited',
@@ -55,6 +60,7 @@ export interface Site {
   possibleOutboundIpAddresses: string;
   httpsOnly?: boolean;
   siteConfig?: SiteConfig;
+  publicNetworkAccess?: EnableState;
 }
 
 export interface CredentialPolicy {
@@ -80,6 +86,7 @@ export interface CreateSlotRequest {
     clientCertEnabled?: boolean;
     clientCertMode?: string;
     clientCertExclusionPaths?: string[];
+    publicNetworkAccess?: EnableState;
   };
   extendedLocation?: ExtendedLocation;
 }

@@ -329,11 +329,17 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     }
 
     if (this.isFunctionApp) {
+      const prodSlot = this._slotsArm[0];
       newSlot = {
         location: location,
         kind: kind,
         properties: {
           serverFarmId: serverFarmId,
+          httpsOnly: prodSlot.properties.httpsOnly,
+          clientCertEnabled: prodSlot.properties.clientCertEnabled,
+          clientCertMode: prodSlot.properties.clientCertMode,
+          clientCertExclusionPaths: prodSlot.properties.clientCertExclusionPaths,
+          publicNetworkAccess: prodSlot.properties.publicNetworkAccess,
         },
       };
     } else {
@@ -350,6 +356,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
               clientCertEnabled: sourceSlot.properties.clientCertEnabled,
               clientCertMode: sourceSlot.properties.clientCertMode,
               clientCertExclusionPaths: sourceSlot.properties.clientCertExclusionPaths,
+              publicNetworkAccess: sourceSlot.properties.publicNetworkAccess,
             },
           }
         : {
