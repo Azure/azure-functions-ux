@@ -88,9 +88,15 @@ const isPathValid = (path: string): boolean => {
 const isResourceIdValid = (resourceId: string): boolean => {
   try {
     const siteDescriptor = ArmSiteDescriptor.getSiteDescriptor(resourceId);
-    if (!isValidString(resourceId) || resourceId.includes('@') || !(siteDescriptor instanceof FunctionDescriptor)) {
+
+    if (
+      !isValidString(resourceId) ||
+      resourceId.includes('@') ||
+      !(siteDescriptor instanceof FunctionDescriptor || siteDescriptor instanceof ArmSiteDescriptor)
+    ) {
       return false;
     }
+
     const siteName = siteDescriptor.getFormattedTargetSiteName();
     return !!siteName && !!siteDescriptor.subscription && !!siteDescriptor.resourceGroup;
   } catch (e) {
