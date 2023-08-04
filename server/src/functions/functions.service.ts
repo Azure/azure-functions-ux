@@ -163,6 +163,7 @@ export class FunctionsService implements OnModuleInit {
         res.status(result.status).send(result.data);
       }
     } catch (err) {
+      console.log(err);
       if (!!err.response && !!err.status) {
         res.status(err.status).send(err.response);
       } else if (err.response) {
