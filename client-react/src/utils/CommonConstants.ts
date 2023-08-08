@@ -362,6 +362,7 @@ export class ExperimentationConstants {
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
     showByosKeyVault: 'show-byos-keyvault',
+    showEnvironmentVariables: 'show-environment-variables',
   };
 
   public static ControlFlight = {
