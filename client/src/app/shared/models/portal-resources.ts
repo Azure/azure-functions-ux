@@ -2551,4 +2551,7 @@ export class PortalResources {
   public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
   public static configureDeploymentCredentialsLinkAriaLabel = 'configureDeploymentCredentialsLinkAriaLabel';
   public static portCountRange = 'portCountRange';
+  public static toggleAppSettingSelectionAriaLabel = 'toggleAppSettingSelectionAriaLabel';
+  public static selectAppSettingAriaLabel = 'selectAppSettingAriaLabel';
+  public static toggleAllAppSettingsAriaLabel = 'toggleAllAppSettingsAriaLabel';
 }
