@@ -16,11 +16,11 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
     preferredOs: 'windows',
     majorVersions: [
       {
-        displayText: '.NET 8 (Preview)',
+        displayText: '.NET 8 (LTS)',
         value: 'dotnet8',
         minorVersions: [
           {
-            displayText: '.NET 8 (Preview)',
+            displayText: '.NET 8 (LTS)',
             value: '8',
             stackSettings: {
               windowsRuntimeSettings: {
