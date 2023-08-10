@@ -182,7 +182,7 @@ gulp.task('resources-convert', function() {
       rename(function(p) {
         const language = p.dirname.split(path.sep)[0];
         if (!!language && language !== '.') {
-          p.basename = 'Resources.' + language;
+          p.basename = 'Resources.' + language + '.default';
         }
         p.dirname = '.';
         p.extname = '.json';
@@ -203,7 +203,7 @@ gulp.task('resources-convert', function() {
           p.basename = 'Resources.' + language;
         }
         p.dirname = '.' + path.sep + version + path.sep;
-        p.extname = '.default.json';
+        p.extname = '.json';
       })
     )
     .pipe(gulp.dest('templateResoureces-convert'));
