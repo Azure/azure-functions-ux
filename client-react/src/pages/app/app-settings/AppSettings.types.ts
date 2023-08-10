@@ -176,6 +176,11 @@ export enum StorageAccess {
   KeyVaultReference,
 }
 
+export enum StorageFileShareProtocol {
+  SMB = 'SMB',
+  NFS = 'NFS',
+}
+
 export enum ConfigurationOption {
   Basic = 'basic',
   Advanced = 'advanced',

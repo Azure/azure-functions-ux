@@ -1,3 +1,4 @@
+import { StorageFileShareProtocol } from '../../pages/app/app-settings/AppSettings.types';
 import { NameValuePair } from '../name-value-pair';
 import { ApiDefinition } from './api-definition';
 
@@ -131,6 +132,7 @@ export interface ErrorPageGridItem {
 
 export interface AzureStorageMount {
   type: StorageType;
+  protocol: StorageFileShareProtocol;
   accountName: string;
   shareName: string;
   accessKey: string;

@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import { FormikProps, Field } from 'formik';
-import { FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
+import { FormAzureStorageMounts, StorageAccess, StorageFileShareProtocol } from '../AppSettings.types';
 import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
@@ -16,15 +16,26 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { IDropdownOption } from '@fluentui/react';
 import { PortalContext } from '../../../../PortalContext';
 import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
+import { SiteStateContext } from '../../../../SiteState';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
     storageTypeOptions: IChoiceGroupOption[];
+    fileShareProtocalOptions: IChoiceGroupOption[];
     fileShareInfoBubbleMessage?: string;
   }> = props => {
-  const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings, storageTypeOptions } = props;
+  const {
+    values,
+    fileShareInfoBubbleMessage,
+    setFieldValue,
+    validateField,
+    appSettings,
+    storageTypeOptions,
+    fileShareProtocalOptions,
+  } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
+  const { isLinuxApp } = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const scenarioService = new ScenarioService(t);
 
@@ -35,6 +46,19 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   };
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
+
+  const showFileSharesProtocolOptions = React.useMemo(() => {
+    return values.type === StorageType.azureFiles && isLinuxApp;
+  }, [values.type, isLinuxApp]);
+
+  const showStoragaAccess = React.useMemo(() => {
+    return (
+      values.type === StorageType.azureFiles &&
+      showKeyvaultReference &&
+      values.protocol === StorageFileShareProtocol.SMB &&
+      !NationalCloudEnvironment.isNationalCloud()
+    );
+  }, [values.type, showKeyvaultReference, values.protocol]);
 
   const appSettingDropdownOptions = React.useMemo<IDropdownOption[]>(() => {
     return appSettings.map(appSetting => {
@@ -79,7 +103,16 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
     <>
       <Field component={TextField} name="accountName" label={t('storageAccounts')} id="azure-storage-mounts-account-name" required={true} />
       {supportsBlobStorage && (
-        <Field component={RadioButton} name="type" id="azure-storage-mounts-name" label={t('storageType')} options={storageTypeOptions} />
+        <Field component={RadioButton} name="type" id="azure-storage-type" label={t('storageType')} options={storageTypeOptions} />
+      )}
+      {showFileSharesProtocolOptions && (
+        <Field
+          component={RadioButton}
+          name="protocol"
+          id="azure-file-shares-proptocol"
+          label={'Protocol'}
+          options={fileShareProtocalOptions}
+        />
       )}
       <Field
         component={TextField}
@@ -90,7 +123,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         required={true}
         validate={validateShareName}
       />
-      {values.type === StorageType.azureFiles && showKeyvaultReference && !NationalCloudEnvironment.isNationalCloud() && (
+      {showStoragaAccess && (
         <Field
           id="storageAccess"
           name={'storageAccess'}

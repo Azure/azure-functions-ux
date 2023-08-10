@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
-import { ConfigurationOption, FormAppSetting, FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
+import { ConfigurationOption, FormAppSetting, FormAzureStorageMounts, StorageAccess, StorageFileShareProtocol } from '../AppSettings.types';
 import { Checkbox, IChoiceGroupOption, Link } from '@fluentui/react';
 import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
@@ -306,6 +306,7 @@ type AzureStorageMountsAddEdtSubFormProps = FormikProps<FormAzureStorageMounts> 
 const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubFormProps> = props => {
   const [fileShareInfoBubbleMessage, setFileShareInfoBubbleMessage] = useState<string>();
   const { t } = useTranslation();
+  const { isLinuxApp } = useContext(SiteStateContext);
 
   const storageTypeOptions = React.useMemo<IChoiceGroupOption[]>(() => {
     return [
@@ -338,11 +339,26 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
     ] as IChoiceGroupOption[];
   }, []);
 
+  const fileShareProtocalOptions = React.useMemo<IChoiceGroupOption[]>(() => {
+    return [
+      {
+        key: StorageFileShareProtocol.SMB,
+        text: StorageFileShareProtocol.SMB,
+      },
+      {
+        key: StorageFileShareProtocol.NFS,
+        text: StorageFileShareProtocol.NFS,
+      },
+    ];
+  }, []);
+
   React.useEffect(() => {
-    setFileShareInfoBubbleMessage(props.values.type === StorageType.azureFiles ? t('shareNameInfoBubbleMessage') : undefined);
+    setFileShareInfoBubbleMessage(
+      props.values.type === StorageType.azureFiles && !isLinuxApp ? t('shareNameInfoBubbleMessage') : undefined
+    );
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.values.type]);
+  }, [props.values.type, isLinuxApp]);
 
   return (
     <>
@@ -350,6 +366,7 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
         <AzureStorageMountsAddEditBasic
           {...props}
           storageTypeOptions={storageTypeOptions}
+          fileShareProtocalOptions={fileShareProtocalOptions}
           fileShareInfoBubbleMessage={fileShareInfoBubbleMessage}
         />
       )}
@@ -357,6 +374,7 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
         <AzureStorageMountsAddEditAdvanced
           {...props}
           storageTypeOptions={storageTypeOptions}
+          fileShareProtocalOptions={fileShareProtocalOptions}
           fileShareInfoBubbleMessage={fileShareInfoBubbleMessage}
         />
       )}
