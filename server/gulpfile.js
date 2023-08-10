@@ -203,7 +203,7 @@ gulp.task('resources-convert', function() {
           p.basename = 'Resources.' + language;
         }
         p.dirname = '.' + path.sep + version + path.sep;
-        p.extname = '.json';
+        p.extname = '.default.json';
       })
     )
     .pipe(gulp.dest('templateResoureces-convert'));

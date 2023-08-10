@@ -54,8 +54,6 @@ const localStorageCacheOptions = {
 };
 let backends;
 if (process.env.REACT_APP_CACHE_KEY) {
-  console.log(process.env.REACT_APP_CACHE_KEY);
-
   backends = {
     backends: [
       LocalStorageBackend, // primary
