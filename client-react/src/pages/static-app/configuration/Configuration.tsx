@@ -499,6 +499,9 @@ const Configuration: React.FC<ConfigurationProps> = (props: ConfigurationProps) 
   const getTable = () => {
     return (
       <DisplayTableWithCommandBar
+        ariaLabelForSelectionColumn={t('toggleAppSettingSelectionAriaLabel')}
+        ariaLabelForSelectAllCheckbox={t('toggleAllAppSettingsAriaLabel')}
+        checkButtonAriaLabel={t('selectAppSettingAriaLabel')}
         commandBarItems={getCommandBarItems()}
         columns={columns}
         items={getFilteredItems()}
