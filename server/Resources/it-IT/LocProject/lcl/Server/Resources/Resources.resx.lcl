@@ -14285,10 +14285,13 @@
       </Item>
       <Item ItemId=";keyVaultReference" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Key vault reference]]></Val>
+          <Val><![CDATA[Key vault reference (preview)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Informazioni di riferimento sull'insieme di credenziali delle chiavi]]></Val>
+            <Val><![CDATA[Riferimento all’insieme di credenziali delle chiavi (anteprima)]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Key vault reference]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18738,6 +18741,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";selectAppSettingAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select application setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selezionare l'impostazione dell'applicazione]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";selectBranch" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select branch]]></Val>
@@ -22416,6 +22428,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";toggleAllAppSettingsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection for all application settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Attiva/Disattiva selezione per tutte le impostazioni dell'applicazione]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";toggleAppSettingSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection of application settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Attiva/Disattiva selezione delle impostazioni dell'applicazione]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";topBar_alwaysOn" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA['AlwaysOn' is not enabled. Your app may not function properly]]></Val>
@@ -23417,10 +23447,13 @@
       </Item>
       <Item ItemId=";validation_siteNameInvalidChar" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA['{0}' is an invalid character]]></Val>
+          <Val><![CDATA[Invalid character(s): {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA['{0}' è un carattere non valido]]></Val>
+            <Val><![CDATA[Caratteri non validi: {0}]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA['{0}' is an invalid character]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
