@@ -227,7 +227,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
       return (
         <>
           <div className={deploymentCenterCodeLogsNotConfigured}>
-            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+            <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>
           </div>
         </>
       );

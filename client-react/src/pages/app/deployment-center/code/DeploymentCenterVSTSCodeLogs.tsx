@@ -354,7 +354,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     } else {
       return (
         <div className={deploymentCenterCodeLogsNotConfigured}>
-          <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+          <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>
         </div>
       );
     }
