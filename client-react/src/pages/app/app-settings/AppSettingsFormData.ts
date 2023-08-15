@@ -299,6 +299,7 @@ export function getFormAzureStorageMount(
   storageData: ArmObj<ArmAzureStorageMount> | null,
   slotConfigNames?: ArmObj<SlotConfigNames> | null
 ) {
+  console.log(storageData);
   if (!storageData) {
     return [];
   }
@@ -317,7 +318,6 @@ export function getFormAzureStorageMount(
       const accessKeyValue = storageAccess === StorageAccess.KeyVaultReference ? undefined : accessKey;
       const configurationOption =
         storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
-
       return {
         name: key,
         sticky: appSettingNames.indexOf(key) > -1,
@@ -341,6 +341,7 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
       ...rest,
     };
   });
+  console.log(storageMountFromForm);
   return storageMountFromForm;
 }
 
