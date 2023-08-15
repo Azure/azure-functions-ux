@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ProgressIndicator } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,18 +14,45 @@ import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { BladeCloseData, BladeCloseReason } from '../../../../models/portal-models';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 interface ArchiveSettingsBladeResponse {
   openArchiveSetting: boolean;
 }
 
 const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps> = props => {
-  const { logs, isLogsDataRefreshing, refresh } = props;
+  const { logs, setLogs } = props;
   const { t } = useTranslation();
   const logsEndRef = useRef<HTMLDivElement>(null);
 
   const portalContext = useContext(PortalContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const deploymentCenterData = new DeploymentCenterData();
+
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = useState(false);
+
+  const fetchContainerLogsData = async () => {
+    const containerLogsResponse = await deploymentCenterData.fetchContainerLogs(deploymentCenterContext.resourceId);
+
+    if (containerLogsResponse.metadata.success) {
+      setLogs(containerLogsResponse.data);
+    } else {
+      const errorMessage = getErrorMessage(containerLogsResponse.metadata.error);
+      setLogs(
+        errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
+      );
+
+      portalContext.log(
+        getTelemetryInfo('error', 'containerLogsResponse', 'failed', {
+          message: getErrorMessage(containerLogsResponse.metadata.error),
+          errorAsString: JSON.stringify(containerLogsResponse.metadata.error),
+        })
+      );
+    }
+
+    setIsLogsDataRefreshing(false);
+  };
 
   const getProgressIndicator = () => {
     return (
@@ -35,6 +62,16 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
       />
     );
   };
+
+  useEffect(() => {
+    if (deploymentCenterContext.resourceId) {
+      setIsLogsDataRefreshing(true);
+      fetchContainerLogsData();
+      setIsLogsDataRefreshing(false);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [deploymentCenterContext.resourceId]);
 
   useEffect(() => {
     logsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -60,7 +97,7 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
                   ariaLabel={t('deploymentCenterRefreshCommandAriaLabel')}
                   onClick={() => {
                     portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
-                    refresh();
+                    fetchContainerLogsData();
                   }}
                   className={logsButtonStyle}>
                   {t('refresh')}

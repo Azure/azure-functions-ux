@@ -727,7 +727,6 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     await Promise.all([updateDeploymentConfigurations(values), updatePublishingUser(values)]);
     props.refresh();
-    siteContext.refresh();
   };
 
   const updateDeploymentConfigurations = async (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
