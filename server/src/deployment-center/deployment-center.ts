@@ -11,13 +11,6 @@ export enum Environments {
   Dev = 'DEV',
 }
 
-export enum SandboxEnvironment {
-  Prod = 'PROD',
-  Mpac = 'MPAC',
-  Rc = 'RC',
-  Preview = 'PREVIEW',
-}
-
 export enum ReactViewsEnvironment {
   Prod = 'PROD',
   Mpac = 'MPAC',
@@ -77,20 +70,5 @@ export class ExtensionMappings {
   static readonly extensionNameToExtensionMap: { [id: string]: ExtensionNames } = {
     WebsitesExtension: ExtensionNames.Websites,
     Microsoft_Azure_PaasServerless: ExtensionNames.PaasServerless,
-  };
-}
-
-export class SandboxEnvironmentUrlMappings {
-  static readonly environmentToUrlMap: { [id in SandboxEnvironment]: string } = {
-    PROD: '.reactblade.portal.azure.net',
-    MPAC: '.reactblade-ms.portal.azure.net',
-    RC: '.reactblade-rc.portal.azure.net',
-    PREVIEW: '.reactblade-ms.portal.azure.net',
-  };
-
-  static readonly urlToEnvironmentMap: { [id: string]: SandboxEnvironment } = {
-    '.reactblade.portal.azure.net': SandboxEnvironment.Prod,
-    '.reactblade-ms.portal.azure.net': SandboxEnvironment.Mpac,
-    '.reactblade-rc.portal.azure.net': SandboxEnvironment.Rc,
   };
 }
