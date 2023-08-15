@@ -172,7 +172,8 @@ const Configuration: React.FC<ConfigurationProps> = (props: ConfigurationProps) 
               id={`environment-variable-show-${index}`}
               className={defaultCellStyle}
               onClick={() => onShowHideButtonClick(itemKey)}
-              iconProps={{ iconName: 'RedEye' }}>
+              ariaLabel={t('showButton')}
+              iconProps={{ iconName: 'RedEye', ariaLabel: t('showButton') }}>
               <div className={defaultCellStyle}>{t('hiddenValueClickAboveToShow')}</div>
             </ActionButton>
           ) : (
@@ -180,7 +181,8 @@ const Configuration: React.FC<ConfigurationProps> = (props: ConfigurationProps) 
               <IconButton
                 id={`environment-variable-hide-${index}`}
                 className={tableValueIconStyle(theme)}
-                iconProps={{ iconName: 'Hide' }}
+                iconProps={{ iconName: 'Hide', ariaLabel: t('hideButton') }}
+                ariaLabel={t('hideButton')}
                 onClick={() => onShowHideButtonClick(itemKey)}
               />
               <div className={tableValueTextFieldStyle}>
