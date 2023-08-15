@@ -171,7 +171,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const fetchWorkflowRuns = async () => {
     if (setRuns) {
       setGitHubActionLogsErrorMessage(undefined);
-      const siteName = siteStateContext.site ? siteStateContext.site.properties.name : '';
+      const siteName = siteStateContext.site?.properties?.name ?? '';
       if (org && repo && branch && siteName) {
         const workflowFileName = getWorkflowFileName(branch, siteName);
         const sourceControlsWorkflowFileName = getSourceControlsWorkflowFileName(branch, siteName, 'production');

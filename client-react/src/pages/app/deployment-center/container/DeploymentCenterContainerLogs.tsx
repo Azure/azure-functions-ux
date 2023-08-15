@@ -33,12 +33,6 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
   const [isLogsDataRefreshing, setIsLogsDataRefreshing] = useState(false);
 
   const fetchContainerLogsData = async () => {
-    portalContext.log(
-      getTelemetryInfo('info', 'containerLogsDataRequest', 'submit', {
-        publishType: 'container',
-      })
-    );
-
     const containerLogsResponse = await deploymentCenterData.fetchContainerLogs(deploymentCenterContext.resourceId);
 
     if (containerLogsResponse.metadata.success) {

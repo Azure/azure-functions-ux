@@ -69,11 +69,6 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
 
   useEffect(() => {
     if (!deployments) {
-      portalContext.log(
-        getTelemetryInfo('info', 'initialDataRequest', 'submit', {
-          publishType: 'code',
-        })
-      );
       setIsLogsDataRefreshing(true);
       fetchDeploymentLogs(
         deploymentCenterContext.resourceId,
