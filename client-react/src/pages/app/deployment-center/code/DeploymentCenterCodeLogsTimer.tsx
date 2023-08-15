@@ -42,6 +42,13 @@ const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.pauseTimer]);
 
+  const onRefresh = async () => {
+    portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
+    props.setIsLogsDataRefreshing(true);
+    await props.refreshLogs();
+    props.setIsLogsDataRefreshing(false);
+  };
+
   return (
     <>
       <CustomCommandBarButton
@@ -49,10 +56,7 @@ const DeploymentCenterCodeLogsTimer: React.FC<DeploymentCenterCodeLogsTimerProps
         name={t('refresh')}
         iconProps={{ iconName: IconConstants.IconNames.Refresh }}
         ariaLabel={t('deploymentCenterRefreshCommandAriaLabel')}
-        onClick={() => {
-          portalContext.log(getTelemetryInfo('verbose', 'refreshButton', 'clicked'));
-          props.refreshLogs();
-        }}
+        onClick={onRefresh}
         className={logsButtonStyle}>
         {t('refresh')}
       </CustomCommandBarButton>

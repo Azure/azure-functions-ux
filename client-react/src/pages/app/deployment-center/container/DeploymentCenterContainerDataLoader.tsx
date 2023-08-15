@@ -5,29 +5,32 @@ import {
   DeploymentCenterContainerFormData,
   DeploymentCenterYupValidationSchemaType,
   DeploymentCenterDataLoaderProps,
+  DeploymentProperties,
+  GitHubActionsRun,
 } from '../DeploymentCenter.types';
-import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
 import { DeploymentCenterContainerFormBuilder } from '../container/DeploymentCenterContainerFormBuilder';
 import { useTranslation } from 'react-i18next';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
+import { ArmArray } from '../../../../models/arm-obj';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
-  const { resourceId, isDataRefreshing, tab } = props;
+  const { isDataRefreshing, tab } = props;
   const { t } = useTranslation();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
 
-  const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContainerFormBuilder = new DeploymentCenterContainerFormBuilder(t);
 
-  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = useState(false);
   const [logs, setLogs] = useState<string | undefined>(undefined);
+  const [deployments, setDeployments] = useState<ArmArray<DeploymentProperties> | undefined>(undefined);
+  const [runs, setRuns] = useState<GitHubActionsRun[] | undefined>(undefined);
 
   const [containerFormData, setContainerFormData] = useState<DeploymentCenterFormData<DeploymentCenterContainerFormData> | undefined>(
     undefined
@@ -35,35 +38,6 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
   const [containerFormValidationSchema, setContainerFormValidationSchema] = useState<
     DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> | undefined
   >(undefined);
-
-  const fetchInitialLogsData = async () => {
-    portalContext.log(
-      getTelemetryInfo('info', 'initialDataRequest', 'submit', {
-        publishType: 'container',
-      })
-    );
-    setIsLogsDataRefreshing(true);
-
-    const containerLogsResponse = await deploymentCenterData.fetchContainerLogs(resourceId);
-
-    if (containerLogsResponse.metadata.success) {
-      setLogs(containerLogsResponse.data);
-    } else {
-      const errorMessage = getErrorMessage(containerLogsResponse.metadata.error);
-      setLogs(
-        errorMessage ? t('deploymentCenterContainerLogsFailedWithError').format(errorMessage) : t('deploymentCenterContainerLogsFailed')
-      );
-
-      portalContext.log(
-        getTelemetryInfo('error', 'containerLogsResponse', 'failed', {
-          message: getErrorMessage(containerLogsResponse.metadata.error),
-          errorAsString: JSON.stringify(containerLogsResponse.metadata.error),
-        })
-      );
-    }
-
-    setIsLogsDataRefreshing(false);
-  };
 
   const generateForm = () => {
     if (deploymentCenterContext.siteConfig) {
@@ -106,18 +80,9 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
         publishType: 'container',
       })
     );
-
-    fetchInitialLogsData();
     deploymentCenterContext.refresh();
+    siteStateContext.refresh();
   };
-
-  useEffect(() => {
-    if (deploymentCenterContext.resourceId) {
-      fetchInitialLogsData();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.resourceId]);
 
   useEffect(() => {
     if (deploymentCenterContext.applicationSettings && deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata) {
@@ -131,9 +96,13 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
     <DeploymentCenterContainerForm
       tab={tab}
       logs={logs}
+      deployments={deployments}
+      runs={runs}
+      setLogs={setLogs}
+      setDeployments={setDeployments}
+      setRuns={setRuns}
       formData={containerFormData}
       formValidationSchema={containerFormValidationSchema}
-      isLogsDataRefreshing={isLogsDataRefreshing}
       isDataRefreshing={isDataRefreshing}
       refresh={refresh}
     />

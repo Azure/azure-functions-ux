@@ -20,6 +20,7 @@ import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import {
   deleteDeploymentCenterLogs,
+  fetchDeploymentLogs,
   getSourceControlsWorkflowFileName,
   getTelemetryInfo,
   getWorkflowFileName,
@@ -33,18 +34,19 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
-  const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
+  const { deployments, runs, setDeployments, setRuns, goToSettings } = props;
   const { t } = useTranslation();
 
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [isDeleteConfirmDialogOpen, setIsDeleteConfirmDialogOpen] = React.useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const [isLogsLoading, setIsLogsLoading] = useState<boolean>(false);
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = React.useState<boolean>(false);
   const [isSourceControlsLoading, setIsSourcecontrolsLoading] = useState<boolean>(true);
   const [org, setOrg] = useState<string | undefined>(undefined);
   const [repo, setRepo] = useState<string | undefined>(undefined);
   const [branch, setBranch] = useState<string | undefined>(undefined);
-  const [runs, setRuns] = useState<GitHubActionsRun[] | undefined>(undefined);
+  const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
   const [gitHubActionLogsErrorMessage, setGitHubActionLogsErrorMessage] = useState<string | undefined>(undefined);
   const [isCancelWorkflowRunConfirmDialogHidden, setIsCancelWorkflowRunConfirmDialogHidden] = useState(true);
 
@@ -139,14 +141,19 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     }
   };
 
-  const refreshGitHubActionsLogs = () => {
-    refreshLogs();
-    fetchWorkflowRuns();
+  const refreshGitHubActionsLogs = async () => {
+    await fetchDeploymentLogs(
+      deploymentCenterContext.resourceId,
+      deploymentCenterData,
+      siteStateContext,
+      setDeployments,
+      setDeploymentsError,
+      t
+    );
+    await fetchWorkflowRuns();
   };
 
   const setSourceControlDetails = async () => {
-    setGitHubActionLogsErrorMessage(undefined);
-    setIsLogsLoading(true);
     setIsSourcecontrolsLoading(true);
 
     setBranch(deploymentCenterContext.configMetadata ? deploymentCenterContext.configMetadata.properties.branch : '');
@@ -156,44 +163,45 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
     } else {
       setGitHubActionLogsErrorMessage(t('deploymentCenterCodeDeploymentsFailed'));
-      setIsLogsLoading(false);
     }
 
     setIsSourcecontrolsLoading(false);
   };
 
   const fetchWorkflowRuns = async () => {
-    setGitHubActionLogsErrorMessage(undefined);
-    const siteName = siteStateContext.site ? siteStateContext.site.properties.name : '';
-    if (org && repo && branch && siteName) {
-      const workflowFileName = getWorkflowFileName(branch, siteName);
-      const sourceControlsWorkflowFileName = getSourceControlsWorkflowFileName(branch, siteName, 'production');
+    if (setRuns) {
+      setGitHubActionLogsErrorMessage(undefined);
+      const siteName = siteStateContext.site ? siteStateContext.site.properties.name : '';
+      if (org && repo && branch && siteName) {
+        const workflowFileName = getWorkflowFileName(branch, siteName);
+        const sourceControlsWorkflowFileName = getSourceControlsWorkflowFileName(branch, siteName, 'production');
 
-      const [gitHubActionsWorkflowRunsResponse, gitHubActionsFromCreateWorkflowRunsResponse] = await Promise.all([
-        deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, workflowFileName),
-        deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, sourceControlsWorkflowFileName),
-      ]);
+        const [gitHubActionsWorkflowRunsResponse, gitHubActionsFromCreateWorkflowRunsResponse] = await Promise.all([
+          deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, workflowFileName),
+          deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, sourceControlsWorkflowFileName),
+        ]);
 
-      if (gitHubActionsWorkflowRunsResponse.metadata.success && gitHubActionsWorkflowRunsResponse.data) {
-        setRuns(gitHubActionsWorkflowRunsResponse.data.workflow_runs);
-      } else if (gitHubActionsFromCreateWorkflowRunsResponse.metadata.success && gitHubActionsFromCreateWorkflowRunsResponse.data) {
-        setRuns(gitHubActionsFromCreateWorkflowRunsResponse.data.workflow_runs);
-      } else {
-        setRuns([]);
-        const errorMessage = getErrorMessage(gitHubActionsWorkflowRunsResponse.metadata.error);
-        setGitHubActionLogsErrorMessage(
-          errorMessage
-            ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage)
-            : t('deploymentCenterCodeDeploymentsFailed')
-        );
-        portalContext.log(
-          getTelemetryInfo('error', 'getWorkflowRuns', 'failed', {
-            error: gitHubActionsWorkflowRunsResponse.metadata.error,
-          })
-        );
+        if (gitHubActionsWorkflowRunsResponse.metadata.success && gitHubActionsWorkflowRunsResponse.data) {
+          setRuns(gitHubActionsWorkflowRunsResponse.data.workflow_runs);
+        } else if (gitHubActionsFromCreateWorkflowRunsResponse.metadata.success && gitHubActionsFromCreateWorkflowRunsResponse.data) {
+          setRuns(gitHubActionsFromCreateWorkflowRunsResponse.data.workflow_runs);
+        } else {
+          setRuns([]);
+          const errorMessage = getErrorMessage(gitHubActionsWorkflowRunsResponse.metadata.error);
+          setGitHubActionLogsErrorMessage(
+            errorMessage
+              ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage)
+              : t('deploymentCenterCodeDeploymentsFailed')
+          );
+          portalContext.log(
+            getTelemetryInfo('error', 'getWorkflowRuns', 'failed', {
+              error: gitHubActionsWorkflowRunsResponse.metadata.error,
+            })
+          );
+        }
       }
+      setIsLogsLoading(false);
     }
-    setIsLogsLoading(false);
   };
 
   const cancelWorkflowRunOnClick = async (url: string) => {
@@ -204,7 +212,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       await fetchWorkflowRuns();
       //NOTE(stpelleg): It takes a while for the run to show as cancelled, but users would be confused if
       //it did not show as cancelled right after clicking cancel
-      if (runs && runs.length > 0) {
+      if (runs && runs.length > 0 && setRuns) {
         const curRuns = runs;
         curRuns[0].conclusion = t(GitHubActionRunConclusion.Cancelled);
         setRuns(curRuns);
@@ -402,16 +410,36 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   }, [deploymentCenterContext.configMetadata]);
 
   useEffect(() => {
-    if (!isSourceControlsLoading) {
-      fetchWorkflowRuns();
+    if (!deployments) {
+      setIsLogsDataRefreshing(true);
+      fetchDeploymentLogs(
+        deploymentCenterContext.resourceId,
+        deploymentCenterData,
+        siteStateContext,
+        setDeployments,
+        setDeploymentsError,
+        t
+      ).then(() => {
+        if (!isSourceControlsLoading && !runs) {
+          fetchWorkflowRuns().then(() => {
+            setIsLogsDataRefreshing(false);
+          });
+        } else {
+          setIsLogsDataRefreshing(false);
+        }
+      });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSourceControlsLoading]);
+  }, [isSourceControlsLoading, runs, deployments, deploymentCenterContext.resourceId]);
 
   return (
     <>
-      <DeploymentCenterCodeLogsTimer pauseTimer={pauseTimer} refreshLogs={refreshGitHubActionsLogs} deleteLogs={showDeleteConfirmDialog} />
+      <DeploymentCenterCodeLogsTimer
+        pauseTimer={pauseTimer}
+        refreshLogs={refreshGitHubActionsLogs}
+        deleteLogs={showDeleteConfirmDialog}
+        setIsLogsDataRefreshing={setIsLogsDataRefreshing}
+      />
 
       <ConfirmDialog
         primaryActionButton={{
