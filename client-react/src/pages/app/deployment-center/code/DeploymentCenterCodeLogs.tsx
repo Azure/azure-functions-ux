@@ -19,7 +19,7 @@ import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Commo
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
-import { deleteDeploymentCenterLogs, fetchDeploymentLogs, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { deleteDeploymentCenterLogs, fetchDeploymentLogs } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { SiteStateContext } from '../../../../SiteState';

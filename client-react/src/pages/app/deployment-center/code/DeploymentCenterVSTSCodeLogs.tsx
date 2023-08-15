@@ -27,7 +27,7 @@ import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { PortalContext } from '../../../../PortalContext';
-import { deleteDeploymentCenterLogs, fetchDeploymentLogs, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { deleteDeploymentCenterLogs, fetchDeploymentLogs } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { SiteStateContext } from '../../../../SiteState';
 
