@@ -28,6 +28,7 @@ export interface FormAzureStorageMounts extends AzureStorageMount {
   name: string;
   configurationOption: ConfigurationOption;
   storageAccess: number;
+  protocol: StorageFileShareProtocol;
   appSettings?: string;
   sticky?: boolean;
 }

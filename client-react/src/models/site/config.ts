@@ -132,7 +132,6 @@ export interface ErrorPageGridItem {
 
 export interface AzureStorageMount {
   type: StorageType;
-  protocol: StorageFileShareProtocol;
   accountName: string;
   shareName: string;
   accessKey: string;
