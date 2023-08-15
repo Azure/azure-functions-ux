@@ -317,6 +317,7 @@ export function getFormAzureStorageMount(
       const accessKeyValue = storageAccess === StorageAccess.KeyVaultReference ? undefined : accessKey;
       const configurationOption =
         storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
+
       return {
         name: key,
         sticky: appSettingNames.indexOf(key) > -1,
