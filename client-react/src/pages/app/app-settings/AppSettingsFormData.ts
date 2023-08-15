@@ -299,7 +299,6 @@ export function getFormAzureStorageMount(
   storageData: ArmObj<ArmAzureStorageMount> | null,
   slotConfigNames?: ArmObj<SlotConfigNames> | null
 ) {
-  console.log(storageData);
   if (!storageData) {
     return [];
   }
@@ -341,7 +340,6 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
       ...rest,
     };
   });
-  console.log(storageMountFromForm);
   return storageMountFromForm;
 }
 
