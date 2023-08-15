@@ -104,7 +104,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         setIsDataLoading(false);
       });
     }
-  }, [formProps.values.registrySource, formProps.values.acrLoginServer]);
+  }, []);
 
   const getWorkflowFileVariables = () => {
     const slotName = deploymentCenterContext.siteDescriptor?.slot ?? '';
@@ -320,6 +320,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   }, [siteStateContext.isLinuxApp]);
 
   useEffect(() => hasAcrReadAccess(), [hasAcrReadAccess]);
+
+  useEffect(() => setIsAcrConfigured(formProps.values.registrySource === ContainerRegistrySources.acr), [formProps.values.registrySource]);
 
   const renderSetupView = () => {
     return (
