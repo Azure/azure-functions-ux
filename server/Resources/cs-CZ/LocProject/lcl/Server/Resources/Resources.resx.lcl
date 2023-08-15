@@ -13677,11 +13677,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";integrate_readOnlyPythonV2" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";integrate_readOnlyNewProgrammingModel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Use the code editor to update v2 programming model Python function bindings.]]></Val>
+          <Val><![CDATA[Use the code editor to update new programming model function bindings.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pomocí editoru kódu aktualizujte vazby funkcí pythonového programovacího modelu v2.]]></Val>
+            <Val><![CDATA[Pomocí editoru kódu aktualizujte nové vazby funkcí programovacího modelu.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14232,6 +14232,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";jbossClusteringInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clustering support requires VNet integration for instance to instance communication.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Podpora clusteringu vyžaduje integraci virtuální sítě pro komunikaci mezi instancemi.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";jobType_appendToBlueprint" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Append to blueprint]]></Val>
@@ -14288,10 +14297,13 @@
       </Item>
       <Item ItemId=";keyVaultReference" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Key vault reference]]></Val>
+          <Val><![CDATA[Key vault reference (preview)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Odkaz na trezor klíčů]]></Val>
+            <Val><![CDATA[Reference Key Vaultu (Preview)]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Key vault reference]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16349,6 +16361,15 @@
           <Val><![CDATA[Platform settings]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Nastavení platformy]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";portCountRange" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The port value must be between {0} and {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hodnota portu musí být mezi {0} a {1}.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18722,6 +18743,15 @@
           <Val><![CDATA[Select an option]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Vyberte některou možnost.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";selectAppSettingAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select application setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vybrat nastavení aplikace]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22404,6 +22434,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";toggleAllAppSettingsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection for all application settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Přepnout výběr pro všechna nastavení aplikace]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";toggleAppSettingSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection of application settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Přepnout výběr nastavení aplikace]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";topBar_alwaysOn" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA['AlwaysOn' is not enabled. Your app may not function properly]]></Val>
@@ -23034,11 +23082,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";uploadingFileFailureWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";uploadingFileFailureForExtWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}'. File is an unsupported file type.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nepovedlo se nahrát {0}. Soubor je nepodporovaný typ souboru.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForSizeWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Nepovedlo se nahrát {0}. Nahrávání souborů větších než 5 MB se na portálu Azure Portal nepodporuje.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForUnknownWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}' for unknown reason.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nepovedlo se nahrát {0} z neznámého důvodu.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -23384,10 +23450,13 @@
       </Item>
       <Item ItemId=";validation_siteNameInvalidChar" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA['{0}' is an invalid character]]></Val>
+          <Val><![CDATA[Invalid character(s): {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[{0} není platný znak.]]></Val>
+            <Val><![CDATA[Neplatné znaky: {0}]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA['{0}' is an invalid character]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -23576,6 +23645,15 @@
           <Val><![CDATA[Pull image over VNet]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Vyžádat image přes virtuální síť]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetPrivatePortsCount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[VNet Private Ports]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Privátní porty virtuální sítě]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

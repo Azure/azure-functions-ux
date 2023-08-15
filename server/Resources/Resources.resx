@@ -1627,6 +1627,9 @@
     <data name="minTlsCipherSuiteLabel" xml:space="preserve">
         <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
     </data>
+    <data name="vnetPrivatePortsCount" xml:space="preserve">
+        <value>VNet Private Ports</value>
+    </data>
     <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
         <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.</value>
     </data>
@@ -2249,7 +2252,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The combined site name and slot name must be fewer than 59 characters</value>
     </data>
     <data name="validation_siteNameInvalidChar" xml:space="preserve">
-        <value>'{0}' is an invalid character</value>
+        <value>Invalid character(s): {0}</value>
     </data>
     <data name="validation_siteNameNotAvailable" xml:space="preserve">
         <value>The app name '{0}' is not available</value>
@@ -5040,7 +5043,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Manual input</value>
     </data>
     <data name="keyVaultReference" xml:space="preserve">
-        <value>Key vault reference</value>
+        <value>Key vault reference (preview)</value>
     </data>
     <data name="configurationOptions" xml:space="preserve">
         <value>Configuration options</value>
@@ -7785,5 +7788,23 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="configureDeploymentCredentialsLinkAriaLabel" xml:space="preserve">
         <value>Configure deployment credentials for Azure App Service</value>
+    </data>
+    <data name="portCountRange" xml:space="preserve">
+        <value>The port value must be between {0} and {1}.</value>
+    </data>
+    <data name="toggleAppSettingSelectionAriaLabel" xml:space="preserve">
+        <value>Toggle selection of application settings</value>
+    </data>
+     <data name="selectAppSettingAriaLabel" xml:space="preserve">
+        <value>Select application setting</value>
+    </data>
+     <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
+        <value>Toggle selection for all application settings</value>
+    </data>
+     <data name="hideButton" xml:space="preserve">
+        <value>Hide value button</value>
+    </data>
+      <data name="showButton" xml:space="preserve">
+        <value>Show value button</value>
     </data>
 </root>

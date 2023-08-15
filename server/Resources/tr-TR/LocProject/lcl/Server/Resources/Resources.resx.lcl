@@ -4127,10 +4127,13 @@
       </Item>
       <Item ItemId=";copypre_copyClipboard" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Copy to clipboard]]></Val>
+          <Val><![CDATA[Copy the value for {0} to clipboard]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Panoya kopyala]]></Val>
+            <Val><![CDATA[{0} değerini panoya kopyalayın]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Copy to clipboard]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13659,11 +13662,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";integrate_readOnlyPythonV2" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";integrate_readOnlyNewProgrammingModel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Use the code editor to update v2 programming model Python function bindings.]]></Val>
+          <Val><![CDATA[Use the code editor to update new programming model function bindings.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[V2 programlama modeli Python işlevi bağlamalarını güncelleştirmek için kod düzenleyicisini kullanın.]]></Val>
+            <Val><![CDATA[Yeni programlama modeli işlev bağlamalarını güncelleştirmek için kod düzenleyicisini kullanın.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14214,6 +14217,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";jbossClusteringInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clustering support requires VNet integration for instance to instance communication.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kümeleme desteği, örnek-örnek iletişimi için sanal ağ tümleştirmesi gerektirir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";jobType_appendToBlueprint" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Append to blueprint]]></Val>
@@ -14270,10 +14282,13 @@
       </Item>
       <Item ItemId=";keyVaultReference" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Key vault reference]]></Val>
+          <Val><![CDATA[Key vault reference (preview)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anahtar kasası başvurusu]]></Val>
+            <Val><![CDATA[Anahtar kasası başvurusu (önizleme)]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Key vault reference]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16328,6 +16343,15 @@
           <Val><![CDATA[Platform settings]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Platform ayarları]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";portCountRange" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The port value must be between {0} and {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bağlantı noktası değeri {0} ila {1} aralığında olmalıdır.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -23013,11 +23037,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";uploadingFileFailureWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";uploadingFileFailureForExtWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}'. File is an unsupported file type.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA['{0}' karşıya yüklenemedi. Dosya desteklenmeyen bir dosya türü.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForSizeWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA['{0}' karşıya yüklenemedi. 5 MB'tan büyük dosyaların karşıya yüklenmesi Azure portaldan desteklenmez]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";uploadingFileFailureForUnknownWithName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to upload '{0}' for unknown reason.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA['{0}' bilinmeyen bir nedenle karşıya yüklenemedi.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -23363,10 +23405,13 @@
       </Item>
       <Item ItemId=";validation_siteNameInvalidChar" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA['{0}' is an invalid character]]></Val>
+          <Val><![CDATA[Invalid character(s): {0}]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA['{0}' geçersiz bir karakter]]></Val>
+            <Val><![CDATA[Geçersiz karakterler: {0}]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA['{0}' is an invalid character]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -23555,6 +23600,15 @@
           <Val><![CDATA[Pull image over VNet]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sanal ağ üzerinden görüntü çek]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";vnetPrivatePortsCount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[VNet Private Ports]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sanal ağ Özel Bağlantı Noktaları]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

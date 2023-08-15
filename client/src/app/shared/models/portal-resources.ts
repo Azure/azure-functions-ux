@@ -505,6 +505,7 @@ export class PortalResources {
   public static minTlsVersionLabel = 'minTlsVersionLabel';
   public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
   public static minTlsCipherSuiteLabel = 'minTlsCipherSuiteLabel';
+  public static vnetPrivatePortsCount = 'vnetPrivatePortsCount';
   public static minTlsCipherSuiteInfoBubbleMessage = 'minTlsCipherSuiteInfoBubbleMessage';
   public static minTlsCipherSuiteSelectionInfo = 'minTlsCipherSuiteSelectionInfo';
   public static minTlsCipherSuiteBannerInfo = 'minTlsCipherSuiteBannerInfo';
@@ -2549,4 +2550,10 @@ export class PortalResources {
   public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
   public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
   public static configureDeploymentCredentialsLinkAriaLabel = 'configureDeploymentCredentialsLinkAriaLabel';
+  public static portCountRange = 'portCountRange';
+  public static toggleAppSettingSelectionAriaLabel = 'toggleAppSettingSelectionAriaLabel';
+  public static selectAppSettingAriaLabel = 'selectAppSettingAriaLabel';
+  public static toggleAllAppSettingsAriaLabel = 'toggleAllAppSettingsAriaLabel';
+  public static hideButton = 'hideButton';
+  public static showButton = 'showButton';
 }

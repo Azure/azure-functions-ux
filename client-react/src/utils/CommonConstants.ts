@@ -51,7 +51,7 @@ export class CommonConstants {
     roleAssignmentApiVersion20180701: '2018-07-01',
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
-    containerAppApiVersion20221101Preview: '2022-11-01-preview',
+    containerAppApiVersion20230401Preview: '2023-04-01-preview',
     antaresApiVersion20141101: '2014-11-01',
   };
 
@@ -76,7 +76,6 @@ export class CommonConstants {
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
     enableSnippets: 'enableSnippets',
-    showBYOSStorageAccess: 'showBYOSStorageAccess',
     showJBossClustering: 'showJBossClustering',
   };
 
@@ -362,6 +361,8 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
+    showByosKeyVault: 'show-byos-keyvault',
+    showEnvironmentVariables: 'show-environment-variables',
   };
 
   public static ControlFlight = {

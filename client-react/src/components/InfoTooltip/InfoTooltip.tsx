@@ -18,15 +18,15 @@ const defaultIconStyle = (theme: ThemeExtended) =>
   });
 
 export const InfoTooltip = (props: InfoTooltipProps) => {
-  const { iconClassName } = props;
+  const { iconClassName, id, content } = props;
   const theme = useContext(ThemeContext);
 
   const iconStyle = iconClassName ? iconClassName : defaultIconStyle(theme);
 
   return (
     /* Delay must be set to zero so that the screen reader can pick up the text */
-    <TooltipHost id={props.id} content={props.content} calloutProps={{ gapSpace: 0 }} delay={TooltipDelay.zero}>
-      <InfoTooltipSvg aria-describedby={props.id} focusable="true" tabIndex={0} className={iconStyle} />
+    <TooltipHost id={id} content={content} calloutProps={{ gapSpace: 0 }} delay={TooltipDelay.zero}>
+      <InfoTooltipSvg aria-label={typeof content == 'string' ? content : ''} focusable="true" tabIndex={0} className={iconStyle} />
     </TooltipHost>
   );
 };

@@ -30,18 +30,22 @@ const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scena
   const duplicateDefaultDocumentsValidation = (value: string) => {
     return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? t('fieldMustBeUnique') : null;
   };
+
   const hasDuplicates = array => {
     return new Set(array).size !== array.length;
   };
+
   const isJavaApp = values.currentlySelectedStack === 'java';
   const defaultDocumentsEnabled =
     scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site: values.site }).status !== 'disabled';
   let hasAnyError = false;
+
   const errors = {
     config: {
       properties: {} as any,
     },
   };
+
   if (scenarioChecker.checkScenario(ScenarioIds.skipStackValidation, { site }).status !== 'disabled') {
     if (isJavaApp && !values.config.properties.javaContainer) {
       hasAnyError = true;
