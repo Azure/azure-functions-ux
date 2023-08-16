@@ -191,3 +191,5 @@ export class AppSettingReference {
   public static readonly prefix = '@AppSettingRef(';
   public static readonly suffix = ')';
 }
+
+export const AccessKeyPlaceHolderForNFSFileShares = 'nfs_no_connection_string_required';

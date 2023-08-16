@@ -16,26 +16,17 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { IDropdownOption } from '@fluentui/react';
 import { PortalContext } from '../../../../PortalContext';
 import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
-import { SiteStateContext } from '../../../../SiteState';
+import { Links } from '../../../../utils/FwLinks';
+import StorageProtocol from './StorageProtocol';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
     storageTypeOptions: IChoiceGroupOption[];
-    fileShareProtocalOptions: IChoiceGroupOption[];
     fileShareInfoBubbleMessage?: string;
   }> = props => {
-  const {
-    values,
-    fileShareInfoBubbleMessage,
-    setFieldValue,
-    validateField,
-    appSettings,
-    storageTypeOptions,
-    fileShareProtocalOptions,
-  } = props;
+  const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings, storageTypeOptions } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
-  const { isLinuxApp } = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const scenarioService = new ScenarioService(t);
 
@@ -47,10 +38,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
 
-  const showFileSharesProtocolOptions = React.useMemo(() => {
-    return values.type === StorageType.azureFiles && isLinuxApp;
-  }, [values.type, isLinuxApp]);
-
   const showStoragaAccess = React.useMemo(() => {
     return (
       values.type === StorageType.azureFiles &&
@@ -59,6 +46,21 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
       !NationalCloudEnvironment.isNationalCloud()
     );
   }, [values.type, showKeyvaultReference, values.protocol]);
+
+  const showAccessKey = React.useMemo(() => {
+    return (
+      (values.type === StorageType.azureBlob || values.storageAccess === StorageAccess.AccessKey) &&
+      values.protocol === StorageFileShareProtocol.SMB
+    );
+  }, [values.type, values.storageAccess, values.protocol]);
+
+  const showAppSettings = React.useMemo(() => {
+    return (
+      values.type === StorageType.azureFiles &&
+      values.storageAccess === StorageAccess.KeyVaultReference &&
+      values.protocol === StorageFileShareProtocol.SMB
+    );
+  }, [values.type, values.storageAccess, values.protocol]);
 
   const appSettingDropdownOptions = React.useMemo<IDropdownOption[]>(() => {
     return appSettings.map(appSetting => {
@@ -74,8 +76,8 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
     const appSettingName = values.appSettings;
     const isSelectedAppSettingSticky =
       !appSettingName || appSettings.find(appSetting => appSetting.name === appSettingName && appSetting.sticky);
-    return values.sticky && !isSelectedAppSettingSticky;
-  }, [values.appSettings, values.sticky, appSettings]);
+    return values.sticky && !isSelectedAppSettingSticky && showAppSettings;
+  }, [values.appSettings, values.sticky, appSettings, showAppSettings]);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -101,19 +103,19 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   return (
     <>
-      <Field component={TextField} name="accountName" label={t('storageAccounts')} id="azure-storage-mounts-account-name" required={true} />
+      <Field
+        component={TextField}
+        name="accountName"
+        label={t('storageAccounts')}
+        id="azure-storage-mounts-account-name"
+        required={true}
+        infoBubbleMessage={values.protocol === StorageFileShareProtocol.SMB && t('byos_storageAccountInfoMessage')}
+        learnMoreLink={values.protocol === StorageFileShareProtocol.SMB && Links.byosStorageAccountLearnMore}
+      />
       {supportsBlobStorage && (
         <Field component={RadioButton} name="type" id="azure-storage-type" label={t('storageType')} options={storageTypeOptions} />
       )}
-      {showFileSharesProtocolOptions && (
-        <Field
-          component={RadioButton}
-          name="protocol"
-          id="azure-file-shares-proptocol"
-          label={'Protocol'}
-          options={fileShareProtocalOptions}
-        />
-      )}
+      <StorageProtocol values={values} />
       <Field
         component={TextField}
         name="shareName"
@@ -141,7 +143,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           ]}
         />
       )}
-      {(values.type === StorageType.azureBlob || values.storageAccess === StorageAccess.AccessKey) && (
+      {showAccessKey && (
         <Field
           component={TextField}
           name="accessKey"
@@ -152,7 +154,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           required={true}
         />
       )}
-      {values.type === StorageType.azureFiles && values.storageAccess === StorageAccess.KeyVaultReference && (
+      {showAppSettings && (
         <Field
           component={Dropdown}
           name="appSettings"
@@ -163,16 +165,14 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           onPanel={true}
         />
       )}
-      {values.type === StorageType.azureFiles &&
-        values.storageAccess === StorageAccess.KeyVaultReference &&
-        showDeploymentSettingsWarning && (
-          <CustomBanner
-            id="azure-storage-mount-keyvault-warning"
-            message={t('BYOSDeploymentSettingsWarning')}
-            type={MessageBarType.warning}
-            undocked={true}
-          />
-        )}
+      {showDeploymentSettingsWarning && (
+        <CustomBanner
+          id="azure-storage-mount-keyvault-warning"
+          message={t('BYOSDeploymentSettingsWarning')}
+          type={MessageBarType.warning}
+          undocked={true}
+        />
+      )}
     </>
   );
 };

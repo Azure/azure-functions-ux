@@ -17,6 +17,7 @@ import StorageService from '../../../../ApiHelpers/StorageService';
 import { PortalContext } from '../../../../PortalContext';
 import { FileShareEnabledProtocols } from '../../../../models/storage-account';
 import { SiteStateContext } from '../../../../SiteState';
+import StorageProtocol from './StorageProtocol';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -45,19 +46,9 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
     storageTypeOptions: IChoiceGroupOption[];
-    fileShareProtocalOptions: IChoiceGroupOption[];
     fileShareInfoBubbleMessage?: string;
   }> = props => {
-  const {
-    values,
-    initialValues,
-    fileShareInfoBubbleMessage,
-    setValues,
-    setFieldValue,
-    validateForm,
-    storageTypeOptions,
-    fileShareProtocalOptions,
-  } = props;
+  const { values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm, storageTypeOptions } = props;
   const [accountSMBSharesFiles, setAccountSMBSharesFiles] = useState<any[]>([]);
   const [accountNFSSharesFiles, setAccountNFSSharesFiles] = useState<any[]>([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
@@ -67,7 +58,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     initializeStorageContainerErrorSchemaValue()
   );
   const storageAccounts = useContext(StorageAccountsContext);
-  const { site, isLinuxApp } = useContext(SiteStateContext);
+  const { site } = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
@@ -256,10 +247,6 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
 
   const showStorageTypeOption = supportsBlobStorage && (!storageAccount || storageAccount.kind !== storageKinds.BlobStorage);
 
-  const showFileSharesProtocolOptions = useMemo(() => {
-    return values.type === StorageType.azureFiles && isLinuxApp;
-  }, [values.type, isLinuxApp]);
-
   const blobContainerOptions = useMemo(() => accountSharesBlob.map((x: any) => ({ key: x.name, text: x.name })), [accountSharesBlob]);
   const smbFilesContainerOptions = useMemo(() => accountSMBSharesFiles.map((x: any) => ({ key: x.name, text: x.name })), [
     accountSMBSharesFiles,
@@ -289,22 +276,14 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         styles={{
           root: formElementStyle,
         }}
-        infoBubbleMessage={t('byos_storageAccountInfoMessage')}
-        learnMoreLink={Links.byosStorageAccountLearnMore}
+        infoBubbleMessage={values.protocol === StorageFileShareProtocol.SMB && t('byos_storageAccountInfoMessage')}
+        learnMoreLink={values.protocol === StorageFileShareProtocol.SMB && Links.byosStorageAccountLearnMore}
         required={true}
       />
       {showStorageTypeOption && (
         <Field component={RadioButton} name="type" id="azure-storage-type" label={t('storageType')} options={storageTypeOptions} />
       )}
-      {showFileSharesProtocolOptions && (
-        <Field
-          component={RadioButton}
-          name="protocol"
-          id="azure-file-shares-proptocol"
-          label={'Protocol'}
-          options={fileShareProtocalOptions}
-        />
-      )}
+      <StorageProtocol values={values} />
       <Field
         component={ComboBox}
         name="shareName"

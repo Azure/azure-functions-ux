@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
-import { ConfigurationOption, FormAppSetting, FormAzureStorageMounts, StorageAccess, StorageFileShareProtocol } from '../AppSettings.types';
+import { ConfigurationOption, FormAppSetting, FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
 import { Checkbox, IChoiceGroupOption, Link } from '@fluentui/react';
 import AzureStorageMountsAddEditBasic from './AzureStorageMountsAddEditBasic';
 import AzureStorageMountsAddEditAdvanced from './AzureStorageMountsAddEditAdvanced';
@@ -13,7 +13,6 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
 import { StorageType } from '../../../../models/site/config';
 import { azureStorageTypeLabelStyle, formElementStyle } from '../AppSettings.styles';
@@ -304,7 +303,6 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
 type AzureStorageMountsAddEdtSubFormProps = FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined;
 
 const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubFormProps> = props => {
-  const [fileShareInfoBubbleMessage, setFileShareInfoBubbleMessage] = useState<string>();
   const { t } = useTranslation();
   const { isLinuxApp } = useContext(SiteStateContext);
 
@@ -337,25 +335,12 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
         text: t('azureFiles'),
       },
     ] as IChoiceGroupOption[];
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const fileShareProtocalOptions = React.useMemo<IChoiceGroupOption[]>(() => {
-    return [
-      {
-        key: StorageFileShareProtocol.SMB,
-        text: StorageFileShareProtocol.SMB,
-      },
-      {
-        key: StorageFileShareProtocol.NFS,
-        text: StorageFileShareProtocol.NFS,
-      },
-    ];
-  }, []);
-
-  React.useEffect(() => {
-    setFileShareInfoBubbleMessage(
-      props.values.type === StorageType.azureFiles && !isLinuxApp ? t('shareNameInfoBubbleMessage') : undefined
-    );
+  const fileShareInfoBubbleMessage = React.useMemo(() => {
+    return props.values.type === StorageType.azureFiles && !isLinuxApp ? t('shareNameInfoBubbleMessage') : undefined;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.values.type, isLinuxApp]);
@@ -366,7 +351,6 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
         <AzureStorageMountsAddEditBasic
           {...props}
           storageTypeOptions={storageTypeOptions}
-          fileShareProtocalOptions={fileShareProtocalOptions}
           fileShareInfoBubbleMessage={fileShareInfoBubbleMessage}
         />
       )}
@@ -374,17 +358,11 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
         <AzureStorageMountsAddEditAdvanced
           {...props}
           storageTypeOptions={storageTypeOptions}
-          fileShareProtocalOptions={fileShareProtocalOptions}
           fileShareInfoBubbleMessage={fileShareInfoBubbleMessage}
         />
       )}
     </>
   );
 };
-
-export const messageBanner = style({
-  paddingLeft: '5px',
-  marginBottom: '15px',
-});
 
 export default AzureStorageMountsAddEdit;
