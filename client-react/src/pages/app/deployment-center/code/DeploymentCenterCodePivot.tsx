@@ -21,7 +21,7 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import DeploymentCenterVSTSCodeLogs from './DeploymentCenterVSTSCodeLogs';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
-  const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing, tab } = props;
+  const { formProps, deployments, runs, setDeployments, setRuns, isDataRefreshing, tab } = props;
   const { t } = useTranslation();
   const [selectedKey, setSelectedKey] = useState<string>(tab ?? 'settings');
   const [showLogsTab, setShowLogsTab] = useState(true);
@@ -99,35 +99,19 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
       <DeploymentCenterGitHubActionsCodeLogs
         goToSettings={goToSettingsOnClick}
         deployments={deployments}
-        deploymentsError={deploymentsError}
-        isLogsDataRefreshing={isLogsDataRefreshing}
-        refreshLogs={refreshLogs}
+        runs={runs}
+        setDeployments={setDeployments}
+        setRuns={setRuns}
       />
     );
   };
 
   const getVstsCodeLogsComponent = () => {
-    return (
-      <DeploymentCenterVSTSCodeLogs
-        goToSettings={goToSettingsOnClick}
-        deployments={deployments}
-        deploymentsError={deploymentsError}
-        isLogsDataRefreshing={isLogsDataRefreshing}
-        refreshLogs={refreshLogs}
-      />
-    );
+    return <DeploymentCenterVSTSCodeLogs goToSettings={goToSettingsOnClick} deployments={deployments} setDeployments={setDeployments} />;
   };
 
   const getCodeLogsComponent = () => {
-    return (
-      <DeploymentCenterCodeLogs
-        goToSettings={goToSettingsOnClick}
-        deployments={deployments}
-        deploymentsError={deploymentsError}
-        isLogsDataRefreshing={isLogsDataRefreshing}
-        refreshLogs={refreshLogs}
-      />
-    );
+    return <DeploymentCenterCodeLogs goToSettings={goToSettingsOnClick} deployments={deployments} setDeployments={setDeployments} />;
   };
 
   useEffect(() => {
