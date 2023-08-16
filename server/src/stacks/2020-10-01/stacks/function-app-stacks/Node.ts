@@ -6,9 +6,11 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
   const node10EOL = getDateString(new Date(2021, 3, 30), useIsoDateFormat);
   const node8EOL = getDateString(new Date(2019, 11, 31), useIsoDateFormat);
   const node6EOL = getDateString(new Date(2019, 3, 30), useIsoDateFormat);
+  const node20EOL = getDateString(new Date(2026, 4, 30), useIsoDateFormat);
   const node18EOL = getDateString(new Date(2025, 3, 30), useIsoDateFormat);
   const node16EOL = getDateString(new Date(2023, 8, 11), useIsoDateFormat);
   const node14EOL = getDateString(new Date(2023, 3, 30), useIsoDateFormat);
+
 
   return {
     displayText: 'Node.js',
@@ -44,6 +46,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: node20EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|20',
@@ -65,6 +68,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Node|20',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: node20EOL,
               },
             },
           },
