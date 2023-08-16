@@ -23,7 +23,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
         minorVersions: [
           {
             displayText: 'Node.js 20',
-            value: '20 LTS',
+            value: '20',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: '~20',
