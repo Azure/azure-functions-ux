@@ -67,7 +67,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
   const hasAcrReadAccess = React.useCallback(() => {
     // NOTE(yoonaoh): Checking to see if the user has read access to the ACR itself
-    // If not, we turn this into a private registry instead
+    // If not, we turn this into a private registry instead. There are no dependencies
+    // as we only want this to run on the initial render to build the form correctly.
     if (formProps.values.registrySource === ContainerRegistrySources.acr) {
       setIsDataLoading(true);
       const acrTagInstance = new AcrDependency();
