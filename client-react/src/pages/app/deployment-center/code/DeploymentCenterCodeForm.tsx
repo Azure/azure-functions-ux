@@ -400,7 +400,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     portalContext.log(getTelemetryInfo('info', 'onSubmitCodeForm', 'submit'));
 
     await Promise.all([updateDeploymentConfigurations(values, formikActions), updatePublishingUser(values)]);
-    await deploymentCenterContext.refresh();
+    props.refresh();
     formikActions.setSubmitting(false);
     portalContext.updateDirtyState(false);
   };

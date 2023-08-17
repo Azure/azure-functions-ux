@@ -18,7 +18,7 @@ import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
-  const { logs, formProps, isDataRefreshing, isLogsDataRefreshing, refresh, tab } = props;
+  const { logs, deployments, runs, setLogs, setDeployments, setRuns, formProps, isDataRefreshing, tab } = props;
   const { t } = useTranslation();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
@@ -72,20 +72,20 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
             ariaLabel={
               isScmGitHubActions ? t('deploymentCenterPivotItemContainerLogsAriaLabel') : t('deploymentCenterPivotItemLogsAriaLabel')
             }>
-            <DeploymentCenterContainerLogs logs={logs} isLogsDataRefreshing={isLogsDataRefreshing} refresh={refresh} />
+            <DeploymentCenterContainerLogs logs={logs} setLogs={setLogs} />
           </PivotItem>
         )}
 
-        {isScmGitHubActions && (
+        {isScmGitHubActions && setDeployments && (
           <PivotItem
             itemKey="githublogs"
             headerText={t('deploymentCenterPivotItemBuildLogsHeaderText')}
             ariaLabel={t('deploymentCenterPivotItemBuildLogsAriaLabel')}>
             <DeploymentCenterGitHubActionsCodeLogs
-              isLogsDataRefreshing={isLogsDataRefreshing}
-              refreshLogs={() => {
-                /** @note (joechung): Do nothing when refreshing logs. */
-              }}
+              deployments={deployments}
+              runs={runs}
+              setDeployments={setDeployments}
+              setRuns={setRuns}
             />
           </PivotItem>
         )}
