@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Field, Form } from 'formik';
+import { Field } from 'formik';
 import { FormAzureStorageMounts, StorageFileShareProtocol } from '../AppSettings.types';
 import { StorageType } from '../../../../models/site/config';
 import { SiteStateContext } from '../../../../SiteState';
@@ -8,13 +8,17 @@ import { IChoiceGroupOption } from '@fluentui/react/lib/ChoiceGroup';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { style } from 'typestyle';
+import Url from '../../../../utils/url';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
   const { values } = props;
   const { isLinuxApp } = React.useContext(SiteStateContext);
 
   const showFileSharesProtocolOptions = React.useMemo(() => {
-    return values.type === StorageType.azureFiles && isLinuxApp;
+    return (
+      values.type === StorageType.azureFiles && isLinuxApp && Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) === 'true'
+    );
   }, [values.type, isLinuxApp]);
 
   const showCustomBanner = React.useMemo(() => {
@@ -35,7 +39,7 @@ const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
   }, []);
 
   return showFileSharesProtocolOptions ? (
-    <Form>
+    <div>
       <Field
         component={RadioButton}
         name="protocol"
@@ -50,7 +54,7 @@ const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
           className={messageBanner}
         />
       )}
-    </Form>
+    </div>
   ) : null;
 };
 

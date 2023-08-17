@@ -77,6 +77,7 @@ export class CommonConstants {
     customErrorPage: 'customErrorPage',
     enableSnippets: 'enableSnippets',
     showJBossClustering: 'showJBossClustering',
+    showNFSFileShares: 'showNFSFileShares',
   };
 
   public static readonly AppDensityLimit = 8;

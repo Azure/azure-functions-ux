@@ -317,8 +317,9 @@ export function getFormAzureStorageMount(
         storageAccess === StorageAccess.KeyVaultReference
           ? accessKey.substring(AppSettingReference.prefix.length, accessKey.length - 1)
           : undefined;
-      console.log(appSettings);
-      const accessKeyValue = storageAccess === StorageAccess.KeyVaultReference ? undefined : accessKey;
+
+      const accessKeyValue =
+        storageAccess === StorageAccess.KeyVaultReference || accessKey === AccessKeyPlaceHolderForNFSFileShares ? undefined : accessKey;
       const configurationOption =
         storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
       const protocol = accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB;
