@@ -1,4 +1,4 @@
-import React, { useState, useContext, useMemo, useCallback } from 'react';
+import React, { useState, useContext, useMemo, useCallback, useEffect } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import {
@@ -27,8 +27,9 @@ import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { PortalContext } from '../../../../PortalContext';
-import { deleteDeploymentCenterLogs } from '../utility/DeploymentCenterUtility';
+import { deleteDeploymentCenterLogs, fetchDeploymentLogs } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
+import { SiteStateContext } from '../../../../SiteState';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -46,9 +47,12 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const portalContext = useContext(PortalContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
+  const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
-  const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
+  const { deployments, setDeployments, goToSettings } = props;
   const { t } = useTranslation();
+  const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = React.useState<boolean>(false);
   const [selectedLogs, setSelectedLogs] = React.useState<CodeDeploymentsRow[]>([]);
   const selection = useMemo(
     () =>
@@ -62,6 +66,31 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     [setSelectedLogs]
   );
   const pauseTimer = useMemo(() => selectedLogs.length > 0, [selectedLogs]);
+
+  useEffect(() => {
+    if (!deployments) {
+      setIsLogsDataRefreshing(true);
+      fetchDeploymentLogs(
+        deploymentCenterContext.resourceId,
+        deploymentCenterData,
+        siteStateContext,
+        setDeployments,
+        setDeploymentsError,
+        t
+      ).then(() => setIsLogsDataRefreshing(false));
+    }
+  }, [deployments, deploymentCenterContext.resourceId]);
+
+  const refreshLogs = async () => {
+    await fetchDeploymentLogs(
+      deploymentCenterContext.resourceId,
+      deploymentCenterData,
+      siteStateContext,
+      setDeployments,
+      setDeploymentsError,
+      t
+    );
+  };
 
   const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
     setIsLogPanelOpen(true);
@@ -320,7 +349,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     } else {
       return (
         <div className={deploymentCenterCodeLogsNotConfigured}>
-          <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>;
+          <h3>{t('deploymentCenterCodeLogsNoDeployments')}</h3>
         </div>
       );
     }
@@ -328,7 +357,12 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
 
   return (
     <>
-      <DeploymentCenterCodeLogsTimer pauseTimer={pauseTimer} refreshLogs={refreshLogs} deleteLogs={showDeleteConfirmDialog} />
+      <DeploymentCenterCodeLogsTimer
+        pauseTimer={pauseTimer}
+        refreshLogs={refreshLogs}
+        deleteLogs={showDeleteConfirmDialog}
+        setIsLogsDataRefreshing={setIsLogsDataRefreshing}
+      />
 
       <ConfirmDialog
         primaryActionButton={{

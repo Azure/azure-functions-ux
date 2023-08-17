@@ -279,7 +279,6 @@ export interface DeploymentCenterDataLoaderProps extends TabbedComponent {
 export interface RefreshableComponent {
   refresh: () => void;
   isDataRefreshing: boolean;
-  isLogsDataRefreshing: boolean;
 }
 
 export interface TabbedComponent {
@@ -384,22 +383,26 @@ export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = Deploymen
 }
 
 export interface DeploymentCenterContainerLogsProps {
-  isLogsDataRefreshing: boolean;
-  refresh: () => void;
   logs?: string;
+  deployments?: ArmArray<DeploymentProperties>;
+  runs?: GitHubActionsRun[];
+  setLogs: (value?: React.SetStateAction<string | undefined>) => void;
+  setDeployments?: (value?: React.SetStateAction<ArmArray<DeploymentProperties>>) => void;
+  setRuns?: (value?: React.SetStateAction<GitHubActionsRun[] | undefined>) => void;
 }
 
 export interface DeploymentCenterCodeLogsProps {
-  isLogsDataRefreshing: boolean;
-  refreshLogs: () => void;
   deployments?: ArmArray<DeploymentProperties>;
-  deploymentsError?: string;
+  runs?: GitHubActionsRun[];
+  setDeployments: (value?: React.SetStateAction<ArmArray<DeploymentProperties>>) => void;
+  setRuns?: (value?: React.SetStateAction<GitHubActionsRun[] | undefined>) => void;
   goToSettings?: () => void;
 }
 
 export interface DeploymentCenterCodeLogsTimerProps {
   pauseTimer?: boolean;
-  refreshLogs: () => void;
+  refreshLogs: () => Promise<void>;
+  setIsLogsDataRefreshing: (value?: React.SetStateAction<boolean>) => void;
   deleteLogs: () => void;
 }
 

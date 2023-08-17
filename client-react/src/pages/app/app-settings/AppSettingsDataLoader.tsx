@@ -400,7 +400,11 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
             itemOrigin.mountPath === itemCurrent.mountPath &&
             itemOrigin.name === itemCurrent.name &&
             itemOrigin.shareName === itemCurrent.shareName &&
-            itemOrigin.type === itemCurrent.type
+            itemOrigin.type === itemCurrent.type &&
+            itemOrigin.configurationOption === itemCurrent.configurationOption &&
+            itemOrigin.storageAccess === itemCurrent.storageAccess &&
+            itemOrigin.appSettings === itemCurrent.appSettings &&
+            !!itemOrigin.sticky === !!itemCurrent.sticky
           );
         });
       });
