@@ -10,10 +10,12 @@ import { MessageBarType } from '@fluentui/react';
 import { style } from 'typestyle';
 import Url from '../../../../utils/url';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { useTranslation } from 'react-i18next';
 
 const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
   const { values } = props;
   const { isLinuxApp } = React.useContext(SiteStateContext);
+  const { t } = useTranslation();
 
   const showFileSharesProtocolOptions = React.useMemo(() => {
     return (
@@ -47,13 +49,7 @@ const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
         label={'Protocol'}
         options={fileShareProtocalOptions}
       />
-      {showCustomBanner && (
-        <CustomBanner
-          message={'Your app must be on a Virtual network to access NFS file shares'}
-          type={MessageBarType.info}
-          className={messageBanner}
-        />
-      )}
+      {showCustomBanner && <CustomBanner message={t('BYOSNFSShareInfo')} type={MessageBarType.info} className={messageBanner} />}
     </div>
   ) : null;
 };

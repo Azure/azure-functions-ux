@@ -19,6 +19,7 @@ import { azureStorageTypeLabelStyle, formElementStyle } from '../AppSettings.sty
 import { isStorageAccessAppSetting } from '../AppSettingsFormData';
 import { Links } from '../../../../utils/FwLinks';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import Url from '../../../../utils/url';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -340,7 +341,10 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
   }, []);
 
   const fileShareInfoBubbleMessage = React.useMemo(() => {
-    return props.values.type === StorageType.azureFiles && !isLinuxApp ? t('shareNameInfoBubbleMessage') : undefined;
+    return props.values.type === StorageType.azureFiles &&
+      (!isLinuxApp || Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) !== 'true')
+      ? t('shareNameInfoBubbleMessage')
+      : undefined;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.values.type, isLinuxApp]);

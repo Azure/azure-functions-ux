@@ -38,7 +38,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
 
-  const showStoragaAccess = React.useMemo(() => {
+  const showStorageAccess = React.useMemo(() => {
     return (
       values.type === StorageType.azureFiles &&
       showKeyvaultReference &&
@@ -125,7 +125,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         required={true}
         validate={validateShareName}
       />
-      {showStoragaAccess && (
+      {showStorageAccess && (
         <Field
           id="storageAccess"
           name={'storageAccess'}

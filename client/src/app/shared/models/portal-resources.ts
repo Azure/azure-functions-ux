@@ -1886,6 +1886,7 @@ export class PortalResources {
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
   public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
   public static BYOSDeploymentSettingsWarning = 'BYOSDeploymentSettingsWarning';
+  public static BYOSNFSShareInfo = 'BYOSNFSShareInfo';
   public static quickstartHeader = 'quickstartHeader';
   public static quickstartDesc = 'quickstartDesc';
   public static viewDocumentation = 'viewDocumentation';

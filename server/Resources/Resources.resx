@@ -5832,6 +5832,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="BYOSDeploymentSettingsWarning" xml:space="preserve">
         <value>Selected App Setting is not marked as deployment slot setting. This may cause inconsistencies during the slot swap operation.</value>
     </data>
+    <data name="BYOSNFSShareInfo" xml:space="preserve">
+        <value>Your app must be on a Virtual network to access NFS file shares.</value>
+    </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>
     </data>
