@@ -574,3 +574,8 @@ export const deleteDeploymentCenterLogs = async (
     portalContext.stopNotification(notificationId, true, t('deploymentCenterDeleteLogsSuccessNotificationDescription'));
   }
 };
+
+export const getAcrNameFromLoginServer = (loginServer: string): string => {
+  const loginServerParts = loginServer?.split('.') ?? [];
+  return loginServerParts.length > 0 ? loginServerParts[0] : '';
+};
