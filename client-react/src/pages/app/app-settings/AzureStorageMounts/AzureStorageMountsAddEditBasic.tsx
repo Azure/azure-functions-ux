@@ -243,7 +243,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
     updateStorageContainerErrorMessage();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [values.type, storageContainerErrorSchema]);
+  }, [values.type, values.protocol, storageContainerErrorSchema]);
 
   const showStorageTypeOption = supportsBlobStorage && (!storageAccount || storageAccount.kind !== storageKinds.BlobStorage);
 
