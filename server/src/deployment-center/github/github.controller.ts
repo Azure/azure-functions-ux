@@ -27,8 +27,6 @@ import {
   Environments,
   ReactViewsEnvironmentUrlMappings,
   ReactViewsEnvironment,
-  SandboxEnvironment,
-  SandboxEnvironmentUrlMappings,
   ExtensionMappings,
   ExtensionNames,
 } from '../deployment-center';
@@ -491,15 +489,6 @@ export class GithubController {
     return 'Successfully Authenticated. Redirecting...';
   }
 
-  @Get('auth/github/reactview/callback/sandbox/:sandbox/env/:env')
-  async callbackReactRouter(@Res() res, @Query('code') code, @Query('state') state, @Param('sandbox') sandbox, @Param('env') env) {
-    const envToUpper = (env && (env as string).toUpperCase()) || '';
-    const envUri =
-      SandboxEnvironmentUrlMappings.environmentToUrlMap[envToUpper] ||
-      SandboxEnvironmentUrlMappings.environmentToUrlMap[SandboxEnvironment.Prod];
-    res.redirect(`https://sandbox-${sandbox}${envUri}?code=${code}&state=${state}`);
-  }
-
   @Post('auth/github/getToken')
   @HttpCode(200)
   async getToken(@Session() session, @Body('redirUrl') redirUrl: string) {
@@ -539,42 +528,9 @@ export class GithubController {
     return { client_id: this._getGitHubForCreatesClientId() };
   }
 
-  @Get('auth/github/reactViewClientId')
-  reactViewClientId() {
-    return { client_id: this._getGitHubForReactViewClientId() };
-  }
-
   @Get('auth/github/reactViewsV2ClientId')
   reactViewsV2ClientId() {
     return { client_id: this._getGitHubForReactViewsV2ClientId() };
-  }
-
-  @Post('auth/github/generateReactViewAccessToken')
-  @HttpCode(200)
-  async generateReactViewAccessToken(@Body('code') code: string, @Body('state') state: string) {
-    if (!code || !state) {
-      throw new HttpException('Code and State are required', 400);
-    }
-
-    try {
-      const r = await this.httpService.post(`${Constants.oauthApis.githubApiUri}/access_token`, {
-        code,
-        state,
-        client_id: this._getGitHubForReactViewClientId(),
-        client_secret: this._getGitHubForReactViewClientSecret(),
-      });
-      const token = this.dcService.getParameterByName('access_token', `?${r.data}`);
-      return {
-        accessToken: token,
-        refreshToken: null,
-        environment: null,
-      };
-    } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException('Internal Server Error', 500);
-    }
   }
 
   @Post('auth/github/generateReactViewsV2AccessToken')
@@ -895,14 +851,6 @@ export class GithubController {
     } else {
       return this.configService.get('GITHUB_FOR_CREATES_NATIONALCLOUDS_CLIENT_SECRET');
     }
-  }
-
-  private _getGitHubForReactViewClientId() {
-    return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_ID');
-  }
-
-  private _getGitHubForReactViewClientSecret() {
-    return this.configService.get('GITHUB_FOR_REACTVIEW_CLIENT_SECRET');
   }
 
   private _getGitHubForReactViewsV2ClientId() {
