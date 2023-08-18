@@ -1625,6 +1625,7 @@ export class PortalResources {
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
   public static virtualPathUnique = 'virtualPathUnique';
   public static storageAccessLabel = 'storageAccessLabel';
+  public static protocolLabel = 'protocolLabel';
   public static manualInput = 'manualInput';
   public static keyVaultReference = 'keyVaultReference';
   public static configurationOptions = 'configurationOptions';

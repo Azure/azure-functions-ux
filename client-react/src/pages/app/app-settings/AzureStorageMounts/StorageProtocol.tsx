@@ -45,8 +45,8 @@ const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
       <Field
         component={RadioButton}
         name="protocol"
-        id="azure-file-shares-proptocol"
-        label={'Protocol'}
+        id="azure-file-shares-protocol"
+        label={t('protocolLabel')}
         options={fileShareProtocalOptions}
       />
       {showCustomBanner && <CustomBanner message={t('BYOSNFSShareInfo')} type={MessageBarType.info} className={messageBanner} />}

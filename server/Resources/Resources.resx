@@ -5039,6 +5039,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="storageAccessLabel" xml:space="preserve">
         <value>Storage access</value>
     </data>
+    <data name="protocolLabel" xml:space="preserve">
+        <value>Protocol</value>
+    </data>
     <data name="manualInput" xml:space="preserve">
         <value>Manual input</value>
     </data>
