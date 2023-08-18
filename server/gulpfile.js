@@ -109,8 +109,6 @@ gulp.task('replace-environment-variables', cb => {
       githubForCreatesClientSecret: process.env.githubForCreatesClientSecret || '',
       githubForCreatesNationalCloudsClientId: process.env.githubForCreatesNationalCloudsClientId || '',
       githubForCreatesNationalCloudsClientSecret: process.env.githubForCreatesNationalCloudsClientSecret || '',
-      githubForReactViewClientId: process.env.githubForReactViewClientId || '',
-      githubForReactViewClientSecret: process.env.githubForReactViewClientSecret || '',
       githubForReactViewsV2ClientId: process.env.githubForReactViewsV2ClientId || '',
       githubForReactViewsV2ClientSecret: process.env.githubForReactViewsV2ClientSecret || '',
       HashSalt: hashSalt,
