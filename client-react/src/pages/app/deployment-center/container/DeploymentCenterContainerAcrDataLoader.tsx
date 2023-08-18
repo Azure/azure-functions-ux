@@ -159,6 +159,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
               fetchRepositories(formProps.values.acrLoginServer);
             } else {
               setAcrResourceId(formProps.values.acrLoginServer);
+              formProps.setFieldValue('acrLocation', registryIdentifiers.current[formProps.values.acrLoginServer].location);
             }
           }
         } else {
@@ -515,6 +516,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         fetchRepositories(formProps.values.acrLoginServer, true);
       } else {
         setAcrResourceId(formProps.values.acrLoginServer);
+        formProps.setFieldValue('acrLocation', registryIdentifiers.current[formProps.values.acrLoginServer].location);
       }
     }
   }, [formProps.values.acrLoginServer, acrUseManagedIdentities]);
