@@ -13,7 +13,7 @@ import { IComboBoxOption, IDropdownOption, MessageBarType, SelectableOptionMenuI
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ACRCredential } from '../../../../models/acr';
-import { getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
+import { getAcrNameFromLoginServer, getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
@@ -159,6 +159,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
               fetchRepositories(formProps.values.acrLoginServer);
             } else {
               setAcrResourceId(formProps.values.acrLoginServer);
+              formProps.setFieldValue('acrLocation', registryIdentifiers.current[formProps.values.acrLoginServer].location);
             }
           }
         } else {
@@ -442,11 +443,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setLoadingManagedIdentities(false);
   };
 
-  const getAcrNameFromLoginServer = (loginServer: string): string => {
-    const loginServerParts = loginServer?.split('.') ?? [];
-    return loginServerParts.length > 0 ? loginServerParts[0] : '';
-  };
-
   const parseHiddenTag = (tagValue: string) => {
     try {
       if (tagValue) {
@@ -520,6 +516,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         fetchRepositories(formProps.values.acrLoginServer, true);
       } else {
         setAcrResourceId(formProps.values.acrLoginServer);
+        formProps.setFieldValue('acrLocation', registryIdentifiers.current[formProps.values.acrLoginServer].location);
       }
     }
   }, [formProps.values.acrLoginServer, acrUseManagedIdentities]);
