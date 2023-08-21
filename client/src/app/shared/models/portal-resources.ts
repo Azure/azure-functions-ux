@@ -1625,6 +1625,7 @@ export class PortalResources {
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
   public static virtualPathUnique = 'virtualPathUnique';
   public static storageAccessLabel = 'storageAccessLabel';
+  public static protocolLabel = 'protocolLabel';
   public static manualInput = 'manualInput';
   public static keyVaultReference = 'keyVaultReference';
   public static configurationOptions = 'configurationOptions';
@@ -1886,6 +1887,7 @@ export class PortalResources {
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
   public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
   public static BYOSDeploymentSettingsWarning = 'BYOSDeploymentSettingsWarning';
+  public static BYOSNFSShareInfo = 'BYOSNFSShareInfo';
   public static quickstartHeader = 'quickstartHeader';
   public static quickstartDesc = 'quickstartDesc';
   public static viewDocumentation = 'viewDocumentation';

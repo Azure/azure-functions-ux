@@ -5039,6 +5039,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="storageAccessLabel" xml:space="preserve">
         <value>Storage access</value>
     </data>
+    <data name="protocolLabel" xml:space="preserve">
+        <value>Protocol</value>
+    </data>
     <data name="manualInput" xml:space="preserve">
         <value>Manual input</value>
     </data>
@@ -5831,6 +5834,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="BYOSDeploymentSettingsWarning" xml:space="preserve">
         <value>Selected App Setting is not marked as deployment slot setting. This may cause inconsistencies during the slot swap operation.</value>
+    </data>
+    <data name="BYOSNFSShareInfo" xml:space="preserve">
+        <value>Your app must be on a Virtual network to access NFS file shares.</value>
     </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>

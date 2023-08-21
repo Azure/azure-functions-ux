@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import { FormikProps, Field } from 'formik';
-import { FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
+import { FormAzureStorageMounts, StorageAccess, StorageFileShareProtocol } from '../AppSettings.types';
 import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
@@ -16,6 +16,8 @@ import Dropdown from '../../../../components/form-controls/DropDown';
 import { IDropdownOption } from '@fluentui/react';
 import { PortalContext } from '../../../../PortalContext';
 import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
+import { Links } from '../../../../utils/FwLinks';
+import StorageProtocol from './StorageProtocol';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined & {
@@ -36,6 +38,30 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
 
+  const showStorageAccess = React.useMemo(() => {
+    return (
+      values.type === StorageType.azureFiles &&
+      showKeyvaultReference &&
+      values.protocol === StorageFileShareProtocol.SMB &&
+      !NationalCloudEnvironment.isNationalCloud()
+    );
+  }, [values.type, showKeyvaultReference, values.protocol]);
+
+  const showAccessKey = React.useMemo(() => {
+    return (
+      (values.type === StorageType.azureBlob || values.storageAccess === StorageAccess.AccessKey) &&
+      values.protocol === StorageFileShareProtocol.SMB
+    );
+  }, [values.type, values.storageAccess, values.protocol]);
+
+  const showAppSettings = React.useMemo(() => {
+    return (
+      values.type === StorageType.azureFiles &&
+      values.storageAccess === StorageAccess.KeyVaultReference &&
+      values.protocol === StorageFileShareProtocol.SMB
+    );
+  }, [values.type, values.storageAccess, values.protocol]);
+
   const appSettingDropdownOptions = React.useMemo<IDropdownOption[]>(() => {
     return appSettings.map(appSetting => {
       return {
@@ -50,8 +76,8 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
     const appSettingName = values.appSettings;
     const isSelectedAppSettingSticky =
       !appSettingName || appSettings.find(appSetting => appSetting.name === appSettingName && appSetting.sticky);
-    return values.sticky && !isSelectedAppSettingSticky;
-  }, [values.appSettings, values.sticky, appSettings]);
+    return values.sticky && !isSelectedAppSettingSticky && showAppSettings;
+  }, [values.appSettings, values.sticky, appSettings, showAppSettings]);
 
   useEffect(() => {
     let isSubscribed = true;
@@ -77,10 +103,19 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   return (
     <>
-      <Field component={TextField} name="accountName" label={t('storageAccounts')} id="azure-storage-mounts-account-name" required={true} />
+      <Field
+        component={TextField}
+        name="accountName"
+        label={t('storageAccounts')}
+        id="azure-storage-mounts-account-name"
+        required={true}
+        infoBubbleMessage={values.protocol === StorageFileShareProtocol.SMB && t('byos_storageAccountInfoMessage')}
+        learnMoreLink={values.protocol === StorageFileShareProtocol.SMB && Links.byosStorageAccountLearnMore}
+      />
       {supportsBlobStorage && (
-        <Field component={RadioButton} name="type" id="azure-storage-mounts-name" label={t('storageType')} options={storageTypeOptions} />
+        <Field component={RadioButton} name="type" id="azure-storage-type" label={t('storageType')} options={storageTypeOptions} />
       )}
+      <StorageProtocol values={values} />
       <Field
         component={TextField}
         name="shareName"
@@ -90,7 +125,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         required={true}
         validate={validateShareName}
       />
-      {values.type === StorageType.azureFiles && showKeyvaultReference && !NationalCloudEnvironment.isNationalCloud() && (
+      {showStorageAccess && (
         <Field
           id="storageAccess"
           name={'storageAccess'}
@@ -108,7 +143,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           ]}
         />
       )}
-      {(values.type === StorageType.azureBlob || values.storageAccess === StorageAccess.AccessKey) && (
+      {showAccessKey && (
         <Field
           component={TextField}
           name="accessKey"
@@ -119,7 +154,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           required={true}
         />
       )}
-      {values.type === StorageType.azureFiles && values.storageAccess === StorageAccess.KeyVaultReference && (
+      {showAppSettings && (
         <Field
           component={Dropdown}
           name="appSettings"
@@ -130,16 +165,14 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           onPanel={true}
         />
       )}
-      {values.type === StorageType.azureFiles &&
-        values.storageAccess === StorageAccess.KeyVaultReference &&
-        showDeploymentSettingsWarning && (
-          <CustomBanner
-            id="azure-storage-mount-keyvault-warning"
-            message={t('BYOSDeploymentSettingsWarning')}
-            type={MessageBarType.warning}
-            undocked={true}
-          />
-        )}
+      {showDeploymentSettingsWarning && (
+        <CustomBanner
+          id="azure-storage-mount-keyvault-warning"
+          message={t('BYOSDeploymentSettingsWarning')}
+          type={MessageBarType.warning}
+          undocked={true}
+        />
+      )}
     </>
   );
 };
