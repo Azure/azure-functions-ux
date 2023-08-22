@@ -10,6 +10,7 @@ import {
   AppType,
   PublishType,
   RuntimeStackOptions,
+  AuthType,
 } from '../DeploymentCenter.types';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
@@ -41,7 +42,7 @@ import {
   getWorkflowFileName,
   getSourceControlsWorkflowFileName,
 } from '../utility/DeploymentCenterUtility';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { AppOs } from '../../../../models/site/site';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
@@ -146,6 +147,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
           slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
           variables: variables,
+          authType: values.authType === AuthType.PublishProfile ? AuthType.PublishProfile : AuthType.Oidc,
         },
       },
     };

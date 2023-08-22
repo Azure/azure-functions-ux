@@ -48,6 +48,7 @@ export class CommonConstants {
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
+    workflowApiVersion20221001: '2022-10-01',
     roleAssignmentApiVersion20180701: '2018-07-01',
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',

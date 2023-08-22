@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react';
 import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
-import DeploymentCenterFtps from '../DeploymentCenterFtps';
+import DeploymentCenterFtps from '../authentication/DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterCodePivotProps } from '../DeploymentCenter.types';
 import DeploymentCenterCodeLogs from './DeploymentCenterCodeLogs';
@@ -9,7 +9,7 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { ScmType, BuildProvider } from '../../../../models/site/config';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { ThemeContext } from '../../../../ThemeContext';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';

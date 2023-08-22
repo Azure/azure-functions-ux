@@ -15,6 +15,7 @@ import {
   BuildChoiceGroupOption,
   RuntimeStackOptions,
   RuntimeStackSetting,
+  AuthType,
 } from '../DeploymentCenter.types';
 import { Guid } from '../../../../utils/Guid';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
@@ -24,7 +25,7 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import { PortalContext } from '../../../../PortalContext';
 import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -238,8 +239,11 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const showBasicAuthError = useMemo(() => {
     const isGitHubActionsOrKuduBuild =
       selectedBuild === BuildProvider.GitHubAction || selectedBuild === BuildProvider.AppServiceBuildService;
-    return isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
-  }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
+    const isBasicAuthSelected = formProps.values.authType === AuthType.PublishProfile;
+    return (
+      isBasicAuthSelected && isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow
+    );
+  }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow, formProps.values.authType]);
 
   return (
     <>

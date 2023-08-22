@@ -43,6 +43,8 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { DeploymentCenterAuthenticationSettings } from '../authentication/DeploymentCenterAuthenticationSettings';
+
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
   const { t } = useTranslation();
@@ -160,13 +162,15 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         const variables = getWorkflowFileVariables();
         const appType = siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp;
         const os = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
+        const authType = formProps.values.authType;
 
         const getWorkflowFile = await deploymentCenterData.getWorkflowFile(
           appType,
           PublishType.Code,
           os,
           variables,
-          formProps.values.runtimeStack
+          formProps.values.runtimeStack,
+          authType
         );
         if (getWorkflowFile.metadata.success) {
           return getWorkflowFile.data;
@@ -286,6 +290,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                 setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
               />
               {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
+              <DeploymentCenterAuthenticationSettings formProps={formProps} />
               <DeploymentCenterGitHubWorkflowConfigPreview
                 isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
                 getWorkflowFileContent={getWorkflowFileContent}
