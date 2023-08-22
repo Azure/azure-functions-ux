@@ -224,7 +224,8 @@ export default class GitHubService {
     os: string,
     variables: KeyValue<string>,
     runtimeStack?: string,
-    apiVersion = CommonConstants.ApiVersions.workflowApiVersion20201201
+    authType?: string,
+    apiVersion = CommonConstants.ApiVersions.workflowApiVersion20221001
   ) => {
     //(NOTE) stpelleg: This will eventually move to calling an ARM api instead of the functions server
     const url = `${Url.serviceHost}/workflows/generate?api-version=${apiVersion}`;
@@ -234,6 +235,7 @@ export default class GitHubService {
       os: os,
       runtimeStack: runtimeStack || '',
       variables: variables,
+      authType: authType,
     };
 
     return sendHttpRequest<string>({ url: url, method: 'POST', data });
