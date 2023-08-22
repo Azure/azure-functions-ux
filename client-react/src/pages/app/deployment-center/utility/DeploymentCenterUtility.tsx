@@ -17,7 +17,7 @@ import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
-import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { IDeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
 import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';

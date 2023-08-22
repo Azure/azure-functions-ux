@@ -4,7 +4,7 @@ import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { getAppDockerWebhookUrl } from '../utility/DeploymentCenterUtility';
 import { TextFieldType } from '../../../../utils/CommonConstants';
 

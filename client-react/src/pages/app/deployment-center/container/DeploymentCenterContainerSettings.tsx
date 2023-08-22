@@ -32,6 +32,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { AcrDependency } from '../../../../utils/dependency/Dependency';
+import { DeploymentCenterAuthenticationSettings } from '../authentication/DeploymentCenterAuthenticationSettings';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -356,12 +357,15 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         )}
 
         {isGitHubActionSelected && (
-          <DeploymentCenterGitHubWorkflowConfigPreview
-            isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
-            getWorkflowFileContent={getWorkflowFileContent}
-            workflowFilePath={workflowFilePath}
-            panelMessage={panelMessage}
-          />
+          <>
+            <DeploymentCenterAuthenticationSettings formProps={formProps} />
+            <DeploymentCenterGitHubWorkflowConfigPreview
+              isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
+              getWorkflowFileContent={getWorkflowFileContent}
+              workflowFilePath={workflowFilePath}
+              panelMessage={panelMessage}
+            />
+          </>
         )}
       </>
     );

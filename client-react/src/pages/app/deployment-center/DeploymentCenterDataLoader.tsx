@@ -16,7 +16,7 @@ import { useTranslation } from 'react-i18next';
 import { ArmObj, ArmArray } from '../../../models/arm-obj';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import { DeploymentCenterContext } from './DeploymentCenterContext';
-import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from './authentication/DeploymentCenterPublishingContext';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';

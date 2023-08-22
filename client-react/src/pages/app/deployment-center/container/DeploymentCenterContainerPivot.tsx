@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
 import DeploymentCenterContainerSettings from './DeploymentCenterContainerSettings';
-import DeploymentCenterFtps from '../DeploymentCenterFtps';
+import DeploymentCenterFtps from '../authentication/DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterContainerPivotProps } from '../DeploymentCenter.types';
 import DeploymentCenterContainerLogs from './DeploymentCenterContainerLogs';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { ThemeContext } from '../../../../ThemeContext';
 import CustomTabRenderer from '../../app-settings/Sections/CustomTabRenderer';
 import { SiteStateContext } from '../../../../SiteState';
