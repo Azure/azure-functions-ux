@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef } from 'react';
 import { WithTranslation, withTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
@@ -17,6 +17,7 @@ import {
   IDetailsRowStyles,
   DetailsRow,
   IDetailsListProps,
+  ICommandBar,
 } from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
@@ -38,6 +39,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const [currentVirtualApplication, setCurrentVirtualApplication] = useState<VirtualApplication | null>(null);
   const [currentItemIndex, setCurrentItemIndex] = useState<number | null>(null);
   const [createNewItem, setCreateNewItem] = useState(false);
+  const commandBarRef = useRef<ICommandBar | null>(null);
 
   const { t, values } = props;
 
@@ -72,6 +74,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   const onCancelPanel = () => {
     setShowPanel(false);
     setCreateNewItem(false);
+    commandBarRef.current?.focus();
   };
 
   const onClosePanel = (item: VirtualApplication) => {
@@ -87,6 +90,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
     });
     setCreateNewItem(false);
     setShowPanel(false);
+    commandBarRef.current?.focus();
   };
 
   const onShowPanel = (item: VirtualApplication, index: number): void => {
@@ -256,6 +260,7 @@ const VirtualApplications: React.FC<FormikProps<AppSettingsFormValues> & WithTra
   return (
     <>
       <DisplayTableWithCommandBar
+        commandBarRef={commandBarRef}
         onRenderRow={onRenderRow}
         commandBarItems={getCommandBarItems()}
         items={values.virtualApplications || []}
