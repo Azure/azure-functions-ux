@@ -29,9 +29,10 @@ export const ManagedIdentitiesDropdown = React.memo<ManagedIdentitiesDropdownPro
         detailBladeInputs: {
           resourceId: resourceId,
           apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
-          systemAssignedStatus: 0, // IdentityStatus.Unsupported
+          systemAssignedStatus: 0, // IdentityStatus.NotSupported
           userAssignedStatus: 2, // IdentityStatus.Supported
         },
+        openAsContextBlade: true,
       });
       if (response) {
         fetchManagedIdentityOptions();
