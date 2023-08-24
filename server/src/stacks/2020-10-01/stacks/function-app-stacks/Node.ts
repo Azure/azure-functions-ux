@@ -8,7 +8,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
   const node6EOL = getDateString(new Date(2019, 3, 30), useIsoDateFormat);
   const node20EOL = getDateString(new Date(2026, 4, 30), useIsoDateFormat);
   const node18EOL = getDateString(new Date(2025, 3, 30), useIsoDateFormat);
-  const node16EOL = getDateString(new Date(2023, 8, 11), useIsoDateFormat);
+  const node16EOL = getDateString(new Date(2024, 5, 30), useIsoDateFormat);
   const node14EOL = getDateString(new Date(2023, 3, 30), useIsoDateFormat);
 
 
