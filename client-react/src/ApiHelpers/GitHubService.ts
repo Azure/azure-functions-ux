@@ -241,6 +241,17 @@ export default class GitHubService {
     return sendHttpRequest<string>({ url: url, method: 'POST', data });
   };
 
+  public static addSecretToRepository = (gitHubToken: string, repo: string, secretName: string, secretValue: string) => {
+    const url = `${Url.serviceHost}api/github/addSecretToRepository`;
+    const data = {
+      gitHubToken,
+      repo,
+      secretName,
+      secretValue,
+    };
+    return sendHttpRequest<string>({ url: url, method: 'PUT', data });
+  };
+
   private static _getSpecificGitHubObjectList = async <T>(
     data: any,
     apiName: string,

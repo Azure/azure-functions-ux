@@ -7801,10 +7801,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="toggleAppSettingSelectionAriaLabel" xml:space="preserve">
         <value>Toggle selection of application settings</value>
     </data>
-     <data name="selectAppSettingAriaLabel" xml:space="preserve">
+    <data name="selectAppSettingAriaLabel" xml:space="preserve">
         <value>Select application setting</value>
     </data>
-     <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
+    <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
         <value>Toggle selection for all application settings</value>
     </data>
     <data name="hideButton" xml:space="preserve">

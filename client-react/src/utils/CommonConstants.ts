@@ -73,12 +73,12 @@ export class CommonConstants {
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
-    enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
     enableSnippets: 'enableSnippets',
     showJBossClustering: 'showJBossClustering',
     showNFSFileShares: 'showNFSFileShares',
+    showDCAuthSettings: 'showDCAuthSettings',
   };
 
   public static readonly AppDensityLimit = 8;
