@@ -44,6 +44,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterAuthenticationSettings } from '../authentication/DeploymentCenterAuthenticationSettings';
+import Url from '../../../../utils/url';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -290,7 +291,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                 setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
               />
               {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
-              <DeploymentCenterAuthenticationSettings formProps={formProps} />
+              {Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) && (
+                <DeploymentCenterAuthenticationSettings formProps={formProps} />
+              )}
               <DeploymentCenterGitHubWorkflowConfigPreview
                 isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
                 getWorkflowFileContent={getWorkflowFileContent}
