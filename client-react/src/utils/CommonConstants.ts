@@ -126,6 +126,7 @@ export class CommonConstants {
     premiumMV3: 'premiummv3',
     premiumContainer: 'premiumcontainer',
     isolated: 'isolated',
+    isolatedV2: 'isolatedv2',
     dynamic: 'dynamic',
     elasticPremium: 'elasticpremium',
     elasticIsolated: 'elasticisolated',
