@@ -10,6 +10,8 @@ import {
   AppSettingReference,
   StorageAccess,
   ConfigurationOption,
+  AccessKeyPlaceHolderForNFSFileShares,
+  StorageFileShareProtocol,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
@@ -303,6 +305,7 @@ export function getFormAzureStorageMount(
     return [];
   }
   const appSettingNames = slotConfigNames?.properties.azureStorageConfigNames || [];
+
   return sortBy(
     Object.keys(storageData.properties).map(key => {
       const { accessKey, ...rest } = storageData.properties[key];
@@ -314,9 +317,12 @@ export function getFormAzureStorageMount(
         storageAccess === StorageAccess.KeyVaultReference
           ? accessKey.substring(AppSettingReference.prefix.length, accessKey.length - 1)
           : undefined;
-      const accessKeyValue = storageAccess === StorageAccess.KeyVaultReference ? undefined : accessKey;
+
+      const accessKeyValue =
+        storageAccess === StorageAccess.KeyVaultReference || accessKey === AccessKeyPlaceHolderForNFSFileShares ? undefined : accessKey;
       const configurationOption =
         storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
+      const protocol = accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB;
 
       return {
         name: key,
@@ -324,6 +330,7 @@ export function getFormAzureStorageMount(
         storageAccess,
         appSettings,
         configurationOption,
+        protocol,
         accessKey: accessKeyValue,
         ...rest,
       } as FormAzureStorageMounts;
@@ -335,9 +342,9 @@ export function getFormAzureStorageMount(
 export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
   const storageMountFromForm: ArmAzureStorageMount = {};
   storageData.forEach(store => {
-    const { name, sticky, configurationOption, storageAccess, appSettings, accessKey, ...rest } = store;
+    const { name, sticky, configurationOption, storageAccess, appSettings, accessKey, protocol, ...rest } = store;
     storageMountFromForm[name] = {
-      accessKey: getStorageMountAccessKey(store),
+      accessKey: protocol === StorageFileShareProtocol.SMB ? getStorageMountAccessKey(store) : AccessKeyPlaceHolderForNFSFileShares,
       ...rest,
     };
   });
