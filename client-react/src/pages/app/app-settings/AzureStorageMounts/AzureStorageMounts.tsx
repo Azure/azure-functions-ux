@@ -1,7 +1,13 @@
 import { FormikProps } from 'formik';
 import React, { useContext, useState } from 'react';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { AppSettingsFormValues, ConfigurationOption, FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
+import {
+  AppSettingsFormValues,
+  ConfigurationOption,
+  FormAzureStorageMounts,
+  StorageAccess,
+  StorageFileShareProtocol,
+} from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
 import {
@@ -59,6 +65,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     const blankAzureStorageMount: FormAzureStorageMounts = {
       name: '',
       configurationOption: ConfigurationOption.Basic,
+      protocol: StorageFileShareProtocol.SMB,
       type: StorageType.azureBlob,
       accountName: '',
       shareName: '',
