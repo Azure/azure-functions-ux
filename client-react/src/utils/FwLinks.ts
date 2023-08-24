@@ -56,6 +56,7 @@ export const Links = {
   functionUnreachableLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2214718',
   endOfLifeStackLink: 'https://go.microsoft.com/fwlink/?linkid=2202628',
   connectionStringLearnmore: 'https://go.microsoft.com/fwlink/?linkid=2225650',
+  customErrorPagesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2245451',
 };
 
 export const DeploymentCenterLinks = {
