@@ -31,6 +31,7 @@ interface SpecPickerOutput {
 
 export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   formProps,
+  site,
   currentServerFarm,
   hostingEnvironment,
   resourceGroups,
@@ -220,11 +221,11 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     if (
-      hostingEnvironment &&
+      hostingEnvironment && 
       AppKind.hasAnyKind(hostingEnvironment, [CommonConstants.Kinds.aseV1, CommonConstants.Kinds.aseV2, CommonConstants.Kinds.aseV3])
     ) {
-      const aseKind = hostingEnvironment.properties.osPreference === 'Linux' ? CommonConstants.Kinds.linux : CommonConstants.Kinds.app;
-      return filteredServerFarms.filter(serverFarm => AppKind.hasAnyKind(serverFarm, [aseKind]));
+      const appKind = isLinuxApp(currentServerFarm) ? CommonConstants.Kinds.linux : CommonConstants.Kinds.app;
+      return filteredServerFarms.filter(serverFarm => AppKind.hasAnyKind(serverFarm, [appKind]));
     }
 
     return filteredServerFarms;
