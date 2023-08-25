@@ -14,11 +14,11 @@ interface ManagedIdentitiesDropdownProps {
   identityOptions: ISelectableOption[];
   loadingIdentities: boolean;
   fetchManagedIdentityOptions: () => void;
-  fieldName?: string;
+  fieldName: string;
 }
 
 export const ManagedIdentitiesDropdown = React.memo<ManagedIdentitiesDropdownProps>(
-  ({ resourceId, identityOptions, loadingIdentities, fetchManagedIdentityOptions, fieldName = 'authIdentity' }) => {
+  ({ resourceId, identityOptions, loadingIdentities, fetchManagedIdentityOptions, fieldName }) => {
     const { t } = useTranslation();
     const portalContext = React.useContext(PortalContext);
 
