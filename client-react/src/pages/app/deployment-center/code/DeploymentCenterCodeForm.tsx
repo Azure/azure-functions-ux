@@ -182,7 +182,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
           slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
           variables: variables,
-          authType: values.authType === AuthType.PublishProfile ? AuthType.PublishProfile : AuthType.Oidc,
+          authType: values.authType ?? AuthType.PublishProfile,
         },
       },
     };

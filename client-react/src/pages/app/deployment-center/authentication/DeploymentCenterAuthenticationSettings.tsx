@@ -103,6 +103,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
           identityOptions={identityOptions}
           loadingIdentities={loadingIdentities}
           fetchManagedIdentityOptions={fetchManagedIdentityOptions}
+          fieldName={'authIdentity'}
         />
       )}
     </div>
