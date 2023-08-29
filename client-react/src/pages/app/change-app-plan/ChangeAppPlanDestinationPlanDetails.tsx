@@ -31,7 +31,6 @@ interface SpecPickerOutput {
 
 export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
   formProps,
-  site,
   currentServerFarm,
   hostingEnvironment,
   resourceGroups,
@@ -224,12 +223,12 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       hostingEnvironment && 
       AppKind.hasAnyKind(hostingEnvironment, [CommonConstants.Kinds.aseV1, CommonConstants.Kinds.aseV2, CommonConstants.Kinds.aseV3])
     ) {
-      const appKind = isLinuxApp(currentServerFarm) ? CommonConstants.Kinds.linux : CommonConstants.Kinds.app;
+      const appKind = isLinuxApp(formProps.values.site) ? CommonConstants.Kinds.linux : CommonConstants.Kinds.app;
       return filteredServerFarms.filter(serverFarm => AppKind.hasAnyKind(serverFarm, [appKind]));
     }
 
     return filteredServerFarms;
-  }, [serverFarms, hostingEnvironment, isConsumptionToPremiumEnabled, skuTier]);
+  }, [formProps.values.site, serverFarms, hostingEnvironment, isConsumptionToPremiumEnabled, skuTier]);
 
   const serverFarmOptions = useMemo(() => {
     setUsingDefaultPlan(false);
