@@ -86,7 +86,6 @@ export const ChangeAppPlan: React.SFC<ChangeAppPlanProps> = props => {
                   <Stack className={formStyle}>
                     <CurrentPlanDetails currentServerFarm={currentServerFarm} />
                     <DestinationPlanDetails
-                      site={site}
                       isUpdating={isUpdating}
                       currentServerFarm={currentServerFarm}
                       hostingEnvironment={hostingEnvironment}
