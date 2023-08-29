@@ -1,19 +1,25 @@
-import { Icon, Link, MessageBarType } from '@fluentui/react';
+import { Icon, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { KeyValue } from '../../../../models/portal-models';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterCodeFormData, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterVstsDisconnect from './DeploymentCenterVstsDisconnect';
+import { ThemeContext } from '../../../../ThemeContext';
+import { messageBannerClass, messageBannerIconStyle } from '../../../../components/CustomBanner/CustomBanner.styles';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { ReactComponent as InfoSvg } from '../../../../images/Common/Info.svg';
 
-const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = ({ formProps }) => {
+const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldProps<
+  DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
+>> = ({ formProps }) => {
   const { t } = useTranslation();
+  const theme = useContext(ThemeContext);
 
   const [repo, setRepo] = useState<string | undefined>(undefined);
   const [branch, setBranch] = useState<string | undefined>(undefined);
@@ -137,11 +143,21 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
   return (
     <>
       <div className={deploymentCenterInfoBannerDiv}>
-        <CustomBanner
+        <MessageBar
           id="deployment-center-vsts-info-message"
-          message={`${t('deploymentCenterVstsInfoMessage')} `}
-          type={MessageBarType.info}
-        />
+          messageBarType={MessageBarType.info}
+          className={messageBannerClass(theme, MessageBarType.info)}>
+          <span className={messageBannerIconStyle}>
+            <InfoSvg />
+          </span>
+          <span>{t('deploymentCenterVstsInfoMessage')}</span>
+          <span>
+            <Link href={DeploymentCenterLinks.azureDevOpsPortal} target="_blank" aria-label={t('azureDevOpsPortal')}>
+              {t('azureDevOpsPortal')}
+            </Link>
+          </span>
+          <span>{t('deploymentCenterVstsInfoMessagePart2')}</span>
+        </MessageBar>
       </div>
 
       <ReactiveFormControl id="deployment-center-azure-repos-source-label" label={t('deploymentCenterSettingsSourceLabel')}>

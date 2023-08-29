@@ -10,10 +10,12 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
-import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterCodeFormData, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
-const DeploymentCenterVstsDisconnect: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
+const DeploymentCenterVstsDisconnect: React.FC<DeploymentCenterFieldProps<
+  DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
+>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
   const deploymentCenterData = new DeploymentCenterData();
