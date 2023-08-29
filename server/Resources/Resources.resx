@@ -6271,7 +6271,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve account information</value>
     </data>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to the </value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to the</value>
     </data>
     <data name="azureDevOpsPortal" xml:space="preserve">
         <value>Azure DevOps portal</value>
@@ -7003,7 +7003,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Building with Azure Pipelines.</value>
     </data>
     <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the </value>
+        <value>To configure deployment with an existing Azure Pipeline, please go to the </value>
+    </data>
+    <data name="deploymentCenterVstsBuildGetStartedMessage" xml:space="preserve">
+        <value>Select the option below to get started with a new Azure DevOps project.</value>
     </data>
     <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
         <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>

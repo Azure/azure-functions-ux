@@ -145,6 +145,7 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
       <div className={deploymentCenterInfoBannerDiv}>
         <MessageBar
           id="deployment-center-vsts-info-message"
+          tabIndex={0}
           messageBarType={MessageBarType.info}
           className={messageBannerClass(theme, MessageBarType.info)}>
           <span className={messageBannerIconStyle}>

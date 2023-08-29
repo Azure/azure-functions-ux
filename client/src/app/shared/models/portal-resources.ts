@@ -2287,6 +2287,7 @@ export class PortalResources {
   public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
   public static deploymentCenterVstsBuildDescription = 'deploymentCenterVstsBuildDescription';
   public static deploymentCenterVstsBuildMessage = 'deploymentCenterVstsBuildMessage';
+  public static deploymentCenterVstsBuildGetStartedMessage = 'deploymentCenterVstsBuildGetStartedMessage';
   public static deploymentCenterVstsDocsMessage = 'deploymentCenterVstsDocsMessage';
   public static deploymentCenterVstsGetStarted = 'deploymentCenterVstsGetStarted';
   public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';

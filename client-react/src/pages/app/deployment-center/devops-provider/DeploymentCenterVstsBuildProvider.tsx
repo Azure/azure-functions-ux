@@ -51,6 +51,7 @@ const DeploymentCenterVstsBuildProvider: React.FC = () => {
           {` ${t('azureDevOpsPortal')}`}
         </Link>
       </div>
+      <div className={vstsDescriptionStyle}>{t('deploymentCenterVstsBuildGetStartedMessage')}</div>
       <div className={vstsDescriptionStyle}>
         <PrimaryButton
           id="deployment-center-vsts-get-started-message"
