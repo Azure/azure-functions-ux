@@ -11,7 +11,6 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
   const node16EOL = getDateString(new Date(2024, 5, 30), useIsoDateFormat);
   const node14EOL = getDateString(new Date(2023, 3, 30), useIsoDateFormat);
 
-
   return {
     displayText: 'Node.js',
     value: 'node',
@@ -28,7 +27,6 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
               windowsRuntimeSettings: {
                 runtimeVersion: '~20',
                 isPreview: true,
-                isHidden: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -51,7 +49,6 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|20',
                 isPreview: true,
-                isHidden: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -84,6 +81,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: '~18',
+                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -105,6 +103,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|18',
+                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
