@@ -72,9 +72,9 @@ div.console-message-error {
 
 span.console-cursor {
   text-decoration: none;
-  box-shadow: 0px -4px $console-text-color inset;
-  animation: blink 1s steps(3, start) infinite;
+  border-bottom: 1px solid $console-text-color;
   -webkit-animation: blink 1s steps(3, start) infinite;
+  animation: blink 1s steps(3, start) infinite;
 }
 
 span.bash-cursor {
