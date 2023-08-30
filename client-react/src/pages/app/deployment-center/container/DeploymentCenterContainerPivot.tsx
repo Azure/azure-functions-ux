@@ -93,7 +93,7 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
 
         {isScmVsts && setDeployments && (
           <PivotItem
-            itemKey="githublogs"
+            itemKey="vstslogs"
             headerText={t('deploymentCenterPivotItemBuildLogsHeaderText')}
             ariaLabel={t('deploymentCenterPivotItemBuildLogsAriaLabel')}>
             <DeploymentCenterVSTSCodeLogs deployments={deployments} setDeployments={setDeployments} />
