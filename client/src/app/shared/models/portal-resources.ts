@@ -2034,6 +2034,8 @@ export class PortalResources {
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
+  public static azureDevOpsPortal = 'azureDevOpsPortal';
+  public static deploymentCenterVstsInfoMessagePart2 = 'deploymentCenterVstsInfoMessagePart2';
   public static deploymentCenterTfsVsoInfoMessage = 'deploymentCenterTfsVsoInfoMessage';
   public static deploymentCenterDeleteCommandAriaLabel = 'deploymentCenterDeleteCommandAriaLabel';
   public static deploymentCenterDeleteLogsConfirmationTitle = 'deploymentCenterDeleteLogsConfirmationTitle';
@@ -2285,6 +2287,7 @@ export class PortalResources {
   public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
   public static deploymentCenterVstsBuildDescription = 'deploymentCenterVstsBuildDescription';
   public static deploymentCenterVstsBuildMessage = 'deploymentCenterVstsBuildMessage';
+  public static deploymentCenterVstsBuildGetStartedMessage = 'deploymentCenterVstsBuildGetStartedMessage';
   public static deploymentCenterVstsDocsMessage = 'deploymentCenterVstsDocsMessage';
   public static deploymentCenterVstsGetStarted = 'deploymentCenterVstsGetStarted';
   public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';
