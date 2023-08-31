@@ -7822,4 +7822,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
       <data name="showButton" xml:space="preserve">
         <value>Show value button</value>
     </data>
+      <data name="troubleShoot" xml:space="preserve">
+        <value>Trouble Shoot</value>
+    </data>
 </root>

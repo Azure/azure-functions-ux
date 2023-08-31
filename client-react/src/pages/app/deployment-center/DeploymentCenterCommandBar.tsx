@@ -80,6 +80,16 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
     });
   };
+  const openSCIFrameBlade = () => {
+    portalContext.openBlade({
+      detailBlade: 'SCIFrameBlade',
+      detailBladeInputs: {
+        id: deploymentCenterContext.resourceId,
+      },
+      extension: 'WebsitesExtension',
+      openAsContextBlade: true,
+    });
+  };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     const commandBarItems: ICommandBarItemProps[] = [
@@ -94,6 +104,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     }
 
     commandBarItems.push(getFeedbackItem());
+    commandBarItems.push(getTroubleShootItem());
 
     return commandBarItems;
   };
@@ -116,6 +127,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   const onManagePublishProfileButtonClick = () => {
     portalContext.log(getTelemetryInfo('info', 'managePublishProfileButton', 'clicked'));
     showPublishProfilePanel();
+  };
+
+  const onTroubleShootButtonClick = () => {
+    portalContext.log(getTelemetryInfo('info', 'troubleShootButton', 'clicked'));
+    openSCIFrameBlade();
   };
 
   const onRedeployClick = () => {
@@ -208,6 +224,19 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       disabled: false,
       ariaLabel: t('leaveFeedback'),
       onClick: onFeedbackButtonClick,
+    };
+  };
+
+  const getTroubleShootItem = (): ICommandBarItemProps => {
+    return {
+      key: 'troubleShoot',
+      name: t('troubleShoot'),
+      iconProps: {
+        iconName: 'DeveloperTools',
+      },
+      disabled: false,
+      ariaLabel: t('troubleShoot'),
+      onClick: onTroubleShootButtonClick,
     };
   };
 
