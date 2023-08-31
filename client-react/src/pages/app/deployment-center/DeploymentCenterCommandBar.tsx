@@ -167,7 +167,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   };
 
   const onTroubleShootButtonClick = () => {
-    portalContext.log(getTelemetryInfo('info', 'troubleShootButton', 'clicked'));
+    portalContext.log(getTelemetryInfo('info', 'troubleshootButton', 'clicked'));
     openSCIFrameBlade();
   };
 
@@ -266,13 +266,13 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
 
   const getTroubleShootItem = (): ICommandBarItemProps => {
     return {
-      key: 'troubleShoot',
-      name: t('troubleShoot'),
+      key: 'troubleshoot',
+      name: t('troubleshoot'),
       iconProps: {
         iconName: 'DeveloperTools',
       },
       disabled: false,
-      ariaLabel: t('troubleShoot'),
+      ariaLabel: t('troubleshoot'),
       onClick: onTroubleShootButtonClick,
     };
   };
