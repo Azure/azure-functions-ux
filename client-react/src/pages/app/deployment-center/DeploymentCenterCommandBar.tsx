@@ -80,11 +80,46 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
     });
   };
+
   const openSCIFrameBlade = () => {
+    //  const optionalParameters;
+
+    // const webAppParameters = {
+    //   key: 'Referrer',
+    //   value: {
+    //     ExtensionName: 'WebsitesExtension',
+    //     BladeName: 'DeploymentCenter',
+    //     TabName: '',
+    //     DetectorId: 'hybridconnections',
+    //     DetectorType: 'Detector',
+    //     CategoryId: 'Deployment',
+    //   },
+    // };
+
+    const functionAppParameters = {
+      key: 'Referrer',
+      value: {
+        ExtensionName: 'WebsitesExtension',
+        BladeName: 'DeploymentCenter',
+        TabName: '',
+        DetectorId: 'FunctionsDeploymentExternal',
+        DetectorType: 'Detector',
+        CategoryId: 'Configuration And Management',
+      },
+    };
+
+    // if (siteStateContext.isFunctionApp) {
+    const optionalParameters = [functionAppParameters];
+    // }
+    // else {
+    //       optionalParameters = [webAppParameters];
+    //     }
+
     portalContext.openBlade({
       detailBlade: 'SCIFrameBlade',
       detailBladeInputs: {
         id: deploymentCenterContext.resourceId,
+        optionalParameters: optionalParameters,
       },
       extension: 'WebsitesExtension',
       openAsContextBlade: true,
@@ -104,7 +139,9 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     }
 
     commandBarItems.push(getFeedbackItem());
-    commandBarItems.push(getTroubleShootItem());
+    if (siteStateContext.isFunctionApp) {
+      commandBarItems.push(getTroubleShootItem());
+    }
 
     return commandBarItems;
   };
