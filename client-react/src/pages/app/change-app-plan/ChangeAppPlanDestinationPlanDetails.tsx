@@ -2,6 +2,7 @@ import { Checkbox, IDropdownOption, ILink, Link, MessageBarType, Stack } from '@
 import { useContext, useMemo, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PortalContext } from '../../../PortalContext';
+import { SiteStateContext } from '../../../SiteState';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
 import ReactiveFormControl from '../../../components/form-controls/ReactiveFormControl';
@@ -213,6 +214,8 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     setSkuTier(planTier);
   };
 
+  const siteStateContext = useContext(SiteStateContext);
+
   const filteredServerFarmOptions = useMemo(() => {
     const filteredServerFarms = serverFarms;
     if (isConsumptionToPremiumEnabled) {
@@ -220,15 +223,15 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     if (
-      hostingEnvironment &&
+      hostingEnvironment && 
       AppKind.hasAnyKind(hostingEnvironment, [CommonConstants.Kinds.aseV1, CommonConstants.Kinds.aseV2, CommonConstants.Kinds.aseV3])
     ) {
-      const aseKind = hostingEnvironment.properties.osPreference === 'Linux' ? CommonConstants.Kinds.linux : CommonConstants.Kinds.app;
-      return filteredServerFarms.filter(serverFarm => AppKind.hasAnyKind(serverFarm, [aseKind]));
+      const appKind = siteStateContext.isLinuxApp ? CommonConstants.Kinds.linux : CommonConstants.Kinds.app;
+      return filteredServerFarms.filter(serverFarm => AppKind.hasAnyKind(serverFarm, [appKind]));
     }
 
     return filteredServerFarms;
-  }, [serverFarms, hostingEnvironment, isConsumptionToPremiumEnabled, skuTier]);
+  }, [siteStateContext.isLinuxApp, serverFarms, hostingEnvironment, isConsumptionToPremiumEnabled, skuTier]);
 
   const serverFarmOptions = useMemo(() => {
     setUsingDefaultPlan(false);
