@@ -48,7 +48,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '8.x',
                 },
-                isHidden: true,
                 isPreview: true,
               },
             },
