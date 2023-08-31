@@ -4899,7 +4899,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Storage account name</value>
     </data>
     <data name="ok" xml:space="preserve">
-        <value>OK</value>
+        <value>Ok</value>
     </data>
     <data name="invalidShare" xml:space="preserve">
         <value>Invalid share</value>
@@ -6217,7 +6217,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Confirm Azure Pipelines Disconnect</value>
     </data>
     <data name="vstsDisconnectConfirmationDescription" xml:space="preserve">
-        <value>Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.</value>
+        <value>Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your Azure Pipeline to fully disconnect.</value>
     </data>
     <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
         <value>Fetching GitHub Action workflow configuration</value>
@@ -6271,7 +6271,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve account information</value>
     </data>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to the</value>
+    </data>
+    <data name="azureDevOpsPortal" xml:space="preserve">
+        <value>Azure DevOps portal</value>
+    </data>
+    <data name="deploymentCenterVstsInfoMessagePart2" xml:space="preserve">
+        <value> to manage your deployments.</value>
     </data>
     <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
@@ -6997,7 +7003,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Building with Azure Pipelines.</value>
     </data>
     <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>To configure deployment with an existing Azure Pipeline, please go to the </value>
+    </data>
+    <data name="deploymentCenterVstsBuildGetStartedMessage" xml:space="preserve">
+        <value>Select the option below to get started with a new Azure DevOps project.</value>
     </data>
     <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
         <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
