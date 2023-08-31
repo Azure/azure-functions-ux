@@ -355,12 +355,17 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         )}
 
         {isGitHubActionSelected && (
-          <DeploymentCenterGitHubWorkflowConfigPreview
-            isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
-            getWorkflowFileContent={getWorkflowFileContent}
-            workflowFilePath={workflowFilePath}
-            panelMessage={panelMessage}
-          />
+          <>
+            {Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) && (
+              <DeploymentCenterAuthenticationSettings formProps={formProps} />
+            )}
+            <DeploymentCenterGitHubWorkflowConfigPreview
+              isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
+              getWorkflowFileContent={getWorkflowFileContent}
+              workflowFilePath={workflowFilePath}
+              panelMessage={panelMessage}
+            />
+          </>
         )}
       </>
     );
