@@ -7823,6 +7823,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Show value button</value>
     </data>
       <data name="troubleShoot" xml:space="preserve">
-        <value>TroubleShoot</value>
+        <value>Troubleshoot</value>
     </data>
 </root>
