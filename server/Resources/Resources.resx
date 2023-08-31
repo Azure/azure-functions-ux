@@ -4899,7 +4899,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Storage account name</value>
     </data>
     <data name="ok" xml:space="preserve">
-        <value>OK</value>
+        <value>Ok</value>
     </data>
     <data name="invalidShare" xml:space="preserve">
         <value>Invalid share</value>
@@ -5038,6 +5038,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="storageAccessLabel" xml:space="preserve">
         <value>Storage access</value>
+    </data>
+    <data name="protocolLabel" xml:space="preserve">
+        <value>Protocol</value>
     </data>
     <data name="manualInput" xml:space="preserve">
         <value>Manual input</value>
@@ -5832,6 +5835,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="BYOSDeploymentSettingsWarning" xml:space="preserve">
         <value>Selected App Setting is not marked as deployment slot setting. This may cause inconsistencies during the slot swap operation.</value>
     </data>
+    <data name="BYOSNFSShareInfo" xml:space="preserve">
+        <value>Your app must be on a Virtual network to access NFS file shares.</value>
+    </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>
     </data>
@@ -6211,7 +6217,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Confirm Azure Pipelines Disconnect</value>
     </data>
     <data name="vstsDisconnectConfirmationDescription" xml:space="preserve">
-        <value>Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.</value>
+        <value>Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your Azure Pipeline to fully disconnect.</value>
     </data>
     <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
         <value>Fetching GitHub Action workflow configuration</value>
@@ -6265,7 +6271,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve account information</value>
     </data>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to the</value>
+    </data>
+    <data name="azureDevOpsPortal" xml:space="preserve">
+        <value>Azure DevOps portal</value>
+    </data>
+    <data name="deploymentCenterVstsInfoMessagePart2" xml:space="preserve">
+        <value> to manage your deployments.</value>
     </data>
     <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
@@ -6991,7 +7003,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Building with Azure Pipelines.</value>
     </data>
     <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>To configure deployment with an existing Azure Pipeline, please go to the </value>
+    </data>
+    <data name="deploymentCenterVstsBuildGetStartedMessage" xml:space="preserve">
+        <value>Select the option below to get started with a new Azure DevOps project.</value>
     </data>
     <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
         <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
@@ -7791,5 +7806,20 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="portCountRange" xml:space="preserve">
         <value>The port value must be between {0} and {1}.</value>
+    </data>
+    <data name="toggleAppSettingSelectionAriaLabel" xml:space="preserve">
+        <value>Toggle selection of application settings</value>
+    </data>
+     <data name="selectAppSettingAriaLabel" xml:space="preserve">
+        <value>Select application setting</value>
+    </data>
+     <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
+        <value>Toggle selection for all application settings</value>
+    </data>
+     <data name="hideButton" xml:space="preserve">
+        <value>Hide value button</value>
+    </data>
+      <data name="showButton" xml:space="preserve">
+        <value>Show value button</value>
     </data>
 </root>

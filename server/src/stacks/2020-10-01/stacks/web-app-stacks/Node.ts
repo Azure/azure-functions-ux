@@ -2,7 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
-  const node16EOL = getDateString(new Date(2024, 3, 30), useIsoDateFormat);
+  const node16EOL = getDateString(new Date(2023, 8, 11), useIsoDateFormat);
   const node14EOL = getDateString(new Date(2023, 3, 30), useIsoDateFormat);
   const node12EOL = getDateString(new Date(2022, 3, 1), useIsoDateFormat);
   const node10EOL = getDateString(new Date(2021, 3, 1), useIsoDateFormat);

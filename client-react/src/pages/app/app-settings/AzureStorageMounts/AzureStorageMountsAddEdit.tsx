@@ -13,13 +13,13 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { style } from 'typestyle';
 import { SiteStateContext } from '../../../../SiteState';
 import { StorageType } from '../../../../models/site/config';
 import { azureStorageTypeLabelStyle, formElementStyle } from '../AppSettings.styles';
 import { isStorageAccessAppSetting } from '../AppSettingsFormData';
 import { Links } from '../../../../utils/FwLinks';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
+import Url from '../../../../utils/url';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -304,8 +304,8 @@ const AzureStorageMountsAddEdit: React.SFC<AzureStorageMountsAddEditPropsCombine
 type AzureStorageMountsAddEdtSubFormProps = FormikProps<FormAzureStorageMounts> & AzureStorageMountsAddEditPropsCombined;
 
 const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubFormProps> = props => {
-  const [fileShareInfoBubbleMessage, setFileShareInfoBubbleMessage] = useState<string>();
   const { t } = useTranslation();
+  const { isLinuxApp } = useContext(SiteStateContext);
 
   const storageTypeOptions = React.useMemo<IChoiceGroupOption[]>(() => {
     return [
@@ -336,13 +336,18 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
         text: t('azureFiles'),
       },
     ] as IChoiceGroupOption[];
-  }, []);
-
-  React.useEffect(() => {
-    setFileShareInfoBubbleMessage(props.values.type === StorageType.azureFiles ? t('shareNameInfoBubbleMessage') : undefined);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.values.type]);
+  }, []);
+
+  const fileShareInfoBubbleMessage = React.useMemo(() => {
+    return props.values.type === StorageType.azureFiles &&
+      (!isLinuxApp || Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) !== 'true')
+      ? t('shareNameInfoBubbleMessage')
+      : undefined;
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.values.type, isLinuxApp]);
 
   return (
     <>
@@ -363,10 +368,5 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
     </>
   );
 };
-
-export const messageBanner = style({
-  paddingLeft: '5px',
-  marginBottom: '15px',
-});
 
 export default AzureStorageMountsAddEdit;

@@ -32,6 +32,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { AcrDependency } from '../../../../utils/dependency/Dependency';
+import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -41,6 +42,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [panelMessage, setPanelMessage] = useState('');
   const [showGitHubActionReadOnlyView, setShowGitHubActionReadOnlyView] = useState(false);
+  const [showVstsReadOnlyView, setShowVstsReadOnlyView] = useState(false);
   const [showSourceSelectionOption, setShowSourceSelectionOption] = useState(false);
 
   // NOTE(michinoy): The serverUrl, image, username, and password are retrieved from  one of three sources:
@@ -67,7 +69,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
   const hasAcrReadAccess = React.useCallback(() => {
     // NOTE(yoonaoh): Checking to see if the user has read access to the ACR itself
-    // If not, we turn this into a private registry instead
+    // If not, we turn this into a private registry instead. There are no dependencies
+    // as we only want this to run on the initial render to build the form correctly.
     if (formProps.values.registrySource === ContainerRegistrySources.acr) {
       setIsDataLoading(true);
       const acrTagInstance = new AcrDependency();
@@ -104,7 +107,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         setIsDataLoading(false);
       });
     }
-  }, [formProps.values.registrySource, formProps.values.acrLoginServer]);
+  }, []);
 
   const getWorkflowFileVariables = () => {
     const slotName = deploymentCenterContext.siteDescriptor?.slot ?? '';
@@ -303,23 +306,20 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   }, [formProps.values.scmType]);
 
   useEffect(() => {
-    const showReadOnlyView =
-      !!deploymentCenterContext &&
-      !!deploymentCenterContext.siteConfig &&
-      deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
-
-    setShowGitHubActionReadOnlyView(showReadOnlyView);
-
+    setShowGitHubActionReadOnlyView(deploymentCenterContext?.siteConfig?.properties?.scmType === ScmType.GitHubAction);
+    setShowVstsReadOnlyView(deploymentCenterContext?.siteConfig?.properties?.scmType === ScmType.Vsts);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.siteConfig]);
+  }, [deploymentCenterContext?.siteConfig?.properties?.scmType]);
 
   useEffect(() => {
     setShowSourceSelectionOption(!!siteStateContext);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext.isLinuxApp]);
+  }, [siteStateContext]);
 
   useEffect(() => hasAcrReadAccess(), [hasAcrReadAccess]);
+
+  useEffect(() => setIsAcrConfigured(formProps.values.registrySource === ContainerRegistrySources.acr), [formProps.values.registrySource]);
 
   const renderSetupView = () => {
     return (
@@ -373,7 +373,19 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     );
   };
 
-  const getSettingsControls = () => (showGitHubActionReadOnlyView ? renderGitHubActionReadOnlyView() : renderSetupView());
+  const renderVstsReadOnlyView = () => {
+    return <DeploymentCenterVstsBuildConfiguredView formProps={formProps} />;
+  };
+
+  const getSettingsControls = () => {
+    if (showGitHubActionReadOnlyView) {
+      return renderGitHubActionReadOnlyView();
+    } else if (showVstsReadOnlyView) {
+      return renderVstsReadOnlyView();
+    } else {
+      return renderSetupView();
+    }
+  };
 
   const getProgressIndicator = () => (
     <ProgressIndicator description={t('deploymentCenterSettingsLoading')} ariaValueText={t('deploymentCenterSettingsLoadingAriaValue')} />

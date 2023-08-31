@@ -1,7 +1,13 @@
 import { FormikProps } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
-import { AppSettingsFormValues, ConfigurationOption, FormAzureStorageMounts, StorageAccess } from '../AppSettings.types';
+import {
+  AppSettingsFormValues,
+  ConfigurationOption,
+  FormAzureStorageMounts,
+  StorageAccess,
+  StorageFileShareProtocol,
+} from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
 import {
@@ -15,6 +21,7 @@ import {
   IDetailsRowStyles,
   DetailsRow,
   IDetailsListProps,
+  ICommandBar,
 } from '@fluentui/react';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
@@ -38,6 +45,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
   const [currentAzureStorageMount, setCurrentAzureStorageMount] = useState<FormAzureStorageMounts | null>(null);
   const [currentItemIndex, setCurrentItemIndex] = useState<number | undefined>(undefined);
   const [createNewItem, setCreateNewItem] = useState(false);
+  const commandBarRef = useRef<ICommandBar | null>(null);
 
   const { values } = props;
   const { t } = useTranslation();
@@ -59,6 +67,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     const blankAzureStorageMount: FormAzureStorageMounts = {
       name: '',
       configurationOption: ConfigurationOption.Basic,
+      protocol: StorageFileShareProtocol.SMB,
       type: StorageType.azureBlob,
       accountName: '',
       shareName: '',
@@ -88,11 +97,13 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
 
     setCreateNewItem(false);
     setShowPanel(false);
+    commandBarRef.current?.focus();
   };
 
   const onCancel = (): void => {
     setCreateNewItem(false);
     setShowPanel(false);
+    commandBarRef.current?.focus();
   };
 
   const onShowPanel = (item: FormAzureStorageMounts, index: number): void => {
@@ -285,6 +296,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     return (
       <>
         <DisplayTableWithCommandBar
+          commandBarRef={commandBarRef}
           onRenderRow={onRenderRow}
           commandBarItems={getCommandBarItems()}
           items={values.azureStorageMounts || []}

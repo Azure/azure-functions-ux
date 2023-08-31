@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
@@ -8,7 +8,15 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps, PanelType, IDetailsRowStyles, DetailsRow, IDetailsListProps } from '@fluentui/react';
+import {
+  TooltipHost,
+  ICommandBarItemProps,
+  PanelType,
+  IDetailsRowStyles,
+  DetailsRow,
+  IDetailsListProps,
+  ICommandBar,
+} from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -23,6 +31,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   const [currentHandlerMapping, setCurrentHandlerMapping] = useState<HandlerMapping | null>(null);
   const [currentItemIndex, setCurrentItemIndex] = useState<number | null>(null);
   const [createNewItem, setCreateNewItem] = useState(false);
+  const commandBarRef = useRef<ICommandBar | null>(null);
 
   const { t, values } = props;
 
@@ -82,11 +91,13 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
     }
     setCreateNewItem(false);
     setShowPanel(false);
+    commandBarRef.current?.focus();
   };
 
   const onCancel = (): void => {
     setCreateNewItem(false);
     setShowPanel(false);
+    commandBarRef.current?.focus();
   };
 
   const onShowPanel = (item: HandlerMapping, index: number): void => {
@@ -251,6 +262,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
   return (
     <>
       <DisplayTableWithCommandBar
+        commandBarRef={commandBarRef}
         onRenderRow={onRenderRow}
         commandBarItems={getCommandBarItems()}
         items={values.config.properties.handlerMappings || []}

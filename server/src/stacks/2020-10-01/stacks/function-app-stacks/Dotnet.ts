@@ -79,7 +79,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|8.0',
-                isHidden: true,
+                isHidden: false,
                 isPreview: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {

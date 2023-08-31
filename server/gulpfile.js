@@ -109,8 +109,6 @@ gulp.task('replace-environment-variables', cb => {
       githubForCreatesClientSecret: process.env.githubForCreatesClientSecret || '',
       githubForCreatesNationalCloudsClientId: process.env.githubForCreatesNationalCloudsClientId || '',
       githubForCreatesNationalCloudsClientSecret: process.env.githubForCreatesNationalCloudsClientSecret || '',
-      githubForReactViewClientId: process.env.githubForReactViewClientId || '',
-      githubForReactViewClientSecret: process.env.githubForReactViewClientSecret || '',
       githubForReactViewsV2ClientId: process.env.githubForReactViewsV2ClientId || '',
       githubForReactViewsV2ClientSecret: process.env.githubForReactViewsV2ClientSecret || '',
       HashSalt: hashSalt,
@@ -182,7 +180,7 @@ gulp.task('resources-convert', function() {
       rename(function(p) {
         const language = p.dirname.split(path.sep)[0];
         if (!!language && language !== '.') {
-          p.basename = 'Resources.' + language;
+          p.basename = 'Resources.' + language + '.default';
         }
         p.dirname = '.';
         p.extname = '.json';

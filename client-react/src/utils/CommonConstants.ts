@@ -77,6 +77,7 @@ export class CommonConstants {
     customErrorPage: 'customErrorPage',
     enableSnippets: 'enableSnippets',
     showJBossClustering: 'showJBossClustering',
+    showNFSFileShares: 'showNFSFileShares',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -125,6 +126,7 @@ export class CommonConstants {
     premiumMV3: 'premiummv3',
     premiumContainer: 'premiumcontainer',
     isolated: 'isolated',
+    isolatedV2: 'isolatedv2',
     dynamic: 'dynamic',
     elasticPremium: 'elasticpremium',
     elasticIsolated: 'elasticisolated',
@@ -362,6 +364,7 @@ export class ExperimentationConstants {
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
     showByosKeyVault: 'show-byos-keyvault',
+    showEnvironmentVariables: 'show-environment-variables',
   };
 
   public static ControlFlight = {

@@ -1625,6 +1625,7 @@ export class PortalResources {
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
   public static virtualPathUnique = 'virtualPathUnique';
   public static storageAccessLabel = 'storageAccessLabel';
+  public static protocolLabel = 'protocolLabel';
   public static manualInput = 'manualInput';
   public static keyVaultReference = 'keyVaultReference';
   public static configurationOptions = 'configurationOptions';
@@ -1886,6 +1887,7 @@ export class PortalResources {
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
   public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
   public static BYOSDeploymentSettingsWarning = 'BYOSDeploymentSettingsWarning';
+  public static BYOSNFSShareInfo = 'BYOSNFSShareInfo';
   public static quickstartHeader = 'quickstartHeader';
   public static quickstartDesc = 'quickstartDesc';
   public static viewDocumentation = 'viewDocumentation';
@@ -2032,6 +2034,8 @@ export class PortalResources {
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
+  public static azureDevOpsPortal = 'azureDevOpsPortal';
+  public static deploymentCenterVstsInfoMessagePart2 = 'deploymentCenterVstsInfoMessagePart2';
   public static deploymentCenterTfsVsoInfoMessage = 'deploymentCenterTfsVsoInfoMessage';
   public static deploymentCenterDeleteCommandAriaLabel = 'deploymentCenterDeleteCommandAriaLabel';
   public static deploymentCenterDeleteLogsConfirmationTitle = 'deploymentCenterDeleteLogsConfirmationTitle';
@@ -2283,6 +2287,7 @@ export class PortalResources {
   public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
   public static deploymentCenterVstsBuildDescription = 'deploymentCenterVstsBuildDescription';
   public static deploymentCenterVstsBuildMessage = 'deploymentCenterVstsBuildMessage';
+  public static deploymentCenterVstsBuildGetStartedMessage = 'deploymentCenterVstsBuildGetStartedMessage';
   public static deploymentCenterVstsDocsMessage = 'deploymentCenterVstsDocsMessage';
   public static deploymentCenterVstsGetStarted = 'deploymentCenterVstsGetStarted';
   public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';
@@ -2551,4 +2556,9 @@ export class PortalResources {
   public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
   public static configureDeploymentCredentialsLinkAriaLabel = 'configureDeploymentCredentialsLinkAriaLabel';
   public static portCountRange = 'portCountRange';
+  public static toggleAppSettingSelectionAriaLabel = 'toggleAppSettingSelectionAriaLabel';
+  public static selectAppSettingAriaLabel = 'selectAppSettingAriaLabel';
+  public static toggleAllAppSettingsAriaLabel = 'toggleAllAppSettingsAriaLabel';
+  public static hideButton = 'hideButton';
+  public static showButton = 'showButton';
 }

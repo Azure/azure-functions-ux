@@ -40,9 +40,18 @@ const DeploymentCenterVstsBuildProvider: React.FC = () => {
           {` ${t('learnMore')}`}
         </Link>
       </div>
-      <div className={vstsDescriptionStyle} id="deployment-center-vsts-message">
-        {t('deploymentCenterVstsBuildMessage')}
+      <div className={vstsDescriptionStyle}>
+        <span id="deployment-center-vsts-message">{t('deploymentCenterVstsBuildMessage')}</span>
+        <Link
+          id="deployment-center-vsts-portal-link"
+          href={DeploymentCenterLinks.azureDevOpsPortal}
+          target="_blank"
+          className={learnMoreLinkStyle}
+          aria-labelledby="deployment-center-vsts-portal-link">
+          {` ${t('azureDevOpsPortal')}`}
+        </Link>
       </div>
+      <div className={vstsDescriptionStyle}>{t('deploymentCenterVstsBuildGetStartedMessage')}</div>
       <div className={vstsDescriptionStyle}>
         <PrimaryButton
           id="deployment-center-vsts-get-started-message"

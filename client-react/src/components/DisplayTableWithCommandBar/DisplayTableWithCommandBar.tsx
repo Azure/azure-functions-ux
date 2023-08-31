@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { ICommandBarItemProps, CommandBar, IDetailsListProps, IButtonProps } from '@fluentui/react';
+import { ICommandBarItemProps, CommandBar, IDetailsListProps, IButtonProps, ICommandBar } from '@fluentui/react';
 import { ThemeContext } from '../../ThemeContext';
 import { commandBarStyles, DetailListStyles } from './DisplayTableWithCommandBar.style';
 import DisplayTableCommandBarButton from './DisplayTableCommandBarButton';
@@ -9,12 +9,13 @@ import DisplayTableWithEmptyMessage, {
 import { useTranslation } from 'react-i18next';
 
 interface DisplayTableWithCommandBarProps {
+  commandBarRef?: React.MutableRefObject<ICommandBar | null>;
   commandBarItems?: ICommandBarItemProps[];
 }
 
 type Props = DisplayTableWithEmptyMessageProps & DisplayTableWithCommandBarProps & IDetailsListProps;
 const DisplayTableWithCommandBar: React.SFC<Props> = props => {
-  const { commandBarItems, styles, ...rest } = props;
+  const { commandBarItems, styles, commandBarRef, ...rest } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
@@ -30,6 +31,11 @@ const DisplayTableWithCommandBar: React.SFC<Props> = props => {
     <>
       {!!commandBarItems && commandBarItems.length > 0 && (
         <CommandBar
+          componentRef={ref => {
+            if (commandBarRef) {
+              commandBarRef.current = ref;
+            }
+          }}
           items={commandBarItems}
           styles={commandBarStyles(theme)}
           buttonAs={DisplayTableCommandBarButton}
