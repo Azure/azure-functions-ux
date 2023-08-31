@@ -2561,4 +2561,5 @@ export class PortalResources {
   public static toggleAllAppSettingsAriaLabel = 'toggleAllAppSettingsAriaLabel';
   public static hideButton = 'hideButton';
   public static showButton = 'showButton';
+  public static troubleshoot = 'troubleshoot';
 }
