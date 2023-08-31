@@ -98,7 +98,6 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
         component={RadioButton}
         displayInVerticalLayout={true}
         options={options}
-        defaultSelectedKey={formProps.values.scmType}
         required={true}
       />
     </>

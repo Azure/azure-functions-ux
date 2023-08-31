@@ -16,6 +16,7 @@ import { getTelemetryInfo, isFtpsDirty, isSettingsDirty } from '../utility/Deplo
 import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
+import DeploymentCenterVSTSCodeLogs from '../code/DeploymentCenterVSTSCodeLogs';
 
 const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotProps> = props => {
   const { logs, deployments, runs, setLogs, setDeployments, setRuns, formProps, isDataRefreshing, tab } = props;
@@ -26,8 +27,8 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
 
-  const isScmGitHubActions =
-    deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
+  const isScmGitHubActions = deploymentCenterContext?.siteConfig?.properties?.scmType === ScmType.GitHubAction;
+  const isScmVsts = deploymentCenterContext?.siteConfig?.properties?.scmType === ScmType.Vsts;
 
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
@@ -87,6 +88,15 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
               setDeployments={setDeployments}
               setRuns={setRuns}
             />
+          </PivotItem>
+        )}
+
+        {isScmVsts && setDeployments && (
+          <PivotItem
+            itemKey="vstslogs"
+            headerText={t('deploymentCenterPivotItemBuildLogsHeaderText')}
+            ariaLabel={t('deploymentCenterPivotItemBuildLogsAriaLabel')}>
+            <DeploymentCenterVSTSCodeLogs deployments={deployments} setDeployments={setDeployments} />
           </PivotItem>
         )}
 
