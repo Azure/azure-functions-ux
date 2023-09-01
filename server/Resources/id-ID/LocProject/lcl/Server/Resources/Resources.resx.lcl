@@ -1920,6 +1920,12 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";azureDevOpsPortal" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Azure DevOps portal]]></Val>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";azureFiles" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Azure Files]]></Val>
@@ -6768,12 +6774,21 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterVstsBuildGetStartedMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select the option below to get started with a new Azure DevOps project.]]></Val>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterVstsBuildMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[To configure deployment with an existing Azure Pipeline, please go to the ]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[Untuk mengonfigurasi penyebaran dengan Alur Azure, buka portal Azure Dev Ops.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6797,10 +6812,19 @@
       </Item>
       <Item ItemId=";deploymentCenterVstsInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to the]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[Aplikasi Anda dikonfigurasi dengan Alur Azure sebagai penyedia build. Buka https://dev.azure.com untuk mengelola penyebaran Anda.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterVstsInfoMessagePart2" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[ to manage your deployments.]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -15323,10 +15347,13 @@
       </Item>
       <Item ItemId=";ok" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[OK]]></Val>
+          <Val><![CDATA[Ok]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[OK]]></Val>
+            <Val><![CDATA[Oke]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[OK]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -22811,10 +22838,13 @@
       </Item>
       <Item ItemId=";vstsDisconnectConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your Azure Pipeline to fully disconnect.]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[Yakin ingin memutuskan sambungan dari Azure Pipelines? Anda juga perlu menghapus tugas penyebaran pada file azure-pipelines.yaml untuk memutus sambungan sepenuhnya.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
