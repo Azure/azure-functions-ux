@@ -32,7 +32,9 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { AcrDependency } from '../../../../utils/dependency/Dependency';
+import { DeploymentCenterAuthenticationSettings } from '../authentication/DeploymentCenterAuthenticationSettings';
 import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
+import Url from '../../../../utils/url';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -353,12 +355,17 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         )}
 
         {isGitHubActionSelected && (
-          <DeploymentCenterGitHubWorkflowConfigPreview
-            isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
-            getWorkflowFileContent={getWorkflowFileContent}
-            workflowFilePath={workflowFilePath}
-            panelMessage={panelMessage}
-          />
+          <>
+            {Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) && (
+              <DeploymentCenterAuthenticationSettings formProps={formProps} />
+            )}
+            <DeploymentCenterGitHubWorkflowConfigPreview
+              isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
+              getWorkflowFileContent={getWorkflowFileContent}
+              workflowFilePath={workflowFilePath}
+              panelMessage={panelMessage}
+            />
+          </>
         )}
       </>
     );
