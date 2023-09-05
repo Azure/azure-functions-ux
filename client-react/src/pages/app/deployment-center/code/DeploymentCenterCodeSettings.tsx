@@ -6,6 +6,7 @@ import {
   RuntimeStackOptions,
   AppType,
   PublishType,
+  AuthType,
 } from '../DeploymentCenter.types';
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 import DeploymentCenterBitbucketDataLoader from '../bitbucket-provider/DeploymentCenterBitbucketDataLoader';
@@ -81,6 +82,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isVstsSetup, setIsVstsSetup] = useState(false);
   const [isTfsOrVsoSetup, setIsTfsOrVsoSetup] = useState(false);
   const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
+  const showDCAuthSettings = React.useMemo<boolean>(() => Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings), []);
 
   useEffect(() => {
     setSiteConfigScmType(deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType);
@@ -184,6 +186,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               runtimeVersion: variables.runtimeVersion,
               branch: variables.branch,
               runtimeStack: formProps.values.runtimeStack,
+              authType,
             })
           );
           return t('deploymentCenterWorkflowError');
@@ -212,9 +215,16 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
       (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig && githubActionExistingWorkflowContents);
 
+    const authTypeFormFilled = showDCAuthSettings
+      ? formProps.values?.authType === AuthType.Oidc
+        ? !!formProps.values?.authIdentity
+        : !!formProps.values.authType
+      : true;
+
     const formFilled =
       formProps.values.workflowOption !== WorkflowOption.None &&
-      ((formProps.values.runtimeStack && formProps.values.runtimeVersion) || runtimeInfoOmissionAllowed);
+      ((formProps.values.runtimeStack && formProps.values.runtimeVersion) || runtimeInfoOmissionAllowed) &&
+      authTypeFormFilled;
 
     setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -223,6 +233,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     githubActionExistingWorkflowContents,
     formProps.values.runtimeStack,
     formProps.values.runtimeVersion,
+    showDCAuthSettings,
+    formProps.values.authType,
+    formProps.values.authIdentity,
   ]);
 
   useEffect(() => {
@@ -291,9 +304,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                 setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
               />
               {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
-              {Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) && (
-                <DeploymentCenterAuthenticationSettings formProps={formProps} />
-              )}
+              {showDCAuthSettings && <DeploymentCenterAuthenticationSettings formProps={formProps} />}
               <DeploymentCenterGitHubWorkflowConfigPreview
                 isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
                 getWorkflowFileContent={getWorkflowFileContent}
