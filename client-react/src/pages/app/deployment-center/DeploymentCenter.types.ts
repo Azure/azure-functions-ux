@@ -667,7 +667,7 @@ export interface SiteSourceControlGitHubActionsRequestBody {
       slotName: string;
       variables: KeyValue<string>;
       runtimeStack?: string;
-      authType: AuthType;
+      authType?: AuthType;
     };
   };
 }

@@ -50,6 +50,7 @@ import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { RepoTypeOptions } from '../../../../models/external';
+import Url from '../../../../utils/url';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -77,13 +78,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      if (values.authType === AuthType.Oidc) {
+      if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) && values.authType === AuthType.Oidc) {
         const tinyGuid = Guid.newTinyGuid().toUpperCase();
         const fullRepoName = `${values.org}/${values.repo}`;
         const secrets = {
-          [`${DeploymentCenterConstants.SecretName.clientId}${tinyGuid}`]: values.authIdentity?.clientId,
-          [`${DeploymentCenterConstants.SecretName.tenantId}${tinyGuid}`]: values.authIdentity?.tenantId,
-          [`${DeploymentCenterConstants.SecretName.subscriptionId}${tinyGuid}`]: values.authIdentity?.subscriptionId,
+          [`${DeploymentCenterConstants.SecretName.clientId}${tinyGuid}`]: values?.authIdentity?.clientId,
+          [`${DeploymentCenterConstants.SecretName.tenantId}${tinyGuid}`]: values?.authIdentity?.tenantId,
+          [`${DeploymentCenterConstants.SecretName.subscriptionId}${tinyGuid}`]: values?.authIdentity?.subscriptionId,
         };
         const addSecretsForOidcResponse = await addSecretsForOidc(fullRepoName, secrets);
         if (!addSecretsForOidcResponse?.metadata?.success) {
@@ -164,6 +165,32 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>
   ): SiteSourceControlGitHubActionsRequestBody => {
     const variables = getGitHubActionsConfigurationVariables(values);
+    const gitHubActionConfiguration = Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)
+      ? {
+          generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
+          workflowSettings: {
+            appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+            publishType: PublishType.Code,
+            os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+            runtimeStack: values.runtimeStack,
+            workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20221001,
+            slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+            variables: variables,
+            authType: values.authType ?? AuthType.PublishProfile,
+          },
+        }
+      : {
+          generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
+          workflowSettings: {
+            appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+            publishType: PublishType.Code,
+            os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+            runtimeStack: values.runtimeStack,
+            workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
+            slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+            variables: variables,
+          },
+        };
 
     return {
       repoUrl: getRepoUrl(values),
@@ -172,19 +199,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       isGitHubAction: true,
       deploymentRollbackEnabled: false,
       isMercurial: false,
-      gitHubActionConfiguration: {
-        generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
-        workflowSettings: {
-          appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
-          publishType: PublishType.Code,
-          os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-          runtimeStack: values.runtimeStack,
-          workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
-          slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
-          variables: variables,
-          authType: values.authType ?? AuthType.PublishProfile,
-        },
-      },
+      gitHubActionConfiguration,
     };
   };
 
