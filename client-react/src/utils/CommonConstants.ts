@@ -21,6 +21,10 @@ export class CommonConstants {
     azureContainerApps: 'azurecontainerapps',
   };
 
+  public static readonly Extensions = {
+    WebsitesExtension: 'WebsitesExtension',
+  };
+
   public static readonly ApiVersions = {
     antaresApiVersion20181101: '2018-11-01',
     antaresApiVersion20201201: '2020-12-01',
