@@ -2043,6 +2043,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";azureDevOpsPortal" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Azure DevOps portal]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[portal do Azure DevOps]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";azureFiles" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Azure Files]]></Val>
@@ -7014,12 +7023,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterVstsBuildGetStartedMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select the option below to get started with a new Azure DevOps project.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selecione a opção abaixo para começar com um novo projeto do Azure DevOps.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterVstsBuildMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.]]></Val>
+          <Val><![CDATA[To configure deployment with an existing Azure Pipeline, please go to the ]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Para configurar a implementação com o Azure Pipelines, vá ao portal do Azure Dev Ops.]]></Val>
+            <Val><![CDATA[Para configurar a implementação com um Pipeline do Azure existente, aceda ao ]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -7043,13 +7064,22 @@
       </Item>
       <Item ItemId=";deploymentCenterVstsInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.]]></Val>
+          <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to the]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A sua aplicação está configurada com o Azure Pipelines como fornecedor de compilações. Aceda a https://dev.azure.com para gerir as suas implementações.]]></Val>
+            <Val><![CDATA[A sua aplicação está configurada com Pipelines do Azure como fornecedora de compilação. Aceda ao]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Please go to the Azure DevOps portal to disconnect.]]></Val>
+            <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterVstsInfoMessagePart2" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[ to manage your deployments.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ para gerir as suas implementações.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16040,10 +16070,13 @@
       </Item>
       <Item ItemId=";ok" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[OK]]></Val>
+          <Val><![CDATA[Ok]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[OK]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[OK]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -22626,6 +22659,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";troubleshoot" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Troubleshoot]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Resolução de problemas]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";troubleshootYourApp" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Troubleshoot your app]]></Val>
@@ -23813,10 +23855,13 @@
       </Item>
       <Item ItemId=";vstsDisconnectConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>
+          <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your Azure Pipeline to fully disconnect.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Tem a certeza que quer se desligar das Pipelines do Azure? Também terá de remover a tarefa de implementação no seu ficheiro azure-pipelines.yaml para desligar totalmente.]]></Val>
+            <Val><![CDATA[Quer mesmo desligar-se dos Pipelines do Azure? Também terá de remover a tarefa de implementação no seu Pipeline do Azure para desligar totalmente.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

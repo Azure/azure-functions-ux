@@ -2046,6 +2046,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";azureDevOpsPortal" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Azure DevOps portal]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Portál Azure DevOps]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";azureFiles" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Azure Files]]></Val>
@@ -7020,12 +7029,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterVstsBuildGetStartedMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select the option below to get started with a new Azure DevOps project.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pokud chcete začít pracovat s novým projektem Azure DevOps, vyberte možnost níže.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterVstsBuildMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.]]></Val>
+          <Val><![CDATA[To configure deployment with an existing Azure Pipeline, please go to the ]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Pokud chcete nakonfigurovat nasazení pomocí Azure Pipelines, přejděte prosím na portál Azure Dev Ops.]]></Val>
+            <Val><![CDATA[Pokud chcete nakonfigurovat nasazení pomocí existujícího Azure Pipeline, přejděte prosím na ]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -7049,13 +7070,22 @@
       </Item>
       <Item ItemId=";deploymentCenterVstsInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.]]></Val>
+          <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to the]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Vaše aplikace je nakonfigurovaná pomocí Azure Pipelines jako zprostředkovatel buildu. Pokud chcete spravovat nasazení, přejděte na https://dev.azure.com.]]></Val>
+            <Val><![CDATA[Vaše aplikace je nakonfigurovaná pomocí Azure Pipelines jako zprostředkovatel buildu. Přejděte na]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Please go to the Azure DevOps portal to disconnect.]]></Val>
+            <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterVstsInfoMessagePart2" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[ to manage your deployments.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ pro správu nasazení.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16070,10 +16100,13 @@
       </Item>
       <Item ItemId=";ok" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[OK]]></Val>
+          <Val><![CDATA[Ok]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[OK]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[OK]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -22653,6 +22686,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";troubleshoot" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Troubleshoot]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Odstranit potíže]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";troubleshootYourApp" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Troubleshoot your app]]></Val>
@@ -23837,10 +23879,13 @@
       </Item>
       <Item ItemId=";vstsDisconnectConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>
+          <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your Azure Pipeline to fully disconnect.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Opravdu se chcete odpojit od Azure Pipelines? Abyste se mohli plně odpojit, budete také muset odebrat úlohu nasazení v souboru azure-pipelines.yaml.]]></Val>
+            <Val><![CDATA[Opravdu se chcete odpojit od Azure Pipelines? Abyste se mohli plně odpojit, budete také muset odebrat úlohu nasazení ve službě Azure Pipeline.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
