@@ -17,6 +17,7 @@ import {
 import { ManagedIdentitiesDropdown } from './ManagedIdentitiesDropdown';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
+import ManagedIdentityService from '../../../../ApiHelpers/ManagedIdentityService';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -29,6 +30,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   const [showIdentities, setShowIdentities] = React.useState<boolean>(false);
   const [loadingIdentities, setLoadingIdentities] = React.useState<boolean>(false);
   const [identityOptions, setIdentityOptions] = React.useState<ISelectableOption[]>([]);
+  const managedIdentityInfo = React.useRef<{ [key: string]: UserAssignedIdentity }>({});
 
   const authTypeOptions = React.useMemo(() => {
     return [
@@ -61,13 +63,18 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     portalContext.log(getTelemetryInfo('info', 'getUserAssignedManagedIdentities', 'submit'));
     const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
     if (siteResponse.metadata.success && siteResponse.data.identity?.userAssignedIdentities) {
-      for (const [id, identity] of Object.entries(siteResponse.data.identity.userAssignedIdentities)) {
-        const clientId = identity.clientId;
-        const principalId = identity.principalId;
-        const tenantId = identity.tenantId;
-        const subscriptionId = new ArmResourceDescriptor(id).subscription;
-        const name = id.split('/').pop() || clientId;
-        options.push({ key: clientId, text: name, data: { clientId, principalId, tenantId, subscriptionId, name } });
+      for (const id in siteResponse.data.identity.userAssignedIdentities) {
+        const getUserAssignedIdentityResponse = await ManagedIdentityService.getUserAssignedIdentity(id);
+        if (getUserAssignedIdentityResponse.metadata.success) {
+          const identity = getUserAssignedIdentityResponse.data.properties;
+          const clientId = identity.clientId;
+          const principalId = identity.principalId;
+          const tenantId = identity.tenantId;
+          const subscriptionId = new ArmResourceDescriptor(id).subscription;
+          const name = id.split('/').pop() || clientId;
+          options.push({ key: clientId, text: name, data: { clientId, principalId, tenantId, subscriptionId, name } });
+          managedIdentityInfo.current[clientId] = { clientId, principalId, tenantId, subscriptionId, name };
+        }
       }
     }
     options.sort(optionsSortingFunction);
@@ -83,6 +90,13 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
       setShowIdentities(false);
     }
   }, [formProps.values.authType, fetchManagedIdentityOptions]);
+
+  React.useEffect(() => {
+    const authIdentityClientId = formProps.values.authIdentityClientId;
+    if (authIdentityClientId && managedIdentityInfo.current[authIdentityClientId]) {
+      formProps.values.authIdentity = managedIdentityInfo.current[authIdentityClientId];
+    }
+  }, [formProps.values.authIdentityClientId]);
 
   return (
     <div className={deploymentCenterContent}>
@@ -103,7 +117,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
           identityOptions={identityOptions}
           loadingIdentities={loadingIdentities}
           fetchManagedIdentityOptions={fetchManagedIdentityOptions}
-          fieldName={'authIdentity'}
+          fieldName={'authIdentityClientId'}
         />
       )}
     </div>

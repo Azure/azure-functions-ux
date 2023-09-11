@@ -325,6 +325,7 @@ export interface DeploymentCenterCommonFormData {
   devOpsProjectName?: string;
   searchTerm?: string;
   authType?: AuthType;
+  authIdentityClientId?: string;
   authIdentity?: UserAssignedIdentity;
 }
 
