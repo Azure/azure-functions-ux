@@ -46,7 +46,7 @@ export function useFields(resourceId: string, jobType?: string, selectedTemplate
           }
 
           if (functions?.some(f => value.toLowerCase() === f.properties.name.toLowerCase())) {
-            return t('functionNew_functionExists', { name });
+            return t('functionNew_functionExists').format(value);
           }
         }
       };
