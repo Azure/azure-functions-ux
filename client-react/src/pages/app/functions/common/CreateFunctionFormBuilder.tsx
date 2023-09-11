@@ -92,7 +92,7 @@ export class CreateFunctionFormBuilder<TOptions = any> extends BindingFormBuilde
     } else {
       const nameAlreadyUsed = this._functionsInfo.find(f => f.properties.name.toLowerCase() === value.toLowerCase());
       if (nameAlreadyUsed) {
-        return this.t('functionNew_functionExists', { name: value });
+        return this.t('functionNew_functionExists').format(value);
       }
     }
 

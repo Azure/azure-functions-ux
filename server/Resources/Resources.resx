@@ -905,7 +905,7 @@
         <value>A file with the name '{0}' already exists.</value>
     </data>
     <data name="functionNew_functionExists" xml:space="preserve">
-        <value>Function with name '{{name}}' already exists.</value>
+        <value>Function with name '{0}' already exists.</value>
     </data>
     <data name="jobType_appendToBlueprint" xml:space="preserve">
         <value>Append to blueprint</value>
