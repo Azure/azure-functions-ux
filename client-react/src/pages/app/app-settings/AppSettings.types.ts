@@ -26,6 +26,10 @@ export interface FormConnectionString {
 
 export interface FormAzureStorageMounts extends AzureStorageMount {
   name: string;
+  configurationOption: ConfigurationOption;
+  storageAccess: number;
+  protocol: StorageFileShareProtocol;
+  appSettings?: string;
   sticky?: boolean;
 }
 
@@ -167,3 +171,25 @@ export enum AppSettingsTabs {
   pathMappings = 'pathMappings',
   customErrorPage = 'customErrorPage',
 }
+
+export enum StorageAccess {
+  AccessKey,
+  KeyVaultReference,
+}
+
+export enum StorageFileShareProtocol {
+  SMB = 'SMB',
+  NFS = 'NFS',
+}
+
+export enum ConfigurationOption {
+  Basic = 'basic',
+  Advanced = 'advanced',
+}
+
+export class AppSettingReference {
+  public static readonly prefix = '@AppSettingRef(';
+  public static readonly suffix = ')';
+}
+
+export const AccessKeyPlaceHolderForNFSFileShares = 'nfs_no_connection_string_required';

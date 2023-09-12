@@ -92,6 +92,7 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
               linuxRuntimeSettings: {
                 runtimeVersion: 'PYTHON|3.7',
                 remoteDebuggingSupported: false,
+                isDeprecated: true,
                 appInsightsSettings: {
                   isSupported: false,
                 },

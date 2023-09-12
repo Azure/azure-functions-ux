@@ -505,6 +505,7 @@ export class PortalResources {
   public static minTlsVersionLabel = 'minTlsVersionLabel';
   public static minTlsVersionInfoBubbleMessage = 'minTlsVersionInfoBubbleMessage';
   public static minTlsCipherSuiteLabel = 'minTlsCipherSuiteLabel';
+  public static vnetPrivatePortsCount = 'vnetPrivatePortsCount';
   public static minTlsCipherSuiteInfoBubbleMessage = 'minTlsCipherSuiteInfoBubbleMessage';
   public static minTlsCipherSuiteSelectionInfo = 'minTlsCipherSuiteSelectionInfo';
   public static minTlsCipherSuiteBannerInfo = 'minTlsCipherSuiteBannerInfo';
@@ -1623,6 +1624,10 @@ export class PortalResources {
   public static emptyAzureStorageMount = 'emptyAzureStorageMount';
   public static azureStorageMountMustBeUnique = 'azureStorageMountMustBeUnique';
   public static virtualPathUnique = 'virtualPathUnique';
+  public static storageAccessLabel = 'storageAccessLabel';
+  public static protocolLabel = 'protocolLabel';
+  public static manualInput = 'manualInput';
+  public static keyVaultReference = 'keyVaultReference';
   public static configurationOptions = 'configurationOptions';
   public static storageAccountNameMustBeLowerCase = 'storageAccountNameMustBeLowerCase';
   public static noBlobsOrFilesShares = 'noBlobsOrFilesShares';
@@ -1881,6 +1886,8 @@ export class PortalResources {
   public static createFunctionNotificationFailedDetails = 'createFunctionNotificationFailedDetails';
   public static createFunctionNotificationSuccess = 'createFunctionNotificationSuccess';
   public static readonlyBlobStorageWarning = 'readonlyBlobStorageWarning';
+  public static BYOSDeploymentSettingsWarning = 'BYOSDeploymentSettingsWarning';
+  public static BYOSNFSShareInfo = 'BYOSNFSShareInfo';
   public static quickstartHeader = 'quickstartHeader';
   public static quickstartDesc = 'quickstartDesc';
   public static viewDocumentation = 'viewDocumentation';
@@ -1980,7 +1987,7 @@ export class PortalResources {
   public static resourceDropdown_missingAppSetting = 'resourceDropdown_missingAppSetting';
   public static resourceDropdown_noAppSettingsFound = 'resourceDropdown_noAppSettingsFound';
   public static integrate_bindingsMissingDirection = 'integrate_bindingsMissingDirection';
-  public static integrate_readOnlyPythonV2 = 'integrate_readOnlyPythonV2';
+  public static integrate_readOnlyNewProgrammingModel = 'integrate_readOnlyNewProgrammingModel';
   public static functionMonitor_invocations = 'functionMonitor_invocations';
   public static functionMonitor_logs = 'functionMonitor_logs';
   public static logStreaming_openInLiveMetrics = 'logStreaming_openInLiveMetrics';
@@ -2027,7 +2034,18 @@ export class PortalResources {
   public static deploymentCenterErrorFetchingInfo = 'deploymentCenterErrorFetchingInfo';
   public static deploymentCenterSettingsConfiguredViewUserNotAuthorized = 'deploymentCenterSettingsConfiguredViewUserNotAuthorized';
   public static deploymentCenterVstsInfoMessage = 'deploymentCenterVstsInfoMessage';
+  public static azureDevOpsPortal = 'azureDevOpsPortal';
+  public static deploymentCenterVstsInfoMessagePart2 = 'deploymentCenterVstsInfoMessagePart2';
   public static deploymentCenterTfsVsoInfoMessage = 'deploymentCenterTfsVsoInfoMessage';
+  public static deploymentCenterDeleteCommandAriaLabel = 'deploymentCenterDeleteCommandAriaLabel';
+  public static deploymentCenterDeleteLogsConfirmationTitle = 'deploymentCenterDeleteLogsConfirmationTitle';
+  public static deploymentCenterDeleteLogsConfirmationDescription = 'deploymentCenterDeleteLogsConfirmationDescription';
+  public static deploymentCenterDeleteLogsNotificationTitle = 'deploymentCenterDeleteLogsNotificationTitle';
+  public static deploymentCenterDeleteLogsNotificationDescription = 'deploymentCenterDeleteLogsNotificationDescription';
+  public static deploymentCenterDeleteLogsSuccessNotificationDescription = 'deploymentCenterDeleteLogsSuccessNotificationDescription';
+  public static deploymentCenterDeleteLogsFailureNotificationDescription = 'deploymentCenterDeleteLogsFailureNotificationDescription';
+  public static deploymentCenterDeleteLogsFailureWithErrorNotificationDescription =
+    'deploymentCenterDeleteLogsFailureWithErrorNotificationDescription';
   public static managePublishProfile = 'managePublishProfile';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
@@ -2269,6 +2287,7 @@ export class PortalResources {
   public static deploymentCenterKuduBuildDescription = 'deploymentCenterKuduBuildDescription';
   public static deploymentCenterVstsBuildDescription = 'deploymentCenterVstsBuildDescription';
   public static deploymentCenterVstsBuildMessage = 'deploymentCenterVstsBuildMessage';
+  public static deploymentCenterVstsBuildGetStartedMessage = 'deploymentCenterVstsBuildGetStartedMessage';
   public static deploymentCenterVstsDocsMessage = 'deploymentCenterVstsDocsMessage';
   public static deploymentCenterVstsGetStarted = 'deploymentCenterVstsGetStarted';
   public static deploymentCenterChangeBuildText = 'deploymentCenterChangeBuildText';
@@ -2342,7 +2361,9 @@ export class PortalResources {
   public static uploadingFile = 'uploadingFile';
   public static uploadingFileWithName = 'uploadingFileWithName';
   public static uploadingFileSuccessWithName = 'uploadingFileSuccessWithName';
-  public static uploadingFileFailureWithName = 'uploadingFileFailureWithName';
+  public static uploadingFileFailureForSizeWithName = 'uploadingFileFailureForSizeWithName';
+  public static uploadingFileFailureForExtWithName = 'uploadingFileFailureForExtWithName';
+  public static uploadingFileFailureForUnknownWithName = 'uploadingFileFailureForUnknownWithName';
   public static earlyAccessTemplate = 'earlyAccessTemplate';
   public static pricing_iv2NotAvailable = 'pricing_iv2NotAvailable';
   public static movingFromV2Warning = 'movingFromV2Warning';
@@ -2404,6 +2425,7 @@ export class PortalResources {
   public static validFileShouldBeSelectedWarning = 'validFileShouldBeSelectedWarning';
   public static invalidFileSelectedWarning = 'invalidFileSelectedWarning';
   public static switchToJbossWarningBaner = 'switchToJbossWarningBaner';
+  public static jbossClusteringInfo = 'jbossClusteringInfo';
   public static adminCredentials = 'adminCredentials';
   public static managedIdentity = 'managedIdentity';
   public static functionTestInputDescription = 'functionTestInputDescription';
@@ -2532,4 +2554,12 @@ export class PortalResources {
   public static consoleContainerTextAreaAriaLabel = 'consoleContainerTextAreaAriaLabel';
   public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
   public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
+  public static configureDeploymentCredentialsLinkAriaLabel = 'configureDeploymentCredentialsLinkAriaLabel';
+  public static portCountRange = 'portCountRange';
+  public static toggleAppSettingSelectionAriaLabel = 'toggleAppSettingSelectionAriaLabel';
+  public static selectAppSettingAriaLabel = 'selectAppSettingAriaLabel';
+  public static toggleAllAppSettingsAriaLabel = 'toggleAllAppSettingsAriaLabel';
+  public static hideButton = 'hideButton';
+  public static showButton = 'showButton';
+  public static troubleshoot = 'troubleshoot';
 }

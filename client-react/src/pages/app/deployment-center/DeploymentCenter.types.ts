@@ -279,7 +279,6 @@ export interface DeploymentCenterDataLoaderProps extends TabbedComponent {
 export interface RefreshableComponent {
   refresh: () => void;
   isDataRefreshing: boolean;
-  isLogsDataRefreshing: boolean;
 }
 
 export interface TabbedComponent {
@@ -384,21 +383,27 @@ export interface DeploymentCenterGitHubWorkflowConfigSelectorProps<T = Deploymen
 }
 
 export interface DeploymentCenterContainerLogsProps {
-  isLogsDataRefreshing: boolean;
-  refresh: () => void;
   logs?: string;
+  deployments?: ArmArray<DeploymentProperties>;
+  runs?: GitHubActionsRun[];
+  setLogs: (value?: React.SetStateAction<string | undefined>) => void;
+  setDeployments?: (value?: React.SetStateAction<ArmArray<DeploymentProperties>>) => void;
+  setRuns?: (value?: React.SetStateAction<GitHubActionsRun[] | undefined>) => void;
 }
 
 export interface DeploymentCenterCodeLogsProps {
-  isLogsDataRefreshing: boolean;
-  refreshLogs: () => void;
   deployments?: ArmArray<DeploymentProperties>;
-  deploymentsError?: string;
+  runs?: GitHubActionsRun[];
+  setDeployments: (value?: React.SetStateAction<ArmArray<DeploymentProperties>>) => void;
+  setRuns?: (value?: React.SetStateAction<GitHubActionsRun[] | undefined>) => void;
   goToSettings?: () => void;
 }
 
 export interface DeploymentCenterCodeLogsTimerProps {
-  refreshLogs: () => void;
+  pauseTimer?: boolean;
+  refreshLogs: () => Promise<void>;
+  setIsLogsDataRefreshing: (value?: React.SetStateAction<boolean>) => void;
+  deleteLogs: () => void;
 }
 
 export interface DeploymentCenterCommitLogsProps {
@@ -583,6 +588,7 @@ export interface DateTimeObj {
 
 export interface CodeDeploymentsRow {
   index: number;
+  id: string;
   rawTime: moment.Moment;
   displayTime: string;
   commit: JSX.Element;
@@ -727,6 +733,7 @@ export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContain
 }
 export interface GitHubActionsCodeDeploymentsRow {
   index: number;
+  id: number | string;
   rawTime: moment.Moment;
   displayTime: string;
   commit: string;
@@ -739,6 +746,7 @@ export interface GitHubActionsCodeDeploymentsRow {
 }
 
 export interface GitHubActionsRun {
+  id: number;
   cancel_url: string;
   html_url: string;
   logs_url: string;

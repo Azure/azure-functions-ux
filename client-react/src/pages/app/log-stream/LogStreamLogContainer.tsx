@@ -103,7 +103,13 @@ const LogStreamLogContainer: React.FC<LogStreamLogContainerPropsCombined> = prop
       {/* Show Application Logs and Web Server Toggle if Applicable*/}
       {showWebServerOption && (
         <div className={toggleDivStyle}>
-          <ChoiceGroup styles={ChoiceGroupStyles} defaultSelectedKey={logType} options={optionsWithMargin} onChange={_onOptionChange} />
+          <ChoiceGroup
+            role="radiogroup"
+            styles={ChoiceGroupStyles}
+            defaultSelectedKey={logType}
+            options={optionsWithMargin}
+            onChange={_onOptionChange}
+          />
         </div>
       )}
 

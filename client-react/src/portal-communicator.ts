@@ -210,10 +210,18 @@ export default class PortalCommunicator {
     );
   }
 
-  public makeHttpRequestsViaPortal(query: NetAjaxSettings): Promise<IDataMessageResult<any>> {
+  public makeHttpRequestsViaPortal(query: NetAjaxSettings, setContentType = false): Promise<IDataMessageResult<any>> {
     const updatedQuery = { ...query };
+
+    let contentType: string | undefined;
+    if (setContentType) {
+      // Set `query.contentType` to `Content-Type` header value if set.
+      contentType = setContentTypeIfContentTypeHeaderExists(updatedQuery);
+    }
+
     // NOTE(krmitta): Make sure stringified data is sent if present
-    if (query.data) {
+    // Do not stringify `query.data` if `setContentType` set and `contentType` starts with `application/json`
+    if (query.data && (!contentType || !/^application\/json/i.test(contentType))) {
       updatedQuery.data = JSON.stringify(query.data);
     }
 
@@ -623,4 +631,19 @@ export default class PortalCommunicator {
     PortalCommunicator.postMessage(Verbs.initializationcomplete, null);
     PortalCommunicator.postMessage(Verbs.getStartupInfo, this.packageData(startupInfo));
   };
+}
+
+function setContentTypeIfContentTypeHeaderExists(query: NetAjaxSettings): string | undefined {
+  if (query.headers) {
+    const contentTypeHeaderKey = Object.keys(query.headers).find(key => /content-type/i.test(key));
+
+    if (contentTypeHeaderKey) {
+      const contentType = query.headers[contentTypeHeaderKey];
+
+      query.contentType = contentType;
+      return contentType;
+    }
+  }
+
+  return undefined;
 }

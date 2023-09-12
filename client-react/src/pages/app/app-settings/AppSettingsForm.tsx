@@ -1,5 +1,5 @@
 import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
-import React, { useRef, useContext } from 'react';
+import React, { useRef, useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import { AppSettingsFormProps, AppSettingsTabs } from './AppSettings.types';
@@ -27,13 +27,14 @@ export const settingsWrapper = style({
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
   const { values, initialValues, tab, errors } = props;
-  const portalContext = useContext(PortalContext);
   const site = useContext(SiteContext);
+  const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
-  const [flighting, setFlighting] = React.useState(false);
+
+  const [showAppSettings, setShowAppSettings] = useState(false);
 
   const generalSettingsDirtyCheck = () => {
     return generalSettingsDirty(values, initialValues);
@@ -67,30 +68,40 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
     return generalSettingsError(errors);
   };
 
-  React.useEffect(() => {
-    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.customErrorPages).then(setFlighting);
-  }, [portalContext]);
-
   const dirtyLabel = t('modifiedTag');
   const enableDefaultDocuments = scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site }).status !== 'disabled';
   const enablePathMappings = scenarioChecker.checkScenario(ScenarioIds.virtualDirectoriesSupported, { site }).status !== 'disabled';
   const enableAzureStorageMount = scenarioChecker.checkScenario(ScenarioIds.azureStorageMount, { site }).status === 'enabled';
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
-  const enableCustomErrorPages =
-    scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status !== 'disabled' && flighting;
+  const enableCustomErrorPages = scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status !== 'disabled';
+
+  useEffect(() => {
+    let isSubscribed = true;
+    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.showEnvironmentVariables).then(enabled => {
+      if (isSubscribed) {
+        setShowAppSettings(!enabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [portalContext]);
 
   return (
     <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
-      <PivotItem
-        className={pivotWrapper}
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
-        }
-        itemKey={AppSettingsTabs.applicationSettings}
-        headerText={t('applicationSettings')}>
-        <ApplicationSettingsPivot {...props} />
-      </PivotItem>
+      {showAppSettings ? (
+        <PivotItem
+          className={pivotWrapper}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
+          }
+          itemKey={AppSettingsTabs.applicationSettings}
+          headerText={t('applicationSettings')}>
+          <ApplicationSettingsPivot {...props} />
+        </PivotItem>
+      ) : null}
 
       {showFunctionRuntimeSettings ? (
         <PivotItem

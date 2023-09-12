@@ -114,15 +114,13 @@ export function useFunctionCreator(resourceId: string, functionAppExists?: boole
         try {
           switch (jobType) {
             case JobType.CreateNewApp: {
-              /** @todo (joechung): AB#20749256 */
-              const appFileName = values['app-fileName'] ?? 'function_app.py';
+              const appFileName = values['app-fileName'];
               await createFile(appFileName, files[paths[0]]);
               break;
             }
 
             case JobType.AppendToFile: {
-              /** @todo (joechung): AB#20749256 */
-              const appSelectedFileName = values['app-selectedFileName'] ?? 'function_app.py';
+              const appSelectedFileName = values['app-selectedFileName'];
               await appendToFile(appSelectedFileName, files[paths[0]]);
               break;
             }

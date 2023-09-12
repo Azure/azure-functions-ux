@@ -31,7 +31,12 @@ import { FunctionEditor } from './FunctionEditor';
 import FunctionEditorData from './FunctionEditor.data';
 import { shrinkEditorStyle } from './FunctionEditor.styles';
 import { NameValuePair, ResponseContent, UrlObj, UrlType, urlParameterRegExp } from './FunctionEditor.types';
-import { isNewNodeProgrammingModel, isNewPythonProgrammingModel, useFunctionEditorQueries } from './useFunctionEditorQueries';
+import {
+  isNewNodeProgrammingModel,
+  isNewPythonProgrammingModel,
+  isNodeFunction,
+  useFunctionEditorQueries,
+} from './useFunctionEditorQueries';
 
 interface FunctionEditorDataLoaderProps {
   resourceId: string;
@@ -302,8 +307,13 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
   const run = async (newFunctionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => {
     setFunctionRunning(true);
 
+    // Do not update Node.js functions here because of a runtime bug when worker indexing is enabled.
     // Do not update v2 Python functions here since its metadata is derived from code, not from function.json.
-    if (!SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) && !isNewPythonProgrammingModel(functionInfo)) {
+    if (
+      !SiteHelper.isFunctionAppReadOnly(siteStateContext.siteAppEditState) &&
+      !isNewPythonProgrammingModel(functionInfo) &&
+      !isNodeFunction(functionInfo)
+    ) {
       const updatedFunctionInfo = await functionEditorData.updateFunctionInfo(resourceId, newFunctionInfo);
       if (updatedFunctionInfo.metadata.success) {
         setFunctionInfo(updatedFunctionInfo.data);
@@ -396,15 +406,15 @@ const FunctionEditorDataLoader: React.FC<FunctionEditorDataLoaderProps> = ({ res
       let errorCount = 0;
       let functionSuccess = false;
       for (errorCount = 0; errorCount < 5 && !functionSuccess; ++errorCount) {
-        runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+        runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings, /* setContentType */ true);
         const jqXHR = getJQXHR(runFunctionResponse, LogCategories.FunctionEdit, 'makeHttpRequestForRunFunction');
-        if (jqXHR && jqXHR.status && jqXHR.status !== 200) {
+        if (jqXHR && jqXHR.status && jqXHR.status < 300) {
           functionSuccess = true;
         }
       }
       setRetryFunctionTest(false);
     } else {
-      runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings);
+      runFunctionResponse = await portalContext.makeHttpRequestsViaPortal(settings, /* setContentType */ true);
     }
 
     const runFunctionResponseResult = runFunctionResponse.result;

@@ -166,7 +166,18 @@ const FunctionTest: React.FC<FunctionTestProps> = props => {
           }
           delete localTestData.headers;
         }
-        setReqBody(localTestData.body ?? localTestData);
+
+        // test_data.body is stringified when saved to the function object.
+        // This is because the body in the Monaco editor is not parsed with `JSON.parse` before being saved.
+        if (localTestData.body) {
+          setReqBody(localTestData.body);
+        } // When loaded for the first time, it is JSON as was originally intended. Stringify it.
+        else if (typeof localTestData !== 'string') {
+          setReqBody(JSON.stringify(localTestData));
+        } // It is possible though unlikely that `localTestData` is a JSON string. Leave it alone.
+        else {
+          setReqBody(localTestData);
+        }
       } else {
         setReqBody(localTestData);
       }

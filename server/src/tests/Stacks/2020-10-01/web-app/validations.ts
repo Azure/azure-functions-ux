@@ -89,7 +89,7 @@ export function validateNotDeprecatedStacks(stacks) {
 
 function validateNotDeprecatedStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(9);
+  expect(stacks.length).to.equal(8);
 }
 
 function validateStacksAreNotDeprecated(stacks) {
@@ -167,7 +167,7 @@ function validateDotnetStack(dotnetStack) {
   expect(dotnetStack.displayText).to.equal('.NET');
   expect(dotnetStack.value).to.equal('dotnet');
   expect(dotnetStack.preferredOs).to.equal('windows');
-  expect(dotnetStack.majorVersions.length).to.equal(8);
+  expect(dotnetStack.majorVersions.length).to.equal(9);
   expect(dotnetStack).to.deep.equal(hardCodedDotnetStack);
 }
 

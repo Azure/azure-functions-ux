@@ -149,7 +149,7 @@ function validateDotnetStack(dotnetStack) {
   expect(dotnetStack.displayText).to.equal('.NET');
   expect(dotnetStack.value).to.equal('dotnet');
   expect(dotnetStack.preferredOs).to.equal('windows');
-  expect(dotnetStack.majorVersions.length).to.equal(8);
+  expect(dotnetStack.majorVersions.length).to.equal(9);
   expect(dotnetStack).to.deep.equal(hardCodedDotnetStack);
 }
 
@@ -167,7 +167,7 @@ function validateNodeStack(nodeStack) {
   expect(nodeStack.displayText).to.equal('Node.js');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('windows');
-  expect(nodeStack.majorVersions.length).to.equal(7);
+  expect(nodeStack.majorVersions.length).to.equal(8);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 

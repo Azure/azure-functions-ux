@@ -824,7 +824,7 @@
         <value>Copied!</value>
     </data>
     <data name="copypre_copyClipboard" xml:space="preserve">
-        <value>Copy to clipboard</value>
+        <value>Copy the value for {0} to clipboard</value>
     </data>
     <data name="fileExplorer_changesLost" xml:space="preserve">
         <value>Changes made to current file will be lost. Are you sure you want to continue?</value>
@@ -905,7 +905,7 @@
         <value>A file with the name '{0}' already exists.</value>
     </data>
     <data name="functionNew_functionExists" xml:space="preserve">
-        <value>Function with name '{{name}}' already exists.</value>
+        <value>Function with name '{0}' already exists.</value>
     </data>
     <data name="jobType_appendToBlueprint" xml:space="preserve">
         <value>Append to blueprint</value>
@@ -1627,6 +1627,9 @@
     <data name="minTlsCipherSuiteLabel" xml:space="preserve">
         <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
     </data>
+    <data name="vnetPrivatePortsCount" xml:space="preserve">
+        <value>VNet Private Ports</value>
+    </data>
     <data name="minTlsCipherSuiteInfoBubbleMessage" xml:space="preserve">
         <value>Select the minimum TLS cipher suite to disable less secure TLS cipher suites for incoming requests.</value>
     </data>
@@ -2249,7 +2252,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>The combined site name and slot name must be fewer than 59 characters</value>
     </data>
     <data name="validation_siteNameInvalidChar" xml:space="preserve">
-        <value>'{0}' is an invalid character</value>
+        <value>Invalid character(s): {0}</value>
     </data>
     <data name="validation_siteNameNotAvailable" xml:space="preserve">
         <value>The app name '{0}' is not available</value>
@@ -3837,7 +3840,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>HTTP 2.0 Proxy</value>
     </data>
     <data name="basicAuthPublishingCred" xml:space="preserve">
-        <value>Basic Authentication</value>
+        <value>Basic Auth Publishing Credentials</value>
     </data>
     <data name="dismiss" xml:space="preserve">
         <value>Dismiss</value>
@@ -4896,7 +4899,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Storage account name</value>
     </data>
     <data name="ok" xml:space="preserve">
-        <value>OK</value>
+        <value>Ok</value>
     </data>
     <data name="invalidShare" xml:space="preserve">
         <value>Invalid share</value>
@@ -5013,7 +5016,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Account Name</value>
     </data>
     <data name="azureBlob" xml:space="preserve">
-        <value>Azure Blob</value>
+        <value>Azure Blob (Read-only)</value>
     </data>
     <data name="azureFiles" xml:space="preserve">
         <value>Azure Files</value>
@@ -5032,6 +5035,18 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="virtualPathUnique" xml:space="preserve">
         <value>Virtual paths must be unique</value>
+    </data>
+    <data name="storageAccessLabel" xml:space="preserve">
+        <value>Storage access</value>
+    </data>
+    <data name="protocolLabel" xml:space="preserve">
+        <value>Protocol</value>
+    </data>
+    <data name="manualInput" xml:space="preserve">
+        <value>Manual input</value>
+    </data>
+    <data name="keyVaultReference" xml:space="preserve">
+        <value>Key vault reference (preview)</value>
     </data>
     <data name="configurationOptions" xml:space="preserve">
         <value>Configuration options</value>
@@ -5817,6 +5832,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="readonlyBlobStorageWarning" xml:space="preserve">
         <value>Mounted Blob containers are read only.</value>
     </data>
+    <data name="BYOSDeploymentSettingsWarning" xml:space="preserve">
+        <value>Selected App Setting is not marked as deployment slot setting. This may cause inconsistencies during the slot swap operation.</value>
+    </data>
+    <data name="BYOSNFSShareInfo" xml:space="preserve">
+        <value>Your app must be on a Virtual network to access NFS file shares.</value>
+    </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>
     </data>
@@ -6114,8 +6135,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="integrate_bindingsMissingDirection" xml:space="preserve">
         <value>The following bindings are missing the required direction property and may have been placed incorrectly: {0}. Please update the bindings in your functions.json file.</value>
     </data>
-    <data name="integrate_readOnlyPythonV2" xml:space="preserve">
-        <value>Use the code editor to update v2 programming model Python function bindings.</value>
+    <data name="integrate_readOnlyNewProgrammingModel" xml:space="preserve">
+        <value>Use the code editor to update new programming model function bindings.</value>
     </data>
     <data name="functionMonitor_invocations" xml:space="preserve">
         <value>Invocations</value>
@@ -6196,7 +6217,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Confirm Azure Pipelines Disconnect</value>
     </data>
     <data name="vstsDisconnectConfirmationDescription" xml:space="preserve">
-        <value>Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.</value>
+        <value>Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your Azure Pipeline to fully disconnect.</value>
     </data>
     <data name="deploymentCenterGitHubDisconnectLoadingAriaValue" xml:space="preserve">
         <value>Fetching GitHub Action workflow configuration</value>
@@ -6250,10 +6271,40 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Unable to retrieve account information</value>
     </data>
     <data name="deploymentCenterVstsInfoMessage" xml:space="preserve">
-        <value>Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.</value>
+        <value>Your app is configured with Azure Pipelines as a build provider. Go to the</value>
+    </data>
+    <data name="azureDevOpsPortal" xml:space="preserve">
+        <value>Azure DevOps portal</value>
+    </data>
+    <data name="deploymentCenterVstsInfoMessagePart2" xml:space="preserve">
+        <value> to manage your deployments.</value>
     </data>
     <data name="deploymentCenterTfsVsoInfoMessage" xml:space="preserve">
         <value>The current deployment configuration is no longer supported. Please go to the Azure DevOps portal to disconnect.</value>
+    </data>
+    <data name="deploymentCenterDeleteCommandAriaLabel" xml:space="preserve">
+        <value>Deployment center delete logs command</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsConfirmationTitle" xml:space="preserve">
+        <value>Delete logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsConfirmationDescription" xml:space="preserve">
+        <value>Do you want to delete all the selected logs? This will permanently delete the selected logs, and this action cannot be undone. Do you wish to continue?</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsNotificationTitle" xml:space="preserve">
+        <value>Delete Logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsNotificationDescription" xml:space="preserve">
+        <value>Deleting logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsSuccessNotificationDescription" xml:space="preserve">
+        <value>Successfully deleted logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsFailureNotificationDescription" xml:space="preserve">
+        <value>Failed to delete logs</value>
+    </data>
+    <data name="deploymentCenterDeleteLogsFailureWithErrorNotificationDescription" xml:space="preserve">
+        <value>Failed to delete logs: {0}</value>
     </data>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
@@ -6952,7 +7003,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Building with Azure Pipelines.</value>
     </data>
     <data name="deploymentCenterVstsBuildMessage" xml:space="preserve">
-        <value>To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.</value>
+        <value>To configure deployment with an existing Azure Pipeline, please go to the </value>
+    </data>
+    <data name="deploymentCenterVstsBuildGetStartedMessage" xml:space="preserve">
+        <value>Select the option below to get started with a new Azure DevOps project.</value>
     </data>
     <data name="deploymentCenterVstsDocsMessage" xml:space="preserve">
         <value>Configure a robust deployment pipeline for your application using Azure Pipelines, part of Azure DevOps Services (formerly known as VSTS).</value>
@@ -7173,8 +7227,14 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="uploadingFileSuccessWithName" xml:space="preserve">
         <value>Successfully uploaded '{0}'</value>
     </data>
-    <data name="uploadingFileFailureWithName" xml:space="preserve">
+    <data name="uploadingFileFailureForSizeWithName" xml:space="preserve">
         <value>Failed to upload '{0}'. Uploading files over 5MB is not supported from the Azure portal</value>
+    </data>
+    <data name="uploadingFileFailureForExtWithName" xml:space="preserve">
+        <value>Failed to upload '{0}'. File is an unsupported file type.</value>
+    </data>
+    <data name="uploadingFileFailureForUnknownWithName" xml:space="preserve">
+        <value>Failed to upload '{0}' for unknown reason.</value>
     </data>
     <data name="earlyAccessTemplate" xml:space="preserve">
         <value>{0} (Early Access)</value>
@@ -7355,6 +7415,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="switchToJbossWarningBaner" xml:space="preserve">
         <value>JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. </value>
+    </data>
+    <data name="jbossClusteringInfo" xml:space="preserve">
+        <value>Clustering support requires VNet integration for instance to instance communication.</value>
     </data>
     <data name="adminCredentials" xml:space="preserve">
         <value>Admin Credentials</value>
@@ -7737,5 +7800,29 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
         <value>Basic authentication is disabled for your app.</value>
+    </data>
+    <data name="configureDeploymentCredentialsLinkAriaLabel" xml:space="preserve">
+        <value>Configure deployment credentials for Azure App Service</value>
+    </data>
+    <data name="portCountRange" xml:space="preserve">
+        <value>The port value must be between {0} and {1}.</value>
+    </data>
+    <data name="toggleAppSettingSelectionAriaLabel" xml:space="preserve">
+        <value>Toggle selection of application settings</value>
+    </data>
+     <data name="selectAppSettingAriaLabel" xml:space="preserve">
+        <value>Select application setting</value>
+    </data>
+     <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
+        <value>Toggle selection for all application settings</value>
+    </data>
+     <data name="hideButton" xml:space="preserve">
+        <value>Hide value button</value>
+    </data>
+      <data name="showButton" xml:space="preserve">
+        <value>Show value button</value>
+    </data>
+      <data name="troubleshoot" xml:space="preserve">
+        <value>Troubleshoot</value>
     </data>
 </root>

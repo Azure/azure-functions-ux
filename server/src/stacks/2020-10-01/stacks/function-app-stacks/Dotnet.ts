@@ -2,8 +2,14 @@ import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
-  const dotnet5EOL = getDateString(new Date(2022, 4, 8), useIsoDateFormat);
+  // End of support dates from https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
   const dotnetCore3EOL = getDateString(new Date(2022, 11, 3), useIsoDateFormat);
+  const dotnet5EOL = getDateString(new Date(2022, 4, 8), useIsoDateFormat);
+  const dotnet6EOL = getDateString(new Date(2024, 10, 12), useIsoDateFormat);
+  const dotnet7EOL = getDateString(new Date(2024, 4, 14), useIsoDateFormat);
+
+  // projected as a guess - not on the support lifecycle page yet and should be adjusted when moved out of preview
+  const dotnet8EOL = getDateString(new Date(2026, 11, 1), useIsoDateFormat);
 
   return {
     displayText: '.NET',
@@ -19,7 +25,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
             value: '4.8',
             stackSettings: {
               windowsRuntimeSettings: {
-                runtimeVersion: 'v6.0',
+                runtimeVersion: 'v4.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -33,9 +39,65 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
-                  netFrameworkVersion: 'v6.0',
+                  netFrameworkVersion: 'v4.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+              },
+            },
+          },
+        ],
+      },
+      {
+        displayText: '.NET 8 Isolated',
+        value: 'dotnet8isolated',
+        minorVersions: [
+          {
+            displayText: '.NET 8 Isolated',
+            value: '8 (LTS) Isolated',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: 'v8.0',
+                isHidden: true,
+                isPreview: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.0.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  netFrameworkVersion: 'v8.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet8EOL,
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'DOTNET-ISOLATED|8.0',
+                isHidden: false,
+                isPreview: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.0.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  linuxFxVersion: 'DOTNET-ISOLATED|8.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet8EOL,
               },
             },
           },
@@ -67,6 +129,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   netFrameworkVersion: 'v7.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet7EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|7.0',
@@ -86,6 +149,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'DOTNET-ISOLATED|7.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet7EOL,
               },
             },
           },
@@ -118,6 +182,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet6EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET|6.0',
@@ -138,6 +203,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'DOTNET|6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet6EOL,
               },
             },
           },
@@ -169,6 +235,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet6EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|6.0',
@@ -188,6 +255,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'DOTNET-ISOLATED|6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet6EOL,
               },
             },
           },
@@ -220,6 +288,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 supportedFunctionsExtensionVersions: ['~3'],
                 endOfLifeDate: dotnet5EOL,
+                isDeprecated: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|5.0',
@@ -241,6 +310,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 supportedFunctionsExtensionVersions: ['~3'],
                 endOfLifeDate: dotnet5EOL,
+                isDeprecated: true,
               },
             },
           },

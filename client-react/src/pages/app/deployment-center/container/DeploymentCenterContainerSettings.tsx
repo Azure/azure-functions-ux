@@ -18,7 +18,7 @@ import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/Dep
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { useTranslation } from 'react-i18next';
-import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getAcrNameFromLoginServer, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { Guid } from '../../../../utils/Guid';
 import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
@@ -31,6 +31,8 @@ import { AppOs } from '../../../../models/site/site';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
+import { AcrDependency } from '../../../../utils/dependency/Dependency';
+import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
 
 const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -40,6 +42,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [isPreviewFileButtonDisabled, setIsPreviewFileButtonDisabled] = useState(false);
   const [panelMessage, setPanelMessage] = useState('');
   const [showGitHubActionReadOnlyView, setShowGitHubActionReadOnlyView] = useState(false);
+  const [showVstsReadOnlyView, setShowVstsReadOnlyView] = useState(false);
   const [showSourceSelectionOption, setShowSourceSelectionOption] = useState(false);
 
   // NOTE(michinoy): The serverUrl, image, username, and password are retrieved from  one of three sources:
@@ -58,9 +61,53 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
   const isGitHubActionSelected = formProps.values.scmType === ScmType.GitHubAction;
   const isVstsSelected = formProps.values.scmType === ScmType.Vsts;
-  const isAcrConfigured = formProps.values.registrySource === ContainerRegistrySources.acr;
+  const [isAcrConfigured, setIsAcrConfigured] = useState<boolean>(formProps.values.registrySource === ContainerRegistrySources.acr);
   const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
+
+  const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
+
+  const hasAcrReadAccess = React.useCallback(() => {
+    // NOTE(yoonaoh): Checking to see if the user has read access to the ACR itself
+    // If not, we turn this into a private registry instead. There are no dependencies
+    // as we only want this to run on the initial render to build the form correctly.
+    if (formProps.values.registrySource === ContainerRegistrySources.acr) {
+      setIsDataLoading(true);
+      const acrTagInstance = new AcrDependency();
+      const acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
+      acrTagInstance.discoverResourceId(portalContext, acrName).then(response => {
+        const isValidAcr = !!response?.subscriptionId;
+        setIsAcrConfigured(isValidAcr);
+        if (!isValidAcr) {
+          const formattedAcrLoginServer = CommonConstants.DeploymentCenterConstants.https + formProps.values.acrLoginServer;
+          // Change initial values to not affect the dirty state checks
+          formProps.initialValues.registrySource = ContainerRegistrySources.privateRegistry;
+          formProps.initialValues.privateRegistryServerUrl = formattedAcrLoginServer;
+          formProps.initialValues.privateRegistryImageAndTag = `${formProps.values.acrImage}:${formProps.values.acrTag}`;
+          formProps.initialValues.privateRegistryComposeYml = formProps.values.acrComposeYml;
+          formProps.initialValues.privateRegistryUsername = formProps.values.acrUsername;
+          formProps.initialValues.privateRegistryPassword = formProps.values.acrPassword;
+
+          // Switch to private registry
+          formProps.setFieldValue('registrySource', ContainerRegistrySources.privateRegistry);
+          formProps.setFieldValue('privateRegistryServerUrl', formattedAcrLoginServer);
+          formProps.setFieldValue('privateRegistryImageAndTag', `${formProps.values.acrImage}:${formProps.values.acrTag}`);
+          formProps.setFieldValue('privateRegistryComposeYml', formProps.values.acrComposeYml);
+          formProps.setFieldValue('privateRegistryUsername', formProps.values.acrUsername);
+          formProps.setFieldValue('privateRegistryPassword', formProps.values.acrPassword);
+
+          // Reset the values of the initial acr fields
+          formProps.initialValues.acrLoginServer = '';
+          formProps.initialValues.acrImage = '';
+          formProps.initialValues.acrTag = '';
+          formProps.initialValues.acrComposeYml = '';
+          formProps.initialValues.acrUsername = '';
+          formProps.initialValues.acrPassword = '';
+        }
+        setIsDataLoading(false);
+      });
+    }
+  }, []);
 
   const getWorkflowFileVariables = () => {
     const slotName = deploymentCenterContext.siteDescriptor?.slot ?? '';
@@ -259,21 +306,20 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   }, [formProps.values.scmType]);
 
   useEffect(() => {
-    const showReadOnlyView =
-      !!deploymentCenterContext &&
-      !!deploymentCenterContext.siteConfig &&
-      deploymentCenterContext.siteConfig.properties.scmType === ScmType.GitHubAction;
-
-    setShowGitHubActionReadOnlyView(showReadOnlyView);
-
+    setShowGitHubActionReadOnlyView(deploymentCenterContext?.siteConfig?.properties?.scmType === ScmType.GitHubAction);
+    setShowVstsReadOnlyView(deploymentCenterContext?.siteConfig?.properties?.scmType === ScmType.Vsts);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.siteConfig]);
+  }, [deploymentCenterContext?.siteConfig?.properties?.scmType]);
 
   useEffect(() => {
     setShowSourceSelectionOption(!!siteStateContext);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteStateContext.isLinuxApp]);
+  }, [siteStateContext]);
+
+  useEffect(() => hasAcrReadAccess(), [hasAcrReadAccess]);
+
+  useEffect(() => setIsAcrConfigured(formProps.values.registrySource === ContainerRegistrySources.acr), [formProps.values.registrySource]);
 
   const renderSetupView = () => {
     return (
@@ -327,13 +373,25 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     );
   };
 
-  const getSettingsControls = () => (showGitHubActionReadOnlyView ? renderGitHubActionReadOnlyView() : renderSetupView());
+  const renderVstsReadOnlyView = () => {
+    return <DeploymentCenterVstsBuildConfiguredView formProps={formProps} />;
+  };
+
+  const getSettingsControls = () => {
+    if (showGitHubActionReadOnlyView) {
+      return renderGitHubActionReadOnlyView();
+    } else if (showVstsReadOnlyView) {
+      return renderVstsReadOnlyView();
+    } else {
+      return renderSetupView();
+    }
+  };
 
   const getProgressIndicator = () => (
     <ProgressIndicator description={t('deploymentCenterSettingsLoading')} ariaValueText={t('deploymentCenterSettingsLoadingAriaValue')} />
   );
 
-  return isDataRefreshing ? getProgressIndicator() : getSettingsControls();
+  return isDataLoading || isDataRefreshing ? getProgressIndicator() : getSettingsControls();
 };
 
 export default DeploymentCenterContainerSettings;

@@ -92,6 +92,8 @@ export interface SiteConfig {
   reservedInstanceCount?: number;
   functionsRuntimeScaleMonitoringEnabled?: boolean;
   powerShellVersion?: string;
+  ClusteringEnabled?: boolean;
+  vnetPrivatePortsCount?: number | null;
 }
 
 export interface IpRestriction {

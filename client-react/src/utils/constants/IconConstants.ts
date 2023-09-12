@@ -6,5 +6,7 @@ export class IconConstants {
     InfoBadge: 'Info',
     Filter: 'Filter',
     Copy: 'Copy',
+    Refresh: 'Refresh',
+    Delete: 'Delete',
   };
 }

@@ -64,6 +64,11 @@ export enum MinTlsVersion {
   tLS12 = '1.2',
 }
 
+export enum VnetPrivatePortsCount {
+  min = 0,
+  max = 100,
+}
+
 export enum CipherSuite {
   // Order matters here; default cipher suites ordered from most secure to least.
   TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 = 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',

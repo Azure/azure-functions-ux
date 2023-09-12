@@ -151,12 +151,13 @@ export const panelOverflowStyle = {
   ],
 };
 
-export const ftpsPasswordTextboxStyle = style({
-  display: 'inline-table',
-  width: '119%',
-  margin: '-5px 0px 0px 0px',
-  padding: '0px',
-});
+export const ftpsPasswordTextboxStyle = (fullpage: boolean) =>
+  style({
+    display: 'inline-table',
+    width: fullpage ? '119%' : '100%',
+    margin: '-5px 0px 0px 0px',
+    padding: '0px',
+  });
 
 export const disconnectWorkflowInfoStyle = style({
   marginTop: '15px',
@@ -188,7 +189,7 @@ export const vstsDescriptionStyle = style({
   paddingTop: '15px',
 });
 
-export const refreshButtonStyle = style({
+export const logsButtonStyle = style({
   marginTop: '10px',
   height: '36px',
 });

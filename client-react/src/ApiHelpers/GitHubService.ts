@@ -191,6 +191,17 @@ export default class GitHubService {
     return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/listWorkflowRuns`, method: 'POST', data });
   };
 
+  public static deleteWorkflowRun = (gitHubToken: string, org: string, repo: string, runId: number) => {
+    const data = {
+      gitHubToken,
+      org,
+      repo,
+      runId,
+    };
+
+    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/deleteWorkflowRun`, method: 'POST', data });
+  };
+
   public static cancelWorkflowRun = (gitHubToken: string, url: string) => {
     const cancelUrlParts = url?.split('/') ?? [];
     const org = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[4] : '';

@@ -132,6 +132,14 @@ export default class SiteService {
     });
   };
 
+  public static deleteSiteDeployment = async (deploymentId: string) => {
+    return MakeArmCall({
+      resourceId: `${deploymentId}`,
+      commandName: 'deleteSiteDeployment',
+      method: 'DELETE',
+    });
+  };
+
   public static getDeploymentLogs = async (deploymentId: string) => {
     return MakeArmCall<ArmArray<DeploymentLogsItem>>({
       resourceId: `${deploymentId}/log`,

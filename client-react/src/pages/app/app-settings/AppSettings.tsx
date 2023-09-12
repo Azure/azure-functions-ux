@@ -21,7 +21,7 @@ import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
 import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
 import { SiteStateContext } from '../../../SiteState';
-import { ExperimentationConstants } from '../../../utils/CommonConstants';
+import { Links } from '../../../utils/FwLinks';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -31,18 +31,22 @@ const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scena
   const duplicateDefaultDocumentsValidation = (value: string) => {
     return values.config.properties.defaultDocuments.filter(v => v === value).length > 1 ? t('fieldMustBeUnique') : null;
   };
+
   const hasDuplicates = array => {
     return new Set(array).size !== array.length;
   };
+
   const isJavaApp = values.currentlySelectedStack === 'java';
   const defaultDocumentsEnabled =
     scenarioChecker.checkScenario(ScenarioIds.defaultDocumentsSupported, { site: values.site }).status !== 'disabled';
   let hasAnyError = false;
+
   const errors = {
     config: {
       properties: {} as any,
     },
   };
+
   if (scenarioChecker.checkScenario(ScenarioIds.skipStackValidation, { site }).status !== 'disabled') {
     if (isJavaApp && !values.config.properties.javaContainer) {
       hasAnyError = true;
@@ -79,13 +83,9 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const scenarioChecker = scenarioCheckerRef.current!;
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
   const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
-  const [customErrorFlighting, setCustomErrorFlighting] = React.useState(false);
 
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
-  React.useEffect(() => {
-    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.customErrorPages).then(setCustomErrorFlighting);
-  }, [portalContext]);
 
   const closeRefreshConfirmDialog = () => {
     setShowRefreshConfirmDialog(false);
@@ -239,10 +239,10 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               (scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled' ||
                                 (scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status !== 'disabled' &&
                                   scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPagesOverlay, { site }).status !==
-                                    'disabled' &&
-                                  customErrorFlighting)) && (
+                                    'disabled')) && (
                                 <UpsellBanner
                                   onClick={scaleUpPlan}
+                                  learnMoreLink={Links.customErrorPagesLearnMore}
                                   bannerMessage={
                                     scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled'
                                       ? t('appSettingsUpsellBannerMessage')

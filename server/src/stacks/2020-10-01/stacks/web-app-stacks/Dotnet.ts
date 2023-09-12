@@ -16,6 +16,45 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
     preferredOs: 'windows',
     majorVersions: [
       {
+        displayText: '.NET 8 (LTS)',
+        value: 'dotnet8',
+        minorVersions: [
+          {
+            displayText: '.NET 8 (LTS)',
+            value: '8',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: 'v8.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.x',
+                },
+                isHidden: true,
+                isPreview: true,
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'DOTNETCORE|8.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.x',
+                },
+                isPreview: true,
+              },
+            },
+          },
+        ],
+      },
+      {
         displayText: '.NET 7 (STS)',
         value: 'dotnet7',
         minorVersions: [

@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useMemo, useCallback } from 'react';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import {
@@ -9,7 +9,7 @@ import {
   GitHubActionRunConclusion,
   GitHubActionsRun,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, Icon, IGroup } from '@fluentui/react';
+import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, Icon, IGroup, Selection, SelectionMode } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterLogsError, deploymentCenterCodeLogsNotConfigured, deploymentCenterCodeLogsBox } from '../DeploymentCenter.styles';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -18,7 +18,13 @@ import DeploymentCenterCommitLogs from './DeploymentCenterCommitLogs';
 import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Common/deployment-center.svg';
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import { getSourceControlsWorkflowFileName, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import {
+  deleteDeploymentCenterLogs,
+  fetchDeploymentLogs,
+  getSourceControlsWorkflowFileName,
+  getTelemetryInfo,
+  getWorkflowFileName,
+} from '../utility/DeploymentCenterUtility';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { dateTimeComparatorReverse } from './DeploymentCenterCodeLogs';
@@ -28,17 +34,19 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
-  const { deployments, deploymentsError, isLogsDataRefreshing, goToSettings, refreshLogs } = props;
+  const { deployments, runs, setDeployments, setRuns, goToSettings } = props;
   const { t } = useTranslation();
 
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
+  const [isDeleteConfirmDialogOpen, setIsDeleteConfirmDialogOpen] = React.useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
   const [isLogsLoading, setIsLogsLoading] = useState<boolean>(false);
+  const [isLogsDataRefreshing, setIsLogsDataRefreshing] = React.useState<boolean>(false);
   const [isSourceControlsLoading, setIsSourcecontrolsLoading] = useState<boolean>(true);
   const [org, setOrg] = useState<string | undefined>(undefined);
   const [repo, setRepo] = useState<string | undefined>(undefined);
   const [branch, setBranch] = useState<string | undefined>(undefined);
-  const [runs, setRuns] = useState<GitHubActionsRun[] | undefined>(undefined);
+  const [deploymentsError, setDeploymentsError] = useState<string | undefined>(undefined);
   const [gitHubActionLogsErrorMessage, setGitHubActionLogsErrorMessage] = useState<string | undefined>(undefined);
   const [isCancelWorkflowRunConfirmDialogHidden, setIsCancelWorkflowRunConfirmDialogHidden] = useState(true);
 
@@ -46,6 +54,20 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterData = new DeploymentCenterData();
+
+  const [selectedLogs, setSelectedLogs] = React.useState<GitHubActionsCodeDeploymentsRow[]>([]);
+  const selection = useMemo(
+    () =>
+      new Selection({
+        onSelectionChanged: () => {
+          const selectedItems = selection.getSelection();
+          setSelectedLogs(selectedItems as GitHubActionsCodeDeploymentsRow[]);
+        },
+        selectionMode: SelectionMode.multiple,
+      }),
+    [setSelectedLogs]
+  );
+  const pauseTimer = useMemo(() => selectedLogs.length > 0, [selectedLogs]);
 
   const getStatusString = (status: DeploymentStatus, progressString: string) => {
     switch (status) {
@@ -101,6 +123,14 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     setCurrentCommitId(undefined);
   };
 
+  const showDeleteConfirmDialog = () => {
+    setIsDeleteConfirmDialogOpen(true);
+  };
+
+  const dismissDeleteConfirmDialog = () => {
+    setIsDeleteConfirmDialogOpen(false);
+  };
+
   const hideCancelWorkflowRunConfirmDialog = () => {
     setIsCancelWorkflowRunConfirmDialogHidden(true);
   };
@@ -111,14 +141,19 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     }
   };
 
-  const refreshGitHubActionsLogs = () => {
-    refreshLogs();
-    fetchWorkflowRuns();
+  const refreshGitHubActionsLogs = async () => {
+    await fetchDeploymentLogs(
+      deploymentCenterContext.resourceId,
+      deploymentCenterData,
+      siteStateContext,
+      setDeployments,
+      setDeploymentsError,
+      t
+    );
+    await fetchWorkflowRuns();
   };
 
   const setSourceControlDetails = async () => {
-    setGitHubActionLogsErrorMessage(undefined);
-    setIsLogsLoading(true);
     setIsSourcecontrolsLoading(true);
 
     setBranch(deploymentCenterContext.configMetadata ? deploymentCenterContext.configMetadata.properties.branch : '');
@@ -128,44 +163,45 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       setRepo(repoUrlSplit[repoUrlSplit.length - 1]);
     } else {
       setGitHubActionLogsErrorMessage(t('deploymentCenterCodeDeploymentsFailed'));
-      setIsLogsLoading(false);
     }
 
     setIsSourcecontrolsLoading(false);
   };
 
   const fetchWorkflowRuns = async () => {
-    setGitHubActionLogsErrorMessage(undefined);
-    const siteName = siteStateContext.site ? siteStateContext.site.properties.name : '';
-    if (org && repo && branch && siteName) {
-      const workflowFileName = getWorkflowFileName(branch, siteName);
-      const sourceControlsWorkflowFileName = getSourceControlsWorkflowFileName(branch, siteName, 'production');
+    if (setRuns) {
+      setGitHubActionLogsErrorMessage(undefined);
+      const siteName = siteStateContext.site?.properties?.name ?? '';
+      if (org && repo && branch && siteName) {
+        const workflowFileName = getWorkflowFileName(branch, siteName);
+        const sourceControlsWorkflowFileName = getSourceControlsWorkflowFileName(branch, siteName, 'production');
 
-      const [gitHubActionsWorkflowRunsResponse, gitHubActionsFromCreateWorkflowRunsResponse] = await Promise.all([
-        deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, workflowFileName),
-        deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, sourceControlsWorkflowFileName),
-      ]);
+        const [gitHubActionsWorkflowRunsResponse, gitHubActionsFromCreateWorkflowRunsResponse] = await Promise.all([
+          deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, workflowFileName),
+          deploymentCenterData.listWorkflowRuns(deploymentCenterContext.gitHubToken, org, repo, sourceControlsWorkflowFileName),
+        ]);
 
-      if (gitHubActionsWorkflowRunsResponse.metadata.success && gitHubActionsWorkflowRunsResponse.data) {
-        setRuns(gitHubActionsWorkflowRunsResponse.data.workflow_runs);
-      } else if (gitHubActionsFromCreateWorkflowRunsResponse.metadata.success && gitHubActionsFromCreateWorkflowRunsResponse.data) {
-        setRuns(gitHubActionsFromCreateWorkflowRunsResponse.data.workflow_runs);
-      } else {
-        setRuns([]);
-        const errorMessage = getErrorMessage(gitHubActionsWorkflowRunsResponse.metadata.error);
-        setGitHubActionLogsErrorMessage(
-          errorMessage
-            ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage)
-            : t('deploymentCenterCodeDeploymentsFailed')
-        );
-        portalContext.log(
-          getTelemetryInfo('error', 'getWorkflowRuns', 'failed', {
-            error: gitHubActionsWorkflowRunsResponse.metadata.error,
-          })
-        );
+        if (gitHubActionsWorkflowRunsResponse.metadata.success && gitHubActionsWorkflowRunsResponse.data) {
+          setRuns(gitHubActionsWorkflowRunsResponse.data.workflow_runs);
+        } else if (gitHubActionsFromCreateWorkflowRunsResponse.metadata.success && gitHubActionsFromCreateWorkflowRunsResponse.data) {
+          setRuns(gitHubActionsFromCreateWorkflowRunsResponse.data.workflow_runs);
+        } else {
+          setRuns([]);
+          const errorMessage = getErrorMessage(gitHubActionsWorkflowRunsResponse.metadata.error);
+          setGitHubActionLogsErrorMessage(
+            errorMessage
+              ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage)
+              : t('deploymentCenterCodeDeploymentsFailed')
+          );
+          portalContext.log(
+            getTelemetryInfo('error', 'getWorkflowRuns', 'failed', {
+              error: gitHubActionsWorkflowRunsResponse.metadata.error,
+            })
+          );
+        }
       }
+      setIsLogsLoading(false);
     }
-    setIsLogsLoading(false);
   };
 
   const cancelWorkflowRunOnClick = async (url: string) => {
@@ -176,7 +212,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       await fetchWorkflowRuns();
       //NOTE(stpelleg): It takes a while for the run to show as cancelled, but users would be confused if
       //it did not show as cancelled right after clicking cancel
-      if (runs && runs.length > 0) {
+      if (runs && runs.length > 0 && setRuns) {
         const curRuns = runs;
         curRuns[0].conclusion = t(GitHubActionRunConclusion.Cancelled);
         setRuns(curRuns);
@@ -190,7 +226,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     }
   };
 
-  const getGitHubActionsRunStatus = (run: GitHubActionsRun): JSX.Element => {
+  const getGitHubActionsRunStatus = useCallback((run: GitHubActionsRun): JSX.Element => {
     return run.conclusion ? (
       <>{getConclusionDisplayName(run.conclusion)}</>
     ) : (
@@ -225,11 +261,12 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         }
       </>
     );
-  };
+  }, []);
 
-  const getZipDeployRow = (deployment: ArmObj<DeploymentProperties>, index: number): GitHubActionsCodeDeploymentsRow => {
+  const getZipDeployRow = useCallback((deployment: ArmObj<DeploymentProperties>, index: number): GitHubActionsCodeDeploymentsRow => {
     return {
       index: index,
+      id: deployment.id,
       group: -1,
       commitId: deployment.properties.id.substr(0, 7),
       rawTime: moment(deployment.properties.received_time),
@@ -249,30 +286,34 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         <>{getStatusString(deployment.properties.status, deployment.properties.progress)}</>
       ),
     };
-  };
+  }, []);
 
-  const getGitHubActionsRunRow = (run: GitHubActionsRun, index: number): GitHubActionsCodeDeploymentsRow => {
-    return {
-      index: deployments && deployments.value.length ? deployments.value.length + index : index,
-      group: -1,
-      commitId: run.head_commit.id.substr(0, 7),
-      rawTime: moment(run.created_at),
-      // NOTE (stpelleg): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
-      displayTime: moment(run.created_at).format('MM/D YYYY, h:mm:ss A Z'),
-      author: run.head_commit.author.name,
-      message: run.head_commit.message,
-      commit: run.head_commit.id.substr(0, 7),
-      logSource: (
-        <Link key="github-actions-logs-link" onClick={() => window.open(run.html_url, '_blank')}>
-          {t('deploymentCenterBuildDeployLogSource')}
-          <Icon id={`ga-logs`} iconName={'NavigateExternalInline'} />
-        </Link>
-      ),
-      status: getGitHubActionsRunStatus(run),
-    };
-  };
+  const getGitHubActionsRunRow = useCallback(
+    (run: GitHubActionsRun, index: number): GitHubActionsCodeDeploymentsRow => {
+      return {
+        index: deployments && deployments.value.length ? deployments.value.length + index : index,
+        id: run.id,
+        group: -1,
+        commitId: run.head_commit.id.substr(0, 7),
+        rawTime: moment(run.created_at),
+        // NOTE (stpelleg): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
+        displayTime: moment(run.created_at).format('MM/D YYYY, h:mm:ss A Z'),
+        author: run.head_commit.author.name,
+        message: run.head_commit.message,
+        commit: run.head_commit.id.substr(0, 7),
+        logSource: (
+          <Link key="github-actions-logs-link" onClick={() => window.open(run.html_url, '_blank')}>
+            {t('deploymentCenterBuildDeployLogSource')}
+            <Icon id={`ga-logs`} iconName={'NavigateExternalInline'} />
+          </Link>
+        ),
+        status: getGitHubActionsRunStatus(run),
+      };
+    },
+    [getGitHubActionsRunStatus]
+  );
 
-  const getItemCommitGroups = (items: GitHubActionsCodeDeploymentsRow[]): IGroup[] => {
+  const getItemCommitGroups = useCallback((items: GitHubActionsCodeDeploymentsRow[]): IGroup[] => {
     const groups: IGroup[] = [];
     items.forEach((item, index) => {
       if (index === 0 || !item.rawTime.isSame(groups[groups.length - 1].data.startIndexRawTime, 'day')) {
@@ -288,7 +329,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       }
     });
     return groups;
-  };
+  }, []);
 
   const getZeroDayContent = () => {
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
@@ -326,13 +367,30 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     return `${deploymentsError} ${gitHubActionLogsErrorMessage}`;
   };
 
-  const gitHubActionsRows: GitHubActionsCodeDeploymentsRow[] = runs ? runs.map((run, index) => getGitHubActionsRunRow(run, index)) : [];
-  const zipDeployRows: GitHubActionsCodeDeploymentsRow[] = deployments
-    ? deployments.value.map((deployment, index) => getZipDeployRow(deployment, index))
-    : [];
-  const newItems = zipDeployRows.concat(gitHubActionsRows);
-  const items: GitHubActionsCodeDeploymentsRow[] = newItems.sort(dateTimeComparatorReverse);
-  const groups: IGroup[] = getItemCommitGroups(items);
+  const deleteLogs = React.useCallback(() => {
+    deleteDeploymentCenterLogs(
+      portalContext,
+      deploymentCenterContext,
+      deploymentCenterData,
+      selectedLogs,
+      refreshGitHubActionsLogs,
+      t,
+      org,
+      repo
+    );
+  }, [portalContext, deploymentCenterContext, deploymentCenterData, selectedLogs, refreshGitHubActionsLogs, t]);
+
+  const gitHubActionsRows: GitHubActionsCodeDeploymentsRow[] = useMemo(
+    () => (runs ? runs.map((run, index) => getGitHubActionsRunRow(run, index)) : []),
+    [runs, getGitHubActionsRunRow]
+  );
+  const zipDeployRows: GitHubActionsCodeDeploymentsRow[] = useMemo(
+    () => (deployments ? deployments.value.map((deployment, index) => getZipDeployRow(deployment, index)) : []),
+    [deployments, getZipDeployRow]
+  );
+  const newItems = useMemo(() => zipDeployRows.concat(gitHubActionsRows), [zipDeployRows, gitHubActionsRows]);
+  const items: GitHubActionsCodeDeploymentsRow[] = useMemo(() => newItems.sort(dateTimeComparatorReverse), [newItems]);
+  const groups: IGroup[] = useMemo(() => getItemCommitGroups(items), [items, getItemCommitGroups]);
 
   const columns: IColumn[] = [
     { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 100, maxWidth: 200 },
@@ -352,16 +410,54 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   }, [deploymentCenterContext.configMetadata]);
 
   useEffect(() => {
-    if (!isSourceControlsLoading) {
-      fetchWorkflowRuns();
+    if (!deployments) {
+      setIsLogsDataRefreshing(true);
+      fetchDeploymentLogs(
+        deploymentCenterContext.resourceId,
+        deploymentCenterData,
+        siteStateContext,
+        setDeployments,
+        setDeploymentsError,
+        t
+      ).then(() => {
+        if (!isSourceControlsLoading && !runs) {
+          fetchWorkflowRuns().then(() => {
+            setIsLogsDataRefreshing(false);
+          });
+        } else {
+          setIsLogsDataRefreshing(false);
+        }
+      });
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isSourceControlsLoading]);
+  }, [isSourceControlsLoading, runs, deployments, deploymentCenterContext.resourceId]);
 
   return (
     <>
-      <DeploymentCenterCodeLogsTimer refreshLogs={refreshGitHubActionsLogs} />
+      <DeploymentCenterCodeLogsTimer
+        pauseTimer={pauseTimer}
+        refreshLogs={refreshGitHubActionsLogs}
+        deleteLogs={showDeleteConfirmDialog}
+        setIsLogsDataRefreshing={setIsLogsDataRefreshing}
+      />
+
+      <ConfirmDialog
+        primaryActionButton={{
+          title: t('delete'),
+          onClick: () => {
+            deleteLogs();
+            dismissDeleteConfirmDialog();
+          },
+        }}
+        defaultActionButton={{
+          title: t('cancel'),
+          onClick: dismissDeleteConfirmDialog,
+        }}
+        title={t('deploymentCenterDeleteLogsConfirmationTitle')}
+        content={t('deploymentCenterDeleteLogsConfirmationDescription')}
+        hidden={!isDeleteConfirmDialogOpen}
+        onDismiss={dismissDeleteConfirmDialog}
+      />
 
       {isLogsDataRefreshing || isLogsLoading ? (
         getProgressIndicator()
@@ -369,7 +465,13 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         <div className={deploymentCenterLogsError}>{getDeploymentErrorMessage()}</div>
       ) : deployments || runs ? (
         <div className={deploymentCenterCodeLogsBox}>
-          <DisplayTableWithEmptyMessage columns={columns} items={items} selectionMode={0} groups={groups} />
+          <DisplayTableWithEmptyMessage
+            columns={columns}
+            items={items}
+            selection={selection}
+            selectionMode={SelectionMode.multiple}
+            groups={groups}
+          />
           {items.length === 0 && getZeroDayContent()}
         </div>
       ) : (

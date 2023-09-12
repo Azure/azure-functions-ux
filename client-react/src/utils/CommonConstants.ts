@@ -51,7 +51,7 @@ export class CommonConstants {
     roleAssignmentApiVersion20180701: '2018-07-01',
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
-    containerAppApiVersion20220101preview: '2022-01-01-preview',
+    containerAppApiVersion20230401Preview: '2023-04-01-preview',
     antaresApiVersion20141101: '2014-11-01',
   };
 
@@ -75,8 +75,9 @@ export class CommonConstants {
     enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
-    enableNewProgrammingModel: 'enableNewProgrammingModel',
     enableSnippets: 'enableSnippets',
+    showJBossClustering: 'showJBossClustering',
+    showNFSFileShares: 'showNFSFileShares',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -125,6 +126,7 @@ export class CommonConstants {
     premiumMV3: 'premiummv3',
     premiumContainer: 'premiumcontainer',
     isolated: 'isolated',
+    isolatedV2: 'isolatedv2',
     dynamic: 'dynamic',
     elasticPremium: 'elasticpremium',
     elasticIsolated: 'elasticisolated',
@@ -359,13 +361,13 @@ export class SubscriptionQuotaIds {
 // File - https://msazure.visualstudio.com/One/_git/AAPT-Antares-AntUX?path=/src/src/Ux/Extensions/Websites/TypeScript/ExtensionAssets/Constants.ts&version=GBdev&line=3444&lineEnd=3444&lineStartColumn=14&lineEndColumn=29&lineStyle=plain&_a=contents
 export class ExperimentationConstants {
   public static TreatmentFlight = {
-    customErrorPages: 'enable-custom-error-pages',
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
+    showByosKeyVault: 'show-byos-keyvault',
+    showEnvironmentVariables: 'show-environment-variables',
   };
 
   public static ControlFlight = {
-    customErrorPages: 'disable-custom-error-pages',
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
   };

@@ -7,11 +7,24 @@ import {
   ReferenceSummary,
   ReferenceStatus,
   ConfigReferenceList,
+  AppSettingReference,
+  StorageAccess,
+  ConfigurationOption,
+  AccessKeyPlaceHolderForNFSFileShares,
+  StorageFileShareProtocol,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies, MinTlsVersion } from '../../../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, Reference, ErrorPage } from '../../../models/site/config';
+import {
+  SiteConfig,
+  ArmAzureStorageMount,
+  ConnStringInfo,
+  VirtualApplication,
+  Reference,
+  ErrorPage,
+  StorageType,
+} from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
@@ -21,6 +34,7 @@ import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import i18next from 'i18next';
+import { isJBossClusteringShown } from '../../../utils/stacks-utils';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -105,6 +119,7 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
   }
 
   const minTlsVersion = config.properties.minTlsVersion || MinTlsVersion.tLS12;
+  const ClusteringEnabled = !!config.properties.ClusteringEnabled;
 
   const newConfig: ArmObj<SiteConfig> = {
     ...config,
@@ -113,6 +128,7 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
       linuxFxVersion,
       remoteDebuggingVersion,
       minTlsVersion,
+      ClusteringEnabled,
     },
   };
   return newConfig;
@@ -200,6 +216,21 @@ export const isStorageMountsModified = (initialValues: AppSettingsFormValues | n
   return !isEqual(azureStorageMountsInitialSorted, azureStorageMountsSorted);
 };
 
+export const isStorageAccessAppSetting = (configurationOption: ConfigurationOption, type: StorageType, storageAccess: StorageAccess) => {
+  return (
+    configurationOption === ConfigurationOption.Advanced &&
+    type === StorageType.azureFiles &&
+    storageAccess === StorageAccess.KeyVaultReference
+  );
+};
+
+export const getStorageMountAccessKey = (value: FormAzureStorageMounts) => {
+  const { configurationOption, type, storageAccess, appSettings, accessKey } = value;
+  return isStorageAccessAppSetting(configurationOption, type, storageAccess)
+    ? `${AppSettingReference.prefix}${appSettings}${AppSettingReference.suffix}`
+    : accessKey;
+};
+
 export function getStickySettings(
   appSettings: FormAppSetting[],
   connectionStrings: FormConnectionString[],
@@ -274,12 +305,36 @@ export function getFormAzureStorageMount(
     return [];
   }
   const appSettingNames = slotConfigNames?.properties.azureStorageConfigNames || [];
+
   return sortBy(
-    Object.keys(storageData.properties).map(key => ({
-      name: key,
-      sticky: appSettingNames.indexOf(key) > -1,
-      ...storageData.properties[key],
-    })),
+    Object.keys(storageData.properties).map(key => {
+      const { accessKey, ...rest } = storageData.properties[key];
+      const storageAccess =
+        accessKey.startsWith(AppSettingReference.prefix) && accessKey.endsWith(AppSettingReference.suffix)
+          ? StorageAccess.KeyVaultReference
+          : StorageAccess.AccessKey;
+      const appSettings =
+        storageAccess === StorageAccess.KeyVaultReference
+          ? accessKey.substring(AppSettingReference.prefix.length, accessKey.length - 1)
+          : undefined;
+
+      const accessKeyValue =
+        storageAccess === StorageAccess.KeyVaultReference || accessKey === AccessKeyPlaceHolderForNFSFileShares ? undefined : accessKey;
+      const configurationOption =
+        storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
+      const protocol = accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB;
+
+      return {
+        name: key,
+        sticky: appSettingNames.indexOf(key) > -1,
+        storageAccess,
+        appSettings,
+        configurationOption,
+        protocol,
+        accessKey: accessKeyValue,
+        ...rest,
+      } as FormAzureStorageMounts;
+    }),
     o => o.name.toLowerCase()
   );
 }
@@ -287,8 +342,11 @@ export function getFormAzureStorageMount(
 export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts[]): ArmAzureStorageMount {
   const storageMountFromForm: ArmAzureStorageMount = {};
   storageData.forEach(store => {
-    const { name, sticky, ...rest } = store;
-    storageMountFromForm[name] = rest;
+    const { name, sticky, configurationOption, storageAccess, appSettings, accessKey, protocol, ...rest } = store;
+    storageMountFromForm[name] = {
+      accessKey: protocol === StorageFileShareProtocol.SMB ? getStorageMountAccessKey(store) : AccessKeyPlaceHolderForNFSFileShares,
+      ...rest,
+    };
   });
   return storageMountFromForm;
 }
@@ -428,6 +486,8 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
     configCopy.javaContainerVersion = '';
     configCopy.javaVersion = '';
   }
+
+  configCopy.ClusteringEnabled = isJBossClusteringShown(config.linuxFxVersion, values.site) && configCopy.ClusteringEnabled;
 
   // NOTE (krmitta): We need to explicitly mark node and php versions as null,
   // whenever these are empty since it prevents the backend from disabling the alwaysOn property.

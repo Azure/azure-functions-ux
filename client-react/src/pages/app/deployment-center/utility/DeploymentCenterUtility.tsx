@@ -9,8 +9,11 @@ import {
   RuntimeStackOptions,
   RuntimeStackDisplayNames,
   JavaContainerDisplayNames,
+  GitHubActionsCodeDeploymentsRow,
+  CodeDeploymentsRow,
+  DeploymentProperties,
 } from '../DeploymentCenter.types';
-import { ArmObj } from '../../../../models/arm-obj';
+import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
@@ -26,6 +29,10 @@ import { deploymentCenterDescriptionTextStyle } from '../DeploymentCenter.styles
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { ISelectableOption, Link } from '@fluentui/react';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import PortalCommunicator from '../../../../portal-communicator';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { ISiteState } from '../../../../SiteState';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
@@ -488,3 +495,87 @@ export function formikOnBlur<T>(e: React.FocusEvent<T>, props: FieldProps) {
   form.setFieldTouched(field.name);
   field.onBlur(e);
 }
+
+export const fetchDeploymentLogs = async (
+  resourceId: string,
+  deploymentCenterData: DeploymentCenterData,
+  siteStateContext: ISiteState,
+  setDeployments: (value?: React.SetStateAction<ArmArray<DeploymentProperties>>) => void,
+  setDeploymentsError: (value?: React.SetStateAction<string | undefined>) => void,
+  t: any
+) => {
+  // NOTE(michinoy): We should prevent adding logs for this method. The reason is because it is called
+  // on a frequency, currently it is set to 30 seconds.
+  const deploymentsResponse = await deploymentCenterData.getSiteDeployments(resourceId);
+
+  if (deploymentsResponse.metadata.success) {
+    setDeployments(deploymentsResponse.data);
+  } else if (!siteStateContext.isKubeApp) {
+    const errorMessage = getErrorMessage(deploymentsResponse.metadata.error);
+    setDeploymentsError(
+      errorMessage ? t('deploymentCenterCodeDeploymentsFailedWithError').format(errorMessage) : t('deploymentCenterCodeDeploymentsFailed')
+    );
+  }
+};
+
+export const refreshLogsWithDelay = async (refreshLogs: () => void, ms: number = 3000) => {
+  const sleepPromise = new Promise(resolve => setTimeout(resolve, ms));
+  return await sleepPromise.then(refreshLogs);
+};
+
+export const deleteDeploymentCenterLogs = async (
+  portalContext: PortalCommunicator,
+  deploymentCenterContext: IDeploymentCenterContext,
+  deploymentCenterData: DeploymentCenterData,
+  selectedLogs: GitHubActionsCodeDeploymentsRow[] | CodeDeploymentsRow[],
+  refreshLogs: () => void,
+  t: any,
+  org?: string,
+  repo?: string
+) => {
+  const notificationId = portalContext.startNotification(
+    t('deploymentCenterDeleteLogsNotificationTitle'),
+    t('deploymentCenterDeleteLogsNotificationDescription')
+  );
+
+  const promises = selectedLogs.map(async log => {
+    if (typeof log.id === 'string') {
+      portalContext.log(
+        getTelemetryInfo('info', 'deletingKuduLog', 'submit', {
+          publishType: 'code',
+        })
+      );
+      return await deploymentCenterData.deleteSiteDeployment(log.id);
+    } else if (typeof log.id === 'number' && org && repo) {
+      portalContext.log(
+        getTelemetryInfo('info', 'deletingGitHubActionsWorkflowRun', 'submit', {
+          publishType: 'code',
+        })
+      );
+      return await deploymentCenterData.deleteWorkflowRun(deploymentCenterContext.gitHubToken, org, repo, log.id);
+    }
+  });
+  const responses = await Promise.all(promises);
+
+  if (responses.some(response => !response?.metadata.success)) {
+    const errorMessages = responses
+      .filter(response => !response?.metadata.success)
+      .map(response => getErrorMessage(response?.metadata.error));
+    const message = errorMessages.join(' - ');
+    const description =
+      errorMessages.length > 0
+        ? t('deploymentCenterDeleteLogsFailureWithErrorNotificationDescription').format(message)
+        : t('deploymentCenterDeleteLogsFailureNotificationDescription');
+    await refreshLogsWithDelay(refreshLogs);
+    portalContext.stopNotification(notificationId, false, description);
+    portalContext.log(getTelemetryInfo('error', 'deleteLogs', 'failed'));
+  } else {
+    await refreshLogsWithDelay(refreshLogs);
+    portalContext.stopNotification(notificationId, true, t('deploymentCenterDeleteLogsSuccessNotificationDescription'));
+  }
+};
+
+export const getAcrNameFromLoginServer = (loginServer: string): string => {
+  const loginServerParts = loginServer?.split('.') ?? [];
+  return loginServerParts.length > 0 ? loginServerParts[0] : '';
+};

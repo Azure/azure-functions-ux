@@ -81,6 +81,51 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     });
   };
 
+  const openSCIFrameBlade = () => {
+    //  const optionalParameters;
+
+    // const webAppParameters = {
+    //   key: 'Referrer',
+    //   value: {
+    //     ExtensionName: 'WebsitesExtension',
+    //     BladeName: 'DeploymentCenter',
+    //     TabName: '',
+    //     DetectorId: 'hybridconnections',
+    //     DetectorType: 'Detector',
+    //     CategoryId: 'Deployment',
+    //   },
+    // };
+
+    const functionAppParameters = {
+      key: 'Referrer',
+      value: {
+        ExtensionName: 'WebsitesExtension',
+        BladeName: 'DeploymentCenter',
+        TabName: '',
+        DetectorId: 'FunctionsDeploymentExternal',
+        DetectorType: 'Detector',
+        CategoryId: 'Configuration And Management',
+      },
+    };
+
+    // if (siteStateContext.isFunctionApp) {
+    const optionalParameters = [functionAppParameters];
+    // }
+    // else {
+    //       optionalParameters = [webAppParameters];
+    //     }
+
+    portalContext.openBlade({
+      detailBlade: 'SCIFrameBlade',
+      detailBladeInputs: {
+        id: deploymentCenterContext.resourceId,
+        optionalParameters: optionalParameters,
+      },
+      extension: 'WebsitesExtension',
+      openAsContextBlade: true,
+    });
+  };
+
   const getCommandBarItems = (): ICommandBarItemProps[] => {
     const commandBarItems: ICommandBarItemProps[] = [
       getSaveButton(),
@@ -94,6 +139,9 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
     }
 
     commandBarItems.push(getFeedbackItem());
+    if (siteStateContext.isFunctionApp) {
+      commandBarItems.push(getTroubleShootItem());
+    }
 
     return commandBarItems;
   };
@@ -116,6 +164,11 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   const onManagePublishProfileButtonClick = () => {
     portalContext.log(getTelemetryInfo('info', 'managePublishProfileButton', 'clicked'));
     showPublishProfilePanel();
+  };
+
+  const onTroubleShootButtonClick = () => {
+    portalContext.log(getTelemetryInfo('info', 'troubleshootButton', 'clicked'));
+    openSCIFrameBlade();
   };
 
   const onRedeployClick = () => {
@@ -208,6 +261,19 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       disabled: false,
       ariaLabel: t('leaveFeedback'),
       onClick: onFeedbackButtonClick,
+    };
+  };
+
+  const getTroubleShootItem = (): ICommandBarItemProps => {
+    return {
+      key: 'troubleshoot',
+      name: t('troubleshoot'),
+      iconProps: {
+        iconName: 'DeveloperTools',
+      },
+      disabled: false,
+      ariaLabel: t('troubleshoot'),
+      onClick: onTroubleShootButtonClick,
     };
   };
 

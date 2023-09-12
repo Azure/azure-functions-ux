@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
@@ -9,16 +9,17 @@ import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
-import { MinTlsVersion, SslState } from '../../../../models/site/site';
+import { MinTlsVersion, SslState, VnetPrivatePortsCount } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
 import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
   const { t } = useTranslation();
-  const { values, initialValues } = props;
+  const { values, initialValues, setFieldValue } = props;
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
@@ -45,12 +46,26 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     );
   };
 
-  const onBasicAuthenticationCredentialsChange = React.useCallback(
-    (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
-      props.setFieldValue('basicPublishingCredentialsPolicies.properties.scm.allow', option.key);
-      props.setFieldValue('basicPublishingCredentialsPolicies.properties.ftp.allow', option.key);
+  const onVnetPrivatePortsCountChange = useCallback(
+    (_e, newValue?: string) => {
+      if (newValue) {
+        const newVnetPrivatePortsCount = +newValue;
+        if (newVnetPrivatePortsCount >= VnetPrivatePortsCount.min && newVnetPrivatePortsCount <= VnetPrivatePortsCount.max) {
+          setFieldValue('config.properties.vnetPrivatePortsCount', newVnetPrivatePortsCount);
+        }
+      } else {
+        setFieldValue('config.properties.vnetPrivatePortsCount', undefined);
+      }
     },
-    [props.setFieldValue]
+    [setFieldValue]
+  );
+
+  const onBasicAuthenticationCredentialsChange = React.useCallback(
+    (_event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
+      setFieldValue('basicPublishingCredentialsPolicies.properties.scm.allow', option.key);
+      setFieldValue('basicPublishingCredentialsPolicies.properties.ftp.allow', option.key);
+    },
+    [setFieldValue]
   );
 
   const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
@@ -117,6 +132,40 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
+
+      {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
+        values.basicPublishingCredentialsPolicies && (
+          <Field
+            name="basicPublishingCredentialsPolicies.scm.allow"
+            dirty={
+              values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
+                initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow ||
+              values.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+                initialValues.basicPublishingCredentialsPolicies?.properties.ftp.allow
+            }
+            component={RadioButton}
+            label={t('basicAuthPublishingCred')}
+            infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
+            id="app-settings-basic-authentication-publishing-creds"
+            disabled={disableAllControls}
+            selectedKey={
+              values.basicPublishingCredentialsPolicies?.properties.scm.allow ||
+              values.basicPublishingCredentialsPolicies?.properties.ftp.allow
+            }
+            onChange={onBasicAuthenticationCredentialsChange}
+            options={[
+              {
+                key: true,
+                text: t('on'),
+              },
+              {
+                key: false,
+                text: t('off'),
+              },
+            ]}
+          />
+        )}
+
       {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
         (disableFtp() ? (
           <DropdownNoFormik
@@ -174,39 +223,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             ]}
           />
         ))}
-
-      {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
-        values.basicPublishingCredentialsPolicies && (
-          <Field
-            name="basicPublishingCredentialsPolicies.scm.allow"
-            dirty={
-              values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
-                initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow ||
-              values.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-                initialValues.basicPublishingCredentialsPolicies?.properties.ftp.allow
-            }
-            component={RadioButton}
-            label={t('basicAuthPublishingCred')}
-            infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
-            id="app-settings-basic-authentication-publishing-creds"
-            disabled={disableAllControls}
-            selectedKey={
-              values.basicPublishingCredentialsPolicies?.properties.scm.allow ||
-              values.basicPublishingCredentialsPolicies?.properties.ftp.allow
-            }
-            onChange={onBasicAuthenticationCredentialsChange}
-            options={[
-              {
-                key: true,
-                text: t('on'),
-              },
-              {
-                key: false,
-                text: t('off'),
-              },
-            ]}
-          />
-        )}
 
       {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
         <>
@@ -379,6 +395,20 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           infoBubbleMessage={t('minTlsCipherSuiteInfoBubbleMessage')}
           dirty={values.config.properties.minTlsCipherSuite !== initialValues.config.properties.minTlsCipherSuite}
           widthLabel={'230px'}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.vnetPrivatePortsCount, { site }).status === 'enabled' && (
+        <Field
+          name={'config.properties.vnetPrivatePortsCount'}
+          id={'app-settings-vnetPrivatePortsCount'}
+          component={TextFieldNoFormik}
+          value={values.config.properties.vnetPrivatePortsCount}
+          label={t('vnetPrivatePortsCount')}
+          dirty={values.config.properties.vnetPrivatePortsCount !== initialValues.config.properties.vnetPrivatePortsCount}
+          widthLabel={'230px'}
+          type={'number'}
+          onChange={onVnetPrivatePortsCountChange}
+          infoBubbleMessage={t('portCountRange').format(VnetPrivatePortsCount.min, VnetPrivatePortsCount.max)}
         />
       )}
     </div>

@@ -78,6 +78,7 @@ Object {
       "serverFarm": null,
       "serverFarmId": "/subscriptions/sub/resourceGroups/azure-functions-react-test/providers/Microsoft.Web/serverfarms/ServicePlan9131048f-9b79",
       "siteConfig": Object {
+        "ClusteringEnabled": false,
         "alwaysOn": false,
         "apiDefinition": null,
         "appCommandLine": "",
