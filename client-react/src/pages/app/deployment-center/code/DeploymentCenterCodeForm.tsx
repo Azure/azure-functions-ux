@@ -78,20 +78,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) && values.authType === AuthType.Oidc) {
-        const tinyGuid = Guid.newTinyGuid().toUpperCase();
-        const fullRepoName = `${values.org}/${values.repo}`;
-        const secrets = {
-          [`${DeploymentCenterConstants.SecretName.clientId}${tinyGuid}`]: values?.authIdentity?.clientId,
-          [`${DeploymentCenterConstants.SecretName.tenantId}${tinyGuid}`]: values?.authIdentity?.tenantId,
-          [`${DeploymentCenterConstants.SecretName.subscriptionId}${tinyGuid}`]: values?.authIdentity?.subscriptionId,
-        };
-        const addSecretsForOidcResponse = await addSecretsForOidc(fullRepoName, secrets);
-        if (!addSecretsForOidcResponse?.metadata?.success) {
-          return addSecretsForOidcResponse;
-        }
-      }
-
       portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,
@@ -124,31 +110,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         return updateSourceControlResponse;
       }
     }
-  };
-
-  const addSecretsForOidc = async (fullRepoName: string, secrets: KeyValue<string | undefined>) => {
-    portalContext.log(getTelemetryInfo('info', 'addSecretsForOidc', 'submit'));
-    let response: any;
-    for (const [secretName, secretValue] of Object.entries(secrets)) {
-      const addSecretResponse = await deploymentCenterData.addSecretToRepository(
-        deploymentCenterContext.gitHubToken,
-        fullRepoName,
-        secretName,
-        secretValue ?? ''
-      );
-      if (addSecretResponse.metadata.success) {
-        response = addSecretResponse;
-      } else {
-        portalContext.log(
-          getTelemetryInfo('error', 'addSecret', 'failed', {
-            message: getErrorMessage(addSecretResponse.metadata.error),
-            errorAsString: addSecretResponse.metadata.error ? JSON.stringify(addSecretResponse.metadata.error) : '',
-          })
-        );
-        return addSecretResponse;
-      }
-    }
-    return response;
   };
 
   const getKuduSourceControlsPayload = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): SiteSourceControlRequestBody => {
@@ -210,6 +171,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
     if (values.runtimeStack === RuntimeStackOptions.Java) {
       variables['javaContainer'] = values.javaContainer;
+    }
+
+    if (values.authType === AuthType.Oidc) {
+      variables['clientId'] = values.authIdentity?.clientId;
+      variables['tenantId'] = values.authIdentity?.tenantId;
     }
 
     return variables;
