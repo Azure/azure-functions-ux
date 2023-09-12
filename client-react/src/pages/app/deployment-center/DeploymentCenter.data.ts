@@ -156,10 +156,6 @@ export default class DeploymentCenterData {
     return GitHubService.createOrUpdateActionWorkflow(authToken, gitHubToken, content, replacementPublishUrl);
   };
 
-  public addSecretToRepository = (gitHubToken: string, repo: string, secretName: string, secretValue: string) => {
-    return GitHubService.addSecretToRepository(gitHubToken, repo, secretName, secretValue);
-  };
-
   public getWebAppRuntimeStacks = (stacksOs: AppStackOs) => {
     return RuntimeStackService.getWebAppGitHubActionStacks(stacksOs);
   };

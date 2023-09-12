@@ -126,32 +126,24 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>
   ): SiteSourceControlGitHubActionsRequestBody => {
     const variables = getGitHubActionsConfigurationVariables(values);
-    const gitHubActionConfiguration = Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)
-      ? {
-          generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
-          workflowSettings: {
-            appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
-            publishType: PublishType.Code,
-            os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-            runtimeStack: values.runtimeStack,
-            workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20221001,
-            slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
-            variables: variables,
-            authType: values.authType ?? AuthType.PublishProfile,
-          },
-        }
-      : {
-          generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
-          workflowSettings: {
-            appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
-            publishType: PublishType.Code,
-            os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-            runtimeStack: values.runtimeStack,
-            workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
-            slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
-            variables: variables,
-          },
-        };
+    const gitHubActionConfiguration = {
+      generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
+      workflowSettings: {
+        appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+        publishType: PublishType.Code,
+        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+        runtimeStack: values.runtimeStack,
+        workflowApiVersion: Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)
+          ? CommonConstants.ApiVersions.workflowApiVersion20221001
+          : CommonConstants.ApiVersions.workflowApiVersion20201201,
+        slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+        variables: variables,
+      },
+    };
+
+    if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)) {
+      gitHubActionConfiguration.workflowSettings['authType'] = values.authType ?? AuthType.PublishProfile;
+    }
 
     return {
       repoUrl: getRepoUrl(values),
