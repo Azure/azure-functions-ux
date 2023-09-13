@@ -11,7 +11,7 @@ import {
 } from '../DeploymentCenter.types';
 import { DeploymentCenterCodeFormBuilder } from '../code/DeploymentCenterCodeFormBuilder';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';

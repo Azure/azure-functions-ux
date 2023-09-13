@@ -161,6 +161,11 @@ export enum ManagedIdentityType {
   userAssigned = 'UserAssigned',
 }
 
+export enum AuthType {
+  Oidc = 'oidc',
+  PublishProfile = 'publishprofile',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
@@ -319,6 +324,9 @@ export interface DeploymentCenterCommonFormData {
   folder?: string;
   devOpsProjectName?: string;
   searchTerm?: string;
+  authType?: AuthType;
+  authIdentityClientId?: string;
+  authIdentity?: UserAssignedIdentity;
 }
 
 export interface AcrFormData {
@@ -660,6 +668,7 @@ export interface SiteSourceControlGitHubActionsRequestBody {
       slotName: string;
       variables: KeyValue<string>;
       runtimeStack?: string;
+      authType?: AuthType;
     };
   };
 }
@@ -808,5 +817,7 @@ export interface RoleAssignment {
 export interface UserAssignedIdentity {
   clientId: string;
   principalId: string;
+  tenantId: string;
+  subscriptionId: string;
   name: string;
 }

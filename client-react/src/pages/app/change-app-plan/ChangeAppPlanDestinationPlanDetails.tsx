@@ -223,7 +223,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
     }
 
     if (
-      hostingEnvironment && 
+      hostingEnvironment &&
       AppKind.hasAnyKind(hostingEnvironment, [CommonConstants.Kinds.aseV1, CommonConstants.Kinds.aseV2, CommonConstants.Kinds.aseV3])
     ) {
       const appKind = siteStateContext.isLinuxApp ? CommonConstants.Kinds.linux : CommonConstants.Kinds.app;

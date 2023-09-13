@@ -7810,19 +7810,46 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="toggleAppSettingSelectionAriaLabel" xml:space="preserve">
         <value>Toggle selection of application settings</value>
     </data>
-     <data name="selectAppSettingAriaLabel" xml:space="preserve">
+    <data name="selectAppSettingAriaLabel" xml:space="preserve">
         <value>Select application setting</value>
     </data>
-     <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
+    <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
         <value>Toggle selection for all application settings</value>
     </data>
-     <data name="hideButton" xml:space="preserve">
+    <data name="hideButton" xml:space="preserve">
         <value>Hide value button</value>
     </data>
-      <data name="showButton" xml:space="preserve">
+    <data name="showButton" xml:space="preserve">
         <value>Show value button</value>
     </data>
-      <data name="troubleshoot" xml:space="preserve">
+    <data name="troubleshoot" xml:space="preserve">
         <value>Troubleshoot</value>
+    </data>
+    <data name="authenticationSettingsTitle" xml:space="preserve">
+        <value>Authentication settings</value>
+    </data>
+    <data name="authenticationSettingsDescription" xml:space="preserve">
+        <value>Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.</value>
+    </data>
+    <data name="authenticationSettingsFederatedIdentity" xml:space="preserve">
+        <value>Federated identity (OIDC) (Preferred)</value>
+    </data>
+    <data name="authenticationSettingsUserAssignedManagedIdentity" xml:space="preserve">
+        <value>User-assigned managed identity</value>
+    </data>
+    <data name="authenticationSettingsBasicAuthentication" xml:space="preserve">
+        <value>Basic authentication</value>
+    </data>
+    <data name="authenticationSettingsPublishProfile" xml:space="preserve">
+        <value>Publish profile</value>
+    </data>
+    <data name="authenticationSettingsAuthenticationType" xml:space="preserve">
+        <value>Authentication type</value>
+    </data>
+    <data name="authenticationSettingsAuthenticationPlaceholder" xml:space="preserve">
+        <value>Select an authentication type</value>
+    </data>
+    <data name="authenticationSettingsIdentity" xml:space="preserve">
+        <value>Identity</value>
     </data>
 </root>
