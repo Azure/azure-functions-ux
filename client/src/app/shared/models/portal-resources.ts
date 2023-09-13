@@ -2559,6 +2559,9 @@ export class PortalResources {
   public static toggleAppSettingSelectionAriaLabel = 'toggleAppSettingSelectionAriaLabel';
   public static selectAppSettingAriaLabel = 'selectAppSettingAriaLabel';
   public static toggleAllAppSettingsAriaLabel = 'toggleAllAppSettingsAriaLabel';
+  public static toggleSnippetSelectionAriaLabel = 'toggleSnippetSelectionAriaLabel';
+  public static selectSnippetAriaLabel = 'selectSnippetAriaLabel';
+  public static toggleAllSnippetsAriaLabel = 'toggleAllSnippetsAriaLabel';
   public static hideButton = 'hideButton';
   public static showButton = 'showButton';
   public static troubleshoot = 'troubleshoot';

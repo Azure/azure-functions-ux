@@ -80,7 +80,6 @@ export class CommonConstants {
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
-    enableSnippets: 'enableSnippets',
     showJBossClustering: 'showJBossClustering',
     showNFSFileShares: 'showNFSFileShares',
     showDCAuthSettings: 'showDCAuthSettings',

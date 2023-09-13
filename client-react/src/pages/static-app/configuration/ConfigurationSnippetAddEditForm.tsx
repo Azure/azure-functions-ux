@@ -132,6 +132,7 @@ const ConfigurationSnippetsAddEditForm: React.FC<ConfigurationSnippetsAddEditFor
               disabled={disabled}
               options={[
                 { key: ApplicableEnvironmentsMode.AllEnvironments, text: t('staticSite_allEnvironments') },
+                { key: ApplicableEnvironmentsMode.StagingEnvironments, text: t('staticSite_stagingEnvironments') },
                 { key: ApplicableEnvironmentsMode.SpecifiedEnvironments, text: t('staticSite_selectEnvironments') },
               ]}
             />
