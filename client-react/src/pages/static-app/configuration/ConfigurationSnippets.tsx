@@ -154,6 +154,9 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
     if (item.applicableEnvironmentsMode === ApplicableEnvironmentsMode.AllEnvironments) {
       return t('staticSite_allEnvironments');
     }
+    if (item.applicableEnvironmentsMode === ApplicableEnvironmentsMode.StagingEnvironments) {
+      return t('staticSite_stagingEnvironments');
+    }
     if (item.environments?.length === 1) {
       const env = formProps.values.environments?.find(env => env.name === item.environments[0]);
       if (env) {
@@ -297,16 +300,20 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
     );
   };
 
-  const isDeleteButtonEnabled: boolean = useMemo(() => {
-    return disabled || !values.snippets || values.snippets?.filter(snippet => snippet.checked).length <= 0;
-  }, [values.snippets]);
+  const isDeleteButtonDisabled: boolean = useMemo(() => {
+    return !hasWritePermissions || !values.snippets || values.snippets.filter(snippet => snippet.checked).length <= 0;
+  }, [hasWritePermissions, values.snippets]);
+
+  const isAddButtonDisabled: boolean = useMemo(() => {
+    return !hasWritePermissions;
+  }, [hasWritePermissions]);
 
   const commandBarItems: ICommandBarItemProps[] = useMemo(() => {
     return [
       {
         key: 'add-new-snippet',
         onClick: openAddEditPanel,
-        disabled: disabled,
+        disabled: isAddButtonDisabled,
         iconProps: { iconName: 'Add' },
         name: t('add'),
         ariaLabel: t('add'),
@@ -314,14 +321,14 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
       {
         key: 'snippet-variable-bulk-delete',
         onClick: showDiscardConfirmDialog,
-        disabled: isDeleteButtonEnabled,
+        disabled: isDeleteButtonDisabled,
         iconProps: { iconName: 'Delete' },
         text: t('delete'),
         ariaLabel: t('delete'),
         className: commandBarSeparator(theme),
       },
     ];
-  }, [isDeleteButtonEnabled]);
+  }, [isDeleteButtonDisabled]);
 
   const deleteSnippets = useCallback(async () => {
     hideDeleteConfirmDialog();
@@ -395,6 +402,9 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
             columns={defaultColumns}
             items={filteredItems}
             isHeaderVisible={true}
+            ariaLabelForSelectionColumn={t('toggleSnippetSelectionAriaLabel')}
+            ariaLabelForSelectAllCheckbox={t('selectSnippetAriaLabel')}
+            checkButtonAriaLabel={t('toggleAllSnippetsAriaLabel')}
             layoutMode={DetailsListLayoutMode.justified}
             selectionMode={SelectionMode.multiple}
             selectionPreservedOnEmptyClick={true}

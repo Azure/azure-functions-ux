@@ -4,7 +4,7 @@ import {
   DeploymentCenterFieldProps,
   DeploymentCenterContainerFormData,
   DeploymentCenterCodeFormData,
-} from './DeploymentCenter.types';
+} from '../DeploymentCenter.types';
 import { MessageBarType, ActionButton, ProgressIndicator, Link } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -14,20 +14,20 @@ import {
   ftpsPasswordTextboxStyle,
   descriptionStyle,
   textboxStyle,
-} from './DeploymentCenter.styles';
-import TextFieldNoFormik from '../../../components/form-controls/TextFieldNoFormik';
-import CustomBanner from '../../../components/CustomBanner/CustomBanner';
-import { DeploymentCenterContext } from './DeploymentCenterContext';
-import CustomFocusTrapCallout from '../../../components/CustomCallout/CustomFocusTrapCallout';
-import { DeploymentCenterLinks } from '../../../utils/FwLinks';
+} from '../DeploymentCenter.styles';
+import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import CustomFocusTrapCallout from '../../../../components/CustomCallout/CustomFocusTrapCallout';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { DeploymentCenterPublishingContext } from './DeploymentCenterPublishingContext';
-import { ScmType } from '../../../models/site/config';
-import { getGitCloneUri, getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
+import { getGitCloneUri, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterPublishingUser from './DeploymentCenterPublishingUser';
-import { PortalContext } from '../../../PortalContext';
-import { learnMoreLinkStyle } from '../../../components/form-controls/formControl.override.styles';
-import { TextFieldType } from '../../../utils/CommonConstants';
-import { useFullPage } from '../../../utils/hooks/useFullPage';
+import { PortalContext } from '../../../../PortalContext';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { TextFieldType } from '../../../../utils/CommonConstants';
+import { useFullPage } from '../../../../utils/hooks/useFullPage';
 
 const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>> = props => {

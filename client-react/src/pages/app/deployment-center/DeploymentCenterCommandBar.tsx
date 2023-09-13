@@ -9,6 +9,7 @@ import { DeploymentCenterContext } from './DeploymentCenterContext';
 import { ScmType } from '../../../models/site/config';
 import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const {
@@ -82,24 +83,10 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   };
 
   const openSCIFrameBlade = () => {
-    //  const optionalParameters;
-
-    // const webAppParameters = {
-    //   key: 'Referrer',
-    //   value: {
-    //     ExtensionName: 'WebsitesExtension',
-    //     BladeName: 'DeploymentCenter',
-    //     TabName: '',
-    //     DetectorId: 'hybridconnections',
-    //     DetectorType: 'Detector',
-    //     CategoryId: 'Deployment',
-    //   },
-    // };
-
     const functionAppParameters = {
       key: 'Referrer',
       value: {
-        ExtensionName: 'WebsitesExtension',
+        ExtensionName: CommonConstants.Extensions.WebsitesExtension,
         BladeName: 'DeploymentCenter',
         TabName: '',
         DetectorId: 'FunctionsDeploymentExternal',
@@ -108,12 +95,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
       },
     };
 
-    // if (siteStateContext.isFunctionApp) {
     const optionalParameters = [functionAppParameters];
-    // }
-    // else {
-    //       optionalParameters = [webAppParameters];
-    //     }
 
     portalContext.openBlade({
       detailBlade: 'SCIFrameBlade',
@@ -121,7 +103,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         id: deploymentCenterContext.resourceId,
         optionalParameters: optionalParameters,
       },
-      extension: 'WebsitesExtension',
+      extension: CommonConstants.Extensions.WebsitesExtension,
       openAsContextBlade: true,
     });
   };

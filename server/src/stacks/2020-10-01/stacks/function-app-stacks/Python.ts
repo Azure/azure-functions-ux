@@ -25,8 +25,8 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               linuxRuntimeSettings: {
                 runtimeVersion: 'Python|3.11',
                 remoteDebuggingSupported: false,
-                isPreview: true,
-                isDefault: false,
+                isPreview: false,
+                isDefault: true,
                 isHidden: false,
                 appInsightsSettings: {
                   isSupported: true,

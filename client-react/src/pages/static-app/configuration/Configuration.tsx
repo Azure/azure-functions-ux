@@ -589,7 +589,7 @@ const Configuration: React.FC<ConfigurationProps> = (props: ConfigurationProps) 
                 href={Links.staticSiteEnvironmentVariablesLearnMore}
                 target="_blank"
                 className={learnMoreLinkStyle}
-                aria-labelledby="environment-variable-info-message">
+                aria-label={`${t('learnMore')} ${t('staticSite_applicationSettingsInfoMessage')}`}>
                 {` ${t('learnMore')}`}
               </Link>
             </p>

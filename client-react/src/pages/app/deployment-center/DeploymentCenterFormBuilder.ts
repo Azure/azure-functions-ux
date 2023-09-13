@@ -1,13 +1,14 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { PublishingUser } from '../../../models/site/publish';
 import { SiteConfig, BuildProvider, ScmType } from '../../../models/site/config';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
+import { AuthType, DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
 import i18next from 'i18next';
 import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
 import { RepoTypeOptions } from '../../../models/external';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { PublishingCredentialPolicies } from '../../../models/site/site';
+import Url from '../../../utils/url';
 
 export abstract class DeploymentCenterFormBuilder {
   protected _publishingUser: ArmObj<PublishingUser>;
@@ -141,6 +142,12 @@ export abstract class DeploymentCenterFormBuilder {
         }),
       externalRepoType: Yup.mixed().notRequired(),
       devOpsProjectName: Yup.mixed().notRequired(),
+      authType: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) ? !!value : true;
+      }),
+      authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.authType === AuthType.Oidc ? !!value : true;
+      }),
     };
   }
 

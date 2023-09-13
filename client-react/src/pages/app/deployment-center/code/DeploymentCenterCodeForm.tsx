@@ -10,6 +10,7 @@ import {
   AppType,
   PublishType,
   RuntimeStackOptions,
+  AuthType,
 } from '../DeploymentCenter.types';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
@@ -41,7 +42,7 @@ import {
   getWorkflowFileName,
   getSourceControlsWorkflowFileName,
 } from '../utility/DeploymentCenterUtility';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { AppOs } from '../../../../models/site/site';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
@@ -49,6 +50,7 @@ import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import { RepoTypeOptions } from '../../../../models/external';
+import Url from '../../../../utils/url';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -77,11 +79,9 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       });
     } else {
       portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
-
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,
       });
-
       if (
         !updateSourceControlResponse.metadata.success &&
         payload.isGitHubAction &&
@@ -91,7 +91,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         // we are experiencing the GeoRegionalService API error (500), run through the
         // workaround.
         portalContext.log(getTelemetryInfo('warning', 'updateSourceControlsWorkaround', 'submit'));
-
         return updateGitHubActionSourceControlPropertiesManually(
           deploymentCenterData,
           deploymentCenterContext.resourceId,
@@ -108,7 +107,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             })
           );
         }
-
         return updateSourceControlResponse;
       }
     }
@@ -128,6 +126,24 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>
   ): SiteSourceControlGitHubActionsRequestBody => {
     const variables = getGitHubActionsConfigurationVariables(values);
+    const gitHubActionConfiguration = {
+      generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
+      workflowSettings: {
+        appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+        publishType: PublishType.Code,
+        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+        runtimeStack: values.runtimeStack,
+        workflowApiVersion: Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)
+          ? CommonConstants.ApiVersions.workflowApiVersion20221001
+          : CommonConstants.ApiVersions.workflowApiVersion20201201,
+        slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+        variables: variables,
+      },
+    };
+
+    if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)) {
+      gitHubActionConfiguration.workflowSettings['authType'] = values.authType ?? AuthType.PublishProfile;
+    }
 
     return {
       repoUrl: getRepoUrl(values),
@@ -136,18 +152,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       isGitHubAction: true,
       deploymentRollbackEnabled: false,
       isMercurial: false,
-      gitHubActionConfiguration: {
-        generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
-        workflowSettings: {
-          appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
-          publishType: PublishType.Code,
-          os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-          runtimeStack: values.runtimeStack,
-          workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
-          slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
-          variables: variables,
-        },
-      },
+      gitHubActionConfiguration,
     };
   };
 
@@ -158,6 +163,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
     if (values.runtimeStack === RuntimeStackOptions.Java) {
       variables['javaContainer'] = values.javaContainer;
+    }
+
+    if (values.authType === AuthType.Oidc) {
+      variables['clientId'] = values.authIdentity?.clientId;
+      variables['tenantId'] = values.authIdentity?.tenantId;
     }
 
     return variables;

@@ -6,7 +6,7 @@ import { DropDownStyles } from '../../theme/CustomOfficeFabric/AzurePortal/Dropd
 import { TextFieldStyles } from '../../theme/CustomOfficeFabric/AzurePortal/TextField.styles';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 
-const FORM_DEFAULT_WIDTH = '275px';
+export const FORM_DEFAULT_WIDTH = '275px';
 const FULL_PAGE_WIDTH = '220px';
 const NOT_FULL_PAGE_WIDTH = '200px';
 
