@@ -301,7 +301,7 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
   };
 
   const isDeleteButtonDisabled: boolean = useMemo(() => {
-    return !hasWritePermissions || !values.snippets || values.snippets?.filter(snippet => snippet.checked).length <= 0;
+    return !hasWritePermissions || !values.snippets || values.snippets.filter(snippet => snippet.checked).length <= 0;
   }, [hasWritePermissions, values.snippets]);
 
   const isAddButtonDisabled: boolean = useMemo(() => {
