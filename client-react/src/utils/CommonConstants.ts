@@ -57,7 +57,7 @@ export class CommonConstants {
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
     userAssignedIdentitiesApiVersion20230131: '2023-01-31',
-    containerAppApiVersion20230401Preview: '2023-04-01-preview',
+    containerAppApiVersion20230501: '2023-05-01',
     antaresApiVersion20141101: '2014-11-01',
   };
 
