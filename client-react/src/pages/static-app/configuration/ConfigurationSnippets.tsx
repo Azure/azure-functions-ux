@@ -391,6 +391,7 @@ const ConfigurationSnippets: React.FC<ConfigurationSnippetsProps> = ({
               <Link
                 aria-labelledby="snippets-description"
                 className={learnMoreLinkStyle}
+                underline={true}
                 href={Links.staticSiteSnippetsLearnMore}
                 target="_blank">
                 {t('learnMore')}
