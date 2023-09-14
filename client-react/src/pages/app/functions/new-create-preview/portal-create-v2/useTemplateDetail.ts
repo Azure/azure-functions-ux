@@ -27,11 +27,13 @@ export function useTemplateDetail(
 
   const jobTypeOptions = useMemo<IDropdownOption<unknown>[]>(
     () => [
-      ...(functionAppExists
-        ? [{ key: JobType.AppendToFile, text: t('jobType_appendToFile') }]
-        : [{ key: JobType.CreateNewApp, text: t('jobType_createNewApp') }]),
-      ...(blueprintsExist ? [{ key: JobType.AppendToBlueprint, text: t('jobType_appendToBlueprint') }] : []),
-      { key: JobType.CreateNewBlueprint, text: t('jobType_createNewBlueprint') },
+      ...when(
+        functionAppExists,
+        { key: JobType.AppendToFile, text: t('jobType_appendToFile') },
+        { key: JobType.CreateNewApp, text: t('jobType_createNewApp') }
+      ),
+      ...when(blueprintsExist, { key: JobType.AppendToBlueprint, text: t('jobType_appendToBlueprint') }),
+      ...when(functionAppExists, { key: JobType.CreateNewBlueprint, text: t('jobType_createNewBlueprint') }),
     ],
     [blueprintsExist, functionAppExists, t]
   );
@@ -41,4 +43,8 @@ export function useTemplateDetail(
     jobTypeOptions,
     makeTextValidator,
   };
+}
+
+function when<T>(condition = false, option: IDropdownOption<T>, otherwise?: IDropdownOption<T>) {
+  return condition ? [option] : otherwise ? [otherwise] : [];
 }
