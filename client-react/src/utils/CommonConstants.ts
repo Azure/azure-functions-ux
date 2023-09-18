@@ -368,7 +368,6 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
-    showByosKeyVault: 'show-byos-keyvault',
     showEnvironmentVariables: 'show-environment-variables',
   };
 
