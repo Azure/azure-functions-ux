@@ -327,6 +327,7 @@ export interface DeploymentCenterCommonFormData {
   authType?: AuthType;
   authIdentityClientId?: string;
   authIdentity?: UserAssignedIdentity;
+  hasPermissionToAssignRBAC?: boolean;
 }
 
 export interface AcrFormData {
@@ -820,4 +821,15 @@ export interface UserAssignedIdentity {
   tenantId: string;
   subscriptionId: string;
   name: string;
+}
+
+export interface FederatedCredential {
+  id: string;
+  name: string;
+  properties: {
+    audiences: string[];
+    issuer: string;
+    subject: string;
+  };
+  type: string;
 }

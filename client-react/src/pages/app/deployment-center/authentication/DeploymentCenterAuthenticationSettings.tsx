@@ -17,7 +17,7 @@ import {
 import { ManagedIdentitiesDropdown } from './ManagedIdentitiesDropdown';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
-import ManagedIdentityService from '../../../../ApiHelpers/ManagedIdentityService';
+import { RBACRoleId } from '../../../../utils/CommonConstants';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -64,7 +64,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
     if (siteResponse.metadata.success && siteResponse.data.identity?.userAssignedIdentities) {
       for (const id in siteResponse.data.identity.userAssignedIdentities) {
-        const getUserAssignedIdentityResponse = await ManagedIdentityService.getUserAssignedIdentity(id);
+        const getUserAssignedIdentityResponse = await deploymentCenterData.getUserAssignedIdentity(id);
         if (getUserAssignedIdentityResponse.metadata.success) {
           const identity = getUserAssignedIdentityResponse.data.properties;
           const clientId = identity.clientId;
@@ -82,6 +82,29 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     setLoadingIdentities(false);
   }, [deploymentCenterContext.resourceId]);
 
+  const hasPermissionOverResource = React.useCallback(async () => {
+    if (deploymentCenterContext.resourceId) {
+      const getUserResponse = await deploymentCenterData.getUser();
+      console.log(`getUserResponse: ${JSON.stringify(getUserResponse)}`);
+      if (getUserResponse.metadata.success) {
+        const userId = getUserResponse.data.id;
+        const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
+          deploymentCenterContext.resourceId,
+          userId
+        );
+        if (getRoleAssignmentsResponse.metadata.success) {
+          formProps.setFieldValue(
+            'hasPermissionToAssignRBAC',
+            deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
+              deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
+          );
+        }
+      } else {
+        formProps.setFieldValue('hasPermissionToAssignRBAC', false);
+      }
+    }
+  }, [deploymentCenterContext.resourceId, formProps.values.hasPermissionToAssignRBAC]);
+
   React.useEffect(() => {
     if (formProps.values.authType === AuthType.Oidc) {
       setShowIdentities(true);
@@ -98,6 +121,10 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     }
   }, [formProps.values.authIdentityClientId]);
 
+  React.useEffect(() => {
+    hasPermissionOverResource();
+  }, [hasPermissionOverResource]);
+
   return (
     <div className={deploymentCenterContent}>
       <h3 className={titleWithPaddingStyle}>{t('authenticationSettingsTitle')}</h3>
@@ -111,7 +138,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
         options={authTypeOptions}
         required
       />
-      {showIdentities && deploymentCenterContext.resourceId && (
+      {showIdentities && formProps.values.hasPermissionToAssignRBAC && deploymentCenterContext.resourceId && (
         <ManagedIdentitiesDropdown
           resourceId={deploymentCenterContext.resourceId}
           identityOptions={identityOptions}

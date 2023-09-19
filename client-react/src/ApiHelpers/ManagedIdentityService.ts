@@ -6,7 +6,7 @@ import MakeArmCall from './ArmHelper';
 export default class ManagedIdentityService {
   public static getUserAssignedIdentity = (
     resourceId: string,
-    apiVersion = CommonConstants.ApiVersions.userAssignedIdentitiesApiVersion20230131
+    apiVersion = CommonConstants.ApiVersions.managedIdentityApiVersion20230131
   ) => {
     return MakeArmCall<ArmObj<UserAssignedIdentity>>({
       method: 'GET',
@@ -15,4 +15,30 @@ export default class ManagedIdentityService {
       apiVersion,
     });
   };
+
+  public static readonly OIDCFederatedCredentials = {
+    issuer: 'https://token.actions.githubusercontent.com',
+    audiences: ['api://AzureADTokenExchange'],
+  };
+
+  public static async putFederatedCredential(
+    managedIdentityResourceId: string,
+    fullRepoName: string,
+    apiVersion = CommonConstants.ApiVersions.managedIdentityApiVersion20230131
+  ) {
+    const federatedCredentialResourceId = `${managedIdentityResourceId}/federatedIdentityCredentials/${fullRepoName}?api-version=${apiVersion}`;
+    const body = {
+      issuer: this.OIDCFederatedCredentials.issuer,
+      subject: `repo:${fullRepoName}:environment:production`,
+      audiences: this.OIDCFederatedCredentials.audiences,
+    };
+
+    return MakeArmCall({
+      method: 'PUT',
+      resourceId: federatedCredentialResourceId,
+      body: body,
+      commandName: 'putFederatedCredential',
+      apiVersion,
+    });
+  }
 }

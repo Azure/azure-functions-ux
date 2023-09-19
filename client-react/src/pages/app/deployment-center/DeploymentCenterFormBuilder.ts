@@ -42,6 +42,7 @@ export abstract class DeploymentCenterFormBuilder {
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
       devOpsProject: '',
+      hasPermissionToAssignRBAC: false,
     };
   }
 
@@ -142,12 +143,23 @@ export abstract class DeploymentCenterFormBuilder {
         }),
       externalRepoType: Yup.mixed().notRequired(),
       devOpsProjectName: Yup.mixed().notRequired(),
-      authType: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) ? !!value : true;
+      authType: Yup.mixed().when('hasPermissionToAssignRBAC', {
+        is: true,
+        then: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) ? !!value : true;
+        }),
+        otherwise: Yup.mixed().test('authTypeIsNotOidc', this._t('authenticationSettingsIdentityPermissionsValidation'), function(value) {
+          if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)) {
+            return value !== AuthType.Oidc;
+          } else {
+            return true;
+          }
+        }),
       }),
       authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.authType === AuthType.Oidc ? !!value : true;
       }),
+      hasPermissionToAssignRBAC: Yup.boolean().notRequired(),
     };
   }
 

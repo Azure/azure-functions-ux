@@ -78,6 +78,30 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
+      if (
+        Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) &&
+        values.authType === AuthType.Oidc &&
+        values.authIdentity
+      ) {
+        const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
+          values.authIdentity.principalId,
+          `${values.org}/${values.repo}`
+        );
+        if (!addFederatedCredentialResponse.metadata.success) {
+          if (!addFederatedCredentialResponse.metadata.success) {
+            portalContext.log(
+              getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+                message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+                errorAsString: addFederatedCredentialResponse.metadata.error
+                  ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                  : '',
+              })
+            );
+          }
+          return addFederatedCredentialResponse;
+        }
+      }
+
       portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,

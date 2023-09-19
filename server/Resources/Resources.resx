@@ -6954,6 +6954,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterOneDriveDropboxWarning" xml:space="preserve">
         <value>Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.</value>
     </data>
+    <data name="deploymentCenterNoWritePermissionsError" xml:space="preserve">
+        <value>You do not have write permissions to make any changes.</value>
+    </data>
     <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
         <value>GitHub Token not found, click authorize to set up GitHub token.</value>
     </data>
@@ -7860,5 +7863,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="authenticationSettingsIdentity" xml:space="preserve">
         <value>Identity</value>
+    </data>
+    <data name="authenticationSettingsIdentityPermissionsValidation" xml:space="preserve">
+        <value>You do not have sufficient permissions on this app to assign a managed identity and add federated credentials.</value>
     </data>
 </root>

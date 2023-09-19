@@ -55,8 +55,9 @@ export class CommonConstants {
     workflowApiVersion20221001: '2022-10-01',
     roleAssignmentApiVersion20180701: '2018-07-01',
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
+    roleAssignmentApiVersion20220401: '2022-04-01',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
-    userAssignedIdentitiesApiVersion20230131: '2023-01-31',
+    managedIdentityApiVersion20230131: '2023-01-31',
     containerAppApiVersion20230401Preview: '2023-04-01-preview',
     antaresApiVersion20141101: '2014-11-01',
   };
@@ -342,6 +343,9 @@ export enum TextFieldType {
 
 export enum RBACRoleId {
   acrPull = '7f951dda-4ed3-4680-a7ca-43fe172d538d',
+  contributor = 'b24988ac-6180-42a0-ab88-20f7382dd24c',
+  owner = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635',
+  userAccessAdministrator = '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9',
 }
 
 export enum PrincipalType {
