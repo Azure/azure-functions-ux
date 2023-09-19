@@ -41,7 +41,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "reflect-metadata": "^0.1.13",
-    "request-ip": "^2.2.0",
+    "request-ip": "^3.3.0",
     "rxjs": "^7.3.0",
     "swagger-ui-express": "^4.6.3",
     "tweetsodium": "^0.0.5"
