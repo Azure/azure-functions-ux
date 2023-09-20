@@ -821,6 +821,7 @@ export interface UserAssignedIdentity {
   tenantId: string;
   subscriptionId: string;
   name: string;
+  resourceId: string;
 }
 
 export interface FederatedCredential {

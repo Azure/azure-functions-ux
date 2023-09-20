@@ -17,8 +17,8 @@ import {
 import { ManagedIdentitiesDropdown } from './ManagedIdentitiesDropdown';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
-// import { RBACRoleId } from '../../../../utils/CommonConstants';
-// import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
+import { ClientResourceNames, GraphApiVersion, RBACRoleId, graphApiUrl } from '../../../../utils/CommonConstants';
+import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -64,17 +64,17 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     portalContext.log(getTelemetryInfo('info', 'getUserAssignedManagedIdentities', 'submit'));
     const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
     if (siteResponse.metadata.success && siteResponse.data.identity?.userAssignedIdentities) {
-      for (const id in siteResponse.data.identity.userAssignedIdentities) {
-        const getUserAssignedIdentityResponse = await deploymentCenterData.getUserAssignedIdentity(id);
+      for (const resourceId in siteResponse.data.identity.userAssignedIdentities) {
+        const getUserAssignedIdentityResponse = await deploymentCenterData.getUserAssignedIdentity(resourceId);
         if (getUserAssignedIdentityResponse.metadata.success) {
           const identity = getUserAssignedIdentityResponse.data.properties;
           const clientId = identity.clientId;
           const principalId = identity.principalId;
           const tenantId = identity.tenantId;
-          const subscriptionId = new ArmResourceDescriptor(id).subscription;
-          const name = id.split('/').pop() || clientId;
-          options.push({ key: clientId, text: name, data: { clientId, principalId, tenantId, subscriptionId, name } });
-          managedIdentityInfo.current[clientId] = { clientId, principalId, tenantId, subscriptionId, name };
+          const subscriptionId = new ArmResourceDescriptor(resourceId).subscription;
+          const name = resourceId.split('/').pop() || clientId;
+          options.push({ key: clientId, text: name, data: { clientId, principalId, tenantId, subscriptionId, name, resourceId } });
+          managedIdentityInfo.current[clientId] = { clientId, principalId, tenantId, subscriptionId, name, resourceId };
         }
       }
     }
@@ -85,53 +85,28 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
 
   const hasPermissionOverResource = React.useCallback(async () => {
     if (deploymentCenterContext.resourceId) {
-      const adToken = await portalContext.getAdToken('graph');
-      if (adToken) {
-        const getUserResponse = await deploymentCenterData.getUser(adToken);
-        if (getUserResponse.metadata.success) {
-          console.log(getUserResponse.data);
-        } else {
+      const getUserResponse = await portalContext.makeHttpRequestsViaPortal({
+        uri: `${graphApiUrl}/${GraphApiVersion.V1}/me`,
+        type: 'GET',
+        setAuthorizationHeader: { resourceName: ClientResourceNames.MicrosoftGraph },
+      });
+      if (isPortalCommunicationStatusSuccess(getUserResponse.status)) {
+        const userId = getUserResponse.result?.content?.id;
+        const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
+          deploymentCenterContext.resourceId,
+          userId
+        );
+        if (getRoleAssignmentsResponse.metadata.success) {
+          return formProps.setFieldValue(
+            'hasPermissionToAssignRBAC',
+            deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
+              deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
+          );
         }
       }
-      // const adToken = await portalContext.getAdToken('graph');
-      // if (adToken) {
-      //   const getUserResponse = await deploymentCenterData.getUser(adToken);
-      //   if (isPortalCommunicationStatusSuccess(getUserResponse.status)) {
-      //     const userId = getUserResponse.result?.content?.id;
-      //     const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
-      //       deploymentCenterContext.resourceId,
-      //       userId
-      //     );
-      //     if (getRoleAssignmentsResponse.metadata.success) {
-      //       formProps.setFieldValue(
-      //         'hasPermissionToAssignRBAC',
-      //         deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
-      //           deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
-      //       );
-      //     }
-      // }
-      // const getUserResponse = await portalContext.makeHttpRequestsViaPortal({
-      //   uri: `${graphApiUrl}/${GraphApiVersion.V1}/me`,
-      //   type: 'GET',
-      //   setAuthorizationHeader: { resourceName: ClientResourceNames.MicrosoftGraph },
-      // });
-      // if (isPortalCommunicationStatusSuccess(getUserResponse.status)) {
-      //   const userId = getUserResponse.result?.content?.id;
-      //   const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
-      //     deploymentCenterContext.resourceId,
-      //     userId
-      //   );
-      //   if (getRoleAssignmentsResponse.metadata.success) {
-      //     formProps.setFieldValue(
-      //       'hasPermissionToAssignRBAC',
-      //       deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
-      //         deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
-      //     );
-      //   }
-      // } else {
-      //   formProps.setFieldValue('hasPermissionToAssignRBAC', false);
-      // }
     }
+
+    return formProps.setFieldValue('hasPermissionToAssignRBAC', false);
   }, [deploymentCenterContext.resourceId, formProps.values.hasPermissionToAssignRBAC]);
 
   React.useEffect(() => {

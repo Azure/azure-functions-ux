@@ -6,11 +6,10 @@ import { OnedriveController } from './onedrive/onedrive.controller';
 import { BitbucketsController } from './bitbuckets/bitbuckets.controller';
 import { SharedModule } from '../shared/shared.module';
 import { ACRController } from './acr/acr.controller';
-import { GraphController } from './graph/graph-controller';
 
 @Module({
   imports: [SharedModule],
-  controllers: [GithubController, DropboxController, OnedriveController, BitbucketsController, ACRController, GraphController],
+  controllers: [GithubController, DropboxController, OnedriveController, BitbucketsController, ACRController],
   providers: [DeploymentCenterService],
 })
 export class DeploymentCenterModule {}

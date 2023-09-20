@@ -84,8 +84,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         values.authIdentity
       ) {
         const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
-          values.authIdentity.principalId,
-          `${values.org}/${values.repo}`
+          values.authIdentity.resourceId,
+          `${values.org}-${values.repo}`
         );
         if (!addFederatedCredentialResponse.metadata.success) {
           if (!addFederatedCredentialResponse.metadata.success) {

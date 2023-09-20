@@ -26,11 +26,13 @@ export default class ManagedIdentityService {
     fullRepoName: string,
     apiVersion = CommonConstants.ApiVersions.managedIdentityApiVersion20230131
   ) {
-    const federatedCredentialResourceId = `${managedIdentityResourceId}/federatedIdentityCredentials/${fullRepoName}?api-version=${apiVersion}`;
+    const federatedCredentialResourceId = `${managedIdentityResourceId}/federatedIdentityCredentials/${fullRepoName}`;
     const body = {
-      issuer: this.OIDCFederatedCredentials.issuer,
-      subject: `repo:${fullRepoName}:environment:production`,
-      audiences: this.OIDCFederatedCredentials.audiences,
+      properties: {
+        issuer: this.OIDCFederatedCredentials.issuer,
+        subject: `repo:${fullRepoName}:environment:production`,
+        audiences: this.OIDCFederatedCredentials.audiences,
+      },
     };
 
     return MakeArmCall({
