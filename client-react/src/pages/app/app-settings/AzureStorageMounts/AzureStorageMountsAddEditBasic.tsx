@@ -18,6 +18,8 @@ import { PortalContext } from '../../../../PortalContext';
 import { FileShareEnabledProtocols } from '../../../../models/storage-account';
 import { SiteStateContext } from '../../../../SiteState';
 import StorageProtocol from './StorageProtocol';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import Url from '../../../../utils/url';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -259,7 +261,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const storageContainerOptions = useMemo(() => {
     return values.type === StorageType.azureBlob
       ? blobContainerOptions
-      : values.protocol === StorageFileShareProtocol.SMB
+      : values.protocol === StorageFileShareProtocol.SMB || Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) !== 'true'
       ? smbFilesContainerOptions
       : nfsFilesContainerOptions;
   }, [blobContainerOptions, smbFilesContainerOptions, nfsFilesContainerOptions, values.type, values.protocol]);
