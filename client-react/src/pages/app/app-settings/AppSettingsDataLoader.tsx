@@ -154,7 +154,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     // NOTE (krmitta): Don't block the entire blade incase siteResponse is returned and the app is not-kube
     if (!isKube) {
       azureStorageMounts = await SiteService.fetchAzureStorageMounts(resourceId);
-      console.log(azureStorageMounts);
       loadingFailed = loadingFailed || armCallFailed(azureStorageMounts, true);
     }
 

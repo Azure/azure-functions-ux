@@ -257,14 +257,12 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   ]);
 
   const storageContainerOptions = useMemo(() => {
-    console.log(values.protocol);
     return values.type === StorageType.azureBlob
       ? blobContainerOptions
       : values.protocol === StorageFileShareProtocol.SMB
       ? smbFilesContainerOptions
       : nfsFilesContainerOptions;
   }, [blobContainerOptions, smbFilesContainerOptions, nfsFilesContainerOptions, values.type, values.protocol]);
-  console.log(storageContainerOptions);
 
   return (
     <>
