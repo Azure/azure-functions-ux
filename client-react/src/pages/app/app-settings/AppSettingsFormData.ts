@@ -35,6 +35,7 @@ import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import i18next from 'i18next';
 import { isJBossClusteringShown } from '../../../utils/stacks-utils';
+import Url from '../../../utils/url';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -308,7 +309,7 @@ export function getFormAzureStorageMount(
 
   return sortBy(
     Object.keys(storageData.properties).map(key => {
-      const { accessKey, ...rest } = storageData.properties[key];
+      const { accessKey, protocol, ...rest } = storageData.properties[key];
       const storageAccess =
         accessKey.startsWith(AppSettingReference.prefix) && accessKey.endsWith(AppSettingReference.suffix)
           ? StorageAccess.KeyVaultReference
@@ -322,7 +323,10 @@ export function getFormAzureStorageMount(
         storageAccess === StorageAccess.KeyVaultReference || accessKey === AccessKeyPlaceHolderForNFSFileShares ? undefined : accessKey;
       const configurationOption =
         storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
-      const protocol = accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB;
+      const protocolValue =
+        Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) === 'true'
+          ? protocol || (accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB)
+          : StorageFileShareProtocol.SMB;
 
       return {
         name: key,
@@ -330,7 +334,7 @@ export function getFormAzureStorageMount(
         storageAccess,
         appSettings,
         configurationOption,
-        protocol,
+        protocol: protocolValue,
         accessKey: accessKeyValue,
         ...rest,
       } as FormAzureStorageMounts;
@@ -344,7 +348,10 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
   storageData.forEach(store => {
     const { name, sticky, configurationOption, storageAccess, appSettings, accessKey, protocol, ...rest } = store;
     storageMountFromForm[name] = {
-      accessKey: protocol === StorageFileShareProtocol.SMB ? getStorageMountAccessKey(store) : AccessKeyPlaceHolderForNFSFileShares,
+      accessKey:
+        protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
+          ? getStorageMountAccessKey(store)
+          : AccessKeyPlaceHolderForNFSFileShares,
       ...rest,
     };
   });
