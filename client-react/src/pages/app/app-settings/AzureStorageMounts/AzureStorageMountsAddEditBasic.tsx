@@ -18,8 +18,6 @@ import { PortalContext } from '../../../../PortalContext';
 import { FileShareEnabledProtocols } from '../../../../models/storage-account';
 import { SiteStateContext } from '../../../../SiteState';
 import StorageProtocol from './StorageProtocol';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import Url from '../../../../utils/url';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -82,7 +80,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
       sharesLoading ||
       (value && values.type === StorageType.azureBlob
         ? blobContainerOptions.find(x => x.key === value)
-        : values.protocol === StorageFileShareProtocol.SMB
+        : values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
         ? smbFilesContainerOptions.find(x => x.key === value)
         : nfsFilesContainerOptions.find(x => x.key === value))
     ) {
@@ -112,8 +110,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
       setAccountError(getBlobsFailure ? t('storageAccountDetailsFetchFailure') : t('noBlobs'));
     } else if (
       storageType === StorageType.azureFiles &&
-      ((protocol === StorageFileShareProtocol.SMB && smbFilesContainerIsEmpty) ||
-        (protocol === StorageFileShareProtocol.NFS && nfsFilesContainerIsEmpty))
+      ((protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase() && smbFilesContainerIsEmpty) ||
+        (protocol.toLocaleLowerCase() === StorageFileShareProtocol.NFS.toLocaleLowerCase() && nfsFilesContainerIsEmpty))
     ) {
       setAccountError(getFilesFailure ? t('storageAccountDetailsFetchFailure') : t('noFileShares'));
     } else {
@@ -261,7 +259,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   const storageContainerOptions = useMemo(() => {
     return values.type === StorageType.azureBlob
       ? blobContainerOptions
-      : values.protocol === StorageFileShareProtocol.SMB || Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) !== 'true'
+      : values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
       ? smbFilesContainerOptions
       : nfsFilesContainerOptions;
   }, [blobContainerOptions, smbFilesContainerOptions, nfsFilesContainerOptions, values.type, values.protocol]);
@@ -279,8 +277,12 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
         styles={{
           root: formElementStyle,
         }}
-        infoBubbleMessage={values.protocol === StorageFileShareProtocol.SMB && t('byos_storageAccountInfoMessage')}
-        learnMoreLink={values.protocol === StorageFileShareProtocol.SMB && Links.byosStorageAccountLearnMore}
+        infoBubbleMessage={
+          values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase() && t('byos_storageAccountInfoMessage')
+        }
+        learnMoreLink={
+          values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase() && Links.byosStorageAccountLearnMore
+        }
         required={true}
       />
       {showStorageTypeOption && (
