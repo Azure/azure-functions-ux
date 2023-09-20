@@ -24,18 +24,18 @@ const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
   }, [values.type, isLinuxApp]);
 
   const showCustomBanner = React.useMemo(() => {
-    return values.protocol === StorageFileShareProtocol.NFS;
+    return values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.NFS.toLocaleLowerCase();
   }, [values.protocol]);
 
   const fileShareProtocalOptions = React.useMemo<IChoiceGroupOption[]>(() => {
     return [
       {
         key: StorageFileShareProtocol.SMB,
-        text: StorageFileShareProtocol.SMB,
+        text: 'SMB',
       },
       {
         key: StorageFileShareProtocol.NFS,
-        text: StorageFileShareProtocol.NFS,
+        text: 'NFS',
       },
     ];
   }, []);

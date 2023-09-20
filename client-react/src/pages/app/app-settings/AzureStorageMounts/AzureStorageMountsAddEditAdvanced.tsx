@@ -42,7 +42,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
     return (
       values.type === StorageType.azureFiles &&
       showKeyvaultReference &&
-      values.protocol === StorageFileShareProtocol.SMB &&
+      values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase() &&
       !NationalCloudEnvironment.isNationalCloud()
     );
   }, [values.type, showKeyvaultReference, values.protocol]);
@@ -50,7 +50,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   const showAccessKey = React.useMemo(() => {
     return (
       (values.type === StorageType.azureBlob || values.storageAccess === StorageAccess.AccessKey) &&
-      values.protocol === StorageFileShareProtocol.SMB
+      values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
     );
   }, [values.type, values.storageAccess, values.protocol]);
 
@@ -58,7 +58,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
     return (
       values.type === StorageType.azureFiles &&
       values.storageAccess === StorageAccess.KeyVaultReference &&
-      values.protocol === StorageFileShareProtocol.SMB
+      values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
     );
   }, [values.type, values.storageAccess, values.protocol]);
 
@@ -109,8 +109,12 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('storageAccounts')}
         id="azure-storage-mounts-account-name"
         required={true}
-        infoBubbleMessage={values.protocol === StorageFileShareProtocol.SMB && t('byos_storageAccountInfoMessage')}
-        learnMoreLink={values.protocol === StorageFileShareProtocol.SMB && Links.byosStorageAccountLearnMore}
+        infoBubbleMessage={
+          values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase() && t('byos_storageAccountInfoMessage')
+        }
+        learnMoreLink={
+          values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase() && Links.byosStorageAccountLearnMore
+        }
       />
       {supportsBlobStorage && (
         <Field component={RadioButton} name="type" id="azure-storage-type" label={t('storageType')} options={storageTypeOptions} />
