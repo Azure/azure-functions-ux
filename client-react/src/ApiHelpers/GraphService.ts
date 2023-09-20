@@ -1,8 +1,14 @@
 import { sendHttpRequest } from './HttpClient';
-import Url from '../utils/url';
+import { GraphApiVersion, graphApiUrl } from '../utils/CommonConstants';
 
 export default class GraphService {
-  public static getUser = () => {
-    return sendHttpRequest<any>({ url: `${Url.serviceHost}api/graph/getUser`, method: 'POST' });
+  public static getUser = (adToken: string) => {
+    return sendHttpRequest<any>({
+      url: `${graphApiUrl}/${GraphApiVersion.V1}/me`,
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${adToken}`,
+      },
+    });
   };
 }

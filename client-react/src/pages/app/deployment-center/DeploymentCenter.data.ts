@@ -291,8 +291,8 @@ export default class DeploymentCenterData {
     return ACRService.getTags(portalContext, loginServer, repository, username, password, logger);
   };
 
-  public getUser = () => {
-    return GraphService.getUser();
+  public getUser = (adToken: string) => {
+    return GraphService.getUser(adToken);
   };
 
   public hasRoleAssignment = (roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) => {

@@ -394,3 +394,14 @@ export const KeyBoard = {
 };
 
 export const azureAppConfigRefStart = '@microsoft.appconfiguration';
+
+export const graphApiUrl = 'https://graph.microsoft.com';
+
+export enum GraphApiVersion {
+  V1 = 'v1.0',
+  Beta = 'beta',
+}
+
+export enum ClientResourceNames {
+  MicrosoftGraph = 'microsoft.graph',
+}

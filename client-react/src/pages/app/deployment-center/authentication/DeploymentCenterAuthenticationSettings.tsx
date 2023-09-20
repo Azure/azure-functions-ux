@@ -17,7 +17,8 @@ import {
 import { ManagedIdentitiesDropdown } from './ManagedIdentitiesDropdown';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
-import { RBACRoleId } from '../../../../utils/CommonConstants';
+// import { RBACRoleId } from '../../../../utils/CommonConstants';
+// import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -84,24 +85,52 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
 
   const hasPermissionOverResource = React.useCallback(async () => {
     if (deploymentCenterContext.resourceId) {
-      const getUserResponse = await deploymentCenterData.getUser();
-      console.log(`getUserResponse: ${JSON.stringify(getUserResponse)}`);
-      if (getUserResponse.metadata.success) {
-        const userId = getUserResponse.data.id;
-        const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
-          deploymentCenterContext.resourceId,
-          userId
-        );
-        if (getRoleAssignmentsResponse.metadata.success) {
-          formProps.setFieldValue(
-            'hasPermissionToAssignRBAC',
-            deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
-              deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
-          );
+      const adToken = await portalContext.getAdToken('graph');
+      if (adToken) {
+        const getUserResponse = await deploymentCenterData.getUser(adToken);
+        if (getUserResponse.metadata.success) {
+          console.log(getUserResponse.data);
+        } else {
         }
-      } else {
-        formProps.setFieldValue('hasPermissionToAssignRBAC', false);
       }
+      // const adToken = await portalContext.getAdToken('graph');
+      // if (adToken) {
+      //   const getUserResponse = await deploymentCenterData.getUser(adToken);
+      //   if (isPortalCommunicationStatusSuccess(getUserResponse.status)) {
+      //     const userId = getUserResponse.result?.content?.id;
+      //     const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
+      //       deploymentCenterContext.resourceId,
+      //       userId
+      //     );
+      //     if (getRoleAssignmentsResponse.metadata.success) {
+      //       formProps.setFieldValue(
+      //         'hasPermissionToAssignRBAC',
+      //         deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
+      //           deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
+      //       );
+      //     }
+      // }
+      // const getUserResponse = await portalContext.makeHttpRequestsViaPortal({
+      //   uri: `${graphApiUrl}/${GraphApiVersion.V1}/me`,
+      //   type: 'GET',
+      //   setAuthorizationHeader: { resourceName: ClientResourceNames.MicrosoftGraph },
+      // });
+      // if (isPortalCommunicationStatusSuccess(getUserResponse.status)) {
+      //   const userId = getUserResponse.result?.content?.id;
+      //   const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
+      //     deploymentCenterContext.resourceId,
+      //     userId
+      //   );
+      //   if (getRoleAssignmentsResponse.metadata.success) {
+      //     formProps.setFieldValue(
+      //       'hasPermissionToAssignRBAC',
+      //       deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
+      //         deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
+      //     );
+      //   }
+      // } else {
+      //   formProps.setFieldValue('hasPermissionToAssignRBAC', false);
+      // }
     }
   }, [deploymentCenterContext.resourceId, formProps.values.hasPermissionToAssignRBAC]);
 
