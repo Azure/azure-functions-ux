@@ -178,8 +178,8 @@ export enum StorageAccess {
 }
 
 export enum StorageFileShareProtocol {
-  SMB = 'SMB',
-  NFS = 'NFS',
+  SMB = 'Smb',
+  NFS = 'Nfs',
 }
 
 export enum ConfigurationOption {

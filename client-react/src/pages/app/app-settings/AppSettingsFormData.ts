@@ -308,7 +308,7 @@ export function getFormAzureStorageMount(
 
   return sortBy(
     Object.keys(storageData.properties).map(key => {
-      const { accessKey, ...rest } = storageData.properties[key];
+      const { accessKey, protocol, ...rest } = storageData.properties[key];
       const storageAccess =
         accessKey.startsWith(AppSettingReference.prefix) && accessKey.endsWith(AppSettingReference.suffix)
           ? StorageAccess.KeyVaultReference
@@ -322,7 +322,8 @@ export function getFormAzureStorageMount(
         storageAccess === StorageAccess.KeyVaultReference || accessKey === AccessKeyPlaceHolderForNFSFileShares ? undefined : accessKey;
       const configurationOption =
         storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
-      const protocol = accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB;
+      const protocolValue =
+        protocol || (accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB);
 
       return {
         name: key,
@@ -330,7 +331,7 @@ export function getFormAzureStorageMount(
         storageAccess,
         appSettings,
         configurationOption,
-        protocol,
+        protocol: protocolValue,
         accessKey: accessKeyValue,
         ...rest,
       } as FormAzureStorageMounts;
@@ -348,6 +349,7 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
       ...rest,
     };
   });
+  console.log(storageMountFromForm);
   return storageMountFromForm;
 }
 
