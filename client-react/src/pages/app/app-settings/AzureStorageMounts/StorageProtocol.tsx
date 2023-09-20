@@ -31,11 +31,11 @@ const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
     return [
       {
         key: StorageFileShareProtocol.SMB,
-        text: StorageFileShareProtocol.SMB,
+        text: 'SMB',
       },
       {
         key: StorageFileShareProtocol.NFS,
-        text: StorageFileShareProtocol.NFS,
+        text: 'NFS',
       },
     ];
   }, []);
