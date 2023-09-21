@@ -17,8 +17,8 @@ import {
 import { ManagedIdentitiesDropdown } from './ManagedIdentitiesDropdown';
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
-import { ClientResourceNames, GraphApiVersion, RBACRoleId, graphApiUrl } from '../../../../utils/CommonConstants';
-import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
+import { RBACRoleId } from '../../../../utils/CommonConstants';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -85,24 +85,39 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
 
   const hasPermissionOverResource = React.useCallback(async () => {
     if (deploymentCenterContext.resourceId) {
-      const getUserResponse = await portalContext.makeHttpRequestsViaPortal({
-        uri: `${graphApiUrl}/${GraphApiVersion.V1}/me`,
-        type: 'GET',
-        setAuthorizationHeader: { resourceName: ClientResourceNames.MicrosoftGraph },
-      });
-      if (isPortalCommunicationStatusSuccess(getUserResponse.status)) {
-        const userId = getUserResponse.result?.content?.id;
-        const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
-          deploymentCenterContext.resourceId,
-          userId
-        );
-        if (getRoleAssignmentsResponse.metadata.success) {
-          return formProps.setFieldValue(
-            'hasPermissionToAssignRBAC',
-            deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
-              deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
+      const adToken = await portalContext.getAdToken('microsoft.graph');
+      if (adToken) {
+        const getUserResponse = await deploymentCenterData.getUser(adToken);
+        if (getUserResponse.metadata.success) {
+          const userId = getUserResponse.data.id;
+          const getRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
+            deploymentCenterContext.resourceId,
+            userId
+          );
+          if (getRoleAssignmentsResponse.metadata.success) {
+            return formProps.setFieldValue(
+              'hasPermissionToAssignRBAC',
+              deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, getRoleAssignmentsResponse.data.value) ||
+                deploymentCenterData.hasRoleAssignment(RBACRoleId.userAccessAdministrator, getRoleAssignmentsResponse.data.value)
+            );
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'getRoleAssignmentsResponse', 'failed', {
+                message: getErrorMessage(getRoleAssignmentsResponse.metadata.error),
+                errorAsString: getRoleAssignmentsResponse.metadata.error ? JSON.stringify(getRoleAssignmentsResponse.metadata.error) : '',
+              })
+            );
+          }
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'getUserResponse', 'failed', {
+              message: getErrorMessage(getUserResponse.metadata.error),
+              errorAsString: getUserResponse.metadata.error ? JSON.stringify(getUserResponse.metadata.error) : '',
+            })
           );
         }
+      } else {
+        portalContext.log(getTelemetryInfo('error', 'getAdToken', 'failed'));
       }
     }
 

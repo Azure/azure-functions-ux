@@ -48,7 +48,7 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
 import { RepoTypeOptions } from '../../../../models/external';
 import Url from '../../../../utils/url';
 
@@ -83,20 +83,36 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         values.authType === AuthType.Oidc &&
         values.authIdentity
       ) {
-        const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
-          values.authIdentity.resourceId,
-          `${values.org}-${values.repo}`
+        const putContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
+          RBACRoleId.contributor,
+          deploymentCenterContext.resourceId,
+          values.authIdentity.principalId,
+          PrincipalType.servicePrincipal
         );
-        if (!addFederatedCredentialResponse.metadata.success) {
+        if (putContributorRoleResponse.metadata.success) {
+          const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
+            values.authIdentity.resourceId,
+            `${values.org}-${values.repo}`
+          );
+          if (!addFederatedCredentialResponse.metadata.success) {
+            portalContext.log(
+              getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+                message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+                errorAsString: addFederatedCredentialResponse.metadata.error
+                  ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                  : '',
+              })
+            );
+            return addFederatedCredentialResponse;
+          }
+        } else {
           portalContext.log(
-            getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
-              message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
-              errorAsString: addFederatedCredentialResponse.metadata.error
-                ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
-                : '',
+            getTelemetryInfo('error', 'putContributorRoleResponse', 'failed', {
+              message: getErrorMessage(putContributorRoleResponse.metadata.error),
+              errorAsString: putContributorRoleResponse.metadata.error ? JSON.stringify(putContributorRoleResponse.metadata.error) : '',
             })
           );
-          return addFederatedCredentialResponse;
+          return putContributorRoleResponse;
         }
       }
 
