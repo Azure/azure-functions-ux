@@ -58,7 +58,7 @@ export class CommonConstants {
     roleAssignmentApiVersion20220401: '2022-04-01',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
     managedIdentityApiVersion20230131: '2023-01-31',
-    containerAppApiVersion20230401Preview: '2023-04-01-preview',
+    containerAppApiVersion20230502Preview: '2023-05-02-preview',
     antaresApiVersion20141101: '2014-11-01',
   };
 
@@ -372,7 +372,6 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
-    showByosKeyVault: 'show-byos-keyvault',
     showEnvironmentVariables: 'show-environment-variables',
   };
 

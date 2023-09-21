@@ -22,7 +22,7 @@ import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-uti
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
->(props => {
+>((props: DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>) => {
   const { t } = useTranslation();
   const { formProps } = props;
   const deploymentCenterData = new DeploymentCenterData();

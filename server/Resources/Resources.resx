@@ -5046,7 +5046,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Manual input</value>
     </data>
     <data name="keyVaultReference" xml:space="preserve">
-        <value>Key vault reference (preview)</value>
+        <value>Key vault reference</value>
     </data>
     <data name="configurationOptions" xml:space="preserve">
         <value>Configuration options</value>
