@@ -83,13 +83,34 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         values.authType === AuthType.Oidc &&
         values.authIdentity
       ) {
-        const putContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
-          RBACRoleId.contributor,
+        const getIdentityRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
           deploymentCenterContext.resourceId,
-          values.authIdentity.principalId,
-          PrincipalType.servicePrincipal
+          values.authIdentity.principalId
         );
-        if (putContributorRoleResponse.metadata.success) {
+
+        if (getIdentityRoleAssignmentsResponse.metadata.success) {
+          const hasContributorRole = deploymentCenterData.hasRoleAssignment(
+            RBACRoleId.contributor,
+            getIdentityRoleAssignmentsResponse.data.value
+          );
+          if (!hasContributorRole) {
+            const putContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
+              RBACRoleId.contributor,
+              deploymentCenterContext.resourceId,
+              values.authIdentity.principalId,
+              PrincipalType.servicePrincipal
+            );
+            if (!putContributorRoleResponse.metadata.success) {
+              portalContext.log(
+                getTelemetryInfo('error', 'putContributorRoleResponse', 'failed', {
+                  message: getErrorMessage(putContributorRoleResponse.metadata.error),
+                  errorAsString: putContributorRoleResponse.metadata.error ? JSON.stringify(putContributorRoleResponse.metadata.error) : '',
+                })
+              );
+              return putContributorRoleResponse;
+            }
+          }
+
           const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
             values.authIdentity.resourceId,
             `${values.org}-${values.repo}`
@@ -107,12 +128,14 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           }
         } else {
           portalContext.log(
-            getTelemetryInfo('error', 'putContributorRoleResponse', 'failed', {
-              message: getErrorMessage(putContributorRoleResponse.metadata.error),
-              errorAsString: putContributorRoleResponse.metadata.error ? JSON.stringify(putContributorRoleResponse.metadata.error) : '',
+            getTelemetryInfo('error', 'getIdentityRoleAssignmentsResponse', 'failed', {
+              message: getErrorMessage(getIdentityRoleAssignmentsResponse.metadata.error),
+              errorAsString: getIdentityRoleAssignmentsResponse.metadata.error
+                ? JSON.stringify(getIdentityRoleAssignmentsResponse.metadata.error)
+                : '',
             })
           );
-          return putContributorRoleResponse;
+          return getIdentityRoleAssignmentsResponse;
         }
       }
 
