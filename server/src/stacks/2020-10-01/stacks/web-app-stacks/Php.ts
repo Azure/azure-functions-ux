@@ -3,7 +3,7 @@ import { getDateString } from '../date-utilities';
 
 const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
   const php8Point2EOL = getDateString(new Date(2025, 11, 8), useIsoDateFormat);
-  const php8Point1EOL = getDateString(new Date(2024, 10, 35), useIsoDateFormat);
+  const php8Point1EOL = getDateString(new Date(2024, 10, 25), useIsoDateFormat);
   const php8Point0EOL = getDateString(new Date(2023, 10, 26), useIsoDateFormat);
   const php7Point4EOL = getDateString(new Date(2022, 10, 30), useIsoDateFormat);
   const php7Point3EOL = getDateString(new Date(2021, 11, 6), useIsoDateFormat);
