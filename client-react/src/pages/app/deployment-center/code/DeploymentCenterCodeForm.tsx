@@ -88,16 +88,14 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           `${values.org}-${values.repo}`
         );
         if (!addFederatedCredentialResponse.metadata.success) {
-          if (!addFederatedCredentialResponse.metadata.success) {
-            portalContext.log(
-              getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
-                message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
-                errorAsString: addFederatedCredentialResponse.metadata.error
-                  ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
-                  : '',
-              })
-            );
-          }
+          portalContext.log(
+            getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+              message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+              errorAsString: addFederatedCredentialResponse.metadata.error
+                ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                : '',
+            })
+          );
           return addFederatedCredentialResponse;
         }
       }

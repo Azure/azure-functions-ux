@@ -20,7 +20,6 @@ import AzureDevOpsService from '../../../AzureDevOpsService';
 import PortalCommunicator from '../../../portal-communicator';
 import AuthService from '../../../ApiHelpers/AuthService';
 import ManagedIdentityService from '../../../ApiHelpers/ManagedIdentityService';
-import GraphService from '../../../ApiHelpers/GraphService';
 
 export default class DeploymentCenterData {
   private _azureDevOpsService = new AzureDevOpsService();
@@ -289,10 +288,6 @@ export default class DeploymentCenterData {
     logger?: (page, error) => void
   ) => {
     return ACRService.getTags(portalContext, loginServer, repository, username, password, logger);
-  };
-
-  public getUser = (adToken: string) => {
-    return GraphService.getUser(adToken);
   };
 
   public hasRoleAssignment = (roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) => {
