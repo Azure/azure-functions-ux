@@ -135,6 +135,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
               <Link
                 aria-labelledby="password-protection-message"
                 className={learnMoreLinkStyle}
+                underline={true}
                 href={Links.staticSitePasswordProtectionLearnMore}
                 target="_blank">
                 {t('learnMore')}
@@ -207,6 +208,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
               <Link
                 aria-labelledby="staging-env-description"
                 className={learnMoreLinkStyle}
+                underline={true}
                 href={Links.staticSiteStagingEnvironmentsLearnMore}
                 id="staging-env-description-learnMore"
                 target="_blank">
@@ -240,6 +242,7 @@ const ConfigurationGeneralSettings: React.FC<ConfigurationGeneralSettingsProps> 
                 aria-labelledby="configuration-file-description"
                 className={learnMoreLinkStyle}
                 href={Links.staticSiteAllowConfigFileUpdatesLearnMore}
+                underline={true}
                 id="configuration-file-description-learnMore"
                 target="_blank">
                 {t('learnMore')}

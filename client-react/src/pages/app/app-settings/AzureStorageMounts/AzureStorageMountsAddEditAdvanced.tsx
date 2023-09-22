@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import { FormikProps, Field } from 'formik';
 import { FormAzureStorageMounts, StorageAccess, StorageFileShareProtocol } from '../AppSettings.types';
@@ -11,11 +11,8 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { ExperimentationConstants } from '../../../../utils/CommonConstants';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { IDropdownOption } from '@fluentui/react';
-import { PortalContext } from '../../../../PortalContext';
-import { NationalCloudEnvironment } from '../../../../utils/scenario-checker/national-cloud.environment';
 import { Links } from '../../../../utils/FwLinks';
 import StorageProtocol from './StorageProtocol';
 
@@ -27,10 +24,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings, storageTypeOptions } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
-  const portalContext = useContext(PortalContext);
   const scenarioService = new ScenarioService(t);
-
-  const [showKeyvaultReference, setShowKeyvaultReference] = useState(false);
 
   const validateShareName = (value: any): string | undefined => {
     return value ? undefined : t('validation_requiredError');
@@ -40,17 +34,14 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   const showStorageAccess = React.useMemo(() => {
     return (
-      values.type === StorageType.azureFiles &&
-      showKeyvaultReference &&
-      values.protocol === StorageFileShareProtocol.SMB &&
-      !NationalCloudEnvironment.isNationalCloud()
+      values.type === StorageType.azureFiles && values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
     );
-  }, [values.type, showKeyvaultReference, values.protocol]);
+  }, [values.type, values.protocol]);
 
   const showAccessKey = React.useMemo(() => {
     return (
       (values.type === StorageType.azureBlob || values.storageAccess === StorageAccess.AccessKey) &&
-      values.protocol === StorageFileShareProtocol.SMB
+      values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
     );
   }, [values.type, values.storageAccess, values.protocol]);
 
@@ -58,7 +49,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
     return (
       values.type === StorageType.azureFiles &&
       values.storageAccess === StorageAccess.KeyVaultReference &&
-      values.protocol === StorageFileShareProtocol.SMB
+      values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
     );
   }, [values.type, values.storageAccess, values.protocol]);
 
@@ -80,19 +71,6 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   }, [values.appSettings, values.sticky, appSettings, showAppSettings]);
 
   useEffect(() => {
-    let isSubscribed = true;
-    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.showByosKeyVault).then(enabled => {
-      if (isSubscribed) {
-        setShowKeyvaultReference(enabled);
-      }
-    });
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, [portalContext]);
-
-  useEffect(() => {
     if (!supportsBlobStorage) {
       setFieldValue('type', StorageType.azureFiles);
     }
@@ -109,8 +87,12 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
         label={t('storageAccounts')}
         id="azure-storage-mounts-account-name"
         required={true}
-        infoBubbleMessage={values.protocol === StorageFileShareProtocol.SMB && t('byos_storageAccountInfoMessage')}
-        learnMoreLink={values.protocol === StorageFileShareProtocol.SMB && Links.byosStorageAccountLearnMore}
+        infoBubbleMessage={
+          values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase() && t('byos_storageAccountInfoMessage')
+        }
+        learnMoreLink={
+          values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase() && Links.byosStorageAccountLearnMore
+        }
       />
       {supportsBlobStorage && (
         <Field component={RadioButton} name="type" id="azure-storage-type" label={t('storageType')} options={storageTypeOptions} />

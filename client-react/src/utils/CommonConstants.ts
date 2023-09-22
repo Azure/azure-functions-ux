@@ -21,6 +21,10 @@ export class CommonConstants {
     azureContainerApps: 'azurecontainerapps',
   };
 
+  public static readonly Extensions = {
+    WebsitesExtension: 'WebsitesExtension',
+  };
+
   public static readonly ApiVersions = {
     antaresApiVersion20181101: '2018-11-01',
     antaresApiVersion20201201: '2020-12-01',
@@ -48,10 +52,12 @@ export class CommonConstants {
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
+    workflowApiVersion20221001: '2022-10-01',
     roleAssignmentApiVersion20180701: '2018-07-01',
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
-    containerAppApiVersion20230401Preview: '2023-04-01-preview',
+    userAssignedIdentitiesApiVersion20230131: '2023-01-31',
+    containerAppApiVersion20230502Preview: '2023-05-02-preview',
     antaresApiVersion20141101: '2014-11-01',
   };
 
@@ -72,12 +78,11 @@ export class CommonConstants {
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
-    enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
-    enableSnippets: 'enableSnippets',
     showJBossClustering: 'showJBossClustering',
     showNFSFileShares: 'showNFSFileShares',
+    showDCAuthSettings: 'showDCAuthSettings',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -363,7 +368,6 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
-    showByosKeyVault: 'show-byos-keyvault',
     showEnvironmentVariables: 'show-environment-variables',
   };
 

@@ -71,7 +71,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v8.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -93,7 +93,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|8.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -125,7 +125,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v7.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -145,7 +145,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|7.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -231,7 +231,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -251,7 +251,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],

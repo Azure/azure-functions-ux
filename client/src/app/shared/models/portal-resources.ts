@@ -2559,7 +2559,19 @@ export class PortalResources {
   public static toggleAppSettingSelectionAriaLabel = 'toggleAppSettingSelectionAriaLabel';
   public static selectAppSettingAriaLabel = 'selectAppSettingAriaLabel';
   public static toggleAllAppSettingsAriaLabel = 'toggleAllAppSettingsAriaLabel';
+  public static toggleSnippetSelectionAriaLabel = 'toggleSnippetSelectionAriaLabel';
+  public static selectSnippetAriaLabel = 'selectSnippetAriaLabel';
+  public static toggleAllSnippetsAriaLabel = 'toggleAllSnippetsAriaLabel';
   public static hideButton = 'hideButton';
   public static showButton = 'showButton';
   public static troubleshoot = 'troubleshoot';
+  public static authenticationSettingsTitle = 'authenticationSettingsTitle';
+  public static authenticationSettingsDescription = 'authenticationSettingsDescription';
+  public static authenticationSettingsFederatedIdentity = 'authenticationSettingsFederatedIdentity';
+  public static authenticationSettingsUserAssignedManagedIdentity = 'authenticationSettingsUserAssignedManagedIdentity';
+  public static authenticationSettingsBasicAuthentication = 'authenticationSettingsBasicAuthentication';
+  public static authenticationSettingsPublishProfile = 'authenticationSettingsPublishProfile';
+  public static authenticationSettingsAuthenticationType = 'authenticationSettingsAuthenticationType';
+  public static authenticationSettingsAuthenticationPlaceholder = 'authenticationSettingsAuthenticationPlaceholder';
+  public static authenticationSettingsIdentity = 'authenticationSettingsIdentity';
 }

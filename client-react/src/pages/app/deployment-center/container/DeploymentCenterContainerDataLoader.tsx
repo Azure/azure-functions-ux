@@ -8,7 +8,7 @@ import {
   DeploymentProperties,
   GitHubActionsRun,
 } from '../DeploymentCenter.types';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { DeploymentCenterContainerFormBuilder } from '../container/DeploymentCenterContainerFormBuilder';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
