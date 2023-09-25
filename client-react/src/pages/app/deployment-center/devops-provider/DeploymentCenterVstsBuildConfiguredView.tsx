@@ -6,21 +6,14 @@ import { KeyValue } from '../../../../models/portal-models';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo } from '../../../../utils/TelemetryUtils';
 import DeploymentCenterData from '../DeploymentCenter.data';
-import { deploymentCenterInfoBannerDiv, titleWithPaddingStyle } from '../DeploymentCenter.styles';
-import {
-  ContainerRegistrySources,
-  DeploymentCenterCodeFormData,
-  DeploymentCenterContainerFormData,
-  DeploymentCenterFieldProps,
-} from '../DeploymentCenter.types';
+import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { DeploymentCenterCodeFormData, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterVstsDisconnect from './DeploymentCenterVstsDisconnect';
 import { ThemeContext } from '../../../../ThemeContext';
 import { messageBannerClass, messageBannerIconStyle } from '../../../../components/CustomBanner/CustomBanner.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { ReactComponent as InfoSvg } from '../../../../images/Common/Info.svg';
-import { SiteStateContext } from '../../../../SiteState';
-import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
 const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldProps<
   DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
@@ -40,7 +33,6 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
   const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-  const siteStateContext = useContext(SiteStateContext);
 
   const fetchBuildDef = React.useCallback(async () => {
     if (vstsMetadata) {
@@ -123,65 +115,6 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
     return t('deploymentCenterErrorFetchingInfo');
   };
 
-  const isFormPropsContainerData = (
-    values: DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
-  ): values is DeploymentCenterContainerFormData => {
-    return !!(values as DeploymentCenterContainerFormData).registrySource;
-  };
-
-  const serverUrl = React.useMemo(() => {
-    if (isFormPropsContainerData(formProps.values)) {
-      switch (formProps.values.registrySource) {
-        case ContainerRegistrySources.acr:
-          return formProps.values.acrLoginServer;
-        case ContainerRegistrySources.docker:
-          return DeploymentCenterConstants.dockerHubServerUrl;
-        case ContainerRegistrySources.privateRegistry:
-          return formProps.values.privateRegistryServerUrl;
-        default:
-          return t('deploymentCenterErrorFetchingInfo');
-      }
-    }
-  }, [formProps.values]);
-
-  const image = React.useMemo(() => {
-    if (isFormPropsContainerData(formProps.values)) {
-      switch (formProps.values.registrySource) {
-        case ContainerRegistrySources.acr:
-          return formProps.values.acrImage;
-        case ContainerRegistrySources.docker: {
-          const imageAndTag = formProps.values.dockerHubImageAndTag.split(':');
-          return imageAndTag.length > 0 ? imageAndTag[0] : '';
-        }
-        case ContainerRegistrySources.privateRegistry: {
-          const imageAndTag = formProps.values.privateRegistryImageAndTag.split(':');
-          return imageAndTag.length > 0 ? imageAndTag[0] : '';
-        }
-        default:
-          return t('deploymentCenterErrorFetchingInfo');
-      }
-    }
-  }, [formProps.values]);
-
-  const tag = React.useMemo(() => {
-    if (isFormPropsContainerData(formProps.values)) {
-      switch (formProps.values.registrySource) {
-        case ContainerRegistrySources.acr:
-          return formProps.values.acrTag;
-        case ContainerRegistrySources.docker: {
-          const imageAndTag = formProps.values.dockerHubImageAndTag.split(':');
-          return imageAndTag.length > 1 ? imageAndTag[1] : '';
-        }
-        case ContainerRegistrySources.privateRegistry: {
-          const imageAndTag = formProps.values.privateRegistryImageAndTag.split(':');
-          return imageAndTag.length > 1 ? imageAndTag[1] : '';
-        }
-        default:
-          return t('deploymentCenterErrorFetchingInfo');
-      }
-    }
-  }, [formProps.values]);
-
   useEffect(() => {
     if (deploymentCenterContext.configMetadata) {
       setVstsMetadata(deploymentCenterContext.configMetadata.properties);
@@ -231,21 +164,6 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
           </ReactiveFormControl>
           <ReactiveFormControl id="deployment-center-github-branch" label={t('deploymentCenterOAuthBranch')}>
             <div>{isLoading ? t('loading') : branch}</div>
-          </ReactiveFormControl>
-        </>
-      )}
-
-      {siteStateContext.isContainerApp && (
-        <>
-          <h3 className={titleWithPaddingStyle}>{t('deploymentCenterContainerRegistrySettingsTitle')}</h3>
-          <ReactiveFormControl id="deployment-center-vsts-container-registry" label={t('containerServerURL')}>
-            <>{isLoading ? t('loading') : serverUrl}</>
-          </ReactiveFormControl>
-          <ReactiveFormControl id="deployment-center-vsts-image" label={t('containerImageName')}>
-            <div>{isLoading ? t('loading') : image}</div>
-          </ReactiveFormControl>
-          <ReactiveFormControl id="deployment-center-vsts-tag" label={t('containerACRTag')}>
-            <div>{isLoading ? t('loading') : tag}</div>
           </ReactiveFormControl>
         </>
       )}
