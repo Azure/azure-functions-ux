@@ -368,13 +368,27 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     return (
       <>
         <DeploymentCenterGitHubConfiguredView formProps={formProps} />
-        <DeploymentCenterContainerSettingsReadOnlyView />
+        <DeploymentCenterContainerSettingsReadOnlyView formProps={formProps} />
       </>
     );
   };
 
   const renderVstsReadOnlyView = () => {
-    return <DeploymentCenterVstsBuildConfiguredView formProps={formProps} />;
+    return (
+      <>
+        <DeploymentCenterVstsBuildConfiguredView formProps={formProps} />
+        <DeploymentCenterContainerSettingsReadOnlyView formProps={formProps} />
+      </>
+    );
+  };
+
+  const renderContainersReadOnlyView = () => {
+    return (
+      <>
+        {showSourceSelectionOption && <DeploymentCenterContainerSource formProps={formProps} />}
+        <DeploymentCenterContainerSettingsReadOnlyView formProps={formProps} />
+      </>
+    );
   };
 
   const getSettingsControls = () => {
@@ -382,6 +396,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
       return renderGitHubActionReadOnlyView();
     } else if (showVstsReadOnlyView) {
       return renderVstsReadOnlyView();
+    } else if (!deploymentCenterContext.hasWritePermission) {
+      return renderContainersReadOnlyView();
     } else {
       return renderSetupView();
     }

@@ -43,7 +43,7 @@ export class GithubController {
     private configService: ConfigService,
     private loggingService: LoggingService,
     private httpService: HttpService
-  ) { }
+  ) {}
 
   @Post('api/github/passthrough')
   @HttpCode(200)
@@ -856,6 +856,14 @@ export class GithubController {
         );
       }
 
+      if (response.headers['x-ratelimit-remaining']) {
+        res.setHeader('x-ratelimit-remaining', response.headers['x-ratelimit-remaining']);
+      }
+
+      if (response.headers['x-ratelimit-reset']) {
+        res.setHeader('x-ratelimit-reset', response.headers['x-ratelimit-reset']);
+      }
+
       res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');
       res.json(response.data);
     } catch (err) {
@@ -883,6 +891,14 @@ export class GithubController {
             .map((value: string) => value.trim())
             .join(',')
         );
+      }
+
+      if (response.headers['x-ratelimit-remaining']) {
+        res.setHeader('x-ratelimit-remaining', response.headers['x-ratelimit-remaining']);
+      }
+
+      if (response.headers['x-ratelimit-reset']) {
+        res.setHeader('x-ratelimit-reset', response.headers['x-ratelimit-reset']);
       }
 
       res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');

@@ -351,7 +351,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
 
       return {
         server: privateRegistryHost,
-        image: imageAndTagParts[0],
+        image: privateRegistryHost ? imageAndTagParts[0] : registryInfo,
         tag: imageAndTagParts[1] ? imageAndTagParts[1] : 'latest',
         containerOption: ContainerOptions.docker,
         composeYml: '',
