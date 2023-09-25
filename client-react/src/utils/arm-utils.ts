@@ -1,9 +1,9 @@
-import { AppKind } from './AppKind';
-import { ArmObj, ResourceGraphColumn, Identity, ArmSku } from '../models/arm-obj';
+import { ArmObj, ArmSku, Identity, ResourceGraphColumn } from '../models/arm-obj';
 import { Site } from '../models/site/site';
+import { AppKind } from './AppKind';
 import { CommonConstants } from './CommonConstants';
-import Url from './url';
 import { ArmSubcriptionDescriptor } from './resourceDescriptors';
+import Url from './url';
 
 export function isFunctionApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.functionApp]) && !AppKind.hasKinds(obj, [CommonConstants.Kinds.botapp]);
@@ -34,13 +34,13 @@ export function isContainerAppEnvironmentApp(obj: ArmObj<Site>): boolean {
 }
 
 export function isElastic(obj: ArmObj<Site>): boolean {
-  const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
+  const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.elasticPremium || sku === CommonConstants.SkuNames.elasticIsolated;
 }
 
 export function isElasticPremium(obj: ArmObj<Site>): boolean {
   // This sku is only for function apps
-  const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
+  const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.elasticPremium;
 }
 
@@ -48,38 +48,48 @@ export function isLinuxElastic(obj: ArmObj<Site>) {
   return isLinuxApp(obj) && isElastic(obj);
 }
 
+export function isBasic(obj: ArmObj<Site>): boolean {
+  const sku = obj.properties.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.basic;
+}
+
 export function isPremiumV2(obj: ArmObj<Site>): boolean {
-  const sku = obj.properties.sku && obj.properties.sku.toLocaleLowerCase();
+  const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premiumV2;
 }
 
 export function isPremiumV1(obj: ArmObj<Site>): boolean {
-  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premium;
 }
 
 export function isIsolatedV2(obj: ArmObj<Site>): boolean {
-  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.isolatedV2;
 }
 
 export function isPremiumV3(obj: ArmObj<Site>): boolean {
-  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premiumV3;
 }
 
 export function isPremium0V3(obj: ArmObj<Site>): boolean {
-  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premium0V3;
 }
 
 export function isPremiumMV3(obj: ArmObj<Site>): boolean {
-  const sku = obj?.properties?.sku?.toLocaleLowerCase();
+  const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premiumMV3;
 }
 
 export function isPremium(obj: ArmObj<Site>): boolean {
   return isPremiumV1(obj) || isPremiumV2(obj) || isPremiumV3(obj) || isPremium0V3(obj) || isPremiumMV3(obj);
+}
+
+export function isStandard(obj: ArmObj<Site>): boolean {
+  const sku = obj.properties.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.standard;
 }
 
 export function isXenonApp(obj: ArmObj<Site>): boolean {
