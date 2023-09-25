@@ -83,10 +83,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     props.setFieldValue('config.properties.http20Enabled', option.key);
   };
 
-  const disableFtp = () =>
-    props.values.basicPublishingCredentialsPolicies &&
-    props.values.basicPublishingCredentialsPolicies.properties.ftp &&
-    !props.values.basicPublishingCredentialsPolicies.properties.ftp.allow;
+  const disableFtp = () => !props.values.basicPublishingCredentialsPolicies?.properties?.ftp?.allow;
 
   return (
     <div>
@@ -183,8 +180,16 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             label={t('ftpState')}
             id="app-settings-ftps-state"
             disabled={true}
-            defaultSelectedKey={'Disabled'}
+            defaultSelectedKey={initialValues.config.properties.ftpsState}
             options={[
+              {
+                key: 'AllAllowed',
+                text: t('allAllowed'),
+              },
+              {
+                key: 'FtpsOnly',
+                text: t('ftpsOnly'),
+              },
               {
                 key: 'Disabled',
                 text: t('disabled'),
