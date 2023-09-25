@@ -41,6 +41,7 @@ import {
   getTelemetryInfo,
   getWorkflowFileName,
   getSourceControlsWorkflowFileName,
+  getFederatedCredentialName,
 } from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { AppOs } from '../../../../models/site/site';
@@ -50,7 +51,6 @@ import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
 import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
 import { RepoTypeOptions } from '../../../../models/external';
-import Url from '../../../../utils/url';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -78,16 +78,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      if (
-        Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings) &&
-        values.authType === AuthType.Oidc &&
-        values.authIdentity
-      ) {
+      if (deploymentCenterContext.hasOidcFlightEnabled && values.authType === AuthType.Oidc && values.authIdentity) {
         const getIdentityRoleAssignmentsResponse = await deploymentCenterData.getRoleAssignmentsWithScope(
           deploymentCenterContext.resourceId,
           values.authIdentity.principalId
         );
-
         if (getIdentityRoleAssignmentsResponse.metadata.success) {
           const hasContributorRole = deploymentCenterData.hasRoleAssignment(
             RBACRoleId.contributor,
@@ -110,22 +105,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
               return putContributorRoleResponse;
             }
           }
-
-          const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
-            values.authIdentity.resourceId,
-            `${values.org}-${values.repo}`
-          );
-          if (!addFederatedCredentialResponse.metadata.success) {
-            portalContext.log(
-              getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
-                message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
-                errorAsString: addFederatedCredentialResponse.metadata.error
-                  ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
-                  : '',
-              })
-            );
-            return addFederatedCredentialResponse;
-          }
         } else {
           portalContext.log(
             getTelemetryInfo('error', 'getIdentityRoleAssignmentsResponse', 'failed', {
@@ -136,6 +115,23 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             })
           );
           return getIdentityRoleAssignmentsResponse;
+        }
+
+        const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
+          values.authIdentity.resourceId,
+          getFederatedCredentialName(`${values.org}-${values.repo}`),
+          `${values.org}/${values.repo}`
+        );
+        if (!addFederatedCredentialResponse.metadata.success) {
+          portalContext.log(
+            getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+              message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+              errorAsString: addFederatedCredentialResponse.metadata.error
+                ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                : '',
+            })
+          );
+          return addFederatedCredentialResponse;
         }
       }
 
@@ -194,7 +190,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         publishType: PublishType.Code,
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
         runtimeStack: values.runtimeStack,
-        workflowApiVersion: Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)
+        workflowApiVersion: deploymentCenterContext.hasOidcFlightEnabled
           ? CommonConstants.ApiVersions.workflowApiVersion20221001
           : CommonConstants.ApiVersions.workflowApiVersion20201201,
         slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
@@ -202,7 +198,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       },
     };
 
-    if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)) {
+    if (deploymentCenterContext.hasOidcFlightEnabled) {
       gitHubActionConfiguration.workflowSettings['authType'] = values.authType ?? AuthType.PublishProfile;
     }
 

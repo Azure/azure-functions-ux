@@ -83,7 +83,6 @@ export class CommonConstants {
     customErrorPage: 'customErrorPage',
     showJBossClustering: 'showJBossClustering',
     showNFSFileShares: 'showNFSFileShares',
-    showDCAuthSettings: 'showDCAuthSettings',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -373,6 +372,7 @@ export class ExperimentationConstants {
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
     showEnvironmentVariables: 'show-environment-variables',
+    enableOidc: 'enable-oidc',
   };
 
   public static ControlFlight = {

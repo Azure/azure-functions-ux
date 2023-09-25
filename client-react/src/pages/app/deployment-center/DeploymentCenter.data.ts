@@ -315,8 +315,8 @@ export default class DeploymentCenterData {
     return ManagedIdentityService.getUserAssignedIdentity(resourceId);
   };
 
-  public putFederatedCredential = (managedIdentityResourceId: string, fullRepoName: string) => {
-    return ManagedIdentityService.putFederatedCredential(managedIdentityResourceId, fullRepoName);
+  public putFederatedCredential = (managedIdentityResourceId: string, credentialName: string, fullRepoName: string) => {
+    return ManagedIdentityService.putFederatedCredential(managedIdentityResourceId, credentialName, fullRepoName);
   };
 
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {
@@ -369,8 +369,10 @@ export default class DeploymentCenterData {
     os: string,
     variables: KeyValue<string>,
     runtimeStack?: string,
-    authType?: string
+    authType?: string,
+    hasOidcFlightEnabled?: boolean,
+    apiVersion?: string
   ) => {
-    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack, authType);
+    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack, authType, hasOidcFlightEnabled, apiVersion);
   };
 }

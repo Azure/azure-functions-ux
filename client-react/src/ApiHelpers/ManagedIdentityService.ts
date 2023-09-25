@@ -23,10 +23,11 @@ export default class ManagedIdentityService {
 
   public static async putFederatedCredential(
     managedIdentityResourceId: string,
+    credentialName: string,
     fullRepoName: string,
     apiVersion = CommonConstants.ApiVersions.managedIdentityApiVersion20230131
   ) {
-    const federatedCredentialResourceId = `${managedIdentityResourceId}/federatedIdentityCredentials/${fullRepoName}`;
+    const federatedCredentialResourceId = `${managedIdentityResourceId}/federatedIdentityCredentials/${credentialName}`;
     const body = {
       properties: {
         issuer: this.OIDCFederatedCredentials.issuer,

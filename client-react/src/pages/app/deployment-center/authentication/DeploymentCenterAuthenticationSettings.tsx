@@ -1,8 +1,9 @@
 import * as React from 'react';
-import { deploymentCenterContent, titleWithPaddingStyle } from '../DeploymentCenter.styles';
+import { deploymentCenterContent, deploymentCenterInfoBannerDiv, titleWithPaddingStyle } from '../DeploymentCenter.styles';
 import { useTranslation } from 'react-i18next';
 import { Field } from 'formik';
 import { SelectableOptionMenuItemType, ISelectableOption } from '@fluentui/react/lib/utilities/selectableOption';
+import { MessageBarType } from '@fluentui/react/lib/MessageBar';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
 import { getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
@@ -19,6 +20,8 @@ import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 import { RBACRoleId } from '../../../../utils/CommonConstants';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -148,6 +151,19 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     <div className={deploymentCenterContent}>
       <h3 className={titleWithPaddingStyle}>{t('authenticationSettingsTitle')}</h3>
       <p>{t('authenticationSettingsDescription')}</p>
+
+      {formProps.values.authType === AuthType.Oidc && !formProps.values.hasPermissionToAssignRBAC && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner
+            id="deployment-center-msi-permissions-error"
+            message={t('authenticationSettingsIdentityPermissionsError')}
+            type={MessageBarType.blocked}
+            learnMoreLink={DeploymentCenterLinks.managedIdentityOidc}
+            learnMoreLinkAriaLabel={t('authenticationSettingsIdentityPermissionsLinkAriaLabel')}
+          />
+        </div>
+      )}
+
       <Field
         id="deployment-center-auth-type-option"
         label={t('authenticationSettingsAuthenticationType')}

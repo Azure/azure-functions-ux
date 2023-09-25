@@ -29,6 +29,7 @@ import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoade
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
 import { InternalLoadBalancingMode } from '../../../models/hostingEnvironment/hosting-environment';
+import { ExperimentationConstants } from '../../../utils/CommonConstants';
 
 enum SourceControlTypes {
   oneDrive = 'onedrive',
@@ -62,6 +63,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   );
   const [isIlbASE, setIsIlbASE] = useState<boolean>(false);
   const [isDataRefreshing, setIsDataRefreshing] = useState(true);
+  const [hasOidcFlightEnabled, setHasOidcFlightEnabled] = useState<boolean>(false);
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
@@ -311,6 +313,12 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext.site]);
 
+  useEffect(() => {
+    portalContext
+      .hasFlightEnabled(ExperimentationConstants.TreatmentFlight.enableOidc)
+      .then(hasFlightEnabled => setHasOidcFlightEnabled(hasFlightEnabled));
+  }, [portalContext]);
+
   return siteStateContext.site && siteConfig ? (
     // NOTE(michinoy): Populate common deployment center level properties
     <DeploymentCenterContext.Provider
@@ -328,6 +336,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         isIlbASE,
         refresh,
         refreshUserSourceControlTokens,
+        hasOidcFlightEnabled,
       }}>
       {/* NOTE(michinoy): Populate common publishing specific properties */}
       <DeploymentCenterPublishingContext.Provider

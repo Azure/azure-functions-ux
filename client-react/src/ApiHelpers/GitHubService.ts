@@ -225,9 +225,8 @@ export default class GitHubService {
     variables: KeyValue<string>,
     runtimeStack?: string,
     authType?: string,
-    apiVersion = Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)
-      ? CommonConstants.ApiVersions.workflowApiVersion20221001
-      : CommonConstants.ApiVersions.workflowApiVersion20201201
+    hasOidcFlightEnabled?: boolean,
+    apiVersion = CommonConstants.ApiVersions.workflowApiVersion20201201
   ) => {
     //(NOTE) stpelleg: This will eventually move to calling an ARM api instead of the functions server
     const url = `${Url.serviceHost}/workflows/generate?api-version=${apiVersion}`;
@@ -239,7 +238,7 @@ export default class GitHubService {
       variables: variables,
     };
 
-    if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)) {
+    if (hasOidcFlightEnabled) {
       data['authType'] = authType;
     }
 

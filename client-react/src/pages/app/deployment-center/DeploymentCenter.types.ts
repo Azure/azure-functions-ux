@@ -328,6 +328,7 @@ export interface DeploymentCenterCommonFormData {
   authIdentityClientId?: string;
   authIdentity?: UserAssignedIdentity;
   hasPermissionToAssignRBAC?: boolean;
+  hasOidcFlightEnabled?: boolean;
 }
 
 export interface AcrFormData {
@@ -833,4 +834,10 @@ export interface FederatedCredential {
     subject: string;
   };
   type: string;
+}
+
+export interface User {
+  displayName: string;
+  id: string;
+  userPrincipalName: string;
 }
