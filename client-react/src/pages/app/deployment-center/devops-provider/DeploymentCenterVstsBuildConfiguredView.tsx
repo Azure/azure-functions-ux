@@ -27,35 +27,20 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
   const [project, setProject] = useState<string | undefined>(undefined);
   const [vstsAccountName, setVstsAccountName] = useState<string | undefined>(undefined);
   const [vstsMetadata, setVstsMetadata] = useState<KeyValue<string> | undefined>(undefined);
+  const [showRepoInformation, setShowRepoInformation] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
   const deploymentCenterData = new DeploymentCenterData();
   const portalContext = useContext(PortalContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
 
-  const fetchSiteConfig = async () => {
-    setIsLoading(true);
-    const siteConfigMetadataResponse = await deploymentCenterData.getConfigMetadata(deploymentCenterContext.resourceId);
-    if (siteConfigMetadataResponse.metadata.success) {
-      setVstsMetadata(siteConfigMetadataResponse.data.properties);
-    } else {
-      setBranch(t('deploymentCenterErrorFetchingInfo'));
-      setIsLoading(false);
-      portalContext.log(
-        getTelemetryInfo('error', 'getSiteConfig', 'failed', {
-          error: siteConfigMetadataResponse.metadata.error,
-          message: 'Failed to get site config metadata with error',
-        })
-      );
-    }
-  };
-
-  const fetchBuildDef = async () => {
+  const fetchBuildDef = React.useCallback(async () => {
     if (vstsMetadata) {
       const buildDefinitionId = vstsMetadata['VSTSRM_BuildDefinitionId'];
       const buildDefinitionUrl: string = vstsMetadata['VSTSRM_BuildDefinitionWebAccessUrl'];
 
       if (buildDefinitionId) {
+        setShowRepoInformation(true);
         let accountName = '';
         let buildDefinitionProjectUrl = '';
 
@@ -93,7 +78,7 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
       }
       setIsLoading(false);
     }
-  };
+  }, [vstsMetadata]);
 
   const getVSOAccountNameFromUrl = (url: string): string => {
     const devAzureCom: string = deploymentCenterData.getAzureDevOpsUrl().Tfs.replace(new RegExp('https://|/', 'gi'), '');
@@ -131,14 +116,14 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
   };
 
   useEffect(() => {
-    fetchSiteConfig();
-  }, []);
+    if (deploymentCenterContext.configMetadata) {
+      setVstsMetadata(deploymentCenterContext.configMetadata.properties);
+    }
+  }, [deploymentCenterContext.configMetadata]);
 
   useEffect(() => {
-    if (vstsMetadata) {
-      fetchBuildDef();
-    }
-  }, [vstsMetadata]);
+    fetchBuildDef();
+  }, [fetchBuildDef]);
 
   return (
     <>
@@ -168,17 +153,20 @@ const DeploymentCenterVstsBuildConfiguredView: React.FC<DeploymentCenterFieldPro
         </div>
       </ReactiveFormControl>
 
-      <h3>{t('deploymentCenterCodeAzureReposTitle')}</h3>
-
-      <ReactiveFormControl id="deployment-center-vsts-project" label={t('deploymentCenterOAuthProject')}>
-        <>{isLoading ? t('loading') : getDevOpsProjectLink()}</>
-      </ReactiveFormControl>
-      <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
-        <div>{isLoading ? t('loading') : getRepoLink()}</div>
-      </ReactiveFormControl>
-      <ReactiveFormControl id="deployment-center-github-branch" label={t('deploymentCenterOAuthBranch')}>
-        <div>{isLoading ? t('loading') : branch}</div>
-      </ReactiveFormControl>
+      {showRepoInformation && (
+        <>
+          <h3>{t('deploymentCenterCodeAzureReposTitle')}</h3>
+          <ReactiveFormControl id="deployment-center-vsts-project" label={t('deploymentCenterOAuthProject')}>
+            <>{isLoading ? t('loading') : getDevOpsProjectLink()}</>
+          </ReactiveFormControl>
+          <ReactiveFormControl id="deployment-center-repository" label={t('deploymentCenterOAuthRepository')}>
+            <div>{isLoading ? t('loading') : getRepoLink()}</div>
+          </ReactiveFormControl>
+          <ReactiveFormControl id="deployment-center-github-branch" label={t('deploymentCenterOAuthBranch')}>
+            <div>{isLoading ? t('loading') : branch}</div>
+          </ReactiveFormControl>
+        </>
+      )}
     </>
   );
 };
