@@ -163,71 +163,38 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           />
         )}
 
-      {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
-        (disableFtp() ? (
-          <DropdownNoFormik
-            onChange={() => {
-              /** @note (joechung): Ignore selection change since there is only a single option. */
-            }}
-            dirty={
-              // @note (krmitta): Dirty state is only calculated, if ftpsState is not Disabled
-              values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
-              initialValues.config.properties.ftpsState !== 'Disabled'
-            }
-            infoBubbleMessage={t('ftpDisabledByPolicy')}
-            learnMoreLink={Links.ftpDisabledByPolicyLink}
-            label={t('ftpState')}
-            id="app-settings-ftps-state"
-            disabled={true}
-            defaultSelectedKey={initialValues.config.properties.ftpsState}
-            options={[
-              {
-                key: 'AllAllowed',
-                text: t('allAllowed'),
-              },
-              {
-                key: 'FtpsOnly',
-                text: t('ftpsOnly'),
-              },
-              {
-                key: 'Disabled',
-                text: t('disabled'),
-              },
-            ]}
-          />
-        ) : (
-          <Field
-            name="config.properties.ftpsState"
-            dirty={
-              // @note (krmitta): BasicPublishingCredentialsPolicies check if made only if ftpsState is not Disabled
-              values.config.properties.ftpsState !== initialValues.config.properties.ftpsState ||
-              (values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
-                initialValues.config.properties.ftpsState !== 'Disabled')
-            }
-            component={Dropdown}
-            infoBubbleMessage={t('ftpsInfoMessage')}
-            learnMoreLink={Links.ftpInfo}
-            label={t('ftpState')}
-            id="app-settings-ftps-state"
-            disabled={disableAllControls}
-            options={[
-              {
-                key: 'AllAllowed',
-                text: t('allAllowed'),
-              },
-              {
-                key: 'FtpsOnly',
-                text: t('ftpsOnly'),
-              },
-              {
-                key: 'Disabled',
-                text: t('disabled'),
-              },
-            ]}
-          />
-        ))}
+      {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.ftpsState"
+          dirty={
+            // @note (krmitta): BasicPublishingCredentialsPolicies check if made only if ftpsState is not Disabled
+            values.config.properties.ftpsState !== initialValues.config.properties.ftpsState ||
+            (values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
+              initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
+              initialValues.config.properties.ftpsState !== 'Disabled')
+          }
+          component={Dropdown}
+          infoBubbleMessage={disableFtp() ? t('ftpDisabledByPolicy') : t('ftpsInfoMessage')}
+          learnMoreLink={disableFtp() ? Links.ftpDisabledByPolicyLink : Links.ftpInfo}
+          label={t('ftpState')}
+          id="app-settings-ftps-state"
+          disabled={disableAllControls || disableFtp()}
+          options={[
+            {
+              key: 'AllAllowed',
+              text: t('allAllowed'),
+            },
+            {
+              key: 'FtpsOnly',
+              text: t('ftpsOnly'),
+            },
+            {
+              key: 'Disabled',
+              text: t('disabled'),
+            },
+          ]}
+        />
+      )}
 
       {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
         <>
