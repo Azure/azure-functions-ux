@@ -19,6 +19,8 @@ import { AppStackOs } from '../../../models/stacks/app-stacks';
 import AzureDevOpsService from '../../../AzureDevOpsService';
 import PortalCommunicator from '../../../portal-communicator';
 import AuthService from '../../../ApiHelpers/AuthService';
+import ManagedIdentityService from '../../../ApiHelpers/ManagedIdentityService';
+import GraphService from '../../../ApiHelpers/GraphService';
 
 export default class DeploymentCenterData {
   private _azureDevOpsService = new AzureDevOpsService();
@@ -289,6 +291,10 @@ export default class DeploymentCenterData {
     return ACRService.getTags(portalContext, loginServer, repository, username, password, logger);
   };
 
+  public getUser = (adToken: string) => {
+    return GraphService.getUser(adToken);
+  };
+
   public hasRoleAssignment = (roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) => {
     return AuthService.hasRoleAssignment(roleDefinitionId, roleAssignments);
   };
@@ -303,6 +309,14 @@ export default class DeploymentCenterData {
 
   public enableSystemAssignedIdentity = (resourceId: string, identity?: MsiIdentity) => {
     return AuthService.enableSystemAssignedIdentity(resourceId, identity);
+  };
+
+  public getUserAssignedIdentity = (resourceId: string) => {
+    return ManagedIdentityService.getUserAssignedIdentity(resourceId);
+  };
+
+  public putFederatedCredential = (managedIdentityResourceId: string, credentialName: string, fullRepoName: string) => {
+    return ManagedIdentityService.putFederatedCredential(managedIdentityResourceId, credentialName, fullRepoName);
   };
 
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {
@@ -355,8 +369,10 @@ export default class DeploymentCenterData {
     os: string,
     variables: KeyValue<string>,
     runtimeStack?: string,
-    authType?: string
+    authType?: string,
+    hasOidcFlightEnabled?: boolean,
+    apiVersion?: string
   ) => {
-    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack, authType);
+    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack, authType, hasOidcFlightEnabled, apiVersion);
   };
 }

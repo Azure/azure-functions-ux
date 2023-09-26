@@ -7861,4 +7861,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="authenticationSettingsIdentity" xml:space="preserve">
         <value>Identity</value>
     </data>
+    <data name="authenticationSettingsIdentityPermissionsError" xml:space="preserve">
+        <value>You do not have sufficient permissions on this app to assign role-based access to a managed identity and configure federated credentials.</value>
+    </data>
+    <data name="authenticationSettingsIdentityPermissionsLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about how to manage a federated identity credentials on a user-assigned managed identity.</value>
+    </data>
 </root>

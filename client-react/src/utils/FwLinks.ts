@@ -76,4 +76,5 @@ export const DeploymentCenterLinks = {
   cloudFolderDeployment: 'https://go.microsoft.com/fwlink/?linkid=2185768',
   onedriveDropoxRetirement: 'https://go.microsoft.com/fwlink/?linkid=2209891',
   azureDevOpsPortal: 'https://go.microsoft.com/fwlink/?linkid=2245703',
+  managedIdentityOidc: 'https://go.microsoft.com/fwlink/?linkid=2247951',
 };

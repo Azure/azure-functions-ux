@@ -45,7 +45,6 @@ import { PortalContext } from '../../../../PortalContext';
 import { CommonConstants } from '../../../../utils/CommonConstants';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterAuthenticationSettings } from '../authentication/DeploymentCenterAuthenticationSettings';
-import Url from '../../../../utils/url';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -82,7 +81,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isVstsSetup, setIsVstsSetup] = useState(false);
   const [isTfsOrVsoSetup, setIsTfsOrVsoSetup] = useState(false);
   const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
-  const showDCAuthSettings = React.useMemo<boolean>(() => Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings), []);
+  const showDCAuthSettings = React.useMemo<boolean | undefined>(() => {
+    formProps.setFieldValue('hasOidcFlightEnabled', deploymentCenterContext.hasOidcFlightEnabled);
+    return deploymentCenterContext.hasOidcFlightEnabled;
+  }, [deploymentCenterContext.hasOidcFlightEnabled]);
 
   useEffect(() => {
     setSiteConfigScmType(deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType);
@@ -166,6 +168,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         const appType = siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp;
         const os = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
         const authType = formProps.values.authType;
+        const hasOidcFlightEnabled = deploymentCenterContext.hasOidcFlightEnabled;
+        const apiVersion = hasOidcFlightEnabled
+          ? CommonConstants.ApiVersions.workflowApiVersion20221001
+          : CommonConstants.ApiVersions.workflowApiVersion20201201;
 
         const getWorkflowFile = await deploymentCenterData.getWorkflowFile(
           appType,
@@ -173,7 +179,9 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           os,
           variables,
           formProps.values.runtimeStack,
-          authType
+          authType,
+          hasOidcFlightEnabled,
+          apiVersion
         );
         if (getWorkflowFile.metadata.success) {
           return getWorkflowFile.data;
