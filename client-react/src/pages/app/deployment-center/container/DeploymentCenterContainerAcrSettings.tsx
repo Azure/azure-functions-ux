@@ -8,10 +8,12 @@ import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterCont
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
+import { IDropdownOption, MessageBar, MessageBarType } from '@fluentui/react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { addIdentityLinkStyle, deploymentCenterAcrBannerDiv, deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
+import { ManagedIdentitiesDropdown } from '../authentication/ManagedIdentitiesDropdown';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -31,12 +33,13 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingManagedIdentities,
     learnMoreLink,
     fetchRegistriesInSub,
-    openIdentityBlade,
+    fetchManagedIdentityOptions,
     isVnetConfigured,
     legacyVnetAppSetting,
     defaultVnetImagePullSetting,
   } = props;
   const { t } = useTranslation();
+  const deploymentCenterContext = React.useContext(DeploymentCenterContext);
 
   const [isComposeOptionSelected, setIsComposeOptionSelected] = useState(false);
   const [isGitHubActionSelected, setIsGitHubActionSelected] = useState(false);
@@ -131,22 +134,15 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         options={acrCredentialsOptions}
         displayInVerticalLayout={true}
       />
-      {acrUseManagedIdentities && (
-        <Field
-          id="container-acr-managed-identities-client-id"
-          label={t('identity')}
-          name="acrManagedIdentityClientId"
-          component={ComboBox}
-          placeholder={t('managedIdentityTypePlaceholder')}
-          options={managedIdentityOptions}
-          isLoading={loadingManagedIdentities}
-          onRenderLowerContent={() => (
-            <Link id="container-acr-add-identity-link" className={addIdentityLinkStyle} onClick={openIdentityBlade}>
-              {t('addIdentity')}
-            </Link>
-          )}
+      <div className={addIdentityLinkStyle}>
+        <ManagedIdentitiesDropdown
+          fieldName={'acrManagedIdentityClientId'}
+          resourceId={deploymentCenterContext.resourceId}
+          identityOptions={managedIdentityOptions}
+          loadingIdentities={loadingManagedIdentities}
+          fetchManagedIdentityOptions={fetchManagedIdentityOptions}
         />
-      )}
+      </div>
       <Field
         id="container-acr-registry"
         label={t('containerACRRegistry')}
