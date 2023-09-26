@@ -18,6 +18,7 @@ export interface IDeploymentCenterContext {
   siteDescriptor?: ArmSiteDescriptor;
   applicationSettings?: ArmObj<KeyValue<string>>;
   configMetadata?: ArmObj<KeyValue<string>>;
+  hasOidcFlightEnabled?: boolean;
 }
 
 export const DeploymentCenterContext = React.createContext<IDeploymentCenterContext>({} as IDeploymentCenterContext);

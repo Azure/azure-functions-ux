@@ -2575,4 +2575,6 @@ export class PortalResources {
   public static authenticationSettingsAuthenticationType = 'authenticationSettingsAuthenticationType';
   public static authenticationSettingsAuthenticationPlaceholder = 'authenticationSettingsAuthenticationPlaceholder';
   public static authenticationSettingsIdentity = 'authenticationSettingsIdentity';
+  public static authenticationSettingsIdentityPermissionsError = 'authenticationSettingsIdentityPermissionsError';
+  public static authenticationSettingsIdentityPermissionsLinkAriaLabel = 'authenticationSettingsIdentityPermissionsLinkAriaLabel';
 }

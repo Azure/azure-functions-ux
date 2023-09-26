@@ -41,6 +41,7 @@ import {
   getTelemetryInfo,
   getWorkflowFileName,
   getSourceControlsWorkflowFileName,
+  getFederatedCredentialName,
 } from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { AppOs } from '../../../../models/site/site';
@@ -48,9 +49,8 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
 import { RepoTypeOptions } from '../../../../models/external';
-import Url from '../../../../utils/url';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -78,6 +78,68 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
+      if (deploymentCenterContext.hasOidcFlightEnabled && values.authType === AuthType.Oidc && values.authIdentity) {
+        const putContributorRole = deploymentCenterData
+          .getRoleAssignmentsWithScope(deploymentCenterContext.resourceId, values.authIdentity.principalId)
+          .then(async getRoleAssignmentsResponse => {
+            if (getRoleAssignmentsResponse.metadata.success) {
+              const hasContributorRole = deploymentCenterData.hasRoleAssignment(
+                RBACRoleId.contributor,
+                getRoleAssignmentsResponse.data.value
+              );
+              if (!hasContributorRole && values.authIdentity) {
+                return await deploymentCenterData.putRoleAssignmentWithScope(
+                  RBACRoleId.contributor,
+                  deploymentCenterContext.resourceId,
+                  values.authIdentity.principalId,
+                  PrincipalType.servicePrincipal
+                );
+              }
+            } else {
+              portalContext.log(
+                getTelemetryInfo('error', 'getIdentityRoleAssignmentsResponse', 'failed', {
+                  message: getErrorMessage(getRoleAssignmentsResponse.metadata.error),
+                  errorAsString: getRoleAssignmentsResponse.metadata.error ? JSON.stringify(getRoleAssignmentsResponse.metadata.error) : '',
+                })
+              );
+              return getRoleAssignmentsResponse;
+            }
+          });
+
+        const addFederatedCredential = deploymentCenterData.putFederatedCredential(
+          values.authIdentity.resourceId,
+          getFederatedCredentialName(`${values.org}-${values.repo}`),
+          `${values.org}/${values.repo}`
+        );
+
+        const [putContributorRoleResponse, addFederatedCredentialResponse] = await Promise.all([
+          putContributorRole,
+          addFederatedCredential,
+        ]);
+
+        if (putContributorRoleResponse && !putContributorRoleResponse.metadata.success) {
+          portalContext.log(
+            getTelemetryInfo('error', 'putContributorRoleResponse', 'failed', {
+              message: getErrorMessage(putContributorRoleResponse.metadata.error),
+              errorAsString: putContributorRoleResponse.metadata.error ? JSON.stringify(putContributorRoleResponse.metadata.error) : '',
+            })
+          );
+          return putContributorRoleResponse;
+        }
+
+        if (!addFederatedCredentialResponse.metadata.success) {
+          portalContext.log(
+            getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+              message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+              errorAsString: addFederatedCredentialResponse.metadata.error
+                ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                : '',
+            })
+          );
+          return addFederatedCredentialResponse;
+        }
+      }
+
       portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,
@@ -133,7 +195,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         publishType: PublishType.Code,
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
         runtimeStack: values.runtimeStack,
-        workflowApiVersion: Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)
+        workflowApiVersion: deploymentCenterContext.hasOidcFlightEnabled
           ? CommonConstants.ApiVersions.workflowApiVersion20221001
           : CommonConstants.ApiVersions.workflowApiVersion20201201,
         slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
@@ -141,7 +203,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       },
     };
 
-    if (Url.isFeatureFlagEnabled(CommonConstants.FeatureFlags.showDCAuthSettings)) {
+    if (deploymentCenterContext.hasOidcFlightEnabled) {
       gitHubActionConfiguration.workflowSettings['authType'] = values.authType ?? AuthType.PublishProfile;
     }
 

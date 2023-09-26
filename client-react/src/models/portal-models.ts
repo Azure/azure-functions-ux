@@ -239,7 +239,7 @@ export enum PartSize {
   Custom = 99,
 }
 
-export type TokenType = 'graph' | 'azureTfsApi' | 'applicationinsightapi' | '';
+export type TokenType = 'microsoft.graph' | 'azureTfsApi' | 'applicationinsightapi' | '';
 
 export interface ITokenResponse {
   tokenType: TokenType;

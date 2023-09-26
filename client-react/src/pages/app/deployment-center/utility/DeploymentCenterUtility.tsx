@@ -33,6 +33,8 @@ import PortalCommunicator from '../../../../portal-communicator';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { ISiteState } from '../../../../SiteState';
+import { Guid } from '../../../../utils/Guid';
+import { truncate } from 'lodash-es';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
@@ -578,4 +580,13 @@ export const deleteDeploymentCenterLogs = async (
 export const getAcrNameFromLoginServer = (loginServer: string): string => {
   const loginServerParts = loginServer?.split('.') ?? [];
   return loginServerParts.length > 0 ? loginServerParts[0] : '';
+};
+
+export const getFederatedCredentialName = (fullRepoName: string): string => {
+  const guid = Guid.newGuid();
+  if (fullRepoName.length + guid.length > 120) {
+    return `${truncate(fullRepoName, { length: 120 - guid.length })}-${guid}`;
+  }
+
+  return `${fullRepoName}-${guid}`;
 };

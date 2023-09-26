@@ -5,7 +5,7 @@ import MakeArmCall from './ArmHelper';
 import { ArmArray, ArmObj, MsiIdentity } from '../models/arm-obj';
 
 export default class AuthService {
-  public static async hasRoleAssignment(roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) {
+  public static hasRoleAssignment(roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) {
     return roleAssignments.some(assignment => {
       const assignmentId = assignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash).pop();
       return assignmentId === roleDefinitionId;

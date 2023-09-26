@@ -424,13 +424,13 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     portalContext.log(getTelemetryInfo('info', 'getManagedIdentities', 'submit'));
     const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
     if (siteResponse.metadata.success && siteResponse.data.identity?.userAssignedIdentities) {
-      for (const [id, identity] of Object.entries(siteResponse.data.identity.userAssignedIdentities)) {
+      for (const [resourceId, identity] of Object.entries(siteResponse.data.identity.userAssignedIdentities)) {
         const clientId = identity.clientId;
         const principalId = identity.principalId;
         const tenantId = identity.tenantId;
-        const subscriptionId = new ArmResourceDescriptor(id).subscription;
-        const name = id.split(CommonConstants.singleForwardSlash).pop() || clientId;
-        managedIdentityInfo.current[clientId] = { clientId, principalId, tenantId, subscriptionId, name };
+        const subscriptionId = new ArmResourceDescriptor(resourceId).subscription;
+        const name = resourceId.split(CommonConstants.singleForwardSlash).pop() || clientId;
+        managedIdentityInfo.current[clientId] = { clientId, principalId, tenantId, subscriptionId, name, resourceId };
         userAssignedIdentitiesOptions.push({ key: clientId, text: name });
       }
     }
