@@ -50,6 +50,7 @@ import {
   updateGitHubActionAppSettingsForPython,
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
+import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
