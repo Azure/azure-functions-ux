@@ -82,8 +82,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     props.setFieldValue('config.properties.http20Enabled', option.key);
   };
 
-  const disableFtp = () => !props.values.basicPublishingCredentialsPolicies?.properties?.ftp?.allow;
-
   return (
     <div>
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' &&
@@ -142,6 +140,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             component={RadioButton}
             label={t('basicAuthPublishingCred')}
             infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
+            learnMoreLink={Links.ftpDisabledByPolicyLink}
             id="app-settings-basic-authentication-publishing-creds"
             disabled={disableAllControls}
             selectedKey={
@@ -167,11 +166,11 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="config.properties.ftpsState"
           dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
           component={Dropdown}
-          infoBubbleMessage={disableFtp() ? t('ftpDisabledByPolicy') : t('ftpsInfoMessage')}
-          learnMoreLink={disableFtp() ? Links.ftpDisabledByPolicyLink : Links.ftpInfo}
+          infoBubbleMessage={t('ftpsInfoMessage')}
+          learnMoreLink={Links.ftpInfo}
           label={t('ftpState')}
           id="app-settings-ftps-state"
-          disabled={disableAllControls || disableFtp()}
+          disabled={disableAllControls}
           options={[
             {
               key: 'AllAllowed',
