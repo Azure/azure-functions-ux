@@ -10,8 +10,6 @@ export class Constants {
     githubApiUri: 'https://github.com/login/oauth',
     bitbucket_state_key: 'bitbucket_state_key',
     github_state_key: 'github_state_key',
-    onedrive_state_key: 'onedrive_state_key',
-    dropbox_state_key: 'dropbox_state_key',
   };
   static quickstartLanguageMap: { [key: string]: string } = {
     'zh-hans': 'zh-CN',

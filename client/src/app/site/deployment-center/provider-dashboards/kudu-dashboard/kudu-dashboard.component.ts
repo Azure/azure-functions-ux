@@ -138,10 +138,6 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
     }
   }
   private _redeployEnabled() {
-    const scmProvider = this.deploymentObject.siteConfig.properties.scmType;
-    if (scmProvider === 'Dropbox' || scmProvider === 'OneDrive') {
-      return this.deploymentObject.sourceControls.properties.deploymentRollbackEnabled;
-    }
     return true;
   }
 
@@ -195,16 +191,6 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
       this._busyManager.setBusy();
       this.viewInfoStream$.next(this.resourceId);
     }
-  }
-
-  get folderPath() {
-    if (this.sourceLocation !== 'Dropbox' && this.sourceLocation !== 'OneDrive') {
-      return null;
-    }
-    const folderPath = this.repo
-      .replace('https://www.dropbox.com/home', '')
-      .replace('https://api.onedrive.com/v1.0/drive/special/approot:', '');
-    return folderPath;
   }
 
   get rollbackEnabled() {
@@ -356,11 +342,6 @@ export class KuduDashboardComponent extends DeploymentDashboard implements OnCha
         return 'GitHub';
       case 'LocalGit':
         return 'Local Git';
-      case 'Dropbox':
-      case 'DropboxV2':
-        return 'Dropbox';
-      case 'OneDrive':
-        return 'OneDrive';
       case 'VSO':
         return 'Azure Repos';
       default:
