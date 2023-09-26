@@ -8,7 +8,6 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
-import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { MinTlsVersion, SslState, VnetPrivatePortsCount } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
