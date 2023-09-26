@@ -1,50 +1,48 @@
-import React, { useContext, useState, useEffect } from 'react';
-import {
-  DeploymentCenterFieldProps,
-  DeploymentCenterCodeFormData,
-  WorkflowOption,
-  RuntimeStackOptions,
-  AppType,
-  PublishType,
-  AuthType,
-} from '../DeploymentCenter.types';
-import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
-import DeploymentCenterBitbucketDataLoader from '../bitbucket-provider/DeploymentCenterBitbucketDataLoader';
-import { ScmType, BuildProvider } from '../../../../models/site/config';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
-import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
-import DeploymentCenterCodeBuildConfiguredView from './DeploymentCenterCodeBuildConfiguredView';
-import DeploymentCenterCodeSourceAndBuild from './DeploymentCenterCodeSourceAndBuild';
-import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/DeploymentCenterGitHubWorkflowConfigSelector';
-import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
-import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
+import { Link, MessageBarType, ProgressIndicator } from '@fluentui/react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { isWorkflowOptionExistingOrAvailable, getRuntimeVersion } from '../utility/GitHubActionUtility';
-import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
-import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
-import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { PortalContext } from '../../../../PortalContext';
 import { SiteStateContext } from '../../../../SiteState';
-import { Link, ProgressIndicator, MessageBarType } from '@fluentui/react';
+import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { BuildProvider, ScmType } from '../../../../models/site/config';
+import { AppOs } from '../../../../models/site/site';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
+import { LogCategories } from '../../../../utils/LogCategories';
+import LogService from '../../../../utils/LogService';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import {
+  AppType,
+  AuthType,
+  DeploymentCenterCodeFormData,
+  DeploymentCenterFieldProps,
+  PublishType,
+  RuntimeStackOptions,
+  WorkflowOption,
+} from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { DeploymentCenterAuthenticationSettings } from '../authentication/DeploymentCenterAuthenticationSettings';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
-import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
-import DeploymentCenterExternalConfiguredView from '../external-provider/DeploymentCenterExternalConfiguredView';
-import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
-import DeploymentCenterExternalProvider from '../external-provider/DeploymentCenterExternalProvider';
-import DeploymentCenterOneDriveDataLoader from '../onedrive-provider/DeploymentCenterOneDriveDataLoader';
-import DeploymentCenterOneDriveConfiguredView from '../onedrive-provider/DeploymentCenterOneDriveConfiguredView';
-import DeploymentCenterDropboxDataLoader from '../dropbox-provider/DeploymentCenterDropboxDataLoader';
-import DeploymentCenterDropboxConfiguredView from '../dropbox-provider/DeploymentCenterDropboxConfiguredView';
-import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
+import DeploymentCenterBitbucketDataLoader from '../bitbucket-provider/DeploymentCenterBitbucketDataLoader';
 import DeploymentCenterDevOpsDataLoader from '../devops-provider/DeploymentCenterDevOpsDataLoader';
 import DeploymentCenterDevOpsKuduBuildConfiguredView from '../devops-provider/DeploymentCenterDevOpsKuduBuildConfiguredView';
+import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
 import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
-import { AppOs } from '../../../../models/site/site';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { PortalContext } from '../../../../PortalContext';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { DeploymentCenterAuthenticationSettings } from '../authentication/DeploymentCenterAuthenticationSettings';
+import DeploymentCenterExternalConfiguredView from '../external-provider/DeploymentCenterExternalConfiguredView';
+import DeploymentCenterExternalProvider from '../external-provider/DeploymentCenterExternalProvider';
+import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentCenterGitHubConfiguredView';
+import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
+import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
+import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/DeploymentCenterGitHubWorkflowConfigSelector';
+import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
+import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
+import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getRuntimeVersion, isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
+import DeploymentCenterCodeBuildConfiguredView from './DeploymentCenterCodeBuildConfiguredView';
+import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
+import DeploymentCenterCodeSourceAndBuild from './DeploymentCenterCodeSourceAndBuild';
+import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -73,10 +71,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isLocalGitSetup, setIsLocalGitSetup] = useState(false);
   const [isExternalGitSource, setIsExternalGitSource] = useState(false);
   const [isExternalGitSetup, setIsExternalGitSetup] = useState(false);
-  const [isOneDriveSource, setIsOneDriveSource] = useState(false);
-  const [isOneDriveSetup, setIsOneDriveSetup] = useState(false);
-  const [isDropboxSource, setIsDropboxSource] = useState(false);
-  const [isDropboxSetup, setIsDropboxSetup] = useState(false);
+  const [isUnsupportedSource, setIsUnsupportedSource] = useState(false);
   const [isVsoSource, setIsVsoSource] = useState(false);
   const [isVstsSetup, setIsVstsSetup] = useState(false);
   const [isTfsOrVsoSetup, setIsTfsOrVsoSetup] = useState(false);
@@ -106,13 +101,19 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   }, [formProps.values.buildProvider]);
 
   useEffect(() => {
-    setIsGitHubSource(formProps.values.sourceProvider === ScmType.GitHub);
-    setIsBitbucketSource(formProps.values.sourceProvider === ScmType.BitbucketGit);
-    setIsLocalGitSource(formProps.values.sourceProvider === ScmType.LocalGit);
-    setIsExternalGitSource(formProps.values.sourceProvider === ScmType.ExternalGit);
-    setIsOneDriveSource(formProps.values.sourceProvider === ScmType.OneDrive);
-    setIsDropboxSource(formProps.values.sourceProvider === ScmType.Dropbox);
+    const sourceProvider = formProps.values.sourceProvider;
+    setIsGitHubSource(sourceProvider === ScmType.GitHub);
+    setIsBitbucketSource(sourceProvider === ScmType.BitbucketGit);
+    setIsLocalGitSource(sourceProvider === ScmType.LocalGit);
+    setIsExternalGitSource(sourceProvider === ScmType.ExternalGit);
     setIsVsoSource(formProps.values.sourceProvider === ScmType.Vso);
+
+    const unsupportedSourceConfigured = sourceProvider === ScmType.Dropbox || sourceProvider === ScmType.OneDrive;
+    if (unsupportedSourceConfigured) {
+      LogService.error(LogCategories.deploymentCenter, 'UnsupportedSourceConfigured', `Unsupported source configured: '${sourceProvider}'`);
+    }
+
+    setIsUnsupportedSource(sourceProvider === ScmType.Dropbox || sourceProvider === ScmType.OneDrive);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.sourceProvider]);
@@ -123,8 +124,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     setIsBitbucketSetup(siteConfigScmType === ScmType.BitbucketGit);
     setIsLocalGitSetup(siteConfigScmType === ScmType.LocalGit);
     setIsExternalGitSetup(siteConfigScmType === ScmType.ExternalGit);
-    setIsOneDriveSetup(siteConfigScmType === ScmType.OneDrive);
-    setIsDropboxSetup(siteConfigScmType === ScmType.Dropbox);
     setIsVstsSetup(siteConfigScmType === ScmType.Vsts);
     setIsTfsOrVsoSetup(siteConfigScmType === ScmType.Tfs || siteConfigScmType === ScmType.Vso);
 
@@ -280,13 +279,13 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {` ${t('learnMore')}`}
             </Link>
           </p>
-          {(isOneDriveSetup || isDropboxSetup) && (
+          {isUnsupportedSource && (
             <CustomBanner
               id="deployment-center-oneDrive-warning"
               message={t('deploymentCenterOneDriveDropboxWarning')}
-              type={MessageBarType.info}
-              learnMoreLink={DeploymentCenterLinks.onedriveDropoxRetirement}
-              learnMoreLinkAriaLabel={t('deploymentCenterOnedriveDropboxLinkAriaLabel')}
+              type={MessageBarType.warning}
+              learnMoreLink={DeploymentCenterLinks.oneDriveDropboxRetirement}
+              learnMoreLinkAriaLabel={t('deploymentCenterOneDriveDropboxLinkAriaLabel')}
             />
           )}
           {!isGitHubActionsSetup && !isVstsSetup && <DeploymentCenterCodeSourceKuduConfiguredView formProps={formProps} />}
@@ -294,8 +293,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           {isBitbucketSetup && <DeploymentCenterBitbucketConfiguredView formProps={formProps} />}
           {isLocalGitSetup && <DeploymentCenterLocalGitConfiguredView />}
           {isExternalGitSetup && <DeploymentCenterExternalConfiguredView formProps={formProps} />}
-          {isOneDriveSetup && <DeploymentCenterOneDriveConfiguredView formProps={formProps} />}
-          {isDropboxSetup && <DeploymentCenterDropboxConfiguredView formProps={formProps} />}
           {isVstsSetup && <DeploymentCenterVstsBuildConfiguredView formProps={formProps} />}
           {isTfsOrVsoSetup && <DeploymentCenterDevOpsKuduBuildConfiguredView formProps={formProps} />}
           {!isTfsOrVsoSetup && <DeploymentCenterCodeBuildConfiguredView />}
@@ -327,8 +324,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
               {isBitbucketSource && <DeploymentCenterBitbucketDataLoader formProps={formProps} />}
               {isLocalGitSource && <DeploymentCenterLocalGitProvider />}
               {isExternalGitSource && <DeploymentCenterExternalProvider formProps={formProps} />}
-              {isOneDriveSource && <DeploymentCenterOneDriveDataLoader formProps={formProps} />}
-              {isDropboxSource && <DeploymentCenterDropboxDataLoader formProps={formProps} />}
               {isVsoSource && <DeploymentCenterDevOpsDataLoader formProps={formProps} />}
             </>
           )}

@@ -1,15 +1,15 @@
+import { Icon, Link } from '@fluentui/react';
 import React, { useContext, useState } from 'react';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { useTranslation } from 'react-i18next';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { PortalContext } from '../../../../PortalContext';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { ScmType } from '../../../../models/site/config';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
-import { Link, Icon } from '@fluentui/react';
+import DeploymentCenterData from '../DeploymentCenter.data';
 import { disconnectLink } from '../DeploymentCenter.styles';
-import { PortalContext } from '../../../../PortalContext';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
@@ -109,10 +109,6 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
         return t('deploymentCenterCodeSettingsSourceGitHub');
       case ScmType.LocalGit:
         return t('deploymentCenterCodeSettingsSourceLocalGit');
-      case ScmType.Dropbox:
-        return t('deploymentCenterCodeSettingsSourceDropbox');
-      case ScmType.OneDrive:
-        return t('deploymentCenterCodeSettingsSourceOneDrive');
       case ScmType.Vso:
         return t('deploymentCenterCodeSettingsSourceAzureRepos');
       default:

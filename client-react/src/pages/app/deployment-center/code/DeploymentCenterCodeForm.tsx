@@ -1,56 +1,55 @@
-import React, { useState, useContext } from 'react';
-import { Formik, FormikProps, FormikActions } from 'formik';
+import { Formik, FormikActions, FormikProps } from 'formik';
+import React, { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import GitHubService from '../../../../ApiHelpers/GitHubService';
+import SiteService from '../../../../ApiHelpers/SiteService';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { RepoTypeOptions } from '../../../../models/external';
+import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
+import { KeyValue } from '../../../../models/portal-models';
+import { BuildProvider, ScmType } from '../../../../models/site/config';
+import { AppOs } from '../../../../models/site/site';
+import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
+import { Guid } from '../../../../utils/Guid';
+import { RuntimeStacks } from '../../../../utils/stacks-utils';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import {
-  DeploymentCenterFormData,
-  DeploymentCenterCodeFormProps,
-  DeploymentCenterCodeFormData,
-  SiteSourceControlRequestBody,
-  WorkflowOption,
-  SiteSourceControlGitHubActionsRequestBody,
   AppType,
+  AuthType,
+  DeploymentCenterCodeFormData,
+  DeploymentCenterCodeFormProps,
+  DeploymentCenterFormData,
   PublishType,
   RuntimeStackOptions,
-  AuthType,
+  SiteSourceControlGitHubActionsRequestBody,
+  SiteSourceControlRequestBody,
+  WorkflowFileUrlInfo,
+  WorkflowOption,
 } from '../DeploymentCenter.types';
-import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
-import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
-import { useTranslation } from 'react-i18next';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
-import { SiteStateContext } from '../../../../SiteState';
-import { PortalContext } from '../../../../PortalContext';
-import SiteService from '../../../../ApiHelpers/SiteService';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
-import { BuildProvider, ScmType } from '../../../../models/site/config';
-import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { WorkflowFileUrlInfo } from '../DeploymentCenter.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import {
-  getCodeWebAppWorkflowInformation,
-  getCodeFunctionAppCodeWorkflowInformation,
-  isApiSyncError,
-  updateGitHubActionSourceControlPropertiesManually,
-  updateGitHubActionAppSettingsForPython,
-  getRuntimeVersion,
-} from '../utility/GitHubActionUtility';
-import {
-  getWorkflowFilePath,
   getArmToken,
+  getFederatedCredentialName,
+  getSourceControlsWorkflowFileName,
   getTelemetryInfo,
   getWorkflowFileName,
-  getSourceControlsWorkflowFileName,
-  getFederatedCredentialName,
+  getWorkflowFilePath,
 } from '../utility/DeploymentCenterUtility';
-import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
-import { AppOs } from '../../../../models/site/site';
-import GitHubService from '../../../../ApiHelpers/GitHubService';
-import { RuntimeStacks } from '../../../../utils/stacks-utils';
-import { Guid } from '../../../../utils/Guid';
-import { KeyValue } from '../../../../models/portal-models';
-import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
-import { RepoTypeOptions } from '../../../../models/external';
+import {
+  getCodeFunctionAppCodeWorkflowInformation,
+  getCodeWebAppWorkflowInformation,
+  getRuntimeVersion,
+  isApiSyncError,
+  updateGitHubActionAppSettingsForPython,
+  updateGitHubActionSourceControlPropertiesManually,
+} from '../utility/GitHubActionUtility';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -261,10 +260,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         return `${DeploymentCenterConstants.githubUri}/${values.org}/${values.repo}`;
       case ScmType.BitbucketGit:
         return `${DeploymentCenterConstants.bitbucketUrl}/${values.org}/${values.repo}`;
-      case ScmType.OneDrive:
-        return `${DeploymentCenterConstants.onedriveApiUri}:/${values.folder}`;
-      case ScmType.Dropbox:
-        return `${DeploymentCenterConstants.dropboxUri}/${values.folder}`;
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';

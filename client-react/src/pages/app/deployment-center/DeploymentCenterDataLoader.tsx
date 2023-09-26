@@ -1,39 +1,37 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { DeploymentCenterDataLoaderProps } from './DeploymentCenter.types';
-import DeploymentCenterData from './DeploymentCenter.data';
+import React, { useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
+import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
+import { HttpResponseObject } from '../../../ArmHelper.types';
 import { PortalContext } from '../../../PortalContext';
 import { SiteStateContext } from '../../../SiteState';
-import RbacConstants from '../../../utils/rbac-constants';
-import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
-import {
-  parsePublishProfileXml,
-  PublishMethod,
-  PublishingUser,
-  PublishingCredentials,
-  PublishingProfile,
-} from '../../../models/site/publish';
-import { useTranslation } from 'react-i18next';
-import { ArmObj, ArmArray } from '../../../models/arm-obj';
-import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
-import { DeploymentCenterContext } from './DeploymentCenterContext';
-import { DeploymentCenterPublishingContext } from './authentication/DeploymentCenterPublishingContext';
-import { HttpResponseObject } from '../../../ArmHelper.types';
-import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import LoadingComponent from '../../../components/Loading/LoadingComponent';
-import { SiteConfig } from '../../../models/site/config';
+import { ArmArray, ArmObj } from '../../../models/arm-obj';
+import { InternalLoadBalancingMode } from '../../../models/hostingEnvironment/hosting-environment';
 import { KeyValue } from '../../../models/portal-models';
 import { SourceControl } from '../../../models/provider';
+import { SiteConfig } from '../../../models/site/config';
+import {
+  PublishMethod,
+  PublishingCredentials,
+  PublishingProfile,
+  PublishingUser,
+  parsePublishProfileXml,
+} from '../../../models/site/publish';
 import { PublishingCredentialPolicies } from '../../../models/site/site';
-import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
+import RbacConstants from '../../../utils/rbac-constants';
+import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
+import DeploymentCenterData from './DeploymentCenter.data';
+import { DeploymentCenterDataLoaderProps } from './DeploymentCenter.types';
+import { DeploymentCenterContext } from './DeploymentCenterContext';
+import { DeploymentCenterPublishingContext } from './authentication/DeploymentCenterPublishingContext';
 import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoader';
+import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
+import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
-import HostingEnvironmentService from '../../../ApiHelpers/HostingEnvironmentService';
-import { InternalLoadBalancingMode } from '../../../models/hostingEnvironment/hosting-environment';
 import { ExperimentationConstants } from '../../../utils/CommonConstants';
 
 enum SourceControlTypes {
-  oneDrive = 'onedrive',
-  dropBox = 'dropbox',
   bitBucket = 'bitbucket',
   gitHub = 'github',
 }
@@ -54,8 +52,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [isPublishProfilePanelOpen, setIsPublishProfilePanelOpen] = useState<boolean>(false);
   const [siteConfig, setSiteConfig] = useState<ArmObj<SiteConfig> | undefined>(undefined);
   const [configMetadata, setConfigMetadata] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
-  const [oneDriveToken, setOneDriveToken] = useState<string>('');
-  const [dropboxToken, setDropboxToken] = useState<string>('');
   const [bitbucketToken, setBitbucketToken] = useState<string>('');
   const [gitHubToken, setGitHubToken] = useState<string>('');
   const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
@@ -271,8 +267,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
     const getToken = (sourceControl?: ArmObj<SourceControl>) =>
       sourceControl && sourceControl.properties.token ? sourceControl.properties.token : '';
 
-    setOneDriveToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.oneDrive)));
-    setDropboxToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.dropBox)));
     setBitbucketToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.bitBucket)));
     setGitHubToken(getToken(sourceControls.value.find(item => item.name.toLocaleLowerCase() === SourceControlTypes.gitHub)));
   };
@@ -329,8 +323,6 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         siteConfig,
         applicationSettings,
         configMetadata,
-        oneDriveToken,
-        dropboxToken,
         bitbucketToken,
         gitHubToken,
         isIlbASE,

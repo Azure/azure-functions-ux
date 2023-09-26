@@ -13,7 +13,7 @@ export const sendHttpRequest = <T>(options: AxiosRequestConfig, excludeWellKnown
   options.headers = options.headers ? options.headers : {};
 
   if (excludeWellKnownHeaders) {
-    // NOTE(michinoy): Due to the CORS errors we are seeing when calling bitbucket, onedrive, and dropbox
+    // Due to the CORS errors we are seeing when calling bitbucket
     // the well known (x-ms-*) headers need to be removed from the request.
     delete options.headers[WellKnownHeaders.SESSION_ID];
     delete options.headers[WellKnownHeaders.REQUEST_ID];
