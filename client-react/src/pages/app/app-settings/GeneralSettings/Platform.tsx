@@ -166,13 +166,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.ftpsState"
-          dirty={
-            // @note (krmitta): BasicPublishingCredentialsPolicies check if made only if ftpsState is not Disabled
-            values.config.properties.ftpsState !== initialValues.config.properties.ftpsState ||
-            (values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-              initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
-              initialValues.config.properties.ftpsState !== 'Disabled')
-          }
+          dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
           component={Dropdown}
           infoBubbleMessage={disableFtp() ? t('ftpDisabledByPolicy') : t('ftpsInfoMessage')}
           learnMoreLink={disableFtp() ? Links.ftpDisabledByPolicyLink : Links.ftpInfo}
