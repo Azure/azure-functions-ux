@@ -19,7 +19,7 @@ const prettier = require('gulp-prettier');
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
  */
-gulp.task('resources-clean', function(cb) {
+gulp.task('resources-clean', function (cb) {
   return del([
     'template-downloads',
     'Templates',
@@ -34,7 +34,7 @@ gulp.task('resources-clean', function(cb) {
  *   replace values in index.html with minified bundle names with hash
  *  This should only be ran as part of the production deployment
  */
-gulp.task('replace-tokens-for-minimized-angular', cb => {
+gulp.task('replace-tokens-for-minimized-angular', (cb) => {
   const ngMinPath = path.join(__dirname, 'public', 'ng-min');
   const minFolderExists = fs.existsSync(ngMinPath);
   if (minFolderExists) {
@@ -55,7 +55,7 @@ gulp.task('replace-tokens-for-minimized-angular', cb => {
 /********
  *   Bundle Up production server views
  */
-gulp.task('bundle-views', function() {
+gulp.task('bundle-views', function () {
   return gulp.src(['src/**/*.jsx']).pipe(gulp.dest('dist'));
 });
 
@@ -77,13 +77,13 @@ gulp.task('copy-env-template-to-env', () => {
   return gulp
     .src('**/.env.template')
     .pipe(
-      rename(function(p) {
+      rename(function (p) {
         p.extname = '';
       })
     )
     .pipe(gulp.dest('./'));
 });
-gulp.task('replace-environment-variables', cb => {
+gulp.task('replace-environment-variables', (cb) => {
   const envPath = path.join(__dirname, '.env');
   const minFolderExists = fs.existsSync(envPath);
   if (minFolderExists) {
@@ -97,12 +97,6 @@ gulp.task('replace-environment-variables', cb => {
       githubNationalCloudsClientSecret: process.env.githubNationalCloudsClientSecret || '',
       bitbucketClientSecret: process.env.bitbucketClientSecret || '',
       bitbucketRedirectUrl: process.env.bitbucketRedirectUrl || '',
-      dropboxClientSecret: process.env.dropboxClientSecret || '',
-      dropboxClientId: process.env.dropboxClientId || '',
-      dropboxRedirectUrl: process.env.dropboxRedirectUrl || '',
-      onedriveClientSecret: process.env.onedriveClientSecret || '',
-      onedriveClientID: process.env.onedriveClientID || '',
-      onedriveRedirectUrl: process.env.onedriveRedirectUrl || '',
       staticSitesGithubClientId: process.env.staticSitesGithubClientId || '',
       staticSitesGithubClientSecret: process.env.staticSitesGithubClientSecret || '',
       githubForCreatesClientId: process.env.githubForCreatesClientId || '',
@@ -130,24 +124,24 @@ gulp.task('inject-environment-variables', gulp.series('copy-env-template-to-env'
 /********
  *   Bundle Up production server static files
  */
-gulp.task('bundle-static-files', function() {
+gulp.task('bundle-static-files', function () {
   return gulp.src(['src/**/*.json', 'src/**/*.md', 'src/**/*.config.yml']).pipe(gulp.dest('dist'));
 });
 
 /********
  *   Bundle Up config
  */
-gulp.task('bundle-config', function() {
+gulp.task('bundle-config', function () {
   return gulp.src(['web.config', 'iisnode.yml', '.env', 'package-lock.json', 'gulpfile.js']).pipe(gulp.dest('dist'));
 });
 
 /********
  *   This will make the portal-resources.ts file
  */
-gulp.task('resx-to-typescript-models', function(cb) {
+gulp.task('resx-to-typescript-models', function (cb) {
   const resources = require('../server/src/data/resources/Resources.json').en;
   let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources {\r\n';
-  Object.keys(resources).forEach(function(stringName) {
+  Object.keys(resources).forEach(function (stringName) {
     typescriptFileContent += `    public static ${stringName} = '${stringName}';\r\n`;
   });
   typescriptFileContent += `}`;
@@ -172,12 +166,12 @@ gulp.task('resx-to-typescript-models', function(cb) {
  *   This task takes the Resource Resx files from both templates folder and Portal Resources Folder and converts them to json, it drops them into a intermediate 'convert' folder.
  *   Also it will change the file name format to Resources.<language code>.json
  */
-gulp.task('resources-convert', function() {
+gulp.task('resources-convert', function () {
   const portalResourceStream = gulp
     .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'])
     .pipe(resx2())
     .pipe(
-      rename(function(p) {
+      rename(function (p) {
         const language = p.dirname.split(path.sep)[0];
         if (!!language && language !== '.') {
           p.basename = 'Resources.' + language + '.default';
@@ -192,7 +186,7 @@ gulp.task('resources-convert', function() {
     .src(['templates/**/Resources/**/Resources.resx', '!templates/**/Resources/**/qps-*/**'])
     .pipe(resx2())
     .pipe(
-      rename(function(p) {
+      rename(function (p) {
         const parts = p.dirname.split(path.sep);
         const version = parts[0];
 
@@ -211,13 +205,13 @@ gulp.task('resources-convert', function() {
 /********
  *   This is the task takes the output of the  convert task and formats the json to be in the format that gets sent back to the client by the API, it's easier to do this here than at the end
  */
-gulp.task('resources-build', function() {
+gulp.task('resources-build', function () {
   const streams = [];
   streams.push(
     gulp
       .src(['resources-convert/**/Resources.*.json'])
       .pipe(
-        jeditor(function(json) {
+        jeditor(function (json) {
           const enver = require(path.normalize('../server/resources-convert/Resources.json'));
           const retVal = {
             lang: json,
@@ -234,7 +228,7 @@ gulp.task('resources-build', function() {
     gulp
       .src(['resources-convert/Resources.json'])
       .pipe(
-        jeditor(function(json) {
+        jeditor(function (json) {
           const retVal = {
             en: json,
           };
@@ -247,12 +241,12 @@ gulp.task('resources-build', function() {
 
   //This fetches all version folders for templates and makes sure the appropriate action is done to each one
   const TemplateVersionDirectories = getSubDirectories('templateResoureces-convert');
-  TemplateVersionDirectories.forEach(x => {
+  TemplateVersionDirectories.forEach((x) => {
     streams.push(
       gulp
         .src('templateResoureces-convert/' + x + '/Resources.*.json')
         .pipe(
-          jeditor(function(json) {
+          jeditor(function (json) {
             const enver = require(path.normalize('../server/templateResoureces-convert/' + x + '/Resources.json'));
             const retVal = {
               lang: json,
@@ -269,7 +263,7 @@ gulp.task('resources-build', function() {
       gulp
         .src('templateResoureces-convert/' + x + '/Resources.json')
         .pipe(
-          jeditor(function(json) {
+          jeditor(function (json) {
             const retVal = {
               en: json,
             };
@@ -296,15 +290,15 @@ const parentFolders = [];
 let streams = [];
 const baseNames = [];
 
-gulp.task('resources-combine', function() {
+gulp.task('resources-combine', function () {
   const TemplateVersionDirectories = getSubDirectories('templateresources-build');
   const s = [];
-  TemplateVersionDirectories.forEach(x => {
+  TemplateVersionDirectories.forEach((x) => {
     const folders = ['templateresources-build/' + x, 'resources-build'];
     getFiles(folders);
     makeStreams();
 
-    streams.forEach(stream => {
+    streams.forEach((stream) => {
       let fileName = path.basename(stream[stream.length - 1]);
 
       let dirName = path.dirname(stream[stream.length - 1]);
@@ -319,7 +313,7 @@ gulp.task('resources-combine', function() {
             })
           )
           .pipe(
-            rename(function(p) {
+            rename(function (p) {
               p.basename += '.' + x;
             })
           )
@@ -335,7 +329,7 @@ gulp.task('resources-combine', function() {
 });
 
 function makeStreams() {
-  files.forEach(function(file) {
+  files.forEach(function (file) {
     let thisParentFolders = path.dirname(file).substr(file.indexOf(path.sep));
 
     if (parentFolders.indexOf(thisParentFolders) === -1) {
@@ -343,39 +337,39 @@ function makeStreams() {
     }
   });
 
-  parentFolders.forEach(function(folder) {
+  parentFolders.forEach(function (folder) {
     let foldersFile = folder.substr(folder.indexOf(path.sep));
 
-    baseNames.forEach(function(baseName) {
+    baseNames.forEach(function (baseName) {
       streams.push(
-        files.filter(function(file) {
+        files.filter(function (file) {
           return file.endsWith(path.join(foldersFile, baseName));
         })
       );
     });
   });
-  streams = streams.filter(stream => stream.length >= 1);
+  streams = streams.filter((stream) => stream.length >= 1);
 }
 
 const templateVersionMap = {
   default: '1.0.3.10338',
-  '1': '1.0.3.10338',
+  1: '1.0.3.10338',
   beta: '2.1.0',
-  '2': '2.1.0',
-  '3': '3.1.1',
+  2: '2.1.0',
+  3: '3.1.1',
 };
 /*****
  * Copy function templates
  */
-gulp.task('copy-function-resources', function() {
-  return gulp.src("./function-resources/**").pipe(gulp.dest(`src/data/data/`));
+gulp.task('copy-function-resources', function () {
+  return gulp.src('./function-resources/**').pipe(gulp.dest(`src/data/data/`));
 });
 
-gulp.task('list-numeric-versions', function(cb) {
+gulp.task('list-numeric-versions', function (cb) {
   // Checks version matches patter x.x with unlimited .x and x being any numeric value
   const regex = /\d+(?:\.\d+)*/;
   const templateKeys = Object.keys(templateVersionMap);
-  const templateVersions = templateKeys.filter(x => regex.test(x));
+  const templateVersions = templateKeys.filter((x) => regex.test(x));
   let writePath = path.join(__dirname, 'src', 'data', 'data');
   if (!fs.existsSync(writePath)) {
     fs.mkdirSync(writePath);
@@ -431,7 +425,7 @@ function getSubDirectories(folder) {
   if (!fs.existsSync(folder)) {
     return [];
   }
-  const dir = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
+  const dir = (p) => fs.readdirSync(p).filter((f) => fs.statSync(path.join(p, f)).isDirectory());
   return dir(folder);
 }
 
@@ -440,10 +434,10 @@ function getFilesWithContent(folder, filesToIgnore) {
     return {};
   }
   let obj = {};
-  const fileNames = fs.readdirSync(folder).filter(f => fs.statSync(path.join(folder, f)).isFile());
+  const fileNames = fs.readdirSync(folder).filter((f) => fs.statSync(path.join(folder, f)).isFile());
   fileNames
-    .filter(x => filesToIgnore.indexOf(x) === -1)
-    .forEach(fileName => {
+    .filter((x) => filesToIgnore.indexOf(x) === -1)
+    .forEach((fileName) => {
       const fileContent = fs.readFileSync(path.join(folder, fileName), {
         encoding: 'utf8',
       });
@@ -454,7 +448,7 @@ function getFilesWithContent(folder, filesToIgnore) {
 }
 
 function newGuid() {
-  return 'xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  return 'xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
       v = c == 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
@@ -468,10 +462,10 @@ function getBuildVersion() {
 function getFiles(folders) {
   let possibleDirectory;
 
-  folders.forEach(function(folder, index) {
+  folders.forEach(function (folder, index) {
     let tempFiles = fs.readdirSync('./' + folder);
 
-    tempFiles.forEach(function(fileOrDirectory) {
+    tempFiles.forEach(function (fileOrDirectory) {
       possibleDirectory = path.join(folder, fileOrDirectory);
       if (fs.lstatSync(possibleDirectory).isDirectory()) {
         getFiles([possibleDirectory]);
