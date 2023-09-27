@@ -428,13 +428,6 @@ export class StepCompleteComponent {
     const wizValues = this.wizard.wizardValues;
     const sourceProvider = wizValues.sourceProvider;
     const returnSummaryItems = [];
-    if (sourceProvider === 'dropbox' || sourceProvider === 'onedrive') {
-      returnSummaryItems.push({
-        label: this._translateService.instant(PortalResources.folder),
-        value: wizValues.sourceSettings.repoUrl,
-      });
-    }
-
     if (sourceProvider === 'github' || sourceProvider === 'bitbucket' || sourceProvider === 'external' || sourceProvider === 'vsts') {
       returnSummaryItems.push({
         label: this._translateService.instant(PortalResources.repository),

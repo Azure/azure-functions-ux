@@ -1,24 +1,22 @@
-import ContainerLogsService from '../../../ApiHelpers/ContainerLogsService';
-import { ArmObj, MsiIdentity } from '../../../models/arm-obj';
-import { PublishingUser } from '../../../models/site/publish';
-import ProviderService from '../../../ApiHelpers/ProviderService';
-import SiteService from '../../../ApiHelpers/SiteService';
-import GitHubService from '../../../ApiHelpers/GitHubService';
-import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
-import { GitHubActionWorkflowRequestContent } from '../../../models/github';
-import { ProviderToken } from '../../../models/provider';
-import BitbucketService from '../../../ApiHelpers/BitbucketService';
-import OneDriveService from '../../../ApiHelpers/OneDriveService';
 import ACRService from '../../../ApiHelpers/ACRService';
-import { ACRWebhookPayload } from '../../../models/acr';
-import { SiteConfig } from '../../../models/site/config';
-import { KeyValue } from '../../../models/portal-models';
-import { RoleAssignment, SourceControlOptions } from './DeploymentCenter.types';
-import DropboxService from '../../../ApiHelpers/DropboxService';
-import { AppStackOs } from '../../../models/stacks/app-stacks';
-import AzureDevOpsService from '../../../AzureDevOpsService';
-import PortalCommunicator from '../../../portal-communicator';
 import AuthService from '../../../ApiHelpers/AuthService';
+import BitbucketService from '../../../ApiHelpers/BitbucketService';
+import ContainerLogsService from '../../../ApiHelpers/ContainerLogsService';
+import GitHubService from '../../../ApiHelpers/GitHubService';
+import ProviderService from '../../../ApiHelpers/ProviderService';
+import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
+import SiteService from '../../../ApiHelpers/SiteService';
+import AzureDevOpsService from '../../../AzureDevOpsService';
+import { ACRWebhookPayload } from '../../../models/acr';
+import { ArmObj, MsiIdentity } from '../../../models/arm-obj';
+import { GitHubActionWorkflowRequestContent } from '../../../models/github';
+import { KeyValue } from '../../../models/portal-models';
+import { ProviderToken } from '../../../models/provider';
+import { SiteConfig } from '../../../models/site/config';
+import { PublishingUser } from '../../../models/site/publish';
+import { AppStackOs } from '../../../models/stacks/app-stacks';
+import PortalCommunicator from '../../../portal-communicator';
+import { RoleAssignment, SourceControlOptions } from './DeploymentCenter.types';
 import ManagedIdentityService from '../../../ApiHelpers/ManagedIdentityService';
 import GraphService from '../../../ApiHelpers/GraphService';
 
@@ -210,48 +208,6 @@ export default class DeploymentCenterData {
 
   public getBitbucketBranches = (org: string, repo: string, bitbucketToken: string, logger?: (page, response) => void) => {
     return BitbucketService.getBranches(org, repo, bitbucketToken, logger);
-  };
-
-  public getOneDriveUser = (oneDriveToken: string) => {
-    return OneDriveService.getUser(oneDriveToken);
-  };
-
-  public getOneDriveToken = (oneDriveToken: string) => {
-    return OneDriveService.getToken(oneDriveToken);
-  };
-
-  public storeOneDriveToken = (providerToken: ProviderToken) => {
-    return ProviderService.updateUserSourceControl(
-      SourceControlOptions.OneDrive,
-      providerToken.accessToken,
-      providerToken.refreshToken,
-      providerToken.environment
-    );
-  };
-
-  public getOneDriveFolders = (oneDriveToken: string) => {
-    return OneDriveService.getFolders(oneDriveToken);
-  };
-
-  public getDropboxUser = (dropboxToken: string) => {
-    return DropboxService.getUser(dropboxToken);
-  };
-
-  public getDropboxToken = (dropboxToken: string) => {
-    return DropboxService.getToken(dropboxToken);
-  };
-
-  public storeDropboxToken = (providerToken: ProviderToken) => {
-    return ProviderService.updateUserSourceControl(
-      SourceControlOptions.Dropbox,
-      providerToken.accessToken,
-      providerToken.refreshToken,
-      providerToken.environment
-    );
-  };
-
-  public getDropboxFolders = (dropboxToken: string) => {
-    return DropboxService.getFolders(dropboxToken);
   };
 
   public getAcrRegistries = (subscriptionId: string) => {

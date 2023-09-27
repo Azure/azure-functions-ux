@@ -8,8 +8,6 @@ import { GitHubUser } from '../../../models/github';
 import { IDropdownOption, IChoiceGroupOption, MessageBarType } from '@fluentui/react';
 import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
-import { OneDriveUser } from '../../../models/onedrive';
-import { DropboxUser } from '../../../models/dropbox';
 import { KeyValue } from '../../../models/portal-models';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { IDeploymentCenterContext } from './DeploymentCenterContext';
@@ -18,8 +16,6 @@ import PortalCommunicator from '../../../portal-communicator';
 export enum SourceControlOptions {
   GitHub = 'github',
   Bitbucket = 'bitbucket',
-  OneDrive = 'onedrive',
-  Dropbox = 'dropbox',
 }
 
 export enum ContainerOptions {
@@ -319,8 +315,6 @@ export interface DeploymentCenterCommonFormData {
   externalPassword?: string;
   gitHubUser?: GitHubUser;
   bitbucketUser?: BitbucketUser;
-  oneDriveUser?: OneDriveUser;
-  dropboxUser?: DropboxUser;
   folder?: string;
   devOpsProjectName?: string;
   searchTerm?: string;
@@ -710,24 +704,6 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   isVnetConfigured?: boolean;
   legacyVnetAppSetting?: string;
   defaultVnetImagePullSetting?: SettingOption;
-}
-
-export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-  extends DeploymentCenterFieldProps<T> {
-  authorizeAccount: () => void;
-  folderOptions: IDropdownOption[];
-  loadingFolders: boolean;
-  accountStatusMessage?: string;
-  accountUser?: OneDriveUser;
-}
-
-export interface DeploymentCenterDropboxProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-  extends DeploymentCenterFieldProps<T> {
-  authorizeAccount: () => void;
-  folderOptions: IDropdownOption[];
-  loadingFolders: boolean;
-  accountStatusMessage?: string;
-  accountUser?: DropboxUser;
 }
 
 export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>

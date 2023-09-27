@@ -47,7 +47,10 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:schema id="root"
+        xmlns=""
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
@@ -2462,7 +2465,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>configure Application Insights for your function app</value>
     </data>
     <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
-        <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
+        <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named 'staging' then the new slot will have a URL like 'http://contoso-staging.azurewebsites.net'.</value>
     </data>
     <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
         <value>Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans.</value>
@@ -4449,7 +4452,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Python Hello World</value>
     </data>
     <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
-        <value>Python “Hello World” sample app.</value>
+        <value>Python "Hello World" sample app.</value>
     </data>
     <data name="singleContainerSample3TitleLinux" xml:space="preserve">
         <value>Static site</value>
@@ -6022,13 +6025,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Save workflow file</value>
     </data>
     <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Saving allows you to keep any edits you've made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
     <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
         <value>Delete workflow file</value>
     </data>
     <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>File will be removed, and future commits won't trigger deployments to this app.</value>
     </data>
     <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
         <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
@@ -6949,10 +6952,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.</value>
     </data>
     <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
-        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
+        <value>You're now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
     <data name="deploymentCenterOneDriveDropboxWarning" xml:space="preserve">
-        <value>Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.</value>
+        <value>Your site is currently using configured with an unsupported integration. Please migrate to a different deployment source.</value>
     </data>
     <data name="deploymentCenterNoWritePermissionsError" xml:space="preserve">
         <value>You do not have write permissions to make any changes.</value>
@@ -7317,7 +7320,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about why CI/CD is not recommended for production slots.</value>
     </data>
-    <data name="deploymentCenterOnedriveDropboxLinkAriaLabel" xml:space="preserve">
+    <data name="deploymentCenterOneDriveDropboxLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about this integrations retirement.</value>
     </data>
     <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
@@ -7791,7 +7794,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="ibizafication_readOnlyDotnetIsolated" xml:space="preserve">
         <value>Editing .NET Isolated Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
-    </data>    
+    </data>
     <data name="consoleContainerTextAreaAriaLabel" xml:space="preserve">
         <value>Console text area container</value>
     </data>
@@ -7816,16 +7819,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
         <value>Toggle selection for all application settings</value>
     </data>
-      <data name="toggleSnippetSelectionAriaLabel" xml:space="preserve">
+    <data name="toggleSnippetSelectionAriaLabel" xml:space="preserve">
         <value>Toggle selection of snippets</value>
     </data>
-     <data name="selectSnippetAriaLabel" xml:space="preserve">
+    <data name="selectSnippetAriaLabel" xml:space="preserve">
         <value>Select snippet</value>
     </data>
-     <data name="toggleAllSnippetsAriaLabel" xml:space="preserve">
+    <data name="toggleAllSnippetsAriaLabel" xml:space="preserve">
         <value>Toggle selection for all snippets</value>
     </data>
-     <data name="hideButton" xml:space="preserve">
+    <data name="hideButton" xml:space="preserve">
         <value>Hide value button</value>
     </data>
     <data name="showButton" xml:space="preserve">

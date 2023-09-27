@@ -59,18 +59,7 @@ export class DeploymentCenterSetupModel {
   public vstsBuildSettings: VstsBuildSettings;
 }
 
-export type sourceControlProvider =
-  | 'dropbox'
-  | 'onedrive'
-  | 'github'
-  | 'vsts'
-  | 'external'
-  | 'bitbucket'
-  | 'localgit'
-  | 'ftp'
-  | 'webdeploy'
-  | 'kudu'
-  | 'zip';
+export type sourceControlProvider = 'github' | 'vsts' | 'external' | 'bitbucket' | 'localgit' | 'ftp' | 'webdeploy' | 'kudu' | 'zip';
 
 // THESE MODELS AND ENUMS COME DIRECTLY FROM VSO
 

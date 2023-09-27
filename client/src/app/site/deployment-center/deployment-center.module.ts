@@ -11,8 +11,6 @@ import { StepCompleteComponent } from 'app/site/deployment-center/deployment-cen
 import { StepConfigureComponent } from 'app/site/deployment-center/deployment-center-setup/step-configure/step-configure.component';
 import { DeploymentDetailComponent } from 'app/site/deployment-center/provider-dashboards/kudu-dashboard/deployment-detail/deployment-detail.component';
 import { WizardModule } from 'app/controls/form-wizard/wizard.module';
-import { ConfigureDropboxComponent } from './deployment-center-setup/step-configure/configure-dropbox/configure-dropbox.component';
-import { ConfigureOnedriveComponent } from './deployment-center-setup/step-configure/configure-onedrive/configure-onedrive.component';
 import { ConfigureVstsSourceComponent } from './deployment-center-setup/step-configure/configure-vsts-source/configure-vsts-source.component';
 import { ConfigureExternalComponent } from './deployment-center-setup/step-configure/configure-external/configure-external.component';
 import { ConfigureBitbucketComponent } from './deployment-center-setup/step-configure/configure-bitbucket/configure-bitbucket.component';
@@ -40,8 +38,6 @@ import { GitHubDeploymentDetailComponent } from './provider-dashboards/github-ac
     StepCompleteComponent,
     StepBuildProviderComponent,
     DeploymentDetailComponent,
-    ConfigureDropboxComponent,
-    ConfigureOnedriveComponent,
     ConfigureVstsSourceComponent,
     ConfigureExternalComponent,
     ConfigureBitbucketComponent,

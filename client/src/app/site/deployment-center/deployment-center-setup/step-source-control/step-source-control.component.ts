@@ -1,17 +1,17 @@
 import { Component } from '@angular/core';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
-import { CacheService } from 'app/shared/services/cache.service';
-import { Constants, LogCategories, ScenarioIds, KeyCodes } from 'app/shared/models/constants';
-import { Subject } from 'rxjs/Subject';
-import { LogService } from 'app/shared/services/log.service';
-import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { ProviderCard } from '../../Models/provider-card';
-import { BroadcastService } from '../../../../shared/services/broadcast.service';
+import { Constants, KeyCodes, LogCategories, ScenarioIds } from 'app/shared/models/constants';
+import { CacheService } from 'app/shared/services/cache.service';
+import { LogService } from 'app/shared/services/log.service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
+import { Subject } from 'rxjs';
+import { Observable } from 'rxjs/Observable';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { ProviderService } from '../../../../shared/services/provider.service';
+import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { ProviderCard } from '../../Models/provider-card';
 
 @Component({
   selector: 'app-step-source-control',
@@ -92,16 +92,12 @@ export class StepSourceControlComponent {
 
   public authStateError = false;
   private _githubAuthed = false;
-  private _onedriveAuthed = false;
-  private _dropboxAuthed = false;
   private _bitbucketAuthed = false;
 
   continuousDeploymentProviderCards: ProviderCard[] = [];
   manualDeploymentProviderCards: ProviderCard[] = [];
 
   githubUserSubject$ = new Subject<boolean>();
-  onedriveUserSubject$ = new Subject<boolean>();
-  dropboxUserSubject$ = new Subject<boolean>();
   bitbucketUserSubject$ = new Subject<boolean>();
 
   public selectedProvider: ProviderCard = null;
@@ -202,53 +198,6 @@ export class StepSourceControlComponent {
           this._logService.error(LogCategories.cicd, '/fetch-bitbucket-user', err);
         }
       );
-
-    this.onedriveUserSubject$
-      .takeUntil(this._ngUnsubscribe$)
-      .filter(r => r)
-      .do(() => {
-        this.setProviderCardStatus('onedrive', 'loadingAuth');
-      })
-
-      .delay(3000)
-      .switchMap(() =>
-        this._cacheService.post(Constants.serviceHost + 'api/onedrive/passthrough', true, null, {
-          url: 'https://api.onedrive.com/v1.0/drive',
-          oneDriveToken: this._wizardService.oneDriveToken$.getValue(),
-        })
-      )
-      .subscribe(
-        r => {
-          this.setProviderCardStatus('onedrive', 'authorized', r.json().owner.user.displayName);
-        },
-        err => {
-          this.setProviderCardStatus('onedrive', 'notAuthorized');
-          this._logService.error(LogCategories.cicd, '/fetch-onedrive-user', err);
-        }
-      );
-
-    this.dropboxUserSubject$
-      .takeUntil(this._ngUnsubscribe$)
-      .filter(r => r)
-      .do(() => {
-        this.setProviderCardStatus('dropbox', 'loadingAuth');
-      })
-      .delay(3000)
-      .switchMap(() =>
-        this._cacheService.post(Constants.serviceHost + 'api/dropbox/passthrough', true, null, {
-          url: 'https://api.dropboxapi.com/2/users/get_current_account',
-          dropBoxToken: this._wizardService.dropBoxToken$.getValue(),
-        })
-      )
-      .subscribe(
-        r => {
-          this.setProviderCardStatus('dropbox', 'authorized', r.json().name.display_name);
-        },
-        err => {
-          this.setProviderCardStatus('dropbox', 'notAuthorized');
-          this._logService.error(LogCategories.cicd, '/fetch-dropbox-user', err);
-        }
-      );
   }
 
   private _setupProviderTokenSubscribers() {
@@ -273,32 +222,6 @@ export class StepSourceControlComponent {
           this._logService.error(LogCategories.cicd, '/fetch-current-auth-state', err);
         }
       );
-
-    this._wizardService.oneDriveToken$
-      .takeUntil(this._ngUnsubscribe$)
-      .distinctUntilChanged()
-      .subscribe(token => {
-        this._onedriveAuthed = !!token;
-
-        if (this._onedriveAuthed) {
-          this.onedriveUserSubject$.next(this._onedriveAuthed);
-        } else {
-          this.setProviderCardStatus('onedrive', 'notAuthorized');
-        }
-      });
-
-    this._wizardService.dropBoxToken$
-      .takeUntil(this._ngUnsubscribe$)
-      .distinctUntilChanged()
-      .subscribe(token => {
-        this._dropboxAuthed = !!token;
-
-        if (this._dropboxAuthed) {
-          this.dropboxUserSubject$.next(this._dropboxAuthed);
-        } else {
-          this.setProviderCardStatus('dropbox', 'notAuthorized');
-        }
-      });
 
     this._wizardService.bitBucketToken$
       .takeUntil(this._ngUnsubscribe$)
@@ -368,15 +291,9 @@ export class StepSourceControlComponent {
   }
 
   updateProvider(provider: string) {
-    if (provider === 'dropbox') {
-      this._dropboxAuthed = true;
-      this.dropboxUserSubject$.next(true);
-    } else if (provider === 'github') {
+    if (provider === 'github') {
       this._githubAuthed = true;
       this.githubUserSubject$.next(true);
-    } else if (provider === 'onedrive') {
-      this._onedriveAuthed = true;
-      this.onedriveUserSubject$.next(true);
     } else if (provider === 'bitbucket') {
       this._bitbucketAuthed = true;
       this.bitbucketUserSubject$.next(true);
@@ -407,12 +324,6 @@ export class StepSourceControlComponent {
                   const responseJson = response.json();
 
                   switch (provider) {
-                    case 'dropbox':
-                      this._wizardService.dropBoxToken$.next(responseJson.accessToken);
-                      break;
-                    case 'onedrive':
-                      this._wizardService.oneDriveToken$.next(responseJson.accessToken);
-                      break;
                     case 'bitbucket':
                       this._wizardService.bitBucketToken$.next(responseJson.accessToken);
                       break;

@@ -65,8 +65,6 @@ export class DeploymentCenterSetupComponent implements OnChanges {
       this.wizard.wizardForm.controls['sourceProvider'] &&
       this.wizard.wizardForm.controls['sourceProvider'].value;
     return (
-      sourceControlProvider !== 'onedrive' &&
-      sourceControlProvider !== 'dropbox' &&
       sourceControlProvider !== 'bitbucket' &&
       sourceControlProvider !== 'ftp' &&
       sourceControlProvider !== 'webdeploy' &&

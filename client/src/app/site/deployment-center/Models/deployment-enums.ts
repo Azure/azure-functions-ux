@@ -22,9 +22,6 @@ export type ProviderType =
   | 'ExternalGit'
   | 'GitHub'
   | 'LocalGit'
-  | 'Dropbox'
-  | 'DropboxV2'
-  | 'OneDrive'
   | 'VSO'
   | 'GitHubAction';
 
