@@ -209,7 +209,7 @@ export const changeAccountInfoButtonStyle = style({
 });
 
 export const addIdentityLinkStyle = style({
-  padding: '10px 10px 10px 9px',
+  paddingBottom: '10px',
 });
 
 export const buttonFooterStyle = (theme: ThemeExtended): string =>

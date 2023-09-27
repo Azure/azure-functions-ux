@@ -467,22 +467,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setSubscription(subscription);
   };
 
-  const openIdentityBlade = async () => {
-    const response = await portalContext.openBlade({
-      detailBlade: 'AzureResourceIdentitiesBladeV2',
-      extension: 'Microsoft_Azure_ManagedServiceIdentity',
-      detailBladeInputs: {
-        resourceId: deploymentCenterContext.resourceId,
-        apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
-        systemAssignedStatus: 2, // IdentityStatus.Supported
-        userAssignedStatus: 2, // IdentityStatus.Supported
-      },
-    });
-    if (response) {
-      fetchManagedIdentityOptions();
-    }
-  };
-
   const setManagedIdentityPrincipalId = (clientId: string) => {
     formProps.values.acrManagedIdentityPrincipalId = managedIdentityInfo.current[clientId]?.principalId || '';
   };
@@ -548,6 +532,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       fetchImages={fetchRepositories}
       fetchTags={fetchTags}
       fetchRegistriesInSub={setRegistriesInSub}
+      fetchManagedIdentityOptions={fetchManagedIdentityOptions}
       acrSubscriptionOptions={subscriptionOptions}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}
@@ -562,7 +547,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       managedIdentityOptions={managedIdentityOptions}
       loadingManagedIdentities={loadingManagedIdentities}
       learnMoreLink={learnMoreLink}
-      openIdentityBlade={openIdentityBlade}
       isVnetConfigured={isVnetConfigured}
       legacyVnetAppSetting={legacyVnetAppSetting}
       defaultVnetImagePullSetting={defaultVnetImagePullSetting}

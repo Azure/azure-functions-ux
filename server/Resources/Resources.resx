@@ -1601,7 +1601,7 @@
         <value>production</value>
     </data>
     <data name="clientAffinityEnabledLabel" xml:space="preserve">
-        <value>ARR affinity</value>
+        <value>Session affinity</value>
     </data>
     <data name="httpsOnlyInfoBoxText" xml:space="preserve">
         <value>Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.</value>
@@ -7100,9 +7100,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="javaWebServerVersion" xml:space="preserve">
         <value>Java web server version</value>
-    </data>
-    <data name="ftpDisabledByPolicy" xml:space="preserve">
-        <value>FTP is disabled by access policy.</value>
     </data>
     <data name="ibizafication_readOnlyCustom" xml:space="preserve">
         <value>Editing Function Apps using CustomHandler is not supported in the Azure portal. Use your local development environment to edit this function.</value>

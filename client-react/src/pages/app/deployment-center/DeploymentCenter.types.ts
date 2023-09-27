@@ -686,6 +686,7 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   fetchImages: (loginServer: string) => void;
   fetchTags: (image: string) => void;
   fetchRegistriesInSub(subscription: string);
+  fetchManagedIdentityOptions: () => void;
   acrSubscriptionOptions: IDropdownOption[];
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
@@ -700,7 +701,6 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   managedIdentityOptions: IDropdownOption[];
   loadingManagedIdentities: boolean;
   learnMoreLink?: string;
-  openIdentityBlade: () => void;
   isVnetConfigured?: boolean;
   legacyVnetAppSetting?: string;
   defaultVnetImagePullSetting?: SettingOption;
