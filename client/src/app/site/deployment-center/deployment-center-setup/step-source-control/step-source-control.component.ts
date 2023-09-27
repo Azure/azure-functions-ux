@@ -1,16 +1,16 @@
 import { Component } from '@angular/core';
-import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
-import { CacheService } from 'app/shared/services/cache.service';
-import { Constants, LogCategories, ScenarioIds, KeyCodes } from 'app/shared/models/constants';
-import { LogService } from 'app/shared/services/log.service';
-import { Observable } from 'rxjs/Observable';
 import { TranslateService } from '@ngx-translate/core';
-import { ProviderCard } from '../../Models/provider-card';
-import { BroadcastService } from '../../../../shared/services/broadcast.service';
+import { Constants, KeyCodes, LogCategories, ScenarioIds } from 'app/shared/models/constants';
+import { CacheService } from 'app/shared/services/cache.service';
+import { LogService } from 'app/shared/services/log.service';
+import { DeploymentCenterStateManager } from 'app/site/deployment-center/deployment-center-setup/wizard-logic/deployment-center-state-manager';
+import { Observable } from 'rxjs/Observable';
 import { BroadcastEvent } from '../../../../shared/models/broadcast-event';
 import { PortalResources } from '../../../../shared/models/portal-resources';
-import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { BroadcastService } from '../../../../shared/services/broadcast.service';
 import { ProviderService } from '../../../../shared/services/provider.service';
+import { ScenarioService } from '../../../../shared/services/scenario/scenario.service';
+import { ProviderCard } from '../../Models/provider-card';
 
 @Component({
   selector: 'app-step-source-control',
