@@ -126,6 +126,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
         name="authType"
         component={RadioButton}
         options={authTypeOptions}
+        displayInVerticalLayout={true}
         required
       />
     </div>

@@ -2392,7 +2392,7 @@ export class PortalResources {
   public static deploymentCenterContainerAcrFailedToLoadTags = 'deploymentCenterContainerAcrFailedToLoadTags';
   public static moreCommands = 'moreCommands';
   public static deploymentCenterProdSlotWarningLinkAriaLabel = 'deploymentCenterProdSlotWarningLinkAriaLabel';
-  public static deploymentCenterOnedriveDropboxLinkAriaLabel = 'deploymentCenterOnedriveDropboxLinkAriaLabel';
+  public static deploymentCenterOneDriveDropboxLinkAriaLabel = 'deploymentCenterOneDriveDropboxLinkAriaLabel';
   public static deploymentCenterCodeRedeployCommitRequestSubmittedDesc = 'deploymentCenterCodeRedeployCommitRequestSubmittedDesc';
   public static deploymentCenterCodeRedeployCommitSuccess = 'deploymentCenterCodeRedeployCommitSuccess';
   public static deploymentCenterCodeRedeployCommitFailed = 'deploymentCenterCodeRedeployCommitFailed';

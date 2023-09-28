@@ -91,34 +91,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             principalId: identityArmObj.properties.principalId,
             tenantId: identityArmObj.properties.tenantId,
           };
-          const putContributorRole = deploymentCenterData
-            .getRoleAssignmentsWithScope(deploymentCenterContext.resourceId, identityArmObj.properties.principalId)
-            .then(async getRoleAssignmentsResponse => {
-              if (getRoleAssignmentsResponse.metadata.success) {
-                const hasContributorRole = deploymentCenterData.hasRoleAssignment(
-                  RBACRoleId.contributor,
-                  getRoleAssignmentsResponse.data.value
-                );
-                if (!hasContributorRole) {
-                  return await deploymentCenterData.putRoleAssignmentWithScope(
-                    RBACRoleId.contributor,
-                    deploymentCenterContext.resourceId,
-                    identityArmObj.properties.principalId,
-                    PrincipalType.servicePrincipal
-                  );
-                }
-              } else {
-                portalContext.log(
-                  getTelemetryInfo('error', 'getIdentityRoleAssignmentsResponse', 'failed', {
-                    message: getErrorMessage(getRoleAssignmentsResponse.metadata.error),
-                    errorAsString: getRoleAssignmentsResponse.metadata.error
-                      ? JSON.stringify(getRoleAssignmentsResponse.metadata.error)
-                      : '',
-                  })
-                );
-                return getRoleAssignmentsResponse;
-              }
-            });
+
+          const putContributorRole = deploymentCenterData.putRoleAssignmentWithScope(
+            RBACRoleId.contributor,
+            deploymentCenterContext.resourceId,
+            identityArmObj.properties.principalId,
+            PrincipalType.servicePrincipal
+          );
 
           const addFederatedCredential = deploymentCenterData.putFederatedCredential(
             createUserAssignedIdentityResponse.data.id,
