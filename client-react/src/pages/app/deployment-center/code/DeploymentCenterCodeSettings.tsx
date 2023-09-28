@@ -14,7 +14,6 @@ import LogService from '../../../../utils/LogService';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import {
   AppType,
-  AuthType,
   DeploymentCenterCodeFormData,
   DeploymentCenterFieldProps,
   PublishType,
@@ -222,11 +221,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
       (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig && githubActionExistingWorkflowContents);
 
-    const authTypeFormFilled = showDCAuthSettings
-      ? formProps.values?.authType === AuthType.Oidc
-        ? !!formProps.values?.authIdentity
-        : !!formProps.values.authType
-      : true;
+    const authTypeFormFilled = showDCAuthSettings ? !!formProps.values.authType : true;
 
     const formFilled =
       formProps.values.workflowOption !== WorkflowOption.None &&

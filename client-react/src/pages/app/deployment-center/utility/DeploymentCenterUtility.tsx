@@ -585,8 +585,17 @@ export const getAcrNameFromLoginServer = (loginServer: string): string => {
 export const getFederatedCredentialName = (fullRepoName: string): string => {
   const guid = Guid.newGuid();
   if (fullRepoName.length + guid.length > 120) {
-    return `${truncate(fullRepoName, { length: 120 - guid.length })}-${guid}`;
+    return `${truncate(fullRepoName, { length: 120 - guid.length, omission: '' })}-${guid}`;
   }
 
   return `${fullRepoName}-${guid}`;
+};
+
+export const getUserAssignedIdentityName = (appName: string): string => {
+  const guid = Guid.newTinyGuid();
+  if (`${appName}-id-${guid}`.length > 24) {
+    return `${truncate(appName, { length: 24 - `-id-${guid}`.length, omission: '' })}-id-${guid}`;
+  }
+
+  return `${appName}-id-${guid}`;
 };

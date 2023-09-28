@@ -41,7 +41,7 @@ export abstract class DeploymentCenterFormBuilder {
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
       devOpsProject: '',
-      hasPermissionToAssignRBAC: false,
+      authType: AuthType.PublishProfile,
       hasOidcFlightEnabled: false,
     };
   }
@@ -152,9 +152,7 @@ export abstract class DeploymentCenterFormBuilder {
           return value !== AuthType.Oidc;
         }),
       }),
-      authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.authType === AuthType.Oidc ? !!value : true;
-      }),
+      authIdentity: Yup.mixed().notRequired(),
       hasPermissionToAssignRBAC: Yup.boolean().notRequired(),
       hasOidcFlightEnabled: Yup.boolean().notRequired(),
     };

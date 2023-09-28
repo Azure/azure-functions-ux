@@ -7841,13 +7841,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Authentication settings</value>
     </data>
     <data name="authenticationSettingsDescription" xml:space="preserve">
-        <value>Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.</value>
+        <value>Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.</value>
     </data>
     <data name="authenticationSettingsFederatedIdentity" xml:space="preserve">
         <value>Federated identity (OIDC) (Preferred)</value>
     </data>
     <data name="authenticationSettingsUserAssignedManagedIdentity" xml:space="preserve">
-        <value>User-assigned managed identity</value>
+        <value>User-assigned identity (Preview)</value>
     </data>
     <data name="authenticationSettingsBasicAuthentication" xml:space="preserve">
         <value>Basic authentication</value>
@@ -7868,6 +7868,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>You do not have sufficient permissions on this app to assign role-based access to a managed identity and configure federated credentials.</value>
     </data>
     <data name="authenticationSettingsIdentityPermissionsLinkAriaLabel" xml:space="preserve">
-        <value>Click here to learn more about how to manage a federated identity credentials on a user-assigned managed identity.</value>
+        <value>Click here to learn more about how to manage federated identity credentials on a user-assigned identity.</value>
     </data>
 </root>

@@ -16,6 +16,26 @@ export default class ManagedIdentityService {
     });
   };
 
+  public static createUserAssignedIdentity = (
+    resourceGroupId: string,
+    identityName: string,
+    location: string,
+    apiVersion = CommonConstants.ApiVersions.managedIdentityApiVersion20230131
+  ) => {
+    const resourceId = `${resourceGroupId}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/${identityName}`;
+    const body = {
+      location,
+    };
+
+    return MakeArmCall<ArmObj<UserAssignedIdentity>, { location: string }>({
+      method: 'PUT',
+      resourceId: resourceId,
+      commandName: 'createUserAssignedIdentity',
+      body: body,
+      apiVersion,
+    });
+  };
+
   public static readonly OIDCFederatedCredentials = {
     issuer: 'https://token.actions.githubusercontent.com',
     audiences: ['api://AzureADTokenExchange'],

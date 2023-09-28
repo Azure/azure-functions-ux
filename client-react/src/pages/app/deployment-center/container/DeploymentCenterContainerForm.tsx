@@ -374,7 +374,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       if (values.acrManagedIdentityClientId === ManagedIdentityType.systemAssigned) {
         portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
         const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId, siteIdentity);
-        if (response.metadata.success) {
+        if (response.metadata.success && response.data.identity) {
           principalId = response.data.identity.principalId;
         } else {
           portalContext.log(getTelemetryInfo('error', 'enableSystemAssignedIdentity', 'failed'));

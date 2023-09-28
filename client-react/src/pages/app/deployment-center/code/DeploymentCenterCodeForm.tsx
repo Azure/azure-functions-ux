@@ -39,6 +39,7 @@ import {
   getFederatedCredentialName,
   getSourceControlsWorkflowFileName,
   getTelemetryInfo,
+  getUserAssignedIdentityName,
   getWorkflowFileName,
   getWorkflowFilePath,
 } from '../utility/DeploymentCenterUtility';
@@ -51,6 +52,7 @@ import {
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -64,13 +66,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    //(NOTE: stpelleg) Only external git is expected to be manual integration
-    // If manual integration is true the site config scm type is set to be external
-    const deployGithubActionsWithSourceControlsApi = !siteStateContext.isKubeApp && values.buildProvider === BuildProvider.GitHubAction;
-    const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody = deployGithubActionsWithSourceControlsApi
-      ? getGitHubActionsSourceControlsPayload(values)
-      : getKuduSourceControlsPayload(values);
-
     if (values.sourceProvider === ScmType.LocalGit) {
       return deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
         properties: {
@@ -78,67 +73,83 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      if (deploymentCenterContext.hasOidcFlightEnabled && values.authType === AuthType.Oidc && values.authIdentity) {
-        const putContributorRole = deploymentCenterData
-          .getRoleAssignmentsWithScope(deploymentCenterContext.resourceId, values.authIdentity.principalId)
-          .then(async getRoleAssignmentsResponse => {
-            if (getRoleAssignmentsResponse.metadata.success) {
-              const hasContributorRole = deploymentCenterData.hasRoleAssignment(
-                RBACRoleId.contributor,
-                getRoleAssignmentsResponse.data.value
-              );
-              if (!hasContributorRole && values.authIdentity) {
-                return await deploymentCenterData.putRoleAssignmentWithScope(
-                  RBACRoleId.contributor,
-                  deploymentCenterContext.resourceId,
-                  values.authIdentity.principalId,
-                  PrincipalType.servicePrincipal
-                );
-              }
-            } else {
-              portalContext.log(
-                getTelemetryInfo('error', 'getIdentityRoleAssignmentsResponse', 'failed', {
-                  message: getErrorMessage(getRoleAssignmentsResponse.metadata.error),
-                  errorAsString: getRoleAssignmentsResponse.metadata.error ? JSON.stringify(getRoleAssignmentsResponse.metadata.error) : '',
-                })
-              );
-              return getRoleAssignmentsResponse;
-            }
-          });
-
-        const addFederatedCredential = deploymentCenterData.putFederatedCredential(
-          values.authIdentity.resourceId,
-          getFederatedCredentialName(`${values.org}-${values.repo}`),
-          `${values.org}/${values.repo}`
+      if (deploymentCenterContext.hasOidcFlightEnabled && values.authType === AuthType.Oidc && siteStateContext.site) {
+        portalContext.log(getTelemetryInfo('info', 'createUserAssignedIdentityForOidc', 'submit'));
+        const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
+        const createUserAssignedIdentityResponse = await deploymentCenterData.createUserAssignedIdentity(
+          `/subscriptions/${armId.subscription}/resourceGroups/${armId.resourceGroup}`,
+          getUserAssignedIdentityName(armId.resourceName),
+          siteStateContext.site.location
         );
+        if (createUserAssignedIdentityResponse.metadata.success) {
+          const identityArmObj = createUserAssignedIdentityResponse.data;
+          values.authIdentity = {
+            resourceId: identityArmObj.id,
+            name: identityArmObj.name,
+            subscriptionId: armId.subscription,
+            clientId: identityArmObj.properties.clientId,
+            principalId: identityArmObj.properties.principalId,
+            tenantId: identityArmObj.properties.tenantId,
+          };
 
-        const [putContributorRoleResponse, addFederatedCredentialResponse] = await Promise.all([
-          putContributorRole,
-          addFederatedCredential,
-        ]);
-
-        if (putContributorRoleResponse && !putContributorRoleResponse.metadata.success) {
-          portalContext.log(
-            getTelemetryInfo('error', 'putContributorRoleResponse', 'failed', {
-              message: getErrorMessage(putContributorRoleResponse.metadata.error),
-              errorAsString: putContributorRoleResponse.metadata.error ? JSON.stringify(putContributorRoleResponse.metadata.error) : '',
-            })
+          const putContributorRole = deploymentCenterData.putRoleAssignmentWithScope(
+            RBACRoleId.contributor,
+            deploymentCenterContext.resourceId,
+            identityArmObj.properties.principalId,
+            PrincipalType.servicePrincipal
           );
-          return putContributorRoleResponse;
-        }
 
-        if (!addFederatedCredentialResponse.metadata.success) {
+          const addFederatedCredential = deploymentCenterData.putFederatedCredential(
+            createUserAssignedIdentityResponse.data.id,
+            getFederatedCredentialName(`${values.org}-${values.repo}`),
+            `${values.org}/${values.repo}`
+          );
+
+          const [putContributorRoleResponse, addFederatedCredentialResponse] = await Promise.all([
+            putContributorRole,
+            addFederatedCredential,
+          ]);
+
+          if (putContributorRoleResponse && !putContributorRoleResponse.metadata.success) {
+            portalContext.log(
+              getTelemetryInfo('error', 'putContributorRoleResponse', 'failed', {
+                message: getErrorMessage(putContributorRoleResponse.metadata.error),
+                errorAsString: putContributorRoleResponse.metadata.error ? JSON.stringify(putContributorRoleResponse.metadata.error) : '',
+              })
+            );
+            return putContributorRoleResponse;
+          }
+
+          if (!addFederatedCredentialResponse.metadata.success) {
+            portalContext.log(
+              getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+                message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+                errorAsString: addFederatedCredentialResponse.metadata.error
+                  ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                  : '',
+              })
+            );
+            return addFederatedCredentialResponse;
+          }
+        } else {
           portalContext.log(
-            getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
-              message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
-              errorAsString: addFederatedCredentialResponse.metadata.error
-                ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+            getTelemetryInfo('error', 'createUserAssignedIdentityResponse', 'failed', {
+              message: getErrorMessage(createUserAssignedIdentityResponse.metadata.error),
+              errorAsString: createUserAssignedIdentityResponse.metadata.error
+                ? JSON.stringify(createUserAssignedIdentityResponse.metadata.error)
                 : '',
             })
           );
-          return addFederatedCredentialResponse;
+          return createUserAssignedIdentityResponse;
         }
       }
+
+      //(NOTE: stpelleg) Only external git is expected to be manual integration
+      // If manual integration is true the site config scm type is set to be external
+      const deployGithubActionsWithSourceControlsApi = !siteStateContext.isKubeApp && values.buildProvider === BuildProvider.GitHubAction;
+      const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody = deployGithubActionsWithSourceControlsApi
+        ? getGitHubActionsSourceControlsPayload(values)
+        : getKuduSourceControlsPayload(values);
 
       portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
@@ -514,6 +525,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         runtimeVersion,
         runtimeRecommendedVersion,
         publishType: 'code',
+        authType: values.authType,
         appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
         isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
