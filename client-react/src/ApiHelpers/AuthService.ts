@@ -62,7 +62,7 @@ export default class AuthService {
     identity?: MsiIdentity,
     apiVersion: string = CommonConstants.ApiVersions.enableSystemAssignedIdentityApiVersion20210201
   ) {
-    return await MakeArmCall({
+    return await MakeArmCall<any>({
       resourceId,
       commandName: 'enableSystemAssignedIdentity',
       method: 'PATCH',

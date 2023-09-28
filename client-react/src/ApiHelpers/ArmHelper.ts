@@ -131,7 +131,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
   }
 };
 
-const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpResponseObject<T>> => {
+const MakeArmCall = async <T, U = T>(requestObject: ArmRequestObject<U>): Promise<HttpResponseObject<T>> => {
   const { skipBatching, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
 
   const id = Guid.newGuid();
@@ -238,9 +238,9 @@ const _extractErrorMessage = (error: any, recursionLimit: number): string => {
   return recursionLimit ? _extractErrorMessage(error.error, recursionLimit - 1) : '';
 };
 
-export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArray<T>>): Promise<ArmObj<T>[]> => {
+export const MakePagedArmCall = async <T, U = T>(requestObject: ArmRequestObject<ArmArray<U>>): Promise<ArmObj<T>[]> => {
   let results: ArmObj<T>[] = [];
-  const response = await MakeArmCall(requestObject);
+  const response = await MakeArmCall<ArmArray<T>, ArmArray<U>>(requestObject);
 
   if (response.metadata.success) {
     results = [...results, ...response.data.value];
@@ -248,7 +248,7 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
     if (response.data.nextLink) {
       const pathAndQuery = Url.getPathAndQuery(response.data.nextLink);
 
-      const pagedResult = await MakePagedArmCall({
+      const pagedResult = await MakePagedArmCall<T, U>({
         ...requestObject,
         resourceId: pathAndQuery,
         apiVersion: null,
