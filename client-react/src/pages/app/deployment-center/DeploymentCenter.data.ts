@@ -271,6 +271,10 @@ export default class DeploymentCenterData {
     return ManagedIdentityService.getUserAssignedIdentity(resourceId);
   };
 
+  public createUserAssignedIdentity = (resourceGroupId: string, identityName: string, location: string) => {
+    return ManagedIdentityService.createUserAssignedIdentity(resourceGroupId, identityName, location);
+  };
+
   public putFederatedCredential = (managedIdentityResourceId: string, credentialName: string, fullRepoName: string) => {
     return ManagedIdentityService.putFederatedCredential(managedIdentityResourceId, credentialName, fullRepoName);
   };
