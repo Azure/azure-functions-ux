@@ -3,7 +3,6 @@ import { AppStack, CommonSettings, AppInsightsSettings, GitHubActionSettings } f
 export type FunctionAppStack = AppStack<FunctionAppRuntimes, FunctionAppStackValue>;
 export type FunctionAppStackValue = 'dotnet' | 'java' | 'node' | 'powershell' | 'python' | 'custom';
 
-type FunctionsExtensionVersion = '~1' | '~2' | '~3' | '~4';
 type FunctionsWorkerRuntime = 'dotnet' | 'node' | 'python' | 'java' | 'powershell' | 'custom' | 'dotnet-isolated';
 
 export interface FunctionAppRuntimes {
@@ -21,8 +20,27 @@ export interface InstanceSize {
   isDefault: boolean;
 }
 
+export interface AppScaleOut {
+  min: number;
+  max: number;
+  defaultValue: number;
+}
+
 export interface ConcurrencySetting {
-  // TBD - Need to get more details on what this would look like
+  // These will be per trigger type. All supported trigger types will be returned everytime.
+  http: {
+    maxHttpConcurrency: number;
+  };
+  serviceBus: {
+    maxConcurrentCalls: number;
+    maxConcurrentSettings: number;
+  };
+  eventHubs: {
+    maxEventBatchSize: number;
+  };
+  queue: {
+    batchSize: number;
+  };
 }
 
 export interface SiteConfigPropertiesDictionary {
@@ -34,11 +52,18 @@ export interface SiteConfigPropertiesDictionary {
   instanceSizes?: InstanceSize[];
   alwaysReady?: boolean;
   concurrencySettings?: ConcurrencySetting;
+  appScaleOut?: AppScaleOut;
 }
 
-export interface FunctionsExtensionVersionNew {
-  version: string;
+export interface FunctionsExtensionVersion {
+  version: '~1' | '~2' | '~3' | '~4';
   isDeprecated: boolean;
+}
+
+export interface UnsupportedSkuCode {
+  skuCode: string;
+  isDefault?: boolean;
+  isHidden?: boolean;
 }
 
 export interface FunctionAppRuntimeSettings extends CommonSettings {
@@ -50,5 +75,5 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
   supportedFunctionsExtensionVersionsNew: FunctionsExtensionVersionNew[];
-  unsupportedSkuCodes?: string[];
+  unsupportedSkuCodes?: UnsupportedSkuCode[];
 }
