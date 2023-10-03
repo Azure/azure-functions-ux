@@ -29,7 +29,7 @@ jobs:
         run: msbuild /nologo /verbosity:m /t:Build /t:pipelinePreDeployCopyAllFilesToOneFolder /p:_PackageTempDir="\published\"
 
       - name: Upload artifact for deployment job
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: ASP-app
           path: '/published/**'
@@ -43,7 +43,7 @@ jobs:
 
     steps:
       - name: Download artifact from build job
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v3
         with:
           name: ASP-app
 
