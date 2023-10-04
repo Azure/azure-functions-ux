@@ -30,6 +30,10 @@ export interface GitHubActionSettings {
   notSupportedInCreates?: boolean;
 }
 
+export interface SupportedFeatures {
+  disableSsh?: boolean;
+}
+
 export interface CommonSettings {
   isPreview?: boolean;
   isDeprecated?: boolean;
@@ -38,4 +42,5 @@ export interface CommonSettings {
   isAutoUpdate?: boolean;
   isDefault?: boolean;
   isEarlyAccess?: boolean;
+  supportedFeatures?: SupportedFeatures;
 }
