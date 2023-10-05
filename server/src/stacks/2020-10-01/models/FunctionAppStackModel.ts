@@ -72,6 +72,5 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
-  supportedFunctionsExtensionVersionsNew: FunctionsExtensionVersionNew[];
   sku?: Skus[];
 }
