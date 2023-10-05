@@ -31,6 +31,8 @@ import {
   ExtensionNames,
 } from '../deployment-center';
 import { CloudType, StaticReactConfig } from '../../types/config';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { detectProjectFolders } from '@azure/web-apps-framework-detection';
 
 const githubOrigin = 'https://github.com';
 
