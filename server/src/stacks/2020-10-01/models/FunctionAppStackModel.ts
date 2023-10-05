@@ -18,6 +18,7 @@ export interface AppSettingsDictionary {
 export interface InstanceSize {
   size: string;
   isDefault: boolean;
+  concurrencySettings: ConcurrencySetting;
 }
 
 export interface AppScaleOut {
@@ -49,10 +50,6 @@ export interface SiteConfigPropertiesDictionary {
   javaVersion?: string;
   powerShellVersion?: string;
   netFrameworkVersion?: string;
-  instanceSizes?: InstanceSize[];
-  alwaysReady?: boolean;
-  concurrencySettings?: ConcurrencySetting;
-  appScaleOut?: AppScaleOut;
 }
 
 export interface FunctionsExtensionVersion {
@@ -60,10 +57,11 @@ export interface FunctionsExtensionVersion {
   isDeprecated: boolean;
 }
 
-export interface UnsupportedSkuCode {
+export interface Sku {
   skuCode: string;
-  isDefault?: boolean;
-  isHidden?: boolean;
+  instanceSizes?: InstanceSize[];
+  alwaysReady?: boolean; // ----- ?? Does it depend on Instance size?
+  appScaleOut?: AppScaleOut;
 }
 
 export interface FunctionAppRuntimeSettings extends CommonSettings {
@@ -75,5 +73,5 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
   supportedFunctionsExtensionVersionsNew: FunctionsExtensionVersionNew[];
-  unsupportedSkuCodes?: UnsupportedSkuCode[];
+  sku?: Skus[];
 }
