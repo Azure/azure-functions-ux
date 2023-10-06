@@ -19,6 +19,7 @@ export interface InstanceSize {
   size: string;
   isDefault: boolean;
   concurrencySettings: ConcurrencySetting;
+  alwaysReady: number; // min number of instances that need to be ready. This is the default value.
 }
 
 export interface AppScaleOut {
@@ -44,24 +45,28 @@ export interface ConcurrencySetting {
   };
 }
 
+// NOTE: This might have more optional properties as required by flex consumption
 export interface SiteConfigPropertiesDictionary {
-  use32BitWorkerProcess: boolean;
+  use32BitWorkerProcess?: boolean;
   linuxFxVersion?: string;
   javaVersion?: string;
   powerShellVersion?: string;
   netFrameworkVersion?: string;
 }
 
+// NOTE: This change is something we would like to have for a long time to better support deprecated version on the client side post create.
+// This change does need a new api-version for the stacks API
 export interface FunctionsExtensionVersion {
   version: '~1' | '~2' | '~3' | '~4';
   isDeprecated: boolean;
+  isDefault: boolean;
 }
 
 export interface Sku {
   skuCode: string;
   instanceSizes?: InstanceSize[];
-  alwaysReady?: boolean; // ----- ?? Does it depend on Instance size?
   appScaleOut?: AppScaleOut;
+  siteConfigProperties?: SiteConfigPropertiesDictionary; // NOTE: If this property on the sku exists then it overrides the one of the version itself
 }
 
 export interface FunctionAppRuntimeSettings extends CommonSettings {
@@ -72,5 +77,5 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
-  sku?: Skus[];
+  sku?: Skus[]; // NOTE: This property gets added on the geomaster side. The static stacks defined on Fusion side will not change
 }
