@@ -677,14 +677,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
   }
 
   private _getOverviewBladeName() {
-    if (Url.getParameterByName(null, SupportedFeatures.NewOverviewBlades) === 'true') {
-      const siteOrSlot = this.prodSiteArm || (this.deploymentSlotsArm && this.deploymentSlotsArm[0]);
-      if (siteOrSlot) {
-        return ArmUtil.isFunctionApp(siteOrSlot) ? 'FunctionAppOverview.ReactView' : 'AppsOverview.ReactView';
-      }
-    }
-
-    return 'AppsOverviewBlade';
+    const siteOrSlot = this.prodSiteArm || (this.deploymentSlotsArm && this.deploymentSlotsArm[0]);
+    return siteOrSlot && ArmUtil.isFunctionApp(siteOrSlot) ? 'FunctionAppOverview.ReactView' : 'AppsOverview.ReactView';
   }
 
   openSlotBlade(resourceId: string) {
