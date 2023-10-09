@@ -6,15 +6,7 @@ import { CustomFormControl } from '../../../controls/click-to-edit/click-to-edit
 import { ArmSiteDescriptor } from '../../../shared/resourceDescriptors';
 import { FeatureComponent } from '../../../shared/components/feature-component';
 import { BroadcastEvent, EventMessage } from '../../../shared/models/broadcast-event';
-import {
-  Links,
-  LogCategories,
-  ScenarioIds,
-  SiteTabIds,
-  SlotOperationState,
-  SupportedFeatures,
-  SwapOperationType,
-} from '../../../shared/models/constants';
+import { Links, LogCategories, ScenarioIds, SiteTabIds, SlotOperationState, SwapOperationType } from '../../../shared/models/constants';
 import { HttpResult } from '../../../shared/models/http-result';
 import { OpenBladeInfo, EventVerbs, FrameBladeParams } from '../../../shared/models/portal';
 import { PortalResources } from '../../../shared/models/portal-resources';
@@ -33,7 +25,6 @@ import { RoutingSumValidator } from '../../../shared/validators/routingSumValida
 import { TreeViewInfo, SiteData } from '../../../tree-view/models/tree-view-info';
 import { ScenarioCheckResult } from 'app/shared/services/scenario/scenario.models';
 import { ArmUtil } from '../../../shared/Utilities/arm-utils';
-import { Url } from '../../../shared/Utilities/url';
 
 @Component({
   selector: 'deployment-slots',
