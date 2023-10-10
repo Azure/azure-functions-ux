@@ -1898,13 +1898,22 @@
       </Item>
       <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.]]></Val>
+          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selecione como você deseja que seu fluxo de trabalho do GitHub Action se autentique no Azure. Se você escolher a identidade atribuída pelo usuário, a identidade será criada e federada automaticamente com o GitHub como um cliente autorizado.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";authenticationSettingsFederatedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Federated identity (OIDC) (Preferred)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identidade federada (OIDC) (Preferencial)]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -1914,6 +1923,27 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Identidade]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions on this app to assign role-based access to a managed identity and configure federated credentials.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Você não tem permissões suficientes neste aplicativo para atribuir acesso baseado em função a uma identidade gerenciada e configurar credenciais federadas.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityPermissionsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to manage federated identity credentials on a user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Clique aqui para saber mais sobre como gerenciar credenciais de identidade federada em uma identidade atribuída pelo usuário.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Click here to learn more about how to manage a federated identity credentials on a user-assigned managed identity.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -1937,10 +1967,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsUserAssignedManagedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User-assigned managed identity]]></Val>
+          <Val><![CDATA[User-assigned identity (Preview)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Identidade gerenciada atribuída pelo usuário]]></Val>
+            <Val><![CDATA[Identidade atribuída ao usuário (versão prévia)]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned managed identity]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -3143,12 +3176,12 @@
       </Item>
       <Item ItemId=";clientAffinityEnabledLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[ARR affinity]]></Val>
+          <Val><![CDATA[Session affinity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Afinidade ARR]]></Val>
+            <Val><![CDATA[Afinidade de sessão]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[ARR Affinity]]></Val>
+            <Val><![CDATA[ARR affinity]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -6414,6 +6447,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterNoWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have write permissions to make any changes.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Você não tem permissões de gravação para fazer alterações.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterOAuthAuthorize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Authorize]]></Val>
@@ -6561,21 +6603,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[No momento, seu site está usando o OneDrive ou o Dropbox para implantar o código. Essa integração será desativada em 30 de setembro de 2023. Migre para uma fonte de implantação diferente.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";deploymentCenterOnedriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterOneDriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Click here to learn more about this integrations retirement.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Clique aqui para saber mais sobre essa desativação de integrações.]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your site is currently using configured with an unsupported integration. Please migrate to a different deployment source.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Seu site está atualmente configurado com uma integração sem suporte. Migre para uma fonte de implantação diferente.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6701,10 +6746,13 @@
       </Item>
       <Item ItemId=";deploymentCenterProdSlotWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You’re now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
+          <Val><![CDATA[You're now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Agora você está no slot de produção, que não é recomendado para configurar a CI/CD.]]></Val>
+            <Val><![CDATA[Agora você está no slot de produção, o que não é recomendado para configurar CI/CD.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[You’re now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10836,15 +10884,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";ftpDisabledByPolicy" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[FTP is disabled by access policy.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[O FTP está desabilitado pela política de acesso.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";ftpInfoCardCredsDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Service enables you to access your app content through FTP/S.]]></Val>
@@ -12758,12 +12797,12 @@
       </Item>
       <Item ItemId=";githubActionWorkflowFileDeleteDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[File will be removed, and future commits won’t trigger deployments to this app.]]></Val>
+          <Val><![CDATA[File will be removed, and future commits won't trigger deployments to this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[O arquivo será removido e as confirmações futuras não dispararão as implantações para este aplicativo.]]></Val>
+            <Val><![CDATA[O arquivo será removido e confirmações futuras não acionarão implantações nesse aplicativo.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Delete file '{0}' from branch '{1}' in repository '{2}'. This will prevent future deployments to your app on commits to this branch.]]></Val>
+            <Val><![CDATA[File will be removed, and future commits won’t trigger deployments to this app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -12833,12 +12872,12 @@
       </Item>
       <Item ItemId=";githubActionWorkflowFilePreserveDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.]]></Val>
+          <Val><![CDATA[Saving allows you to keep any edits you've made to the workflow file, but it will still trigger deployments to this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Salvar permite que você mantenha as edições feitas no arquivo de fluxo de trabalho, mas ainda disparará implantações para este aplicativo.]]></Val>
+            <Val><![CDATA[Salvar permite manter todas as edições feitas no arquivo de fluxo de trabalho, mas ainda acionará implantações neste aplicativo.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Preserve file '{0}' from branch '{1}' in repository '{2}'. This may trigger deployments to your app on commits to the branch.]]></Val>
+            <Val><![CDATA[Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -14408,12 +14447,12 @@
       </Item>
       <Item ItemId=";keyVaultReference" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Key vault reference (preview)]]></Val>
+          <Val><![CDATA[Key vault reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Referência do cofre de chaves (prévia)]]></Val>
+            <Val><![CDATA[Referência do cofre de chaves]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Key vault reference]]></Val>
+            <Val><![CDATA[Key vault reference (preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -18966,6 +19005,9 @@
       <Item ItemId=";selectSnippetAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select snippet]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selecionar snippet]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -19451,10 +19493,13 @@
       </Item>
       <Item ItemId=";singleContainerSample2DescriptionLinux" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Python “Hello World” sample app.]]></Val>
+          <Val><![CDATA[Python "Hello World" sample app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Aplicativo de amostra do "Olá, Mundo" do Python.]]></Val>
+            <Val><![CDATA[Aplicativo de amostra do Python "Olá, Mundo".]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Python “Hello World” sample app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -19787,10 +19832,13 @@
       </Item>
       <Item ItemId=";slotNew_nameLabel_balloonText" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.]]></Val>
+          <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named 'staging' then the new slot will have a URL like 'http://contoso-staging.azurewebsites.net'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Este valor será acrescentado à URL de seu aplicativo Web principal e funcionará como o endereço público do slot. Por exemplo, se você tiver um aplicativo Web chamado 'contoso' e um slot chamado 'staging', o novo slot terá uma URL do tipo 'http://contoso-staging.azurewebsites.net'.]]></Val>
+            <Val><![CDATA[Este valor será acrescentado à URL do aplicativo Web principal e funcionará como o endereço público do slot. Por exemplo, se você tiver um aplicativo Web chamado 'contoso' e um slot chamado 'staging', o novo slot terá uma URL do tipo 'http://contoso-staging.azurewebsites.net'.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -22587,6 +22635,9 @@
       <Item ItemId=";toggleAllSnippetsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Toggle selection for all snippets]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alternar seleção para todos os snippets de código]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -22602,6 +22653,9 @@
       <Item ItemId=";toggleSnippetSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Toggle selection of snippets]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alternar seleção de snippets de código]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>

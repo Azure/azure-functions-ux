@@ -345,7 +345,7 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
         this._translateService.instant(PortalResources.feature_allSettingsInfo),
         'image/webapp.svg',
         {
-          detailBlade: this._isOnprem() ? 'WebsiteBlade' : 'AppsOverviewBlade',
+          detailBlade: this._isOnprem() ? 'WebsiteBlade' : 'AppsOverview.ReactView',
           detailBladeInputs: {
             id: site.id,
           },
@@ -363,7 +363,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     this.groups1 = [
       new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
       new FeatureGroup(this._translateService.instant(PortalResources.feature_codeDeployment), codeDeployFeatures),
-      new FeatureGroup(this._translateService.instant(PortalResources.feature_developmentTools), developmentToolFeatures.filter(f => !!f)),
+      new FeatureGroup(
+        this._translateService.instant(PortalResources.feature_developmentTools),
+        developmentToolFeatures.filter(f => !!f)
+      ),
     ];
   }
 
@@ -549,8 +552,14 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
 
     this.groups2 = [
-      new FeatureGroup(this._translateService.instant(PortalResources.feature_networkingName), networkFeatures.filter(f => !!f)),
-      new FeatureGroup(this._translateService.instant(PortalResources.feature_monitoring), monitoringFeatures.filter(f => !!f)),
+      new FeatureGroup(
+        this._translateService.instant(PortalResources.feature_networkingName),
+        networkFeatures.filter(f => !!f)
+      ),
+      new FeatureGroup(
+        this._translateService.instant(PortalResources.feature_monitoring),
+        monitoringFeatures.filter(f => !!f)
+      ),
     ];
   }
 
@@ -824,7 +833,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
     this.groups3 = [
       new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
-      new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures.filter(f => !!f)),
+      new FeatureGroup(
+        this._translateService.instant(PortalResources.appServicePlan),
+        appServicePlanFeatures.filter(f => !!f)
+      ),
       new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures),
     ];
   }
