@@ -14,6 +14,7 @@ import { MessageBarType } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
 import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import useStacks from '../Hooks/useStacks';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -21,6 +22,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, initialValues, setFieldValue } = props;
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
+
+  // @note(krmitta): Only this for linux apps for now.
+  const { initialStackVersionDetails: stackVersionDetails } = useStacks(values?.config.properties.linuxFxVersion);
+
   const disableAllControls = !app_write || !editable || saving;
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
@@ -263,7 +268,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={RadioButton}
           label={t('feature_sshName')}
           id="app-settings-ssh-enabled"
-          disabled={disableAllControls}
+          disabled={disableAllControls || !stackVersionDetails.data?.supportedFeatures?.disableSSH}
           options={[
             {
               key: true,
