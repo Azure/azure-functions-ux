@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
@@ -14,6 +14,7 @@ import { MessageBarType } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
 import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import useStacks from '../Hooks/useStacks';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -21,10 +22,15 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, initialValues, setFieldValue } = props;
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
+
+  // @note(krmitta): Only this for linux apps for now.
+  const { initialStackVersionDetails: stackVersionDetails } = useStacks(values?.config.properties.linuxFxVersion);
+
   const disableAllControls = !app_write || !editable || saving;
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
+  const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSSH, [stackVersionDetails]);
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
@@ -244,6 +250,27 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
           disabled={disableAllControls || websocketsEnable.status === 'disabled'}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.sshEnabledSupported, { site }).status == 'enabled' && (
+        <Field
+          name="site.properties.sshEnabled"
+          dirty={values.site.properties.sshEnabled !== initialValues.site.properties.sshEnabled}
+          component={RadioButton}
+          label={t('feature_sshName')}
+          id="app-settings-ssh-enabled"
+          disabled={disableAllControls || !sshControlEnabled}
+          infoBubbleMessage={sshControlEnabled ? '' : t('sshDisabledInfoBubbleMessage')}
           options={[
             {
               key: true,

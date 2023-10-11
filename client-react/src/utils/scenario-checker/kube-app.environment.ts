@@ -153,6 +153,11 @@ export class KubeApp extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.sshEnabledSupported] = {
+      id: ScenarioIds.sshEnabledSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
