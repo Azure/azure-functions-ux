@@ -7870,4 +7870,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="authenticationSettingsIdentityPermissionsLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about how to manage federated identity credentials on a user-assigned identity.</value>
     </data>
+     <data name="sshDisabledInfoBubbleMessage" xml:space="preserve">
+        <value>SSH isn't supported for your selected stack version.</value>
+    </data>
 </root>

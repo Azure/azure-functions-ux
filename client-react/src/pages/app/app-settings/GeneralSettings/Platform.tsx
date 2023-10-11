@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
@@ -30,6 +30,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
+  const sshControlEnabled = useMemo(() => !stackVersionDetails.data?.supportedFeatures?.disableSSH, [stackVersionDetails]);
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
@@ -268,7 +269,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           component={RadioButton}
           label={t('feature_sshName')}
           id="app-settings-ssh-enabled"
-          disabled={disableAllControls || !stackVersionDetails.data?.supportedFeatures?.disableSSH}
+          disabled={disableAllControls || !sshControlEnabled}
+          infoBubbleMessage={sshControlEnabled ? '' : t('sshDisabledInfoBubbleMessage')}
           options={[
             {
               key: true,
