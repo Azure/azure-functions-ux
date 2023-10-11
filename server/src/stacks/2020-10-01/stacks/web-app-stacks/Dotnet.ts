@@ -47,6 +47,9 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '8.x',
                 },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
                 isPreview: true,
               },
             },
@@ -84,6 +87,9 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '7.x',
                 },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
               },
             },
           },
@@ -119,6 +125,9 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '6.0.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
               },
             },
