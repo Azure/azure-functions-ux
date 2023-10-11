@@ -31,7 +31,6 @@ import {
   ExtensionNames,
 } from '../deployment-center';
 import { CloudType, StaticReactConfig } from '../../types/config';
-import { saveAs } from 'file-saver';
 
 const githubOrigin = 'https://github.com';
 
@@ -315,7 +314,6 @@ export class GithubController {
         })
         .then(response => {
           res.json(response.data);
-          return response;
         });
     } catch (err) {
       this.loggingService.error(`Failed to get workflow run logs.`);
@@ -333,7 +331,8 @@ export class GithubController {
     @Body('gitHubToken') gitHubToken: string,
     @Body('org') org: string,
     @Body('repo') repo: string,
-    @Body('runId') runId: number
+    @Body('runId') runId: number,
+    @Res() res
   ) {
     const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}`;
     try {
@@ -341,8 +340,8 @@ export class GithubController {
         .get(url, {
           headers: this._getAuthorizationHeader(gitHubToken),
         })
-        .then(res => {
-          return res;
+        .then(response => {
+          res.json(response.data);
         });
     } catch (err) {
       this.loggingService.error(`Failed to get workflow run.`);
