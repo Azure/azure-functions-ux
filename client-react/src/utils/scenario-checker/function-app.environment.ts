@@ -145,6 +145,11 @@ export class FunctionAppEnvironment extends Environment {
       id: ScenarioIds.ftpSource,
       runCheck: () => ({ status: 'disabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.sshEnabledSupported] = {
+      id: ScenarioIds.sshEnabledSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

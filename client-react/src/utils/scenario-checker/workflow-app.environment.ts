@@ -48,6 +48,11 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
       id: ScenarioIds.vnetPrivatePortsCount,
       runCheck: () => ({ status: 'enabled' }),
     };
+
+    this.scenarioChecks[ScenarioIds.sshEnabledSupported] = {
+      id: ScenarioIds.sshEnabledSupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

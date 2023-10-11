@@ -176,6 +176,11 @@ export class LinuxSiteEnvironment extends Environment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.sshEnabledSupported] = {
+      id: ScenarioIds.sshEnabledSupported,
+      runCheck: () => ({ status: 'enabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

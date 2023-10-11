@@ -119,4 +119,5 @@ export class ScenarioIds {
   public static readonly enableCustomErrorPagesOverlay = 'enableCustomErrorPagesOverlay';
   public static readonly basicAuthPublishingCreds = 'basicAuthPublishingCreds';
   public static readonly vnetPrivatePortsCount = 'vnetPrivatePortsCount';
+  public static readonly sshEnabledSupported = 'sshEnabledSupported';
 }

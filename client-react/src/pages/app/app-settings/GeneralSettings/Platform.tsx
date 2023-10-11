@@ -256,6 +256,26 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
+      {scenarioChecker.checkScenario(ScenarioIds.sshEnabledSupported, { site }).status == 'enabled' && (
+        <Field
+          name="site.properties.sshEnabled"
+          dirty={values.site.properties.sshEnabled !== initialValues.site.properties.sshEnabled}
+          component={RadioButton}
+          label={t('feature_sshName')}
+          id="app-settings-ssh-enabled"
+          disabled={disableAllControls}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
       {scenarioChecker.checkScenario(ScenarioIds.alwaysOnSupported, { site }).status !== 'disabled' && (
         <Field
           name="config.properties.alwaysOn"
