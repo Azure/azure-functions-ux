@@ -157,9 +157,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       loadingFailed = loadingFailed || armCallFailed(azureStorageMounts, true);
     }
 
+    const isLinux = isLinuxApp(site.data);
     // Get stacks response
     if (!loadingFailed) {
-      const isLinux = isLinuxApp(site.data);
       if (isFunctionApp(site.data)) {
         const stacksResponse = await RuntimeStackService.getFunctionAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
         if (stacksResponse.metadata.status && !!stacksResponse.data.value) {
@@ -232,9 +232,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (site.data.properties.targetSwapSlot) {
         setEditable(false);
       }
+
+      const sshEnabled = site.data.properties.sshEnabled;
+
       setInitialValues({
         ...convertStateToForm({
-          site: site.data,
+          // @note(krmitta): Manually over-writing since the api returns null when ssh is disabled but there isn't a value in the database
+          site: { ...site.data, properties: { ...site.data.properties, sshEnabled: isLinux && sshEnabled === null ? false : sshEnabled } },
           config: webConfig.data,
           metadata: metadata.metadata.success ? metadata.data : null,
           connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,

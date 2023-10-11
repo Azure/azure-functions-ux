@@ -149,7 +149,7 @@ export interface Site {
   identity: MsiIdentity;
   vnetImagePullEnabled: boolean;
   keyVaultReferenceIdentity: string;
-  sshEnabled?: boolean;
+  sshEnabled?: boolean | null;
 }
 
 export interface HostNameSslState {
