@@ -75,7 +75,7 @@
     "merge-stream": "^2.0.0",
     "mocha": "^9.2.2",
     "nodemon": "^2.0.22",
-    "prettier": "^3.0.3",
+    "prettier": "^2.8.8",
     "resx": "^2.0.4",
     "rimraf": "^3.0.2",
     "supertest": "^6.3.3",
