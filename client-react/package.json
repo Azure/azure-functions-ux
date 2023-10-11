@@ -68,7 +68,7 @@
     "jest-junit": "^6.4.0",
     "jest-mock-axios": "^2.4.0",
     "monaco-editor-webpack-plugin": "^1.9.1",
-    "prettier": "^3.0.3",
+    "prettier": "^2.8.8",
     "react-test-renderer": "^17.0.2",
     "typescript": "^5.2.2",
     "webpack-bundle-analyzer": "^4.9.1"
