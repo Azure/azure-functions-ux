@@ -31,6 +31,7 @@ import {
   ExtensionNames,
 } from '../deployment-center';
 import { CloudType, StaticReactConfig } from '../../types/config';
+import { saveAs } from 'file-saver';
 
 const githubOrigin = 'https://github.com';
 
@@ -294,6 +295,63 @@ export class GithubController {
   ) {
     const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs?page=${page}`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getWorkflowRunLogs')
+  @HttpCode(200)
+  async getJobLogs(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('runId') runId: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}/logs`;
+    try {
+      await this.httpService
+        .get(url, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+          responseType: 'arraybuffer',
+        })
+        .then(response => {
+          res.json(response.data);
+          return response;
+        });
+    } catch (err) {
+      this.loggingService.error(`Failed to get workflow run logs.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  @Post('api/github/getWorkflowRun')
+  @HttpCode(200)
+  async getWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('runId') runId: number
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}`;
+    try {
+      await this.httpService
+        .get(url, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        })
+        .then(res => {
+          return res;
+        });
+    } catch (err) {
+      this.loggingService.error(`Failed to get workflow run.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
   }
 
   @Post('api/github/deleteWorkflowRun')
