@@ -41,7 +41,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: true,
                   netFrameworkVersion: 'v4.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
               },
             },
           },
@@ -74,7 +80,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v8.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet8EOL,
               },
               linuxRuntimeSettings: {
@@ -96,7 +108,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|8.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet8EOL,
               },
             },
@@ -128,7 +146,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v7.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet7EOL,
               },
               linuxRuntimeSettings: {
@@ -148,7 +172,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|7.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet7EOL,
               },
             },
@@ -181,7 +211,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: true,
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet6EOL,
               },
               linuxRuntimeSettings: {
@@ -202,7 +238,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: true,
                   linuxFxVersion: 'DOTNET|6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet6EOL,
               },
             },
@@ -234,7 +276,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet6EOL,
               },
               linuxRuntimeSettings: {
@@ -254,7 +302,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet6EOL,
               },
             },
@@ -286,7 +340,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
                 },
-                supportedFunctionsExtensionVersions: ['~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~3',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet5EOL,
                 isDeprecated: true,
               },
@@ -308,7 +368,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: true,
                   linuxFxVersion: 'DOTNET-ISOLATED|5.0',
                 },
-                supportedFunctionsExtensionVersions: ['~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~3',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnet5EOL,
                 isDeprecated: true,
               },
@@ -340,7 +406,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
                 },
-                supportedFunctionsExtensionVersions: ['~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~3',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnetCore3EOL,
                 isDeprecated: true,
               },
@@ -361,7 +433,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'dotnet|3.1',
                 },
-                supportedFunctionsExtensionVersions: ['~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~3',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: dotnetCore3EOL,
                 isDeprecated: true,
               },
@@ -393,7 +471,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
                 },
-                supportedFunctionsExtensionVersions: ['~2'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~2',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'dotnet|2.2',
@@ -412,7 +496,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'dotnet|2.2',
                 },
-                supportedFunctionsExtensionVersions: ['~2'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~2',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
               },
             },
           },
@@ -439,7 +529,13 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
                 },
-                supportedFunctionsExtensionVersions: ['~1'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~1',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
               },
             },
           },
