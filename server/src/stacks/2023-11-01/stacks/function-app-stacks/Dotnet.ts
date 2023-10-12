@@ -343,7 +343,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 supportedFunctionsExtensionVersions: [
                   {
                     version: '~3',
-                    isDeprecated: false,
+                    isDeprecated: true,
                     isDefault: true,
                   }
                 ],
@@ -371,7 +371,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 supportedFunctionsExtensionVersions: [
                   {
                     version: '~3',
-                    isDeprecated: false,
+                    isDeprecated: true,
                     isDefault: true,
                   }
                 ],
@@ -409,7 +409,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 supportedFunctionsExtensionVersions: [
                   {
                     version: '~3',
-                    isDeprecated: false,
+                    isDeprecated: true,
                     isDefault: true,
                   }
                 ],
@@ -436,7 +436,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 supportedFunctionsExtensionVersions: [
                   {
                     version: '~3',
-                    isDeprecated: false,
+                    isDeprecated: true,
                     isDefault: true,
                   }
                 ],
@@ -474,7 +474,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 supportedFunctionsExtensionVersions: [
                   {
                     version: '~2',
-                    isDeprecated: false,
+                    isDeprecated: true,
                     isDefault: true,
                   }
                 ],
@@ -499,7 +499,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 supportedFunctionsExtensionVersions: [
                   {
                     version: '~2',
-                    isDeprecated: false,
+                    isDeprecated: true,
                     isDefault: true,
                   }
                 ],
@@ -532,7 +532,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 supportedFunctionsExtensionVersions: [
                   {
                     version: '~1',
-                    isDeprecated: false,
+                    isDeprecated: true,
                     isDefault: true,
                   }
                 ],
