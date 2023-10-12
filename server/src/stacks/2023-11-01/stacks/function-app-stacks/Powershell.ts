@@ -41,7 +41,13 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   powerShellVersion: '7.2',
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: powershell72EOL
               },
               linuxRuntimeSettings: {
@@ -63,7 +69,13 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'PowerShell|7.2',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: powershell72EOL
               },
             },
@@ -90,7 +102,18 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   powerShellVersion: '~7',
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: powershell70EOL
               },
               linuxRuntimeSettings: {
@@ -112,7 +135,13 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'PowerShell|7',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: powershell70EOL
               },
             },
@@ -144,7 +173,18 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   powerShellVersion: '~6',
                 },
                 isDeprecated: true,
-                supportedFunctionsExtensionVersions: ['~2', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: powershell62EOL
               },
             },
