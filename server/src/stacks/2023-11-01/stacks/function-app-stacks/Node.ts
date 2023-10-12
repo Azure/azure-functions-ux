@@ -43,7 +43,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: true,
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node20EOL,
               },
               linuxRuntimeSettings: {
@@ -64,7 +70,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Node|20',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node20EOL,
               },
             },
@@ -98,7 +110,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: true,
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node18EOL,
               },
               linuxRuntimeSettings: {
@@ -119,7 +137,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Node|18',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node18EOL,
               },
             },
@@ -153,7 +177,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: true,
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node16EOL,
               },
               linuxRuntimeSettings: {
@@ -174,7 +204,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Node|16',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node16EOL,
               },
             },
@@ -207,7 +243,18 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: true,
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: node14EOL,
               },
               linuxRuntimeSettings: {
@@ -227,7 +274,18 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Node|14',
                 },
-                supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: node14EOL,
               },
             },
@@ -260,7 +318,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
                 },
-                supportedFunctionsExtensionVersions: ['~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node12EOL,
               },
               linuxRuntimeSettings: {
@@ -281,7 +345,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Node|12',
                 },
-                supportedFunctionsExtensionVersions: ['~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node12EOL,
               },
             },
@@ -314,7 +384,18 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
                 },
-                supportedFunctionsExtensionVersions: ['~2', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: node10EOL,
               },
               linuxRuntimeSettings: {
@@ -335,7 +416,18 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Node|10',
                 },
-                supportedFunctionsExtensionVersions: ['~2', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: node10EOL,
               },
             },
@@ -367,7 +459,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
                 },
-                supportedFunctionsExtensionVersions: ['~2'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node8EOL,
               },
             },
@@ -397,7 +495,13 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
                 },
-                supportedFunctionsExtensionVersions: ['~1'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~1',
+                    isDeprecated: true,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: node6EOL,
               },
             },
