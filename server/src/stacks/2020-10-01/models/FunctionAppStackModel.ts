@@ -19,7 +19,7 @@ export interface InstanceSize {
   size: string;
   isDefault: boolean;
   concurrencySettings: ConcurrencySetting;
-  alwaysReady: number; // min number of instances that need to be ready. This is the default value.
+  maxAlwaysReady: number; // min number of instances that need to be ready. This is the default value.
 }
 
 export interface AppScaleOut {
@@ -32,6 +32,7 @@ export interface ConcurrencySetting {
   // These will be per trigger type. All supported trigger types will be returned everytime.
   http: {
     maxHttpConcurrency: number;
+    defaultHttpConcurrency: number;
   };
   serviceBus: {
     maxConcurrentCalls: number;
