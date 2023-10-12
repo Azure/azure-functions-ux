@@ -37,12 +37,12 @@ export const customStack: FunctionAppStack = {
                 },
                 {
                   version: '~3',
-                  isDeprecated: false,
+                  isDeprecated: true,
                   isDefault: false,
                 },
                 {
                   version: '~2',
-                  isDeprecated: false,
+                  isDeprecated: true,
                   isDefault: false,
                 }
               ],
@@ -72,12 +72,12 @@ export const customStack: FunctionAppStack = {
                 },
                 {
                   version: '~3',
-                  isDeprecated: false,
+                  isDeprecated: true,
                   isDefault: false,
                 },
                 {
                   version: '~2',
-                  isDeprecated: false,
+                  isDeprecated: true,
                   isDefault: false,
                 }
               ],
