@@ -29,7 +29,23 @@ export const customStack: FunctionAppStack = {
                 use32BitWorkerProcess: true,
                 netFrameworkVersion: 'v6.0',
               },
-              supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
+              supportedFunctionsExtensionVersions: [
+                {
+                  version: '~4',
+                  isDeprecated: false,
+                  isDefault: true,
+                },
+                {
+                  version: '~3',
+                  isDeprecated: false,
+                  isDefault: false,
+                },
+                {
+                  version: '~2',
+                  isDeprecated: false,
+                  isDefault: false,
+                }
+              ],
             },
             linuxRuntimeSettings: {
               runtimeVersion: '',
@@ -48,7 +64,23 @@ export const customStack: FunctionAppStack = {
                 use32BitWorkerProcess: false,
                 linuxFxVersion: '',
               },
-              supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
+              supportedFunctionsExtensionVersions: [
+                {
+                  version: '~4',
+                  isDeprecated: false,
+                  isDefault: true,
+                },
+                {
+                  version: '~3',
+                  isDeprecated: false,
+                  isDefault: false,
+                },
+                {
+                  version: '~2',
+                  isDeprecated: false,
+                  isDefault: false,
+                }
+              ],
             },
           },
         },
