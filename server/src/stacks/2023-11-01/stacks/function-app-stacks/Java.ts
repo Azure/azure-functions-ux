@@ -42,7 +42,13 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   javaVersion: '17',
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: java17EOL
               },
               linuxRuntimeSettings: {
@@ -66,7 +72,13 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Java|17',
                 },
-                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  }
+                ],
                 endOfLifeDate: java17EOL,
               },
             },
@@ -100,7 +112,18 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   javaVersion: '11',
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: java11EOL,
               },
               linuxRuntimeSettings: {
@@ -121,7 +144,18 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Java|11',
                 },
-                supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: java11EOL,
               },
             },
@@ -156,7 +190,23 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   javaVersion: '1.8',
                   netFrameworkVersion: 'v6.0',
                 },
-                supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: java8EOL
               },
               linuxRuntimeSettings: {
@@ -178,7 +228,18 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'Java|8',
                 },
-                supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  }
+                ],
                 endOfLifeDate: java8EOL,
               },
             },
