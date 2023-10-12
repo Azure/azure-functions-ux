@@ -24,7 +24,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
 
   // @note(krmitta): Only this for linux apps for now.
-  const { initialStackVersionDetails: stackVersionDetails } = useStacks(values?.config.properties.linuxFxVersion);
+  const { stackVersionDetails } = useStacks(values?.config.properties.linuxFxVersion);
 
   const disableAllControls = !app_write || !editable || saving;
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });

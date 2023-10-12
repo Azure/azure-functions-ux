@@ -4,9 +4,9 @@ import { getVersionDetails } from '../GeneralSettings/LinuxStacks/LinuxStacks.da
 
 const useStacks = (stackVersion: string = '') => {
   const webAppStacks = useContext(WebAppStacksContext);
-  const initialStackVersionDetails = useMemo(() => getVersionDetails(webAppStacks, stackVersion), [webAppStacks, stackVersion]);
+  const stackVersionDetails = useMemo(() => getVersionDetails(webAppStacks, stackVersion), [webAppStacks, stackVersion]);
 
-  return { initialStackVersionDetails, webAppStacks };
+  return { stackVersionDetails, webAppStacks };
 };
 
 export default useStacks;
