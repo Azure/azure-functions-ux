@@ -38,7 +38,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  const { webAppStacks, initialStackVersionDetails } = useStacks();
+  const { webAppStacks, stackVersionDetails } = useStacks();
   const siteStateContext = useContext(SiteStateContext);
   const runtimeOptions = getRuntimeStacks(webAppStacks);
   const { t } = useTranslation();
@@ -50,25 +50,20 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const [eolStackDate, setEolStackDate] = useState<string | null | undefined>(undefined);
 
   const filterredWebAppStacks = useMemo(
-    () =>
-      filterDeprecatedWebAppStack(
-        webAppStacks,
-        initialStackVersionDetails.runtimeStackName,
-        initialStackVersionDetails.minorVersionRuntime
-      ),
-    [webAppStacks, initialStackVersionDetails.runtimeStackName, initialStackVersionDetails.minorVersionRuntime]
+    () => filterDeprecatedWebAppStack(webAppStacks, stackVersionDetails.runtimeStackName, stackVersionDetails.minorVersionRuntime),
+    [webAppStacks, stackVersionDetails.runtimeStackName, stackVersionDetails.minorVersionRuntime]
   );
 
   const isRuntimeStackDirty = (): boolean =>
     getRuntimeStack(values.config.properties.linuxFxVersion) !== getRuntimeStack(initialValues.config.properties.linuxFxVersion);
 
   const isMajorVersionDirty = (): boolean =>
-    (majorVersionRuntime || '').toLowerCase() !== initialStackVersionDetails.majorVersionRuntime.toLowerCase();
+    (majorVersionRuntime || '').toLowerCase() !== stackVersionDetails.majorVersionRuntime.toLowerCase();
 
   const isMinorVersionDirty = (): boolean => {
     if (runtimeStack) {
       const minorVersion = getSelectedMinorVersion(filterredWebAppStacks, runtimeStack, values.config.properties.linuxFxVersion);
-      return (minorVersion || '').toLowerCase() !== initialStackVersionDetails.minorVersionRuntime.toLowerCase();
+      return (minorVersion || '').toLowerCase() !== stackVersionDetails.minorVersionRuntime.toLowerCase();
     } else {
       return false;
     }
