@@ -31,6 +31,7 @@ import {
   ExtensionNames,
 } from '../deployment-center';
 import { CloudType, StaticReactConfig } from '../../types/config';
+import { detectProjectFolders } from '@azure/web-apps-framework-detection';
 
 const githubOrigin = 'https://github.com';
 
@@ -666,6 +667,31 @@ export class GithubController {
       };
     } catch (err) {
       this.loggingService.error(`Failed to refresh token.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
+  @Post('api/github/detectFrameworks')
+  @HttpCode(200)
+  async detectFrameworks(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branch') branch: string,
+    @Body('frameworksUri') frameworksUri: string,
+    @Res() res
+  ) {
+    try {
+      await detectProjectFolders(`${githubOrigin}/${org}/${repo}/tree/${branch}`, gitHubToken, null, frameworksUri).then(frameworks => {
+        res.json(frameworks);
+      });
+    } catch (err) {
+      this.loggingService.error(`Failed to detect frameworks.`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
