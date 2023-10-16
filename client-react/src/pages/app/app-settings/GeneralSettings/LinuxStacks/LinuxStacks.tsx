@@ -38,7 +38,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
 
-  const { webAppStacks, stackVersionDetails } = useStacks();
+  const { webAppStacks, stackVersionDetails } = useStacks(initialValues.config.properties.linuxFxVersion);
   const siteStateContext = useContext(SiteStateContext);
   const runtimeOptions = getRuntimeStacks(webAppStacks);
   const { t } = useTranslation();
