@@ -23,6 +23,9 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
                 gitHubActionSettings: {
                   isSupported: true,
                 },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
                 isHidden: false,
                 isEarlyAccess: false,
               },
@@ -40,6 +43,9 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
                 },
                 gitHubActionSettings: {
                   isSupported: false,
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
                 isHidden: false,
                 isEarlyAccess: false,

@@ -60,6 +60,9 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                   isSupported: true,
                   supportedVersion: '18.x',
                 },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
               },
               windowsRuntimeSettings: {
                 runtimeVersion: '~18',
@@ -95,6 +98,9 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '16.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
                 endOfLifeDate: node16EOL,
               },
@@ -134,6 +140,9 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '14.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
                 endOfLifeDate: node14EOL,
               },
