@@ -18,7 +18,7 @@ export default class RuntimeStackService {
     const queryParams = [
       `stackOsType=${stacksOs}`,
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
-      `useCanaryFusionServer=${true}`,
+      `useCanaryFusionServer=${Url.isNextEnvironment()}`,
     ];
 
     return MakeArmCall<ArmArray<WebAppStack>>({
