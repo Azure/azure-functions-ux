@@ -1,5 +1,5 @@
 interface SupportedFeatures {
-  disableSSH?: boolean;
+  disableSsh?: boolean;
 }
 
 export interface AppStack<T> {

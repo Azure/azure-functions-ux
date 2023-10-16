@@ -30,8 +30,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
-  const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSSH, [
-    stackVersionDetails.data?.supportedFeatures?.disableSSH,
+  const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSsh, [
+    stackVersionDetails.data?.supportedFeatures?.disableSsh,
   ]);
 
   const showHttpsOnlyInfo = (): boolean => {
