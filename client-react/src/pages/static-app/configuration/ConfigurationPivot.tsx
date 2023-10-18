@@ -45,7 +45,7 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
 
   return (
     <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
-      {showAppSettings ? (
+      {showAppSettings && (
         <PivotItem
           itemKey="appSettings"
           headerText={t('staticSite_applicationSettings')}
@@ -55,7 +55,7 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
           }>
           <Configuration {...props} />
         </PivotItem>
-      ) : null}
+      )}
       <PivotItem
         itemKey="generalSettings"
         headerText={t('staticSite_generalSettings')}
