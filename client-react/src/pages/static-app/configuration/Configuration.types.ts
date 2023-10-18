@@ -175,6 +175,7 @@ export interface ConfigurationPivotProps {
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
   staticSiteSku: StaticSiteSku;
   refresh: (currentEnvironment?: ArmObj<Environment>) => Promise<void>;
+  showAppSettings: boolean;
 }
 
 export enum StaticSiteSku {

@@ -20247,6 +20247,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";sshDisabledInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SSH isn't supported for your selected stack version.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[O SSH não tem suporte na versão de pilha selecionada.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";ssh_newWindow" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Open in New Window]]></Val>

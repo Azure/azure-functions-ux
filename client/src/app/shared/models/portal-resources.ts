@@ -2577,4 +2577,5 @@ export class PortalResources {
   public static authenticationSettingsIdentityPermissionsError = 'authenticationSettingsIdentityPermissionsError';
   public static authenticationSettingsIdentityPermissionsLinkAriaLabel = 'authenticationSettingsIdentityPermissionsLinkAriaLabel';
   public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
+  public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
 }
