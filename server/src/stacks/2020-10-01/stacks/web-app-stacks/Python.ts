@@ -27,6 +27,9 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.11',
                 },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
                 isHidden: false,
               },
             },
@@ -44,6 +47,9 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '3.10',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
                 isHidden: false,
                 isEarlyAccess: false,
@@ -64,6 +70,9 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.9',
                 },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
                 isHidden: false,
               },
             },
@@ -82,6 +91,9 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.8',
                 },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
               },
             },
           },
@@ -99,6 +111,9 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '3.7',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
               },
             },
