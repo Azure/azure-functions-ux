@@ -7873,4 +7873,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
      <data name="sshDisabledInfoBubbleMessage" xml:space="preserve">
         <value>SSH isn't supported for your selected stack version.</value>
     </data>
+    <data name="staticSite_appSettingsMoved" xml:space="preserve">
+        <value>App Settings have moved to 'Environment Variables'</value>
+    </data>
 </root>
