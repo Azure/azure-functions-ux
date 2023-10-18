@@ -9,7 +9,7 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
-import { DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { ContainerRegistrySources, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
@@ -63,9 +63,14 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
   };
 
   const showBasicAuthError = useMemo(() => {
-    const isGitHubActionsOrContainerOnly = formProps.values.scmType === ScmType.GitHubAction;
+    const isGitHubActionsOrContainerOnly =
+      formProps.values.scmType === ScmType.GitHubAction || formProps.values.registrySource === ContainerRegistrySources.acr;
     return isGitHubActionsOrContainerOnly && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
-  }, [formProps.values.scmType, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
+  }, [
+    formProps.values.scmType,
+    formProps.values.registrySource,
+    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow,
+  ]);
 
   const showNoWritePermissionBanner = useMemo(() => {
     return !deploymentCenterContext.hasWritePermission;
