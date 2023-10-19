@@ -7801,6 +7801,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterScmBasicAuthErrorMessage" xml:space="preserve">
         <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.</value>
     </data>
+    <data name="deploymentCenterScmBasicAuthErrorMessageWithOidc" xml:space="preserve">
+        <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.</value>
+    </data>
     <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
         <value>Basic authentication is disabled for your app.</value>
     </data>
@@ -7866,8 +7869,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="authenticationSettingsIdentityPermissionsError" xml:space="preserve">
         <value>You do not have sufficient permissions on this app to assign role-based access to a managed identity and configure federated credentials.</value>
+    </data>    
+    <data name="authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about how to assign role-based access to a managed identity.</value>
     </data>
-    <data name="authenticationSettingsIdentityPermissionsLinkAriaLabel" xml:space="preserve">
+    <data name="authenticationSettingsFederatedCredentialsLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about how to manage federated identity credentials on a user-assigned identity.</value>
     </data>
      <data name="sshDisabledInfoBubbleMessage" xml:space="preserve">

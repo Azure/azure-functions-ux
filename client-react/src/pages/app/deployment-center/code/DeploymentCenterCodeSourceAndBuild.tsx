@@ -265,7 +265,11 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
             <div className={deploymentCenterInfoBannerDiv}>
               <CustomBanner
                 id="deployment-center-scm-basic-auth-warning"
-                message={t('deploymentCenterScmBasicAuthErrorMessage')}
+                message={
+                  deploymentCenterContext?.hasOidcFlightEnabled
+                    ? t('deploymentCenterScmBasicAuthErrorMessageWithOidc')
+                    : t('deploymentCenterScmBasicAuthErrorMessage')
+                }
                 type={MessageBarType.error}
                 onClick={openConfigurationBlade}
               />
