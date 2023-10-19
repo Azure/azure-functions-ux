@@ -230,7 +230,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               disabled={disableAllControls}
               options={[
                 {
-                  key: 1,
+                  key: 2,
                   text: t('on'),
                   disabled: !values.config.properties.http20Enabled,
                 },
