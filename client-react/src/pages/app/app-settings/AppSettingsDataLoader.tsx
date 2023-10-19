@@ -237,8 +237,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
       setInitialValues({
         ...convertStateToForm({
-          // @note(krmitta): Manually over-writing since the api returns null when ssh is disabled but there isn't a value in the database
-          site: { ...site.data, properties: { ...site.data.properties, sshEnabled: isLinux && sshEnabled === null ? false : sshEnabled } },
+          // @note(krmitta): Manually over-writing since the api returns null when sshEnabled property is not set in the database but the default is true
+          site: { ...site.data, properties: { ...site.data.properties, sshEnabled: isLinux && sshEnabled === null ? true : sshEnabled } },
           config: webConfig.data,
           metadata: metadata.metadata.success ? metadata.data : null,
           connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
