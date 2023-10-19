@@ -2553,6 +2553,7 @@ export class PortalResources {
   public static ibizafication_readOnlyDotnetIsolated = 'ibizafication_readOnlyDotnetIsolated';
   public static consoleContainerTextAreaAriaLabel = 'consoleContainerTextAreaAriaLabel';
   public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
+  public static deploymentCenterScmBasicAuthErrorMessageWithOidc = 'deploymentCenterScmBasicAuthErrorMessageWithOidc';
   public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
   public static configureDeploymentCredentialsLinkAriaLabel = 'configureDeploymentCredentialsLinkAriaLabel';
   public static portCountRange = 'portCountRange';
@@ -2575,7 +2576,9 @@ export class PortalResources {
   public static authenticationSettingsAuthenticationPlaceholder = 'authenticationSettingsAuthenticationPlaceholder';
   public static authenticationSettingsIdentity = 'authenticationSettingsIdentity';
   public static authenticationSettingsIdentityPermissionsError = 'authenticationSettingsIdentityPermissionsError';
-  public static authenticationSettingsIdentityPermissionsLinkAriaLabel = 'authenticationSettingsIdentityPermissionsLinkAriaLabel';
+  public static authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel =
+    'authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel';
+  public static authenticationSettingsFederatedCredentialsLinkAriaLabel = 'authenticationSettingsFederatedCredentialsLinkAriaLabel';
   public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
   public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
 }
