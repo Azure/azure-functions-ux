@@ -89,7 +89,7 @@ export function validateNotDeprecatedStacks(stacks) {
 
 function validateNotDeprecatedStacksLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(8);
+  expect(stacks.length).to.equal(7);
 }
 
 function validateStacksAreNotDeprecated(stacks) {
