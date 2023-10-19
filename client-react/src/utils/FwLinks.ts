@@ -77,4 +77,5 @@ export const DeploymentCenterLinks = {
   oneDriveDropboxRetirement: 'https://go.microsoft.com/fwlink/?linkid=2209891',
   azureDevOpsPortal: 'https://go.microsoft.com/fwlink/?linkid=2245703',
   managedIdentityOidc: 'https://go.microsoft.com/fwlink/?linkid=2247951',
+  roleAssignmentPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2249489',
 };
