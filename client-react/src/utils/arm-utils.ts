@@ -116,6 +116,10 @@ export function isDynamic(obj: ArmObj<Site>) {
   return !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.dynamic;
 }
 
+export function isFlexConsumption(obj: ArmObj<Site>) {
+  return !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.flexConsumption;
+}
+
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {
   const idIndex = columns.findIndex(col => col.name.toLowerCase() === 'id');
   const nameIndex = columns.findIndex(col => col.name.toLowerCase() === 'name');

@@ -135,6 +135,7 @@ export class CommonConstants {
     dynamic: 'dynamic',
     elasticPremium: 'elasticpremium',
     elasticIsolated: 'elasticisolated',
+    flexConsumption: 'flexconsumption',
   };
 
   public static readonly SiteStates = {
