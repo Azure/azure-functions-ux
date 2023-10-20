@@ -17,6 +17,6 @@ export class FlexConsumptionEnvironment extends Environment {
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
-    return input && input.site && isFlexConsumption(input.site)
+    return !!input && !!input.site && isFlexConsumption(input.site);
   }
 }
