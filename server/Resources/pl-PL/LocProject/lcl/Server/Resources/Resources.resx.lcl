@@ -1908,6 +1908,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";authenticationSettingsFederatedCredentialsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to manage federated identity credentials on a user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kliknij tutaj, aby dowiedzieć się więcej o sposobie zarządzania poświadczeniami tożsamości federacyjnej w tożsamości przypisanej do użytkownika.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";authenticationSettingsFederatedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Federated identity (OIDC) (Preferred)]]></Val>
@@ -1935,23 +1944,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";authenticationSettingsIdentityPermissionsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Click here to learn more about how to manage federated identity credentials on a user-assigned identity.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kliknij tutaj, aby dowiedzieć się więcej o sposobie zarządzania poświadczeniami tożsamości federacyjnej w tożsamości przypisanej do użytkownika.]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[Click here to learn more about how to manage a federated identity credentials on a user-assigned managed identity.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";authenticationSettingsPublishProfile" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Publish profile]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Publikuj profil]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to assign role-based access to a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kliknij tutaj, aby dowiedzieć się więcej o przypisywaniu dostępu opartego na rolach do tożsamości zarządzanej.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6881,6 +6887,15 @@
           <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Uwierzytelnianie podstawowe jest wyłączone dla Twojej aplikacji. Kliknij tutaj, aby przejść do ustawień konfiguracji, aby je włączyć.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Uwierzytelnianie podstawowe jest wyłączone dla Twojej aplikacji. Kliknij tutaj, aby przejść do ustawień konfiguracji w celu włączenia lub wybierz opcję „Tożsamość przypisana przez użytkownika” poniżej.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -20444,6 +20459,15 @@
           <Val><![CDATA[All environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Wszystkie środowiska]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_appSettingsMoved" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Settings have moved to 'Environment Variables']]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ustawienia aplikacji zostały przeniesione do sekcji „Zmienne środowiskowe”.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
