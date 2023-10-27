@@ -324,6 +324,7 @@ export class PortalResources {
   public static functionEdit_functionState = 'functionEdit_functionState';
   public static off = 'off';
   public static on = 'on';
+  public static grpcOnly = 'grpcOnly';
   public static topBar_functionApiSettings = 'topBar_functionApiSettings';
   public static sidebar_newApiProxy = 'sidebar_newApiProxy';
   public static apiProxy_allMethods = 'apiProxy_allMethods';

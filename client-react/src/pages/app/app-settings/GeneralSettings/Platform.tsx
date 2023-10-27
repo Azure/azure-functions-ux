@@ -76,13 +76,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   );
 
   const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
-    // Set HTTP 2.0 Proxy to 'Off' if http 2.0 is not enabled.
+    props.setFieldValue('config.properties.http20ProxyFlag', 0);
     if (!option.key) {
-      props.setFieldValue('config.properties.http20ProxyFlag', 0);
       values.httpTwo = false;
     } else {
-      // Enable gPRC only mode for HTTP 2.0
-      props.setFieldValue('config.properties.http20ProxyFlag', 2);
       values.httpTwo = true;
       props.setFieldValue('site.properties.clientCertEnabled', false);
     }
@@ -223,20 +220,25 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             <Field
               name="config.properties.http20ProxyFlag"
               dirty={values.config.properties.http20ProxyFlag !== initialValues.config.properties.http20ProxyFlag}
-              component={RadioButton}
+              component={Dropdown}
               label={t('http20Proxy')}
               infoBubbleMessage={t('https20ProxyInfoBubbleMessage')}
               id="app-settings-http20-proxy-enabled"
               disabled={disableAllControls}
               options={[
                 {
-                  key: 2,
+                  key: 0,
+                  text: t('off'),
+                },
+                {
+                  key: 1,
                   text: t('on'),
                   disabled: !values.config.properties.http20Enabled,
                 },
                 {
-                  key: 0,
-                  text: t('off'),
+                  key: 2,
+                  text: t('grpcOnly'),
+                  disabled: !values.config.properties.http20Enabled,
                 },
               ]}
             />
