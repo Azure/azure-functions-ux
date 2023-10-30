@@ -140,7 +140,6 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
     tokenComponent: QuickPulseToken,
     liveLogsSessionId?: string
   ) => {
-    const functionAppName = site?.name;
     quickPulseQueryLayer
       .queryDetails(tokenComponent.token, false, '', useNewFunctionLogsApi, liveLogsSessionId)
       .then((dataV2: any) => {
@@ -148,25 +147,16 @@ const FunctionLogAppInsightsDataLoader: React.FC<FunctionLogAppInsightsDataLoade
         if (!!dataV2 && dataV2.Documents) {
           if (liveLogsSessionId) {
             newDocs = dataV2.Documents.filter(
-              doc =>
-                !!doc.Content.Message &&
-                (!functionAppName || doc.RoleName === functionAppName) &&
-                (!doc.Content.OperationName || !functionName || doc.Content.OperationName === functionName)
+              doc => !!doc.Content.Message && (!doc.Content.OperationName || !functionName || doc.Content.OperationName === functionName)
             );
           } else {
             newDocs = dataV2.Documents.filter(
-              doc =>
-                !!doc.Content.Message &&
-                (!functionAppName || doc.RoleName === functionAppName) &&
-                (!functionName || doc.Content.OperationName === functionName)
+              doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
             );
           }
         } else if (!!dataV2 && dataV2.DataRanges && dataV2.DataRanges[0] && dataV2.DataRanges[0].Documents) {
           newDocs = dataV2.DataRanges[0].Documents.filter(
-            doc =>
-              !!doc.Content.Message &&
-              (!functionAppName || doc.RoleName === functionAppName) &&
-              (!functionName || doc.Content.OperationName === functionName)
+            doc => !!doc.Content.Message && (!functionName || doc.Content.OperationName === functionName)
           );
         }
         if (!!newDocs && callCount === 0) {
