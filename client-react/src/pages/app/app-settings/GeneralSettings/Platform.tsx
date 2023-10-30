@@ -77,10 +77,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
     props.setFieldValue('config.properties.http20ProxyFlag', 0);
-    if (!option.key) {
-      values.httpTwo = false;
-    } else {
-      values.httpTwo = true;
+    if (option.key) {
       props.setFieldValue('site.properties.clientCertEnabled', false);
     }
 

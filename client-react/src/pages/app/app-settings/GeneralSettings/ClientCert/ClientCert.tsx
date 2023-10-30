@@ -104,7 +104,7 @@ const ClientCert: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           label={t('clientCertificateMode')}
           id="incoming-client-certificate-mode"
           ariaLabelledBy={`incoming-client-certificate-mode-label`}
-          disabled={disableAllControls || clientCertEnabled.status === 'disabled' || values.httpTwo}
+          disabled={disableAllControls || clientCertEnabled.status === 'disabled' || values.config.properties.http20Enabled}
           upsellMessage={clientCertEnabled.status === 'disabled' ? clientCertEnabled.data : ''}
           selectedKey={getCompositeClientCertMode(values.site)}
           infoBubbleMessage={getClientCertInfoBubbleMessage(values.site)}
