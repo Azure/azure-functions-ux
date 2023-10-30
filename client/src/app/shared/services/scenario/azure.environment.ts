@@ -228,6 +228,7 @@ export class AzureEnvironment extends Environment {
       case Tier.premiumContainer:
       case Tier.elasticPremium:
       case Tier.elasticIsolated:
+      case Tier.workflowStandard:
         limit = 20;
         break;
       default:
