@@ -1081,6 +1081,9 @@
     <data name="on" xml:space="preserve">
         <value>On</value>
     </data>
+    <data name="grpcOnly" xml:space="preserve">
+        <value>gRPC Only</value>
+    </data>
     <data name="topBar_functionApiSettings" xml:space="preserve">
         <value>API settings</value>
     </data>
