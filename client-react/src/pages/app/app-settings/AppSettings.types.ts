@@ -51,7 +51,6 @@ export interface AppSettingsFormValues {
   currentlySelectedStack: string;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
   references?: KeyVaultReferences;
-  httpTwo?: boolean;
 }
 
 export interface FormState {
