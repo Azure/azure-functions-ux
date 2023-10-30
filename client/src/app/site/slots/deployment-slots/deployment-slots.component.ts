@@ -123,7 +123,7 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
     this._portalService
       .openFrameBlade(
         {
-          detailBlade: 'SpecPickerFrameBlade',
+          detailBlade: 'ScaleSpecPicker.ReactView',
           detailBladeInputs: {
             id: this.siteArm.properties.serverFarmId,
             feature: 'scaleup',
