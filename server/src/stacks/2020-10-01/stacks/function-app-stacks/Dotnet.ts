@@ -69,6 +69,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -91,6 +92,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -123,6 +125,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -143,6 +146,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -229,6 +233,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -249,6 +254,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
