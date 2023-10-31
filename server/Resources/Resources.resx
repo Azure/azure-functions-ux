@@ -1081,6 +1081,9 @@
     <data name="on" xml:space="preserve">
         <value>On</value>
     </data>
+    <data name="grpcOnly" xml:space="preserve">
+        <value>gRPC Only</value>
+    </data>
     <data name="topBar_functionApiSettings" xml:space="preserve">
         <value>API settings</value>
     </data>
@@ -5968,7 +5971,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Save changes</value>
     </data>
     <data name="saveAppSettingsMessage" xml:space="preserve">
-        <value>Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?</value>
+        <value>Your app may restart if you are updating application settings or connection strings. Are you sure you want to continue?</value>
     </data>
     <data name="azureFunctionsV1Linux" xml:space="preserve">
         <value>Version 1 Runtime is not supported on Linux Azure Functions</value>
