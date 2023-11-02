@@ -6,7 +6,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
   const java17EOL = getDateString(new Date('2031-09-01'), useIsoDateFormat);
   const java11EOL = getDateString(new Date('2026-09-01'), useIsoDateFormat);
   const java8EOL = getDateString(new Date('2025-03-01'), useIsoDateFormat);
-  const java7EOL = getDateString(new Date('2023-05-01'), useIsoDateFormat);
+  const java7EOL = getDateString(new Date('2023-07-01'), useIsoDateFormat);
 
   return {
     displayText: 'Java',
