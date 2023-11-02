@@ -3,9 +3,9 @@ import { getDateString } from '../date-utilities';
 
 const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
-  const java17EOL = getDateString(new Date(2031, 8), useIsoDateFormat);
-  const java11EOL = getDateString(new Date(2026, 8), useIsoDateFormat);
-  const java8EOL = getDateString(new Date(2025, 2), useIsoDateFormat);
+  const java17EOL = getDateString(new Date('2031-09-01'), useIsoDateFormat);
+  const java11EOL = getDateString(new Date('2026-09-01'), useIsoDateFormat);
+  const java8EOL = getDateString(new Date('2025-03-01'), useIsoDateFormat);
 
   return {
     displayText: 'Java',
@@ -43,7 +43,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: java17EOL
+                endOfLifeDate: java17EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Java|17',
@@ -157,7 +157,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
-                endOfLifeDate: java8EOL
+                endOfLifeDate: java8EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Java|8',
@@ -186,10 +186,9 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
         ],
       },
     ],
-  }
+  };
 };
 
 export const javaStackNonIsoDates: FunctionAppStack = getJavaStack(false);
 
 export const javaStack: FunctionAppStack = getJavaStack(true);
-

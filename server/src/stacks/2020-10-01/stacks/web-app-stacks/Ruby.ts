@@ -2,11 +2,11 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getRubyStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
-  const ruby2Point7EOL = getDateString(new Date(2023, 2, 31), useIsoDateFormat);
-  const ruby2Point6EOL = getDateString(new Date(2022, 2, 31), useIsoDateFormat);
-  const ruby2Point5EOL = getDateString(new Date(2021, 2, 31), useIsoDateFormat);
-  const ruby2Point4EOL = getDateString(new Date(2020, 3, 1), useIsoDateFormat);
-  const ruby2Point3EOL = getDateString(new Date(2019, 2, 31), useIsoDateFormat);
+  const ruby2Point7EOL = getDateString(new Date('2023-03-31'), useIsoDateFormat);
+  const ruby2Point6EOL = getDateString(new Date('2022-03-31'), useIsoDateFormat);
+  const ruby2Point5EOL = getDateString(new Date('2021-03-31'), useIsoDateFormat);
+  const ruby2Point4EOL = getDateString(new Date('2020-04-01'), useIsoDateFormat);
+  const ruby2Point3EOL = getDateString(new Date('2019-03-31'), useIsoDateFormat);
 
   return {
     displayText: 'Ruby',
