@@ -2,13 +2,13 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
-  const dotnet5EOL = getDateString(new Date(2022, 4, 8), useIsoDateFormat);
-  const dotnetCore3Point0EOL = getDateString(new Date('2020-03-03'), useIsoDateFormat);
-  const dotnetCore3Point1EOL = getDateString(new Date('2022-12-03'), useIsoDateFormat);
-  const dotnetCore2Point2EOL = getDateString(new Date('2019-12-23'), useIsoDateFormat);
-  const dotnetCore2Point1EOL = getDateString(new Date('2021-07-21'), useIsoDateFormat);
-  const dotnetCore2Point0EOL = getDateString(new Date('2018-10-01'), useIsoDateFormat);
-  const dotnetCore1EOL = getDateString(new Date('2019-06-27'), useIsoDateFormat);
+  const dotnet5EOL = getDateString(new Date('2022/05/08'), useIsoDateFormat);
+  const dotnetCore3Point0EOL = getDateString(new Date('2020/03/03'), useIsoDateFormat);
+  const dotnetCore3Point1EOL = getDateString(new Date('2022/12/03'), useIsoDateFormat);
+  const dotnetCore2Point2EOL = getDateString(new Date('2019/12/23'), useIsoDateFormat);
+  const dotnetCore2Point1EOL = getDateString(new Date('2021/07/21'), useIsoDateFormat);
+  const dotnetCore2Point0EOL = getDateString(new Date('2018/10/01'), useIsoDateFormat);
+  const dotnetCore1EOL = getDateString(new Date('2019/06/27'), useIsoDateFormat);
 
   return {
     displayText: '.NET',

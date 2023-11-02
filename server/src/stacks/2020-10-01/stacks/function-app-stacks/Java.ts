@@ -3,9 +3,9 @@ import { getDateString } from '../date-utilities';
 
 const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
-  const java17EOL = getDateString(new Date('2031-09-01'), useIsoDateFormat);
-  const java11EOL = getDateString(new Date('2026-09-01'), useIsoDateFormat);
-  const java8EOL = getDateString(new Date('2025-03-01'), useIsoDateFormat);
+  const java17EOL = getDateString(new Date('2031/09/01'), useIsoDateFormat);
+  const java11EOL = getDateString(new Date('2026/09/01'), useIsoDateFormat);
+  const java8EOL = getDateString(new Date('2025/03/01'), useIsoDateFormat);
 
   return {
     displayText: 'Java',
