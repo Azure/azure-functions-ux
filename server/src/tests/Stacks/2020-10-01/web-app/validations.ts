@@ -13,7 +13,7 @@ const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(9);
+  expect(stacks.length).to.equal(10);
 }
 
 export function validateWindowsStacks(stacks) {
@@ -185,7 +185,7 @@ function validateNodeStack(nodeStack) {
   expect(nodeStack.displayText).to.equal('Node');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('linux');
-  expect(nodeStack.majorVersions.length).to.equal(11);
+  expect(nodeStack.majorVersions.length).to.equal(12);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
