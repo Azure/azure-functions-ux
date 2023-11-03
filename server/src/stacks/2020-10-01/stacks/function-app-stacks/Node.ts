@@ -2,14 +2,14 @@ import { FunctionAppStack } from '../../models/FunctionAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
-  const node12EOL = getDateString(new Date(2022, 11, 13), useIsoDateFormat);
-  const node10EOL = getDateString(new Date(2021, 3, 30), useIsoDateFormat);
-  const node8EOL = getDateString(new Date(2019, 11, 31), useIsoDateFormat);
-  const node6EOL = getDateString(new Date(2019, 3, 30), useIsoDateFormat);
-  const node20EOL = getDateString(new Date(2026, 4, 30), useIsoDateFormat);
-  const node18EOL = getDateString(new Date(2025, 3, 30), useIsoDateFormat);
-  const node16EOL = getDateString(new Date(2024, 5, 30), useIsoDateFormat);
-  const node14EOL = getDateString(new Date(2023, 3, 30), useIsoDateFormat);
+  const node12EOL = getDateString(new Date('2022/12/13'), useIsoDateFormat);
+  const node10EOL = getDateString(new Date('2021/04/30'), useIsoDateFormat);
+  const node8EOL = getDateString(new Date('2019/12/31'), useIsoDateFormat);
+  const node6EOL = getDateString(new Date('2019/04/30'), useIsoDateFormat);
+  const node20EOL = getDateString(new Date('2026/05/30'), useIsoDateFormat);
+  const node18EOL = getDateString(new Date('2025/04/30'), useIsoDateFormat);
+  const node16EOL = getDateString(new Date('2024/06/30'), useIsoDateFormat);
+  const node14EOL = getDateString(new Date('2023/04/30'), useIsoDateFormat);
 
   return {
     displayText: 'Node.js',

@@ -2,15 +2,15 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
-  const php8Point2EOL = getDateString(new Date(2025, 11, 8), useIsoDateFormat);
-  const php8Point1EOL = getDateString(new Date(2023, 10, 26), useIsoDateFormat);
-  const php8Point0EOL = getDateString(new Date(2023, 10, 26), useIsoDateFormat);
-  const php7Point4EOL = getDateString(new Date(2022, 10, 30), useIsoDateFormat);
-  const php7Point3EOL = getDateString(new Date(2021, 11, 6), useIsoDateFormat);
-  const php7Point2EOL = getDateString(new Date(2020, 10, 30), useIsoDateFormat);
-  const php7Point1EOL = getDateString(new Date(2020, 1, 1), useIsoDateFormat);
-  const php7Point0EOL = getDateString(new Date(2020, 1, 1), useIsoDateFormat);
-  const php5Point6EOL = getDateString(new Date(2021, 1, 1), useIsoDateFormat);
+  const php8Point2EOL = getDateString(new Date('2025/12/08'), useIsoDateFormat);
+  const php8Point1EOL = getDateString(new Date('2023/11/26'), useIsoDateFormat);
+  const php8Point0EOL = getDateString(new Date('2023/11/26'), useIsoDateFormat);
+  const php7Point4EOL = getDateString(new Date('2022/11/30'), useIsoDateFormat);
+  const php7Point3EOL = getDateString(new Date('2021/12/06'), useIsoDateFormat);
+  const php7Point2EOL = getDateString(new Date('2020/11/30'), useIsoDateFormat);
+  const php7Point1EOL = getDateString(new Date('2020/02/01'), useIsoDateFormat);
+  const php7Point0EOL = getDateString(new Date('2020/02/01'), useIsoDateFormat);
+  const php5Point6EOL = getDateString(new Date('2021/02/01'), useIsoDateFormat);
 
   return {
     displayText: 'PHP',

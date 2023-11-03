@@ -3,10 +3,10 @@ import { getDateString } from '../date-utilities';
 
 const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
   // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
-  const java17EOL = getDateString(new Date(2031, 8), useIsoDateFormat);
-  const java11EOL = getDateString(new Date(2026, 8), useIsoDateFormat);
-  const java8EOL = getDateString(new Date(2025, 2), useIsoDateFormat);
-  const java7EOL = getDateString(new Date(2023, 6), useIsoDateFormat);
+  const java17EOL = getDateString(new Date('2031/09/01'), useIsoDateFormat);
+  const java11EOL = getDateString(new Date('2026/09/01'), useIsoDateFormat);
+  const java8EOL = getDateString(new Date('2025/03/01'), useIsoDateFormat);
+  const java7EOL = getDateString(new Date('2023/07/01'), useIsoDateFormat);
 
   return {
     displayText: 'Java',
@@ -84,7 +84,8 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 endOfLifeDate: java17EOL,
               },
             },
-          }, {
+          },
+          {
             displayText: 'Java 17.0.3',
             value: '17.0.3',
             stackSettings: {
