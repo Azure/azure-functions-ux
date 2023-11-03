@@ -13,7 +13,7 @@ const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(10);
+  expect(stacks.length).to.equal(9);
 }
 
 export function validateWindowsStacks(stacks) {
