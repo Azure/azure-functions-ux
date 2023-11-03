@@ -2,7 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
-  const python2EOL = getDateString(new Date(2020, 1, 1), useIsoDateFormat);
+  const python2EOL = getDateString(new Date('2020/02/01'), useIsoDateFormat);
 
   return {
     displayText: 'Python',
