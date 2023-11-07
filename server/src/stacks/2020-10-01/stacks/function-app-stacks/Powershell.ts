@@ -18,6 +18,57 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
         value: '7',
         minorVersions: [
           {
+            displayText: 'PowerShell 7.4',
+            value: '7.4',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '7.4',
+                isDefault: false,
+                isPreview: true,
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'powershell',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  powerShellVersion: '7.4',
+                  netFrameworkVersion: 'v8.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                //endOfLifeDate: powershell74EOL,
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'PowerShell|7.4',
+                isDefault: false,
+                isPreview: true,
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'powershell',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'PowerShell|7.4',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                //endOfLifeDate: powershell74EOL,
+              },
+            },
+          },
+          {
             displayText: 'PowerShell 7.2',
             value: '7.2',
             stackSettings: {
