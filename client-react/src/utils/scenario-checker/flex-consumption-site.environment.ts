@@ -11,6 +11,27 @@ export class FlexConsumptionEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.showGeneralSettings] = {
       id: ScenarioIds.showGeneralSettings,
       runCheck: () => {
+        return { status: 'enabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.ftpStateSupported] = {
+      id: ScenarioIds.ftpStateSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.classicPipelineModeSupported] = {
+      id: ScenarioIds.classicPipelineModeSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.platform64BitSupported] = {
+      id: ScenarioIds.platform64BitSupported,
+      runCheck: () => {
         return { status: 'disabled' };
       },
     };
