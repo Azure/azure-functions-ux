@@ -95,6 +95,8 @@ export const useFunctionEditorQueries = (resourceId: string, functionEditorData:
 
     if (statuses.some(status => status === 'loading')) {
       return 'loading';
+    } else if (statuses.some(status => status === 'unauthorized')) {
+      return 'unauthorized';
     } else if (statuses.some(status => status === 'error')) {
       return 'error';
     } else if (statuses.every(status => status === 'success')) {
