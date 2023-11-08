@@ -42,7 +42,6 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   netFrameworkVersion: 'v8.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                //endOfLifeDate: powershell74EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'PowerShell|7.4',
@@ -64,7 +63,6 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   linuxFxVersion: 'PowerShell|7.4',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                //endOfLifeDate: powershell74EOL,
               },
             },
           },
