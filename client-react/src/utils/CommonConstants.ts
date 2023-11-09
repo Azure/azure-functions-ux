@@ -136,6 +136,7 @@ export class CommonConstants {
     elasticPremium: 'elasticpremium',
     elasticIsolated: 'elasticisolated',
     flexConsumption: 'flexconsumption',
+    workflowStandard: 'workflowstandard',
   };
 
   public static readonly SiteStates = {
