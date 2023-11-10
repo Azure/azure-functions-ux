@@ -562,7 +562,7 @@
     "id": "dotnet",
     "name": ".NET",
     "kind": "api",
-    "files": ["*.?(csproj|fsproj)", "host.json"],
+    "files": ["*.?(csproj|fsproj)"],
     "config": {
       "apiBuildCommand": "dotnet publish -c Release"
     }
