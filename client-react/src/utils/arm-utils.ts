@@ -110,13 +110,7 @@ export function isPremium(obj: ArmObj<Site>): boolean {
 
 export function isPremiumOrHigher(obj: ArmObj<Site>): boolean {
   return (
-    isWorkflowStandard(obj) ||
-    isIsolated(obj) ||
-    isIsolatedV2(obj) ||
-    isElasticPremium(obj) ||
-    isElasticIsolated(obj) ||
-    isPremiumContainer(obj) ||
-    isPremium(obj)
+    isWorkflowStandard(obj) || isIsolated(obj) || isIsolatedV2(obj) || isElasticPremium(obj) || isElasticIsolated(obj) || isPremium(obj)
   );
 }
 

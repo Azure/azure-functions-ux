@@ -27,6 +27,7 @@ export class CommonConstants {
 
   public static readonly ApiVersions = {
     antaresApiVersion20181101: '2018-11-01',
+    antaresApiVersion20220301: '2022-03-01',
     antaresApiVersion20201201: '2020-12-01',
     armBatchApi20151101: '2015-11-01',
     armDeploymentApiVersion20210401: '2021-04-01',

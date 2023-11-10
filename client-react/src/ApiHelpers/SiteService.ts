@@ -26,7 +26,11 @@ export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
 
   public static fetchSite = (resourceId: string) => {
-    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'fetchSite' });
+    return MakeArmCall<ArmObj<Site>>({
+      resourceId,
+      commandName: 'fetchSite',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20220301,
+    });
   };
 
   public static updateSite = (
@@ -59,6 +63,7 @@ export default class SiteService {
       commandName: usePatch ? 'patchSite' : 'updateSite',
       method: usePatch ? 'PATCH' : 'PUT',
       body: payload,
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20220301,
     });
   };
 

@@ -150,6 +150,7 @@ export interface Site {
   vnetImagePullEnabled: boolean;
   keyVaultReferenceIdentity: string;
   sshEnabled?: boolean | null;
+  endToEndEncryptionEnabled?: boolean;
 }
 
 export interface HostNameSslState {
