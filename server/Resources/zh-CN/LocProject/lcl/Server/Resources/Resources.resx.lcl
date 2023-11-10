@@ -13086,6 +13086,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";grpcOnly" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[gRPC Only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[仅 gRPC]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";handlerMappingPropIsRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[{0} is a required property on all handler mappings]]></Val>
@@ -18641,10 +18650,13 @@
       </Item>
       <Item ItemId=";saveAppSettingsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?]]></Val>
+          <Val><![CDATA[Your app may restart if you are updating application settings or connection strings. Are you sure you want to continue?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[对应用设置和连接字符串所做的任何更改都会重启应用。确定要继续操作吗?]]></Val>
+            <Val><![CDATA[如果要更新应用程序设置或连接字符串，则应用可能会重启。是否确实要继续?]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
