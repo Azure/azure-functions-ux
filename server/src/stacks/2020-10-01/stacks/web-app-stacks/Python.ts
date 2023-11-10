@@ -30,7 +30,6 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 supportedFeatures: {
                   disableSsh: true,
                 },
-                isHidden: true,
               },
             },
           },
