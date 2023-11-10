@@ -34,7 +34,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '8.x',
                 },
-                isPreview: true,
+                isEarlyAccess: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|8.0',
@@ -50,7 +50,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 supportedFeatures: {
                   disableSsh: true,
                 },
-                isPreview: true,
+                isEarlyAccess: true,
               },
             },
           },
