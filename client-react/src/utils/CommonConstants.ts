@@ -34,7 +34,7 @@ export class CommonConstants {
     sitesApiVersion20201201: '2020-12-01',
     storageApiVersion20180701: '2018-07-01',
     storageApiVersion20210401: '2021-04-01',
-    eventHubApiVersion20150801: '2015-08-01',
+    eventHubApiVersion20211101: '2021-11-01',
     iotHubApiVersion20170119: '2017-01-19',
     serviceBusApiVersion20150801: '2015-08-01',
     documentDBApiVersion20150408: '2015-04-08',
