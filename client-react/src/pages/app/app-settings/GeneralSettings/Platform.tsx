@@ -395,6 +395,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           id={'endToEndEncryptionEnabled'}
           component={RadioButton}
           label={t('endToEndEncryptionLabel')}
+          dirty={!!values.site.properties.endToEndEncryptionEnabled !== !!initialValues.site.properties.endToEndEncryptionEnabled}
           options={[
             {
               key: true,

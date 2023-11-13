@@ -514,6 +514,8 @@ export class PortalResources {
   public static minTlsCipherSuitePanelHeader = 'minTlsCipherSuitePanelHeader';
   public static minTlsCipherSuiteMostSecure = 'minTlsCipherSuiteMostSecure';
   public static minTlsCipherSuiteLeastSecure = 'minTlsCipherSuiteLeastSecure';
+  public static endToEndEncryptionLabel = 'endToEndEncryptionLabel';
+  public static endToEndEncryptionInfoMessage = 'endToEndEncryptionInfoMessage';
   public static selected = 'selected';
   public static change = 'change';
   public static clientAffinityInfoText = 'clientAffinityInfoText';
