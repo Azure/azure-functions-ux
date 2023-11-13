@@ -75,6 +75,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                   isSupported: true,
                   supportedVersion: '20.x',
                 },
+                isHidden: true,
               },
             },
           },
