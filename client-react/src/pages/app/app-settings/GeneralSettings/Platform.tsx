@@ -389,6 +389,27 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           widthLabel={'230px'}
         />
       )}
+      {scenarioChecker.checkScenario(ScenarioIds.enableE2ETlsEncryption, { site }).status === 'enabled' && (
+        <Field
+          name={'site.properties.endToEndEncryptionEnabled'}
+          id={'endToEndEncryptionEnabled'}
+          component={RadioButton}
+          label={t('endToEndEncryptionLabel')}
+          dirty={!!values.site.properties.endToEndEncryptionEnabled !== !!initialValues.site.properties.endToEndEncryptionEnabled}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+          infoBubbleMessage={t('endToEndEncryptionInfoMessage')}
+          learnMoreLink={Links.endToEndEncryptionLearnMore}
+        />
+      )}
       {scenarioChecker.checkScenario(ScenarioIds.vnetPrivatePortsCount, { site }).status === 'enabled' && (
         <Field
           name={'config.properties.vnetPrivatePortsCount'}

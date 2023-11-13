@@ -57,6 +57,7 @@ export const Links = {
   endOfLifeStackLink: 'https://go.microsoft.com/fwlink/?linkid=2202628',
   connectionStringLearnmore: 'https://go.microsoft.com/fwlink/?linkid=2225650',
   customErrorPagesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2245451',
+  endToEndEncryptionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2252411',
 };
 
 export const DeploymentCenterLinks = {
