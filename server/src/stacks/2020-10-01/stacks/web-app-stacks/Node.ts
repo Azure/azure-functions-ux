@@ -42,6 +42,46 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
         ],
       },
       {
+        displayText: 'Node 20',
+        value: '20',
+        minorVersions: [
+          {
+            displayText: 'Node 20 LTS',
+            value: '20-lts',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'NODE|20-lts',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '20.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '~20',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '20.x',
+                },
+                isHidden: true,
+              },
+            },
+          },
+        ],
+      },
+      {
         displayText: 'Node 18',
         value: '18',
         minorVersions: [
