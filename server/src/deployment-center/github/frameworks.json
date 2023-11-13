@@ -1,613 +1,613 @@
 [
-    {
-      "id": "static",
-      "name": "Static HTML",
-      "kind": "app",
-      "config": {
-        "outputLocation": "."
-      },
-      "files": ["@(index.htm|default.htm)?(l)"]
+  {
+    "id": "static",
+    "name": "Static HTML",
+    "kind": "app",
+    "config": {
+      "outputLocation": "."
     },
-    {
-      "id": "angular",
-      "name": "Angular",
-      "kind": "app",
-      "files": ["angular.json"],
-      "packages": ["@angular/core"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:4200",
-        "outputLocation": "{angular.json#Object.values(data.projects)[0].architect.build.options.outputPath}"
-      }
-    },
-    {
-      "id": "scully",
-      "name": "Scully",
-      "kind": "app",
-      "parent": "angular",
-      "packages": ["@scullyio/scully"],
-      "config": {}
-    },
-    {
-      "id": "react",
-      "name": "React",
-      "kind": "app",
-      "packages": ["react", "react-dom"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "build"
-      }
-    },
-    {
-      "id": "nextjs",
-      "name": "Next.js",
-      "kind": "app",
-      "parent": "react",
-      "packages": ["next"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm dev",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "."
-      }
-    },
-    {
-      "id": "gatsby",
-      "name": "Gatsby",
-      "kind": "app",
-      "parent": "react",
-      "files": ["gatsby-config.js"],
-      "packages": ["gatsby"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:8000",
-        "outputLocation": "public"
-      }
-    },
-    {
-      "id": "docusaurus",
-      "name": "Docusaurus",
-      "kind": "app",
-      "parent": "react",
-      "packages": ["@docusaurus/core"],
-      "config": {}
-    },
-    {
-      "id": "react-static",
-      "name": "React-static",
-      "kind": "app",
-      "parent": "react",
-      "packages": ["react-static"],
-      "config": {
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "preact",
-      "name": "Preact",
-      "kind": "app",
-      "packages": ["preact"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "build"
-      }
-    },
-    {
-      "id": "vue",
-      "name": "Vue.js",
-      "kind": "app",
-      "packages": ["vue"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run serve",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "vite",
-      "name": "Vite",
-      "kind": "app",
-      "parent": "vue",
-      "packages": ["vite"],
-      "config": {
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:3000"
-      }
-    },
-    {
-      "id": "nuxtjs",
-      "name": "Nuxt.js",
-      "kind": "app",
-      "parent": "vue",
-      "files": ["nuxt.config.js"],
-      "packages": ["nuxt"],
-      "config": {
-        "appBuildCommand": "npm run generate",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "vuepress",
-      "name": "VuePress",
-      "kind": "app",
-      "overrides": ["vue"],
-      "packages": ["vuepress"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "src/.vuepress/dist"
-      }
-    },
-    {
-      "id": "vitepress",
-      "name": "VitePress",
-      "kind": "app",
-      "overrides": ["vue"],
-      "packages": ["vitepress"],
-      "config": {
-        "appBuildCommand": "npm run docs:build",
-        "appDevserverCommand": "npm run docs:dev",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "docs/.vitepress/dist"
-      }
-    },
-    {
-      "id": "svelte",
-      "name": "Svelte",
-      "kind": "app",
-      "packages": ["svelte"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "public"
-      }
-    },
-    {
-      "id": "svelte-kit",
-      "name": "SvelteKit",
-      "kind": "app",
-      "overrides": ["svelte"],
-      "packages": ["@sveltejs/kit"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "build"
-      }
-    },
-    {
-      "id": "sapper",
-      "name": "Sapper",
-      "kind": "app",
-      "overrides": ["svelte"],
-      "packages": ["sapper"],
-      "config": {
-        "appBuildCommand": "npm run export",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "__sapper__/export"
-      }
-    },
-    {
-      "id": "riot",
-      "name": "Riot.js",
-      "kind": "app",
-      "packages": ["riot"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "stencil",
-      "name": "Stencil.js",
-      "kind": "app",
-      "files": ["stencil.config.ts"],
-      "packages": ["@stencil/core"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:3333",
-        "outputLocation": "www"
-      }
-    },
-    {
-      "id": "aurelia",
-      "name": "Aurelia",
-      "kind": "app",
-      "packages": ["aurelia-bootstrapper", "aurelia-cli"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "ember",
-      "name": "Ember.js",
-      "kind": "app",
-      "packages": ["ember-cli", "ember-load-initializers", "ember-resolver"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:4200",
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "elm",
-      "name": "Elm",
-      "kind": "app",
-      "files": ["elm.json"],
-      "config": {
-        "appBuildCommand": "elm make src/Main.elm --optimize",
-        "appDevserverCommand": "elm reactor",
-        "appDevserverUrl": "http://localhost:8000",
-        "outputLocation": "."
-      }
-    },
-    {
-      "id": "polymer",
-      "name": "Polymer",
-      "kind": "app",
-      "files": ["polymer.json"],
-      "packages": ["@polymer/polymer"],
-      "config": {
-        "appBuildCommand": "polymer build --preset es6-bundled",
-        "appDevserverCommand": "polymer serve --open",
-        "appDevserverUrl": "http://localhost:8081",
-        "outputLocation": "build/es6-bundled"
-      }
-    },
-    {
-      "id": "lit",
-      "name": "Lit",
-      "kind": "app",
-      "packages": ["lit", "lit-element"],
-      "config": {
-        "appBuildCommand": "npm run build --if-present",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:8081",
-        "outputLocation": "."
-      }
-    },
-    {
-      "id": "hugo",
-      "name": "Hugo",
-      "kind": "app",
-      "files": ["config.toml", "content"],
-      "contains": {
-        "config.toml": "baseURL ="
-      },
-      "config": {
-        "appBuildCommand": "hugo -D",
-        "appDevserverCommand": "hugo server -D",
-        "appDevserverUrl": "http://localhost:1313",
-        "outputLocation": "public"
-      }
-    },
-    {
-      "id": "flutter",
-      "name": "Flutter",
-      "kind": "app",
-      "files": ["pubspec.yaml", "web"],
-      "config": {
-        "appBuildCommand": "flutter build web",
-        "appDevserverCommand": "flutter run --web-port 8080",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "build/web"
-      }
-    },
-    {
-      "id": "jekyll",
-      "name": "Jekyll",
-      "kind": "app",
-      "files": ["_config.yml", "Gemfile"],
-      "config": {
-        "appBuildCommand": "jekyll build",
-        "appDevserverCommand": "bundle exec jekyll serve --livereload",
-        "appDevserverUrl": "http://localhost:4000",
-        "outputLocation": "_site"
-      }
-    },
-    {
-      "id": "slate",
-      "name": "Slate",
-      "kind": "app",
-      "overrides": ["middleman"],
-      "files": ["slate.sh", "Gemfile"],
-      "config": {
-        "appBuildCommand": "./slate.sh build",
-        "appDevserverCommand": "./slate.sh serve",
-        "appDevserverUrl": "http://localhost:4567",
-        "outputLocation": "build"
-      }
-    },
-    {
-      "id": "mkdocs",
-      "name": "MkDocs",
-      "kind": "app",
-      "files": ["mkdocs.yml"],
-      "config": {
-        "appBuildCommand": "mkdocs build",
-        "appDevserverCommand": "mkdocs serve",
-        "appDevserverUrl": "http://localhost:8000",
-        "outputLocation": "site"
-      }
-    },
-    {
-      "id": "eleventy",
-      "name": "Eleventy",
-      "kind": "app",
-      "packages": ["@11ty/eleventy"],
-      "config": {
-        "appBuildCommand": "eleventy",
-        "appDevserverCommand": "eleventy --serve",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "_site"
-      }
-    },
-    {
-      "id": "astro",
-      "name": "Astro",
-      "kind": "app",
-      "overrides": ["alpine", "lit", "react", "preact", "solid", "svelte", "vue"],
-      "files": ["astro.config.mjs"],
-      "packages": ["astro"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "_site"
-      }
-    },
-    {
-      "id": "pelican",
-      "name": "Pelican",
-      "kind": "app",
-      "files": ["pelicanconf.py"],
-      "config": {
-        "appBuildCommand": "make html",
-        "appDevserverCommand": "make devserver",
-        "appDevserverUrl": "http://localhost:8000",
-        "outputLocation": "output"
-      }
-    },
-    {
-      "id": "hexo",
-      "name": "Hexo",
-      "kind": "app",
-      "packages": ["hexo"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run server",
-        "appDevserverUrl": "http://localhost:4000",
-        "outputLocation": "public"
-      }
-    },
-    {
-      "id": "blazor-wasm",
-      "name": "Blazor WASM",
-      "kind": "app",
-      "files": ["*.csproj", "App.razor", "wwwroot", "Program.cs"],
-      "contains": {
-        "Program.cs": "WebAssemblyHostBuilder.CreateDefault"
-      },
-      "config": {
-        "appBuildCommand": "dotnet publish -c Release -o bin",
-        "appDevserverCommand": "dotnet watch run",
-        "appDevserverUrl": "http://localhost:8000",
-        "outputLocation": "wwwroot"
-      }
-    },
-    {
-      "id": "gridsome",
-      "name": "Gridsome",
-      "kind": "app",
-      "packages": ["gridsome"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run develop",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "solid",
-      "name": "Solid",
-      "kind": "app",
-      "packages": ["solid-js"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "remix",
-      "name": "Remix",
-      "kind": "app",
-      "overrides": ["react"],
-      "packages": ["@remix-run/node", "@remix-run/server-runtime"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm run dev",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "public/build"
-      }
-    },
-    {
-      "id": "metalsmith",
-      "name": "Metalsmith",
-      "kind": "app",
-      "packages": ["metalsmith"],
-      "config": {
-        "appBuildCommand": "npm start",
-        "appDevserverCommand": "npm run serve",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "build"
-      }
-    },
-    {
-      "id": "brunch",
-      "name": "Brunch",
-      "kind": "app",
-      "packages": ["brunch"],
-      "config": {
-        "appBuildCommand": "npm run build",
-        "appDevserverCommand": "npm start",
-        "appDevserverUrl": "http://localhost:3333",
-        "outputLocation": "public"
-      }
-    },
-    {
-      "id": "wintersmith",
-      "name": "Wintersmith",
-      "kind": "app",
-      "files": ["config.json", "contents"],
-      "config": {
-        "appBuildCommand": "wintersmith build",
-        "appDevserverCommand": "wintersmith preview",
-        "appDevserverUrl": "http://localhost:8080",
-        "outputLocation": "build"
-      }
-    },
-    {
-      "id": "middleman",
-      "name": "Middleman",
-      "kind": "app",
-      "files": ["config.rb", "Gemfile", "source"],
-      "config": {
-        "appBuildCommand": "bundle exec middleman build",
-        "appDevserverCommand": "bundle exec middleman server",
-        "appDevserverUrl": "http://localhost:4567",
-        "outputLocation": "build"
-      }
-    },
-    {
-      "id": "mdbook",
-      "name": "mdBook",
-      "kind": "app",
-      "files": ["book.toml"],
-      "config": {
-        "appBuildCommand": "mdbook build",
-        "appDevserverCommand": "mdbook serve",
-        "appDevserverUrl": "http://localhost:3000",
-        "outputLocation": "book"
-      }
-    },
-    {
-      "id": "zola",
-      "name": "Zola",
-      "kind": "app",
-      "files": ["config.toml", "content"],
-      "contains": {
-        "config.toml": "base_url ="
-      },
-      "config": {
-        "appBuildCommand": "zola build",
-        "appDevserverCommand": "zola serve",
-        "appDevserverUrl": "http://localhost:1111",
-        "outputLocation": "public"
-      }
-    },
-    {
-      "id": "lektor",
-      "name": "Lektor",
-      "kind": "app",
-      "files": ["*.lektorproject"],
-      "config": {
-        "appBuildCommand": "lektor build --output-path dist",
-        "appDevserverCommand": "lektor server",
-        "appDevserverUrl": "http://localhost:5000",
-        "outputLocation": "dist"
-      }
-    },
-    {
-      "id": "nodejs",
-      "name": "Node.js",
-      "kind": "api",
-      "files": ["package.json", "host.json"],
-      "config": {
-        "apiBuildCommand": "npm run build --if-present"
-      }
-    },
-    {
-      "id": "typescript",
-      "name": "TypeScript",
-      "kind": "api",
-      "files": ["tsconfig.json"],
-      "packages": ["typescript"],
-      "parent": "nodejs",
-      "config": {
-        "apiLocation": "{tsconfig.json#data.compilerOptions.outDir}"
-      }
-    },
-    {
-      "id": "dotnet",
-      "name": ".NET",
-      "kind": "api",
-      "files": ["*.?(csproj|fsproj)", "host.json"],
-      "config": {
-        "apiBuildCommand": "dotnet publish -c Release"
-      }
-    },
-    {
-      "id": "python",
-      "name": "Python",
-      "kind": "api",
-      "files": ["?(requirements.txt|pyproject.toml|runtime.txt|setup.py)", "pyproject.toml", "runtime.txt", "manage.py", "wsgi.py", "app.py"],
-      "config": {}
-    },
-    {
-        "id": "php",
-        "name": "Php",
-        "kind": "api",
-        "files": ["index.php"],
-        "config": {}
-    },
-    {
-        "id": "java",
-        "name": "Java",
-        "kind": "api",
-        "files": ["pom.xml", "build.gradle", "*.java"],
-        "config": {}
-    },
-    {
-        "id": "azure-functions",
-        "name": "Azure Functions",
-        "kind": "api",
-        "files": ["host.json"],
-        "config": {}
-    },
-    {
-        "id": "azure-azd",
-        "name": "Azd Template",
-        "kind": "api",
-        "packages": [],
-        "files": ["azure.yaml"],
-        "config": {}
-    },
-    {
-        "id": "docker-file",
-        "name": "Dockerfile",
-        "kind": "api",
-        "files": ["Dockerfile"],
-        "config": {}
+    "files": ["@(index.htm|default.htm)?(l)"]
+  },
+  {
+    "id": "angular",
+    "name": "Angular",
+    "kind": "app",
+    "files": ["angular.json"],
+    "packages": ["@angular/core"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:4200",
+      "outputLocation": "{angular.json#Object.values(data.projects)[0].architect.build.options.outputPath}"
     }
-  ]
+  },
+  {
+    "id": "scully",
+    "name": "Scully",
+    "kind": "app",
+    "parent": "angular",
+    "packages": ["@scullyio/scully"],
+    "config": {}
+  },
+  {
+    "id": "react",
+    "name": "React",
+    "kind": "app",
+    "packages": ["react", "react-dom"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "build"
+    }
+  },
+  {
+    "id": "nextjs",
+    "name": "Next.js",
+    "kind": "app",
+    "parent": "react",
+    "packages": ["next"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm dev",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "."
+    }
+  },
+  {
+    "id": "gatsby",
+    "name": "Gatsby",
+    "kind": "app",
+    "parent": "react",
+    "files": ["gatsby-config.js"],
+    "packages": ["gatsby"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:8000",
+      "outputLocation": "public"
+    }
+  },
+  {
+    "id": "docusaurus",
+    "name": "Docusaurus",
+    "kind": "app",
+    "parent": "react",
+    "packages": ["@docusaurus/core"],
+    "config": {}
+  },
+  {
+    "id": "react-static",
+    "name": "React-static",
+    "kind": "app",
+    "parent": "react",
+    "packages": ["react-static"],
+    "config": {
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "preact",
+    "name": "Preact",
+    "kind": "app",
+    "packages": ["preact"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "build"
+    }
+  },
+  {
+    "id": "vue",
+    "name": "Vue.js",
+    "kind": "app",
+    "packages": ["vue"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run serve",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "vite",
+    "name": "Vite",
+    "kind": "app",
+    "parent": "vue",
+    "packages": ["vite"],
+    "config": {
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:3000"
+    }
+  },
+  {
+    "id": "nuxtjs",
+    "name": "Nuxt.js",
+    "kind": "app",
+    "parent": "vue",
+    "files": ["nuxt.config.js"],
+    "packages": ["nuxt"],
+    "config": {
+      "appBuildCommand": "npm run generate",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "vuepress",
+    "name": "VuePress",
+    "kind": "app",
+    "overrides": ["vue"],
+    "packages": ["vuepress"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "src/.vuepress/dist"
+    }
+  },
+  {
+    "id": "vitepress",
+    "name": "VitePress",
+    "kind": "app",
+    "overrides": ["vue"],
+    "packages": ["vitepress"],
+    "config": {
+      "appBuildCommand": "npm run docs:build",
+      "appDevserverCommand": "npm run docs:dev",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "docs/.vitepress/dist"
+    }
+  },
+  {
+    "id": "svelte",
+    "name": "Svelte",
+    "kind": "app",
+    "packages": ["svelte"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "public"
+    }
+  },
+  {
+    "id": "svelte-kit",
+    "name": "SvelteKit",
+    "kind": "app",
+    "overrides": ["svelte"],
+    "packages": ["@sveltejs/kit"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "build"
+    }
+  },
+  {
+    "id": "sapper",
+    "name": "Sapper",
+    "kind": "app",
+    "overrides": ["svelte"],
+    "packages": ["sapper"],
+    "config": {
+      "appBuildCommand": "npm run export",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "__sapper__/export"
+    }
+  },
+  {
+    "id": "riot",
+    "name": "Riot.js",
+    "kind": "app",
+    "packages": ["riot"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "stencil",
+    "name": "Stencil.js",
+    "kind": "app",
+    "files": ["stencil.config.ts"],
+    "packages": ["@stencil/core"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:3333",
+      "outputLocation": "www"
+    }
+  },
+  {
+    "id": "aurelia",
+    "name": "Aurelia",
+    "kind": "app",
+    "packages": ["aurelia-bootstrapper", "aurelia-cli"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "ember",
+    "name": "Ember.js",
+    "kind": "app",
+    "packages": ["ember-cli", "ember-load-initializers", "ember-resolver"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:4200",
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "elm",
+    "name": "Elm",
+    "kind": "app",
+    "files": ["elm.json"],
+    "config": {
+      "appBuildCommand": "elm make src/Main.elm --optimize",
+      "appDevserverCommand": "elm reactor",
+      "appDevserverUrl": "http://localhost:8000",
+      "outputLocation": "."
+    }
+  },
+  {
+    "id": "polymer",
+    "name": "Polymer",
+    "kind": "app",
+    "files": ["polymer.json"],
+    "packages": ["@polymer/polymer"],
+    "config": {
+      "appBuildCommand": "polymer build --preset es6-bundled",
+      "appDevserverCommand": "polymer serve --open",
+      "appDevserverUrl": "http://localhost:8081",
+      "outputLocation": "build/es6-bundled"
+    }
+  },
+  {
+    "id": "lit",
+    "name": "Lit",
+    "kind": "app",
+    "packages": ["lit", "lit-element"],
+    "config": {
+      "appBuildCommand": "npm run build --if-present",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:8081",
+      "outputLocation": "."
+    }
+  },
+  {
+    "id": "hugo",
+    "name": "Hugo",
+    "kind": "app",
+    "files": ["config.toml", "content"],
+    "contains": {
+      "config.toml": "baseURL ="
+    },
+    "config": {
+      "appBuildCommand": "hugo -D",
+      "appDevserverCommand": "hugo server -D",
+      "appDevserverUrl": "http://localhost:1313",
+      "outputLocation": "public"
+    }
+  },
+  {
+    "id": "flutter",
+    "name": "Flutter",
+    "kind": "app",
+    "files": ["pubspec.yaml", "web"],
+    "config": {
+      "appBuildCommand": "flutter build web",
+      "appDevserverCommand": "flutter run --web-port 8080",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "build/web"
+    }
+  },
+  {
+    "id": "jekyll",
+    "name": "Jekyll",
+    "kind": "app",
+    "files": ["_config.yml", "Gemfile"],
+    "config": {
+      "appBuildCommand": "jekyll build",
+      "appDevserverCommand": "bundle exec jekyll serve --livereload",
+      "appDevserverUrl": "http://localhost:4000",
+      "outputLocation": "_site"
+    }
+  },
+  {
+    "id": "slate",
+    "name": "Slate",
+    "kind": "app",
+    "overrides": ["middleman"],
+    "files": ["slate.sh", "Gemfile"],
+    "config": {
+      "appBuildCommand": "./slate.sh build",
+      "appDevserverCommand": "./slate.sh serve",
+      "appDevserverUrl": "http://localhost:4567",
+      "outputLocation": "build"
+    }
+  },
+  {
+    "id": "mkdocs",
+    "name": "MkDocs",
+    "kind": "app",
+    "files": ["mkdocs.yml"],
+    "config": {
+      "appBuildCommand": "mkdocs build",
+      "appDevserverCommand": "mkdocs serve",
+      "appDevserverUrl": "http://localhost:8000",
+      "outputLocation": "site"
+    }
+  },
+  {
+    "id": "eleventy",
+    "name": "Eleventy",
+    "kind": "app",
+    "packages": ["@11ty/eleventy"],
+    "config": {
+      "appBuildCommand": "eleventy",
+      "appDevserverCommand": "eleventy --serve",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "_site"
+    }
+  },
+  {
+    "id": "astro",
+    "name": "Astro",
+    "kind": "app",
+    "overrides": ["alpine", "lit", "react", "preact", "solid", "svelte", "vue"],
+    "files": ["astro.config.mjs"],
+    "packages": ["astro"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "_site"
+    }
+  },
+  {
+    "id": "pelican",
+    "name": "Pelican",
+    "kind": "app",
+    "files": ["pelicanconf.py"],
+    "config": {
+      "appBuildCommand": "make html",
+      "appDevserverCommand": "make devserver",
+      "appDevserverUrl": "http://localhost:8000",
+      "outputLocation": "output"
+    }
+  },
+  {
+    "id": "hexo",
+    "name": "Hexo",
+    "kind": "app",
+    "packages": ["hexo"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run server",
+      "appDevserverUrl": "http://localhost:4000",
+      "outputLocation": "public"
+    }
+  },
+  {
+    "id": "blazor-wasm",
+    "name": "Blazor WASM",
+    "kind": "app",
+    "files": ["*.csproj", "App.razor", "wwwroot", "Program.cs"],
+    "contains": {
+      "Program.cs": "WebAssemblyHostBuilder.CreateDefault"
+    },
+    "config": {
+      "appBuildCommand": "dotnet publish -c Release -o bin",
+      "appDevserverCommand": "dotnet watch run",
+      "appDevserverUrl": "http://localhost:8000",
+      "outputLocation": "wwwroot"
+    }
+  },
+  {
+    "id": "gridsome",
+    "name": "Gridsome",
+    "kind": "app",
+    "packages": ["gridsome"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run develop",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "solid",
+    "name": "Solid",
+    "kind": "app",
+    "packages": ["solid-js"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "remix",
+    "name": "Remix",
+    "kind": "app",
+    "overrides": ["react"],
+    "packages": ["@remix-run/node", "@remix-run/server-runtime"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm run dev",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "public/build"
+    }
+  },
+  {
+    "id": "metalsmith",
+    "name": "Metalsmith",
+    "kind": "app",
+    "packages": ["metalsmith"],
+    "config": {
+      "appBuildCommand": "npm start",
+      "appDevserverCommand": "npm run serve",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "build"
+    }
+  },
+  {
+    "id": "brunch",
+    "name": "Brunch",
+    "kind": "app",
+    "packages": ["brunch"],
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:3333",
+      "outputLocation": "public"
+    }
+  },
+  {
+    "id": "wintersmith",
+    "name": "Wintersmith",
+    "kind": "app",
+    "files": ["config.json", "contents"],
+    "config": {
+      "appBuildCommand": "wintersmith build",
+      "appDevserverCommand": "wintersmith preview",
+      "appDevserverUrl": "http://localhost:8080",
+      "outputLocation": "build"
+    }
+  },
+  {
+    "id": "middleman",
+    "name": "Middleman",
+    "kind": "app",
+    "files": ["config.rb", "Gemfile", "source"],
+    "config": {
+      "appBuildCommand": "bundle exec middleman build",
+      "appDevserverCommand": "bundle exec middleman server",
+      "appDevserverUrl": "http://localhost:4567",
+      "outputLocation": "build"
+    }
+  },
+  {
+    "id": "mdbook",
+    "name": "mdBook",
+    "kind": "app",
+    "files": ["book.toml"],
+    "config": {
+      "appBuildCommand": "mdbook build",
+      "appDevserverCommand": "mdbook serve",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "book"
+    }
+  },
+  {
+    "id": "zola",
+    "name": "Zola",
+    "kind": "app",
+    "files": ["config.toml", "content"],
+    "contains": {
+      "config.toml": "base_url ="
+    },
+    "config": {
+      "appBuildCommand": "zola build",
+      "appDevserverCommand": "zola serve",
+      "appDevserverUrl": "http://localhost:1111",
+      "outputLocation": "public"
+    }
+  },
+  {
+    "id": "lektor",
+    "name": "Lektor",
+    "kind": "app",
+    "files": ["*.lektorproject"],
+    "config": {
+      "appBuildCommand": "lektor build --output-path dist",
+      "appDevserverCommand": "lektor server",
+      "appDevserverUrl": "http://localhost:5000",
+      "outputLocation": "dist"
+    }
+  },
+  {
+    "id": "nodejs",
+    "name": "Node.js",
+    "kind": "api",
+    "files": ["package.json", "host.json"],
+    "config": {
+      "apiBuildCommand": "npm run build --if-present"
+    }
+  },
+  {
+    "id": "typescript",
+    "name": "TypeScript",
+    "kind": "api",
+    "files": ["tsconfig.json"],
+    "packages": ["typescript"],
+    "parent": "nodejs",
+    "config": {
+      "apiLocation": "{tsconfig.json#data.compilerOptions.outDir}"
+    }
+  },
+  {
+    "id": "dotnet",
+    "name": ".NET",
+    "kind": "api",
+    "files": ["*.?(csproj|fsproj)"],
+    "config": {
+      "apiBuildCommand": "dotnet publish -c Release"
+    }
+  },
+  {
+    "id": "python",
+    "name": "Python",
+    "kind": "api",
+    "files": ["?(requirements.txt|pyproject.toml|runtime.txt|setup.py)"],
+    "config": {}
+  },
+  {
+    "id": "php",
+    "name": "Php",
+    "kind": "api",
+    "files": ["index.php"],
+    "config": {}
+  },
+  {
+    "id": "java",
+    "name": "Java",
+    "kind": "api",
+    "files": ["pom.xml", "build.gradle", "*.java"],
+    "config": {}
+  },
+  {
+    "id": "azure-functions",
+    "name": "Azure Functions",
+    "kind": "api",
+    "files": ["host.json"],
+    "config": {}
+  },
+  {
+    "id": "azure-azd",
+    "name": "Azd Template",
+    "kind": "api",
+    "packages": [],
+    "files": ["azure.yaml"],
+    "config": {}
+  },
+  {
+    "id": "docker-file",
+    "name": "Dockerfile",
+    "kind": "api",
+    "files": ["Dockerfile"],
+    "config": {}
+  }
+]
