@@ -394,7 +394,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name={'site.properties.endToEndEncryptionEnabled'}
           id={'endToEndEncryptionEnabled'}
           component={RadioButton}
-          label={'End-to-end TLS encryption'}
+          label={t('endToEndEncryptionLabel')}
           options={[
             {
               key: true,
@@ -405,8 +405,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               text: t('off'),
             },
           ]}
-          infoBubbleMessage={'Prevents TLS termination of incoming HTTPS requests.'}
-          learnMoreLink={'https://go.microsoft.com/fwlink/?linkid=2252411'}
+          infoBubbleMessage={t('endToEndEncryptionInfoMessage')}
+          learnMoreLink={Links.endToEndEncryptionLearnMore}
         />
       )}
       {scenarioChecker.checkScenario(ScenarioIds.vnetPrivatePortsCount, { site }).status === 'enabled' && (

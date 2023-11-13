@@ -29,7 +29,6 @@ export default class SiteService {
     return MakeArmCall<ArmObj<Site>>({
       resourceId,
       commandName: 'fetchSite',
-      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20220301,
     });
   };
 
@@ -63,7 +62,6 @@ export default class SiteService {
       commandName: usePatch ? 'patchSite' : 'updateSite',
       method: usePatch ? 'PATCH' : 'PUT',
       body: payload,
-      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20220301,
     });
   };
 
