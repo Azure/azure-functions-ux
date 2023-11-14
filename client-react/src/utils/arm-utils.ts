@@ -33,6 +33,11 @@ export function isContainerAppEnvironmentApp(obj: ArmObj<Site>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.azureContainerApps]);
 }
 
+export function isWorkflowStandard(obj: ArmObj<Site>): boolean {
+  const sku = obj.properties.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.workflowStandard;
+}
+
 export function isElastic(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.elasticPremium || sku === CommonConstants.SkuNames.elasticIsolated;
@@ -42,6 +47,12 @@ export function isElasticPremium(obj: ArmObj<Site>): boolean {
   // This sku is only for function apps
   const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.elasticPremium;
+}
+
+export function isElasticIsolated(obj: ArmObj<Site>): boolean {
+  // This sku is only for function apps
+  const sku = obj.properties.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.elasticIsolated;
 }
 
 export function isLinuxElastic(obj: ArmObj<Site>) {
@@ -61,6 +72,11 @@ export function isPremiumV2(obj: ArmObj<Site>): boolean {
 export function isPremiumV1(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premium;
+}
+
+export function isIsolated(obj: ArmObj<Site>): boolean {
+  const sku = obj.properties.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.isolated;
 }
 
 export function isIsolatedV2(obj: ArmObj<Site>): boolean {
@@ -87,9 +103,19 @@ export function isPremium(obj: ArmObj<Site>): boolean {
   return isPremiumV1(obj) || isPremiumV2(obj) || isPremiumV3(obj) || isPremium0V3(obj) || isPremiumMV3(obj);
 }
 
+export function isPremiumOrHigher(obj: ArmObj<Site>): boolean {
+  return (
+    isWorkflowStandard(obj) || isIsolated(obj) || isIsolatedV2(obj) || isElasticPremium(obj) || isElasticIsolated(obj) || isPremium(obj)
+  );
+}
+
 export function isStandard(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.standard;
+}
+
+export function isStandardOrHigher(obj: ArmObj<Site>): boolean {
+  return isStandard(obj) || isPremiumOrHigher(obj);
 }
 
 export function isXenonApp(obj: ArmObj<Site>): boolean {

@@ -26,7 +26,10 @@ export default class SiteService {
   public static getProductionId = (resourceId: string) => resourceId.split('/slots/')[0];
 
   public static fetchSite = (resourceId: string) => {
-    return MakeArmCall<ArmObj<Site>>({ resourceId, commandName: 'fetchSite' });
+    return MakeArmCall<ArmObj<Site>>({
+      resourceId,
+      commandName: 'fetchSite',
+    });
   };
 
   public static updateSite = (

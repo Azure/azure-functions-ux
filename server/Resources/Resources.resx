@@ -1657,6 +1657,12 @@
     <data name="minTlsCipherSuiteLeastSecure" xml:space="preserve">
         <value>least secure</value>
     </data>
+    <data name="endToEndEncryptionLabel" xml:space="preserve">
+        <value>End-to-end TLS encryption</value>
+    </data>
+    <data name="endToEndEncryptionInfoMessage" xml:space="preserve">
+        <value>Prevents TLS termination of incoming HTTPS requests.</value>
+    </data>
     <data name="selected" xml:space="preserve">
         <value>selected</value>
     </data>
