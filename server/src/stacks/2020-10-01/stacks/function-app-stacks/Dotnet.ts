@@ -7,9 +7,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
   const dotnet5EOL = getDateString(new Date('2022/05/08'), useIsoDateFormat);
   const dotnet6EOL = getDateString(new Date('2024/11/12'), useIsoDateFormat);
   const dotnet7EOL = getDateString(new Date('2024/05/14'), useIsoDateFormat);
-
-  // projected as a guess - not on the support lifecycle page yet and should be adjusted when moved out of preview
-  const dotnet8EOL = getDateString(new Date(2026, 11, 1), useIsoDateFormat);
+  const dotnet8EOL = getDateString(new Date('2026/11/10'), useIsoDateFormat);
 
   return {
     displayText: '.NET',
