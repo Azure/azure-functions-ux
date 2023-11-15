@@ -15,7 +15,7 @@ jobs:
 
       - script: |
           cd client-react
-          npm ci
+          npm ci --legacy-peer-deps
         displayName: 'npm install'
 
       - script: |

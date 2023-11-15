@@ -1,4 +1,4 @@
-import { RouteComponentProps, Router } from '@reach/router';
+import { RouteComponentProps, Router } from '@gatsbyjs/reach-router';
 import React, { lazy, useContext } from 'react';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { ThemeContext } from '../../ThemeContext';
