@@ -1,6 +1,6 @@
 import React, { useContext, useRef } from 'react';
 import { IconButton, Stack, StackItem, TextField } from '@fluentui/react';
-import { Text } from '@fluentui/react/lib/components/Text';
+import { Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { uploadStyle, stackStyle, stackTokens, FabricFolder, browseButtonStyle } from './ErrorPageGrid.styles';
 import { ThemeContext } from '../../../../ThemeContext';
