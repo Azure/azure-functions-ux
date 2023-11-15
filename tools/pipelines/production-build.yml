@@ -10,7 +10,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '14.x'
+          versionSpec: '18.x'
         displayName: 'Install Node.js'
 
       - script: |
@@ -151,7 +151,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '14.x'
+          versionSpec: '18.x'
         displayName: 'Install Node.js'
 
       - task: DownloadBuildArtifacts@0
