@@ -53,7 +53,7 @@ module.exports = {
       }),
     ];
     /** @note Configure webpack to resolve `joi` module references as `joi-browser`. */
-    config.resolve = { ...config.resolve, alias: { ...config.resolve.alias, joi: 'joi-browser' } };
+    config.resolve = { ...config.resolve, alias: { ...config.resolve.alias, joi: 'joi-browser' }, fallback: { "fs": false } };
     return config;
   },
 };
