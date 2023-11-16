@@ -542,7 +542,7 @@
     "id": "nodejs",
     "name": "Node.js",
     "kind": "api",
-    "files": ["package.json", "host.json"],
+    "files": ["package.json"],
     "config": {
       "apiBuildCommand": "npm run build --if-present"
     }
