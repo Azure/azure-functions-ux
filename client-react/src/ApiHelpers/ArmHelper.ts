@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { from, of, Subject } from 'rxjs';
+import axios, { AxiosHeaderValue, AxiosResponse } from 'axios';
+import { Subject, from, of } from 'rxjs';
 import { async } from 'rxjs/internal/scheduler/async';
 import { bufferTime, catchError, concatMap, filter, share, take } from 'rxjs/operators';
 import { ArmRequestObject, HttpResponseObject, MethodTypes } from '../ArmHelper.types';
@@ -22,7 +22,7 @@ interface InternalArmRequest {
   body: any;
   apiVersion: string | null;
   queryString?: string;
-  headers?: KeyValue<string>;
+  headers?: KeyValue<AxiosHeaderValue | undefined>;
 }
 
 interface ArmBatchObject {
