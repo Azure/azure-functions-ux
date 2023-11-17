@@ -1,3 +1,4 @@
+import { AxiosHeaderValue } from 'axios';
 import { KeyValue } from './models/portal-models';
 
 export type MethodTypes = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
@@ -9,14 +10,14 @@ export interface ArmRequestObject<T> {
   skipBatching?: boolean;
   apiVersion?: string | null;
   queryString?: string;
-  headers?: KeyValue<string>;
+  headers?: KeyValue<AxiosHeaderValue | undefined>;
 }
 export interface HttpResponseObject<T> {
   metadata: {
     success: boolean;
     status: number;
     error?: any;
-    headers: KeyValue<string>;
+    headers: KeyValue<AxiosHeaderValue | undefined>;
   };
   data: T;
 }
