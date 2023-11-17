@@ -584,6 +584,19 @@ export interface SourceControlProperties {
   branch: string;
   isMercurial: boolean;
   isGitHubAction?: boolean;
+  gitHubActionConfiguration?: {
+    generateWorkflowFile: boolean;
+    workflowSettings: {
+      appType: AppType;
+      publishType: PublishType;
+      os: string;
+      workflowApiVersion: string;
+      slotName: string;
+      variables: KeyValue<string>;
+      runtimeStack?: string;
+      authType?: AuthType;
+    };
+  };
 }
 
 export interface DateTimeObj {
