@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState, useMemo } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
@@ -11,6 +11,7 @@ import {
   DeploymentCenterFieldProps,
   DeploymentCenterCodeFormData,
   DeploymentCenterContainerFormData,
+  AuthType,
 } from '../DeploymentCenter.types';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -20,6 +21,7 @@ import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCe
 import { ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 
 const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
   DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
@@ -30,6 +32,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
   const [repo, setRepo] = useState<string | undefined>(undefined);
   const [branch, setBranch] = useState<string | undefined>(undefined);
   const [repoUrl, setRepoUrl] = useState<string | undefined>(undefined);
+  const [authType, setAuthType] = useState<string | undefined>(undefined);
   const [gitHubUsername, setGitHubUsername] = useState<string>(t('loading'));
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isGitHubUsernameMissing, setIsGitHubUsernameMissing] = useState(false);
@@ -38,6 +41,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
+  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
 
   const deploymentCenterData = new DeploymentCenterData();
   const isGitHubActionsSetup =
@@ -84,6 +88,9 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
       if (sourceControlDetailsResponse.metadata.success) {
         repoUrl = sourceControlDetailsResponse.data.properties.repoUrl;
         branch = sourceControlDetailsResponse.data.properties.branch;
+        setAuthType(
+          sourceControlDetailsResponse.data.properties.gitHubActionConfiguration?.workflowSettings?.authType ?? AuthType.PublishProfile
+        );
       } else {
         setIsBranchInfoMissing(true);
         setRepoUrl(t('deploymentCenterErrorFetchingInfo'));
@@ -117,6 +124,10 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
       }
     }
   };
+
+  const showBasicAuthError = useMemo(() => {
+    return authType === AuthType.PublishProfile && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
+  }, [authType, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
 
   const authorizeGitHubAccount = () => {
     authorizeWithProvider(GitHubService.authorizeUrl, /* startingAuth */ undefined, completingAuthCallBack);
@@ -214,6 +225,20 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
     return branch;
   };
 
+  const openConfigurationBlade = async () => {
+    const result = await portalContext.openBlade({
+      detailBlade: 'SiteConfigSettingsFrameBladeReact',
+      extension: 'WebsitesExtension',
+      detailBladeInputs: {
+        id: deploymentCenterContext.resourceId,
+      },
+    });
+
+    if (result) {
+      deploymentCenterContext.refresh();
+    }
+  };
+
   useEffect(() => {
     setOrg(getOrgValue(isLoading));
     setRepo(getRepoValue(isLoading));
@@ -229,6 +254,16 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
 
   return (
     <>
+      {showBasicAuthError && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner
+            id="deployment-center-scm-basic-auth-warning"
+            message={t('deploymentCenterScmBasicAuthErrorMessage')}
+            type={MessageBarType.error}
+            onClick={openConfigurationBlade}
+          />
+        </div>
+      )}
       {isGitHubActionsSetup && (
         <ReactiveFormControl id="deployment-center-github-source-label" label={t('deploymentCenterSettingsSourceLabel')}>
           <div>
