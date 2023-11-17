@@ -126,8 +126,12 @@ const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
   };
 
   const showBasicAuthError = useMemo(() => {
-    return authType === AuthType.PublishProfile && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
-  }, [authType, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
+    return (
+      isGitHubActionsSetup &&
+      authType === AuthType.PublishProfile &&
+      !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow
+    );
+  }, [authType, isGitHubActionsSetup, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
 
   const authorizeGitHubAccount = () => {
     authorizeWithProvider(GitHubService.authorizeUrl, /* startingAuth */ undefined, completingAuthCallBack);

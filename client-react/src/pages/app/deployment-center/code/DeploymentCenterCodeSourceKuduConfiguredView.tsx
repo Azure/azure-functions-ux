@@ -139,45 +139,47 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
   };
 
   return (
-    <ReactiveFormControl id="deployment-center-source-label" label={t('deploymentCenterSettingsSourceLabel')}>
-      <div>
-        {showBasicAuthError && (
-          <div className={deploymentCenterInfoBannerDiv}>
-            <CustomBanner
-              id="deployment-center-scm-basic-auth-warning"
-              message={t('deploymentCenterScmBasicAuthErrorMessage')}
-              type={MessageBarType.error}
-              onClick={openConfigurationBlade}
-            />
-          </div>
-        )}
-        {getSourceLocation()}
-        <Link
-          key="deployment-center-disconnect-link"
-          onClick={showRefreshConfirmDialog}
-          className={disconnectLink}
-          aria-label={t('disconnect')}>
-          <Icon iconName={'PlugDisconnected'} />
-          {` ${t('disconnect')}`}
-        </Link>
-        <ConfirmDialog
-          primaryActionButton={{
-            title: isDisconnecting ? t('disconnecting') : t('ok'),
-            onClick: disconnect,
-            disabled: isDisconnecting,
-          }}
-          defaultActionButton={{
-            title: t('cancel'),
-            onClick: hideRefreshConfirmDialog,
-          }}
-          hideDefaultActionButton={isDisconnecting}
-          title={t('kuduDisconnectConfirmationTitle')}
-          content={t('disconnectConfirm')}
-          hidden={!isRefreshConfirmDialogVisible}
-          onDismiss={hideRefreshConfirmDialog}
-        />
-      </div>
-    </ReactiveFormControl>
+    <>
+      {showBasicAuthError && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner
+            id="deployment-center-scm-basic-auth-warning"
+            message={t('deploymentCenterScmBasicAuthErrorMessage')}
+            type={MessageBarType.error}
+            onClick={openConfigurationBlade}
+          />
+        </div>
+      )}
+      <ReactiveFormControl id="deployment-center-source-label" label={t('deploymentCenterSettingsSourceLabel')}>
+        <div>
+          {getSourceLocation()}
+          <Link
+            key="deployment-center-disconnect-link"
+            onClick={showRefreshConfirmDialog}
+            className={disconnectLink}
+            aria-label={t('disconnect')}>
+            <Icon iconName={'PlugDisconnected'} />
+            {` ${t('disconnect')}`}
+          </Link>
+          <ConfirmDialog
+            primaryActionButton={{
+              title: isDisconnecting ? t('disconnecting') : t('ok'),
+              onClick: disconnect,
+              disabled: isDisconnecting,
+            }}
+            defaultActionButton={{
+              title: t('cancel'),
+              onClick: hideRefreshConfirmDialog,
+            }}
+            hideDefaultActionButton={isDisconnecting}
+            title={t('kuduDisconnectConfirmationTitle')}
+            content={t('disconnectConfirm')}
+            hidden={!isRefreshConfirmDialogVisible}
+            onDismiss={hideRefreshConfirmDialog}
+          />
+        </div>
+      </ReactiveFormControl>
+    </>
   );
 };
 
