@@ -1,4 +1,4 @@
-import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
+import { Pivot, PivotItem, IPivotItemProps, MessageBarType } from '@fluentui/react';
 import React, { useRef, useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
@@ -19,6 +19,7 @@ import { ExperimentationConstants, OverflowBehavior } from '../../../utils/Commo
 import { errorPagesDirty } from './Sections/ErrorPage';
 import ErrorPagePivot from './Sections/ErrorPage';
 import { PortalContext } from '../../../PortalContext';
+import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -90,79 +91,87 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   }, [portalContext]);
 
   return (
-    <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
-      {showAppSettings ? (
-        <PivotItem
-          className={pivotWrapper}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
-          }
-          itemKey={AppSettingsTabs.applicationSettings}
-          headerText={t('applicationSettings')}>
-          <ApplicationSettingsPivot {...props} />
-        </PivotItem>
-      ) : null}
+    <>
+      {showAppSettings ? null : (
+        <CustomBanner
+          type={MessageBarType.info}
+          message={'Please go to Environment variables to view and edit application settings and connection strings.'}
+        />
+      )}
+      <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
+        {showAppSettings ? (
+          <PivotItem
+            className={pivotWrapper}
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
+            }
+            itemKey={AppSettingsTabs.applicationSettings}
+            headerText={t('applicationSettings')}>
+            <ApplicationSettingsPivot {...props} />
+          </PivotItem>
+        ) : null}
 
-      {showFunctionRuntimeSettings ? (
-        <PivotItem
-          className={pivotWrapper}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
-          }
-          itemKey={AppSettingsTabs.functionRuntimeSettings}
-          headerText={isWorkflowApp(site) ? t('workflowRuntimeSettings') : t('functionRuntimeSettings')}>
-          <FunctionRuntimeSettingsPivot {...props} />
-        </PivotItem>
-      ) : null}
+        {showFunctionRuntimeSettings ? (
+          <PivotItem
+            className={pivotWrapper}
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, functionRuntimeSettingsDirtyCheck, dirtyLabel)
+            }
+            itemKey={AppSettingsTabs.functionRuntimeSettings}
+            headerText={isWorkflowApp(site) ? t('workflowRuntimeSettings') : t('functionRuntimeSettings')}>
+            <FunctionRuntimeSettingsPivot {...props} />
+          </PivotItem>
+        ) : null}
 
-      {showGeneralSettings ? (
-        <PivotItem
-          className={pivotWrapper}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, dirtyLabel, generalSettingsErrorCheck)
-          }
-          itemKey={AppSettingsTabs.generalSettings}
-          headerText={t('generalSettings')}>
-          <GeneralSettings {...props} />
-        </PivotItem>
-      ) : null}
+        {showGeneralSettings ? (
+          <PivotItem
+            className={pivotWrapper}
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, generalSettingsDirtyCheck, dirtyLabel, generalSettingsErrorCheck)
+            }
+            itemKey={AppSettingsTabs.generalSettings}
+            headerText={t('generalSettings')}>
+            <GeneralSettings {...props} />
+          </PivotItem>
+        ) : null}
 
-      {enableDefaultDocuments ? (
-        <PivotItem
-          className={pivotWrapper}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, defaultDocumentsDirtyCheck, dirtyLabel, defaultDocumentsErrorCheck)
-          }
-          itemKey={AppSettingsTabs.defaultDocuments}
-          headerText={t('defaultDocuments')}>
-          <DefaultDocumentsPivot {...props} />
-        </PivotItem>
-      ) : null}
+        {enableDefaultDocuments ? (
+          <PivotItem
+            className={pivotWrapper}
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, defaultDocumentsDirtyCheck, dirtyLabel, defaultDocumentsErrorCheck)
+            }
+            itemKey={AppSettingsTabs.defaultDocuments}
+            headerText={t('defaultDocuments')}>
+            <DefaultDocumentsPivot {...props} />
+          </PivotItem>
+        ) : null}
 
-      {enablePathMappings || enableAzureStorageMount ? (
-        <PivotItem
-          className={pivotWrapper}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck, dirtyLabel)
-          }
-          itemKey={AppSettingsTabs.pathMappings}
-          headerText={t('pathMappings')}>
-          <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
-        </PivotItem>
-      ) : null}
+        {enablePathMappings || enableAzureStorageMount ? (
+          <PivotItem
+            className={pivotWrapper}
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, pathMappingsDirtyCheck, dirtyLabel)
+            }
+            itemKey={AppSettingsTabs.pathMappings}
+            headerText={t('pathMappings')}>
+            <PathMappingsPivot enableAzureStorageMount={enableAzureStorageMount} enablePathMappings={enablePathMappings} {...props} />
+          </PivotItem>
+        ) : null}
 
-      {enableCustomErrorPages ? (
-        <PivotItem
-          className={pivotWrapper}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, errorPagesDirtyCheck, dirtyLabel)
-          }
-          itemKey={AppSettingsTabs.customErrorPage}
-          headerText={t('customErrorPage')}>
-          <ErrorPagePivot {...props} />
-        </PivotItem>
-      ) : null}
-    </Pivot>
+        {enableCustomErrorPages ? (
+          <PivotItem
+            className={pivotWrapper}
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, errorPagesDirtyCheck, dirtyLabel)
+            }
+            itemKey={AppSettingsTabs.customErrorPage}
+            headerText={t('customErrorPage')}>
+            <ErrorPagePivot {...props} />
+          </PivotItem>
+        ) : null}
+      </Pivot>
+    </>
   );
 };
 
