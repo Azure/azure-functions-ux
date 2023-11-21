@@ -1476,6 +1476,7 @@ export class PortalResources {
   public static platformSettings = 'platformSettings';
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
+  public static directToEnvironmentVariablesInfoMessage = 'directToEnvironmentVariablesInfoMessage';
   public static applicationSettings = 'applicationSettings';
   public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';

@@ -92,12 +92,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
   return (
     <>
-      {showAppSettings ? null : (
-        <CustomBanner
-          type={MessageBarType.info}
-          message={'Please go to Environment variables to view and edit application settings and connection strings.'}
-        />
-      )}
+      {showAppSettings ? null : <CustomBanner type={MessageBarType.info} message={t('directToEnvironmentVariablesInfoMessage')} />}
       <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
         {showAppSettings ? (
           <PivotItem
