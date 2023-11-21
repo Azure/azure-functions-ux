@@ -35,7 +35,7 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
 
-  const [showAppSettings, setShowAppSettings] = useState(false);
+  const [showAppSettings, setShowAppSettings] = useState<boolean | undefined>(undefined);
 
   const generalSettingsDirtyCheck = () => {
     return generalSettingsDirty(values, initialValues);
@@ -92,7 +92,9 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
   return (
     <>
-      {showAppSettings ? null : <CustomBanner type={MessageBarType.info} message={t('directToEnvironmentVariablesInfoMessage')} />}
+      {showAppSettings || showAppSettings == undefined ? null : (
+        <CustomBanner type={MessageBarType.info} message={t('directToEnvironmentVariablesInfoMessage')} />
+      )}
       <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
         {showAppSettings ? (
           <PivotItem
