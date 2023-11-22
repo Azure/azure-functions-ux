@@ -68,7 +68,6 @@ export class AcrDependency extends Dependency {
       const siteResponse = await SiteService.fetchSite(resourceId);
       if (siteResponse.metadata.success) {
         const acrResourceJson = {
-          resourceId: tagInformation.id,
           subscriptionId: tagInformation.subscriptionId,
         };
 
