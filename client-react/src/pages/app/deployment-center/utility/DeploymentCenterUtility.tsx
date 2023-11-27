@@ -332,13 +332,19 @@ export const isSettingsDirty = (
   formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>,
   deploymentCenterContext: IDeploymentCenterContext
 ): boolean => {
+  // NOTE(yoonaoh): If we have an invalid scmType for containers, we will default to None.
+  // We also only want to enable the save button when we start from None because the other scmTypes
+  // should show configured views and not the editable settings.
+  const isScmTypeNone =
+    deploymentCenterContext?.siteConfig && isScmTypeValidForContainers(deploymentCenterContext.siteConfig.properties.scmType)
+      ? deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+      : true;
   return (
     (isContainerGeneralSettingsDirty(formProps) ||
       (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty(formProps)) ||
       (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty(formProps)) ||
       (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty(formProps))) &&
-    !!deploymentCenterContext.siteConfig &&
-    deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+    isScmTypeNone
   );
 };
 
@@ -598,4 +604,8 @@ export const getUserAssignedIdentityName = (appName: string): string => {
   }
 
   return `${appName}-id-${guid}`;
+};
+
+export const isScmTypeValidForContainers = (scmType: ScmType): boolean => {
+  return scmType === ScmType.None || scmType === ScmType.GitHubAction || scmType === ScmType.Vsts;
 };

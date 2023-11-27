@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOption, Link, MessageBarType } from '@fluentui/react';
 import { Field } from 'formik';
@@ -15,6 +15,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { isScmTypeValidForContainers } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { t } = useTranslation();
@@ -47,6 +48,12 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
       text: `${t('deploymentCenterCodeSettingsBuildVsts')}: ${t('deploymentCenterVstsDocsMessage')}`,
     },
   ];
+
+  useEffect(() => {
+    if (!isScmTypeValidForContainers(formProps.values.scmType)) {
+      formProps.setFieldValue('scmType', ScmType.None);
+    }
+  }, []);
 
   const openConfigurationBlade = async () => {
     const result = await portalContext.openBlade({
