@@ -32,8 +32,5 @@
     "hooks": {
       "pre-commit": "pretty-quick --staged --pattern \"**/*.*(ts|tsx)\""
     }
-  },
-  "dependencies": {
-    "recursive-install": "^1.4.0"
   }
 }
