@@ -1,7 +1,6 @@
 import React from 'react';
 import { FieldProps } from 'formik';
-import { Link } from '@fluentui/react/lib/components/Link';
-import { Text } from '@fluentui/react/lib/components/Text';
+import { Link, Text } from '@fluentui/react';
 import CustomPanel from '../CustomPanel/CustomPanel';
 import { CipherSuite } from '../../models/site/site';
 import { PanelType } from '@fluentui/react/lib/Panel';
