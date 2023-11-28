@@ -1,12 +1,12 @@
 import React, { useContext, useEffect } from 'react';
-import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
+import { AzureStorageMountsAddEditConfigurationOptionsProps, AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import { FormikProps, Field } from 'formik';
 import { FormAzureStorageMounts, StorageAccess, StorageFileShareProtocol } from '../AppSettings.types';
 import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
 import { StorageType } from '../../../../models/site/config';
-import { IChoiceGroupOption, MessageBarType } from '@fluentui/react';
+import { MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
@@ -17,10 +17,8 @@ import { Links } from '../../../../utils/FwLinks';
 import StorageProtocol from './StorageProtocol';
 
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> &
-  AzureStorageMountsAddEditPropsCombined & {
-    storageTypeOptions: IChoiceGroupOption[];
-    fileShareInfoBubbleMessage?: string;
-  }> = props => {
+  AzureStorageMountsAddEditPropsCombined &
+  AzureStorageMountsAddEditConfigurationOptionsProps> = props => {
   const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings, storageTypeOptions } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);

@@ -103,6 +103,7 @@ export class Verbs {
   public static broadcastMessage = 'broadcast-message';
   public static httpRequest = 'http-request-from-portal';
   public static ibizaExperimentationFlighting = 'ibiza-experimentation-flighting';
+  public static ibizaExperimentationFlightingFeatureGate = 'ibiza-experimentation-flighting-feature-gate';
 
   public static hasPermission = 'has-permission';
   public static hasLock = 'has-lock';
