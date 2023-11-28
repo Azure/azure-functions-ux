@@ -113,6 +113,7 @@ export type AppSettingsFormikPropsCombined = FormikProps<AppSettingsFormValues> 
 export interface AppSettingsFormProps extends AppSettingsFormikPropsCombined {
   asyncData: AppSettingsAsyncData;
   tab?: string;
+  showAppSettings?: boolean;
 }
 
 export type LeaseDurationType = 'infinite' | 'fixed';

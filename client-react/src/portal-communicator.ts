@@ -29,6 +29,7 @@ import {
   PortalTheme,
   IFeatureInfo,
   HighContrastTheme,
+  ISwitchMenuItemInfo,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import { darkTheme } from './theme/dark';
@@ -188,6 +189,15 @@ export default class PortalCommunicator {
           resolve(data);
         });
     });
+  }
+
+  public switchMenuItem(menuItemInfo: ISwitchMenuItemInfo) {
+    const payload: IDataMessage<ISwitchMenuItemInfo> = {
+      operationId: Guid.newGuid(),
+      data: menuItemInfo,
+    };
+
+    PortalCommunicator.postMessage(Verbs.switchMenuItem, this.packageData(payload));
   }
 
   public openFrameBlade<T, U = any>(bladeInfo: IOpenBladeInfo<FrameBladeParams<U>>): Promise<IBladeResult<T>> {
