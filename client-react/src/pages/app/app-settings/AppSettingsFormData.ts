@@ -10,8 +10,8 @@ import {
   AppSettingReference,
   StorageAccess,
   ConfigurationOption,
-  StorageFileShareProtocol,
   AccessKeyPlaceHolderForNFSFileShares,
+  StorageFileShareProtocol,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
@@ -337,8 +337,8 @@ export function getFormAzureStorageMount(
         storageAccess,
         appSettings,
         configurationOption,
-        accessKey: accessKeyValue,
         protocol: protocolValue,
+        accessKey: accessKeyValue,
         ...rest,
       } as FormAzureStorageMounts;
     }),
@@ -355,11 +355,11 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
         protocol.toLocaleLowerCase() === StorageFileShareProtocol.NFS.toLocaleLowerCase()
           ? AccessKeyPlaceHolderForNFSFileShares
           : getStorageMountAccessKey(store),
-      protocol: rest.type === StorageType.azureBlob ? undefined : protocol,
+      protocol: rest.type === StorageType.azureBlob ? StorageFileShareProtocol.HTTP : protocol,
       ...rest,
     };
   });
-  console.log(storageData);
+  console.log(storageMountFromForm);
   return storageMountFromForm;
 }
 
