@@ -350,7 +350,7 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
   }, []);
 
   const fileShareInfoBubbleMessage = React.useMemo(() => {
-    return props.values.type === StorageType.azureFiles && (!isLinuxApp || showNFSFileShares !== true)
+    return props.values.type === StorageType.azureFiles && (!isLinuxApp || !showNFSFileShares)
       ? t('shareNameInfoBubbleMessage')
       : undefined;
 
@@ -359,7 +359,7 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
 
   useEffect(() => {
     let isSubscribed = true;
-    portalContext.hasFlightEnabled(ExperimentationConstants.VariableNames.showNFSFileShares).then(enabled => {
+    portalContext.getBooleanFlight(ExperimentationConstants.VariableNames.showNFSFileShares).then(enabled => {
       if (isSubscribed) {
         setShowNFSFileShares(!enabled);
       }
