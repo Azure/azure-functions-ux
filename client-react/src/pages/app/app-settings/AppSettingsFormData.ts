@@ -10,8 +10,8 @@ import {
   AppSettingReference,
   StorageAccess,
   ConfigurationOption,
-  AccessKeyPlaceHolderForNFSFileShares,
   StorageFileShareProtocol,
+  AccessKeyPlaceHolderForNFSFileShares,
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
@@ -77,7 +77,7 @@ interface StateToFormParams {
   errorPages: ArmArray<ErrorPage> | null;
   appPermissions?: boolean;
 }
-export const convertStateToForm = (props: StateToFormParams, showNFSFileShares: boolean): AppSettingsFormValues => {
+export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const {
     site,
     config,
@@ -100,7 +100,7 @@ export const convertStateToForm = (props: StateToFormParams, showNFSFileShares: 
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site), isWindowsCode(site), appPermissions),
-    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts, showNFSFileShares, slotConfigNames),
+    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts, slotConfigNames),
     errorPages: getFormErrorPages(errorPages),
   };
 };
@@ -299,7 +299,6 @@ export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
 
 export function getFormAzureStorageMount(
   storageData: ArmObj<ArmAzureStorageMount> | null,
-  showNFSFileShares: boolean,
   slotConfigNames?: ArmObj<SlotConfigNames> | null
 ) {
   if (!storageData) {
@@ -310,22 +309,27 @@ export function getFormAzureStorageMount(
   return sortBy(
     Object.keys(storageData.properties).map(key => {
       const { accessKey, protocol, ...rest } = storageData.properties[key];
+
       const storageAccess =
         accessKey.startsWith(AppSettingReference.prefix) && accessKey.endsWith(AppSettingReference.suffix)
           ? StorageAccess.KeyVaultReference
           : StorageAccess.AccessKey;
+
       const appSettings =
         storageAccess === StorageAccess.KeyVaultReference
           ? accessKey.substring(AppSettingReference.prefix.length, accessKey.length - 1)
           : undefined;
 
-      const accessKeyValue =
-        storageAccess === StorageAccess.KeyVaultReference || accessKey === AccessKeyPlaceHolderForNFSFileShares ? undefined : accessKey;
       const configurationOption =
         storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
-      const protocolValue = showNFSFileShares
-        ? protocol || (accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB)
-        : StorageFileShareProtocol.SMB;
+
+      const protocolValue = !protocol || protocol === StorageFileShareProtocol.HTTP ? StorageFileShareProtocol.SMB : protocol;
+
+      const accessKeyValue =
+        storageAccess === StorageAccess.KeyVaultReference ||
+        protocolValue.toLocaleLowerCase() === StorageFileShareProtocol.NFS.toLocaleLowerCase()
+          ? undefined
+          : accessKey;
 
       return {
         name: key,
@@ -333,8 +337,8 @@ export function getFormAzureStorageMount(
         storageAccess,
         appSettings,
         configurationOption,
-        protocol: protocolValue,
         accessKey: accessKeyValue,
+        protocol: protocolValue,
         ...rest,
       } as FormAzureStorageMounts;
     }),
@@ -348,12 +352,14 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
     const { name, sticky, configurationOption, storageAccess, appSettings, accessKey, protocol, ...rest } = store;
     storageMountFromForm[name] = {
       accessKey:
-        protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
-          ? getStorageMountAccessKey(store)
-          : AccessKeyPlaceHolderForNFSFileShares,
+        protocol.toLocaleLowerCase() === StorageFileShareProtocol.NFS.toLocaleLowerCase()
+          ? AccessKeyPlaceHolderForNFSFileShares
+          : getStorageMountAccessKey(store),
+      protocol: rest.type === StorageType.azureBlob ? undefined : protocol,
       ...rest,
     };
   });
+  console.log(storageData);
   return storageMountFromForm;
 }
 

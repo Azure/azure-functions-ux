@@ -19,7 +19,7 @@ import StorageProtocol from './StorageProtocol';
 const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined &
   AzureStorageMountsAddEditConfigurationOptionsProps> = props => {
-  const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings, storageTypeOptions } = props;
+  const { values, fileShareInfoBubbleMessage, setFieldValue, validateField, appSettings, storageTypeOptions, showNFSFileShares } = props;
   const { t } = useTranslation();
   const site = useContext(SiteContext);
   const scenarioService = new ScenarioService(t);
@@ -38,8 +38,9 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
 
   const showAccessKey = React.useMemo(() => {
     return (
-      (values.type === StorageType.azureBlob || values.storageAccess === StorageAccess.AccessKey) &&
-      values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase()
+      values.type === StorageType.azureBlob ||
+      (values.storageAccess === StorageAccess.AccessKey &&
+        values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.SMB.toLocaleLowerCase())
     );
   }, [values.type, values.storageAccess, values.protocol]);
 
@@ -95,7 +96,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
       {supportsBlobStorage && (
         <Field component={RadioButton} name="type" id="azure-storage-type" label={t('storageType')} options={storageTypeOptions} />
       )}
-      <StorageProtocol values={values} />
+      <StorageProtocol values={values} showNFSFileShares={showNFSFileShares} />
       <Field
         component={TextField}
         name="shareName"

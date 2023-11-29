@@ -16,6 +16,7 @@ const StorageProtocol: React.FC<{ values: FormAzureStorageMounts; showNFSFileSha
   const { t } = useTranslation();
 
   const showFileSharesProtocolOptions = React.useMemo(() => {
+    console.log(showNFSFileShares);
     return values.type === StorageType.azureFiles && isLinuxApp && showNFSFileShares;
   }, [values.type, isLinuxApp, showNFSFileShares]);
 
