@@ -50,7 +50,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 supportedFeatures: {
                   disableSsh: true,
                 },
-                isEarlyAccess: true,
               },
             },
           },
