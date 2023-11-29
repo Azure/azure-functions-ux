@@ -235,22 +235,27 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
       const sshEnabled = site.data.properties.sshEnabled;
 
+      const showNFSFileShares = await portalContext.getBooleanFlight(ExperimentationConstants.VariableNames.showNFSFileShares);
+
       setInitialValues({
-        ...convertStateToForm({
-          // @note(krmitta): Manually over-writing since the api returns null when sshEnabled property is not set in the database but the default is true
-          site: { ...site.data, properties: { ...site.data.properties, sshEnabled: isLinux && sshEnabled === null ? true : sshEnabled } },
-          config: webConfig.data,
-          metadata: metadata.metadata.success ? metadata.data : null,
-          connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
-          appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
-          slotConfigNames: slotConfigNames.data,
-          azureStorageMounts: !!azureStorageMounts && azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-          basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
-            ? basicPublishingCredentialsPolicies.data
-            : null,
-          appPermissions: appPermissions,
-          errorPages: errorPagesResponse?.metadata.success ? errorPagesResponse.data : null,
-        }),
+        ...convertStateToForm(
+          {
+            // @note(krmitta): Manually over-writing since the api returns null when sshEnabled property is not set in the database but the default is true
+            site: { ...site.data, properties: { ...site.data.properties, sshEnabled: isLinux && sshEnabled === null ? true : sshEnabled } },
+            config: webConfig.data,
+            metadata: metadata.metadata.success ? metadata.data : null,
+            connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,
+            appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
+            slotConfigNames: slotConfigNames.data,
+            azureStorageMounts: !!azureStorageMounts && azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
+            basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
+              ? basicPublishingCredentialsPolicies.data
+              : null,
+            appPermissions: appPermissions,
+            errorPages: errorPagesResponse?.metadata.success ? errorPagesResponse.data : null,
+          },
+          showNFSFileShares
+        ),
       });
     }
     portalContext.log({

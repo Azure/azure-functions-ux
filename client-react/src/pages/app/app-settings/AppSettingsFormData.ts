@@ -78,7 +78,7 @@ interface StateToFormParams {
   errorPages: ArmArray<ErrorPage> | null;
   appPermissions?: boolean;
 }
-export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
+export const convertStateToForm = (props: StateToFormParams, showNFSFileShares: boolean): AppSettingsFormValues => {
   const {
     site,
     config,
@@ -101,7 +101,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
     currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site), isWindowsCode(site), appPermissions),
-    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts, slotConfigNames),
+    azureStorageMounts: getFormAzureStorageMount(azureStorageMounts, showNFSFileShares, slotConfigNames),
     errorPages: getFormErrorPages(errorPages),
   };
 };
@@ -300,6 +300,7 @@ export function getFormErrorPages(errorPage: ArmArray<ErrorPage> | null) {
 
 export function getFormAzureStorageMount(
   storageData: ArmObj<ArmAzureStorageMount> | null,
+  showNFSFileShares: boolean,
   slotConfigNames?: ArmObj<SlotConfigNames> | null
 ) {
   if (!storageData) {
@@ -323,10 +324,9 @@ export function getFormAzureStorageMount(
         storageAccess === StorageAccess.KeyVaultReference || accessKey === AccessKeyPlaceHolderForNFSFileShares ? undefined : accessKey;
       const configurationOption =
         storageAccess === StorageAccess.KeyVaultReference ? ConfigurationOption.Advanced : ConfigurationOption.Basic;
-      const protocolValue =
-        Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) === 'true'
-          ? protocol || (accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB)
-          : StorageFileShareProtocol.SMB;
+      const protocolValue = showNFSFileShares
+        ? protocol || (accessKey === AccessKeyPlaceHolderForNFSFileShares ? StorageFileShareProtocol.NFS : StorageFileShareProtocol.SMB)
+        : StorageFileShareProtocol.SMB;
 
       return {
         name: key,
