@@ -235,9 +235,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
       const sshEnabled = site.data.properties.sshEnabled;
 
-      console.log('---------');
-      console.log(azureStorageMounts.data);
-
       setInitialValues({
         ...convertStateToForm({
           // @note(krmitta): Manually over-writing since the api returns null when sshEnabled property is not set in the database but the default is true

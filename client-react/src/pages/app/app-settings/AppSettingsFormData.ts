@@ -359,7 +359,6 @@ export function getAzureStorageMountFromForm(storageData: FormAzureStorageMounts
       ...rest,
     };
   });
-  console.log(storageMountFromForm);
   return storageMountFromForm;
 }
 
