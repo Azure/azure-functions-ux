@@ -272,6 +272,25 @@ export default class PortalCommunicator {
     });
   }
 
+  public getBooleanFlight(variableName: string): Promise<boolean> {
+    const payload: IDataMessage<string> = {
+      operationId: Guid.newGuid(),
+      data: variableName,
+    };
+
+    PortalCommunicator.postMessage(Verbs.ibizaExperimentationFlightingFeatureGate, this.packageData(payload));
+    return new Promise(resolve => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<boolean>>) => {
+          resolve(r.data.result);
+        });
+    });
+  }
+
   public getSubscription(subscriptionId: string): Promise<ISubscription> {
     const payload: IDataMessage<ISubscriptionRequest> = {
       operationId: Guid.newGuid(),

@@ -83,7 +83,6 @@ export class CommonConstants {
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
     showJBossClustering: 'showJBossClustering',
-    showNFSFileShares: 'showNFSFileShares',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -382,6 +381,10 @@ export class ExperimentationConstants {
   public static ControlFlight = {
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
+  };
+
+  public static VariableNames = {
+    showNFSFileShares: 'show-nfs-file-shares',
   };
 }
 
