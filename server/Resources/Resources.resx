@@ -7889,7 +7889,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>You do not have sufficient permissions to create a managed identity within this resource group.</value>
     </data>    
     <data name="authenticationSettingsIdentityAssignmentPermissionsError" xml:space="preserve">
-        <value>You do not have sufficient permissions to assign role-based access to a managed identity and configure federated credentials.</value>
+        <value>You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.</value>
     </data>
     <data name="authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about how to create a managed identity.</value>
