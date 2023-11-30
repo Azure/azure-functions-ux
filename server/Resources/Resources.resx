@@ -7882,8 +7882,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="authenticationSettingsIdentity" xml:space="preserve">
         <value>Identity</value>
     </data>
-    <data name="authenticationSettingsIdentityPermissionsError" xml:space="preserve">
-        <value>You do not have sufficient permissions on this app to assign role-based access to a managed identity and configure federated credentials.</value>
+    <data name="authenticationSettingsOidcPermissionsValidationError" xml:space="preserve">
+        <value>You do not have sufficient permissions to authenticate with user-assigned identity.</value>
+    </data>    
+    <data name="authenticationSettingsIdentityCreationPermissionsError" xml:space="preserve">
+        <value>You do not have sufficient permissions to create a managed identity within this resource group.</value>
+    </data>    
+    <data name="authenticationSettingsIdentityAssignmentPermissionsError" xml:space="preserve">
+        <value>You do not have sufficient permissions to assign role-based access to a managed identity and configure federated credentials.</value>
+    </data>
+    <data name="authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about how to create a managed identity.</value>
     </data>    
     <data name="authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about how to assign role-based access to a managed identity.</value>
