@@ -1,5 +1,5 @@
 import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
-import React, { useRef, useContext, useState, useEffect } from 'react';
+import React, { useRef, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import { AppSettingsFormProps, AppSettingsTabs } from './AppSettings.types';
@@ -15,10 +15,9 @@ import { ThemeContext } from '../../../ThemeContext';
 import { SiteContext } from './Contexts';
 import { isWorkflowApp } from '../../../utils/arm-utils';
 import { pivotWrapper } from './AppSettings.styles';
-import { ExperimentationConstants, OverflowBehavior } from '../../../utils/CommonConstants';
+import { OverflowBehavior } from '../../../utils/CommonConstants';
 import { errorPagesDirty } from './Sections/ErrorPage';
 import ErrorPagePivot from './Sections/ErrorPage';
-import { PortalContext } from '../../../PortalContext';
 
 export const settingsWrapper = style({
   padding: '5px 20px 5px 0px',
@@ -26,15 +25,12 @@ export const settingsWrapper = style({
 
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
-  const { values, initialValues, tab, errors } = props;
+  const { values, initialValues, tab, errors, showAppSettings } = props;
   const site = useContext(SiteContext);
-  const portalContext = useContext(PortalContext);
 
   const { t } = useTranslation();
   const scenarioCheckerRef = useRef(new ScenarioService(t));
   const scenarioChecker = scenarioCheckerRef.current!;
-
-  const [showAppSettings, setShowAppSettings] = useState(false);
 
   const generalSettingsDirtyCheck = () => {
     return generalSettingsDirty(values, initialValues);
@@ -75,19 +71,6 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const showGeneralSettings = scenarioChecker.checkScenario(ScenarioIds.showGeneralSettings, { site }).status !== 'disabled';
   const showFunctionRuntimeSettings = scenarioChecker.checkScenario(ScenarioIds.showFunctionRuntimeSettings, { site }).status === 'enabled';
   const enableCustomErrorPages = scenarioChecker.checkScenario(ScenarioIds.enableCustomErrorPages, { site }).status !== 'disabled';
-
-  useEffect(() => {
-    let isSubscribed = true;
-    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.showEnvironmentVariables).then(enabled => {
-      if (isSubscribed) {
-        setShowAppSettings(!enabled);
-      }
-    });
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, [portalContext]);
 
   return (
     <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>

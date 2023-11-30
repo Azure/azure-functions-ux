@@ -4568,6 +4568,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="modifiedTag" xml:space="preserve">
         <value>(modified)</value>
     </data>
+    <data name="directToEnvironmentVariablesInfoMessage" xml:space="preserve">
+        <value>View and edit your application settings and connection strings from Environment variables. </value>
+    </data>
+    <data name="directToEnvironmentVariablesLink" xml:space="preserve">
+        <value>Click here to go to Environment Variables menu</value>
+    </data>
     <data name="applicationSettings" xml:space="preserve">
         <value>Application settings</value>
     </data>

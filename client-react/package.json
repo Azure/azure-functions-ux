@@ -24,7 +24,7 @@
     "react-app-rewired": "^2.1.8",
     "react-dom": "17.0.2",
     "react-i18next": "^10.0.4",
-    "react-scripts": "^4.0.3",
+    "react-scripts": "^5.0.1",
     "react-svg": "^7.2.14",
     "react-use": "^5.4.1",
     "rxjs": "^6.4.0",
@@ -43,6 +43,7 @@
     "lint": "eslint --ext .tsx,.ts src --format visualstudio --quiet"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.14.5",
     "@types/applicationinsights-js": "^1.0.9",
     "@types/enzyme": "^3.10.16",
     "@types/jest": "^26.0.24",
