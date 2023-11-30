@@ -588,13 +588,26 @@ export const getAcrNameFromLoginServer = (loginServer: string): string => {
   return loginServerParts.length > 0 ? loginServerParts[0] : '';
 };
 
+// The name of a federated identity credentials must be within 3 and 120 characters
+// only contains letters (A-Z, a-z), numbers, hyphens and dashes and must start with
+// a number or letter.
 export const getFederatedCredentialName = (fullRepoName: string): string => {
-  const guid = Guid.newGuid();
-  if (fullRepoName.length + guid.length > 120) {
-    return `${truncate(fullRepoName, { length: 120 - guid.length, omission: '' })}-${guid}`;
+  const guid = Guid.newTinyGuid();
+  let name = `${fullRepoName}-${guid}`;
+
+  if (name.length > 120) {
+    name = `${truncate(fullRepoName, { length: 120 - `fc--${guid}`.length, omission: '' })}-${guid}`;
   }
 
-  return `${fullRepoName}-${guid}`;
+  // Remove characters that are not letters, numbers, hyphens, or dashes
+  name = name.replace(/[^a-zA-Z0-9\-]/g, '');
+
+  // Ensure the string starts with a letter or number
+  if (name && !/^[a-zA-Z0-9]/.test(name)) {
+    return 'fc-' + name.slice(1);
+  }
+
+  return name;
 };
 
 export const getUserAssignedIdentityName = (appName: string): string => {

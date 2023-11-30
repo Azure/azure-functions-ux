@@ -60,6 +60,7 @@ export class CommonConstants {
     managedIdentityApiVersion20230131: '2023-01-31',
     containerAppApiVersion20230502Preview: '2023-05-02-preview',
     antaresApiVersion20141101: '2014-11-01',
+    resourceManagementApiVersion20210401: '2021-04-01',
   };
 
   public static readonly NonThemeColors = {
