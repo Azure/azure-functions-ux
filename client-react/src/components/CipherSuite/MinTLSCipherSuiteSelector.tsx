@@ -46,9 +46,7 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
   }, [setShowCipherSuitePanel]);
 
   const saveSelection = React.useCallback(() => {
-    // If the selected cipher suite is the least secure (default), back-end wants field value to be empty
-    const cipherSuite = selectedCipherSuite == leastSecureCipherSuite ? '' : selectedCipherSuite;
-    form.setFieldValue(field.name, cipherSuite);
+    form.setFieldValue(field.name, selectedCipherSuite);
     dismissPanel();
   }, [form.setFieldValue, dismissPanel, selectedCipherSuite]);
 

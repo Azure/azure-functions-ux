@@ -60,6 +60,7 @@ export class CommonConstants {
     managedIdentityApiVersion20230131: '2023-01-31',
     containerAppApiVersion20230502Preview: '2023-05-02-preview',
     antaresApiVersion20141101: '2014-11-01',
+    resourceManagementApiVersion20210401: '2021-04-01',
   };
 
   public static readonly NonThemeColors = {
@@ -82,7 +83,6 @@ export class CommonConstants {
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
     showJBossClustering: 'showJBossClustering',
-    showNFSFileShares: 'showNFSFileShares',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -381,6 +381,10 @@ export class ExperimentationConstants {
   public static ControlFlight = {
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
+  };
+
+  public static VariableNames = {
+    showNFSFileShares: 'show-nfs-file-shares',
   };
 }
 
