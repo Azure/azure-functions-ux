@@ -19,6 +19,7 @@ import PortalCommunicator from '../../../portal-communicator';
 import { RoleAssignment, SourceControlOptions } from './DeploymentCenter.types';
 import ManagedIdentityService from '../../../ApiHelpers/ManagedIdentityService';
 import GraphService from '../../../ApiHelpers/GraphService';
+import ResourceManagementService from '../../../ApiHelpers/ResourceManagementService';
 
 export default class DeploymentCenterData {
   private _azureDevOpsService = new AzureDevOpsService();
@@ -334,5 +335,9 @@ export default class DeploymentCenterData {
     apiVersion?: string
   ) => {
     return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack, authType, hasOidcFlightEnabled, apiVersion);
+  };
+
+  public registerProvider = (subscriptionId: string, resourceProviderNamespace: string) => {
+    return ResourceManagementService.registerProvider(subscriptionId, resourceProviderNamespace);
   };
 }
