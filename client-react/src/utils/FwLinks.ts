@@ -79,4 +79,5 @@ export const DeploymentCenterLinks = {
   azureDevOpsPortal: 'https://go.microsoft.com/fwlink/?linkid=2245703',
   managedIdentityOidc: 'https://go.microsoft.com/fwlink/?linkid=2247951',
   roleAssignmentPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2249489',
+  managedIdentityCreationPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2253463',
 };

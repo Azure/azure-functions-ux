@@ -143,17 +143,17 @@ export abstract class DeploymentCenterFormBuilder {
         }),
       externalRepoType: Yup.mixed().notRequired(),
       devOpsProjectName: Yup.mixed().notRequired(),
-      authType: Yup.mixed().when('hasPermissionToAssignRBAC', {
+      authType: Yup.mixed().when('hasPermissionToUseOIDC', {
         is: true,
         then: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
           return this.parent.hasOidcFlightEnabled ? !!value : true;
         }),
-        otherwise: Yup.mixed().test('authTypeIsNotOidc', '', function(value) {
+        otherwise: Yup.mixed().test('authTypeIsNotOidc', this._t('authenticationSettingsOidcPermissionsValidationError'), function(value) {
           return value !== AuthType.Oidc;
         }),
       }),
       authIdentity: Yup.mixed().notRequired(),
-      hasPermissionToAssignRBAC: Yup.boolean().notRequired(),
+      hasPermissionToUseOIDC: Yup.boolean().notRequired(),
       hasOidcFlightEnabled: Yup.boolean().notRequired(),
     };
   }

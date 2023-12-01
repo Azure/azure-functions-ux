@@ -10,7 +10,6 @@ import {
   DeploymentCenterCodeFormData,
   DeploymentCenterContainerFormData,
   DeploymentCenterFieldProps,
-  UserAssignedIdentity,
 } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
@@ -18,6 +17,8 @@ import RadioButton from '../../../../components/form-controls/RadioButton';
 import { Link } from '@fluentui/react/lib/Link';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RbacConstants from '../../../../utils/rbac-constants';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
+import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -26,7 +27,8 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   const { formProps } = props;
   const portalContext = React.useContext(PortalContext);
   const deploymentCenterContext = React.useContext(DeploymentCenterContext);
-  const managedIdentityInfo = React.useRef<{ [key: string]: UserAssignedIdentity }>({});
+  const [hasRoleAssignmentWritePermission, setHasRoleAssignmentWritePermission] = React.useState<boolean>(false);
+  const [hasManagedIdentityWritePermission, setHasManagedIdentityWritePermission] = React.useState<boolean>(false);
 
   const authTypeOptions = React.useMemo(() => {
     return [
@@ -35,27 +37,62 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     ];
   }, []);
 
-  const hasPermissionOverResource = React.useCallback(async () => {
+  const hasPermissionOverResourceGroup = React.useCallback(async () => {
     if (deploymentCenterContext.resourceId) {
-      const hasRoleAssignmentWritePermission = await portalContext.hasPermission(deploymentCenterContext.resourceId, [
-        RbacConstants.roleAssignmentWriteScope,
-      ]);
-      return formProps.setFieldValue('hasPermissionToAssignRBAC', hasRoleAssignmentWritePermission);
+      const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
+      const resourceGroup = `/subscriptions/${armId.subscription}/resourceGroups/${armId.resourceGroup}`;
+      const hasRoleAssignmentPermission = await portalContext.hasPermission(resourceGroup, [RbacConstants.roleAssignmentWriteScope]);
+      const hasManagedIdentityPermission = await portalContext.hasPermission(resourceGroup, [RbacConstants.identityWriteScope]);
+      portalContext.log(
+        getTelemetryInfo('info', 'hasPermissionToUseOIDC', 'check', {
+          hasRoleAssignmentWritePermission: hasRoleAssignmentPermission.toString(),
+          hasManagedIdentityWritePermission: hasManagedIdentityPermission.toString(),
+        })
+      );
+      formProps.setFieldValue('hasPermissionToUseOIDC', hasRoleAssignmentPermission && hasManagedIdentityPermission);
+      setHasRoleAssignmentWritePermission(hasRoleAssignmentPermission);
+      setHasManagedIdentityWritePermission(hasManagedIdentityPermission);
+    } else {
+      formProps.setFieldValue('hasPermissionToUseOIDC', false);
+      setHasRoleAssignmentWritePermission(false);
+      setHasManagedIdentityWritePermission(false);
     }
-
-    return formProps.setFieldValue('hasPermissionToAssignRBAC', false);
-  }, [deploymentCenterContext.resourceId, formProps.values.hasPermissionToAssignRBAC]);
+  }, [deploymentCenterContext.resourceId]);
 
   React.useEffect(() => {
-    const authIdentityClientId = formProps.values.authIdentityClientId;
-    if (authIdentityClientId && managedIdentityInfo.current[authIdentityClientId]) {
-      formProps.values.authIdentity = managedIdentityInfo.current[authIdentityClientId];
-    }
-  }, [formProps.values.authIdentityClientId]);
+    hasPermissionOverResourceGroup();
+  }, [hasPermissionOverResourceGroup]);
 
-  React.useEffect(() => {
-    hasPermissionOverResource();
-  }, [hasPermissionOverResource]);
+  const errorBanner = React.useMemo(() => {
+    if (formProps.values.authType === AuthType.Oidc && formProps.values.hasPermissionToUseOIDC === false) {
+      return (
+        <div className={deploymentCenterInfoBannerDiv}>
+          {!hasManagedIdentityWritePermission ? (
+            <CustomBanner
+              id="deployment-center-msi-permissions-error"
+              message={t('authenticationSettingsIdentityCreationPermissionsError')}
+              type={MessageBarType.blocked}
+              learnMoreLink={DeploymentCenterLinks.managedIdentityCreationPrereqs}
+              learnMoreLinkAriaLabel={t('authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel')}
+            />
+          ) : (
+            <CustomBanner
+              id="deployment-center-msi-permissions-error"
+              message={t('authenticationSettingsIdentityAssignmentPermissionsError')}
+              type={MessageBarType.blocked}
+              learnMoreLink={DeploymentCenterLinks.roleAssignmentPrereqs}
+              learnMoreLinkAriaLabel={t('authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel')}
+            />
+          )}
+        </div>
+      );
+    }
+  }, [
+    hasManagedIdentityWritePermission,
+    hasRoleAssignmentWritePermission,
+    formProps.values.authType,
+    formProps.values.hasPermissionToUseOIDC,
+  ]);
 
   return (
     <div className={deploymentCenterContent}>
@@ -74,17 +111,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
         </p>
       </>
 
-      {formProps.values.authType === AuthType.Oidc && formProps.values.hasPermissionToAssignRBAC === false && (
-        <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner
-            id="deployment-center-msi-permissions-error"
-            message={t('authenticationSettingsIdentityPermissionsError')}
-            type={MessageBarType.blocked}
-            learnMoreLink={DeploymentCenterLinks.roleAssignmentPrereqs}
-            learnMoreLinkAriaLabel={t('authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel')}
-          />
-        </div>
-      )}
+      {errorBanner}
 
       <Field
         id="deployment-center-auth-type-option"
