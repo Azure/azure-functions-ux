@@ -321,7 +321,7 @@ export interface DeploymentCenterCommonFormData {
   authType?: AuthType;
   authIdentityClientId?: string;
   authIdentity?: UserAssignedIdentity;
-  hasPermissionToAssignRBAC?: boolean;
+  hasPermissionToUseOIDC?: boolean;
   hasOidcFlightEnabled?: boolean;
 }
 
