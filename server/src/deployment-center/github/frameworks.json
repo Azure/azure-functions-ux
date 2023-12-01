@@ -6,7 +6,16 @@
     "config": {
       "outputLocation": "."
     },
-    "files": ["@(index.htm|default.htm)?(l)"]
+    "files": ["@(index.html|default.html)?(l)"]
+  },
+  {
+    "id": "markdown",
+    "name": "Markdown",
+    "kind": "app",
+    "config": {
+      "outputLocation": "."
+    },
+    "files": ["default.md"]
   },
   {
     "id": "angular",

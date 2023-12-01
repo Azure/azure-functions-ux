@@ -684,10 +684,17 @@ export class GithubController {
     @Body('repo') repo: string,
     @Body('branch') branch: string,
     @Body('frameworksUri') frameworksUri: string,
+    @Body('filterDescendantFolders') filterDescendantFolders = true,
     @Res() res
   ) {
     try {
-      const frameworks = await detectProjectFolders(`${githubOrigin}/${org}/${repo}/tree/${branch}`, gitHubToken, null, frameworksUri);
+      const frameworks = await detectProjectFolders(
+        `${githubOrigin}/${org}/${repo}/tree/${branch}`,
+        gitHubToken,
+        null,
+        frameworksUri,
+        filterDescendantFolders
+      );
       res.json(frameworks);
     } catch (err) {
       this.loggingService.error(`Failed to detect frameworks.`);
