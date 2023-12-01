@@ -2580,7 +2580,11 @@ export class PortalResources {
   public static authenticationSettingsAuthenticationType = 'authenticationSettingsAuthenticationType';
   public static authenticationSettingsAuthenticationPlaceholder = 'authenticationSettingsAuthenticationPlaceholder';
   public static authenticationSettingsIdentity = 'authenticationSettingsIdentity';
-  public static authenticationSettingsIdentityPermissionsError = 'authenticationSettingsIdentityPermissionsError';
+  public static authenticationSettingsOidcPermissionsValidationError = 'authenticationSettingsOidcPermissionsValidationError';
+  public static authenticationSettingsIdentityCreationPermissionsError = 'authenticationSettingsIdentityCreationPermissionsError';
+  public static authenticationSettingsIdentityAssignmentPermissionsError = 'authenticationSettingsIdentityAssignmentPermissionsError';
+  public static authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel =
+    'authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel';
   public static authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel =
     'authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel';
   public static authenticationSettingsFederatedCredentialsLinkAriaLabel = 'authenticationSettingsFederatedCredentialsLinkAriaLabel';

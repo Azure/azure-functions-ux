@@ -8,4 +8,5 @@ export default class RbacConstants {
   public static configListActionScope = 'Microsoft.Web/sites/config/list/action';
   public static configReadScope = 'Microsoft.Web/sites/config/read';
   public static configWriteScope = 'Microsoft.Web/sites/config/write';
+  public static identityWriteScope = 'Microsoft.ManagedIdentity/userAssignedIdentities/write';
 }
