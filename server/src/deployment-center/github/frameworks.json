@@ -1,21 +1,12 @@
 [
   {
     "id": "static",
-    "name": "Static HTML",
+    "name": "Static Content",
     "kind": "app",
     "config": {
       "outputLocation": "."
     },
-    "files": ["@(index.html|default.html)?(l)"]
-  },
-  {
-    "id": "markdown",
-    "name": "Markdown",
-    "kind": "app",
-    "config": {
-      "outputLocation": "."
-    },
-    "files": ["default.md"]
+    "files": ["@(index.html|default.html|default.md)?(l)"]
   },
   {
     "id": "angular",
