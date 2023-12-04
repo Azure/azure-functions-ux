@@ -361,7 +361,7 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
     let isSubscribed = true;
     portalContext.getBooleanFlight(ExperimentationConstants.VariableNames.showNFSFileShares).then(enabled => {
       if (isSubscribed) {
-        setShowNFSFileShares(!enabled);
+        setShowNFSFileShares(enabled);
       }
     });
 
