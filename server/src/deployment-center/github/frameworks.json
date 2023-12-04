@@ -1,12 +1,12 @@
 [
   {
     "id": "static",
-    "name": "Static HTML",
+    "name": "Static Content",
     "kind": "app",
     "config": {
       "outputLocation": "."
     },
-    "files": ["@(index.htm|default.htm)?(l)"]
+    "files": ["@(index.html|default.html|default.md)?(l)"]
   },
   {
     "id": "angular",
