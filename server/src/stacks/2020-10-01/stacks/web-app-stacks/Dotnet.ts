@@ -34,6 +34,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '8.x',
                 },
+                isEarlyAccess: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|8.0',
