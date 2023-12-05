@@ -1935,11 +1935,38 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";authenticationSettingsIdentityPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions on this app to assign role-based access to a managed identity and configure federated credentials.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[U beschikt niet over voldoende machtigingen voor deze app om op rollen gebaseerde toegang toe te wijzen aan een beheerde identiteit en federatieve referenties te configureren.]]></Val>
+            <Val><![CDATA[U beschikt niet over voldoende machtigingen om op rollen gebaseerde toegang toe te wijzen aan een beheerde identiteit binnen deze resourcegroep en federatieve aanmeldingsgegevens configureren.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[U beschikt niet over voldoende machtigingen om een beheerde identiteit te maken binnen deze resourcegroep.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Klik hier voor meer informatie over het maken van een beheerde identiteit.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsValidationError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to authenticate with user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[U beschikt niet over voldoende machtigingen om te verifiëren met een door de gebruiker toegewezen identiteit.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
