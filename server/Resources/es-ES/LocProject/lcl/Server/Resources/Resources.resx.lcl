@@ -1935,11 +1935,38 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";authenticationSettingsIdentityPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions on this app to assign role-based access to a managed identity and configure federated credentials.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[No tiene permisos suficientes en esta aplicación para asignar acceso basado en roles a una identidad administrada y configurar credenciales federadas.]]></Val>
+            <Val><![CDATA[No tiene permisos suficientes para asignar acceso basado en roles a una identidad administrada dentro de este grupo de recursos y configurar credenciales federadas.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[No tiene permisos suficientes para crear una identidad administrada dentro de este grupo de recursos.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Haga clic aquí para obtener más información sobre cómo crear una identidad administrada.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsValidationError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to authenticate with user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[No tiene permisos suficientes para autenticarse con la identidad asignada por el usuario.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

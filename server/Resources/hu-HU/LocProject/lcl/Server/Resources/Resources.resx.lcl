@@ -1932,11 +1932,38 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";authenticationSettingsIdentityPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions on this app to assign role-based access to a managed identity and configure federated credentials.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ön nem rendelkezik megfelelő engedélyekkel az alkalmazáshoz a szerepköralapú hozzáférés felügyelt identitáshoz való hozzárendeléséhez és az összevont hitelesítő adatok konfigurálásához.]]></Val>
+            <Val><![CDATA[Nem jogosult arra, hogy szerepköralapú hozzáférést rendeljen hozzá egy felügyelt identitáshoz, és hogy konfigurálja az összevont hitelesítő adatokat.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nem jogosult arra, hogy felügyelt identitást hozzon létre ebben az erőforráscsoportban.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kattintson ide, ha többet szeretne megtudni a felügyelt identitások létrehozásáról.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsValidationError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to authenticate with user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nem rendelkezik a felhasználó által hozzárendelt identitással való hitelesítéshez szükséges engedélyekkel.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
