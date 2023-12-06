@@ -14,7 +14,6 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
-import { detectProjectFolders } from '@azure/web-apps-framework-detection';
 import * as sodium from 'tweetsodium';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
@@ -667,30 +666,6 @@ export class GithubController {
       };
     } catch (err) {
       this.loggingService.error(`Failed to refresh token.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      } else {
-        throw new HttpException(err, 500);
-      }
-    }
-  }
-
-  @Post('api/github/detectFrameworks')
-  @HttpCode(200)
-  async detectFrameworks(
-    @Body('gitHubToken') gitHubToken: string,
-    @Body('org') org: string,
-    @Body('repo') repo: string,
-    @Body('branch') branch: string,
-    @Body('frameworksUri') frameworksUri: string,
-    @Res() res
-  ) {
-    try {
-      const frameworks = await detectProjectFolders(`${githubOrigin}/${org}/${repo}/tree/${branch}`, gitHubToken, null, frameworksUri);
-      res.json(frameworks);
-    } catch (err) {
-      this.loggingService.error(`Failed to detect frameworks.`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);
