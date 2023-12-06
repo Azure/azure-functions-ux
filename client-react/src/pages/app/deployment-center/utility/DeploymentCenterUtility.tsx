@@ -600,7 +600,7 @@ export const getFederatedCredentialName = (fullRepoName: string): string => {
   }
 
   // Remove characters that are not letters, numbers, hyphens, or dashes
-  name = name.replace(/[^a-zA-Z0-9\-]/g, '');
+  name = name.replace(/[^a-zA-Z0-9-]/g, '');
 
   // Ensure the string starts with a letter or number
   if (name && !/^[a-zA-Z0-9]/.test(name)) {
