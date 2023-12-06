@@ -74,6 +74,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
                 endOfLifeDate: dotnet8EOL,
+                isEarlyAccess: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|8.0',
