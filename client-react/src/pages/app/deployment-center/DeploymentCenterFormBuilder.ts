@@ -42,7 +42,6 @@ export abstract class DeploymentCenterFormBuilder {
       externalRepoType: RepoTypeOptions.Public,
       devOpsProject: '',
       authType: AuthType.PublishProfile,
-      hasOidcFlightEnabled: false,
     };
   }
 
@@ -146,7 +145,7 @@ export abstract class DeploymentCenterFormBuilder {
       authType: Yup.mixed().when('hasPermissionToUseOIDC', {
         is: true,
         then: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          return this.parent.hasOidcFlightEnabled ? !!value : true;
+          return !!value;
         }),
         otherwise: Yup.mixed().test('authTypeIsNotOidc', this._t('authenticationSettingsOidcPermissionsValidationError'), function(value) {
           return value !== AuthType.Oidc;
@@ -154,7 +153,6 @@ export abstract class DeploymentCenterFormBuilder {
       }),
       authIdentity: Yup.mixed().notRequired(),
       hasPermissionToUseOIDC: Yup.boolean().notRequired(),
-      hasOidcFlightEnabled: Yup.boolean().notRequired(),
     };
   }
 

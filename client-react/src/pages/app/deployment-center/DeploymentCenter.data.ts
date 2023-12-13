@@ -331,10 +331,9 @@ export default class DeploymentCenterData {
     variables: KeyValue<string>,
     runtimeStack?: string,
     authType?: string,
-    hasOidcFlightEnabled?: boolean,
     apiVersion?: string
   ) => {
-    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack, authType, hasOidcFlightEnabled, apiVersion);
+    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack, authType, apiVersion);
   };
 
   public registerProvider = (subscriptionId: string, resourceProviderNamespace: string) => {
