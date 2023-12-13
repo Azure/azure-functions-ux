@@ -73,7 +73,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      if (deploymentCenterContext.hasOidcFlightEnabled && values.authType === AuthType.Oidc && siteStateContext.site) {
+      if (values.authType === AuthType.Oidc && siteStateContext.site) {
         const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
         portalContext.log(getTelemetryInfo('info', 'registerManagedIdentityProvider', 'submit'));
         const registerManagedIdentityProviderResponse = await deploymentCenterData.registerProvider(
@@ -220,20 +220,15 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
       workflowSettings: {
         appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+        authType: values.authType ?? AuthType.PublishProfile,
         publishType: PublishType.Code,
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
         runtimeStack: values.runtimeStack,
-        workflowApiVersion: deploymentCenterContext.hasOidcFlightEnabled
-          ? CommonConstants.ApiVersions.workflowApiVersion20221001
-          : CommonConstants.ApiVersions.workflowApiVersion20201201,
+        workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20221001,
         slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
         variables: variables,
       },
     };
-
-    if (deploymentCenterContext.hasOidcFlightEnabled) {
-      gitHubActionConfiguration.workflowSettings['authType'] = values.authType ?? AuthType.PublishProfile;
-    }
 
     return {
       repoUrl: getRepoUrl(values),

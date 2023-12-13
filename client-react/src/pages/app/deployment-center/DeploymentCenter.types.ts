@@ -318,11 +318,10 @@ export interface DeploymentCenterCommonFormData {
   folder?: string;
   devOpsProjectName?: string;
   searchTerm?: string;
-  authType?: AuthType;
+  authType: AuthType;
   authIdentityClientId?: string;
   authIdentity?: UserAssignedIdentity;
   hasPermissionToUseOIDC?: boolean;
-  hasOidcFlightEnabled?: boolean;
 }
 
 export interface AcrFormData {
