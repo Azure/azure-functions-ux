@@ -42,6 +42,14 @@ export abstract class DeploymentCenterFormBuilder {
       externalRepoType: RepoTypeOptions.Public,
       devOpsProject: '',
       authType: AuthType.PublishProfile,
+      authIdentity: {
+        clientId: '',
+        principalId: '',
+        tenantId: '',
+        subscriptionId: '',
+        name: '',
+        resourceId: '',
+      },
     };
   }
 
@@ -148,7 +156,7 @@ export abstract class DeploymentCenterFormBuilder {
           return !!value;
         }),
         otherwise: Yup.mixed().test('authTypeIsNotOidc', this._t('authenticationSettingsOidcPermissionsValidationError'), function(value) {
-          return value !== AuthType.Oidc;
+          return value === AuthType.Oidc ? !!this.parent.authIdentity.resourceId : true;
         }),
       }),
       authIdentity: Yup.mixed().notRequired(),

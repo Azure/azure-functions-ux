@@ -80,4 +80,5 @@ export const DeploymentCenterLinks = {
   managedIdentityOidc: 'https://go.microsoft.com/fwlink/?linkid=2247951',
   roleAssignmentPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2249489',
   managedIdentityCreationPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2253463',
+  oidcPermissionPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2256502',
 };

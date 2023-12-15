@@ -1,4 +1,4 @@
-import { ArmObj } from '../models/arm-obj';
+import { ArmArray, ArmObj } from '../models/arm-obj';
 import { UserAssignedIdentity } from '../pages/app/deployment-center/DeploymentCenter.types';
 import { CommonConstants } from '../utils/CommonConstants';
 import MakeArmCall from './ArmHelper';
@@ -12,6 +12,19 @@ export default class ManagedIdentityService {
       method: 'GET',
       resourceId: resourceId,
       commandName: 'getUserAssignedIdentityInfo',
+      apiVersion,
+    });
+  };
+
+  public static listUserAssignedIdentitiesBySubscription = (
+    subscriptionId: string,
+    apiVersion = CommonConstants.ApiVersions.managedIdentityApiVersion20230131
+  ) => {
+    const resourceId = `/subscriptions/${subscriptionId}/providers/Microsoft.ManagedIdentity/userAssignedIdentities`;
+    return MakeArmCall<ArmArray<UserAssignedIdentity>>({
+      method: 'GET',
+      resourceId,
+      commandName: 'getUserAssignedIdentitiesBySubscription',
       apiVersion,
     });
   };

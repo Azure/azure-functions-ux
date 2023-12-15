@@ -2580,14 +2580,18 @@ export class PortalResources {
   public static authenticationSettingsAuthenticationType = 'authenticationSettingsAuthenticationType';
   public static authenticationSettingsAuthenticationPlaceholder = 'authenticationSettingsAuthenticationPlaceholder';
   public static authenticationSettingsIdentity = 'authenticationSettingsIdentity';
+  public static authenticationSettingsIdentityPlaceholder = 'authenticationSettingsIdentityPlaceholder';
+  public static authenticationSettingsSubscriptionPlaceholder = 'authenticationSettingsSubscriptionPlaceholder';
+  public static createNewOption = 'createNewOption';
   public static authenticationSettingsOidcPermissionsValidationError = 'authenticationSettingsOidcPermissionsValidationError';
-  public static authenticationSettingsIdentityCreationPermissionsError = 'authenticationSettingsIdentityCreationPermissionsError';
   public static authenticationSettingsIdentityAssignmentPermissionsError = 'authenticationSettingsIdentityAssignmentPermissionsError';
+  public static authenticationSettingsIdentityWritePermissionsError = 'authenticationSettingsIdentityWritePermissionsError';
   public static authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel =
     'authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel';
   public static authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel =
     'authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel';
   public static authenticationSettingsFederatedCredentialsLinkAriaLabel = 'authenticationSettingsFederatedCredentialsLinkAriaLabel';
+  public static authenticationSettingsOidcPermissionsLinkAriaLabel = 'authenticationSettingsOidcPermissionsLinkAriaLabel';
   public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
   public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
 }

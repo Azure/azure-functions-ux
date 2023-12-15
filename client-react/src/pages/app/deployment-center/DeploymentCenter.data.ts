@@ -272,6 +272,10 @@ export default class DeploymentCenterData {
     return ManagedIdentityService.getUserAssignedIdentity(resourceId);
   };
 
+  public listUserAssignedIdentitiesBySubscription = (subscriptionId: string) => {
+    return ManagedIdentityService.listUserAssignedIdentitiesBySubscription(subscriptionId);
+  };
+
   public createUserAssignedIdentity = (resourceGroupId: string, identityName: string, location: string) => {
     return ManagedIdentityService.createUserAssignedIdentity(resourceGroupId, identityName, location);
   };

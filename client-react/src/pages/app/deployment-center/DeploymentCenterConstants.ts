@@ -81,4 +81,5 @@ export class DeploymentCenterConstants {
   public static readonly appSettings_WEBSITE_NODE_DEFAULT_VERSION = 'WEBSITE_NODE_DEFAULT_VERSION';
 
   public static readonly managedIdentityNamespace = 'Microsoft.ManagedIdentity';
+  public static readonly createNew = 'createNew';
 }
