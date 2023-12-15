@@ -178,12 +178,10 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   React.useEffect(() => {
     let isSubscribed = true;
     if (subscription) {
-      if (isSubscribed) {
-        setIdentity(undefined);
-        setIdentityOptions([]);
-        setIdentityErrorMessage(undefined);
-        setLoadingIdentities(true);
-      }
+      setIdentity(undefined);
+      setIdentityOptions([]);
+      setIdentityErrorMessage(undefined);
+      setLoadingIdentities(true);
       const isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
 
       deploymentCenterData
