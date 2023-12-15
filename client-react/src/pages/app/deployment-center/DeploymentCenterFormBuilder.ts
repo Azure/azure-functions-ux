@@ -158,7 +158,7 @@ export abstract class DeploymentCenterFormBuilder {
         otherwise: Yup.mixed().test('authIdentityPopulated', this._t('authenticationSettingsOidcPermissionsValidationError'), function(
           value
         ) {
-          return value === AuthType.Oidc ? !!this.parent.authIdentity.resourceId : true;
+          return value !== AuthType.Oidc || !!this.parent.authIdentity.resourceId;
         }),
       }),
       authIdentity: Yup.mixed().notRequired(),

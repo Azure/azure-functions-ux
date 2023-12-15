@@ -77,13 +77,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   }, [deploymentCenterContext.resourceId]);
 
   React.useEffect(() => {
-    let isSubscribed = true;
-    if (isSubscribed) {
-      hasPermissionOverResourceGroup();
-    }
-    return () => {
-      isSubscribed = false;
-    };
+    hasPermissionOverResourceGroup();
   }, [hasPermissionOverResourceGroup]);
 
   const fetchAllSubscriptions = React.useCallback(async () => {
@@ -156,6 +150,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   const onIdentityChange = React.useCallback(
     async (_, identityOption: IDropdownOption<UserAssignedIdentity>) => {
       setIdentity(identityOption.key as string);
+      setIdentityErrorMessage(undefined);
       if (formProps.values.hasPermissionToUseOIDC) {
         formProps.setFieldValue('authIdentity', identityOption.data);
       } else {
@@ -171,27 +166,24 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   );
 
   React.useEffect(() => {
-    let isSubscribed = true;
-    if (formProps.values.authType === AuthType.Oidc && isSubscribed) {
+    if (formProps.values.authType === AuthType.Oidc) {
       setSubscription(undefined);
       setIdentity(undefined);
       setIdentityOptions([]);
       setIdentityErrorMessage(undefined);
       fetchAllSubscriptions();
     }
-
-    return () => {
-      isSubscribed = false;
-    };
   }, [formProps.values.authType, fetchAllSubscriptions]);
 
   React.useEffect(() => {
     let isSubscribed = true;
-    if (subscription && isSubscribed) {
-      setIdentity(undefined);
-      setIdentityOptions([]);
-      setIdentityErrorMessage(undefined);
-      setLoadingIdentities(true);
+    if (subscription) {
+      if (isSubscribed) {
+        setIdentity(undefined);
+        setIdentityOptions([]);
+        setIdentityErrorMessage(undefined);
+        setLoadingIdentities(true);
+      }
       const isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
 
       deploymentCenterData
@@ -246,8 +238,10 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                 },
               });
             }
-            setIdentityOptions(identityOptions);
-            setLoadingIdentities(false);
+            if (isSubscribed) {
+              setIdentityOptions(identityOptions);
+              setLoadingIdentities(false);
+            }
             return identityOptions;
           } else {
             portalContext.log(
@@ -256,13 +250,15 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                 errorAsString: getIdentitiesResponse.metadata.error ? JSON.stringify(getIdentitiesResponse.metadata.error) : '',
               })
             );
-            setLoadingIdentities(false);
+            if (isSubscribed) {
+              setLoadingIdentities(false);
+            }
           }
         })
         .then(identityOptions => {
           // Setting the first default option
           if (identityOptions && identityOptions.length > 0) {
-            if (isCreateNewSupported) {
+            if (isCreateNewSupported && isSubscribed) {
               setIdentity(DeploymentCenterConstants.createNew);
             } else {
               if (identityOptions.length > 0) {
@@ -270,10 +266,12 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                 if (firstIdentity) {
                   setIdentity(firstIdentity.key as string);
                   checkRoleAssignmentsForIdentity(firstIdentity.data?.principalId).then(hasRoleAssignment => {
-                    if (hasRoleAssignment) {
-                      formProps.setFieldValue('authIdentity', firstIdentity.data);
-                    } else {
-                      setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+                    if (isSubscribed) {
+                      if (hasRoleAssignment) {
+                        formProps.setFieldValue('authIdentity', firstIdentity.data);
+                      } else {
+                        setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+                      }
                     }
                   });
                 }

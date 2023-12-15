@@ -85,46 +85,90 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           if (errorResponse) {
             return errorResponse;
           }
-          const putWebsiteContributorRole = deploymentCenterData.putRoleAssignmentWithScope(
-            RBACRoleId.websiteContributor,
+
+          const getRoleAssignmentsWithScope = deploymentCenterData.getRoleAssignmentsWithScope(
             deploymentCenterContext.resourceId,
-            values.authIdentity.principalId,
-            PrincipalType.servicePrincipal
+            values.authIdentity.principalId
           );
-
-          const addFederatedCredential = deploymentCenterData.putFederatedCredential(
-            values.authIdentity.resourceId,
-            getFederatedCredentialName(`${values.org}-${values.repo}`),
-            `${values.org}/${values.repo}`
-          );
-
-          const [putWebsiteContributorRoleResponse, addFederatedCredentialResponse] = await Promise.all([
-            putWebsiteContributorRole,
-            addFederatedCredential,
+          const listFederatedCredentials = deploymentCenterData.listFederatedCredentials(values.authIdentity.resourceId);
+          const [getRoleAssignmentsWithScopeResponse, listFederatedCredentialsResponse] = await Promise.all([
+            getRoleAssignmentsWithScope,
+            listFederatedCredentials,
           ]);
 
-          if (putWebsiteContributorRoleResponse && !putWebsiteContributorRoleResponse.metadata.success) {
+          if (getRoleAssignmentsWithScopeResponse.metadata.success) {
+            const hasRoleAssignment = deploymentCenterData.hasRoleAssignment(
+              RBACRoleId.websiteContributor,
+              getRoleAssignmentsWithScopeResponse.data.value
+            );
+            if (!hasRoleAssignment) {
+              const putWebsiteContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
+                RBACRoleId.websiteContributor,
+                deploymentCenterContext.resourceId,
+                values.authIdentity.principalId,
+                PrincipalType.servicePrincipal
+              );
+              if (!putWebsiteContributorRoleResponse.metadata.success) {
+                portalContext.log(
+                  getTelemetryInfo('error', 'putWebsiteContributorRoleResponse', 'failed', {
+                    message: getErrorMessage(putWebsiteContributorRoleResponse.metadata.error),
+                    errorAsString: putWebsiteContributorRoleResponse.metadata.error
+                      ? JSON.stringify(putWebsiteContributorRoleResponse.metadata.error)
+                      : '',
+                  })
+                );
+                return putWebsiteContributorRoleResponse;
+              }
+            }
+          } else {
             portalContext.log(
-              getTelemetryInfo('error', 'putContributorRoleResponse', 'failed', {
-                message: getErrorMessage(putWebsiteContributorRoleResponse.metadata.error),
-                errorAsString: putWebsiteContributorRoleResponse.metadata.error
-                  ? JSON.stringify(putWebsiteContributorRoleResponse.metadata.error)
+              getTelemetryInfo('error', 'getRoleAssignmentsWithScopeResponse', 'failed', {
+                message: getErrorMessage(getRoleAssignmentsWithScopeResponse.metadata.error),
+                errorAsString: getRoleAssignmentsWithScopeResponse.metadata.error
+                  ? JSON.stringify(getRoleAssignmentsWithScopeResponse.metadata.error)
                   : '',
               })
             );
-            return putWebsiteContributorRoleResponse;
+            return getRoleAssignmentsWithScopeResponse;
           }
 
-          if (!addFederatedCredentialResponse.metadata.success) {
+          if (listFederatedCredentialsResponse.metadata.success) {
+            // For error: Issuer and subject combination already exists for this Managed Identity.
+            // Find all federated credentials, and if there's some with the same issuer and subject, don't add a new one
+            const subject = `repo:${values.org}/${values.repo}:environment:production`;
+            const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
+              subject,
+              listFederatedCredentialsResponse.data.value ?? []
+            );
+            if (!issuerSubjectAlreadyExists) {
+              const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
+                values.authIdentity.resourceId,
+                getFederatedCredentialName(`${values.org}-${values.repo}`),
+                subject
+              );
+
+              if (!addFederatedCredentialResponse.metadata.success) {
+                portalContext.log(
+                  getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+                    message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+                    errorAsString: addFederatedCredentialResponse.metadata.error
+                      ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                      : '',
+                  })
+                );
+                return addFederatedCredentialResponse;
+              }
+            }
+          } else {
             portalContext.log(
-              getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
-                message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
-                errorAsString: addFederatedCredentialResponse.metadata.error
-                  ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+              getTelemetryInfo('error', 'listFederatedCredentialsResponse', 'failed', {
+                message: getErrorMessage(listFederatedCredentialsResponse.metadata.error),
+                errorAsString: listFederatedCredentialsResponse.metadata.error
+                  ? JSON.stringify(listFederatedCredentialsResponse.metadata.error)
                   : '',
               })
             );
-            return addFederatedCredentialResponse;
+            return listFederatedCredentialsResponse;
           }
         } else {
           portalContext.log(

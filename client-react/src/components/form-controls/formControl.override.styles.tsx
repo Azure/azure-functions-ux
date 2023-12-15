@@ -21,7 +21,7 @@ export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
       },
     ],
     title: [...baseStyle.title],
-    errorMessage: [...baseStyle.errorMessage, fullpage],
+    errorMessage: [...baseStyle.errorMessage],
     dropdown: [
       ...baseStyle.dropdown,
       {

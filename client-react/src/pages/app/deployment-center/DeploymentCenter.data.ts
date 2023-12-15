@@ -16,7 +16,7 @@ import { SiteConfig } from '../../../models/site/config';
 import { PublishingUser } from '../../../models/site/publish';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import PortalCommunicator from '../../../portal-communicator';
-import { RoleAssignment, SourceControlOptions } from './DeploymentCenter.types';
+import { FederatedCredential, RoleAssignment, SourceControlOptions } from './DeploymentCenter.types';
 import ManagedIdentityService from '../../../ApiHelpers/ManagedIdentityService';
 import GraphService from '../../../ApiHelpers/GraphService';
 import ResourceManagementService from '../../../ApiHelpers/ResourceManagementService';
@@ -280,8 +280,16 @@ export default class DeploymentCenterData {
     return ManagedIdentityService.createUserAssignedIdentity(resourceGroupId, identityName, location);
   };
 
-  public putFederatedCredential = (managedIdentityResourceId: string, credentialName: string, fullRepoName: string) => {
-    return ManagedIdentityService.putFederatedCredential(managedIdentityResourceId, credentialName, fullRepoName);
+  public putFederatedCredential = (managedIdentityResourceId: string, credentialName: string, subject: string) => {
+    return ManagedIdentityService.putFederatedCredential(managedIdentityResourceId, credentialName, subject);
+  };
+
+  public listFederatedCredentials = (managedIdentityResourceId: string) => {
+    return ManagedIdentityService.listFederatedCredentials(managedIdentityResourceId);
+  };
+
+  public issuerSubjectAlreadyExists = (subject: string, federatedCredentials: ArmObj<FederatedCredential>[]) => {
+    return ManagedIdentityService.issuerSubjectAlreadyExists(subject, federatedCredentials);
   };
 
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {

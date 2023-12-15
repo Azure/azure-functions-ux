@@ -813,14 +813,9 @@ export interface UserAssignedIdentity {
 }
 
 export interface FederatedCredential {
-  id: string;
-  name: string;
-  properties: {
-    audiences: string[];
-    issuer: string;
-    subject: string;
-  };
-  type: string;
+  audiences: string[];
+  issuer: string;
+  subject: string;
 }
 
 export interface User {
