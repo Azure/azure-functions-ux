@@ -10,15 +10,24 @@ import {
   DeploymentCenterCodeFormData,
   DeploymentCenterContainerFormData,
   DeploymentCenterFieldProps,
+  UserAssignedIdentity,
 } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { Link } from '@fluentui/react/lib/Link';
+import { DropdownMenuItemType, IDropdownOption } from '@fluentui/react/lib/Dropdown';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RbacConstants from '../../../../utils/rbac-constants';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
-import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo, ignoreCaseSortingFunction, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
+import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import { ISubscription } from '../../../../models/subscription';
+import { ArmObj } from '../../../../models/arm-obj';
+import { RBACRoleId } from '../../../../utils/CommonConstants';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -27,8 +36,16 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   const { formProps } = props;
   const portalContext = React.useContext(PortalContext);
   const deploymentCenterContext = React.useContext(DeploymentCenterContext);
+  const deploymentCenterData = new DeploymentCenterData();
   const [hasRoleAssignmentWritePermission, setHasRoleAssignmentWritePermission] = React.useState<boolean>(false);
   const [hasManagedIdentityWritePermission, setHasManagedIdentityWritePermission] = React.useState<boolean>(false);
+  const [loadingSubscriptions, setLoadingSubscriptions] = React.useState<boolean>(false);
+  const [subscriptionOptions, setSubscriptionOptions] = React.useState<IDropdownOption<ISubscription>[]>([]);
+  const [subscription, setSubscription] = React.useState<string>();
+  const [loadingIdentities, setLoadingIdentities] = React.useState<boolean>(false);
+  const [identityOptions, setIdentityOptions] = React.useState<IDropdownOption<UserAssignedIdentity>[]>([]);
+  const [identity, setIdentity] = React.useState<string>();
+  const [identityErrorMessage, setIdentityErrorMessage] = React.useState<string>();
 
   const authTypeOptions = React.useMemo(() => {
     return [
@@ -63,36 +80,238 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     hasPermissionOverResourceGroup();
   }, [hasPermissionOverResourceGroup]);
 
+  const fetchAllSubscriptions = React.useCallback(async () => {
+    setLoadingSubscriptions(true);
+    const subscriptionsObservable = await portalContext.getAllSubscriptions();
+    const subscriptionDropdownOptions: IDropdownOption[] = [];
+
+    subscriptionsObservable.subscribe(subscriptionArray => {
+      subscriptionArray.forEach(subscription =>
+        subscriptionDropdownOptions.push({ key: subscription.subscriptionId, text: subscription.displayName })
+      );
+      subscriptionDropdownOptions.sort(optionsSortingFunction);
+      setSubscriptionOptions(subscriptionDropdownOptions);
+      setSubscription(deploymentCenterContext.siteDescriptor?.subscription ?? '');
+    });
+
+    setLoadingSubscriptions(false);
+  }, [portalContext]);
+
+  const checkRoleAssignmentsForIdentity = React.useCallback(
+    async (principalId?: string) => {
+      if (principalId) {
+        const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
+        const subscriptionId = `/subscriptions/${armId.subscription}`;
+        const resourceGroupId = `/subscriptions/${armId.subscription}/resourceGroups/${armId.resourceGroup}`;
+        const [roleAssignmentsOnSub, roleAssignmentsOnRg, roleAssignmentsOnApp] = await Promise.all([
+          deploymentCenterData.getRoleAssignmentsWithScope(subscriptionId, principalId),
+          deploymentCenterData.getRoleAssignmentsWithScope(resourceGroupId, principalId),
+          deploymentCenterData.getRoleAssignmentsWithScope(deploymentCenterContext.resourceId, principalId),
+        ]);
+
+        if (roleAssignmentsOnSub.metadata.success && roleAssignmentsOnRg.metadata.success && roleAssignmentsOnApp.metadata.success) {
+          const hasOwnerAccess = deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, [
+            ...roleAssignmentsOnSub.data.value,
+            ...roleAssignmentsOnRg.data.value,
+            ...roleAssignmentsOnApp.data.value,
+          ]);
+          const hasContributorAccess = deploymentCenterData.hasRoleAssignment(RBACRoleId.contributor, [
+            ...roleAssignmentsOnSub.data.value,
+            ...roleAssignmentsOnRg.data.value,
+            ...roleAssignmentsOnApp.data.value,
+          ]);
+          const hasWebsiteContributorAccess = deploymentCenterData.hasRoleAssignment(RBACRoleId.websiteContributor, [
+            ...roleAssignmentsOnSub.data.value,
+            ...roleAssignmentsOnRg.data.value,
+            ...roleAssignmentsOnApp.data.value,
+          ]);
+
+          return hasOwnerAccess || hasContributorAccess || hasWebsiteContributorAccess;
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'checkRoleAssignmentsForIdentityForOidc', 'failed', {
+              message:
+                `roleAssignmentsOnSub: ${getErrorMessage(roleAssignmentsOnSub.metadata.error)}, ` +
+                `roleAssignmentsOnRg: ${getErrorMessage(roleAssignmentsOnRg.metadata.error)}, ` +
+                `roleAssignmentsOnApp: ${getErrorMessage(roleAssignmentsOnApp.metadata.error)} `,
+            })
+          );
+        }
+      }
+      return false;
+    },
+    [deploymentCenterContext.resourceId]
+  );
+
+  const onSubscriptionChange = React.useCallback(async (_, subscriptionOption: IDropdownOption<ISubscription>) => {
+    setSubscription(subscriptionOption.key as string);
+  }, []);
+
+  const onIdentityChange = React.useCallback(
+    async (_, identityOption: IDropdownOption<UserAssignedIdentity>) => {
+      setIdentity(identityOption.key as string);
+      setIdentityErrorMessage(undefined);
+      if (formProps.values.hasPermissionToUseOIDC) {
+        formProps.setFieldValue('authIdentity', identityOption.data);
+      } else {
+        const hasRoleAssignment = await checkRoleAssignmentsForIdentity(identityOption.data?.principalId);
+        if (hasRoleAssignment || hasRoleAssignmentWritePermission) {
+          formProps.setFieldValue('authIdentity', identityOption.data);
+        } else {
+          setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+        }
+      }
+    },
+    [formProps.values.hasPermissionToUseOIDC, deploymentCenterContext.resourceId, checkRoleAssignmentsForIdentity]
+  );
+
+  React.useEffect(() => {
+    if (formProps.values.authType === AuthType.Oidc) {
+      setSubscription(undefined);
+      setIdentity(undefined);
+      setIdentityOptions([]);
+      setIdentityErrorMessage(undefined);
+      fetchAllSubscriptions();
+    }
+  }, [formProps.values.authType, fetchAllSubscriptions]);
+
+  React.useEffect(() => {
+    let isSubscribed = true;
+    if (subscription) {
+      setIdentity(undefined);
+      setIdentityOptions([]);
+      setIdentityErrorMessage(undefined);
+      setLoadingIdentities(true);
+      const isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
+
+      deploymentCenterData
+        .listUserAssignedIdentitiesBySubscription(subscription)
+        .then(getIdentitiesResponse => {
+          const identityOptions: IDropdownOption<UserAssignedIdentity>[] = [];
+          if (getIdentitiesResponse.metadata.success) {
+            const resourceGroupToIdentity: { [rg: string]: ArmObj<UserAssignedIdentity>[] } = {};
+            const identities = getIdentitiesResponse.data.value;
+            identities.forEach(identity => {
+              const resourceGroup = new ArmResourceDescriptor(identity.id)?.resourceGroup;
+              if (resourceGroup in resourceGroupToIdentity) {
+                resourceGroupToIdentity[resourceGroup].push(identity);
+              } else {
+                resourceGroupToIdentity[resourceGroup] = [identity];
+              }
+            });
+
+            Object.keys(resourceGroupToIdentity)
+              .sort(ignoreCaseSortingFunction)
+              .forEach(rg => {
+                identityOptions.push({
+                  key: rg,
+                  text: rg,
+                  itemType: DropdownMenuItemType.Header,
+                });
+                const sortedIdentities = resourceGroupToIdentity[rg].sort((a, b) => ignoreCaseSortingFunction(a.name, b.name));
+                sortedIdentities.forEach(identity => {
+                  identityOptions.push({
+                    key: identity.id,
+                    text: identity.name,
+                    data: {
+                      ...identity.properties,
+                      resourceId: identity.id,
+                      name: identity.name,
+                    },
+                  });
+                });
+              });
+
+            if (isCreateNewSupported) {
+              identityOptions.unshift({
+                key: DeploymentCenterConstants.createNew,
+                text: t('createNewOption'),
+                data: {
+                  clientId: '',
+                  principalId: '',
+                  tenantId: '',
+                  subscriptionId: '',
+                  name: '',
+                  resourceId: DeploymentCenterConstants.createNew,
+                },
+              });
+            }
+            if (isSubscribed) {
+              setIdentityOptions(identityOptions);
+              setLoadingIdentities(false);
+            }
+            return identityOptions;
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'listUserAssignedIdentitiesBySubscription', 'failed', {
+                message: getErrorMessage(getIdentitiesResponse.metadata.error),
+                errorAsString: getIdentitiesResponse.metadata.error ? JSON.stringify(getIdentitiesResponse.metadata.error) : '',
+              })
+            );
+            if (isSubscribed) {
+              setLoadingIdentities(false);
+            }
+          }
+        })
+        .then(identityOptions => {
+          // Setting the first default option
+          if (identityOptions && identityOptions.length > 0) {
+            if (isCreateNewSupported && isSubscribed) {
+              setIdentity(DeploymentCenterConstants.createNew);
+            } else {
+              if (identityOptions.length > 0) {
+                const firstIdentity = identityOptions.find(option => option.itemType !== DropdownMenuItemType.Header);
+                if (firstIdentity) {
+                  setIdentity(firstIdentity.key as string);
+                  checkRoleAssignmentsForIdentity(firstIdentity.data?.principalId).then(hasRoleAssignment => {
+                    if (isSubscribed) {
+                      if (hasRoleAssignment) {
+                        formProps.setFieldValue('authIdentity', firstIdentity.data);
+                      } else {
+                        setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+                      }
+                    }
+                  });
+                }
+              }
+            }
+          }
+        });
+    }
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [subscription, checkRoleAssignmentsForIdentity, hasManagedIdentityWritePermission, formProps.values.hasPermissionToUseOIDC]);
+
   const errorBanner = React.useMemo(() => {
-    if (formProps.values.authType === AuthType.Oidc && formProps.values.hasPermissionToUseOIDC === false) {
+    if (formProps.values.authType === AuthType.Oidc) {
+      let message;
+      let learnMoreLink;
+      let learnMoreLinkAriaLabel;
+      if (formProps.values.hasPermissionToUseOIDC === false && !hasRoleAssignmentWritePermission) {
+        message = t('authenticationSettingsIdentityAssignmentPermissionsError');
+        learnMoreLink = DeploymentCenterLinks.oidcPermissionPrereqs;
+        learnMoreLinkAriaLabel = t('authenticationSettingsOidcPermissionsLinkAriaLabel');
+      }
+
       return (
-        <div className={deploymentCenterInfoBannerDiv}>
-          {!hasManagedIdentityWritePermission ? (
+        message &&
+        learnMoreLink &&
+        learnMoreLinkAriaLabel && (
+          <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
-              id="deployment-center-msi-permissions-error"
-              message={t('authenticationSettingsIdentityCreationPermissionsError')}
+              id="deployment-center-auth-oidc-error"
+              message={message}
               type={MessageBarType.blocked}
-              learnMoreLink={DeploymentCenterLinks.managedIdentityCreationPrereqs}
-              learnMoreLinkAriaLabel={t('authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel')}
+              learnMoreLink={learnMoreLink}
+              learnMoreLinkAriaLabel={learnMoreLinkAriaLabel}
             />
-          ) : (
-            <CustomBanner
-              id="deployment-center-msi-permissions-error"
-              message={t('authenticationSettingsIdentityAssignmentPermissionsError')}
-              type={MessageBarType.blocked}
-              learnMoreLink={DeploymentCenterLinks.roleAssignmentPrereqs}
-              learnMoreLinkAriaLabel={t('authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel')}
-            />
-          )}
-        </div>
+          </div>
+        )
       );
     }
-  }, [
-    hasManagedIdentityWritePermission,
-    hasRoleAssignmentWritePermission,
-    formProps.values.authType,
-    formProps.values.hasPermissionToUseOIDC,
-  ]);
+  }, [formProps.values.authType, formProps.values.hasPermissionToUseOIDC]);
 
   return (
     <div className={deploymentCenterContent}>
@@ -122,6 +341,33 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
         displayInVerticalLayout={true}
         required
       />
+
+      {formProps.values.authType === AuthType.Oidc && (
+        <>
+          <DropdownNoFormik
+            id="deployment-center-auth-identity-subscription-option"
+            label={t('subscriptionName')}
+            options={subscriptionOptions}
+            onChange={onSubscriptionChange}
+            isLoading={loadingSubscriptions}
+            selectedKey={subscription}
+            placeholder={t('authenticationSettingsSubscriptionPlaceholder')}
+            required
+          />
+          <DropdownNoFormik
+            id="deployment-center-auth-identity-option"
+            label={t('authenticationSettingsIdentity')}
+            placeholder={t('authenticationSettingsIdentityPlaceholder')}
+            options={identityOptions}
+            selectedKey={identity}
+            onChange={onIdentityChange}
+            errorMessage={identityErrorMessage}
+            isLoading={loadingIdentities}
+            disabled={!subscription}
+            required
+          />
+        </>
+      )}
     </div>
   );
 });

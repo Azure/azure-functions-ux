@@ -497,6 +497,7 @@ export const getDescriptionSection = (source: string, description: string, learn
 };
 
 export const optionsSortingFunction = (a: ISelectableOption, b: ISelectableOption) => a.text.localeCompare(b.text);
+export const ignoreCaseSortingFunction = (a: string, b: string) => a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
 
 export function formikOnBlur<T>(e: React.FocusEvent<T>, props: FieldProps) {
   const { field, form } = props;
