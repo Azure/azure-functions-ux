@@ -20,7 +20,7 @@ import { DropdownMenuItemType, IDropdownOption } from '@fluentui/react/lib/Dropd
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RbacConstants from '../../../../utils/rbac-constants';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
-import { getTelemetryInfo, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo, ignoreCaseSortingFunction, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
@@ -160,20 +160,23 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
         formProps.setFieldValue('authIdentity', identityOption.data);
       } else {
         const hasRoleAssignment = await checkRoleAssignmentsForIdentity(identityOption.data?.principalId);
-        if (hasRoleAssignment) {
+        if (hasRoleAssignment || hasRoleAssignmentWritePermission) {
           formProps.setFieldValue('authIdentity', identityOption.data);
         } else {
           setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
         }
       }
     },
-    [formProps.values.hasPermissionToUseOIDC, deploymentCenterContext.resourceId]
+    [formProps.values.hasPermissionToUseOIDC, deploymentCenterContext.resourceId, checkRoleAssignmentsForIdentity]
   );
 
   React.useEffect(() => {
     let isSubscribed = true;
     if (formProps.values.authType === AuthType.Oidc && isSubscribed) {
       setSubscription(undefined);
+      setIdentity(undefined);
+      setIdentityOptions([]);
+      setIdentityErrorMessage(undefined);
       fetchAllSubscriptions();
     }
 
@@ -186,95 +189,104 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
     let isSubscribed = true;
     if (subscription && isSubscribed) {
       setIdentity(undefined);
+      setIdentityOptions([]);
+      setIdentityErrorMessage(undefined);
       setLoadingIdentities(true);
-      deploymentCenterData.listUserAssignedIdentitiesBySubscription(subscription).then(getIdentitiesResponse => {
-        const identityOptions: IDropdownOption<UserAssignedIdentity>[] = [];
-        const isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
-        if (getIdentitiesResponse.metadata.success) {
-          const resourceGroupToIdentity: { [rg: string]: ArmObj<UserAssignedIdentity>[] } = {};
-          const identities = getIdentitiesResponse.data.value;
-          identities.forEach(identity => {
-            const resourceGroup = new ArmResourceDescriptor(identity.id)?.resourceGroup;
-            if (resourceGroup in resourceGroupToIdentity) {
-              resourceGroupToIdentity[resourceGroup].push(identity);
-            } else {
-              resourceGroupToIdentity[resourceGroup] = [identity];
-            }
-          });
+      const isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
 
-          Object.keys(resourceGroupToIdentity)
-            .sort((a, b) => a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase()))
-            .forEach(rg => {
-              identityOptions.push({
-                key: rg,
-                text: rg,
-                itemType: DropdownMenuItemType.Header,
-              });
-              const sortedIdentities = resourceGroupToIdentity[rg].sort((a, b) =>
-                a.name.toLocaleLowerCase().localeCompare(b.name.toLocaleLowerCase())
-              );
-              sortedIdentities.forEach(identity => {
+      deploymentCenterData
+        .listUserAssignedIdentitiesBySubscription(subscription)
+        .then(getIdentitiesResponse => {
+          const identityOptions: IDropdownOption<UserAssignedIdentity>[] = [];
+          if (getIdentitiesResponse.metadata.success) {
+            const resourceGroupToIdentity: { [rg: string]: ArmObj<UserAssignedIdentity>[] } = {};
+            const identities = getIdentitiesResponse.data.value;
+            identities.forEach(identity => {
+              const resourceGroup = new ArmResourceDescriptor(identity.id)?.resourceGroup;
+              if (resourceGroup in resourceGroupToIdentity) {
+                resourceGroupToIdentity[resourceGroup].push(identity);
+              } else {
+                resourceGroupToIdentity[resourceGroup] = [identity];
+              }
+            });
+
+            Object.keys(resourceGroupToIdentity)
+              .sort(ignoreCaseSortingFunction)
+              .forEach(rg => {
                 identityOptions.push({
-                  key: identity.id,
-                  text: identity.name,
-                  data: {
-                    ...identity.properties,
-                    resourceId: identity.id,
-                    name: identity.name,
-                  },
+                  key: rg,
+                  text: rg,
+                  itemType: DropdownMenuItemType.Header,
+                });
+                const sortedIdentities = resourceGroupToIdentity[rg].sort((a, b) => ignoreCaseSortingFunction(a.name, b.name));
+                sortedIdentities.forEach(identity => {
+                  identityOptions.push({
+                    key: identity.id,
+                    text: identity.name,
+                    data: {
+                      ...identity.properties,
+                      resourceId: identity.id,
+                      name: identity.name,
+                    },
+                  });
                 });
               });
-            });
 
-          if (isCreateNewSupported) {
-            identityOptions.unshift({
-              key: DeploymentCenterConstants.createNew,
-              text: t('createNewOption'),
-              data: {
-                clientId: '',
-                principalId: '',
-                tenantId: '',
-                subscriptionId: '',
-                name: '',
-                resourceId: DeploymentCenterConstants.createNew,
-              },
-            });
-          }
-          setIdentityOptions(identityOptions);
-        } else {
-          portalContext.log(
-            getTelemetryInfo('error', 'listUserAssignedIdentitiesBySubscription', 'failed', {
-              message: getErrorMessage(getIdentitiesResponse.metadata.error),
-              errorAsString: getIdentitiesResponse.metadata.error ? JSON.stringify(getIdentitiesResponse.metadata.error) : '',
-            })
-          );
-        }
-
-        if (isCreateNewSupported) {
-          setIdentity(DeploymentCenterConstants.createNew);
-        } else {
-          if (identityOptions.length > 0) {
-            const firstIdentity = identityOptions.find(option => option.itemType !== DropdownMenuItemType.Header);
-            if (firstIdentity) {
-              setIdentity(firstIdentity.key as string);
-              checkRoleAssignmentsForIdentity(firstIdentity.data?.principalId).then(hasRoleAssignment => {
-                if (hasRoleAssignment) {
-                  formProps.setFieldValue('authIdentity', firstIdentity.data);
-                } else {
-                  setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
-                }
+            if (isCreateNewSupported) {
+              identityOptions.unshift({
+                key: DeploymentCenterConstants.createNew,
+                text: t('createNewOption'),
+                data: {
+                  clientId: '',
+                  principalId: '',
+                  tenantId: '',
+                  subscriptionId: '',
+                  name: '',
+                  resourceId: DeploymentCenterConstants.createNew,
+                },
               });
             }
+            setIdentityOptions(identityOptions);
+            setLoadingIdentities(false);
+            return identityOptions;
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'listUserAssignedIdentitiesBySubscription', 'failed', {
+                message: getErrorMessage(getIdentitiesResponse.metadata.error),
+                errorAsString: getIdentitiesResponse.metadata.error ? JSON.stringify(getIdentitiesResponse.metadata.error) : '',
+              })
+            );
+            setLoadingIdentities(false);
           }
-        }
-        setLoadingIdentities(false);
-      });
+        })
+        .then(identityOptions => {
+          // Setting the first default option
+          if (identityOptions && identityOptions.length > 0) {
+            if (isCreateNewSupported) {
+              setIdentity(DeploymentCenterConstants.createNew);
+            } else {
+              if (identityOptions.length > 0) {
+                const firstIdentity = identityOptions.find(option => option.itemType !== DropdownMenuItemType.Header);
+                if (firstIdentity) {
+                  setIdentity(firstIdentity.key as string);
+                  checkRoleAssignmentsForIdentity(firstIdentity.data?.principalId).then(hasRoleAssignment => {
+                    if (hasRoleAssignment) {
+                      formProps.setFieldValue('authIdentity', firstIdentity.data);
+                    } else {
+                      setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+                    }
+                  });
+                }
+              }
+            }
+          }
+        });
     }
 
     return () => {
       isSubscribed = false;
     };
-  }, [subscription, checkRoleAssignmentsForIdentity]);
+  }, [subscription, checkRoleAssignmentsForIdentity, hasManagedIdentityWritePermission, formProps.values.hasPermissionToUseOIDC]);
 
   const errorBanner = React.useMemo(() => {
     if (formProps.values.authType === AuthType.Oidc) {

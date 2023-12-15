@@ -155,7 +155,9 @@ export abstract class DeploymentCenterFormBuilder {
         then: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
           return !!value;
         }),
-        otherwise: Yup.mixed().test('authTypeIsNotOidc', this._t('authenticationSettingsOidcPermissionsValidationError'), function(value) {
+        otherwise: Yup.mixed().test('authIdentityPopulated', this._t('authenticationSettingsOidcPermissionsValidationError'), function(
+          value
+        ) {
           return value === AuthType.Oidc ? !!this.parent.authIdentity.resourceId : true;
         }),
       }),
