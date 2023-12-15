@@ -21,12 +21,7 @@ export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
       },
     ],
     title: [...baseStyle.title],
-    errorMessage: [
-      ...baseStyle.errorMessage,
-      fullpage && {
-        paddingLeft: '200px',
-      },
-    ],
+    errorMessage: [...baseStyle.errorMessage],
     dropdown: [
       ...baseStyle.dropdown,
       {
