@@ -24,7 +24,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
               windowsRuntimeSettings: {
                 runtimeVersion: '21',
                 isPreview: true,
-                isHidden: true,
+                isHidden: false,
                 isAutoUpdate: true,
                 isDefault: false,
                 remoteDebuggingSupported: false,
@@ -49,7 +49,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
               linuxRuntimeSettings: {
                 runtimeVersion: 'Java|21',
                 isPreview: true,
-                isHidden: true,
+                isHidden: false,
                 isAutoUpdate: true,
                 isDefault: false,
                 remoteDebuggingSupported: false,
