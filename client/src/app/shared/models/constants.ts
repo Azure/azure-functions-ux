@@ -508,9 +508,6 @@ export class DeploymentCenterConstants {
   public static readonly githubApiUrl = 'https://api.github.com';
   public static readonly bitbucketApiUrl = 'https://api.bitbucket.org/2.0';
   public static readonly bitbucketUrl = 'https://bitbucket.org';
-  public static readonly dropboxApiUrl = 'https://api.dropboxapi.com/2';
-  public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
-  public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
 
   public static readonly AzDevDevFabricTfsUri = 'https://codedev.ms/';
   public static readonly AzDevDevFabricSpsUri = 'https://vssps.codedev.ms/';
@@ -665,7 +662,6 @@ export class FeatureFlags {
 
 export class SupportedFeatures {
   public static ElasticScaleOut = 'ElasticScaleOut';
-  public static NewOverviewBlades = 'NewOverviewBlades';
 }
 
 export enum FunctionAppVersion {

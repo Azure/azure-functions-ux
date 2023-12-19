@@ -51,7 +51,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
       type={PanelType.smallFixedFar}
       headerText={getPanelHeader(t, bindingDirection, bindingInfo)}
       onDismiss={onPanelClose}>
-      <div style={{ marginTop: '10px' }}>
+      <div style={{ marginTop: '10px', marginBottom: '65px' }}>
         {isOpen &&
           (!bindingInfo ? (
             <BindingCreator

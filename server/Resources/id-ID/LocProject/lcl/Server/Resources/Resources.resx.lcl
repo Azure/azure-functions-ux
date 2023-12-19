@@ -1746,6 +1746,147 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";authenticationSettingsAuthenticationPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an authentication type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pilih tipe autentikasi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsAuthenticationType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authentication type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tipe autentikasi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsBasicAuthentication" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Basic authentication]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Otentikasi dasar]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pilih cara mengautentikasi alur kerja GitHub Action Anda ke Azure. Jika Anda memilih identitas yang ditetapkan pengguna, identitas akan secara otomatis dibuat dan digabungkan dengan GitHub sebagai klien resmi.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsFederatedCredentialsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to manage federated identity credentials on a user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Klik di sini untuk mempelajari selengkapnya tentang cara mengelola kredensial identitas gabungan pada identitas yang ditetapkan pengguna.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsFederatedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Federated identity (OIDC) (Preferred)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identitas gabungan (OIDC) (Pilihan)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identitas]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anda tidak memiliki izin yang memadai untuk menetapkan akses berbasis peran ke identitas terkelola dalam grup sumber daya ini dan mengonfigurasi kredensial gabungan.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anda tidak memiliki izin yang memadai untuk membuat identitas terkelola dalam grup sumber daya ini.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Klik di sini untuk mempelajari selengkapnya tentang cara membuat identitas terkelola.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsValidationError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to authenticate with user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anda tidak memiliki izin yang memadai untuk mengautentikasi dengan identitas yang ditetapkan pengguna.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsPublishProfile" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Publish profile]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Profil penerbitan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to assign role-based access to a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Klik di sini untuk mempelajari selengkapnya tentang cara menetapkan akses berbasis peran ke identitas terkelola.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authentication settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pengaturan autentikasi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsUserAssignedManagedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User-assigned identity (Preview)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identitas yang ditetapkan pengguna (Pratinjau)]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned managed identity]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";authorization" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Authorization]]></Val>
@@ -1923,6 +2064,9 @@
       <Item ItemId=";azureDevOpsPortal" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Azure DevOps portal]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Portal Azure DevOps]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -2912,10 +3056,13 @@
       </Item>
       <Item ItemId=";clientAffinityEnabledLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[ARR affinity]]></Val>
+          <Val><![CDATA[Session affinity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Afinitas ARR]]></Val>
+            <Val><![CDATA[Afinitas sesi]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[ARR affinity]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6114,6 +6261,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterNoWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have write permissions to make any changes.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anda tidak memiliki izin tulis untuk membuat perubahan apa pun.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterOAuthAuthorize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Authorize]]></Val>
@@ -6261,21 +6417,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Situs Anda saat ini menggunakan OneDrive atau Dropbox untuk menyebarkan kode. Integrasi ini akan dihentikan pada 30 September 2023. Migrasikan ke sumber penyebaran lain.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";deploymentCenterOnedriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterOneDriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Click here to learn more about this integrations retirement.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Klik di sini untuk mempelajari selengkapnya tentang penghentian integrasi ini.]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your site is currently using configured with an unsupported integration. Please migrate to a different deployment source.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Situs Anda saat ini menggunakan konfigurasi dengan integrasi yang tidak didukung. Migrasikan ke sumber penyebaran lain.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6389,10 +6548,13 @@
       </Item>
       <Item ItemId=";deploymentCenterProdSlotWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You’re now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
+          <Val><![CDATA[You're now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anda sekarang berada dalam slot produksi, yang tidak disarankan untuk membuat pengaturan CI/CD.]]></Val>
+            <Val><![CDATA[Anda sekarang berada dalam slot produksi, yang tidak disarankan untuk menyiapkan CI/CD.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[You’re now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6518,6 +6680,15 @@
           <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Autentikasi dasar dinonaktifkan untuk aplikasi Anda. Untuk mengaktifkannya, klik di sini untuk masuk ke pengaturan konfigurasi Anda.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Autentikasi dasar dinonaktifkan untuk aplikasi Anda. Klik di sini untuk membuka pengaturan konfigurasi untuk mengaktifkan, atau pilih opsi "Identitas yang ditetapkan pengguna" di bawah ini.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6777,14 +6948,17 @@
       <Item ItemId=";deploymentCenterVstsBuildGetStartedMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select the option below to get started with a new Azure DevOps project.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pilih opsi di bawah ini untuk memulai proyek Azure DevOps baru.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterVstsBuildMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[To configure deployment with an existing Azure Pipeline, please go to the ]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Untuk mengonfigurasi penyebaran dengan Alur Azure, buka portal Azure Dev Ops.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Untuk mengonfigurasi penyebaran dengan Azure Pipeline yang sudah ada, buka ]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.]]></Val>
@@ -6813,8 +6987,8 @@
       <Item ItemId=";deploymentCenterVstsInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to the]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Aplikasi Anda dikonfigurasi dengan Alur Azure sebagai penyedia build. Buka https://dev.azure.com untuk mengelola penyebaran Anda.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aplikasi Anda dikonfigurasi dengan Azure Pipelines sebagai penyedia build. Buka]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.]]></Val>
@@ -6825,6 +6999,9 @@
       <Item ItemId=";deploymentCenterVstsInfoMessagePart2" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[ to manage your deployments.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ untuk mengelola penyebaran Anda.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -7094,6 +7271,24 @@
           <Val><![CDATA[Direct publish]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Penerbitan langsung]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";directToEnvironmentVariablesInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[View and edit your application settings and connection strings from Environment variables. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Lihat dan edit pengaturan aplikasi serta string koneksi Anda dari variabel Lingkungan. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";directToEnvironmentVariablesLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to go to Environment Variables menu]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Klik di sini untuk masuk ke menu Variabel Lingkungan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -7853,6 +8048,24 @@
           <Val><![CDATA[{0} (EOL)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[{0} (EOL)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";endToEndEncryptionInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Prevents TLS termination of incoming HTTPS requests.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Mencegah penghentian TLS permintaan HTTPS masuk.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";endToEndEncryptionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[End-to-end TLS encryption]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Enkripsi TLS ujung-ke-ujung]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -10299,15 +10512,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";ftpDisabledByPolicy" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[FTP is disabled by access policy.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[FTP dinonaktifkan oleh kebijakan akses.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";ftpInfoCardCredsDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Service enables you to access your app content through FTP/S.]]></Val>
@@ -11471,10 +11675,13 @@
       </Item>
       <Item ItemId=";functionNew_functionExists" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Function with name '{{name}}' already exists.]]></Val>
+          <Val><![CDATA[Function with name '{0}' already exists.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Fungsi dengan nama '{{name}}' sudah ada.]]></Val>
+            <Val><![CDATA[Fungsi dengan nama '{0}' sudah ada.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Function with name '{{name}}' already exists.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12116,10 +12323,13 @@
       </Item>
       <Item ItemId=";githubActionWorkflowFileDeleteDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[File will be removed, and future commits won’t trigger deployments to this app.]]></Val>
+          <Val><![CDATA[File will be removed, and future commits won't trigger deployments to this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[File akan dihapus, dan penerapan berikutnya tidak akan memicu penyebaran ke aplikasi ini.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[File will be removed, and future commits won’t trigger deployments to this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12179,10 +12389,13 @@
       </Item>
       <Item ItemId=";githubActionWorkflowFilePreserveDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.]]></Val>
+          <Val><![CDATA[Saving allows you to keep any edits you've made to the workflow file, but it will still trigger deployments to this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Menyimpan memungkinkan Anda menyimpan pengeditan apa pun yang telah dilakukan pada file alur kerja, tetapi tetap akan memicu penyebaran ke aplikasi ini.]]></Val>
+            <Val><![CDATA[Menyimpan akan memungkinkan Anda mempertahankan pengeditan apa pun yang telah dilakukan pada file alur kerja, tetapi masih akan memicu penyebaran ke aplikasi ini.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12362,6 +12575,15 @@
           <Val><![CDATA[Group by subscription]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kelompokkan berdasarkan langganan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";grpcOnly" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[gRPC Only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[gRPC Saja]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13676,12 +13898,12 @@
       </Item>
       <Item ItemId=";keyVaultReference" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Key vault reference (preview)]]></Val>
+          <Val><![CDATA[Key vault reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Referensi key vault (pratinjau)]]></Val>
+            <Val><![CDATA[Referensi kubah kunci]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Key vault reference]]></Val>
+            <Val><![CDATA[Key vault reference (preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -17672,10 +17894,13 @@
       </Item>
       <Item ItemId=";saveAppSettingsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?]]></Val>
+          <Val><![CDATA[Your app may restart if you are updating application settings or connection strings. Are you sure you want to continue?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Setiap perubahan pada pengaturan aplikasi dan string koneksi akan menghidupkan ulang aplikasi Anda. Anda yakin ingin melanjutkan?]]></Val>
+            <Val><![CDATA[Aplikasi Anda mungkin akan dimulai ulang jika Anda memperbarui pengaturan aplikasi atau string koneksi. Yakin ingin melanjutkan?]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18035,6 +18260,15 @@
           <Val><![CDATA[Select Respository]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Pilih Respositori]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";selectSnippetAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select snippet]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pilih cuplikan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18509,10 +18743,13 @@
       </Item>
       <Item ItemId=";singleContainerSample2DescriptionLinux" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Python “Hello World” sample app.]]></Val>
+          <Val><![CDATA[Python "Hello World" sample app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Aplikasi sampel "Halo Dunia" Python.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Python “Hello World” sample app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18842,10 +19079,13 @@
       </Item>
       <Item ItemId=";slotNew_nameLabel_balloonText" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.]]></Val>
+          <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named 'staging' then the new slot will have a URL like 'http://contoso-staging.azurewebsites.net'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nilai ini akan ditambahkan ke URL aplikasi web utama Anda dan akan berfungsi sebagai alamat publik slot. Sebagai contoh jika Anda memiliki aplikasi web bernama 'contoso' dan slot bernama 'staging', maka slot baru akan memiliki URL seperti 'http://contoso-staging.azurewebsites.net'.]]></Val>
+            <Val><![CDATA[Nilai ini akan ditambahkan ke URL aplikasi web utama Anda dan akan berfungsi sebagai alamat publik slot.  Sebagai contoh jika Anda memiliki aplikasi web bernama 'contoso' dan slot bernama 'staging', maka slot baru akan memiliki URL seperti 'http://contoso-staging.azurewebsites.net'.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -19227,6 +19467,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";sshDisabledInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SSH isn't supported for your selected stack version.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SSH tidak didukung untuk versi tumpukan yang Anda pilih.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";ssh_newWindow" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Open in New Window]]></Val>
@@ -19412,6 +19661,15 @@
           <Val><![CDATA[All environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Semua lingkungan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_appSettingsMoved" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Settings have moved to 'Environment Variables']]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pengaturan Aplikasi telah dipindahkan ke 'Variabel Lingkungan']]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -21537,11 +21795,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";toggleAllSnippetsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection for all snippets]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alihkan pilihan untuk semua cuplikan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";toggleAppSettingSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Toggle selection of application settings]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Aktifkan/nonaktifkan pilihan pengaturan aplikasi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";toggleSnippetSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection of snippets]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alihkan pilihan cuplikan]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -21686,6 +21962,15 @@
           <Val><![CDATA[Trigger Reason]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Alasan Pemicu]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";troubleshoot" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Troubleshoot]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pemecahan masalah]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22839,8 +23124,8 @@
       <Item ItemId=";vstsDisconnectConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your Azure Pipeline to fully disconnect.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Yakin ingin memutuskan sambungan dari Azure Pipelines? Anda juga perlu menghapus tugas penyebaran pada file azure-pipelines.yaml untuk memutus sambungan sepenuhnya.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yakin ingin memutuskan sambungan dari Azure Pipelines? Anda juga perlu menghapus tugas penyebaran pada Azure-Pipeline untuk memutuskan sambungan sepenuhnya.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>

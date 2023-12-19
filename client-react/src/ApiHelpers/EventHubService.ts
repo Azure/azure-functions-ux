@@ -11,7 +11,7 @@ export default class EventHubService {
     return MakeArmCall<ArmArray<Namespace>>({
       resourceId: id,
       commandName: 'fetchNamespaces',
-      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20150801,
+      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20211101,
     });
   };
 
@@ -20,7 +20,7 @@ export default class EventHubService {
     return MakeArmCall<ArmArray<EventHub>>({
       resourceId: id,
       commandName: 'fetchEventHubs',
-      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20150801,
+      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20211101,
     });
   };
 
@@ -29,7 +29,7 @@ export default class EventHubService {
     return MakeArmCall<ArmArray<AuthorizationRule>>({
       resourceId: id,
       commandName: 'fetchAuthorizationRules',
-      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20150801,
+      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20211101,
     });
   };
 
@@ -39,7 +39,7 @@ export default class EventHubService {
       method: 'POST',
       resourceId: id,
       commandName: 'fetchKeyList',
-      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20150801,
+      apiVersion: CommonConstants.ApiVersions.eventHubApiVersion20211101,
     });
   };
 }

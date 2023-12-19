@@ -1,5 +1,10 @@
 import { ScmType, BuildProvider } from '../../../../models/site/config';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, DeploymentCenterCodeFormData } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFormData,
+  DeploymentCenterYupValidationSchemaType,
+  DeploymentCenterCodeFormData,
+  AuthType,
+} from '../DeploymentCenter.types';
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
 
@@ -21,11 +26,15 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
       sourceProvider: Yup.mixed().test('sourceProviderRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return value !== ScmType.None || (value === ScmType.None && this.parent.publishingUsername);
       }),
-      buildProvider: Yup.mixed()
-        .required()
-        .test('basicAuthEnabledForGitHubActionsAndKudu', this._t('deploymentCenterScmBasicAuthValidationError'), function(value) {
-          return value === BuildProvider.GitHubAction || value === BuildProvider.AppServiceBuildService ? scmAllowed : true;
-        }),
+      buildProvider: Yup.mixed().when('authType', {
+        is: AuthType.PublishProfile,
+        then: Yup.mixed()
+          .required()
+          .test('basicAuthEnabledForGitHubActionsAndKudu', this._t('deploymentCenterScmBasicAuthValidationError'), function(value) {
+            return value === BuildProvider.GitHubAction || value === BuildProvider.AppServiceBuildService ? scmAllowed : true;
+          }),
+        otherwise: Yup.mixed().required(),
+      }),
       runtimeStack: Yup.mixed().test('runtimeStackRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.buildProvider === BuildProvider.GitHubAction ? !!value : true;
       }),

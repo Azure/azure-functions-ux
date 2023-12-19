@@ -1,12 +1,12 @@
-import MakeArmCall from './ArmHelper';
-import { ArmArray, ArmObj } from '../models/arm-obj';
-import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
-import { CommonConstants } from '../utils/CommonConstants';
+import { AxiosHeaderValue, Method } from 'axios';
 import { HttpResponseObject } from '../ArmHelper.types';
-import { Method } from 'axios';
-import PortalCommunicator from '../portal-communicator';
+import { ACRCredential, ACRRegistry, ACRRepositories, ACRTags, ACRWebhookPayload } from '../models/acr';
 import { NetAjaxSettings } from '../models/ajax-request-model';
+import { ArmArray, ArmObj } from '../models/arm-obj';
+import PortalCommunicator from '../portal-communicator';
+import { CommonConstants } from '../utils/CommonConstants';
 import { isPortalCommunicationStatusSuccess } from '../utils/portal-utils';
+import MakeArmCall from './ArmHelper';
 import { getLastItemFromLinks, getLinksFromLinkHeader } from './HttpClient';
 
 export default class ACRService {
@@ -167,10 +167,10 @@ export default class ACRService {
   // For certain APIs (github, docker, and ACR) the next link is part of the response header
   // in "link" property. This property contains an array of links along with their link relation (rel=)
   // the links could be 'next', 'last', etc.
-  public static _getLinksFromLinkHeader(linkHeader: string): { [key: string]: string } {
-    const links: { [key: string]: string } = {};
+  public static _getLinksFromLinkHeader(linkHeader: AxiosHeaderValue | undefined): Record<string, string> {
+    const links: Record<string, string> = {};
 
-    if (linkHeader) {
+    if (typeof linkHeader === 'string') {
       const section = linkHeader.split(';');
       const url = section[0].replace(/<(.*)>/, '$1').trim();
       const name = section[1].replace(/rel="(.*)"/, '$1').trim();

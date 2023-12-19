@@ -15,6 +15,7 @@ import {
   BuildChoiceGroupOption,
   RuntimeStackOptions,
   RuntimeStackSetting,
+  AuthType,
 } from '../DeploymentCenter.types';
 import { Guid } from '../../../../utils/Guid';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
@@ -24,7 +25,7 @@ import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import { PortalContext } from '../../../../PortalContext';
 import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -238,80 +239,99 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const showBasicAuthError = useMemo(() => {
     const isGitHubActionsOrKuduBuild =
       selectedBuild === BuildProvider.GitHubAction || selectedBuild === BuildProvider.AppServiceBuildService;
-    return isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
-  }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
+    const isBasicAuthSelected = formProps.values.authType === AuthType.PublishProfile;
+    return (
+      isBasicAuthSelected && isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow
+    );
+  }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow, formProps.values.authType]);
+
+  const showNoWritePermissionBanner = useMemo(() => {
+    return !deploymentCenterContext.hasWritePermission;
+  }, [deploymentCenterContext.hasWritePermission]);
 
   return (
     <>
-      {showBasicAuthError && (
+      {showNoWritePermissionBanner ? (
         <div className={deploymentCenterInfoBannerDiv}>
           <CustomBanner
-            id="deployment-center-scm-basic-auth-warning"
-            message={t('deploymentCenterScmBasicAuthErrorMessage')}
-            type={MessageBarType.error}
-            onClick={openConfigurationBlade}
+            id="deployment-center-no-write-error"
+            message={t('deploymentCenterNoWritePermissionsError')}
+            type={MessageBarType.blocked}
           />
         </div>
-      )}
+      ) : (
+        <>
+          {showBasicAuthError && (
+            <div className={deploymentCenterInfoBannerDiv}>
+              <CustomBanner
+                id="deployment-center-scm-basic-auth-warning"
+                message={t('deploymentCenterScmBasicAuthErrorMessageWithOidc')}
+                type={MessageBarType.error}
+                onClick={openConfigurationBlade}
+              />
+            </div>
+          )}
 
-      {getInProductionSlot() && showInfoBanner && !showBasicAuthError && (
-        <div className={deploymentCenterInfoBannerDiv}>
-          <CustomBanner
-            id="deployment-center-prod-slot-warning"
-            message={t('deploymentCenterProdSlotWarning')}
-            type={MessageBarType.info}
-            onDismiss={closeInfoBanner}
-            learnMoreLink={DeploymentCenterLinks.configureDeploymentSlots}
-            learnMoreLinkAriaLabel={t('deploymentCenterProdSlotWarningLinkAriaLabel')}
+          {getInProductionSlot() && showInfoBanner && !showBasicAuthError && (
+            <div className={deploymentCenterInfoBannerDiv}>
+              <CustomBanner
+                id="deployment-center-prod-slot-warning"
+                message={t('deploymentCenterProdSlotWarning')}
+                type={MessageBarType.info}
+                onDismiss={closeInfoBanner}
+                learnMoreLink={DeploymentCenterLinks.configureDeploymentSlots}
+                learnMoreLinkAriaLabel={t('deploymentCenterProdSlotWarningLinkAriaLabel')}
+              />
+            </div>
+          )}
+
+          <p>
+            <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
+            <Link
+              id="deployment-center-settings-learnMore"
+              href={DeploymentCenterLinks.configureDeploymentSource}
+              target="_blank"
+              className={learnMoreLinkStyle}
+              aria-labelledby="deployment-center-settings-message">
+              {` ${t('learnMore')}`}
+            </Link>
+          </p>
+
+          <Field
+            label={t('deploymentCenterSettingsSourceLabel')}
+            placeholder={t('deploymentCenterCodeSettingsSourcePlaceholder')}
+            name="sourceProvider"
+            component={Dropdown}
+            displayInVerticalLayout={true}
+            options={getSourceOptions()}
+            required={true}
+            aria-required={true}
           />
-        </div>
+
+          {isSourceSelected &&
+            (isAzureDevOpsSupportedBuild ? (
+              <>
+                <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
+                  <div>
+                    {getBuildDescription()}
+                    <Link
+                      key="deployment-center-change-build-provider"
+                      onClick={toggleIsCalloutVisible}
+                      className={additionalTextFieldControl}
+                      aria-label={t('deploymentCenterChangeBuildText')}>
+                      {`${t('deploymentCenterChangeBuildText')}`}
+                    </Link>
+                  </div>
+                </ReactiveFormControl>
+                {getCalloutContent()}
+              </>
+            ) : (
+              <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
+                <div>{getBuildDescription()}</div>
+              </ReactiveFormControl>
+            ))}
+        </>
       )}
-
-      <p>
-        <span id="deployment-center-settings-message">{t('deploymentCenterCodeSettingsDescription')}</span>
-        <Link
-          id="deployment-center-settings-learnMore"
-          href={DeploymentCenterLinks.configureDeploymentSource}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-settings-message">
-          {` ${t('learnMore')}`}
-        </Link>
-      </p>
-
-      <Field
-        label={t('deploymentCenterSettingsSourceLabel')}
-        placeholder={t('deploymentCenterCodeSettingsSourcePlaceholder')}
-        name="sourceProvider"
-        component={Dropdown}
-        displayInVerticalLayout={true}
-        options={getSourceOptions()}
-        required={true}
-        aria-required={true}
-      />
-
-      {isSourceSelected &&
-        (isAzureDevOpsSupportedBuild ? (
-          <>
-            <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
-              <div>
-                {getBuildDescription()}
-                <Link
-                  key="deployment-center-change-build-provider"
-                  onClick={toggleIsCalloutVisible}
-                  className={additionalTextFieldControl}
-                  aria-label={t('deploymentCenterChangeBuildText')}>
-                  {`${t('deploymentCenterChangeBuildText')}`}
-                </Link>
-              </div>
-            </ReactiveFormControl>
-            {getCalloutContent()}
-          </>
-        ) : (
-          <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
-            <div>{getBuildDescription()}</div>
-          </ReactiveFormControl>
-        ))}
     </>
   );
 };

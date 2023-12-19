@@ -78,6 +78,7 @@ export class Verbs {
   public static getStartupInfo = 'get-startup-info';
   public static openBlade = 'open-blade';
   public static openBlade2 = 'open-blade2';
+  public static switchMenuItem = 'switch-menu-item';
 
   public static openBladeCollector = 'open-blade-collector'; // Deprecated
   public static openBladeCollectorInputs = 'open-blade-collector-inputs'; // Deprecated
@@ -102,6 +103,7 @@ export class Verbs {
   public static broadcastMessage = 'broadcast-message';
   public static httpRequest = 'http-request-from-portal';
   public static ibizaExperimentationFlighting = 'ibiza-experimentation-flighting';
+  public static ibizaExperimentationFlightingFeatureGate = 'ibiza-experimentation-flighting-feature-gate';
 
   public static hasPermission = 'has-permission';
   public static hasLock = 'has-lock';
@@ -141,6 +143,10 @@ export interface IOpenBladeInfo<T = any> {
   extension?: string;
   openAsContextBlade?: boolean;
   openAsSubJourney?: boolean;
+}
+
+export interface ISwitchMenuItemInfo {
+  menuItemId: string;
 }
 
 export interface FrameBladeParams<T> {
@@ -239,7 +245,7 @@ export enum PartSize {
   Custom = 99,
 }
 
-export type TokenType = 'graph' | 'azureTfsApi' | 'applicationinsightapi' | '';
+export type TokenType = 'microsoft.graph' | 'azureTfsApi' | 'applicationinsightapi' | '';
 
 export interface ITokenResponse {
   tokenType: TokenType;

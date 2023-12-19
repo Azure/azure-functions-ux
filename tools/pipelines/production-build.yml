@@ -10,12 +10,12 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '14.x'
+          versionSpec: '18.x'
         displayName: 'Install Node.js'
 
       - script: |
           cd client-react
-          npm ci
+          npm ci --legacy-peer-deps
         displayName: 'npm install'
 
       - script: |
@@ -151,7 +151,7 @@ jobs:
     steps:
       - task: NodeTool@0
         inputs:
-          versionSpec: '14.x'
+          versionSpec: '18.x'
         displayName: 'Install Node.js'
 
       - task: DownloadBuildArtifacts@0
@@ -231,12 +231,6 @@ jobs:
           githubRedirectUrl: $(githubRedirectUrl)
           bitbucketClientSecret: $(bitbucketClientSecret)
           bitbucketRedirectUrl: $(bitbucketRedirectUrl)
-          dropboxClientSecret: $(dropboxClientSecret)
-          dropboxClientId: $(dropboxClientId)
-          dropboxRedirectUrl: $(dropboxRedirectUrl)
-          onedriveClientSecret: $(onedriveClientSecret)
-          onedriveClientID: $(onedriveClientID)
-          onedriveRedirectUrl: $(onedriveRedirectUrl)
           staticSitesGithubClientId: $(staticSitesGithubClientId)
           staticSitesGithubClientSecret: $(staticSitesGithubClientSecret)
           githubForCreatesClientId: $(githubForCreatesClientId)

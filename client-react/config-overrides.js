@@ -3,13 +3,13 @@ const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 
 /* https://github.com/timarney/react-app-rewired#extended-configuration-options */
 module.exports = {
-  devServer: configFunction => {
+  devServer: (configFunction) => {
     return (proxy, allowedHost) => {
       const config = configFunction(proxy, allowedHost);
       return config;
     };
   },
-  jest: config => {
+  jest: (config) => {
     config.collectCoverageFrom = [
       'src/**/*.{ts,tsx}',
       '!src/**/*.d.ts',
@@ -26,6 +26,7 @@ module.exports = {
     ];
     config.moduleNameMapper = {
       ...config.moduleNameMapper,
+      '^axios$': '<rootDir>/node_modules/axios/dist/node/axios.cjs',
       '^joi$': '<rootDir>/node_modules/joi-browser/dist/joi-browser.min',
     };
     config.testEnvironment = 'jest-environment-jsdom-sixteen';
@@ -37,8 +38,8 @@ module.exports = {
     ];
     /** @note https://github.com/timarney/react-app-rewired/issues/241#issuecomment-387584632 */
     config.transformIgnorePatterns = [
-      /** @note Do not transform `@fluentui/react` and `lodash-es` modules. */
-      'node_modules/(?!(@fluentui/react|lodash-es)/)',
+      /** @note Do not transform `@fluentui/react`, `axios`, and `lodash-es` modules. */
+      'node_modules/(?!(@fluentui/react|axios|lodash-es)/)',
     ];
 
     return config;
@@ -53,7 +54,7 @@ module.exports = {
       }),
     ];
     /** @note Configure webpack to resolve `joi` module references as `joi-browser`. */
-    config.resolve = { ...config.resolve, alias: { ...config.resolve.alias, joi: 'joi-browser' } };
+    config.resolve = { ...config.resolve, alias: { ...config.resolve.alias, joi: 'joi-browser' }, fallback: { "fs": false } };
     return config;
   },
 };

@@ -2,15 +2,15 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
-  const node16EOL = getDateString(new Date(2023, 8, 11), useIsoDateFormat);
-  const node14EOL = getDateString(new Date(2023, 3, 30), useIsoDateFormat);
-  const node12EOL = getDateString(new Date(2022, 3, 1), useIsoDateFormat);
-  const node10EOL = getDateString(new Date(2021, 3, 1), useIsoDateFormat);
-  const node9EOL = getDateString(new Date(2019, 5, 30), useIsoDateFormat);
-  const node8EOL = getDateString(new Date(2019, 11, 31), useIsoDateFormat);
-  const node7EOL = getDateString(new Date(2017, 5, 30), useIsoDateFormat);
-  const node6EOL = getDateString(new Date(2019, 3, 30), useIsoDateFormat);
-  const node4EOL = getDateString(new Date(2018, 3, 30), useIsoDateFormat);
+  const node16EOL = getDateString(new Date('2023/09/11'), useIsoDateFormat);
+  const node14EOL = getDateString(new Date('2023/04/30'), useIsoDateFormat);
+  const node12EOL = getDateString(new Date('2022/04/01'), useIsoDateFormat);
+  const node10EOL = getDateString(new Date('2021/04/01'), useIsoDateFormat);
+  const node9EOL = getDateString(new Date('2019/06/30'), useIsoDateFormat);
+  const node8EOL = getDateString(new Date('2019/12/31'), useIsoDateFormat);
+  const node7EOL = getDateString(new Date('2017/06/30'), useIsoDateFormat);
+  const node6EOL = getDateString(new Date('2019/04/30'), useIsoDateFormat);
+  const node4EOL = getDateString(new Date('2018/04/30'), useIsoDateFormat);
 
   return {
     displayText: 'Node',
@@ -42,6 +42,46 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
         ],
       },
       {
+        displayText: 'Node 20',
+        value: '20',
+        minorVersions: [
+          {
+            displayText: 'Node 20 LTS',
+            value: '20-lts',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'NODE|20-lts',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '20.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '~20',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '20.x',
+                },
+                isHidden: true,
+              },
+            },
+          },
+        ],
+      },
+      {
         displayText: 'Node 18',
         value: '18',
         minorVersions: [
@@ -59,6 +99,9 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '18.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
               },
               windowsRuntimeSettings: {
@@ -95,6 +138,9 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '16.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
                 endOfLifeDate: node16EOL,
               },
@@ -134,6 +180,9 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '14.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
                 endOfLifeDate: node14EOL,
               },

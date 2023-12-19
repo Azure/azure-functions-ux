@@ -21,6 +21,10 @@ export class CommonConstants {
     azureContainerApps: 'azurecontainerapps',
   };
 
+  public static readonly Extensions = {
+    WebsitesExtension: 'WebsitesExtension',
+  };
+
   public static readonly ApiVersions = {
     antaresApiVersion20181101: '2018-11-01',
     antaresApiVersion20201201: '2020-12-01',
@@ -30,9 +34,9 @@ export class CommonConstants {
     sitesApiVersion20201201: '2020-12-01',
     storageApiVersion20180701: '2018-07-01',
     storageApiVersion20210401: '2021-04-01',
-    eventHubApiVersion20150801: '2015-08-01',
+    eventHubApiVersion20211101: '2021-11-01',
     iotHubApiVersion20170119: '2017-01-19',
-    serviceBusApiVersion20150801: '2015-08-01',
+    serviceBusApiVersion20211101: '2021-11-01',
     documentDBApiVersion20150408: '2015-04-08',
     documentDBApiVersion20191212: '2019-12-12',
     documentDBApiVersion20210415: '2021-04-15',
@@ -48,11 +52,15 @@ export class CommonConstants {
     argApiVersion20210301: '2021-03-01',
     argApiVersion20180901Preview: '2018-09-01-preview',
     workflowApiVersion20201201: '2020-12-01',
+    workflowApiVersion20221001: '2022-10-01',
     roleAssignmentApiVersion20180701: '2018-07-01',
     roleAssignmentApiVersion20180901Preview: '2018-09-01-preview',
+    roleAssignmentApiVersion20220401: '2022-04-01',
     enableSystemAssignedIdentityApiVersion20210201: '2021-02-01',
-    containerAppApiVersion20230401Preview: '2023-04-01-preview',
+    managedIdentityApiVersion20230131: '2023-01-31',
+    containerAppApiVersion20230502Preview: '2023-05-02-preview',
     antaresApiVersion20141101: '2014-11-01',
+    resourceManagementApiVersion20210401: '2021-04-01',
   };
 
   public static readonly NonThemeColors = {
@@ -72,12 +80,9 @@ export class CommonConstants {
     disablePortalEditing: 'disablePortalEditing',
     enableAzureReposForLinux: 'enableAzureReposForLinux',
     enterpriseGradeEdgeItemVisible: 'enterpriseGradeEdgeItemVisible',
-    enableACRManagedIdentities: 'enableACRManagedIdentities',
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
-    enableSnippets: 'enableSnippets',
     showJBossClustering: 'showJBossClustering',
-    showNFSFileShares: 'showNFSFileShares',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -130,6 +135,8 @@ export class CommonConstants {
     dynamic: 'dynamic',
     elasticPremium: 'elasticpremium',
     elasticIsolated: 'elasticisolated',
+    flexConsumption: 'flexconsumption',
+    workflowStandard: 'workflowstandard',
   };
 
   public static readonly SiteStates = {
@@ -337,6 +344,10 @@ export enum TextFieldType {
 
 export enum RBACRoleId {
   acrPull = '7f951dda-4ed3-4680-a7ca-43fe172d538d',
+  contributor = 'b24988ac-6180-42a0-ab88-20f7382dd24c',
+  owner = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635',
+  userAccessAdministrator = '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9',
+  websiteContributor = 'de139f84-1756-47ae-9be6-808fbbe84772',
 }
 
 export enum PrincipalType {
@@ -363,13 +374,18 @@ export class ExperimentationConstants {
   public static TreatmentFlight = {
     portalCallOnEditor: 'enable-portal-call-editor',
     patchCallOnConfig: 'enable-patch-call-config',
-    showByosKeyVault: 'show-byos-keyvault',
     showEnvironmentVariables: 'show-environment-variables',
+    enableOidc: 'enable-oidc',
+    showSWAEnvironmentVariables: 'show-swa-environment-variables',
   };
 
   public static ControlFlight = {
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
+  };
+
+  public static VariableNames = {
+    showNFSFileShares: 'show-nfs-file-shares',
   };
 }
 
@@ -385,3 +401,10 @@ export const KeyBoard = {
 };
 
 export const azureAppConfigRefStart = '@microsoft.appconfiguration';
+
+export const graphApiUrl = 'https://graph.microsoft.com';
+
+export enum GraphApiVersion {
+  V1 = 'v1.0',
+  Beta = 'beta',
+}

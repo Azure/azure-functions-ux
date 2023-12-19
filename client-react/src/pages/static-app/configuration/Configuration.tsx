@@ -583,14 +583,15 @@ const Configuration: React.FC<ConfigurationProps> = (props: ConfigurationProps) 
           {getConfirmDialogs()}
           <div className={formStyle}>
             <p className={formDescriptionStyle}>
-              <span id="environment-variable-info-message">{t('staticSite_applicationSettingsInfoMessage')}</span>
+              <span id="environment-variable-info-message">{`${t('staticSite_applicationSettingsInfoMessage')} `}</span>
               <Link
                 id="environment-variable-info-learnMore"
                 href={Links.staticSiteEnvironmentVariablesLearnMore}
                 target="_blank"
                 className={learnMoreLinkStyle}
-                aria-labelledby="environment-variable-info-message">
-                {` ${t('learnMore')}`}
+                underline={true}
+                aria-label={`${t('learnMore')} ${t('staticSite_applicationSettingsInfoMessage')}`}>
+                {t('learnMore')}
               </Link>
             </p>
             <ConfigurationEnvironmentSelector

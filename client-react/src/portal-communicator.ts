@@ -29,6 +29,7 @@ import {
   PortalTheme,
   IFeatureInfo,
   HighContrastTheme,
+  ISwitchMenuItemInfo,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import { darkTheme } from './theme/dark';
@@ -190,6 +191,15 @@ export default class PortalCommunicator {
     });
   }
 
+  public switchMenuItem(menuItemInfo: ISwitchMenuItemInfo) {
+    const payload: IDataMessage<ISwitchMenuItemInfo> = {
+      operationId: Guid.newGuid(),
+      data: menuItemInfo,
+    };
+
+    PortalCommunicator.postMessage(Verbs.switchMenuItem, this.packageData(payload));
+  }
+
   public openFrameBlade<T, U = any>(bladeInfo: IOpenBladeInfo<FrameBladeParams<U>>): Promise<IBladeResult<T>> {
     return this.openBlade(bladeInfo);
   }
@@ -250,6 +260,25 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.ibizaExperimentationFlighting, this.packageData(payload));
+    return new Promise(resolve => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<boolean>>) => {
+          resolve(r.data.result);
+        });
+    });
+  }
+
+  public getBooleanFlight(variableName: string): Promise<boolean> {
+    const payload: IDataMessage<string> = {
+      operationId: Guid.newGuid(),
+      data: variableName,
+    };
+
+    PortalCommunicator.postMessage(Verbs.ibizaExperimentationFlightingFeatureGate, this.packageData(payload));
     return new Promise(resolve => {
       this.operationStream
         .pipe(

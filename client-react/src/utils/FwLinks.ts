@@ -57,6 +57,7 @@ export const Links = {
   endOfLifeStackLink: 'https://go.microsoft.com/fwlink/?linkid=2202628',
   connectionStringLearnmore: 'https://go.microsoft.com/fwlink/?linkid=2225650',
   customErrorPagesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2245451',
+  endToEndEncryptionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2252411',
 };
 
 export const DeploymentCenterLinks = {
@@ -74,6 +75,10 @@ export const DeploymentCenterLinks = {
   publishingUserDocumentation: 'https://go.microsoft.com/fwlink/?linkid=2082375',
   bitbucketDeployment: 'https://go.microsoft.com/fwlink/?linkid=2185671',
   cloudFolderDeployment: 'https://go.microsoft.com/fwlink/?linkid=2185768',
-  onedriveDropoxRetirement: 'https://go.microsoft.com/fwlink/?linkid=2209891',
+  oneDriveDropboxRetirement: 'https://go.microsoft.com/fwlink/?linkid=2209891',
   azureDevOpsPortal: 'https://go.microsoft.com/fwlink/?linkid=2245703',
+  managedIdentityOidc: 'https://go.microsoft.com/fwlink/?linkid=2247951',
+  roleAssignmentPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2249489',
+  managedIdentityCreationPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2253463',
+  oidcPermissionPrereqs: 'https://go.microsoft.com/fwlink/?linkid=2256502',
 };

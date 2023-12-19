@@ -1866,6 +1866,147 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";authenticationSettingsAuthenticationPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an authentication type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hitelesítési típus kiválasztása]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsAuthenticationType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authentication type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hitelesítés típusa]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsBasicAuthentication" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Basic authentication]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alapszintű hitelesítés]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Válassza ki, hogyan hitelesíti GitHub Action-munkafolyamatát az Azure-ral. Ha felhasználó által hozzárendelt identitást választ, az identitás automatikusan létrejön, és engedélyezett ügyfélként össze lesz vonva a GitHubbal.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsFederatedCredentialsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to manage federated identity credentials on a user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kattintson ide, ha többet szeretne megtudni arról, hogyan kezelheti az összevont identitás hitelesítő adatait egy felhasználó által hozzárendelt identitáson.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsFederatedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Federated identity (OIDC) (Preferred)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Összevont identitás (OIDC) (előnyben részesített)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identitás]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nem jogosult arra, hogy szerepköralapú hozzáférést rendeljen hozzá egy felügyelt identitáshoz, és hogy konfigurálja az összevont hitelesítő adatokat.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nem jogosult arra, hogy felügyelt identitást hozzon létre ebben az erőforráscsoportban.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kattintson ide, ha többet szeretne megtudni a felügyelt identitások létrehozásáról.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsValidationError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to authenticate with user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nem rendelkezik a felhasználó által hozzárendelt identitással való hitelesítéshez szükséges engedélyekkel.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsPublishProfile" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Publish profile]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Közzétételi profil]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to assign role-based access to a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kattintson ide, ha többet szeretne megtudni a szerepköralapú hozzáférés felügyelt identitáshoz való hozzárendeléséről.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authentication settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hitelesítési beállítások]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsUserAssignedManagedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User-assigned identity (Preview)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Felhasználó által hozzárendelt identitás (előzetes verzió)]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned managed identity]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";authorization" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Authorization]]></Val>
@@ -2046,6 +2187,9 @@
       <Item ItemId=";azureDevOpsPortal" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Azure DevOps portal]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Azure DevOps portálra]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -3062,12 +3206,12 @@
       </Item>
       <Item ItemId=";clientAffinityEnabledLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[ARR affinity]]></Val>
+          <Val><![CDATA[Session affinity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[ARR-affinitás]]></Val>
+            <Val><![CDATA[Munkamenet-affinitás]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[ARR Affinity]]></Val>
+            <Val><![CDATA[ARR affinity]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -6336,6 +6480,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterNoWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have write permissions to make any changes.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nem rendelkezik írási engedélyekkel módosítások elvégzéséhez.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterOAuthAuthorize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Authorize]]></Val>
@@ -6483,21 +6636,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Webhelye jelenleg a OneDrive-ot vagy a Dropboxot használja a kód üzembe helyezéséhez. Ez az integráció 2023. szeptember 30-án megszűnik. Térjen át egy másik üzembe helyezési forrás használatára.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";deploymentCenterOnedriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterOneDriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Click here to learn more about this integrations retirement.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ide kattintva további információt olvashat az integrációk megszüntetéséről.]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your site is currently using configured with an unsupported integration. Please migrate to a different deployment source.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[A webhely jelenleg nem támogatott integrációval van konfigurálva. Migráljon egy másik telepítési forrásra.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6623,10 +6779,13 @@
       </Item>
       <Item ItemId=";deploymentCenterProdSlotWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You’re now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
+          <Val><![CDATA[You're now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Most már az üzemelési ponton van, ahol nem ajánlott a CI/CD beállítása.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[You’re now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6752,6 +6911,15 @@
           <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Az alapszintű hitelesítés le van tiltva az alkalmazásához. Kattintson ide, hogy a konfigurációs beállításokra ugorjon, és engedélyezze.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Az egyszerű hitelesítés le van tiltva az alkalmazásához. Kattintson ide, hogy a konfigurációs beállításokban engedélyezze, vagy válassza az alábbi „Felhasználó által hozzárendelt identitás” lehetőséget.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -7026,14 +7194,17 @@
       <Item ItemId=";deploymentCenterVstsBuildGetStartedMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select the option below to get started with a new Azure DevOps project.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Új Azure DevOps-projekt indításához válassza az alábbi lehetőséget.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterVstsBuildMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[To configure deployment with an existing Azure Pipeline, please go to the ]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Az Azure Pipelines alapú üzembe helyezés konfigurálásához látogasson el az Azure Dev Ops portálra.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ha meglévő Azure-folyamattal szeretné konfigurálni az üzemelő példányt, lépjen az ]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[To configure deployment with Azure Pipelines, please go to the Azure Dev Ops portal.]]></Val>
@@ -7062,8 +7233,8 @@
       <Item ItemId=";deploymentCenterVstsInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to the]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Az alkalmazás az Azure Pipelines használatával buildszolgáltatóként van konfigurálta. Az üzemelő példányokat a https://dev.azure.com címen kezelheti.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Az alkalmazás az Azure Pipelines használatával buildszolgáltatóként van konfigurálta. Lépjen az]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Your app is configured with Azure Pipelines as a build provider. Go to https://dev.azure.com to manage your deployments.]]></Val>
@@ -7074,6 +7245,9 @@
       <Item ItemId=";deploymentCenterVstsInfoMessagePart2" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[ to manage your deployments.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ az üzemelő példányok kezeléséhez.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -7349,6 +7523,24 @@
           <Val><![CDATA[Direct publish]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Közvetlen közzététel]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";directToEnvironmentVariablesInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[View and edit your application settings and connection strings from Environment variables. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[A Környezeti változók menüben megtekintheti és szerkesztheti az alkalmazásbeállításokat és a kapcsolati sztringeket. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";directToEnvironmentVariablesLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to go to Environment Variables menu]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kattintson ide a Környezeti változók menü megnyitásához]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -8144,6 +8336,24 @@
           <Val><![CDATA[{0} (EOL)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[{0} (EOL)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";endToEndEncryptionInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Prevents TLS termination of incoming HTTPS requests.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[A bejövő HTTPS-kérések TLS általi megszakításának megakadályozása.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";endToEndEncryptionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[End-to-end TLS encryption]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Végpontok közötti TLS-titkosítás]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -10752,15 +10962,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";ftpDisabledByPolicy" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[FTP is disabled by access policy.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Az FTP le van tiltva a hozzáférési szabályzatban.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";ftpInfoCardCredsDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Service enables you to access your app content through FTP/S.]]></Val>
@@ -11999,10 +12200,13 @@
       </Item>
       <Item ItemId=";functionNew_functionExists" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Function with name '{{name}}' already exists.]]></Val>
+          <Val><![CDATA[Function with name '{0}' already exists.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Már létezik {{name}} nevű függvény.]]></Val>
+            <Val><![CDATA[Már létezik {0} nevű függvény.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Function with name '{{name}}' already exists.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12671,12 +12875,12 @@
       </Item>
       <Item ItemId=";githubActionWorkflowFileDeleteDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[File will be removed, and future commits won’t trigger deployments to this app.]]></Val>
+          <Val><![CDATA[File will be removed, and future commits won't trigger deployments to this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[A rendszer eltávolítja a fájlt, és a jövőbeli véglegesítések nem fogják elindítani az alkalmazás üzembe helyezését.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Delete file '{0}' from branch '{1}' in repository '{2}'. This will prevent future deployments to your app on commits to this branch.]]></Val>
+            <Val><![CDATA[File will be removed, and future commits won’t trigger deployments to this app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -12746,12 +12950,12 @@
       </Item>
       <Item ItemId=";githubActionWorkflowFilePreserveDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.]]></Val>
+          <Val><![CDATA[Saving allows you to keep any edits you've made to the workflow file, but it will still trigger deployments to this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Mentés útján megtarthatja a munkafolyamatfájlban végrehajtott összes módosítást, de a művelet ettől függetlenül elindítja az alkalmazás üzembe helyezését.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Preserve file '{0}' from branch '{1}' in repository '{2}'. This may trigger deployments to your app on commits to the branch.]]></Val>
+            <Val><![CDATA[Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -12944,6 +13148,15 @@
           <Val><![CDATA[Group by subscription]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Csoportosítás előfizetés szerint]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";grpcOnly" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[gRPC Only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Csak gRPC]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14315,12 +14528,12 @@
       </Item>
       <Item ItemId=";keyVaultReference" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Key vault reference (preview)]]></Val>
+          <Val><![CDATA[Key vault reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kulcstartó-hivatkozás (előzetes verzió)]]></Val>
+            <Val><![CDATA[Kulcstároló-referencia]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Key vault reference]]></Val>
+            <Val><![CDATA[Key vault reference (preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -18491,10 +18704,13 @@
       </Item>
       <Item ItemId=";saveAppSettingsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?]]></Val>
+          <Val><![CDATA[Your app may restart if you are updating application settings or connection strings. Are you sure you want to continue?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ha az alkalmazásbeállítások és a kapcsolati sztringek módosulnak, az alkalmazás újraindul. Biztosan folytatja?]]></Val>
+            <Val><![CDATA[Az alkalmazás újraindulhat, ha frissíti az alkalmazásbeállításokat vagy a kapcsolati sztringeket. Biztosan folytatja?]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18860,6 +19076,15 @@
           <Val><![CDATA[Select Respository]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Adattár kiválasztása]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";selectSnippetAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select snippet]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kódrészlet kiválasztása]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19346,10 +19571,13 @@
       </Item>
       <Item ItemId=";singleContainerSample2DescriptionLinux" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Python “Hello World” sample app.]]></Val>
+          <Val><![CDATA[Python "Hello World" sample app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[„Helló világ!” Python-mintaalkalmazás.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Python “Hello World” sample app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -19679,10 +19907,13 @@
       </Item>
       <Item ItemId=";slotNew_nameLabel_balloonText" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.]]></Val>
+          <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named 'staging' then the new slot will have a URL like 'http://contoso-staging.azurewebsites.net'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ez az érték hozzáíródik az elsődleges webes alkalmazás URL-címéhez, és a tárolóhely nyilvános címe lesz. Ha a webes alkalmazás neve például contoso, a tárhelyé pedig marketing, akkor az új tárhely URL-címe http://contoso-staging.azurewebsites.net lesz.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20091,6 +20322,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";sshDisabledInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SSH isn't supported for your selected stack version.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[A kiválasztott stackverzió nem támogatja az SSH-t.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";ssh_newWindow" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Open in New Window]]></Val>
@@ -20276,6 +20516,15 @@
           <Val><![CDATA[All environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Minden környezet]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_appSettingsMoved" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Settings have moved to 'Environment Variables']]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Az alkalmazásbeállítások átkerültek a „Környezeti változók” területre]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22476,11 +22725,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";toggleAllSnippetsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection for all snippets]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Az összes kódrészlet kijelölésének be- és kikapcsolása]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";toggleAppSettingSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Toggle selection of application settings]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Az alkalmazásbeállítások kijelölésének be- és kikapcsolása]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";toggleSnippetSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection of snippets]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kódrészletek kijelölésének be- és kikapcsolása]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22646,6 +22913,15 @@
           <Val><![CDATA[Trigger Reason]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Trigger kiváltó oka]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";troubleshoot" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Troubleshoot]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hibaelhárítás]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -23835,8 +24111,8 @@
       <Item ItemId=";vstsDisconnectConfirmationDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your Azure Pipeline to fully disconnect.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Biztosan leválasztja az Azure Pipelinest? A teljes kapcsolat bontásához el kell távolítania az azure-pipelines.yaml fájl üzembe helyezési feladatát is.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Biztosan le szeretne válni az Azure Pipelines megoldásról? A teljes leválasztáshoz az Azure-folyamat üzembe helyezési feladatát is el kell távolítania.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Are you sure you would like to disconnect from Azure Pipelines? You will also need to remove the deploy task on your azure-pipelines.yaml file to fully disconnect.]]></Val>

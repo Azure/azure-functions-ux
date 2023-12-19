@@ -23,6 +23,7 @@ import { IDataMessageResult } from '../../../../models/portal-models';
 import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
 import { SiteStateContext } from '../../../../SiteState';
 import { ScmType } from '../../../../models/site/config';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 interface RegistryIdentifiers {
   resourceId: string;
   location: string;
@@ -423,11 +424,13 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     portalContext.log(getTelemetryInfo('info', 'getManagedIdentities', 'submit'));
     const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
     if (siteResponse.metadata.success && siteResponse.data.identity?.userAssignedIdentities) {
-      for (const [id, identity] of Object.entries(siteResponse.data.identity.userAssignedIdentities)) {
+      for (const [resourceId, identity] of Object.entries(siteResponse.data.identity.userAssignedIdentities)) {
         const clientId = identity.clientId;
         const principalId = identity.principalId;
-        const name = id.split(CommonConstants.singleForwardSlash).pop() || clientId;
-        managedIdentityInfo.current[clientId] = { clientId, principalId, name };
+        const tenantId = identity.tenantId;
+        const subscriptionId = new ArmResourceDescriptor(resourceId).subscription;
+        const name = resourceId.split(CommonConstants.singleForwardSlash).pop() || clientId;
+        managedIdentityInfo.current[clientId] = { clientId, principalId, tenantId, subscriptionId, name, resourceId };
         userAssignedIdentitiesOptions.push({ key: clientId, text: name });
       }
     }
@@ -462,22 +465,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
     setAcrImageOptions([]);
     setAcrTagOptions([]);
     setSubscription(subscription);
-  };
-
-  const openIdentityBlade = async () => {
-    const response = await portalContext.openBlade({
-      detailBlade: 'AzureResourceIdentitiesBladeV2',
-      extension: 'Microsoft_Azure_ManagedServiceIdentity',
-      detailBladeInputs: {
-        resourceId: deploymentCenterContext.resourceId,
-        apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
-        systemAssignedStatus: 2, // IdentityStatus.Supported
-        userAssignedStatus: 2, // IdentityStatus.Supported
-      },
-    });
-    if (response) {
-      fetchManagedIdentityOptions();
-    }
   };
 
   const setManagedIdentityPrincipalId = (clientId: string) => {
@@ -545,6 +532,7 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       fetchImages={fetchRepositories}
       fetchTags={fetchTags}
       fetchRegistriesInSub={setRegistriesInSub}
+      fetchManagedIdentityOptions={fetchManagedIdentityOptions}
       acrSubscriptionOptions={subscriptionOptions}
       acrRegistryOptions={acrRegistryOptions}
       acrImageOptions={acrImageOptions}
@@ -559,7 +547,6 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
       managedIdentityOptions={managedIdentityOptions}
       loadingManagedIdentities={loadingManagedIdentities}
       learnMoreLink={learnMoreLink}
-      openIdentityBlade={openIdentityBlade}
       isVnetConfigured={isVnetConfigured}
       legacyVnetAppSetting={legacyVnetAppSetting}
       defaultVnetImagePullSetting={defaultVnetImagePullSetting}

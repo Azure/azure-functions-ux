@@ -54,23 +54,6 @@
         </div>
       </div>
 
-      <div class="essentials-col" *ngIf="folderPath">
-
-        <div>
-          <label id="siteStatusLabel">{{'folder' | translate}}</label>
-          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{folderPath}}
-          </div>
-        </div>
-
-        <div>
-          <label id="siteStatusLabel">{{'rollbackEnabled' | translate}}</label>
-          <div tabindex="0" id="siteStatusValue" aria-labelledby="siteStatusLabel siteStatusValue">
-            {{rollbackEnabled}}
-          </div>
-        </div>
-      </div>
-
       <div class="essentials-col" *ngIf="branch">
         <div>
           <label id="siteStatusLabel">{{'scmType' | translate}}</label>

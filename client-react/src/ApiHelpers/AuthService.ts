@@ -3,9 +3,10 @@ import { Guid } from '../utils/Guid';
 import { CommonConstants } from '../utils/CommonConstants';
 import MakeArmCall from './ArmHelper';
 import { ArmArray, ArmObj, MsiIdentity } from '../models/arm-obj';
+import { Site } from '../models/site/site';
 
 export default class AuthService {
-  public static async hasRoleAssignment(roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) {
+  public static hasRoleAssignment(roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) {
     return roleAssignments.some(assignment => {
       const assignmentId = assignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash).pop();
       return assignmentId === roleDefinitionId;
@@ -62,7 +63,7 @@ export default class AuthService {
     identity?: MsiIdentity,
     apiVersion: string = CommonConstants.ApiVersions.enableSystemAssignedIdentityApiVersion20210201
   ) {
-    return await MakeArmCall({
+    return await MakeArmCall<ArmObj<Site>, { identity: MsiIdentity }>({
       resourceId,
       commandName: 'enableSystemAssignedIdentity',
       method: 'PATCH',

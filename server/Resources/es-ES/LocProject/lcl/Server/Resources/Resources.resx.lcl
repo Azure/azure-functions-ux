@@ -1869,6 +1869,147 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";authenticationSettingsAuthenticationPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an authentication type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Seleccionar un tipo de autenticación]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsAuthenticationType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authentication type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tipo de autenticación]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsBasicAuthentication" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Basic authentication]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Autenticación básica]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Seleccione cómo desea que el flujo de trabajo de acción de GitHub se autentique en Azure. Si elige una identidad asignada por el usuario, la identidad se creará automáticamente y se federará con GitHub como un cliente autorizado.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsFederatedCredentialsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to manage federated identity credentials on a user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Haga clic aquí para obtener más información sobre cómo administrar las credenciales de identidad federada en una identidad asignada por el usuario.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsFederatedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Federated identity (OIDC) (Preferred)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identidad federada (OIDC) (preferida)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identidad]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[No tiene permisos suficientes para asignar acceso basado en roles a una identidad administrada dentro de este grupo de recursos y configurar credenciales federadas.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[No tiene permisos suficientes para crear una identidad administrada dentro de este grupo de recursos.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Haga clic aquí para obtener más información sobre cómo crear una identidad administrada.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsValidationError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have sufficient permissions to authenticate with user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[No tiene permisos suficientes para autenticarse con la identidad asignada por el usuario.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsPublishProfile" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Publish profile]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Perfil de publicación]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about how to assign role-based access to a managed identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Haga clic aquí para obtener más información sobre cómo asignar acceso basado en roles a una identidad administrada.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authentication settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Configuración de autenticación]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsUserAssignedManagedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User-assigned identity (Preview)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identidad asignada por el usuario (versión preliminar)]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned managed identity]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";authorization" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Authorization]]></Val>
@@ -3068,12 +3209,12 @@
       </Item>
       <Item ItemId=";clientAffinityEnabledLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[ARR affinity]]></Val>
+          <Val><![CDATA[Session affinity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Afinidad ARR]]></Val>
+            <Val><![CDATA[Afinidad de sesión]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[ARR Affinity]]></Val>
+            <Val><![CDATA[ARR affinity]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -6342,6 +6483,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterNoWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[You do not have write permissions to make any changes.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[No tiene permisos de escritura para realizar cambios.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterOAuthAuthorize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Authorize]]></Val>
@@ -6489,21 +6639,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[El sitio está usando actualmente OneDrive o Dropbox para implementar código. Esta integración se retirará el 30 de septiembre de 2023. Migre a otro proveedor de origen de implementación.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";deploymentCenterOnedriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterOneDriveDropboxLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Click here to learn more about this integrations retirement.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Haga clic aquí para obtener más información sobre la retirada de estas integraciones.]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOneDriveDropboxWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your site is currently using configured with an unsupported integration. Please migrate to a different deployment source.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Su sitio está usando actualmente configuración con una integración no admitida. Migre a otro origen de implementación.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6629,10 +6782,13 @@
       </Item>
       <Item ItemId=";deploymentCenterProdSlotWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You’re now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
+          <Val><![CDATA[You're now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ahora se encuentra en el espacio de producción, que no se recomienda para la configuración de CI/CD.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[You’re now in the production slot, which is not recommended for setting up CI/CD.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6758,6 +6914,15 @@
           <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[La autenticación básica está deshabilitada para la aplicación. Haga clic aquí para ir a las opciones de configuración para habilitarla.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La autenticación básica está deshabilitada para la aplicación. Haga clic aquí para ir a las opciones de configuración que desea habilitar o elija la opción "Identidad asignada por el usuario" a continuación.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -7361,6 +7526,24 @@
           <Val><![CDATA[Direct publish]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Publicación directa]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";directToEnvironmentVariablesInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[View and edit your application settings and connection strings from Environment variables. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vea y edite la configuración de la aplicación y las cadenas de conexión de las variables de entorno. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";directToEnvironmentVariablesLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to go to Environment Variables menu]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Haga clic aquí para ir al menú Variables de entorno]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -8156,6 +8339,24 @@
           <Val><![CDATA[{0} (EOL)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[{0} (fin de vida)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";endToEndEncryptionInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Prevents TLS termination of incoming HTTPS requests.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Impide la terminación TLS de las solicitudes HTTPS entrantes.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";endToEndEncryptionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[End-to-end TLS encryption]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cifrado TLS de un extremo a otro]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -10764,15 +10965,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";ftpDisabledByPolicy" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[FTP is disabled by access policy.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[FTP está deshabilitado por la directiva de acceso.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";ftpInfoCardCredsDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[App Service enables you to access your app content through FTP/S.]]></Val>
@@ -12011,10 +12203,13 @@
       </Item>
       <Item ItemId=";functionNew_functionExists" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Function with name '{{name}}' already exists.]]></Val>
+          <Val><![CDATA[Function with name '{0}' already exists.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[La función con el nombre '{{name}}' ya existe.]]></Val>
+            <Val><![CDATA[La función con el nombre "{0}" ya existe.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Function with name '{{name}}' already exists.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12683,12 +12878,12 @@
       </Item>
       <Item ItemId=";githubActionWorkflowFileDeleteDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[File will be removed, and future commits won’t trigger deployments to this app.]]></Val>
+          <Val><![CDATA[File will be removed, and future commits won't trigger deployments to this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[El archivo se quitará y las confirmaciones futuras no desencadenarán implementaciones en esta aplicación.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Delete file '{0}' from branch '{1}' in repository '{2}'. This will prevent future deployments to your app on commits to this branch.]]></Val>
+            <Val><![CDATA[File will be removed, and future commits won’t trigger deployments to this app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -12758,12 +12953,12 @@
       </Item>
       <Item ItemId=";githubActionWorkflowFilePreserveDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.]]></Val>
+          <Val><![CDATA[Saving allows you to keep any edits you've made to the workflow file, but it will still trigger deployments to this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Al guardar, podrá conservar las modificaciones que haya realizado en el archivo de flujo de trabajo, aunque seguirá desencadenando las implementaciones en esta aplicación.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Preserve file '{0}' from branch '{1}' in repository '{2}'. This may trigger deployments to your app on commits to the branch.]]></Val>
+            <Val><![CDATA[Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -12956,6 +13151,15 @@
           <Val><![CDATA[Group by subscription]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Agrupar por suscripción]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";grpcOnly" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[gRPC Only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Solo gRPC]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14330,12 +14534,12 @@
       </Item>
       <Item ItemId=";keyVaultReference" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Key vault reference (preview)]]></Val>
+          <Val><![CDATA[Key vault reference]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Referencia de Key Vault (versión preliminar)]]></Val>
+            <Val><![CDATA[Referencia del almacén de claves]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Key vault reference]]></Val>
+            <Val><![CDATA[Key vault reference (preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -18509,10 +18713,13 @@
       </Item>
       <Item ItemId=";saveAppSettingsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?]]></Val>
+          <Val><![CDATA[Your app may restart if you are updating application settings or connection strings. Are you sure you want to continue?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Los cambios en la configuración de las aplicaciones y las cadenas de conexión requerirán un reinicio de la aplicación. ¿Seguro que quiere continuar?]]></Val>
+            <Val><![CDATA[La aplicación puede reiniciarse si va a actualizar la configuración de la aplicación o las cadenas de conexión. ¿Está seguro de que desea continuar?]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -18878,6 +19085,15 @@
           <Val><![CDATA[Select Respository]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Seleccionar el repositorio]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";selectSnippetAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select snippet]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Seleccionar fragmento de código]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19364,10 +19580,13 @@
       </Item>
       <Item ItemId=";singleContainerSample2DescriptionLinux" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Python “Hello World” sample app.]]></Val>
+          <Val><![CDATA[Python "Hello World" sample app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Aplicación de ejemplo de Python "Hola mundo".]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Python “Hello World” sample app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -19700,10 +19919,13 @@
       </Item>
       <Item ItemId=";slotNew_nameLabel_balloonText" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.]]></Val>
+          <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named 'staging' then the new slot will have a URL like 'http://contoso-staging.azurewebsites.net'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Este valor se anexará a la dirección URL de la aplicación web principal y actuará como la dirección pública de la ranura. Por ejemplo, si tiene una aplicación web con el nombre "contoso" y una ranura denominada "staging", la dirección URL de la nueva ranura será similar a "http://contoso-staging.azurewebsites.net".]]></Val>
+            <Val><![CDATA[Este valor se anexará a la dirección URL de la aplicación web principal y funcionará como la dirección pública de la ranura. Por ejemplo, si tiene una aplicación web con el nombre "contoso" y una ranura denominada "staging", la dirección URL de la nueva ranura será similar a "http://contoso-staging.azurewebsites.net".]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20112,6 +20334,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";sshDisabledInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SSH isn't supported for your selected stack version.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SSH no es compatible con la versión de pila seleccionada.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";ssh_newWindow" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Open in New Window]]></Val>
@@ -20297,6 +20528,15 @@
           <Val><![CDATA[All environments]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Todos los entornos]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_appSettingsMoved" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Settings have moved to 'Environment Variables']]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La configuración de la aplicación se ha movido a "Variables de entorno"]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22497,11 +22737,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";toggleAllSnippetsAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection for all snippets]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alternar selección para todos los fragmentos de código]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";toggleAppSettingSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Toggle selection of application settings]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Alternar la selección de la configuración de la aplicación]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";toggleSnippetSelectionAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Toggle selection of snippets]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alternar selección de fragmentos de código]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -22667,6 +22925,15 @@
           <Val><![CDATA[Trigger Reason]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Motivo del desencadenador]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";troubleshoot" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Troubleshoot]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Solucionar problemas]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

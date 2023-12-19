@@ -1,7 +1,7 @@
 import { ArmObj } from '../../../models/arm-obj';
 import { PublishingUser } from '../../../models/site/publish';
 import { SiteConfig, BuildProvider, ScmType } from '../../../models/site/config';
-import { DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
+import { AuthType, DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
 import i18next from 'i18next';
 import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
@@ -41,6 +41,15 @@ export abstract class DeploymentCenterFormBuilder {
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
       devOpsProject: '',
+      authType: AuthType.PublishProfile,
+      authIdentity: {
+        clientId: '',
+        principalId: '',
+        tenantId: '',
+        subscriptionId: '',
+        name: '',
+        resourceId: '',
+      },
     };
   }
 
@@ -141,6 +150,19 @@ export abstract class DeploymentCenterFormBuilder {
         }),
       externalRepoType: Yup.mixed().notRequired(),
       devOpsProjectName: Yup.mixed().notRequired(),
+      authType: Yup.mixed().when('hasPermissionToUseOIDC', {
+        is: true,
+        then: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+          return !!value;
+        }),
+        otherwise: Yup.mixed().test('authIdentityPopulated', this._t('authenticationSettingsOidcPermissionsValidationError'), function(
+          value
+        ) {
+          return value !== AuthType.Oidc || !!this.parent.authIdentity.resourceId;
+        }),
+      }),
+      authIdentity: Yup.mixed().notRequired(),
+      hasPermissionToUseOIDC: Yup.boolean().notRequired(),
     };
   }
 

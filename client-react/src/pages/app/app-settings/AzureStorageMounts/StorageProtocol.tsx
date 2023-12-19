@@ -8,34 +8,30 @@ import { IChoiceGroupOption } from '@fluentui/react/lib/ChoiceGroup';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { style } from 'typestyle';
-import Url from '../../../../utils/url';
-import { CommonConstants } from '../../../../utils/CommonConstants';
 import { useTranslation } from 'react-i18next';
 
-const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
-  const { values } = props;
+const StorageProtocol: React.FC<{ values: FormAzureStorageMounts; showNFSFileShares?: boolean }> = props => {
+  const { values, showNFSFileShares } = props;
   const { isLinuxApp } = React.useContext(SiteStateContext);
   const { t } = useTranslation();
 
   const showFileSharesProtocolOptions = React.useMemo(() => {
-    return (
-      values.type === StorageType.azureFiles && isLinuxApp && Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) === 'true'
-    );
-  }, [values.type, isLinuxApp]);
+    return values.type === StorageType.azureFiles && isLinuxApp && showNFSFileShares;
+  }, [values.type, isLinuxApp, showNFSFileShares]);
 
   const showCustomBanner = React.useMemo(() => {
-    return values.protocol === StorageFileShareProtocol.NFS;
+    return values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.NFS.toLocaleLowerCase();
   }, [values.protocol]);
 
   const fileShareProtocalOptions = React.useMemo<IChoiceGroupOption[]>(() => {
     return [
       {
         key: StorageFileShareProtocol.SMB,
-        text: StorageFileShareProtocol.SMB,
+        text: 'SMB',
       },
       {
         key: StorageFileShareProtocol.NFS,
-        text: StorageFileShareProtocol.NFS,
+        text: 'NFS',
       },
     ];
   }, []);

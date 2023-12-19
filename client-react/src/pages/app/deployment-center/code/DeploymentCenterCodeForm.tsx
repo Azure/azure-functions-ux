@@ -1,54 +1,58 @@
-import React, { useState, useContext } from 'react';
-import { Formik, FormikProps, FormikActions } from 'formik';
+import { Formik, FormikActions, FormikProps } from 'formik';
+import React, { useContext, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
+import GitHubService from '../../../../ApiHelpers/GitHubService';
+import SiteService from '../../../../ApiHelpers/SiteService';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { RepoTypeOptions } from '../../../../models/external';
+import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
+import { KeyValue } from '../../../../models/portal-models';
+import { BuildProvider, ScmType } from '../../../../models/site/config';
+import { AppOs } from '../../../../models/site/site';
+import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
+import { Guid } from '../../../../utils/Guid';
+import { RuntimeStacks } from '../../../../utils/stacks-utils';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import {
-  DeploymentCenterFormData,
-  DeploymentCenterCodeFormProps,
-  DeploymentCenterCodeFormData,
-  SiteSourceControlRequestBody,
-  WorkflowOption,
-  SiteSourceControlGitHubActionsRequestBody,
   AppType,
+  AuthType,
+  DeploymentCenterCodeFormData,
+  DeploymentCenterCodeFormProps,
+  DeploymentCenterFormData,
   PublishType,
   RuntimeStackOptions,
+  SiteSourceControlGitHubActionsRequestBody,
+  SiteSourceControlRequestBody,
+  WorkflowFileUrlInfo,
+  WorkflowOption,
 } from '../DeploymentCenter.types';
-import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
-import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
-import { useTranslation } from 'react-i18next';
-import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
-import { SiteStateContext } from '../../../../SiteState';
-import { PortalContext } from '../../../../PortalContext';
-import SiteService from '../../../../ApiHelpers/SiteService';
-import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
-import { BuildProvider, ScmType } from '../../../../models/site/config';
-import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
-import DeploymentCenterData from '../DeploymentCenter.data';
-import { WorkflowFileUrlInfo } from '../DeploymentCenter.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
+import { DeploymentCenterContext } from '../DeploymentCenterContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import {
-  getCodeWebAppWorkflowInformation,
-  getCodeFunctionAppCodeWorkflowInformation,
-  isApiSyncError,
-  updateGitHubActionSourceControlPropertiesManually,
-  updateGitHubActionAppSettingsForPython,
-  getRuntimeVersion,
-} from '../utility/GitHubActionUtility';
-import {
-  getWorkflowFilePath,
   getArmToken,
-  getTelemetryInfo,
-  getWorkflowFileName,
+  getFederatedCredentialName,
   getSourceControlsWorkflowFileName,
+  getTelemetryInfo,
+  getUserAssignedIdentityName,
+  getWorkflowFileName,
+  getWorkflowFilePath,
 } from '../utility/DeploymentCenterUtility';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
-import { AppOs } from '../../../../models/site/site';
-import GitHubService from '../../../../ApiHelpers/GitHubService';
-import { RuntimeStacks } from '../../../../utils/stacks-utils';
-import { Guid } from '../../../../utils/Guid';
-import { KeyValue } from '../../../../models/portal-models';
-import { CommonConstants } from '../../../../utils/CommonConstants';
-import { RepoTypeOptions } from '../../../../models/external';
+import {
+  getCodeFunctionAppCodeWorkflowInformation,
+  getCodeWebAppWorkflowInformation,
+  getRuntimeVersion,
+  isApiSyncError,
+  updateGitHubActionAppSettingsForPython,
+  updateGitHubActionSourceControlPropertiesManually,
+} from '../utility/GitHubActionUtility';
+import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
+import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -62,13 +66,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterData = new DeploymentCenterData();
 
   const deployUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    //(NOTE: stpelleg) Only external git is expected to be manual integration
-    // If manual integration is true the site config scm type is set to be external
-    const deployGithubActionsWithSourceControlsApi = !siteStateContext.isKubeApp && values.buildProvider === BuildProvider.GitHubAction;
-    const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody = deployGithubActionsWithSourceControlsApi
-      ? getGitHubActionsSourceControlsPayload(values)
-      : getKuduSourceControlsPayload(values);
-
     if (values.sourceProvider === ScmType.LocalGit) {
       return deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
         properties: {
@@ -76,12 +73,127 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
+      if (values.authType === AuthType.Oidc) {
+        const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
+        portalContext.log(getTelemetryInfo('info', 'registerManagedIdentityProvider', 'submit'));
+        const registerManagedIdentityProviderResponse = await deploymentCenterData.registerProvider(
+          armId.subscription,
+          DeploymentCenterConstants.managedIdentityNamespace
+        );
+        if (registerManagedIdentityProviderResponse.metadata.success) {
+          const errorResponse = await getOrCreateUserAssignedIdentity(values, armId);
+          if (errorResponse) {
+            return errorResponse;
+          }
 
+          const getRoleAssignmentsWithScope = deploymentCenterData.getRoleAssignmentsWithScope(
+            deploymentCenterContext.resourceId,
+            values.authIdentity.principalId
+          );
+          const listFederatedCredentials = deploymentCenterData.listFederatedCredentials(values.authIdentity.resourceId);
+          const [getRoleAssignmentsWithScopeResponse, listFederatedCredentialsResponse] = await Promise.all([
+            getRoleAssignmentsWithScope,
+            listFederatedCredentials,
+          ]);
+
+          if (getRoleAssignmentsWithScopeResponse.metadata.success) {
+            const hasRoleAssignment = deploymentCenterData.hasRoleAssignment(
+              RBACRoleId.websiteContributor,
+              getRoleAssignmentsWithScopeResponse.data.value
+            );
+            if (!hasRoleAssignment) {
+              const putWebsiteContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
+                RBACRoleId.websiteContributor,
+                deploymentCenterContext.resourceId,
+                values.authIdentity.principalId,
+                PrincipalType.servicePrincipal
+              );
+              if (!putWebsiteContributorRoleResponse.metadata.success) {
+                portalContext.log(
+                  getTelemetryInfo('error', 'putWebsiteContributorRoleResponse', 'failed', {
+                    message: getErrorMessage(putWebsiteContributorRoleResponse.metadata.error),
+                    errorAsString: putWebsiteContributorRoleResponse.metadata.error
+                      ? JSON.stringify(putWebsiteContributorRoleResponse.metadata.error)
+                      : '',
+                  })
+                );
+                return putWebsiteContributorRoleResponse;
+              }
+            }
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'getRoleAssignmentsWithScopeResponse', 'failed', {
+                message: getErrorMessage(getRoleAssignmentsWithScopeResponse.metadata.error),
+                errorAsString: getRoleAssignmentsWithScopeResponse.metadata.error
+                  ? JSON.stringify(getRoleAssignmentsWithScopeResponse.metadata.error)
+                  : '',
+              })
+            );
+            return getRoleAssignmentsWithScopeResponse;
+          }
+
+          if (listFederatedCredentialsResponse.metadata.success) {
+            // For error: Issuer and subject combination already exists for this Managed Identity.
+            // Find all federated credentials, and if there's some with the same issuer and subject, don't add a new one
+            const subject = `repo:${values.org}/${values.repo}:environment:production`;
+            const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
+              subject,
+              listFederatedCredentialsResponse.data.value ?? []
+            );
+            if (!issuerSubjectAlreadyExists) {
+              const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
+                values.authIdentity.resourceId,
+                getFederatedCredentialName(`${values.org}-${values.repo}`),
+                subject
+              );
+
+              if (!addFederatedCredentialResponse.metadata.success) {
+                portalContext.log(
+                  getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+                    message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+                    errorAsString: addFederatedCredentialResponse.metadata.error
+                      ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                      : '',
+                  })
+                );
+                return addFederatedCredentialResponse;
+              }
+            }
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'listFederatedCredentialsResponse', 'failed', {
+                message: getErrorMessage(listFederatedCredentialsResponse.metadata.error),
+                errorAsString: listFederatedCredentialsResponse.metadata.error
+                  ? JSON.stringify(listFederatedCredentialsResponse.metadata.error)
+                  : '',
+              })
+            );
+            return listFederatedCredentialsResponse;
+          }
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'registerManagedIdentityProvider', 'failed', {
+              message: getErrorMessage(registerManagedIdentityProviderResponse.metadata.error),
+              errorAsString: registerManagedIdentityProviderResponse.metadata.error
+                ? JSON.stringify(registerManagedIdentityProviderResponse.metadata.error)
+                : '',
+            })
+          );
+          return registerManagedIdentityProviderResponse;
+        }
+      }
+
+      //(NOTE: stpelleg) Only external git is expected to be manual integration
+      // If manual integration is true the site config scm type is set to be external
+      const deployGithubActionsWithSourceControlsApi = !siteStateContext.isKubeApp && values.buildProvider === BuildProvider.GitHubAction;
+      const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody = deployGithubActionsWithSourceControlsApi
+        ? getGitHubActionsSourceControlsPayload(values)
+        : getKuduSourceControlsPayload(values);
+
+      portalContext.log(getTelemetryInfo('info', 'updateSourceControls', 'submit'));
       const updateSourceControlResponse = await deploymentCenterData.updateSourceControlDetails(deploymentCenterContext.resourceId, {
         properties: payload,
       });
-
       if (
         !updateSourceControlResponse.metadata.success &&
         payload.isGitHubAction &&
@@ -91,7 +203,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         // we are experiencing the GeoRegionalService API error (500), run through the
         // workaround.
         portalContext.log(getTelemetryInfo('warning', 'updateSourceControlsWorkaround', 'submit'));
-
         return updateGitHubActionSourceControlPropertiesManually(
           deploymentCenterData,
           deploymentCenterContext.resourceId,
@@ -108,9 +219,69 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             })
           );
         }
-
         return updateSourceControlResponse;
       }
+    }
+  };
+
+  const getOrCreateUserAssignedIdentity = async (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    armId: ArmResourceDescriptor
+  ) => {
+    if (values.authIdentity.resourceId === DeploymentCenterConstants.createNew) {
+      if (siteStateContext.site) {
+        portalContext.log(getTelemetryInfo('info', 'createUserAssignedIdentityForOidc', 'submit'));
+        const createUserAssignedIdentityResponse = await deploymentCenterData.createUserAssignedIdentity(
+          `/subscriptions/${armId.subscription}/resourceGroups/${armId.resourceGroup}`,
+          getUserAssignedIdentityName(armId.resourceName),
+          siteStateContext?.site.location
+        );
+        if (createUserAssignedIdentityResponse.metadata.success) {
+          const identityArmObj = createUserAssignedIdentityResponse.data;
+          values.authIdentity = {
+            resourceId: identityArmObj.id,
+            name: identityArmObj.name,
+            subscriptionId: armId.subscription,
+            clientId: identityArmObj.properties.clientId,
+            principalId: identityArmObj.properties.principalId,
+            tenantId: identityArmObj.properties.tenantId,
+          };
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'createUserAssignedIdentityResponse', 'failed', {
+              message: getErrorMessage(createUserAssignedIdentityResponse.metadata.error),
+              errorAsString: createUserAssignedIdentityResponse.metadata.error
+                ? JSON.stringify(createUserAssignedIdentityResponse.metadata.error)
+                : '',
+            })
+          );
+          return createUserAssignedIdentityResponse;
+        }
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'siteStateContext', 'failed', {
+            message: 'Failed to retrieve site from siteStateContext',
+          })
+        );
+      }
+    }
+
+    if (!(values.authIdentity.clientId && values.authIdentity.tenantId && values.authIdentity.principalId)) {
+      portalContext.log(
+        getTelemetryInfo('error', 'getOrCreateUserAssignedIdentity', 'failed', {
+          message: 'Failed to retrieve auth identity properties',
+          identity: JSON.stringify(values.authIdentity),
+        })
+      );
+
+      return {
+        metadata: {
+          success: false,
+          status: '404',
+          error: 'Failed to retrieve auth identity properties',
+        },
+        data: {},
+      };
     }
   };
 
@@ -128,6 +299,19 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>
   ): SiteSourceControlGitHubActionsRequestBody => {
     const variables = getGitHubActionsConfigurationVariables(values);
+    const gitHubActionConfiguration = {
+      generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
+      workflowSettings: {
+        appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+        authType: values.authType ?? AuthType.PublishProfile,
+        publishType: PublishType.Code,
+        os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+        runtimeStack: values.runtimeStack,
+        workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20221001,
+        slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+        variables: variables,
+      },
+    };
 
     return {
       repoUrl: getRepoUrl(values),
@@ -136,18 +320,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       isGitHubAction: true,
       deploymentRollbackEnabled: false,
       isMercurial: false,
-      gitHubActionConfiguration: {
-        generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
-        workflowSettings: {
-          appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
-          publishType: PublishType.Code,
-          os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
-          runtimeStack: values.runtimeStack,
-          workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
-          slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
-          variables: variables,
-        },
-      },
+      gitHubActionConfiguration,
     };
   };
 
@@ -158,6 +331,11 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
     if (values.runtimeStack === RuntimeStackOptions.Java) {
       variables['javaContainer'] = values.javaContainer;
+    }
+
+    if (values.authType === AuthType.Oidc) {
+      variables['clientId'] = values.authIdentity.clientId;
+      variables['tenantId'] = values.authIdentity.tenantId;
     }
 
     return variables;
@@ -189,10 +367,6 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         return `${DeploymentCenterConstants.githubUri}/${values.org}/${values.repo}`;
       case ScmType.BitbucketGit:
         return `${DeploymentCenterConstants.bitbucketUrl}/${values.org}/${values.repo}`;
-      case ScmType.OneDrive:
-        return `${DeploymentCenterConstants.onedriveApiUri}:/${values.folder}`;
-      case ScmType.Dropbox:
-        return `${DeploymentCenterConstants.dropboxUri}/${values.folder}`;
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';
@@ -446,6 +620,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         runtimeVersion,
         runtimeRecommendedVersion,
         publishType: 'code',
+        authType: values.authType,
         appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
         isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,

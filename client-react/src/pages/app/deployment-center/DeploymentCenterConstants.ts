@@ -2,9 +2,6 @@ export class DeploymentCenterConstants {
   public static readonly githubUri = 'https://github.com';
   public static readonly bitbucketApiUrl = 'https://api.bitbucket.org/2.0';
   public static readonly bitbucketUrl = 'https://bitbucket.org';
-  public static readonly dropboxApiUrl = 'https://api.dropboxapi.com/2';
-  public static readonly dropboxUri = 'https://www.dropbox.com/home/Apps/Azure';
-  public static readonly onedriveApiUri = 'https://api.onedrive.com/v1.0/drive/special/approot';
 
   public static readonly AzDevDevFabricTfsUri = 'https://codedev.ms/';
   public static readonly AzDevDevFabricSpsUri = 'https://vssps.codedev.ms/';
@@ -82,4 +79,7 @@ export class DeploymentCenterConstants {
   public static readonly appSettings_SCM_DO_BUILD_DURING_DEPLOYMENT = 'SCM_DO_BUILD_DURING_DEPLOYMENT';
   public static readonly appSettings_ENABLE_ORYX_BUILD = 'ENABLE_ORYX_BUILD';
   public static readonly appSettings_WEBSITE_NODE_DEFAULT_VERSION = 'WEBSITE_NODE_DEFAULT_VERSION';
+
+  public static readonly managedIdentityNamespace = 'Microsoft.ManagedIdentity';
+  public static readonly createNew = 'createNew';
 }

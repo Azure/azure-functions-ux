@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import React, { useCallback, useContext } from 'react';
+import React, { useCallback, useContext, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
@@ -8,13 +8,13 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
-import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { MinTlsVersion, SslState, VnetPrivatePortsCount } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { MessageBarType } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
 import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
+import useStacks from '../Hooks/useStacks';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -22,10 +22,17 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, initialValues, setFieldValue } = props;
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
+
+  // @note(krmitta): Only this for linux apps for now.
+  const { stackVersionDetails } = useStacks(values?.config.properties.linuxFxVersion);
+
   const disableAllControls = !app_write || !editable || saving;
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
+  const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSsh, [
+    stackVersionDetails.data?.supportedFeatures?.disableSsh,
+  ]);
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
@@ -69,24 +76,13 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   );
 
   const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
-    // Set HTTP 2.0 Proxy to 'Off' if http 2.0 is not enabled.
-    if (!option.key) {
-      props.setFieldValue('config.properties.http20ProxyFlag', 0);
-      values.httpTwo = false;
-    } else {
-      // Enable gPRC only mode for HTTP 2.0
-      props.setFieldValue('config.properties.http20ProxyFlag', 2);
-      values.httpTwo = true;
+    props.setFieldValue('config.properties.http20ProxyFlag', 0);
+    if (option.key) {
       props.setFieldValue('site.properties.clientCertEnabled', false);
     }
 
     props.setFieldValue('config.properties.http20Enabled', option.key);
   };
-
-  const disableFtp = () =>
-    props.values.basicPublishingCredentialsPolicies &&
-    props.values.basicPublishingCredentialsPolicies.properties.ftp &&
-    !props.values.basicPublishingCredentialsPolicies.properties.ftp.allow;
 
   return (
     <div>
@@ -146,6 +142,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             component={RadioButton}
             label={t('basicAuthPublishingCred')}
             infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
+            learnMoreLink={Links.ftpDisabledByPolicyLink}
             id="app-settings-basic-authentication-publishing-creds"
             disabled={disableAllControls}
             selectedKey={
@@ -166,63 +163,32 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           />
         )}
 
-      {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' &&
-        (disableFtp() ? (
-          <DropdownNoFormik
-            onChange={() => {
-              /** @note (joechung): Ignore selection change since there is only a single option. */
-            }}
-            dirty={
-              // @note (krmitta): Dirty state is only calculated, if ftpsState is not Disabled
-              values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
-              initialValues.config.properties.ftpsState !== 'Disabled'
-            }
-            infoBubbleMessage={t('ftpDisabledByPolicy')}
-            learnMoreLink={Links.ftpDisabledByPolicyLink}
-            label={t('ftpState')}
-            id="app-settings-ftps-state"
-            disabled={true}
-            defaultSelectedKey={'Disabled'}
-            options={[
-              {
-                key: 'Disabled',
-                text: t('disabled'),
-              },
-            ]}
-          />
-        ) : (
-          <Field
-            name="config.properties.ftpsState"
-            dirty={
-              // @note (krmitta): BasicPublishingCredentialsPolicies check if made only if ftpsState is not Disabled
-              values.config.properties.ftpsState !== initialValues.config.properties.ftpsState ||
-              (values?.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-                initialValues?.basicPublishingCredentialsPolicies?.properties.ftp.allow &&
-                initialValues.config.properties.ftpsState !== 'Disabled')
-            }
-            component={Dropdown}
-            infoBubbleMessage={t('ftpsInfoMessage')}
-            learnMoreLink={Links.ftpInfo}
-            label={t('ftpState')}
-            id="app-settings-ftps-state"
-            disabled={disableAllControls}
-            options={[
-              {
-                key: 'AllAllowed',
-                text: t('allAllowed'),
-              },
-              {
-                key: 'FtpsOnly',
-                text: t('ftpsOnly'),
-              },
-              {
-                key: 'Disabled',
-                text: t('disabled'),
-              },
-            ]}
-          />
-        ))}
+      {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' && (
+        <Field
+          name="config.properties.ftpsState"
+          dirty={values.config.properties.ftpsState !== initialValues.config.properties.ftpsState}
+          component={Dropdown}
+          infoBubbleMessage={t('ftpsInfoMessage')}
+          learnMoreLink={Links.ftpInfo}
+          label={t('ftpState')}
+          id="app-settings-ftps-state"
+          disabled={disableAllControls}
+          options={[
+            {
+              key: 'AllAllowed',
+              text: t('allAllowed'),
+            },
+            {
+              key: 'FtpsOnly',
+              text: t('ftpsOnly'),
+            },
+            {
+              key: 'Disabled',
+              text: t('disabled'),
+            },
+          ]}
+        />
+      )}
 
       {scenarioChecker.checkScenario(ScenarioIds.httpVersionSupported, { site }).status !== 'disabled' && (
         <>
@@ -251,20 +217,25 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             <Field
               name="config.properties.http20ProxyFlag"
               dirty={values.config.properties.http20ProxyFlag !== initialValues.config.properties.http20ProxyFlag}
-              component={RadioButton}
+              component={Dropdown}
               label={t('http20Proxy')}
               infoBubbleMessage={t('https20ProxyInfoBubbleMessage')}
               id="app-settings-http20-proxy-enabled"
               disabled={disableAllControls}
               options={[
                 {
+                  key: 0,
+                  text: t('off'),
+                },
+                {
                   key: 1,
                   text: t('on'),
                   disabled: !values.config.properties.http20Enabled,
                 },
                 {
-                  key: 0,
-                  text: t('off'),
+                  key: 2,
+                  text: t('grpcOnly'),
+                  disabled: !values.config.properties.http20Enabled,
                 },
               ]}
             />
@@ -280,6 +251,27 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           label={t('webSocketsEnabledLabel')}
           id="app-settings-web-sockets-enabled"
           disabled={disableAllControls || websocketsEnable.status === 'disabled'}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.sshEnabledSupported, { site }).status == 'enabled' && (
+        <Field
+          name="site.properties.sshEnabled"
+          dirty={values.site.properties.sshEnabled !== initialValues.site.properties.sshEnabled}
+          component={RadioButton}
+          label={t('feature_sshName')}
+          id="app-settings-ssh-enabled"
+          disabled={disableAllControls || !sshControlEnabled}
+          infoBubbleMessage={sshControlEnabled ? '' : t('sshDisabledInfoBubbleMessage')}
           options={[
             {
               key: true,
@@ -395,6 +387,27 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           infoBubbleMessage={t('minTlsCipherSuiteInfoBubbleMessage')}
           dirty={values.config.properties.minTlsCipherSuite !== initialValues.config.properties.minTlsCipherSuite}
           widthLabel={'230px'}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.enableE2ETlsEncryption, { site }).status === 'enabled' && (
+        <Field
+          name={'site.properties.endToEndEncryptionEnabled'}
+          id={'endToEndEncryptionEnabled'}
+          component={RadioButton}
+          label={t('endToEndEncryptionLabel')}
+          dirty={!!values.site.properties.endToEndEncryptionEnabled !== !!initialValues.site.properties.endToEndEncryptionEnabled}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+          infoBubbleMessage={t('endToEndEncryptionInfoMessage')}
+          learnMoreLink={Links.endToEndEncryptionLearnMore}
         />
       )}
       {scenarioChecker.checkScenario(ScenarioIds.vnetPrivatePortsCount, { site }).status === 'enabled' && (

@@ -228,28 +228,6 @@ xdescribe('StepCompleteComponent', () => {
   });
 
   describe('Source Control Group', () => {
-    it('dropbox', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'kudu',
-        sourceProvider: 'dropbox',
-        sourceSettings: { ...wizardService.wizardValues.sourceSettings, repoUrl: 'dropboxFolder' },
-      };
-      expect(buildStepTest.SummaryGroups[0].items.length).toBe(1);
-      expect(buildStepTest.SummaryGroups[0].items[0].value).toBe('dropboxFolder');
-    });
-
-    it('onedrive', () => {
-      wizardService.wizardValues = {
-        ...wizardService.wizardValues,
-        buildProvider: 'kudu',
-        sourceProvider: 'onedrive',
-        sourceSettings: { ...wizardService.wizardValues.sourceSettings, repoUrl: 'onedriveFolder' },
-      };
-      expect(buildStepTest.SummaryGroups[0].items.length).toBe(1);
-      expect(buildStepTest.SummaryGroups[0].items[0].value).toBe('onedriveFolder');
-    });
-
     it('github', () => {
       wizardService.wizardValues = {
         ...wizardService.wizardValues,

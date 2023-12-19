@@ -1,4 +1,4 @@
-import React, { useContext, useMemo } from 'react';
+import React, { useContext, useEffect, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { IChoiceGroupOption, Link, MessageBarType } from '@fluentui/react';
 import { Field } from 'formik';
@@ -9,12 +9,13 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
-import { DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
+import { ContainerRegistrySources, DeploymentCenterContainerFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
+import { isScmTypeValidForContainers } from '../utility/DeploymentCenterUtility';
 
 const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { t } = useTranslation();
@@ -48,6 +49,12 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
     },
   ];
 
+  useEffect(() => {
+    if (!isScmTypeValidForContainers(formProps.values.scmType)) {
+      formProps.setFieldValue('scmType', ScmType.None);
+    }
+  }, []);
+
   const openConfigurationBlade = async () => {
     const result = await portalContext.openBlade({
       detailBlade: 'SiteConfigSettingsFrameBladeReact',
@@ -63,12 +70,31 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
   };
 
   const showBasicAuthError = useMemo(() => {
-    const isGitHubActionsOrContainerOnly = formProps.values.scmType === ScmType.GitHubAction;
+    const isGitHubActionsOrContainerOnly =
+      formProps.values.scmType === ScmType.GitHubAction || formProps.values.registrySource === ContainerRegistrySources.acr;
     return isGitHubActionsOrContainerOnly && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow;
-  }, [formProps.values.scmType, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow]);
+  }, [
+    formProps.values.scmType,
+    formProps.values.registrySource,
+    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow,
+  ]);
+
+  const showNoWritePermissionBanner = useMemo(() => {
+    return !deploymentCenterContext.hasWritePermission;
+  }, [deploymentCenterContext.hasWritePermission]);
 
   return (
     <>
+      {showNoWritePermissionBanner && (
+        <div className={deploymentCenterInfoBannerDiv}>
+          <CustomBanner
+            id="deployment-center-no-write-error"
+            message={t('deploymentCenterNoWritePermissionsError')}
+            type={MessageBarType.blocked}
+          />
+        </div>
+      )}
+
       {showBasicAuthError && (
         <div className={deploymentCenterInfoBannerDiv}>
           <CustomBanner
@@ -79,6 +105,7 @@ const DeploymentCenterContainerSource: React.FC<DeploymentCenterFieldProps<Deplo
           />
         </div>
       )}
+
       <p>
         <span id="deployment-center-settings-message">{t('deploymentCenterContainerSettingsDescription')}</span>
         <Link

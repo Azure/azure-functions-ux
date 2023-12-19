@@ -47,7 +47,10 @@
             : using a System.ComponentModel.TypeConverter
             : and then encoded with base64 encoding.
     -->
-    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:schema id="root"
+        xmlns=""
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+        xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
         <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
         <xsd:element name="root" msdata:IsDataSet="true">
             <xsd:complexType>
@@ -1078,6 +1081,9 @@
     <data name="on" xml:space="preserve">
         <value>On</value>
     </data>
+    <data name="grpcOnly" xml:space="preserve">
+        <value>gRPC Only</value>
+    </data>
     <data name="topBar_functionApiSettings" xml:space="preserve">
         <value>API settings</value>
     </data>
@@ -1598,7 +1604,7 @@
         <value>production</value>
     </data>
     <data name="clientAffinityEnabledLabel" xml:space="preserve">
-        <value>ARR affinity</value>
+        <value>Session affinity</value>
     </data>
     <data name="httpsOnlyInfoBoxText" xml:space="preserve">
         <value>Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.</value>
@@ -1650,6 +1656,12 @@
     </data>
     <data name="minTlsCipherSuiteLeastSecure" xml:space="preserve">
         <value>least secure</value>
+    </data>
+    <data name="endToEndEncryptionLabel" xml:space="preserve">
+        <value>End-to-end TLS encryption</value>
+    </data>
+    <data name="endToEndEncryptionInfoMessage" xml:space="preserve">
+        <value>Prevents TLS termination of incoming HTTPS requests.</value>
     </data>
     <data name="selected" xml:space="preserve">
         <value>selected</value>
@@ -2462,7 +2474,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>configure Application Insights for your function app</value>
     </data>
     <data name="slotNew_nameLabel_balloonText" xml:space="preserve">
-        <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named ‘staging’ then the new slot will have a URL like ‘http://contoso-staging.azurewebsites.net’.</value>
+        <value>This value will be appended to your main web app's URL and will serve as the public address of the slot.  For example if you have a web app named 'contoso' and a slot named 'staging' then the new slot will have a URL like 'http://contoso-staging.azurewebsites.net'.</value>
     </data>
     <data name="slotNew_dynamicQuotaReached" xml:space="preserve">
         <value>Consumption plan allows only for a single slot. If you need more than one slot, please use dedicated App Service plans.</value>
@@ -4449,7 +4461,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Python Hello World</value>
     </data>
     <data name="singleContainerSample2DescriptionLinux" xml:space="preserve">
-        <value>Python “Hello World” sample app.</value>
+        <value>Python "Hello World" sample app.</value>
     </data>
     <data name="singleContainerSample3TitleLinux" xml:space="preserve">
         <value>Static site</value>
@@ -4555,6 +4567,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="modifiedTag" xml:space="preserve">
         <value>(modified)</value>
+    </data>
+    <data name="directToEnvironmentVariablesInfoMessage" xml:space="preserve">
+        <value>View and edit your application settings and connection strings from Environment variables. </value>
+    </data>
+    <data name="directToEnvironmentVariablesLink" xml:space="preserve">
+        <value>Click here to go to Environment Variables menu</value>
     </data>
     <data name="applicationSettings" xml:space="preserve">
         <value>Application settings</value>
@@ -5046,7 +5064,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Manual input</value>
     </data>
     <data name="keyVaultReference" xml:space="preserve">
-        <value>Key vault reference (preview)</value>
+        <value>Key vault reference</value>
     </data>
     <data name="configurationOptions" xml:space="preserve">
         <value>Configuration options</value>
@@ -5965,7 +5983,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Save changes</value>
     </data>
     <data name="saveAppSettingsMessage" xml:space="preserve">
-        <value>Any changes to applications settings and connection strings will restart your application. Are you sure you want to continue?</value>
+        <value>Your app may restart if you are updating application settings or connection strings. Are you sure you want to continue?</value>
     </data>
     <data name="azureFunctionsV1Linux" xml:space="preserve">
         <value>Version 1 Runtime is not supported on Linux Azure Functions</value>
@@ -6022,13 +6040,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Save workflow file</value>
     </data>
     <data name="githubActionWorkflowFilePreserveDescription" xml:space="preserve">
-        <value>Saving allows you to keep any edits you’ve made to the workflow file, but it will still trigger deployments to this app.</value>
+        <value>Saving allows you to keep any edits you've made to the workflow file, but it will still trigger deployments to this app.</value>
     </data>
     <data name="githubActionWorkflowFileDeleteLabel" xml:space="preserve">
         <value>Delete workflow file</value>
     </data>
     <data name="githubActionWorkflowFileDeleteDescription" xml:space="preserve">
-        <value>File will be removed, and future commits won’t trigger deployments to this app.</value>
+        <value>File will be removed, and future commits won't trigger deployments to this app.</value>
     </data>
     <data name="githubActionWorkflowFileDeletePanelDescription" xml:space="preserve">
         <value>Disconnecting an action allows you to reconfigure the app deployment. Choose what happens to your workflow file after you disconnect.</value>
@@ -6949,10 +6967,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.</value>
     </data>
     <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
-        <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
+        <value>You're now in the production slot, which is not recommended for setting up CI/CD.</value>
     </data>
     <data name="deploymentCenterOneDriveDropboxWarning" xml:space="preserve">
-        <value>Your site is currently using OneDrive or Dropbox to deploy code. This integration will be retired on September 30th, 2023. Migrate to a different deployment source.</value>
+        <value>Your site is currently using configured with an unsupported integration. Please migrate to a different deployment source.</value>
+    </data>
+    <data name="deploymentCenterNoWritePermissionsError" xml:space="preserve">
+        <value>You do not have write permissions to make any changes.</value>
     </data>
     <data name="deploymentCenterSettingsReadOnlyGitHubNotAuthorized" xml:space="preserve">
         <value>GitHub Token not found, click authorize to set up GitHub token.</value>
@@ -7094,9 +7115,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="javaWebServerVersion" xml:space="preserve">
         <value>Java web server version</value>
-    </data>
-    <data name="ftpDisabledByPolicy" xml:space="preserve">
-        <value>FTP is disabled by access policy.</value>
     </data>
     <data name="ibizafication_readOnlyCustom" xml:space="preserve">
         <value>Editing Function Apps using CustomHandler is not supported in the Azure portal. Use your local development environment to edit this function.</value>
@@ -7317,7 +7335,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterProdSlotWarningLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about why CI/CD is not recommended for production slots.</value>
     </data>
-    <data name="deploymentCenterOnedriveDropboxLinkAriaLabel" xml:space="preserve">
+    <data name="deploymentCenterOneDriveDropboxLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about this integrations retirement.</value>
     </data>
     <data name="deploymentCenterCodeRedeployCommitRequestSubmittedDesc" xml:space="preserve">
@@ -7791,12 +7809,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="ibizafication_readOnlyDotnetIsolated" xml:space="preserve">
         <value>Editing .NET Isolated Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
-    </data>    
+    </data>
     <data name="consoleContainerTextAreaAriaLabel" xml:space="preserve">
         <value>Console text area container</value>
     </data>
     <data name="deploymentCenterScmBasicAuthErrorMessage" xml:space="preserve">
         <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.</value>
+    </data>
+    <data name="deploymentCenterScmBasicAuthErrorMessageWithOidc" xml:space="preserve">
+        <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.</value>
     </data>
     <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
         <value>Basic authentication is disabled for your app.</value>
@@ -7810,19 +7831,91 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="toggleAppSettingSelectionAriaLabel" xml:space="preserve">
         <value>Toggle selection of application settings</value>
     </data>
-     <data name="selectAppSettingAriaLabel" xml:space="preserve">
+    <data name="selectAppSettingAriaLabel" xml:space="preserve">
         <value>Select application setting</value>
     </data>
-     <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
+    <data name="toggleAllAppSettingsAriaLabel" xml:space="preserve">
         <value>Toggle selection for all application settings</value>
     </data>
-     <data name="hideButton" xml:space="preserve">
+    <data name="toggleSnippetSelectionAriaLabel" xml:space="preserve">
+        <value>Toggle selection of snippets</value>
+    </data>
+    <data name="selectSnippetAriaLabel" xml:space="preserve">
+        <value>Select snippet</value>
+    </data>
+    <data name="toggleAllSnippetsAriaLabel" xml:space="preserve">
+        <value>Toggle selection for all snippets</value>
+    </data>
+    <data name="hideButton" xml:space="preserve">
         <value>Hide value button</value>
     </data>
-      <data name="showButton" xml:space="preserve">
+    <data name="showButton" xml:space="preserve">
         <value>Show value button</value>
     </data>
-      <data name="troubleshoot" xml:space="preserve">
+    <data name="troubleshoot" xml:space="preserve">
         <value>Troubleshoot</value>
+    </data>
+    <data name="authenticationSettingsTitle" xml:space="preserve">
+        <value>Authentication settings</value>
+    </data>
+    <data name="authenticationSettingsDescription" xml:space="preserve">
+        <value>Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.</value>
+    </data>
+    <data name="authenticationSettingsFederatedIdentity" xml:space="preserve">
+        <value>Federated identity (OIDC) (Preferred)</value>
+    </data>
+    <data name="authenticationSettingsUserAssignedManagedIdentity" xml:space="preserve">
+        <value>User-assigned identity (Preview)</value>
+    </data>
+    <data name="authenticationSettingsBasicAuthentication" xml:space="preserve">
+        <value>Basic authentication</value>
+    </data>
+    <data name="authenticationSettingsPublishProfile" xml:space="preserve">
+        <value>Publish profile</value>
+    </data>
+    <data name="authenticationSettingsAuthenticationType" xml:space="preserve">
+        <value>Authentication type</value>
+    </data>
+    <data name="authenticationSettingsAuthenticationPlaceholder" xml:space="preserve">
+        <value>Select an authentication type</value>
+    </data>
+    <data name="authenticationSettingsIdentity" xml:space="preserve">
+        <value>Identity</value>
+    </data>
+    <data name="authenticationSettingsIdentityPlaceholder" xml:space="preserve">
+        <value>Select an identity</value>
+    </data>
+    <data name="authenticationSettingsSubscriptionPlaceholder" xml:space="preserve">
+        <value>Select a subscription</value>
+    </data>
+    <data name="createNewOption" xml:space="preserve">
+        <value>(Create new)</value>
+    </data>
+    <data name="authenticationSettingsOidcPermissionsValidationError" xml:space="preserve">
+        <value>You do not have sufficient permissions to authenticate with user-assigned identity.</value>
+    </data>
+    <data name="authenticationSettingsIdentityAssignmentPermissionsError" xml:space="preserve">
+        <value>You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.</value>
+    </data>
+    <data name="authenticationSettingsIdentityWritePermissionsError" xml:space="preserve">
+        <value>This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.</value>
+    </data>
+    <data name="authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about how to create a managed identity.</value>
+    </data>    
+    <data name="authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about how to assign role-based access to a managed identity.</value>
+    </data>
+    <data name="authenticationSettingsFederatedCredentialsLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about how to manage federated identity credentials on a user-assigned identity.</value>
+    </data>
+    <data name="authenticationSettingsOidcPermissionsLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about what permissions are needed for authenticating with a user-assigned identity.</value>
+    </data>
+     <data name="sshDisabledInfoBubbleMessage" xml:space="preserve">
+        <value>SSH isn't supported for your selected stack version.</value>
+    </data>
+    <data name="staticSite_appSettingsMoved" xml:space="preserve">
+        <value>App Settings have moved to 'Environment Variables'</value>
     </data>
 </root>

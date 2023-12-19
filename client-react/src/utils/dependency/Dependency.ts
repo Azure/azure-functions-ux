@@ -68,7 +68,6 @@ export class AcrDependency extends Dependency {
       const siteResponse = await SiteService.fetchSite(resourceId);
       if (siteResponse.metadata.success) {
         const acrResourceJson = {
-          resourceId: tagInformation.id,
           subscriptionId: tagInformation.subscriptionId,
         };
 
@@ -93,8 +92,9 @@ export class AcrDependency extends Dependency {
     const siteResponse = await SiteService.fetchSite(resourceId);
     if (siteResponse.metadata.success) {
       const tags = siteResponse.data.tags;
-      if (tags) {
-        delete tags[this._getTagName(CommonConstants.DeploymentCenterConstants.acrTag, true)];
+      const hiddenTagName = this._getTagName(CommonConstants.DeploymentCenterConstants.acrTag, true);
+      if (tags && tags[hiddenTagName]) {
+        delete tags[hiddenTagName];
         const deleteTagResponse = await SiteService.updateSite(resourceId, siteResponse.data, undefined, true);
         if (!deleteTagResponse.metadata.success) {
           portalContext.log(

@@ -8,8 +8,6 @@ import { GitHubUser } from '../../../models/github';
 import { IDropdownOption, IChoiceGroupOption, MessageBarType } from '@fluentui/react';
 import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
-import { OneDriveUser } from '../../../models/onedrive';
-import { DropboxUser } from '../../../models/dropbox';
 import { KeyValue } from '../../../models/portal-models';
 import DeploymentCenterData from './DeploymentCenter.data';
 import { IDeploymentCenterContext } from './DeploymentCenterContext';
@@ -18,8 +16,6 @@ import PortalCommunicator from '../../../portal-communicator';
 export enum SourceControlOptions {
   GitHub = 'github',
   Bitbucket = 'bitbucket',
-  OneDrive = 'onedrive',
-  Dropbox = 'dropbox',
 }
 
 export enum ContainerOptions {
@@ -159,6 +155,11 @@ export enum ACRCredentialType {
 export enum ManagedIdentityType {
   systemAssigned = 'SystemAssigned',
   userAssigned = 'UserAssigned',
+}
+
+export enum AuthType {
+  Oidc = 'oidc',
+  PublishProfile = 'publishprofile',
 }
 
 export interface AzureDevOpsUrl {
@@ -314,11 +315,12 @@ export interface DeploymentCenterCommonFormData {
   externalPassword?: string;
   gitHubUser?: GitHubUser;
   bitbucketUser?: BitbucketUser;
-  oneDriveUser?: OneDriveUser;
-  dropboxUser?: DropboxUser;
   folder?: string;
   devOpsProjectName?: string;
   searchTerm?: string;
+  authType: AuthType;
+  authIdentity: UserAssignedIdentity;
+  hasPermissionToUseOIDC?: boolean;
 }
 
 export interface AcrFormData {
@@ -580,6 +582,19 @@ export interface SourceControlProperties {
   branch: string;
   isMercurial: boolean;
   isGitHubAction?: boolean;
+  gitHubActionConfiguration?: {
+    generateWorkflowFile: boolean;
+    workflowSettings: {
+      appType: AppType;
+      publishType: PublishType;
+      os: string;
+      workflowApiVersion: string;
+      slotName: string;
+      variables: KeyValue<string>;
+      runtimeStack?: string;
+      authType?: AuthType;
+    };
+  };
 }
 
 export interface DateTimeObj {
@@ -660,6 +675,7 @@ export interface SiteSourceControlGitHubActionsRequestBody {
       slotName: string;
       variables: KeyValue<string>;
       runtimeStack?: string;
+      authType?: AuthType;
     };
   };
 }
@@ -681,6 +697,7 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   fetchImages: (loginServer: string) => void;
   fetchTags: (image: string) => void;
   fetchRegistriesInSub(subscription: string);
+  fetchManagedIdentityOptions: () => void;
   acrSubscriptionOptions: IDropdownOption[];
   acrRegistryOptions: IDropdownOption[];
   acrImageOptions: IDropdownOption[];
@@ -695,28 +712,9 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   managedIdentityOptions: IDropdownOption[];
   loadingManagedIdentities: boolean;
   learnMoreLink?: string;
-  openIdentityBlade: () => void;
   isVnetConfigured?: boolean;
   legacyVnetAppSetting?: string;
   defaultVnetImagePullSetting?: SettingOption;
-}
-
-export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-  extends DeploymentCenterFieldProps<T> {
-  authorizeAccount: () => void;
-  folderOptions: IDropdownOption[];
-  loadingFolders: boolean;
-  accountStatusMessage?: string;
-  accountUser?: OneDriveUser;
-}
-
-export interface DeploymentCenterDropboxProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
-  extends DeploymentCenterFieldProps<T> {
-  authorizeAccount: () => void;
-  folderOptions: IDropdownOption[];
-  loadingFolders: boolean;
-  accountStatusMessage?: string;
-  accountUser?: DropboxUser;
 }
 
 export interface DeploymentCenterDevOpsProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -808,5 +806,20 @@ export interface RoleAssignment {
 export interface UserAssignedIdentity {
   clientId: string;
   principalId: string;
+  tenantId: string;
+  subscriptionId: string;
   name: string;
+  resourceId: string;
+}
+
+export interface FederatedCredential {
+  audiences: string[];
+  issuer: string;
+  subject: string;
+}
+
+export interface User {
+  displayName: string;
+  id: string;
+  userPrincipalName: string;
 }

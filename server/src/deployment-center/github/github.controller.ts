@@ -14,6 +14,7 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
+import { detectProjectFolders } from '@azure/web-apps-framework-detection';
 import * as sodium from 'tweetsodium';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
@@ -43,7 +44,7 @@ export class GithubController {
     private configService: ConfigService,
     private loggingService: LoggingService,
     private httpService: HttpService
-  ) { }
+  ) {}
 
   @Post('api/github/passthrough')
   @HttpCode(200)
@@ -294,6 +295,63 @@ export class GithubController {
   ) {
     const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/workflows/${workflowFileName}/runs?page=${page}`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getWorkflowRunLogs')
+  @HttpCode(200)
+  async getJobLogs(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('runId') runId: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}/logs`;
+    try {
+      await this.httpService
+        .get(url, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+          responseType: 'arraybuffer',
+        })
+        .then(response => {
+          res.json(response.data);
+        });
+    } catch (err) {
+      this.loggingService.error(`Failed to get workflow run logs.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  @Post('api/github/getWorkflowRun')
+  @HttpCode(200)
+  async getWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('runId') runId: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}`;
+    try {
+      await this.httpService
+        .get(url, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        })
+        .then(response => {
+          res.json(response.data);
+        });
+    } catch (err) {
+      this.loggingService.error(`Failed to get workflow run.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
   }
 
   @Post('api/github/deleteWorkflowRun')
@@ -618,6 +676,37 @@ export class GithubController {
     }
   }
 
+  @Post('api/github/detectFrameworks')
+  @HttpCode(200)
+  async detectFrameworks(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branch') branch: string,
+    @Body('frameworksUri') frameworksUri: string,
+    @Body('filterDescendantFolders') filterDescendantFolders = true,
+    @Res() res
+  ) {
+    try {
+      const frameworks = await detectProjectFolders(
+        `${githubOrigin}/${org}/${repo}/tree/${branch}`,
+        gitHubToken,
+        null,
+        frameworksUri,
+        filterDescendantFolders
+      );
+      res.json(frameworks);
+    } catch (err) {
+      this.loggingService.error(`Failed to detect frameworks.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
   private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
     return {
       Authorization: `token ${accessToken}`,
@@ -856,6 +945,14 @@ export class GithubController {
         );
       }
 
+      if (response.headers['x-ratelimit-remaining']) {
+        res.setHeader('x-ratelimit-remaining', response.headers['x-ratelimit-remaining']);
+      }
+
+      if (response.headers['x-ratelimit-reset']) {
+        res.setHeader('x-ratelimit-reset', response.headers['x-ratelimit-reset']);
+      }
+
       res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');
       res.json(response.data);
     } catch (err) {
@@ -883,6 +980,14 @@ export class GithubController {
             .map((value: string) => value.trim())
             .join(',')
         );
+      }
+
+      if (response.headers['x-ratelimit-remaining']) {
+        res.setHeader('x-ratelimit-remaining', response.headers['x-ratelimit-remaining']);
+      }
+
+      if (response.headers['x-ratelimit-reset']) {
+        res.setHeader('x-ratelimit-reset', response.headers['x-ratelimit-reset']);
       }
 
       res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');

@@ -17,7 +17,7 @@ import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { ScmType, SiteConfig } from '../../../../models/site/config';
 import { KeyValue } from '../../../../models/portal-models';
 import { RuntimeStacks, JavaContainers } from '../../../../utils/stacks-utils';
-import { IDeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { IDeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 import { PublishingCredentials } from '../../../../models/site/publish';
 import { LogLevel, TelemetryInfo } from '../../../../models/telemetry';
@@ -33,6 +33,8 @@ import PortalCommunicator from '../../../../portal-communicator';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { ISiteState } from '../../../../SiteState';
+import { Guid } from '../../../../utils/Guid';
+import { truncate } from 'lodash-es';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
@@ -330,13 +332,19 @@ export const isSettingsDirty = (
   formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>,
   deploymentCenterContext: IDeploymentCenterContext
 ): boolean => {
+  // NOTE(yoonaoh): If we have an invalid scmType for containers, we will default to None.
+  // We also only want to enable the save button when we start from None because the other scmTypes
+  // should show configured views and not the editable settings.
+  const isScmTypeNone =
+    deploymentCenterContext?.siteConfig && isScmTypeValidForContainers(deploymentCenterContext.siteConfig.properties.scmType)
+      ? deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+      : true;
   return (
     (isContainerGeneralSettingsDirty(formProps) ||
       (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty(formProps)) ||
       (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty(formProps)) ||
       (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty(formProps))) &&
-    !!deploymentCenterContext.siteConfig &&
-    deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+    isScmTypeNone
   );
 };
 
@@ -489,6 +497,7 @@ export const getDescriptionSection = (source: string, description: string, learn
 };
 
 export const optionsSortingFunction = (a: ISelectableOption, b: ISelectableOption) => a.text.localeCompare(b.text);
+export const ignoreCaseSortingFunction = (a: string, b: string) => a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
 
 export function formikOnBlur<T>(e: React.FocusEvent<T>, props: FieldProps) {
   const { field, form } = props;
@@ -578,4 +587,39 @@ export const deleteDeploymentCenterLogs = async (
 export const getAcrNameFromLoginServer = (loginServer: string): string => {
   const loginServerParts = loginServer?.split('.') ?? [];
   return loginServerParts.length > 0 ? loginServerParts[0] : '';
+};
+
+// The name of a federated identity credentials must be within 3 and 120 characters
+// only contains letters (A-Z, a-z), numbers, hyphens and dashes and must start with
+// a number or letter.
+export const getFederatedCredentialName = (fullRepoName: string): string => {
+  const guid = Guid.newTinyGuid();
+  let name = `${fullRepoName}-${guid}`;
+
+  if (name.length > 120) {
+    name = `${truncate(fullRepoName, { length: 120 - `fc--${guid}`.length, omission: '' })}-${guid}`;
+  }
+
+  // Remove characters that are not letters, numbers, hyphens, or dashes
+  name = name.replace(/[^a-zA-Z0-9-]/g, '');
+
+  // Ensure the string starts with a letter or number
+  if (name && !/^[a-zA-Z0-9]/.test(name)) {
+    return 'fc-' + name.slice(1);
+  }
+
+  return name;
+};
+
+export const getUserAssignedIdentityName = (appName: string): string => {
+  const guid = Guid.newTinyGuid();
+  if (`${appName}-id-${guid}`.length > 24) {
+    return `${truncate(appName, { length: 24 - `-id-${guid}`.length, omission: '' })}-id-${guid}`;
+  }
+
+  return `${appName}-id-${guid}`;
+};
+
+export const isScmTypeValidForContainers = (scmType: ScmType): boolean => {
+  return scmType === ScmType.None || scmType === ScmType.GitHubAction || scmType === ScmType.Vsts;
 };

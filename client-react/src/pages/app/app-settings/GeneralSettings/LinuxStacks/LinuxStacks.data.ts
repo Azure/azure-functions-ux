@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
+import { WebAppRuntimeSettings, WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';
 
 export const LINUXJAVASTACKKEY = 'java';
@@ -11,6 +11,7 @@ interface VersionDetails {
   majorVersionRuntime: string;
   minorVersionName: string;
   minorVersionRuntime: string;
+  data?: WebAppRuntimeSettings;
 }
 
 export const getRuntimeStacks = (builtInStacks: WebAppStack[]) => {
@@ -58,13 +59,14 @@ export const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, ma
 };
 
 export const getVersionDetails = (builtInStacks: WebAppStack[], version: string): VersionDetails => {
-  let versionDetails = {
+  let versionDetails: VersionDetails = {
     runtimeStackName: '',
     majorVersionName: '',
     majorVersionRuntime: '',
     minorVersionName: '',
     minorVersionRuntime: '',
   };
+
   if (!!builtInStacks && !!version) {
     builtInStacks.forEach(stack => {
       stack.majorVersions.forEach(stackMajorVersion => {
@@ -80,6 +82,7 @@ export const getVersionDetails = (builtInStacks: WebAppStack[], version: string)
               majorVersionRuntime: stackMajorVersion.value,
               minorVersionName: stackMinorVersion.value,
               minorVersionRuntime: setting ? setting.runtimeVersion : stackMinorVersion.value,
+              data: setting,
             };
           }
         });

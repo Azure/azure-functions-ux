@@ -135,6 +135,7 @@ export interface AzureStorageMount {
   shareName: string;
   accessKey: string;
   mountPath: string;
+  protocol?: string;
 }
 
 export enum StorageType {

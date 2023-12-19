@@ -1,5 +1,6 @@
 import { style } from 'typestyle';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
+import { FORM_DEFAULT_WIDTH } from '../../../components/form-controls/formControl.override.styles';
 
 const spacingBetweenElements = '10px';
 const maxElementWidth = '750px';
@@ -208,7 +209,7 @@ export const changeAccountInfoButtonStyle = style({
 });
 
 export const addIdentityLinkStyle = style({
-  padding: '10px 10px 10px 9px',
+  paddingBottom: '10px',
 });
 
 export const buttonFooterStyle = (theme: ThemeExtended): string =>
@@ -241,4 +242,12 @@ export const deploymentCenterDescriptionTextStyle = style({
 
 export const deploymentCenterVstsCodeLogsLinkStyle = style({
   marginRight: '10px',
+});
+
+export const deploymentCenterAddIdentityLink = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'end',
+  marginTop: '-15px',
+  maxWidth: FORM_DEFAULT_WIDTH, // To match the Dropdown override style
 });

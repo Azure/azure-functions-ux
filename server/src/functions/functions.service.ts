@@ -134,16 +134,17 @@ export class FunctionsService implements OnModuleInit {
     try {
       const armEndpoint = this.configService.armEndpoint;
       const getSiteUrl = `${armEndpoint}${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
-      const authHeaders = this._getFunctionAuthHeaders(authToken);
+      const functionAuthHeaders = this._getFunctionAuthHeaders();
+      const armHeaders = this._getArmHeaders(authToken);
       const siteResponse = await this.httpService.get(getSiteUrl, {
-        headers: authHeaders,
+        headers: armHeaders,
       });
       const site = siteResponse.data;
       if (site) {
         const url = `${Url.getMainUrl(site)}${path}`;
         const headers = {
           ...this._getHeaders(inputHeaders, clientRequestId, functionKey, liveLogSessionId),
-          ...authHeaders,
+          ...functionAuthHeaders,
         };
 
         const result = await this.httpService.request({
@@ -183,9 +184,10 @@ export class FunctionsService implements OnModuleInit {
     try {
       const armEndpoint = this.configService.armEndpoint;
       const getFunctionUrl = `${armEndpoint}${resourceId}?api-version=${Constants.AntaresApiVersion20181101}`;
-      const authHeaders = this._getFunctionAuthHeaders(authToken);
+      const functionAuthHeaders = this._getFunctionAuthHeaders();
+      const armHeaders = this._getArmHeaders(authToken);
       const functionResponse = await this.httpService.get(getFunctionUrl, {
-        headers: authHeaders,
+        headers: armHeaders,
       });
 
       if (functionResponse.data) {
@@ -194,7 +196,7 @@ export class FunctionsService implements OnModuleInit {
         if (testDataHref) {
           const headers = {
             ...this._getHeaders([], clientRequestId, functionKey),
-            ...authHeaders,
+            ...functionAuthHeaders,
           };
 
           const result = await this.httpService.request({
@@ -225,10 +227,15 @@ export class FunctionsService implements OnModuleInit {
     }
   }
 
-  private _getFunctionAuthHeaders(authToken: string) {
+  private _getFunctionAuthHeaders() {
+    return {
+      FunctionsPortal: '1',
+    };
+  }
+
+  private _getArmHeaders(authToken: string) {
     return {
       Authorization: authToken,
-      FunctionsPortal: '1',
     };
   }
 

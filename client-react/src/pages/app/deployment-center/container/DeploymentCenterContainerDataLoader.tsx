@@ -8,7 +8,7 @@ import {
   DeploymentProperties,
   GitHubActionsRun,
 } from '../DeploymentCenter.types';
-import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import { DeploymentCenterContainerFormBuilder } from '../container/DeploymentCenterContainerFormBuilder';
 import { useTranslation } from 'react-i18next';
 import DeploymentCenterContainerForm from './DeploymentCenterContainerForm';
@@ -39,7 +39,7 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
     DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> | undefined
   >(undefined);
 
-  const generateForm = () => {
+  const generateForm = React.useCallback(() => {
     if (deploymentCenterContext.siteConfig) {
       deploymentCenterContainerFormBuilder.setSiteConfig(deploymentCenterContext.siteConfig);
     }
@@ -72,7 +72,13 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
         publishType: 'container',
       })
     );
-  };
+  }, [
+    deploymentCenterContext.siteConfig,
+    deploymentCenterContext.configMetadata,
+    deploymentCenterContext.applicationSettings,
+    deploymentCenterPublishingContext.publishingUser,
+    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies,
+  ]);
 
   const refresh = () => {
     portalContext.log(
@@ -85,12 +91,8 @@ const DeploymentCenterContainerDataLoader: React.FC<DeploymentCenterDataLoaderPr
   };
 
   useEffect(() => {
-    if (deploymentCenterContext.applicationSettings && deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata) {
-      generateForm();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
+    generateForm();
+  }, [generateForm]);
 
   return (
     <DeploymentCenterContainerForm

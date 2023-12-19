@@ -3,13 +3,11 @@ import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   // End of support dates from https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
-  const dotnetCore3EOL = getDateString(new Date(2022, 11, 3), useIsoDateFormat);
-  const dotnet5EOL = getDateString(new Date(2022, 4, 8), useIsoDateFormat);
-  const dotnet6EOL = getDateString(new Date(2024, 10, 12), useIsoDateFormat);
-  const dotnet7EOL = getDateString(new Date(2024, 4, 14), useIsoDateFormat);
-
-  // projected as a guess - not on the support lifecycle page yet and should be adjusted when moved out of preview
-  const dotnet8EOL = getDateString(new Date(2026, 11, 1), useIsoDateFormat);
+  const dotnetCore3EOL = getDateString(new Date('2022/12/03'), useIsoDateFormat);
+  const dotnet5EOL = getDateString(new Date('2022/05/08'), useIsoDateFormat);
+  const dotnet6EOL = getDateString(new Date('2024/11/12'), useIsoDateFormat);
+  const dotnet7EOL = getDateString(new Date('2024/05/14'), useIsoDateFormat);
+  const dotnet8EOL = getDateString(new Date('2026/11/10'), useIsoDateFormat);
 
   return {
     displayText: '.NET',
@@ -57,8 +55,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v8.0',
-                isHidden: true,
-                isPreview: true,
+                isHidden: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -69,18 +66,19 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v8.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
                 endOfLifeDate: dotnet8EOL,
+                isEarlyAccess: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|8.0',
                 isHidden: false,
-                isPreview: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -91,9 +89,10 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|8.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -123,9 +122,10 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v7.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -143,9 +143,10 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|7.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -229,9 +230,10 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
@@ -249,9 +251,10 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
+                  use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],

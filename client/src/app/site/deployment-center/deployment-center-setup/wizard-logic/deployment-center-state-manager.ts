@@ -65,8 +65,6 @@ export class DeploymentCenterStateManager implements OnDestroy {
   public stack = '';
   public stackVersion = '';
   public gitHubTokenUpdated$ = new ReplaySubject<boolean>();
-  public oneDriveToken$ = new BehaviorSubject<string>('');
-  public dropBoxToken$ = new BehaviorSubject<string>('');
   public bitBucketToken$ = new BehaviorSubject<string>('');
   public gitHubToken$ = new BehaviorSubject<string>('');
   public replacementPublishUrl = '';

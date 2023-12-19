@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { from, of, Subject } from 'rxjs';
+import axios, { AxiosHeaderValue, AxiosResponse } from 'axios';
+import { Subject, from, of } from 'rxjs';
 import { async } from 'rxjs/internal/scheduler/async';
 import { bufferTime, catchError, concatMap, filter, share, take } from 'rxjs/operators';
 import { ArmRequestObject, HttpResponseObject, MethodTypes } from '../ArmHelper.types';
@@ -22,7 +22,7 @@ interface InternalArmRequest {
   body: any;
   apiVersion: string | null;
   queryString?: string;
-  headers?: KeyValue<string>;
+  headers?: KeyValue<AxiosHeaderValue | undefined>;
 }
 
 interface ArmBatchObject {
@@ -131,7 +131,7 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
   }
 };
 
-const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpResponseObject<T>> => {
+const MakeArmCall = async <T, U = T>(requestObject: ArmRequestObject<U>): Promise<HttpResponseObject<T>> => {
   const { skipBatching, method, resourceId, body, apiVersion, commandName, queryString, headers } = requestObject;
 
   const id = Guid.newGuid();
@@ -238,9 +238,9 @@ const _extractErrorMessage = (error: any, recursionLimit: number): string => {
   return recursionLimit ? _extractErrorMessage(error.error, recursionLimit - 1) : '';
 };
 
-export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArray<T>>): Promise<ArmObj<T>[]> => {
+export const MakePagedArmCall = async <T, U = T>(requestObject: ArmRequestObject<ArmArray<U>>): Promise<ArmObj<T>[]> => {
   let results: ArmObj<T>[] = [];
-  const response = await MakeArmCall(requestObject);
+  const response = await MakeArmCall<ArmArray<T>, ArmArray<U>>(requestObject);
 
   if (response.metadata.success) {
     results = [...results, ...response.data.value];
@@ -248,7 +248,7 @@ export const MakePagedArmCall = async <T>(requestObject: ArmRequestObject<ArmArr
     if (response.data.nextLink) {
       const pathAndQuery = Url.getPathAndQuery(response.data.nextLink);
 
-      const pagedResult = await MakePagedArmCall({
+      const pagedResult = await MakePagedArmCall<T, U>({
         ...requestObject,
         resourceId: pathAndQuery,
         apiVersion: null,

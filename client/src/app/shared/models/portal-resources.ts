@@ -324,6 +324,7 @@ export class PortalResources {
   public static functionEdit_functionState = 'functionEdit_functionState';
   public static off = 'off';
   public static on = 'on';
+  public static grpcOnly = 'grpcOnly';
   public static topBar_functionApiSettings = 'topBar_functionApiSettings';
   public static sidebar_newApiProxy = 'sidebar_newApiProxy';
   public static apiProxy_allMethods = 'apiProxy_allMethods';
@@ -513,6 +514,8 @@ export class PortalResources {
   public static minTlsCipherSuitePanelHeader = 'minTlsCipherSuitePanelHeader';
   public static minTlsCipherSuiteMostSecure = 'minTlsCipherSuiteMostSecure';
   public static minTlsCipherSuiteLeastSecure = 'minTlsCipherSuiteLeastSecure';
+  public static endToEndEncryptionLabel = 'endToEndEncryptionLabel';
+  public static endToEndEncryptionInfoMessage = 'endToEndEncryptionInfoMessage';
   public static selected = 'selected';
   public static change = 'change';
   public static clientAffinityInfoText = 'clientAffinityInfoText';
@@ -1473,6 +1476,8 @@ export class PortalResources {
   public static platformSettings = 'platformSettings';
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
+  public static directToEnvironmentVariablesInfoMessage = 'directToEnvironmentVariablesInfoMessage';
+  public static directToEnvironmentVariablesLink = 'directToEnvironmentVariablesLink';
   public static applicationSettings = 'applicationSettings';
   public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';
@@ -2266,6 +2271,7 @@ export class PortalResources {
   public static deploymentCenterConfigureGitHubPermissionsGHA = 'deploymentCenterConfigureGitHubPermissionsGHA';
   public static deploymentCenterProdSlotWarning = 'deploymentCenterProdSlotWarning';
   public static deploymentCenterOneDriveDropboxWarning = 'deploymentCenterOneDriveDropboxWarning';
+  public static deploymentCenterNoWritePermissionsError = 'deploymentCenterNoWritePermissionsError';
   public static deploymentCenterSettingsReadOnlyGitHubNotAuthorized = 'deploymentCenterSettingsReadOnlyGitHubNotAuthorized';
   public static deploymentCenterSettingsWorkflowConfigTitle = 'deploymentCenterSettingsWorkflowConfigTitle';
   public static deploymentCenterSettingsWorkflowConfigPreviewDescription = 'deploymentCenterSettingsWorkflowConfigPreviewDescription';
@@ -2317,7 +2323,6 @@ export class PortalResources {
   public static versionLabel = 'versionLabel';
   public static javaWebServer = 'javaWebServer';
   public static javaWebServerVersion = 'javaWebServerVersion';
-  public static ftpDisabledByPolicy = 'ftpDisabledByPolicy';
   public static ibizafication_readOnlyCustom = 'ibizafication_readOnlyCustom';
   public static selectDevelopmentEnvironment = 'selectDevelopmentEnvironment';
   public static selectDevelopmentEnvironmentDescription = 'selectDevelopmentEnvironmentDescription';
@@ -2392,7 +2397,7 @@ export class PortalResources {
   public static deploymentCenterContainerAcrFailedToLoadTags = 'deploymentCenterContainerAcrFailedToLoadTags';
   public static moreCommands = 'moreCommands';
   public static deploymentCenterProdSlotWarningLinkAriaLabel = 'deploymentCenterProdSlotWarningLinkAriaLabel';
-  public static deploymentCenterOnedriveDropboxLinkAriaLabel = 'deploymentCenterOnedriveDropboxLinkAriaLabel';
+  public static deploymentCenterOneDriveDropboxLinkAriaLabel = 'deploymentCenterOneDriveDropboxLinkAriaLabel';
   public static deploymentCenterCodeRedeployCommitRequestSubmittedDesc = 'deploymentCenterCodeRedeployCommitRequestSubmittedDesc';
   public static deploymentCenterCodeRedeployCommitSuccess = 'deploymentCenterCodeRedeployCommitSuccess';
   public static deploymentCenterCodeRedeployCommitFailed = 'deploymentCenterCodeRedeployCommitFailed';
@@ -2553,13 +2558,40 @@ export class PortalResources {
   public static ibizafication_readOnlyDotnetIsolated = 'ibizafication_readOnlyDotnetIsolated';
   public static consoleContainerTextAreaAriaLabel = 'consoleContainerTextAreaAriaLabel';
   public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
+  public static deploymentCenterScmBasicAuthErrorMessageWithOidc = 'deploymentCenterScmBasicAuthErrorMessageWithOidc';
   public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
   public static configureDeploymentCredentialsLinkAriaLabel = 'configureDeploymentCredentialsLinkAriaLabel';
   public static portCountRange = 'portCountRange';
   public static toggleAppSettingSelectionAriaLabel = 'toggleAppSettingSelectionAriaLabel';
   public static selectAppSettingAriaLabel = 'selectAppSettingAriaLabel';
   public static toggleAllAppSettingsAriaLabel = 'toggleAllAppSettingsAriaLabel';
+  public static toggleSnippetSelectionAriaLabel = 'toggleSnippetSelectionAriaLabel';
+  public static selectSnippetAriaLabel = 'selectSnippetAriaLabel';
+  public static toggleAllSnippetsAriaLabel = 'toggleAllSnippetsAriaLabel';
   public static hideButton = 'hideButton';
   public static showButton = 'showButton';
   public static troubleshoot = 'troubleshoot';
+  public static authenticationSettingsTitle = 'authenticationSettingsTitle';
+  public static authenticationSettingsDescription = 'authenticationSettingsDescription';
+  public static authenticationSettingsFederatedIdentity = 'authenticationSettingsFederatedIdentity';
+  public static authenticationSettingsUserAssignedManagedIdentity = 'authenticationSettingsUserAssignedManagedIdentity';
+  public static authenticationSettingsBasicAuthentication = 'authenticationSettingsBasicAuthentication';
+  public static authenticationSettingsPublishProfile = 'authenticationSettingsPublishProfile';
+  public static authenticationSettingsAuthenticationType = 'authenticationSettingsAuthenticationType';
+  public static authenticationSettingsAuthenticationPlaceholder = 'authenticationSettingsAuthenticationPlaceholder';
+  public static authenticationSettingsIdentity = 'authenticationSettingsIdentity';
+  public static authenticationSettingsIdentityPlaceholder = 'authenticationSettingsIdentityPlaceholder';
+  public static authenticationSettingsSubscriptionPlaceholder = 'authenticationSettingsSubscriptionPlaceholder';
+  public static createNewOption = 'createNewOption';
+  public static authenticationSettingsOidcPermissionsValidationError = 'authenticationSettingsOidcPermissionsValidationError';
+  public static authenticationSettingsIdentityAssignmentPermissionsError = 'authenticationSettingsIdentityAssignmentPermissionsError';
+  public static authenticationSettingsIdentityWritePermissionsError = 'authenticationSettingsIdentityWritePermissionsError';
+  public static authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel =
+    'authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel';
+  public static authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel =
+    'authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel';
+  public static authenticationSettingsFederatedCredentialsLinkAriaLabel = 'authenticationSettingsFederatedCredentialsLinkAriaLabel';
+  public static authenticationSettingsOidcPermissionsLinkAriaLabel = 'authenticationSettingsOidcPermissionsLinkAriaLabel';
+  public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
+  public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
 }

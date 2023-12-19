@@ -1,24 +1,25 @@
-import ContainerLogsService from '../../../ApiHelpers/ContainerLogsService';
-import { ArmObj, MsiIdentity } from '../../../models/arm-obj';
-import { PublishingUser } from '../../../models/site/publish';
-import ProviderService from '../../../ApiHelpers/ProviderService';
-import SiteService from '../../../ApiHelpers/SiteService';
-import GitHubService from '../../../ApiHelpers/GitHubService';
-import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
-import { GitHubActionWorkflowRequestContent } from '../../../models/github';
-import { ProviderToken } from '../../../models/provider';
-import BitbucketService from '../../../ApiHelpers/BitbucketService';
-import OneDriveService from '../../../ApiHelpers/OneDriveService';
 import ACRService from '../../../ApiHelpers/ACRService';
-import { ACRWebhookPayload } from '../../../models/acr';
-import { SiteConfig } from '../../../models/site/config';
-import { KeyValue } from '../../../models/portal-models';
-import { RoleAssignment, SourceControlOptions } from './DeploymentCenter.types';
-import DropboxService from '../../../ApiHelpers/DropboxService';
-import { AppStackOs } from '../../../models/stacks/app-stacks';
-import AzureDevOpsService from '../../../AzureDevOpsService';
-import PortalCommunicator from '../../../portal-communicator';
 import AuthService from '../../../ApiHelpers/AuthService';
+import BitbucketService from '../../../ApiHelpers/BitbucketService';
+import ContainerLogsService from '../../../ApiHelpers/ContainerLogsService';
+import GitHubService from '../../../ApiHelpers/GitHubService';
+import ProviderService from '../../../ApiHelpers/ProviderService';
+import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
+import SiteService from '../../../ApiHelpers/SiteService';
+import AzureDevOpsService from '../../../AzureDevOpsService';
+import { ACRWebhookPayload } from '../../../models/acr';
+import { ArmObj, MsiIdentity } from '../../../models/arm-obj';
+import { GitHubActionWorkflowRequestContent } from '../../../models/github';
+import { KeyValue } from '../../../models/portal-models';
+import { ProviderToken } from '../../../models/provider';
+import { SiteConfig } from '../../../models/site/config';
+import { PublishingUser } from '../../../models/site/publish';
+import { AppStackOs } from '../../../models/stacks/app-stacks';
+import PortalCommunicator from '../../../portal-communicator';
+import { FederatedCredential, RoleAssignment, SourceControlOptions } from './DeploymentCenter.types';
+import ManagedIdentityService from '../../../ApiHelpers/ManagedIdentityService';
+import GraphService from '../../../ApiHelpers/GraphService';
+import ResourceManagementService from '../../../ApiHelpers/ResourceManagementService';
 
 export default class DeploymentCenterData {
   private _azureDevOpsService = new AzureDevOpsService();
@@ -210,48 +211,6 @@ export default class DeploymentCenterData {
     return BitbucketService.getBranches(org, repo, bitbucketToken, logger);
   };
 
-  public getOneDriveUser = (oneDriveToken: string) => {
-    return OneDriveService.getUser(oneDriveToken);
-  };
-
-  public getOneDriveToken = (oneDriveToken: string) => {
-    return OneDriveService.getToken(oneDriveToken);
-  };
-
-  public storeOneDriveToken = (providerToken: ProviderToken) => {
-    return ProviderService.updateUserSourceControl(
-      SourceControlOptions.OneDrive,
-      providerToken.accessToken,
-      providerToken.refreshToken,
-      providerToken.environment
-    );
-  };
-
-  public getOneDriveFolders = (oneDriveToken: string) => {
-    return OneDriveService.getFolders(oneDriveToken);
-  };
-
-  public getDropboxUser = (dropboxToken: string) => {
-    return DropboxService.getUser(dropboxToken);
-  };
-
-  public getDropboxToken = (dropboxToken: string) => {
-    return DropboxService.getToken(dropboxToken);
-  };
-
-  public storeDropboxToken = (providerToken: ProviderToken) => {
-    return ProviderService.updateUserSourceControl(
-      SourceControlOptions.Dropbox,
-      providerToken.accessToken,
-      providerToken.refreshToken,
-      providerToken.environment
-    );
-  };
-
-  public getDropboxFolders = (dropboxToken: string) => {
-    return DropboxService.getFolders(dropboxToken);
-  };
-
   public getAcrRegistries = (subscriptionId: string) => {
     return ACRService.getRegistries(subscriptionId);
   };
@@ -289,6 +248,10 @@ export default class DeploymentCenterData {
     return ACRService.getTags(portalContext, loginServer, repository, username, password, logger);
   };
 
+  public getUser = (adToken: string) => {
+    return GraphService.getUser(adToken);
+  };
+
   public hasRoleAssignment = (roleDefinitionId: string, roleAssignments: ArmObj<RoleAssignment>[]) => {
     return AuthService.hasRoleAssignment(roleDefinitionId, roleAssignments);
   };
@@ -303,6 +266,30 @@ export default class DeploymentCenterData {
 
   public enableSystemAssignedIdentity = (resourceId: string, identity?: MsiIdentity) => {
     return AuthService.enableSystemAssignedIdentity(resourceId, identity);
+  };
+
+  public getUserAssignedIdentity = (resourceId: string) => {
+    return ManagedIdentityService.getUserAssignedIdentity(resourceId);
+  };
+
+  public listUserAssignedIdentitiesBySubscription = (subscriptionId: string) => {
+    return ManagedIdentityService.listUserAssignedIdentitiesBySubscription(subscriptionId);
+  };
+
+  public createUserAssignedIdentity = (resourceGroupId: string, identityName: string, location: string) => {
+    return ManagedIdentityService.createUserAssignedIdentity(resourceGroupId, identityName, location);
+  };
+
+  public putFederatedCredential = (managedIdentityResourceId: string, credentialName: string, subject: string) => {
+    return ManagedIdentityService.putFederatedCredential(managedIdentityResourceId, credentialName, subject);
+  };
+
+  public listFederatedCredentials = (managedIdentityResourceId: string) => {
+    return ManagedIdentityService.listFederatedCredentials(managedIdentityResourceId);
+  };
+
+  public issuerSubjectAlreadyExists = (subject: string, federatedCredentials: ArmObj<FederatedCredential>[]) => {
+    return ManagedIdentityService.issuerSubjectAlreadyExists(subject, federatedCredentials);
   };
 
   public updateSiteConfig = (resourceId: string, config: ArmObj<SiteConfig>) => {
@@ -349,7 +336,19 @@ export default class DeploymentCenterData {
     return GitHubService.cancelWorkflowRun(gitHubToken, url);
   };
 
-  public getWorkflowFile = (appType: string, publishType: string, os: string, variables: KeyValue<string>, runtimeStack?: string) => {
-    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack);
+  public getWorkflowFile = (
+    appType: string,
+    publishType: string,
+    os: string,
+    variables: KeyValue<string>,
+    runtimeStack?: string,
+    authType?: string,
+    apiVersion?: string
+  ) => {
+    return GitHubService.getWorkflowFile(appType, publishType, os, variables, runtimeStack, authType, apiVersion);
+  };
+
+  public registerProvider = (subscriptionId: string, resourceProviderNamespace: string) => {
+    return ResourceManagementService.registerProvider(subscriptionId, resourceProviderNamespace);
   };
 }
