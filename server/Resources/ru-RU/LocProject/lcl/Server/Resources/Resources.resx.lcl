@@ -1934,19 +1934,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[У вас недостаточно разрешений, чтобы назначить управляемому удостоверению доступ на основе ролей в этой группе ресурсов и настроить федеративные учетные данные.]]></Val>
+            <Val><![CDATA[У вас недостаточно разрешений, чтобы назначить управляемому удостоверению доступ на основе ролей в этой группе ресурсов и настроить федеративные учетные данные. Если вы хотите продолжить, выберите существующее удостоверение ниже. Удостоверение должно обладать разрешениями на запись в приложении.]]></Val>
           </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[У вас недостаточно разрешений для создания управляемого удостоверения в этой группе ресурсов.]]></Val>
-          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -1955,6 +1949,33 @@
           <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Щелкните здесь, чтобы узнать больше о способе создания управляемого удостоверения.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Выберите удостоверение]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[У этого удостоверения нет разрешений на запись в этом приложении. Выберите другое удостоверение или обратитесь к администратору, чтобы предоставить роль "Участник веб-сайта" вашему удостоверению в этом приложении.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about what permissions are needed for authenticating with a user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Щелкните здесь, чтобы получить дополнительные сведения о разрешениях, необходимых для проверки подлинности с помощью удостоверения, назначаемого пользователем.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -1982,6 +2003,15 @@
           <Val><![CDATA[Click here to learn more about how to assign role-based access to a managed identity.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Щелкните здесь, чтобы получить дополнительные сведения о том, как назначить управляемым удостоверениям доступ на основе ролей.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsSubscriptionPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a subscription]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Выберите подписку]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4631,6 +4661,15 @@
           <Val><![CDATA[Create new]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Создать]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createNewOption" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[(Create new)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[(Создать)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

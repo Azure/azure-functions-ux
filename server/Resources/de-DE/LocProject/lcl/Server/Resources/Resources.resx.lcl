@@ -1937,19 +1937,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Sie verfügen nicht über ausreichende Berechtigungen, um rollenbasierten Zugriff auf eine verwaltete Identität innerhalb dieser Ressourcengruppe zuzuweisen und Verbundanmeldeinformationen zu konfigurieren.]]></Val>
+            <Val><![CDATA[Sie verfügen nicht über ausreichende Berechtigungen, um rollenbasierten Zugriff auf eine verwaltete Identität innerhalb dieser Ressourcengruppe zuzuweisen und Verbundanmeldeinformationen zu konfigurieren. Wenn Sie den Vorgang fortsetzen möchten, wählen Sie unten eine vorhandene Identität aus. Die Identität muss über Schreibberechtigungen für die App verfügen.]]></Val>
           </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Sie verfügen nicht über ausreichende Berechtigungen zum Erstellen einer verwalteten Identität innerhalb dieser Ressourcengruppe.]]></Val>
-          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -1958,6 +1952,33 @@
           <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Klicken Sie hier, um weitere Informationen zum Erstellen einer verwalteten Identität zu erhalten.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identität auswählen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Diese Identität verfügt nicht über Schreibberechtigungen für diese App. Wählen Sie eine andere Identität aus, oder wenden Sie sich an Ihren Administrator, um Ihrer Identität in dieser App die Rolle "Websitemitwirkender" zuzuweisen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about what permissions are needed for authenticating with a user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Klicken Sie hier, um mehr darüber zu erfahren, welche Berechtigungen für die Authentifizierung mit einer vom Benutzer zugewiesenen Identität erforderlich sind.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -1985,6 +2006,15 @@
           <Val><![CDATA[Click here to learn more about how to assign role-based access to a managed identity.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Klicken Sie hier, um weitere Informationen zum Zuweisen des rollenbasierten Zugriffs auf eine verwaltete Identität zu erhalten.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsSubscriptionPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a subscription]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Abonnement auswählen]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4634,6 +4664,15 @@
           <Val><![CDATA[Create new]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Neu erstellen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createNewOption" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[(Create new)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[(Neue erstellen)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
