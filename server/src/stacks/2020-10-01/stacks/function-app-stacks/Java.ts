@@ -3,6 +3,7 @@ import { getDateString } from '../date-utilities';
 
 const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
+  const java21EOL = getDateString(new Date('2031/09/01'), useIsoDateFormat);
   const java17EOL = getDateString(new Date('2031/09/01'), useIsoDateFormat);
   const java11EOL = getDateString(new Date('2026/09/01'), useIsoDateFormat);
   const java8EOL = getDateString(new Date('2025/03/01'), useIsoDateFormat);
@@ -12,6 +13,67 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
     value: 'java',
     preferredOs: 'windows',
     majorVersions: [
+      {
+        displayText: 'Java 21',
+        value: '21',
+        minorVersions: [
+          {
+            displayText: 'Java 21',
+            value: '21.0',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '21',
+                isPreview: true,
+                isHidden: true,
+                isAutoUpdate: true,
+                isDefault: false,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'java',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  javaVersion: '21',
+                  netFrameworkVersion: 'v6.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: java21EOL
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'Java|21',
+                isPreview: true,
+                isHidden: false,
+                isAutoUpdate: true,
+                isDefault: false,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'java',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'Java|21',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: java21EOL,
+              },
+            },
+          },
+        ],
+      },
       {
         displayText: 'Java 17',
         value: '17',

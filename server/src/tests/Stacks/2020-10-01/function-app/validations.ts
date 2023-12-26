@@ -203,7 +203,7 @@ function validateJavaStack(javaStack) {
   expect(javaStack.displayText).to.equal('Java');
   expect(javaStack.value).to.equal('java');
   expect(javaStack.preferredOs).to.equal('windows');
-  expect(javaStack.majorVersions.length).to.equal(3);
+  expect(javaStack.majorVersions.length).to.equal(4);
   expect(javaStack).to.deep.equal(hardCodedJavaStack);
 }
 
