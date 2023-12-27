@@ -187,7 +187,8 @@ export class WorkflowController {
       throw new HttpException(`Missing 'runtimeStack' in the request body.`, 400);
     }
 
-    const runtimeStacks = ['java', 'node', 'python', 'powershell', 'dotnet', 'dotnet-isolated', 'php'];
+    // NOTE (zmohammed): For WordPress, we are only enabling workflow feature. It should not be a part of the existing runtime stack.
+    const runtimeStacks = ['java', 'node', 'python', 'powershell', 'dotnet', 'dotnet-isolated', 'php', 'wordpress'];
     if (runtimeStack && !runtimeStacks.includes(runtimeStack.toLocaleLowerCase())) {
       throw new HttpException(`Incorrect runtimeStack '${runtimeStack}' provided. Accepted types are: ${runtimeStacks.join(', ')}.`, 400);
     }

@@ -21,6 +21,7 @@ export enum RuntimeStacks {
   Dotnet = 'dotnet',
   DotnetIsolated = 'dotnet-isolated',
   Php = 'php',
+  WordPress = 'wordpress'
 }
 
 export enum JavaContainers {

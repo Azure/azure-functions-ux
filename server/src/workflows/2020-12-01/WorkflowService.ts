@@ -94,6 +94,8 @@ export class WorkflowService20201201 {
         return this.readWorkflowFile('web-app-configs/python-linux.config.yml');
       case RuntimeStacks.Php:
         return this.readWorkflowFile('web-app-configs/php-linux.config.yml');
+      case RuntimeStacks.WordPress:
+        return this.readWorkflowFile('web-app-configs/wordpress-linux.config.yml');
       default:
         throw new HttpException(`The workflow file for the runtime stack '${runtimeStack}' and OS '${providedOs}' does not exist.`, 404);
     }
