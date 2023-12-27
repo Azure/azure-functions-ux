@@ -1937,19 +1937,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Bu kaynak grubunda bir yönetilen kimliğe rol tabanlı erişim atamak ve federasyon kimlik bilgilerini yapılandırmak için yeterli izinleriniz yok.]]></Val>
+            <Val><![CDATA[Bu kaynak grubunda bir yönetilen kimliğe rol tabanlı erişim atamak ve federasyon kimlik bilgilerini yapılandırmak için yeterli izinleriniz yok. Devam etmek istiyorsanız lütfen aşağıdan mevcut bir kimlik seçin. Kimliğin uygulamada yazma izinleri olması gerekir.]]></Val>
           </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";authenticationSettingsIdentityCreationPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to create a managed identity within this resource group.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Bu kaynak grubunda yönetilen kimlik oluşturmak için yeterli izinleriniz yok.]]></Val>
-          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -1958,6 +1952,33 @@
           <Val><![CDATA[Click here to learn more about how to create a managed identity.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Yönetilen kimlik oluşturma hakkında daha fazla bilgi edinmek için buraya tıklayın.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kimlik seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bu kimliğin bu uygulamada yazma izni yok. Lütfen farklı bir kimlik seçin veya bu uygulama üzerinde kimliğinize Web Sitesi Katkıda Bulunanı rolü vermek için yöneticinizle birlikte çalışın.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsOidcPermissionsLinkAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Click here to learn more about what permissions are needed for authenticating with a user-assigned identity.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kullanıcı tarafından atanan bir kimlikle kimlik doğrulaması için gereken izinler hakkında daha fazla bilgi edinmek için buraya tıklayın.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -1985,6 +2006,15 @@
           <Val><![CDATA[Click here to learn more about how to assign role-based access to a managed identity.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Bir yönetilen kimliğe rol tabanlı erişim izni atama hakkında daha fazla bilgi edinmek için buraya tıklayın.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsSubscriptionPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a subscription]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Abonelik seçin]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4634,6 +4664,15 @@
           <Val><![CDATA[Create new]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Yeni oluştur]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";createNewOption" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[(Create new)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[(Yeni oluştur)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
