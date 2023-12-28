@@ -256,23 +256,25 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
         .then(identityOptions => {
           // Setting the first default option
           if (identityOptions && identityOptions.length > 0) {
+            const firstIdentity = identityOptions.find(option => option.itemType !== DropdownMenuItemType.Header);
+
             if (isCreateNewSupported && isSubscribed) {
               setIdentity(DeploymentCenterConstants.createNew);
+              if (firstIdentity) {
+                formProps.setFieldValue('authIdentity', firstIdentity.data);
+              }
             } else {
-              if (identityOptions.length > 0) {
-                const firstIdentity = identityOptions.find(option => option.itemType !== DropdownMenuItemType.Header);
-                if (firstIdentity) {
-                  setIdentity(firstIdentity.key as string);
-                  checkRoleAssignmentsForIdentity(firstIdentity.data?.principalId).then(hasRoleAssignment => {
-                    if (isSubscribed) {
-                      if (hasRoleAssignment) {
-                        formProps.setFieldValue('authIdentity', firstIdentity.data);
-                      } else {
-                        setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
-                      }
+              if (firstIdentity) {
+                setIdentity(firstIdentity.key as string);
+                checkRoleAssignmentsForIdentity(firstIdentity.data?.principalId).then(hasRoleAssignment => {
+                  if (isSubscribed) {
+                    if (hasRoleAssignment) {
+                      formProps.setFieldValue('authIdentity', firstIdentity.data);
+                    } else {
+                      setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
                     }
-                  });
-                }
+                  }
+                });
               }
             }
           }
