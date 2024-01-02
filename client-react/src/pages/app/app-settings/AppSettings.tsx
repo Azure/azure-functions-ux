@@ -21,7 +21,6 @@ import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
 import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
 import { SiteStateContext } from '../../../SiteState';
-import { Links } from '../../../utils/FwLinks';
 import { ExperimentationConstants } from '../../../utils/CommonConstants';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
@@ -261,7 +260,6 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                                     'disabled')) && (
                                 <UpsellBanner
                                   onClick={scaleUpPlan}
-                                  learnMoreLink={Links.customErrorPagesLearnMore}
                                   bannerMessage={
                                     scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled'
                                       ? t('appSettingsUpsellBannerMessage')
