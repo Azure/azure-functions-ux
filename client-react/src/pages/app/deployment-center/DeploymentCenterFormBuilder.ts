@@ -43,12 +43,14 @@ export abstract class DeploymentCenterFormBuilder {
       devOpsProject: '',
       authType: AuthType.Oidc,
       authIdentity: {
-        clientId: '',
-        principalId: '',
-        tenantId: '',
-        subscriptionId: '',
+        id: '',
         name: '',
-        resourceId: '',
+        location: '',
+        properties: {
+          clientId: '',
+          principalId: '',
+          tenantId: '',
+        },
       },
     };
   }

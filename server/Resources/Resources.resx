@@ -7900,6 +7900,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="authenticationSettingsIdentityWritePermissionsError" xml:space="preserve">
         <value>This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.</value>
     </data>
+    <data name="authenticationSettingsIdentityUnsupportedRegionError" xml:space="preserve">
+        <value>This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.</value>
+    </data>
     <data name="authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about how to create a managed identity.</value>
     </data>    
