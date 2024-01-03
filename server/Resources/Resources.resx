@@ -7859,13 +7859,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Authentication settings</value>
     </data>
     <data name="authenticationSettingsDescription" xml:space="preserve">
-        <value>Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.</value>
+        <value>Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity selected will be federated with GitHub as an authorized client and given write permissions on the app.</value>
     </data>
     <data name="authenticationSettingsFederatedIdentity" xml:space="preserve">
         <value>Federated identity (OIDC) (Preferred)</value>
     </data>
     <data name="authenticationSettingsUserAssignedManagedIdentity" xml:space="preserve">
-        <value>User-assigned identity (Preview)</value>
+        <value>User-assigned identity</value>
     </data>
     <data name="authenticationSettingsBasicAuthentication" xml:space="preserve">
         <value>Basic authentication</value>
