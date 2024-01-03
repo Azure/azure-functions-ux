@@ -49,8 +49,8 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
 
   const authTypeOptions = React.useMemo(() => {
     return [
-      { key: AuthType.PublishProfile, text: t('authenticationSettingsBasicAuthentication') },
       { key: AuthType.Oidc, text: t('authenticationSettingsUserAssignedManagedIdentity') },
+      { key: AuthType.PublishProfile, text: t('authenticationSettingsBasicAuthentication') },
     ];
   }, []);
 

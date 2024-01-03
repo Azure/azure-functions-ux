@@ -228,6 +228,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
     armId: ArmResourceDescriptor
   ) => {
+    portalContext.log(
+      getTelemetryInfo('info', 'getOrCreateUserAssignedIdentity', 'select', {
+        selection: values.authIdentity.resourceId,
+        isCreateNewSupported: JSON.stringify(values.hasPermissionToUseOIDC),
+      })
+    );
+
     if (values.authIdentity.resourceId === DeploymentCenterConstants.createNew) {
       if (siteStateContext.site) {
         portalContext.log(getTelemetryInfo('info', 'createUserAssignedIdentityForOidc', 'submit'));

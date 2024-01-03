@@ -41,7 +41,7 @@ export abstract class DeploymentCenterFormBuilder {
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
       devOpsProject: '',
-      authType: AuthType.PublishProfile,
+      authType: AuthType.Oidc,
       authIdentity: {
         clientId: '',
         principalId: '',
