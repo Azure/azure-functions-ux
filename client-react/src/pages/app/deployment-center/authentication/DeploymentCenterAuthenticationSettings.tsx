@@ -20,7 +20,12 @@ import { DropdownMenuItemType, IDropdownOption } from '@fluentui/react/lib/Dropd
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RbacConstants from '../../../../utils/rbac-constants';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
-import { getTelemetryInfo, ignoreCaseSortingFunction, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
+import {
+  getTelemetryInfo,
+  ignoreCaseSortingFunction,
+  isFederatedCredentialsSupported,
+  optionsSortingFunction,
+} from '../utility/DeploymentCenterUtility';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
@@ -28,6 +33,7 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ISubscription } from '../../../../models/subscription';
 import { ArmObj } from '../../../../models/arm-obj';
 import { RBACRoleId } from '../../../../utils/CommonConstants';
+import { SiteStateContext } from '../../../../SiteState';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -36,6 +42,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   const { formProps } = props;
   const portalContext = React.useContext(PortalContext);
   const deploymentCenterContext = React.useContext(DeploymentCenterContext);
+  const siteStateContext = React.useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
   const [hasRoleAssignmentWritePermission, setHasRoleAssignmentWritePermission] = React.useState<boolean>(false);
   const [hasManagedIdentityWritePermission, setHasManagedIdentityWritePermission] = React.useState<boolean>(false);
@@ -43,7 +50,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   const [subscriptionOptions, setSubscriptionOptions] = React.useState<IDropdownOption<ISubscription>[]>([]);
   const [subscription, setSubscription] = React.useState<string>();
   const [loadingIdentities, setLoadingIdentities] = React.useState<boolean>(false);
-  const [identityOptions, setIdentityOptions] = React.useState<IDropdownOption<UserAssignedIdentity>[]>([]);
+  const [identityOptions, setIdentityOptions] = React.useState<IDropdownOption<ArmObj<UserAssignedIdentity>>[]>([]);
   const [identity, setIdentity] = React.useState<string>();
   const [identityErrorMessage, setIdentityErrorMessage] = React.useState<string>();
 
@@ -148,18 +155,22 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   }, []);
 
   const onIdentityChange = React.useCallback(
-    async (_, identityOption: IDropdownOption<UserAssignedIdentity>) => {
+    async (_, identityOption: IDropdownOption<ArmObj<UserAssignedIdentity>>) => {
       setIdentity(identityOption.key as string);
       setIdentityErrorMessage(undefined);
-      if (formProps.values.hasPermissionToUseOIDC) {
-        formProps.setFieldValue('authIdentity', identityOption.data);
-      } else {
-        const hasRoleAssignment = await checkRoleAssignmentsForIdentity(identityOption.data?.principalId);
-        if (hasRoleAssignment || hasRoleAssignmentWritePermission) {
+      if (isFederatedCredentialsSupported(identityOption.data?.location ?? '')) {
+        if (formProps.values.hasPermissionToUseOIDC) {
           formProps.setFieldValue('authIdentity', identityOption.data);
         } else {
-          setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+          const hasRoleAssignment = await checkRoleAssignmentsForIdentity(identityOption.data?.properties?.principalId);
+          if (hasRoleAssignment || hasRoleAssignmentWritePermission) {
+            formProps.setFieldValue('authIdentity', identityOption.data);
+          } else {
+            setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+          }
         }
+      } else {
+        setIdentityErrorMessage(t('authenticationSettingsIdentityUnsupportedRegionError'));
       }
     },
     [formProps.values.hasPermissionToUseOIDC, deploymentCenterContext.resourceId, checkRoleAssignmentsForIdentity]
@@ -182,12 +193,16 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
       setIdentityOptions([]);
       setIdentityErrorMessage(undefined);
       setLoadingIdentities(true);
-      const isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
+      let isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
+      // If the app is located in an unsupported region, remove ability to create
+      if (siteStateContext?.site?.location) {
+        isCreateNewSupported = isCreateNewSupported && isFederatedCredentialsSupported(siteStateContext.site.location);
+      }
 
       deploymentCenterData
         .listUserAssignedIdentitiesBySubscription(subscription)
         .then(getIdentitiesResponse => {
-          const identityOptions: IDropdownOption<UserAssignedIdentity>[] = [];
+          const identityOptions: IDropdownOption<ArmObj<UserAssignedIdentity>>[] = [];
           if (getIdentitiesResponse.metadata.success) {
             const resourceGroupToIdentity: { [rg: string]: ArmObj<UserAssignedIdentity>[] } = {};
             const identities = getIdentitiesResponse.data.value;
@@ -213,11 +228,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                   identityOptions.push({
                     key: identity.id,
                     text: identity.name,
-                    data: {
-                      ...identity.properties,
-                      resourceId: identity.id,
-                      name: identity.name,
-                    },
+                    data: identity,
                   });
                 });
               });
@@ -227,12 +238,14 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                 key: DeploymentCenterConstants.createNew,
                 text: t('createNewOption'),
                 data: {
-                  clientId: '',
-                  principalId: '',
-                  tenantId: '',
-                  subscriptionId: '',
-                  name: '',
-                  resourceId: DeploymentCenterConstants.createNew,
+                  id: DeploymentCenterConstants.createNew,
+                  name: t('createNewOption'),
+                  location: '',
+                  properties: {
+                    clientId: '',
+                    principalId: '',
+                    tenantId: '',
+                  },
                 },
               });
             }
@@ -264,17 +277,21 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                 formProps.setFieldValue('authIdentity', firstIdentity.data);
               }
             } else {
-              if (firstIdentity) {
+              if (firstIdentity && isSubscribed) {
                 setIdentity(firstIdentity.key as string);
-                checkRoleAssignmentsForIdentity(firstIdentity.data?.principalId).then(hasRoleAssignment => {
-                  if (isSubscribed) {
-                    if (hasRoleAssignment) {
-                      formProps.setFieldValue('authIdentity', firstIdentity.data);
-                    } else {
-                      setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+                if (isFederatedCredentialsSupported(firstIdentity.data?.location ?? '')) {
+                  checkRoleAssignmentsForIdentity(firstIdentity.data?.properties?.principalId).then(hasRoleAssignment => {
+                    if (isSubscribed) {
+                      if (hasRoleAssignment) {
+                        formProps.setFieldValue('authIdentity', firstIdentity.data);
+                      } else {
+                        setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+                      }
                     }
-                  }
-                });
+                  });
+                } else {
+                  setIdentityErrorMessage(t('authenticationSettingsIdentityUnsupportedRegionError'));
+                }
               }
             }
           }

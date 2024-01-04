@@ -88,9 +88,9 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
           const getRoleAssignmentsWithScope = deploymentCenterData.getRoleAssignmentsWithScope(
             deploymentCenterContext.resourceId,
-            values.authIdentity.principalId
+            values.authIdentity.properties.principalId
           );
-          const listFederatedCredentials = deploymentCenterData.listFederatedCredentials(values.authIdentity.resourceId);
+          const listFederatedCredentials = deploymentCenterData.listFederatedCredentials(values.authIdentity.id);
           const [getRoleAssignmentsWithScopeResponse, listFederatedCredentialsResponse] = await Promise.all([
             getRoleAssignmentsWithScope,
             listFederatedCredentials,
@@ -105,7 +105,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
               const putWebsiteContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
                 RBACRoleId.websiteContributor,
                 deploymentCenterContext.resourceId,
-                values.authIdentity.principalId,
+                values.authIdentity.properties.principalId,
                 PrincipalType.servicePrincipal
               );
               if (!putWebsiteContributorRoleResponse.metadata.success) {
@@ -142,7 +142,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             );
             if (!issuerSubjectAlreadyExists) {
               const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
-                values.authIdentity.resourceId,
+                values.authIdentity.id,
                 getFederatedCredentialName(`${values.org}-${values.repo}`),
                 subject
               );
@@ -230,12 +230,12 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   ) => {
     portalContext.log(
       getTelemetryInfo('info', 'getOrCreateUserAssignedIdentity', 'select', {
-        selection: values.authIdentity.resourceId,
+        selection: values.authIdentity.id,
         isCreateNewSupported: JSON.stringify(values.hasPermissionToUseOIDC),
       })
     );
 
-    if (values.authIdentity.resourceId === DeploymentCenterConstants.createNew) {
+    if (values.authIdentity.id === DeploymentCenterConstants.createNew) {
       if (siteStateContext.site) {
         portalContext.log(getTelemetryInfo('info', 'createUserAssignedIdentityForOidc', 'submit'));
         const createUserAssignedIdentityResponse = await deploymentCenterData.createUserAssignedIdentity(
@@ -245,14 +245,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         );
         if (createUserAssignedIdentityResponse.metadata.success) {
           const identityArmObj = createUserAssignedIdentityResponse.data;
-          values.authIdentity = {
-            resourceId: identityArmObj.id,
-            name: identityArmObj.name,
-            subscriptionId: armId.subscription,
-            clientId: identityArmObj.properties.clientId,
-            principalId: identityArmObj.properties.principalId,
-            tenantId: identityArmObj.properties.tenantId,
-          };
+          values.authIdentity = identityArmObj;
         } else {
           portalContext.log(
             getTelemetryInfo('error', 'createUserAssignedIdentityResponse', 'failed', {
@@ -273,7 +266,9 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       }
     }
 
-    if (!(values.authIdentity.clientId && values.authIdentity.tenantId && values.authIdentity.principalId)) {
+    if (
+      !(values.authIdentity.properties.clientId && values.authIdentity.properties.tenantId && values.authIdentity.properties.principalId)
+    ) {
       portalContext.log(
         getTelemetryInfo('error', 'getOrCreateUserAssignedIdentity', 'failed', {
           message: 'Failed to retrieve auth identity properties',
@@ -341,8 +336,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
 
     if (values.authType === AuthType.Oidc) {
-      variables['clientId'] = values.authIdentity.clientId;
-      variables['tenantId'] = values.authIdentity.tenantId;
+      variables['clientId'] = values.authIdentity.properties.clientId;
+      variables['tenantId'] = values.authIdentity.properties.tenantId;
     }
 
     return variables;
