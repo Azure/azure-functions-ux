@@ -73,7 +73,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      if (deploymentCenterContext.hasOidcFlightEnabled && values.authType === AuthType.Oidc && siteStateContext.site) {
+      if (values.authType === AuthType.Oidc) {
         const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
         portalContext.log(getTelemetryInfo('info', 'registerManagedIdentityProvider', 'submit'));
         const registerManagedIdentityProviderResponse = await deploymentCenterData.registerProvider(
@@ -81,72 +81,94 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           DeploymentCenterConstants.managedIdentityNamespace
         );
         if (registerManagedIdentityProviderResponse.metadata.success) {
-          portalContext.log(getTelemetryInfo('info', 'createUserAssignedIdentityForOidc', 'submit'));
-          const createUserAssignedIdentityResponse = await deploymentCenterData.createUserAssignedIdentity(
-            `/subscriptions/${armId.subscription}/resourceGroups/${armId.resourceGroup}`,
-            getUserAssignedIdentityName(armId.resourceName),
-            siteStateContext.site.location
+          const errorResponse = await getOrCreateUserAssignedIdentity(values, armId);
+          if (errorResponse) {
+            return errorResponse;
+          }
+
+          const getRoleAssignmentsWithScope = deploymentCenterData.getRoleAssignmentsWithScope(
+            deploymentCenterContext.resourceId,
+            values.authIdentity.properties.principalId
           );
-          if (createUserAssignedIdentityResponse.metadata.success) {
-            const identityArmObj = createUserAssignedIdentityResponse.data;
-            values.authIdentity = {
-              resourceId: identityArmObj.id,
-              name: identityArmObj.name,
-              subscriptionId: armId.subscription,
-              clientId: identityArmObj.properties.clientId,
-              principalId: identityArmObj.properties.principalId,
-              tenantId: identityArmObj.properties.tenantId,
-            };
+          const listFederatedCredentials = deploymentCenterData.listFederatedCredentials(values.authIdentity.id);
+          const [getRoleAssignmentsWithScopeResponse, listFederatedCredentialsResponse] = await Promise.all([
+            getRoleAssignmentsWithScope,
+            listFederatedCredentials,
+          ]);
 
-            const putContributorRole = deploymentCenterData.putRoleAssignmentWithScope(
-              RBACRoleId.contributor,
-              deploymentCenterContext.resourceId,
-              identityArmObj.properties.principalId,
-              PrincipalType.servicePrincipal
+          if (getRoleAssignmentsWithScopeResponse.metadata.success) {
+            const hasRoleAssignment = deploymentCenterData.hasRoleAssignment(
+              RBACRoleId.websiteContributor,
+              getRoleAssignmentsWithScopeResponse.data.value
             );
-
-            const addFederatedCredential = deploymentCenterData.putFederatedCredential(
-              createUserAssignedIdentityResponse.data.id,
-              getFederatedCredentialName(`${values.org}-${values.repo}`),
-              `${values.org}/${values.repo}`
-            );
-
-            const [putContributorRoleResponse, addFederatedCredentialResponse] = await Promise.all([
-              putContributorRole,
-              addFederatedCredential,
-            ]);
-
-            if (putContributorRoleResponse && !putContributorRoleResponse.metadata.success) {
-              portalContext.log(
-                getTelemetryInfo('error', 'putContributorRoleResponse', 'failed', {
-                  message: getErrorMessage(putContributorRoleResponse.metadata.error),
-                  errorAsString: putContributorRoleResponse.metadata.error ? JSON.stringify(putContributorRoleResponse.metadata.error) : '',
-                })
+            if (!hasRoleAssignment) {
+              const putWebsiteContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
+                RBACRoleId.websiteContributor,
+                deploymentCenterContext.resourceId,
+                values.authIdentity.properties.principalId,
+                PrincipalType.servicePrincipal
               );
-              return putContributorRoleResponse;
-            }
-
-            if (!addFederatedCredentialResponse.metadata.success) {
-              portalContext.log(
-                getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
-                  message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
-                  errorAsString: addFederatedCredentialResponse.metadata.error
-                    ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
-                    : '',
-                })
-              );
-              return addFederatedCredentialResponse;
+              if (!putWebsiteContributorRoleResponse.metadata.success) {
+                portalContext.log(
+                  getTelemetryInfo('error', 'putWebsiteContributorRoleResponse', 'failed', {
+                    message: getErrorMessage(putWebsiteContributorRoleResponse.metadata.error),
+                    errorAsString: putWebsiteContributorRoleResponse.metadata.error
+                      ? JSON.stringify(putWebsiteContributorRoleResponse.metadata.error)
+                      : '',
+                  })
+                );
+                return putWebsiteContributorRoleResponse;
+              }
             }
           } else {
             portalContext.log(
-              getTelemetryInfo('error', 'createUserAssignedIdentityResponse', 'failed', {
-                message: getErrorMessage(createUserAssignedIdentityResponse.metadata.error),
-                errorAsString: createUserAssignedIdentityResponse.metadata.error
-                  ? JSON.stringify(createUserAssignedIdentityResponse.metadata.error)
+              getTelemetryInfo('error', 'getRoleAssignmentsWithScopeResponse', 'failed', {
+                message: getErrorMessage(getRoleAssignmentsWithScopeResponse.metadata.error),
+                errorAsString: getRoleAssignmentsWithScopeResponse.metadata.error
+                  ? JSON.stringify(getRoleAssignmentsWithScopeResponse.metadata.error)
                   : '',
               })
             );
-            return createUserAssignedIdentityResponse;
+            return getRoleAssignmentsWithScopeResponse;
+          }
+
+          if (listFederatedCredentialsResponse.metadata.success) {
+            // For error: Issuer and subject combination already exists for this Managed Identity.
+            // Find all federated credentials, and if there's some with the same issuer and subject, don't add a new one
+            const subject = `repo:${values.org}/${values.repo}:environment:production`;
+            const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
+              subject,
+              listFederatedCredentialsResponse.data.value ?? []
+            );
+            if (!issuerSubjectAlreadyExists) {
+              const addFederatedCredentialResponse = await deploymentCenterData.putFederatedCredential(
+                values.authIdentity.id,
+                getFederatedCredentialName(`${values.org}-${values.repo}`),
+                subject
+              );
+
+              if (!addFederatedCredentialResponse.metadata.success) {
+                portalContext.log(
+                  getTelemetryInfo('error', 'addFederatedCredentialResponse', 'failed', {
+                    message: getErrorMessage(addFederatedCredentialResponse.metadata.error),
+                    errorAsString: addFederatedCredentialResponse.metadata.error
+                      ? JSON.stringify(addFederatedCredentialResponse.metadata.error)
+                      : '',
+                  })
+                );
+                return addFederatedCredentialResponse;
+              }
+            }
+          } else {
+            portalContext.log(
+              getTelemetryInfo('error', 'listFederatedCredentialsResponse', 'failed', {
+                message: getErrorMessage(listFederatedCredentialsResponse.metadata.error),
+                errorAsString: listFederatedCredentialsResponse.metadata.error
+                  ? JSON.stringify(listFederatedCredentialsResponse.metadata.error)
+                  : '',
+              })
+            );
+            return listFederatedCredentialsResponse;
           }
         } else {
           portalContext.log(
@@ -202,6 +224,69 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
   };
 
+  const getOrCreateUserAssignedIdentity = async (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>,
+    armId: ArmResourceDescriptor
+  ) => {
+    portalContext.log(
+      getTelemetryInfo('info', 'getOrCreateUserAssignedIdentity', 'select', {
+        selection: values.authIdentity.id,
+        isCreateNewSupported: JSON.stringify(values.hasPermissionToUseOIDC),
+      })
+    );
+
+    if (values.authIdentity.id === DeploymentCenterConstants.createNew) {
+      if (siteStateContext.site) {
+        portalContext.log(getTelemetryInfo('info', 'createUserAssignedIdentityForOidc', 'submit'));
+        const createUserAssignedIdentityResponse = await deploymentCenterData.createUserAssignedIdentity(
+          `/subscriptions/${armId.subscription}/resourceGroups/${armId.resourceGroup}`,
+          getUserAssignedIdentityName(armId.resourceName),
+          siteStateContext?.site.location
+        );
+        if (createUserAssignedIdentityResponse.metadata.success) {
+          const identityArmObj = createUserAssignedIdentityResponse.data;
+          values.authIdentity = identityArmObj;
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'createUserAssignedIdentityResponse', 'failed', {
+              message: getErrorMessage(createUserAssignedIdentityResponse.metadata.error),
+              errorAsString: createUserAssignedIdentityResponse.metadata.error
+                ? JSON.stringify(createUserAssignedIdentityResponse.metadata.error)
+                : '',
+            })
+          );
+          return createUserAssignedIdentityResponse;
+        }
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'siteStateContext', 'failed', {
+            message: 'Failed to retrieve site from siteStateContext',
+          })
+        );
+      }
+    }
+
+    if (
+      !(values.authIdentity.properties.clientId && values.authIdentity.properties.tenantId && values.authIdentity.properties.principalId)
+    ) {
+      portalContext.log(
+        getTelemetryInfo('error', 'getOrCreateUserAssignedIdentity', 'failed', {
+          message: 'Failed to retrieve auth identity properties',
+          identity: JSON.stringify(values.authIdentity),
+        })
+      );
+
+      return {
+        metadata: {
+          success: false,
+          status: '404',
+          error: 'Failed to retrieve auth identity properties',
+        },
+        data: {},
+      };
+    }
+  };
+
   const getKuduSourceControlsPayload = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): SiteSourceControlRequestBody => {
     return {
       repoUrl: getRepoUrl(values),
@@ -220,20 +305,15 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
       workflowSettings: {
         appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+        authType: values.authType ?? AuthType.PublishProfile,
         publishType: PublishType.Code,
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
         runtimeStack: values.runtimeStack,
-        workflowApiVersion: deploymentCenterContext.hasOidcFlightEnabled
-          ? CommonConstants.ApiVersions.workflowApiVersion20221001
-          : CommonConstants.ApiVersions.workflowApiVersion20201201,
+        workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20221001,
         slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
         variables: variables,
       },
     };
-
-    if (deploymentCenterContext.hasOidcFlightEnabled) {
-      gitHubActionConfiguration.workflowSettings['authType'] = values.authType ?? AuthType.PublishProfile;
-    }
 
     return {
       repoUrl: getRepoUrl(values),
@@ -256,8 +336,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
 
     if (values.authType === AuthType.Oidc) {
-      variables['clientId'] = values.authIdentity?.clientId;
-      variables['tenantId'] = values.authIdentity?.tenantId;
+      variables['clientId'] = values.authIdentity.properties.clientId;
+      variables['tenantId'] = values.authIdentity.properties.tenantId;
     }
 
     return variables;

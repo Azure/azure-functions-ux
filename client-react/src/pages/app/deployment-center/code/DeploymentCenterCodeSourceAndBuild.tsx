@@ -36,6 +36,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
   const [isCalloutVisible, setIsCalloutVisible] = useState(false);
   const [showInfoBanner, setShowInfoBanner] = useState(true);
+  const [basicAuthErrorMessage, setBasicAuthErrorMessage] = useState();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
@@ -239,6 +240,11 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const showBasicAuthError = useMemo(() => {
     const isGitHubActionsOrKuduBuild =
       selectedBuild === BuildProvider.GitHubAction || selectedBuild === BuildProvider.AppServiceBuildService;
+    setBasicAuthErrorMessage(
+      selectedBuild === BuildProvider.GitHubAction
+        ? t('deploymentCenterScmBasicAuthErrorMessageWithOidc')
+        : t('deploymentCenterScmBasicAuthErrorMessage')
+    );
     const isBasicAuthSelected = formProps.values.authType === AuthType.PublishProfile;
     return (
       isBasicAuthSelected && isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow
@@ -265,11 +271,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
             <div className={deploymentCenterInfoBannerDiv}>
               <CustomBanner
                 id="deployment-center-scm-basic-auth-warning"
-                message={
-                  deploymentCenterContext?.hasOidcFlightEnabled
-                    ? t('deploymentCenterScmBasicAuthErrorMessageWithOidc')
-                    : t('deploymentCenterScmBasicAuthErrorMessage')
-                }
+                message={basicAuthErrorMessage ?? ''}
                 type={MessageBarType.error}
                 onClick={openConfigurationBlade}
               />

@@ -41,8 +41,17 @@ export abstract class DeploymentCenterFormBuilder {
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
       devOpsProject: '',
-      authType: AuthType.PublishProfile,
-      hasOidcFlightEnabled: false,
+      authType: AuthType.Oidc,
+      authIdentity: {
+        id: '',
+        name: '',
+        location: '',
+        properties: {
+          clientId: '',
+          principalId: '',
+          tenantId: '',
+        },
+      },
     };
   }
 
@@ -146,15 +155,16 @@ export abstract class DeploymentCenterFormBuilder {
       authType: Yup.mixed().when('hasPermissionToUseOIDC', {
         is: true,
         then: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          return this.parent.hasOidcFlightEnabled ? !!value : true;
+          return !!value;
         }),
-        otherwise: Yup.mixed().test('authTypeIsNotOidc', this._t('authenticationSettingsOidcPermissionsValidationError'), function(value) {
-          return value !== AuthType.Oidc;
+        otherwise: Yup.mixed().test('authIdentityPopulated', this._t('authenticationSettingsOidcPermissionsValidationError'), function(
+          value
+        ) {
+          return value !== AuthType.Oidc || !!this.parent.authIdentity.resourceId;
         }),
       }),
       authIdentity: Yup.mixed().notRequired(),
       hasPermissionToUseOIDC: Yup.boolean().notRequired(),
-      hasOidcFlightEnabled: Yup.boolean().notRequired(),
     };
   }
 

@@ -7859,13 +7859,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Authentication settings</value>
     </data>
     <data name="authenticationSettingsDescription" xml:space="preserve">
-        <value>Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.</value>
+        <value>Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity selected will be federated with GitHub as an authorized client and given write permissions on the app.</value>
     </data>
     <data name="authenticationSettingsFederatedIdentity" xml:space="preserve">
         <value>Federated identity (OIDC) (Preferred)</value>
     </data>
     <data name="authenticationSettingsUserAssignedManagedIdentity" xml:space="preserve">
-        <value>User-assigned identity (Preview)</value>
+        <value>User-assigned identity</value>
     </data>
     <data name="authenticationSettingsBasicAuthentication" xml:space="preserve">
         <value>Basic authentication</value>
@@ -7882,14 +7882,26 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="authenticationSettingsIdentity" xml:space="preserve">
         <value>Identity</value>
     </data>
+    <data name="authenticationSettingsIdentityPlaceholder" xml:space="preserve">
+        <value>Select an identity</value>
+    </data>
+    <data name="authenticationSettingsSubscriptionPlaceholder" xml:space="preserve">
+        <value>Select a subscription</value>
+    </data>
+    <data name="createNewOption" xml:space="preserve">
+        <value>(Create new)</value>
+    </data>
     <data name="authenticationSettingsOidcPermissionsValidationError" xml:space="preserve">
         <value>You do not have sufficient permissions to authenticate with user-assigned identity.</value>
-    </data>    
-    <data name="authenticationSettingsIdentityCreationPermissionsError" xml:space="preserve">
-        <value>You do not have sufficient permissions to create a managed identity within this resource group.</value>
-    </data>    
+    </data>
     <data name="authenticationSettingsIdentityAssignmentPermissionsError" xml:space="preserve">
-        <value>You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.</value>
+        <value>You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.</value>
+    </data>
+    <data name="authenticationSettingsIdentityWritePermissionsError" xml:space="preserve">
+        <value>This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.</value>
+    </data>
+    <data name="authenticationSettingsIdentityUnsupportedRegionError" xml:space="preserve">
+        <value>This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.</value>
     </data>
     <data name="authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about how to create a managed identity.</value>
@@ -7899,6 +7911,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="authenticationSettingsFederatedCredentialsLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about how to manage federated identity credentials on a user-assigned identity.</value>
+    </data>
+    <data name="authenticationSettingsOidcPermissionsLinkAriaLabel" xml:space="preserve">
+        <value>Click here to learn more about what permissions are needed for authenticating with a user-assigned identity.</value>
     </data>
      <data name="sshDisabledInfoBubbleMessage" xml:space="preserve">
         <value>SSH isn't supported for your selected stack version.</value>
