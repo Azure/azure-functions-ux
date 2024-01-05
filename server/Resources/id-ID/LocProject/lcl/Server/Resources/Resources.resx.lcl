@@ -1775,12 +1775,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity selected will be federated with GitHub as an authorized client and given write permissions on the app.]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[Pilih cara mengautentikasi alur kerja GitHub Action Anda ke Azure. Jika Anda memilih identitas yang ditetapkan pengguna, identitas akan secara otomatis dibuat dan digabungkan dengan GitHub sebagai klien resmi.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.]]></Val>
+            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1839,6 +1839,12 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Pilih identitas]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityUnsupportedRegionError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -1907,12 +1913,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsUserAssignedManagedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User-assigned identity (Preview)]]></Val>
+          <Val><![CDATA[User-assigned identity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Identitas yang ditetapkan pengguna (Pratinjau)]]></Val>
+            <Val><![CDATA[Identitas yang ditetapkan pengguna]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[User-assigned managed identity]]></Val>
+            <Val><![CDATA[User-assigned identity (Preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
