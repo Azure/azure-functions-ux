@@ -2595,4 +2595,7 @@ export class PortalResources {
   public static authenticationSettingsOidcPermissionsLinkAriaLabel = 'authenticationSettingsOidcPermissionsLinkAriaLabel';
   public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
   public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
+  public static resize = 'resize';
+  public static resizeColumnDialogTitle = 'resizeColumnDialogTitle';
+  public static resizeColumnDialogTextFieldLabel = 'resizeColumnDialogTextFieldLabel';
 }

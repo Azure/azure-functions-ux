@@ -16,8 +16,8 @@ interface ConfirmDialogProps {
   primaryActionButton: { title: string; onClick: () => void; disabled?: boolean };
   defaultActionButton: { title: string; onClick: () => void; disabled?: boolean };
   hideDefaultActionButton?: boolean;
-  title: string;
-  content: string;
+  title?: string;
+  content?: string;
   modalStyles?: IStyleFunctionOrObject<IModalStyleProps, IModalStyles>;
   showCloseModal?: boolean;
 }
@@ -32,6 +32,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
     content,
     onDismiss,
     showCloseModal,
+    children,
     modalStyles: customModalStyles,
   } = props;
 
@@ -51,6 +52,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
         <h3 className={headerStyle}>{title}</h3>
         <p>{content}</p>
       </div>
+      {children}
       <DialogFooter styles={modalFooterStyles}>
         <PrimaryButton onClick={primaryActionButton.onClick} text={primaryActionButton.title} disabled={primaryActionButton.disabled} />
         {!hideDefaultActionButton ? (

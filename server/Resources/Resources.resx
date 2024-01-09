@@ -7921,4 +7921,13 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_appSettingsMoved" xml:space="preserve">
         <value>App Settings have moved to 'Environment Variables'</value>
     </data>
+    <data name="resize" xml:space="preserve">
+        <value>Resize</value>
+    </data>
+    <data name="resizeColumnDialogTitle" xml:space="preserve">
+        <value>Resize column</value>
+    </data>
+    <data name="resizeColumnDialogTextFieldLabel" xml:space="preserve">
+        <value>Enter desired column width pixels:</value>
+    </data>
 </root>
