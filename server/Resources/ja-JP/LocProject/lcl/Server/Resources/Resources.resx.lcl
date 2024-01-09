@@ -1899,8 +1899,8 @@
       <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity selected will be federated with GitHub as an authorized client and given write permissions on the app.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[GitHub Actions ワークフローを Azure に対して認証する方法を選択します。ユーザー割り当て ID を選択した場合、ID は自動的に作成され、承認済みクライアントとして GitHub とフェデレーションされます。]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub Actions ワークフローを Azure に対して認証する方法を選択します。ユーザー割り当て ID を選択した場合、選択した ID は認可されたクライアントとして GitHub とフェデレーションされ、アプリに対する書き込みアクセス許可が付与されます。]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
@@ -1968,6 +1968,9 @@
       <Item ItemId=";authenticationSettingsIdentityUnsupportedRegionError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[この ID は、フェデレーション ID 資格情報の作成をサポートしていないリージョンにあります。別のリージョンの ID を選択してください。]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
