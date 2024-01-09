@@ -45,16 +45,7 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> &
   AzureStorageMountsAddEditPropsCombined &
   AzureStorageMountsAddEditConfigurationOptionsProps> = props => {
-  const {
-    values,
-    initialValues,
-    fileShareInfoBubbleMessage,
-    setValues,
-    setFieldValue,
-    validateForm,
-    storageTypeOptions,
-    showNFSFileShares,
-  } = props;
+  const { values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm, storageTypeOptions } = props;
   const [accountSMBSharesFiles, setAccountSMBSharesFiles] = useState<any[]>([]);
   const [accountNFSSharesFiles, setAccountNFSSharesFiles] = useState<any[]>([]);
   const [accountSharesBlob, setAccountSharesBlob] = useState([]);
@@ -294,7 +285,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
       {showStorageTypeOption && (
         <Field component={RadioButton} name="type" id="azure-storage-type" label={t('storageType')} options={storageTypeOptions} />
       )}
-      <StorageProtocol values={values} showNFSFileShares={showNFSFileShares} />
+      <StorageProtocol values={values} />
       <Field
         component={ComboBox}
         name="shareName"
