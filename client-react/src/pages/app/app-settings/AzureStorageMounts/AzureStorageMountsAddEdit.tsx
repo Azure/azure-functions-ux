@@ -12,14 +12,13 @@ import { addEditFormStyle, textFieldPrefixStylesOverride } from '../../../../com
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import * as Yup from 'yup';
 import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
-import { CommonConstants, ExperimentationConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 import { SiteStateContext } from '../../../../SiteState';
 import { StorageType } from '../../../../models/site/config';
 import { azureStorageTypeLabelStyle, formElementStyle } from '../AppSettings.styles';
 import { isStorageAccessAppSetting } from '../AppSettingsFormData';
 import { Links } from '../../../../utils/FwLinks';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import { PortalContext } from '../../../../PortalContext';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -36,7 +35,6 @@ export interface AzureStorageMountsAddEditProps {
 
 export interface AzureStorageMountsAddEditConfigurationOptionsProps {
   storageTypeOptions: IChoiceGroupOption[];
-  showNFSFileShares?: boolean;
   fileShareInfoBubbleMessage?: string;
 }
 
@@ -312,9 +310,6 @@ type AzureStorageMountsAddEdtSubFormProps = FormikProps<FormAzureStorageMounts> 
 const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubFormProps> = props => {
   const { t } = useTranslation();
   const { isLinuxApp } = useContext(SiteStateContext);
-  const portalContext = useContext(PortalContext);
-
-  const [showNFSFileShares, setShowNFSFileShares] = React.useState<boolean>();
 
   const storageTypeOptions = React.useMemo<IChoiceGroupOption[]>(() => {
     return [
@@ -350,25 +345,10 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
   }, []);
 
   const fileShareInfoBubbleMessage = React.useMemo(() => {
-    return props.values.type === StorageType.azureFiles && (!isLinuxApp || !showNFSFileShares)
-      ? t('shareNameInfoBubbleMessage')
-      : undefined;
+    return props.values.type === StorageType.azureFiles && !isLinuxApp ? t('shareNameInfoBubbleMessage') : undefined;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [props.values.type, isLinuxApp, showNFSFileShares]);
-
-  useEffect(() => {
-    let isSubscribed = true;
-    portalContext.getBooleanFlight(ExperimentationConstants.VariableNames.showNFSFileShares).then(enabled => {
-      if (isSubscribed) {
-        setShowNFSFileShares(enabled);
-      }
-    });
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, [portalContext]);
+  }, [props.values.type, isLinuxApp]);
 
   return (
     <>
@@ -376,7 +356,6 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
         <AzureStorageMountsAddEditBasic
           {...props}
           storageTypeOptions={storageTypeOptions}
-          showNFSFileShares={showNFSFileShares}
           fileShareInfoBubbleMessage={fileShareInfoBubbleMessage}
         />
       )}
@@ -384,7 +363,6 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
         <AzureStorageMountsAddEditAdvanced
           {...props}
           storageTypeOptions={storageTypeOptions}
-          showNFSFileShares={showNFSFileShares}
           fileShareInfoBubbleMessage={fileShareInfoBubbleMessage}
         />
       )}
