@@ -1899,8 +1899,8 @@
       <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity selected will be federated with GitHub as an authorized client and given write permissions on the app.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Vyberte, jak se má váš pracovní postup GitHub Action ověřovat v Azure. Pokud zvolíte identitu přiřazenou uživatelem, identita se automaticky vytvoří a federuje s GitHubem jako autorizovaný klient.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vyberte, jak se má váš pracovní postup GitHub Action ověřovat v Azure. Pokud zvolíte identitu přiřazenou uživatelem, vybraná identita se federuje s GitHubem jako autorizovaným klientem a přiřadí se k aplikaci oprávnění k zápisu.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
@@ -1968,6 +1968,9 @@
       <Item ItemId=";authenticationSettingsIdentityUnsupportedRegionError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tato identita se nachází v oblasti, která nepodporuje vytváření přihlašovacích údajů federované identity. Vyberte prosím identitu z jiné oblasti.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>

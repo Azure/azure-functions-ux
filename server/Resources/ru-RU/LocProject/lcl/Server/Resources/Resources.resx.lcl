@@ -1896,8 +1896,8 @@
       <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity selected will be federated with GitHub as an authorized client and given write permissions on the app.]]></Val>
-          <Tgt Cat="Text" Stat="Update" Orig="New">
-            <Val><![CDATA[Выберите способ проверки подлинности рабочего процесса GitHub Action в Azure. Если выбрать удостоверение, назначаемое пользователем, удостоверение будет создано автоматически и включено в федерацию с GitHub в качестве авторизованного клиента.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Выберите способ проверки подлинности рабочего процесса GitHub Action в Azure. Если выбрать удостоверение, назначаемое пользователем, выбранное удостоверение будет включено в федерацию с GitHub в качестве авторизованного клиента и получит разрешения на запись в приложении.]]></Val>
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
@@ -1965,6 +1965,9 @@
       <Item ItemId=";authenticationSettingsIdentityUnsupportedRegionError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Это удостоверение находится в регионе, который не поддерживает создание учетных данных федеративного удостоверения. Выберите удостоверение из другого региона.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
