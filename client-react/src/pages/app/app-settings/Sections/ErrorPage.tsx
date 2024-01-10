@@ -21,7 +21,7 @@ const ErrorPagePivot: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           href={Links.customErrorPagesLearnMore}
           target="_blank"
           className={learnMoreLinkStyle}
-          aria-labelledby="error-pages-info-message error-pages-info-learnMore">
+          aria-labelledby="default-documents-info-message error-pages-info-learnMore">
           {` ${t('learnMore')}`}
         </Link>
       </p>
