@@ -27,7 +27,6 @@ searchTermObserver
       const deploymentCenterData = info.deploymentCenterData;
       const portalContext = info.portalContext;
       const repositoriesUrl = info.repositoryUrl;
-      const isGitHubActions = info.isGitHubActions;
       const org = info.org;
       const repo = info.repo;
       let gitHubRepositories;
@@ -65,16 +64,11 @@ searchTermObserver
       }
 
       let newRepositoryOptions: IDropdownOption[] = [];
-      if (isGitHubActions) {
-        newRepositoryOptions = gitHubRepositories
-          .filter(repo => !repo.permissions || repo.permissions.push)
-          .map(repo => ({ key: repo.name, text: repo.name }));
-      } else {
-        newRepositoryOptions = gitHubRepositories
-          .filter(repo => !repo.permissions || repo.permissions.admin)
-          .map(repo => ({ key: repo.name, text: repo.name }));
-      }
 
+      // Filtering for admin permissions because you need them to create/add secrets to the repo
+      newRepositoryOptions = gitHubRepositories
+        .filter(repo => !repo.archived && (!repo.permissions || repo.permissions.admin))
+        .map(repo => ({ key: repo.name, text: repo.name }));
       newRepositoryOptions.sort((a, b) => a.text.localeCompare(b.text));
 
       setRepositoryOptions(newRepositoryOptions);

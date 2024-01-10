@@ -6964,7 +6964,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app. If you can't find your organization or repository, you may need to enable additional permissions on GitHub.</value>
     </data>
     <data name="deploymentCenterConfigureGitHubPermissionsGHA" xml:space="preserve">
-        <value>App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have write access to your chosen GitHub repository to deploy with GitHub Actions.</value>
+        <value>App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub. You must have admin access to your chosen GitHub repository to deploy with GitHub Actions.</value>
     </data>
     <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
         <value>You're now in the production slot, which is not recommended for setting up CI/CD.</value>
