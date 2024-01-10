@@ -74,6 +74,7 @@ export enum RuntimeStackOptions {
   Dotnet = 'dotnet',
   DotnetIsolated = 'dotnet-isolated',
   Go = 'go',
+  WordPress = 'wordpress',
 }
 
 export enum RuntimeStackDisplayNames {
@@ -89,6 +90,7 @@ export enum RuntimeStackDisplayNames {
   Dotnet = '.NET',
   DotnetIsolated = '.Net Isolated',
   Go = 'Go',
+  WordPress = 'WordPress',
 }
 
 export enum RuntimeVersionOptions {

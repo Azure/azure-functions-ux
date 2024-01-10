@@ -9,7 +9,7 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerAppEnvironmentApp, isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
+import { isContainerAppEnvironmentApp, isContainerApp, isFunctionApp, isKubeApp, isLinuxApp, isWordPressApp } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import { SiteRouterData } from './SiteRouter.data';
@@ -70,6 +70,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
   const [isLinuxApplication, setIsLinuxApplication] = useState<boolean>(false);
   const [isContainerApplication, setIsContainerApplication] = useState<boolean>(false);
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
+  const [isWordPressApplication, setIsWordPressApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
   const fetchDataAndSetState = useCallback(async (resourceId?: string) => {
@@ -117,11 +118,13 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
 
       if (site) {
         const editMode = await resolveState(portalContext, trimmedResourceId, site, appSettings, resourceId);
+        const isWPApplication = isWordPressApp(site);
         setSite(site);
         setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));
-        setIsContainerApplication(isContainerApp(site) || isContainerAppEnvironmentApp(site));
+        setIsContainerApplication((isContainerApp(site) || isContainerAppEnvironmentApp(site)) && !isWPApplication);
         setIsFunctionApplication(isFunctionApp(site));
+        setIsWordPressApplication(isWPApplication);
         setIsKubeApplication(isKubeApp(site));
         setSiteAppEditState(editMode);
       }
@@ -146,6 +149,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
                       isLinuxApp: isLinuxApplication,
                       isContainerApp: isContainerApplication,
                       isFunctionApp: isFunctionApplication,
+                      isWordPressApp: isWordPressApplication,
                       isKubeApp: isKubeApplication,
                       refresh: () => fetchDataAndSetState(resourceId),
                     }}>
