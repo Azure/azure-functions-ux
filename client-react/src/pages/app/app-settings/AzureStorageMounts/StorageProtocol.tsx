@@ -10,14 +10,14 @@ import { MessageBarType } from '@fluentui/react';
 import { style } from 'typestyle';
 import { useTranslation } from 'react-i18next';
 
-const StorageProtocol: React.FC<{ values: FormAzureStorageMounts; showNFSFileShares?: boolean }> = props => {
-  const { values, showNFSFileShares } = props;
+const StorageProtocol: React.FC<{ values: FormAzureStorageMounts }> = props => {
+  const { values } = props;
   const { isLinuxApp } = React.useContext(SiteStateContext);
   const { t } = useTranslation();
 
   const showFileSharesProtocolOptions = React.useMemo(() => {
-    return values.type === StorageType.azureFiles && isLinuxApp && showNFSFileShares;
-  }, [values.type, isLinuxApp, showNFSFileShares]);
+    return values.type === StorageType.azureFiles && isLinuxApp;
+  }, [values.type, isLinuxApp]);
 
   const showCustomBanner = React.useMemo(() => {
     return values.protocol.toLocaleLowerCase() === StorageFileShareProtocol.NFS.toLocaleLowerCase();

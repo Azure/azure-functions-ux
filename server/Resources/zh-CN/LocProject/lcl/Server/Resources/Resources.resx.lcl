@@ -1895,12 +1895,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
+          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity selected will be federated with GitHub as an authorized client and given write permissions on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[选择你希望 GitHub Action 工作流向 Azure 进行身份验证的方式。如果选择用户分配的标识，则标识将自动创建，并作为授权客户端与 GitHub 进行联合。]]></Val>
+            <Val><![CDATA[选择你希望 GitHub Action 工作流向 Azure 进行身份验证的方式。如果选择用户分配的标识，则所选标识将作为授权客户端与 GitHub 联合，并获得对应用的写入权限。]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.]]></Val>
+            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1958,6 +1958,15 @@
           <Val><![CDATA[Select an identity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[选择标识]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityUnsupportedRegionError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[此标识位于不支持创建联合标识凭据的区域中。请从其他区域中选择标识。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -2027,12 +2036,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsUserAssignedManagedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User-assigned identity (Preview)]]></Val>
+          <Val><![CDATA[User-assigned identity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[用户分配的标识(预览)]]></Val>
+            <Val><![CDATA[用户分配的标识]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[User-assigned managed identity]]></Val>
+            <Val><![CDATA[User-assigned identity (Preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />

@@ -1898,12 +1898,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
+          <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity selected will be federated with GitHub as an authorized client and given write permissions on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Wählen Sie aus, wie Ihr GitHub-Aktionsworkflow bei Azure authentifiziert werden soll. Wenn Sie eine vom Benutzer zugewiesene Identität auswählen, wird die Identität automatisch erstellt und mit GitHub als autorisierter Client verbunden.]]></Val>
+            <Val><![CDATA[Wählen Sie aus, wie Ihr GitHub-Aktionsworkflow bei Azure authentifiziert werden soll. Wenn Sie eine vom Benutzer zugewiesene Identität auswählen, wird die ausgewählte Identität mit GitHub als autorisiertem Client verbunden und erhält Schreibberechtigungen für die App.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose a Federated Identity, the identity will be federated with GitHub as an authorized client. Managed identities are user-assigned, not system-assigned.]]></Val>
+            <Val><![CDATA[Select how you want your GitHub Action workflow to authenticate to Azure. If you choose user-assigned identity, the identity will be automatically created and federated with GitHub as an authorized client.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1961,6 +1961,15 @@
           <Val><![CDATA[Select an identity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Identität auswählen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";authenticationSettingsIdentityUnsupportedRegionError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Diese Identität befindet sich in einer Region, die das Erstellen von Anmeldeinformationen für die Verbundidentität nicht unterstützt. Wählen Sie eine Identität aus einer anderen Region aus.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -2030,12 +2039,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsUserAssignedManagedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[User-assigned identity (Preview)]]></Val>
+          <Val><![CDATA[User-assigned identity]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Benutzerseitig zugewiesene Identität (Vorschau)]]></Val>
+            <Val><![CDATA[Benutzerseitig zugewiesene Identität]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[User-assigned managed identity]]></Val>
+            <Val><![CDATA[User-assigned identity (Preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />

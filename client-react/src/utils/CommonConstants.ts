@@ -388,10 +388,6 @@ export class ExperimentationConstants {
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
   };
-
-  public static VariableNames = {
-    showNFSFileShares: 'show-nfs-file-shares',
-  };
 }
 
 export class Monitoring {

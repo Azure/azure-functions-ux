@@ -35,6 +35,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { ISiteState } from '../../../../SiteState';
 import { Guid } from '../../../../utils/Guid';
 import { truncate } from 'lodash-es';
+import { isSameLocation } from '../../../../utils/location';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
@@ -644,4 +645,19 @@ export const getUserAssignedIdentityName = (appName: string): string => {
 
 export const isScmTypeValidForContainers = (scmType: ScmType): boolean => {
   return scmType === ScmType.None || scmType === ScmType.GitHubAction || scmType === ScmType.Vsts;
+};
+
+export const isFederatedCredentialsSupported = (identityLocation: string): boolean => {
+  const unsupportedRegions = [
+    'germanynorth',
+    'swedensouth',
+    'swedencentral',
+    'eastasia',
+    'qatarcentral',
+    'brazilsoutheast',
+    'malaysiasouth',
+    'polandcentral',
+  ];
+
+  return !unsupportedRegions.some(region => isSameLocation(region, identityLocation));
 };

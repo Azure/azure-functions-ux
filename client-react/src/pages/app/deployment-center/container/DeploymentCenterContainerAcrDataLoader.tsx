@@ -23,7 +23,6 @@ import { IDataMessageResult } from '../../../../models/portal-models';
 import { isPortalCommunicationStatusSuccess } from '../../../../utils/portal-utils';
 import { SiteStateContext } from '../../../../SiteState';
 import { ScmType } from '../../../../models/site/config';
-import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
 interface RegistryIdentifiers {
   resourceId: string;
   location: string;
@@ -428,9 +427,8 @@ const DeploymentCenterContainerAcrDataLoader: React.FC<DeploymentCenterFieldProp
         const clientId = identity.clientId;
         const principalId = identity.principalId;
         const tenantId = identity.tenantId;
-        const subscriptionId = new ArmResourceDescriptor(resourceId).subscription;
         const name = resourceId.split(CommonConstants.singleForwardSlash).pop() || clientId;
-        managedIdentityInfo.current[clientId] = { clientId, principalId, tenantId, subscriptionId, name, resourceId };
+        managedIdentityInfo.current[clientId] = { clientId, principalId, tenantId };
         userAssignedIdentitiesOptions.push({ key: clientId, text: name });
       }
     }

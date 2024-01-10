@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { deploymentCenterContent, deploymentCenterInfoBannerDiv, titleWithPaddingStyle } from '../DeploymentCenter.styles';
+import {
+  comboBoxSpinnerStyle,
+  deploymentCenterContent,
+  deploymentCenterInfoBannerDiv,
+  loadingComboBoxStyle,
+  titleWithPaddingStyle,
+} from '../DeploymentCenter.styles';
 import { useTranslation } from 'react-i18next';
 import { Field } from 'formik';
 import { MessageBarType } from '@fluentui/react/lib/MessageBar';
@@ -17,17 +23,24 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { Link } from '@fluentui/react/lib/Link';
 import { DropdownMenuItemType, IDropdownOption } from '@fluentui/react/lib/Dropdown';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RbacConstants from '../../../../utils/rbac-constants';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
-import { getTelemetryInfo, ignoreCaseSortingFunction, optionsSortingFunction } from '../utility/DeploymentCenterUtility';
-import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
+import {
+  getTelemetryInfo,
+  ignoreCaseSortingFunction,
+  isFederatedCredentialsSupported,
+  optionsSortingFunction,
+} from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { ISubscription } from '../../../../models/subscription';
 import { ArmObj } from '../../../../models/arm-obj';
 import { RBACRoleId } from '../../../../utils/CommonConstants';
+import { SiteStateContext } from '../../../../SiteState';
+import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -36,6 +49,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   const { formProps } = props;
   const portalContext = React.useContext(PortalContext);
   const deploymentCenterContext = React.useContext(DeploymentCenterContext);
+  const siteStateContext = React.useContext(SiteStateContext);
   const deploymentCenterData = new DeploymentCenterData();
   const [hasRoleAssignmentWritePermission, setHasRoleAssignmentWritePermission] = React.useState<boolean>(false);
   const [hasManagedIdentityWritePermission, setHasManagedIdentityWritePermission] = React.useState<boolean>(false);
@@ -43,14 +57,14 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   const [subscriptionOptions, setSubscriptionOptions] = React.useState<IDropdownOption<ISubscription>[]>([]);
   const [subscription, setSubscription] = React.useState<string>();
   const [loadingIdentities, setLoadingIdentities] = React.useState<boolean>(false);
-  const [identityOptions, setIdentityOptions] = React.useState<IDropdownOption<UserAssignedIdentity>[]>([]);
+  const [identityOptions, setIdentityOptions] = React.useState<IDropdownOption<ArmObj<UserAssignedIdentity>>[]>([]);
   const [identity, setIdentity] = React.useState<string>();
   const [identityErrorMessage, setIdentityErrorMessage] = React.useState<string>();
 
   const authTypeOptions = React.useMemo(() => {
     return [
-      { key: AuthType.PublishProfile, text: t('authenticationSettingsBasicAuthentication') },
       { key: AuthType.Oidc, text: t('authenticationSettingsUserAssignedManagedIdentity') },
+      { key: AuthType.PublishProfile, text: t('authenticationSettingsBasicAuthentication') },
     ];
   }, []);
 
@@ -148,18 +162,22 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
   }, []);
 
   const onIdentityChange = React.useCallback(
-    async (_, identityOption: IDropdownOption<UserAssignedIdentity>) => {
+    async (_, identityOption: IDropdownOption<ArmObj<UserAssignedIdentity>>) => {
       setIdentity(identityOption.key as string);
       setIdentityErrorMessage(undefined);
-      if (formProps.values.hasPermissionToUseOIDC) {
-        formProps.setFieldValue('authIdentity', identityOption.data);
-      } else {
-        const hasRoleAssignment = await checkRoleAssignmentsForIdentity(identityOption.data?.principalId);
-        if (hasRoleAssignment || hasRoleAssignmentWritePermission) {
+      if (isFederatedCredentialsSupported(identityOption.data?.location ?? '')) {
+        if (formProps.values.hasPermissionToUseOIDC) {
           formProps.setFieldValue('authIdentity', identityOption.data);
         } else {
-          setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+          const hasRoleAssignment = await checkRoleAssignmentsForIdentity(identityOption.data?.properties?.principalId);
+          if (hasRoleAssignment || hasRoleAssignmentWritePermission) {
+            formProps.setFieldValue('authIdentity', identityOption.data);
+          } else {
+            setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+          }
         }
+      } else {
+        setIdentityErrorMessage(t('authenticationSettingsIdentityUnsupportedRegionError'));
       }
     },
     [formProps.values.hasPermissionToUseOIDC, deploymentCenterContext.resourceId, checkRoleAssignmentsForIdentity]
@@ -182,15 +200,18 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
       setIdentityOptions([]);
       setIdentityErrorMessage(undefined);
       setLoadingIdentities(true);
-      const isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
+      let isCreateNewSupported = hasManagedIdentityWritePermission && formProps.values.hasPermissionToUseOIDC;
+      // If the app is located in an unsupported region, remove ability to create
+      if (siteStateContext?.site?.location) {
+        isCreateNewSupported = isCreateNewSupported && isFederatedCredentialsSupported(siteStateContext.site.location);
+      }
 
       deploymentCenterData
-        .listUserAssignedIdentitiesBySubscription(subscription)
-        .then(getIdentitiesResponse => {
-          const identityOptions: IDropdownOption<UserAssignedIdentity>[] = [];
-          if (getIdentitiesResponse.metadata.success) {
+        .listUserAssignedIdentitiesBySubscription(subscription, portalContext)
+        .then(identities => {
+          const identityOptions: IDropdownOption<ArmObj<UserAssignedIdentity>>[] = [];
+          if (identities) {
             const resourceGroupToIdentity: { [rg: string]: ArmObj<UserAssignedIdentity>[] } = {};
-            const identities = getIdentitiesResponse.data.value;
             identities.forEach(identity => {
               const resourceGroup = new ArmResourceDescriptor(identity.id)?.resourceGroup;
               if (resourceGroup in resourceGroupToIdentity) {
@@ -213,11 +234,7 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                   identityOptions.push({
                     key: identity.id,
                     text: identity.name,
-                    data: {
-                      ...identity.properties,
-                      resourceId: identity.id,
-                      name: identity.name,
-                    },
+                    data: identity,
                   });
                 });
               });
@@ -227,12 +244,14 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                 key: DeploymentCenterConstants.createNew,
                 text: t('createNewOption'),
                 data: {
-                  clientId: '',
-                  principalId: '',
-                  tenantId: '',
-                  subscriptionId: '',
-                  name: '',
-                  resourceId: DeploymentCenterConstants.createNew,
+                  id: DeploymentCenterConstants.createNew,
+                  name: t('createNewOption'),
+                  location: '',
+                  properties: {
+                    clientId: '',
+                    principalId: '',
+                    tenantId: '',
+                  },
                 },
               });
             }
@@ -242,12 +261,6 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
             }
             return identityOptions;
           } else {
-            portalContext.log(
-              getTelemetryInfo('error', 'listUserAssignedIdentitiesBySubscription', 'failed', {
-                message: getErrorMessage(getIdentitiesResponse.metadata.error),
-                errorAsString: getIdentitiesResponse.metadata.error ? JSON.stringify(getIdentitiesResponse.metadata.error) : '',
-              })
-            );
             if (isSubscribed) {
               setLoadingIdentities(false);
             }
@@ -264,17 +277,21 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
                 formProps.setFieldValue('authIdentity', firstIdentity.data);
               }
             } else {
-              if (firstIdentity) {
+              if (firstIdentity && isSubscribed) {
                 setIdentity(firstIdentity.key as string);
-                checkRoleAssignmentsForIdentity(firstIdentity.data?.principalId).then(hasRoleAssignment => {
-                  if (isSubscribed) {
-                    if (hasRoleAssignment) {
-                      formProps.setFieldValue('authIdentity', firstIdentity.data);
-                    } else {
-                      setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+                if (isFederatedCredentialsSupported(firstIdentity.data?.location ?? '')) {
+                  checkRoleAssignmentsForIdentity(firstIdentity.data?.properties?.principalId).then(hasRoleAssignment => {
+                    if (isSubscribed) {
+                      if (hasRoleAssignment) {
+                        formProps.setFieldValue('authIdentity', firstIdentity.data);
+                      } else {
+                        setIdentityErrorMessage(t('authenticationSettingsIdentityWritePermissionsError'));
+                      }
                     }
-                  }
-                });
+                  });
+                } else {
+                  setIdentityErrorMessage(t('authenticationSettingsIdentityUnsupportedRegionError'));
+                }
               }
             }
           }
@@ -346,28 +363,34 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
 
       {formProps.values.authType === AuthType.Oidc && (
         <>
-          <DropdownNoFormik
-            id="deployment-center-auth-identity-subscription-option"
-            label={t('subscriptionName')}
-            options={subscriptionOptions}
-            onChange={onSubscriptionChange}
-            isLoading={loadingSubscriptions}
-            selectedKey={subscription}
-            placeholder={t('authenticationSettingsSubscriptionPlaceholder')}
-            required
-          />
-          <DropdownNoFormik
-            id="deployment-center-auth-identity-option"
-            label={t('authenticationSettingsIdentity')}
-            placeholder={t('authenticationSettingsIdentityPlaceholder')}
-            options={identityOptions}
-            selectedKey={identity}
-            onChange={onIdentityChange}
-            errorMessage={identityErrorMessage}
-            isLoading={loadingIdentities}
-            disabled={!subscription}
-            required
-          />
+          <div className={loadingComboBoxStyle}>
+            <ComboBoxNoFormik
+              id="deployment-center-auth-identity-subscription-option"
+              label={t('subscriptionName')}
+              value={subscription ?? ''}
+              options={subscriptionOptions}
+              onChange={onSubscriptionChange}
+              allowFreeInput={true}
+              placeholder={t('authenticationSettingsSubscriptionPlaceholder')}
+              required
+            />
+            {loadingSubscriptions && <Spinner className={comboBoxSpinnerStyle} size={SpinnerSize.small} />}
+          </div>
+          <div className={loadingComboBoxStyle}>
+            <ComboBoxNoFormik
+              id="deployment-center-auth-identity-option"
+              label={t('authenticationSettingsIdentity')}
+              placeholder={t('authenticationSettingsIdentityPlaceholder')}
+              value={identity ?? ''}
+              options={identityOptions}
+              onChange={onIdentityChange}
+              errorMessage={identityErrorMessage}
+              allowFreeInput={true}
+              disabled={!subscription || loadingIdentities}
+              required
+            />
+            {loadingIdentities && <Spinner className={comboBoxSpinnerStyle} size={SpinnerSize.small} />}
+          </div>
         </>
       )}
     </div>
