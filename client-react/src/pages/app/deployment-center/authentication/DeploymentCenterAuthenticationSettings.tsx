@@ -1,5 +1,11 @@
 import * as React from 'react';
-import { deploymentCenterContent, deploymentCenterInfoBannerDiv, titleWithPaddingStyle } from '../DeploymentCenter.styles';
+import {
+  comboBoxSpinnerStyle,
+  deploymentCenterContent,
+  deploymentCenterInfoBannerDiv,
+  loadingComboBoxStyle,
+  titleWithPaddingStyle,
+} from '../DeploymentCenter.styles';
 import { useTranslation } from 'react-i18next';
 import { Field } from 'formik';
 import { MessageBarType } from '@fluentui/react/lib/MessageBar';
@@ -17,6 +23,7 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { Link } from '@fluentui/react/lib/Link';
 import { DropdownMenuItemType, IDropdownOption } from '@fluentui/react/lib/Dropdown';
+import { Spinner, SpinnerSize } from '@fluentui/react/lib/Spinner';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import RbacConstants from '../../../../utils/rbac-constants';
 import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
@@ -26,7 +33,6 @@ import {
   isFederatedCredentialsSupported,
   optionsSortingFunction,
 } from '../utility/DeploymentCenterUtility';
-import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
@@ -34,6 +40,7 @@ import { ISubscription } from '../../../../models/subscription';
 import { ArmObj } from '../../../../models/arm-obj';
 import { RBACRoleId } from '../../../../utils/CommonConstants';
 import { SiteStateContext } from '../../../../SiteState';
+import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
 
 export const DeploymentCenterAuthenticationSettings = React.memo<
   DeploymentCenterFieldProps<DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -200,12 +207,11 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
       }
 
       deploymentCenterData
-        .listUserAssignedIdentitiesBySubscription(subscription)
-        .then(getIdentitiesResponse => {
+        .listUserAssignedIdentitiesBySubscription(subscription, portalContext)
+        .then(identities => {
           const identityOptions: IDropdownOption<ArmObj<UserAssignedIdentity>>[] = [];
-          if (getIdentitiesResponse.metadata.success) {
+          if (identities) {
             const resourceGroupToIdentity: { [rg: string]: ArmObj<UserAssignedIdentity>[] } = {};
-            const identities = getIdentitiesResponse.data.value;
             identities.forEach(identity => {
               const resourceGroup = new ArmResourceDescriptor(identity.id)?.resourceGroup;
               if (resourceGroup in resourceGroupToIdentity) {
@@ -255,12 +261,6 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
             }
             return identityOptions;
           } else {
-            portalContext.log(
-              getTelemetryInfo('error', 'listUserAssignedIdentitiesBySubscription', 'failed', {
-                message: getErrorMessage(getIdentitiesResponse.metadata.error),
-                errorAsString: getIdentitiesResponse.metadata.error ? JSON.stringify(getIdentitiesResponse.metadata.error) : '',
-              })
-            );
             if (isSubscribed) {
               setLoadingIdentities(false);
             }
@@ -363,28 +363,34 @@ export const DeploymentCenterAuthenticationSettings = React.memo<
 
       {formProps.values.authType === AuthType.Oidc && (
         <>
-          <DropdownNoFormik
-            id="deployment-center-auth-identity-subscription-option"
-            label={t('subscriptionName')}
-            options={subscriptionOptions}
-            onChange={onSubscriptionChange}
-            isLoading={loadingSubscriptions}
-            selectedKey={subscription}
-            placeholder={t('authenticationSettingsSubscriptionPlaceholder')}
-            required
-          />
-          <DropdownNoFormik
-            id="deployment-center-auth-identity-option"
-            label={t('authenticationSettingsIdentity')}
-            placeholder={t('authenticationSettingsIdentityPlaceholder')}
-            options={identityOptions}
-            selectedKey={identity}
-            onChange={onIdentityChange}
-            errorMessage={identityErrorMessage}
-            isLoading={loadingIdentities}
-            disabled={!subscription}
-            required
-          />
+          <div className={loadingComboBoxStyle}>
+            <ComboBoxNoFormik
+              id="deployment-center-auth-identity-subscription-option"
+              label={t('subscriptionName')}
+              value={subscription ?? ''}
+              options={subscriptionOptions}
+              onChange={onSubscriptionChange}
+              allowFreeInput={true}
+              placeholder={t('authenticationSettingsSubscriptionPlaceholder')}
+              required
+            />
+            {loadingSubscriptions && <Spinner className={comboBoxSpinnerStyle} size={SpinnerSize.small} />}
+          </div>
+          <div className={loadingComboBoxStyle}>
+            <ComboBoxNoFormik
+              id="deployment-center-auth-identity-option"
+              label={t('authenticationSettingsIdentity')}
+              placeholder={t('authenticationSettingsIdentityPlaceholder')}
+              value={identity ?? ''}
+              options={identityOptions}
+              onChange={onIdentityChange}
+              errorMessage={identityErrorMessage}
+              allowFreeInput={true}
+              disabled={!subscription || loadingIdentities}
+              required
+            />
+            {loadingIdentities && <Spinner className={comboBoxSpinnerStyle} size={SpinnerSize.small} />}
+          </div>
         </>
       )}
     </div>

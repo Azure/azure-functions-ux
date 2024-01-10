@@ -1,7 +1,8 @@
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { FederatedCredential, UserAssignedIdentity } from '../pages/app/deployment-center/DeploymentCenter.types';
+import PortalCommunicator from '../portal-communicator';
 import { CommonConstants } from '../utils/CommonConstants';
-import MakeArmCall from './ArmHelper';
+import MakeArmCall, { MakePagedArmCall } from './ArmHelper';
 
 export default class ManagedIdentityService {
   public static getUserAssignedIdentity = (
@@ -18,15 +19,19 @@ export default class ManagedIdentityService {
 
   public static listUserAssignedIdentitiesBySubscription = (
     subscriptionId: string,
+    portalContext: PortalCommunicator,
     apiVersion = CommonConstants.ApiVersions.managedIdentityApiVersion20230131
   ) => {
     const resourceId = `/subscriptions/${subscriptionId}/providers/Microsoft.ManagedIdentity/userAssignedIdentities`;
-    return MakeArmCall<ArmArray<UserAssignedIdentity>>({
-      method: 'GET',
-      resourceId,
-      commandName: 'getUserAssignedIdentitiesBySubscription',
-      apiVersion,
-    });
+    return MakePagedArmCall<UserAssignedIdentity>(
+      {
+        method: 'GET',
+        resourceId,
+        commandName: 'getUserAssignedIdentitiesBySubscription',
+        apiVersion,
+      },
+      portalContext
+    );
   };
 
   public static createUserAssignedIdentity = (
