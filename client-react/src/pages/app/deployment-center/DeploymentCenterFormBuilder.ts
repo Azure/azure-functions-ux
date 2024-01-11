@@ -152,18 +152,12 @@ export abstract class DeploymentCenterFormBuilder {
         }),
       externalRepoType: Yup.mixed().notRequired(),
       devOpsProjectName: Yup.mixed().notRequired(),
-      authType: Yup.mixed().when('hasPermissionToUseOIDC', {
-        is: true,
-        then: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          return !!value;
-        }),
-        otherwise: Yup.mixed().test('authIdentityPopulated', this._t('authenticationSettingsOidcPermissionsValidationError'), function(
-          value
-        ) {
-          return value !== AuthType.Oidc || !!this.parent.authIdentity.resourceId;
-        }),
+      authType: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.sourceProvider === ScmType.GitHubAction ? !!value : true;
       }),
-      authIdentity: Yup.mixed().notRequired(),
+      authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.sourceProvider === ScmType.GitHubAction && this.parent.authType === AuthType.Oidc ? !!value.resourceId : true;
+      }),
       hasPermissionToUseOIDC: Yup.boolean().notRequired(),
     };
   }
