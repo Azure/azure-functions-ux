@@ -10,7 +10,13 @@ import {
   KuduLogMessage,
   UrlInfo,
 } from '../DeploymentCenter.types';
-import { ProgressIndicator, PanelType, IColumn, Link, PrimaryButton, IGroup, Icon, Selection, SelectionMode } from '@fluentui/react';
+import { ProgressIndicator } from '@fluentui/react/lib/ProgressIndicator';
+import { PanelType } from '@fluentui/react/lib/Panel';
+import { IColumn, IGroup } from '@fluentui/react/lib/DetailsList';
+import { Link } from '@fluentui/react/lib/Link';
+import { PrimaryButton } from '@fluentui/react/lib/Button';
+import { Selection, SelectionMode } from '@fluentui/react/lib/Selection';
+import { Icon } from '@fluentui/react/lib/Icon';
 import { useTranslation } from 'react-i18next';
 import {
   deploymentCenterLogsError,
@@ -30,6 +36,9 @@ import { PortalContext } from '../../../../PortalContext';
 import { deleteDeploymentCenterLogs, fetchDeploymentLogs } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { SiteStateContext } from '../../../../SiteState';
+import { IconGridCell } from '../../../../components/IconGridCell/IconGridCell';
+import { ThemeContext } from '../../../../ThemeContext';
+import { IconConstants } from '../../../../utils/constants/IconConstants';
 
 export function dateTimeComparatorReverse(a: DateTimeObj, b: DateTimeObj) {
   if (a.rawTime.isBefore(b.rawTime)) {
@@ -45,9 +54,11 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [isDeleteConfirmDialogOpen, setIsDeleteConfirmDialogOpen] = React.useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
+  const [currentFailedStatus, setCurrentFailedStatus] = useState<boolean | undefined>(undefined);
   const portalContext = useContext(PortalContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const theme = useContext(ThemeContext);
   const deploymentCenterData = new DeploymentCenterData();
   const { deployments, setDeployments, goToSettings } = props;
   const { t } = useTranslation();
@@ -92,14 +103,16 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     );
   };
 
-  const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
+  const showLogPanel = (deployment: ArmObj<DeploymentProperties>, failed?: boolean) => {
     setIsLogPanelOpen(true);
     setCurrentCommitId(deployment.id);
+    setCurrentFailedStatus(failed);
   };
 
   const dismissLogPanel = () => {
     setIsLogPanelOpen(false);
     setCurrentCommitId(undefined);
+    setCurrentFailedStatus(undefined);
   };
 
   const showDeleteConfirmDialog = () => {
@@ -118,7 +131,13 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
       case DeploymentStatus.Pending:
         return t('pending');
       case DeploymentStatus.Failed:
-        return t('failed');
+        return (
+          <IconGridCell
+            text={t('failed')}
+            iconName={IconConstants.IconNames.ErrorBadgeFilled}
+            style={{ color: theme.semanticColors.errorIcon, marginTop: '4px' }}
+          />
+        );
       case DeploymentStatus.Success:
         return t('success');
       default:
@@ -270,15 +289,19 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
       // NOTE (t-kakan): A is AM/PM and Z is offset from GMT: -07:00 -06:00 ... +06:00 +07:00
       displayTime: moment(deployment.properties.received_time).format('h:mm:ss A Z'),
       commit: (
-        <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
+        <Link
+          href={`#${deployment.properties.id}`}
+          onClick={() => showLogPanel(deployment, deployment.properties.status === DeploymentStatus.Failed)}>
           {deployment.properties.id.substr(0, 7)}
         </Link>
       ),
       author: deployment.properties.author,
       message: getMessage(deployment.properties.message, deployment.properties.status) || deployment.properties.message,
-      status: deployment.properties.active
-        ? `${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`
-        : `${getStatusString(deployment.properties.status, deployment.properties.progress)}`,
+      status: deployment.properties.active ? (
+        <>{`${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`}</>
+      ) : (
+        <>{getStatusString(deployment.properties.status, deployment.properties.progress)}</>
+      ),
     };
   }, []);
 
@@ -401,7 +424,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
         getProgressIndicator()
       )}
       <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium}>
-        <DeploymentCenterCommitLogs commitId={currentCommitId} dismissLogPanel={dismissLogPanel} />
+        <DeploymentCenterCommitLogs commitId={currentCommitId} failed={currentFailedStatus} dismissLogPanel={dismissLogPanel} />
       </CustomPanel>
     </>
   );

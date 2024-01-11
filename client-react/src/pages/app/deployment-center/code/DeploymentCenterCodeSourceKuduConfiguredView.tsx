@@ -77,6 +77,8 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
         })
       );
     }
+
+    setIsDisconnecting(false);
   };
 
   const deleteSourceControls = async (notificationId: string) => {
@@ -103,6 +105,8 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
         })
       );
     }
+
+    setIsDisconnecting(false);
   };
 
   const getSourceLocation = () => {
