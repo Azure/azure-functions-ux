@@ -2586,6 +2586,7 @@ export class PortalResources {
   public static authenticationSettingsOidcPermissionsValidationError = 'authenticationSettingsOidcPermissionsValidationError';
   public static authenticationSettingsIdentityAssignmentPermissionsError = 'authenticationSettingsIdentityAssignmentPermissionsError';
   public static authenticationSettingsIdentityWritePermissionsError = 'authenticationSettingsIdentityWritePermissionsError';
+  public static authenticationSettingsIdentityUnsupportedRegionError = 'authenticationSettingsIdentityUnsupportedRegionError';
   public static authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel =
     'authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel';
   public static authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel =

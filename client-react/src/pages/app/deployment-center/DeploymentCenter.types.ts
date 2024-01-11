@@ -1,4 +1,4 @@
-import { ArmArray } from '../../../models/arm-obj';
+import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { ScmType, BuildProvider } from '../../../models/site/config';
@@ -319,7 +319,7 @@ export interface DeploymentCenterCommonFormData {
   devOpsProjectName?: string;
   searchTerm?: string;
   authType: AuthType;
-  authIdentity: UserAssignedIdentity;
+  authIdentity: ArmObj<UserAssignedIdentity>;
   hasPermissionToUseOIDC?: boolean;
 }
 
@@ -807,9 +807,6 @@ export interface UserAssignedIdentity {
   clientId: string;
   principalId: string;
   tenantId: string;
-  subscriptionId: string;
-  name: string;
-  resourceId: string;
 }
 
 export interface FederatedCredential {

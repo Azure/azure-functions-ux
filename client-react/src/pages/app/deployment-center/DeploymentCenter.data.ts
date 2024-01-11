@@ -272,8 +272,8 @@ export default class DeploymentCenterData {
     return ManagedIdentityService.getUserAssignedIdentity(resourceId);
   };
 
-  public listUserAssignedIdentitiesBySubscription = (subscriptionId: string) => {
-    return ManagedIdentityService.listUserAssignedIdentitiesBySubscription(subscriptionId);
+  public listUserAssignedIdentitiesBySubscription = (subscriptionId: string, portalContext: PortalCommunicator) => {
+    return ManagedIdentityService.listUserAssignedIdentitiesBySubscription(subscriptionId, portalContext);
   };
 
   public createUserAssignedIdentity = (resourceGroupId: string, identityName: string, location: string) => {

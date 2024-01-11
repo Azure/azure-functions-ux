@@ -12,6 +12,7 @@ import {
   PrivateRegistryFormData,
   ACRCredentialType,
   ManagedIdentityType,
+  AuthType,
 } from '../DeploymentCenter.types';
 import * as Yup from 'yup';
 import { DeploymentCenterFormBuilder } from '../DeploymentCenterFormBuilder';
@@ -51,6 +52,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
       ...this._getDockerHubFormData(serverUrl, username, password, fxVersionParts),
       ...this._getPrivateRegistryFormData(serverUrl, username, password, fxVersionParts),
       ...this.generateCommonFormData(),
+      authType: AuthType.PublishProfile, // NOTE(yoonaoh): We will eventually remove this once ANT101 is deployed and we add OIDC support for Containers
     };
   }
 
