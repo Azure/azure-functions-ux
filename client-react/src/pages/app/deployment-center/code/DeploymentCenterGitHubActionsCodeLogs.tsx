@@ -32,6 +32,9 @@ import { PortalContext } from '../../../../PortalContext';
 import DeploymentCenterCodeLogsTimer from './DeploymentCenterCodeLogsTimer';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
+import { IconGridCell } from '../../../../components/IconGridCell/IconGridCell';
+import { IconConstants } from '../../../../utils/constants/IconConstants';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props => {
   const { deployments, runs, setDeployments, setRuns, goToSettings } = props;
@@ -40,6 +43,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const [isLogPanelOpen, setIsLogPanelOpen] = useState<boolean>(false);
   const [isDeleteConfirmDialogOpen, setIsDeleteConfirmDialogOpen] = React.useState<boolean>(false);
   const [currentCommitId, setCurrentCommitId] = useState<string | undefined>(undefined);
+  const [currentFailedStatus, setCurrentFailedStatus] = useState<boolean | undefined>(undefined);
   const [isLogsLoading, setIsLogsLoading] = useState<boolean>(false);
   const [isLogsDataRefreshing, setIsLogsDataRefreshing] = React.useState<boolean>(false);
   const [isSourceControlsLoading, setIsSourcecontrolsLoading] = useState<boolean>(true);
@@ -53,6 +57,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
+  const theme = useContext(ThemeContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const [selectedLogs, setSelectedLogs] = React.useState<GitHubActionsCodeDeploymentsRow[]>([]);
@@ -77,7 +82,13 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       case DeploymentStatus.Pending:
         return t('pending');
       case DeploymentStatus.Failed:
-        return t('failed');
+        return (
+          <IconGridCell
+            text={t('failed')}
+            iconName={IconConstants.IconNames.ErrorBadgeFilled}
+            style={{ color: theme.semanticColors.errorIcon, marginTop: '4px' }}
+          />
+        );
       case DeploymentStatus.Success:
         return t('success');
       default:
@@ -113,14 +124,16 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
     }
   };
 
-  const showLogPanel = (deployment: ArmObj<DeploymentProperties>) => {
+  const showLogPanel = (deployment: ArmObj<DeploymentProperties>, failed?: boolean) => {
     setIsLogPanelOpen(true);
     setCurrentCommitId(deployment.id);
+    setCurrentFailedStatus(failed);
   };
 
   const dismissLogPanel = () => {
     setIsLogPanelOpen(false);
     setCurrentCommitId(undefined);
+    setCurrentFailedStatus(undefined);
   };
 
   const showDeleteConfirmDialog = () => {
@@ -274,7 +287,9 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
       displayTime: moment(deployment.properties.received_time).format('MM/D YYYY, h:mm:ss A Z'),
       commit: deployment.properties.id.substr(0, 7),
       logSource: (
-        <Link href={`#${deployment.properties.id}`} onClick={() => showLogPanel(deployment)}>
+        <Link
+          href={`#${deployment.properties.id}`}
+          onClick={() => showLogPanel(deployment, deployment.properties.status === DeploymentStatus.Failed)}>
           {t('deploymentCenterAppLogSource')}
         </Link>
       ),
@@ -478,7 +493,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         getProgressIndicator()
       )}
       <CustomPanel isOpen={isLogPanelOpen} onDismiss={dismissLogPanel} type={PanelType.medium}>
-        <DeploymentCenterCommitLogs commitId={currentCommitId} dismissLogPanel={dismissLogPanel} />
+        <DeploymentCenterCommitLogs commitId={currentCommitId} failed={currentFailedStatus} dismissLogPanel={dismissLogPanel} />
       </CustomPanel>
     </>
   );
