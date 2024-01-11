@@ -103,16 +103,18 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
   };
 
   const getLogDisplayItem = (commitIdString: string, logItem: ArmObj<DeploymentLogsItem>) => {
-    return {
-      // NOTE (t-kakan): A is AM/PM
-      displayTime: moment(logItem.properties.log_time).format('h:mm:ss A'),
-      icon:
-        logItem.properties.details_url && failed ? (
-          <Icon iconName={IconConstants.IconNames.ErrorBadgeFilled} className={logStatusIconStyle(theme.semanticColors.errorIcon)} />
-        ) : null,
-      activity: logItem.properties.message,
-      log: getShowDetailsLink(commitIdString, logItem),
-    };
+    if (logItem.properties) {
+      return {
+        // NOTE (t-kakan): A is AM/PM
+        displayTime: moment(logItem.properties.log_time).format('h:mm:ss A'),
+        icon:
+          logItem.properties.details_url && failed ? (
+            <Icon iconName={IconConstants.IconNames.ErrorBadgeFilled} className={logStatusIconStyle(theme.semanticColors.errorIcon)} />
+          ) : null,
+        activity: logItem.properties.message,
+        log: getShowDetailsLink(commitIdString, logItem),
+      };
+    }
   };
 
   const showRedeployCommitCallout = () => {

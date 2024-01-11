@@ -64,14 +64,12 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
     if (updatePathSiteConfigResponse.metadata.success) {
       formProps.resetForm();
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
-      setIsDisconnecting(false);
       await deploymentCenterContext.refresh();
     } else {
       const errorMessage = getErrorMessage(updatePathSiteConfigResponse.metadata.error);
       const message = errorMessage ? t('disconnectingDeploymentFailWithMessage').format(errorMessage) : t('disconnectingDeploymentFail');
 
       portalContext.stopNotification(notificationId, false, message);
-      setIsDisconnecting(false);
       portalContext.log(
         getTelemetryInfo('error', 'updatePathSiteConfigResponse', 'failed', {
           message: errorMessage,
@@ -79,6 +77,8 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
         })
       );
     }
+
+    setIsDisconnecting(false);
   };
 
   const deleteSourceControls = async (notificationId: string) => {
@@ -92,14 +92,12 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
     if (deleteSourceControlDetailsResponse.metadata.success) {
       formProps.resetForm();
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
-      setIsDisconnecting(false);
       await deploymentCenterContext.refresh();
     } else {
       const errorMessage = getErrorMessage(deleteSourceControlDetailsResponse.metadata.error);
       const message = errorMessage ? t('disconnectingDeploymentFailWithMessage').format(errorMessage) : t('disconnectingDeploymentFail');
 
       portalContext.stopNotification(notificationId, false, message);
-      setIsDisconnecting(false);
       portalContext.log(
         getTelemetryInfo('error', 'deleteSourceControlDetailsResponse', 'failed', {
           message: errorMessage,
@@ -107,6 +105,8 @@ const DeploymentCenterCodeSourceKuduConfiguredView: React.FC<DeploymentCenterFie
         })
       );
     }
+
+    setIsDisconnecting(false);
   };
 
   const getSourceLocation = () => {
