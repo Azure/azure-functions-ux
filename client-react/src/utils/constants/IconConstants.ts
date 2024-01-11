@@ -3,6 +3,7 @@ export class IconConstants {
     // NOTE (krmitta): 'Badge' at the end denotes the icon being in a circular border
     TickBadge: 'Completed',
     ErrorBadge: 'ErrorBadge',
+    ErrorBadgeFilled: 'StatusErrorFull',
     InfoBadge: 'Info',
     Filter: 'Filter',
     Copy: 'Copy',
