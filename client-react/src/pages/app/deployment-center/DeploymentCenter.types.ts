@@ -74,7 +74,7 @@ export enum RuntimeStackOptions {
   Dotnet = 'dotnet',
   DotnetIsolated = 'dotnet-isolated',
   Go = 'go',
-  WordPress = 'wordpress',
+  WordPress = 'wordpress',  // NOTE(zmohammed): This is not really a part of runtime stack, we just need it for showing the code integration view in Deployment Center.
 }
 
 export enum RuntimeStackDisplayNames {
