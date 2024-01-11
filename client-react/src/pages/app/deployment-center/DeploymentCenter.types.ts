@@ -411,6 +411,7 @@ export interface DeploymentCenterCodeLogsTimerProps {
 export interface DeploymentCenterCommitLogsProps {
   dismissLogPanel: () => void;
   commitId?: string;
+  failed?: boolean;
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
@@ -608,7 +609,7 @@ export interface CodeDeploymentsRow {
   displayTime: string;
   commit: JSX.Element;
   message: string | JSX.Element;
-  status: string;
+  status: string | JSX.Element;
   author: string;
 }
 

@@ -4,8 +4,18 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import { useTranslation } from 'react-i18next';
-import { ProgressIndicator, IColumn, Link, PrimaryButton, CommandBar, ICommandBarItemProps } from '@fluentui/react';
-import { deploymentCenterLogsError, deploymentCenterConsole, closePublishProfileButtonStyle } from '../DeploymentCenter.styles';
+import { ProgressIndicator } from '@fluentui/react/lib/ProgressIndicator';
+import { IColumn } from '@fluentui/react/lib/DetailsList';
+import { Link } from '@fluentui/react/lib/Link';
+import { PrimaryButton } from '@fluentui/react/lib/Button';
+import { CommandBar, ICommandBarItemProps } from '@fluentui/react/lib/CommandBar';
+import { Icon } from '@fluentui/react/lib/Icon';
+import {
+  deploymentCenterLogsError,
+  deploymentCenterConsole,
+  closePublishProfileButtonStyle,
+  logStatusIconStyle,
+} from '../DeploymentCenter.styles';
 import DisplayTableWithEmptyMessage from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import moment from 'moment';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -17,9 +27,10 @@ import { CommandBarStyles } from '../../../../theme/CustomOfficeFabric/AzurePort
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';
 import CustomFocusTrapCallout from '../../../../components/CustomCallout/CustomFocusTrapCallout';
 import { SiteStateContext } from '../../../../SiteState';
+import { IconConstants } from '../../../../utils/constants/IconConstants';
 
 const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = props => {
-  const { commitId, dismissLogPanel } = props;
+  const { commitId, failed, dismissLogPanel } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
@@ -95,6 +106,10 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
     return {
       // NOTE (t-kakan): A is AM/PM
       displayTime: moment(logItem.properties.log_time).format('h:mm:ss A'),
+      icon:
+        logItem.properties.details_url && failed ? (
+          <Icon iconName={IconConstants.IconNames.ErrorBadgeFilled} className={logStatusIconStyle(theme.semanticColors.errorIcon)} />
+        ) : null,
       activity: logItem.properties.message,
       log: getShowDetailsLink(commitIdString, logItem),
     };
@@ -176,7 +191,8 @@ const DeploymentCenterCommitLogs: React.FC<DeploymentCenterCommitLogsProps> = pr
   const logDisplayItems = logItems && commitId ? logItems.value.map(logItem => getLogDisplayItem(commitId, logItem)) : [];
 
   const columns: IColumn[] = [
-    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 100 },
+    { key: 'displayTime', name: t('time'), fieldName: 'displayTime', minWidth: 80 },
+    { key: 'statusIcon', name: '', fieldName: 'icon', minWidth: 20, isIconOnly: true },
     { key: 'activity', name: t('activity'), fieldName: 'activity', minWidth: 250, isMultiline: true },
     { key: 'log', name: t('log'), fieldName: 'log', minWidth: 150 },
   ];
