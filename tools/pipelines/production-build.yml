@@ -253,6 +253,16 @@ jobs:
           archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'
           replaceExistingArchive: true
 
+      - task: AzureCLI@2
+        displayName: 'Download Rollout-spec'
+        inputs:
+          scriptType: 'ps'
+          azureSubscription: $(serviceConnectionForRolloutSpec)
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'
+          replaceExistingArchive: true
+
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
         inputs:
