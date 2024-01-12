@@ -258,13 +258,13 @@ jobs:
         inputs:
           scriptType: 'ps'
           azureSubscription: $(serviceConnectionForRolloutSpec)
-          includeRootFolder: false
-          archiveType: 'zip'
-          archiveFile: '$(Build.ArtifactStagingDirectory)/package.zip'
-          replaceExistingArchive: true
+          scriptLocation: inlineScript
+          inlineScript: |
+            mkdir '$(Build.ArtifactStagingDirectory)/rollout-spec'
+            az storage blob download --container-name '$(rolloutSpecContainer)' --file '$(Build.ArtifactStagingDirectory)/rollout-spec' --account-name '$(rolloutSpecStorageAccount)' --account-key '$(rolloutSpecAccountKey)'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
         inputs:
-          pathtoPublish: '$(Build.ArtifactStagingDirectory)/package.zip'
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: dest
