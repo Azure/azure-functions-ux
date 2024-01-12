@@ -184,6 +184,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     siteStateContext.isLinuxApp,
     siteStateContext.isFunctionApp,
     siteStateContext.isKubeApp,
+    siteStateContext.isWordPressApp,
     deploymentCenterContext.siteConfig,
     deploymentCenterContext.configMetadata,
     deploymentCenterContext.applicationSettings
