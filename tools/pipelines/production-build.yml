@@ -261,7 +261,7 @@ jobs:
           scriptLocation: inlineScript
           inlineScript: |
             mkdir '$(Build.ArtifactStagingDirectory)/rollout-spec'
-            $storageAccountKey = az storage account keys list -g $(rolloutSpecResourceGroup) -n $(rolloutSpecStorageAccount) --query [0].value -o tsv 
+            $storageAccountKey = az storage account keys list -g '$(rolloutSpecResourceGroup)' -n '$(rolloutSpecStorageAccount)' --query [0].value -o tsv 
             az storage blob download-batch -s '$(rolloutSpecContainer)' --account-name '$(rolloutSpecStorageAccount)' --account-key '$(storageAccountKey)' -d '$(Build.ArtifactStagingDirectory)/rollout-spec'
 
       - task: PublishBuildArtifacts@1
