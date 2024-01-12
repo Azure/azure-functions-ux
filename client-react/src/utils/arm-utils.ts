@@ -126,6 +126,17 @@ export function isWorkflowApp(obj: ArmObj<any>): boolean {
   return AppKind.hasKinds(obj, [CommonConstants.Kinds.functionApp, CommonConstants.Kinds.workflowApp]);
 }
 
+export function isWordPressApp(obj: ArmObj<Site>): boolean {
+  const linuxFxVersion = obj?.properties?.siteConfig?.linuxFxVersion?.toLocaleLowerCase();
+  return (
+    isLinuxApp(obj) &&
+    !!linuxFxVersion &&
+    CommonConstants.WordPressLinuxFxVersions.some(
+      version => version.toLocaleLowerCase() === linuxFxVersion
+    )
+  );
+}
+
 export function isKubeApp(obj: ArmObj<unknown>): boolean {
   // NOTE(michinoy): While there is a bug in place, we can pass in a flag in the
   // url to treat the app as Kube app.
