@@ -272,7 +272,7 @@ jobs:
           feedsToUsePublish: 'external'
           publishFeedCredentials: $(buildArtifactPublishConnection)
           feedPublishExternal: azure-functions-ux
-          packagePublishExternal: ${Build.SourceBranch}
+          packagePublishExternal: ${Build.SourceBranchName}
           versionOption: major
 
       - task: PublishBuildArtifacts@1
