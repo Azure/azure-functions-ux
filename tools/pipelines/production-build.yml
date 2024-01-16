@@ -273,8 +273,7 @@ jobs:
           publishFeedCredentials: $(buildArtifactPublishConnection)
           feedPublishExternal: azure-functions-ux
           packagePublishExternal: ${Build.SourceBranch}-${Build.BuildId}
-          versionOption: custom
-          versionPublish: '${Build.BuildId}'
+          versionOption: major
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
