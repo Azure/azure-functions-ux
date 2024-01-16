@@ -73,7 +73,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      if (values.authType === AuthType.Oidc) {
+      if (values.sourceProvider === ScmType.GitHubAction && values.authType === AuthType.Oidc) {
         const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
         portalContext.log(getTelemetryInfo('info', 'registerManagedIdentityProvider', 'submit'));
         const registerManagedIdentityProviderResponse = await deploymentCenterData.registerProvider(
