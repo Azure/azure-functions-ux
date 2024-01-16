@@ -140,7 +140,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
   }, [values.config.properties.linuxFxVersion]);
   return (
     <>
-      {scenarioService.checkScenario(ScenarioIds.linuxAppRuntime, { site }).status !== 'disabled' && (
+      {scenarioService.checkScenario(ScenarioIds.linuxAppRuntime, { site }).status !== 'disabled' && !siteStateContext.isWordPressApp && (
         <>
           <DropdownNoFormik
             selectedKey={runtimeStack}
