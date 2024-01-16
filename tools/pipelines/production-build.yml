@@ -274,7 +274,7 @@ jobs:
           feedPublishExternal: azure-functions-ux
           packagePublishExternal: ${Build.SourceBranch}-${Build.BuildId}
           versionOption: custom
-          versionPublish: 'b${Build.BuildId}'
+          versionPublish: '${Build.BuildId}'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
