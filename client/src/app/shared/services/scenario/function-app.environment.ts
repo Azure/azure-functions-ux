@@ -65,7 +65,7 @@ export class FunctionAppEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.tipSupported] = {
       id: ScenarioIds.tipSupported,
       runCheck: (input: ScenarioCheckInput) => {
-        if (this._isDynamic(input.site)) {
+        if (this._isDynamic(input.site) || this._isWorkflowApp(input.site)) {
           return { status: 'disabled' };
         }
 
@@ -88,6 +88,10 @@ export class FunctionAppEnvironment extends Environment {
 
   private _isDynamic(site: ArmObj<Site>) {
     return site.properties.sku.toLowerCase() === Tier.dynamic.toLowerCase();
+  }
+
+  private _isWorkflowApp(site: ArmObj<Site>) {
+    return site.kind && site.kind.toLowerCase().includes(Kinds.workflowApp);
   }
 
   private _isPremium(site: ArmObj<Site>): boolean {
