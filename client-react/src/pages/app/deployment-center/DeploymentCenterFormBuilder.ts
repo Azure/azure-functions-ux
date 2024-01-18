@@ -156,9 +156,7 @@ export abstract class DeploymentCenterFormBuilder {
         return this.parent.buildProvider === BuildProvider.GitHubAction ? !!value : true;
       }),
       authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.buildProvider === BuildProvider.GitHubAction && this.parent.authType === AuthType.Oidc
-          ? !!value.resourceId
-          : true;
+        return this.parent.buildProvider === BuildProvider.GitHubAction && this.parent.authType === AuthType.Oidc ? !!value.id : true;
       }),
       hasPermissionToUseOIDC: Yup.boolean().notRequired(),
     };
