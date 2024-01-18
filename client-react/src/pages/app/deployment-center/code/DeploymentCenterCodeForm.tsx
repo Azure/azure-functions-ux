@@ -73,7 +73,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         },
       });
     } else {
-      if (values.sourceProvider === ScmType.GitHubAction && values.authType === AuthType.Oidc) {
+      if (values.buildProvider === BuildProvider.GitHubAction && values.authType === AuthType.Oidc) {
         const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
         portalContext.log(getTelemetryInfo('info', 'registerManagedIdentityProvider', 'submit'));
         const registerManagedIdentityProviderResponse = await deploymentCenterData.registerProvider(
@@ -86,50 +86,30 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             return errorResponse;
           }
 
-          const getRoleAssignmentsWithScope = deploymentCenterData.getRoleAssignmentsWithScope(
-            deploymentCenterContext.resourceId,
-            values.authIdentity.properties.principalId
-          );
           const listFederatedCredentials = deploymentCenterData.listFederatedCredentials(values.authIdentity.id);
-          const [getRoleAssignmentsWithScopeResponse, listFederatedCredentialsResponse] = await Promise.all([
-            getRoleAssignmentsWithScope,
+          const [identityHasRole, listFederatedCredentialsResponse] = await Promise.all([
+            checkRoleAssignmentsForIdentity(values.authIdentity.properties.principalId),
             listFederatedCredentials,
           ]);
 
-          if (getRoleAssignmentsWithScopeResponse.metadata.success) {
-            const hasRoleAssignment = deploymentCenterData.hasRoleAssignment(
+          if (!identityHasRole && values.hasPermissionToUseOIDC) {
+            const putWebsiteContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
               RBACRoleId.websiteContributor,
-              getRoleAssignmentsWithScopeResponse.data.value
+              deploymentCenterContext.resourceId,
+              values.authIdentity.properties.principalId,
+              PrincipalType.servicePrincipal
             );
-            if (!hasRoleAssignment) {
-              const putWebsiteContributorRoleResponse = await deploymentCenterData.putRoleAssignmentWithScope(
-                RBACRoleId.websiteContributor,
-                deploymentCenterContext.resourceId,
-                values.authIdentity.properties.principalId,
-                PrincipalType.servicePrincipal
+            if (!putWebsiteContributorRoleResponse.metadata.success) {
+              portalContext.log(
+                getTelemetryInfo('error', 'putWebsiteContributorRoleResponse', 'failed', {
+                  message: getErrorMessage(putWebsiteContributorRoleResponse.metadata.error),
+                  errorAsString: putWebsiteContributorRoleResponse.metadata.error
+                    ? JSON.stringify(putWebsiteContributorRoleResponse.metadata.error)
+                    : '',
+                })
               );
-              if (!putWebsiteContributorRoleResponse.metadata.success) {
-                portalContext.log(
-                  getTelemetryInfo('error', 'putWebsiteContributorRoleResponse', 'failed', {
-                    message: getErrorMessage(putWebsiteContributorRoleResponse.metadata.error),
-                    errorAsString: putWebsiteContributorRoleResponse.metadata.error
-                      ? JSON.stringify(putWebsiteContributorRoleResponse.metadata.error)
-                      : '',
-                  })
-                );
-                return putWebsiteContributorRoleResponse;
-              }
+              return putWebsiteContributorRoleResponse;
             }
-          } else {
-            portalContext.log(
-              getTelemetryInfo('error', 'getRoleAssignmentsWithScopeResponse', 'failed', {
-                message: getErrorMessage(getRoleAssignmentsWithScopeResponse.metadata.error),
-                errorAsString: getRoleAssignmentsWithScopeResponse.metadata.error
-                  ? JSON.stringify(getRoleAssignmentsWithScopeResponse.metadata.error)
-                  : '',
-              })
-            );
-            return getRoleAssignmentsWithScopeResponse;
           }
 
           if (listFederatedCredentialsResponse.metadata.success) {
@@ -285,6 +265,49 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         data: {},
       };
     }
+  };
+
+  const checkRoleAssignmentsForIdentity = async (principalId?: string) => {
+    if (principalId) {
+      const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
+      const subscriptionId = `/subscriptions/${armId.subscription}`;
+      const resourceGroupId = `/subscriptions/${armId.subscription}/resourceGroups/${armId.resourceGroup}`;
+      const [roleAssignmentsOnSub, roleAssignmentsOnRg, roleAssignmentsOnApp] = await Promise.all([
+        deploymentCenterData.getRoleAssignmentsWithScope(subscriptionId, principalId),
+        deploymentCenterData.getRoleAssignmentsWithScope(resourceGroupId, principalId),
+        deploymentCenterData.getRoleAssignmentsWithScope(deploymentCenterContext.resourceId, principalId),
+      ]);
+
+      if (roleAssignmentsOnSub.metadata.success && roleAssignmentsOnRg.metadata.success && roleAssignmentsOnApp.metadata.success) {
+        const hasOwnerAccess = deploymentCenterData.hasRoleAssignment(RBACRoleId.owner, [
+          ...roleAssignmentsOnSub.data.value,
+          ...roleAssignmentsOnRg.data.value,
+          ...roleAssignmentsOnApp.data.value,
+        ]);
+        const hasContributorAccess = deploymentCenterData.hasRoleAssignment(RBACRoleId.contributor, [
+          ...roleAssignmentsOnSub.data.value,
+          ...roleAssignmentsOnRg.data.value,
+          ...roleAssignmentsOnApp.data.value,
+        ]);
+        const hasWebsiteContributorAccess = deploymentCenterData.hasRoleAssignment(RBACRoleId.websiteContributor, [
+          ...roleAssignmentsOnSub.data.value,
+          ...roleAssignmentsOnRg.data.value,
+          ...roleAssignmentsOnApp.data.value,
+        ]);
+
+        return hasOwnerAccess || hasContributorAccess || hasWebsiteContributorAccess;
+      } else {
+        portalContext.log(
+          getTelemetryInfo('error', 'checkRoleAssignmentsForIdentityForOidc', 'failed', {
+            message:
+              `roleAssignmentsOnSub: ${getErrorMessage(roleAssignmentsOnSub.metadata.error)}, ` +
+              `roleAssignmentsOnRg: ${getErrorMessage(roleAssignmentsOnRg.metadata.error)}, ` +
+              `roleAssignmentsOnApp: ${getErrorMessage(roleAssignmentsOnApp.metadata.error)} `,
+          })
+        );
+      }
+    }
+    return false;
   };
 
   const getKuduSourceControlsPayload = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): SiteSourceControlRequestBody => {
