@@ -153,10 +153,12 @@ export abstract class DeploymentCenterFormBuilder {
       externalRepoType: Yup.mixed().notRequired(),
       devOpsProjectName: Yup.mixed().notRequired(),
       authType: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.sourceProvider === ScmType.GitHubAction ? !!value : true;
+        return this.parent.buildProvider === BuildProvider.GitHubAction ? !!value : true;
       }),
       authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-        return this.parent.sourceProvider === ScmType.GitHubAction && this.parent.authType === AuthType.Oidc ? !!value.resourceId : true;
+        return this.parent.buildProvider === BuildProvider.GitHubAction && this.parent.authType === AuthType.Oidc
+          ? !!value.resourceId
+          : true;
       }),
       hasPermissionToUseOIDC: Yup.boolean().notRequired(),
     };
