@@ -36,6 +36,7 @@ import { ISiteState } from '../../../../SiteState';
 import { Guid } from '../../../../utils/Guid';
 import { truncate } from 'lodash-es';
 import { isSameLocation } from '../../../../utils/location';
+import { toASCII } from 'punycode';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
@@ -614,11 +615,12 @@ export const getFederatedCredentialName = (fullRepoName: string): string => {
 
 export const getUserAssignedIdentityName = (appName: string): string => {
   const guid = Guid.newTinyGuid();
-  if (`${appName}-id-${guid}`.length > 24) {
-    return `${truncate(appName, { length: 24 - `-id-${guid}`.length, omission: '' })}-id-${guid}`;
+  const encodedAppName = toASCII(appName);
+  if (`${encodedAppName}-id-${guid}`.length > 24) {
+    return `${truncate(encodedAppName, { length: 24 - `-id-${guid}`.length, omission: '' })}-id-${guid}`;
   }
 
-  return `${appName}-id-${guid}`;
+  return `${encodedAppName}-id-${guid}`;
 };
 
 export const isScmTypeValidForContainers = (scmType: ScmType): boolean => {
