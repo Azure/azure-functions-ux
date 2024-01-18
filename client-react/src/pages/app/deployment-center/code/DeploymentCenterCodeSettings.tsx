@@ -234,6 +234,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   useEffect(() => {
     if (
       deploymentCenterContext.siteDescriptor &&
+      formProps.values.branch &&
       (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
         formProps.values.workflowOption === WorkflowOption.Add ||
         formProps.values.workflowOption === WorkflowOption.Overwrite)
@@ -248,7 +249,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       setWorkflowFilePath('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.workflowOption]);
+  }, [deploymentCenterContext.siteDescriptor, formProps.values.branch, formProps.values.workflowOption]);
 
   const getSettingsControls = () => (
     <>
