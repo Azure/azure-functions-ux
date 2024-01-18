@@ -252,6 +252,14 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     );
   }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow, formProps.values.authType]);
 
+  useEffect(() => {
+    if (selectedBuild === BuildProvider.GitHubAction) {
+      formProps.setFieldValue('authType', AuthType.Oidc);
+    } else {
+      formProps.setFieldValue('authType', AuthType.PublishProfile);
+    }
+  }, [selectedBuild]);
+
   const showNoWritePermissionBanner = useMemo(() => {
     return !deploymentCenterContext.hasWritePermission;
   }, [deploymentCenterContext.hasWritePermission]);
