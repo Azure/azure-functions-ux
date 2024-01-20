@@ -18,7 +18,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { BitbucketUser } from '../../../../models/bitbucket';
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
 
-const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
+const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = (props) => {
   const { formProps } = props;
   const { t } = useTranslation();
 
@@ -45,7 +45,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
 
   const completingGitHubAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData.getGitHubToken(authorizationResult.redirectUrl).then(response => {
+      deploymentCenterData.getGitHubToken(authorizationResult.redirectUrl).then((response) => {
         if (response.metadata.success) {
           deploymentCenterData.storeGitHubToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
         } else {
@@ -86,7 +86,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
 
   const completingBitbucketAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
-      deploymentCenterData.getBitbucketToken(authorizationResult.redirectUrl).then(response => {
+      deploymentCenterData.getBitbucketToken(authorizationResult.redirectUrl).then((response) => {
         if (response.metadata.success) {
           deploymentCenterData.storeBitbucketToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
         } else {
