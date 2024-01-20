@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
+import { DeploymentCenterGitHubAccountProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link, TooltipHost, IconButton } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { additionalTextFieldControl, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
@@ -8,18 +8,19 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
 
-const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
-  const { accountUser, accountStatusMessage, authorizeAccount, isGitHubActions } = props;
+const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubAccountProps> = props => {
+  const { accountUser, accountStatusMessage, authorizeAccount, isGitHubActions, isExternalGit } = props;
   const { t } = useTranslation();
 
   const gitHubAccountControls = accountUser ? (
     <>
-      {getDescriptionSection(
-        ScmType.GitHub,
-        isGitHubActions ? t('deploymentCenterConfigureGitHubPermissionsGHA') : t('deploymentCenterConfigureGitHubPermissionsKudu'),
-        DeploymentCenterLinks.configureDeployment,
-        t('learnMore')
-      )}
+      {!isExternalGit &&
+        getDescriptionSection(
+          ScmType.GitHub,
+          isGitHubActions ? t('deploymentCenterConfigureGitHubPermissionsGHA') : t('deploymentCenterConfigureGitHubPermissionsKudu'),
+          DeploymentCenterLinks.configureDeployment,
+          t('learnMore')
+        )}
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
           {accountUser.login}
