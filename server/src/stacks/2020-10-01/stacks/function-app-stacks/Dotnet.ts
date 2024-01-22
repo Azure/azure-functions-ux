@@ -20,7 +20,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET Framework 4.8',
-            value: '4.8',
+            value: '.NET Framework 4.8',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v4.0',
@@ -56,6 +56,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               windowsRuntimeSettings: {
                 runtimeVersion: 'v8.0',
                 isHidden: false,
+                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -78,6 +79,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|8.0',
                 isHidden: false,
+                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -156,16 +158,15 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         ],
       },
       {
-        displayText: '.NET 6',
+        displayText: '.NET 6 In-process',
         value: 'dotnet6',
         minorVersions: [
           {
-            displayText: '.NET 6 (LTS)',
-            value: '6 (LTS)',
+            displayText: '.NET 6 (LTS) In-process',
+            value: '6 (LTS) In-process',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v6.0',
-                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -186,7 +187,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET|6.0',
-                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
