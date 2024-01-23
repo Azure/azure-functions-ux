@@ -1937,12 +1937,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have a Website Contributor or higher role on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[このリソース グループ内のマネージド ID にロールベースのアクセスを割り当て、フェデレーション資格情報を構成するための十分なアクセス許可がありません。続行する場合は、以下から既存の ID を選択してください。ID には、アプリに対する書き込みアクセス許可が必要です。]]></Val>
+            <Val><![CDATA[このリソース グループ内のマネージド ID にロールベースのアクセスを割り当て、フェデレーション資格情報を構成するための十分なアクセス許可がありません。続行する場合は、以下から既存の ID を選択してください。その ID には、このアプリに対する Web サイト共同作成者以上のロールが必要です。]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1976,10 +1976,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Val><![CDATA[This identity does not have a Website Contributor or higher role on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[この ID には、このアプリに対する書き込みアクセス許可がありません。別の ID を選択するか、管理者と協力して、このアプリの ID に Web サイト共同作成者ロールを付与してください。]]></Val>
+            <Val><![CDATA[その ID には、このアプリに対する Web サイト共同作成者以上のロールがありません。別の ID を選択するか、管理者と協力して、このアプリの ID に Web サイト共同作成者ロールを付与してください。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
