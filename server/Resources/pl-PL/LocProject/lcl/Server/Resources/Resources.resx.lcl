@@ -1937,12 +1937,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have a Website Contributor or higher role on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nie masz wystarczających uprawnień do przypisania dostępu opartego na roli do tożsamości zarządzanej w ramach tej grupy zasobów i skonfigurowania poświadczeń federacyjnych. Jeśli chcesz kontynuować, wybierz poniżej istniejącą tożsamość. Tożsamość musi mieć uprawnienia do zapisu w aplikacji.]]></Val>
+            <Val><![CDATA[Nie masz wystarczających uprawnień do przypisania dostępu opartego na roli do tożsamości zarządzanej w ramach tej grupy zasobów i skonfigurowania poświadczeń federacyjnych. Jeśli chcesz kontynuować, wybierz poniżej istniejącą tożsamość. Tożsamość musi mieć rolę Współautora witryny lub wyższą w aplikacji.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1976,10 +1976,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Val><![CDATA[This identity does not have a Website Contributor or higher role on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ta tożsamość nie ma uprawnień do zapisu w tej aplikacji. Wybierz inną tożsamość lub skontaktuj się z administratorem w celu przyznania roli współautora witryny dla Twojej tożsamości w tej aplikacji.]]></Val>
+            <Val><![CDATA[Ta tożsamość nie ma roli Współautora witryny ani wyższej roli w tej aplikacji. Wybierz inną tożsamość lub skontaktuj się z administratorem w celu przyznania roli współautora witryny dla Twojej tożsamości w tej aplikacji.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
