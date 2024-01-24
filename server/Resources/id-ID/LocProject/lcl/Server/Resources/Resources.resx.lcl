@@ -1814,12 +1814,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have a Website Contributor or higher role on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Anda tidak memiliki izin yang memadai untuk menetapkan akses berbasis peran ke identitas terkelola dalam grup sumber daya ini dan mengonfigurasi kredensial gabungan. Jika Anda ingin melanjutkan, pilih identitas yang ada di bawah ini. Identitas harus memiliki izin tulis pada aplikasi.]]></Val>
+            <Val><![CDATA[Anda tidak memiliki izin yang memadai untuk menetapkan akses berbasis peran ke identitas terkelola dalam grup sumber daya ini dan mengonfigurasi kredensial gabungan. Jika Anda ingin melanjutkan, pilih identitas yang sudah ada di bawah ini. Identitas harus memiliki Kontributor Situs Web atau peran yang lebih tinggi pada aplikasi.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1853,10 +1853,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Val><![CDATA[This identity does not have a Website Contributor or higher role on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Identitas ini tidak memiliki izin tulis pada aplikasi ini. Pilih identitas yang berbeda, atau bekerja sama dengan admin untuk memberikan peran Kontributor Situs Web ke identitas Anda di aplikasi ini.]]></Val>
+            <Val><![CDATA[Identitas ini tidak memiliki Kontributor Situs Web atau peran yang lebih tinggi pada aplikasi ini. Pilih identitas lain, atau bicarakan dengan admin untuk memberikan peran Kontributor Situs Web ke identitas Anda di aplikasi ini.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
