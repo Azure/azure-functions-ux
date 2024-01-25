@@ -35,17 +35,20 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { ISiteState } from '../../../../SiteState';
 import { Guid } from '../../../../utils/Guid';
 import { truncate } from 'lodash-es';
+import { isSameLocation } from '../../../../utils/location';
+import { toASCII } from 'punycode';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
   isFunctionApp: boolean,
   isKubeApp: boolean,
+  isWordPressApp: boolean,
   siteConfig?: ArmObj<SiteConfig>,
   configMetadata?: ArmObj<KeyValue<string>>,
   applicationSettings?: ArmObj<KeyValue<string>>
 ): RuntimeStackSetting => {
   if ((isLinuxApp || isKubeApp) && !!siteConfig) {
-    return getRuntimeStackSettingForLinux(isFunctionApp, siteConfig);
+    return getRuntimeStackSettingForLinux(isFunctionApp, isWordPressApp, siteConfig);
   } else if (!isLinuxApp && !isKubeApp && !!siteConfig && !!configMetadata && !!applicationSettings) {
     return getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
   } else {
@@ -155,13 +158,23 @@ const getRuntimeStackSettingForWindows = (
   return stackData;
 };
 
-const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFunctionApp: boolean) => {
+const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFunctionApp: boolean, isWordPressApp: boolean) => {
   // NOTE(stpelleg): Java is special, so need to handle it carefully.
   if (!siteConfig.properties.linuxFxVersion) {
     return '';
   }
   const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
+
+  // NOTE(zmohammed): We need to handle two different linuxFxVersion formats: 'WORDPRESS|tag' and 'DOCKER|image:tag'
+  if (isWordPressApp && linuxFxVersionParts.length > 1) {
+    if (runtimeStack === RuntimeStackOptions.WordPress) {
+      return linuxFxVersionParts[1]?.toLocaleLowerCase() ?? '';
+    } else {
+      const fxVersionParts = linuxFxVersionParts[1]?.toLocaleLowerCase().split(':') ?? [];
+      return fxVersionParts.length === 2 ? fxVersionParts[1].toLocaleLowerCase() : '';
+    }
+  }
 
   if (runtimeStack === JavaContainers.JavaSE || runtimeStack === JavaContainers.Tomcat || runtimeStack === JavaContainers.JBoss) {
     let fxVersionParts: string[];
@@ -176,7 +189,10 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFuncti
   return siteConfig.properties.linuxFxVersion;
 };
 
-const getWebAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
+const getWebAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>, isWordPressApp: boolean) => {
+  if (isWordPressApp) {
+    return RuntimeStackOptions.WordPress;
+  }
   const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
@@ -196,12 +212,18 @@ const getFunctionAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
     : runtimeStack;
 };
 
-const getRuntimeStackSettingForLinux = (isFunctionApp: boolean, siteConfig: ArmObj<SiteConfig>): RuntimeStackSetting => {
+const getRuntimeStackSettingForLinux = (
+  isFunctionApp: boolean,
+  isWordPressApp: boolean,
+  siteConfig: ArmObj<SiteConfig>
+): RuntimeStackSetting => {
   const stackData = { runtimeStack: '', runtimeVersion: '' };
 
-  stackData.runtimeStack = isFunctionApp ? getFunctionAppRuntimeStackForLinux(siteConfig) : getWebAppRuntimeStackForLinux(siteConfig);
+  stackData.runtimeStack = isFunctionApp
+    ? getFunctionAppRuntimeStackForLinux(siteConfig)
+    : getWebAppRuntimeStackForLinux(siteConfig, isWordPressApp);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp) ?? '';
+  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp, isWordPressApp) ?? '';
 
   return stackData;
 };
@@ -332,13 +354,19 @@ export const isSettingsDirty = (
   formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>,
   deploymentCenterContext: IDeploymentCenterContext
 ): boolean => {
+  // NOTE(yoonaoh): If we have an invalid scmType for containers, we will default to None.
+  // We also only want to enable the save button when we start from None because the other scmTypes
+  // should show configured views and not the editable settings.
+  const isScmTypeNone =
+    deploymentCenterContext?.siteConfig && isScmTypeValidForContainers(deploymentCenterContext.siteConfig.properties.scmType)
+      ? deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+      : true;
   return (
     (isContainerGeneralSettingsDirty(formProps) ||
       (formProps.values.registrySource === ContainerRegistrySources.privateRegistry && isPrivateRegistrySettingsDirty(formProps)) ||
       (formProps.values.registrySource === ContainerRegistrySources.docker && isDockerSettingsDirty(formProps)) ||
       (formProps.values.registrySource === ContainerRegistrySources.acr && isAcrSettingsDirty(formProps))) &&
-    !!deploymentCenterContext.siteConfig &&
-    deploymentCenterContext.siteConfig.properties.scmType === ScmType.None
+    isScmTypeNone
   );
 };
 
@@ -453,6 +481,8 @@ export const getRuntimeStackDisplayName = (stack: string) => {
       return RuntimeStackDisplayNames.DotnetIsolated;
     case RuntimeStackOptions.Go:
       return RuntimeStackDisplayNames.Go;
+    case RuntimeStackOptions.WordPress:
+      return RuntimeStackDisplayNames.WordPress;
     default:
       return '';
   }
@@ -491,6 +521,7 @@ export const getDescriptionSection = (source: string, description: string, learn
 };
 
 export const optionsSortingFunction = (a: ISelectableOption, b: ISelectableOption) => a.text.localeCompare(b.text);
+export const ignoreCaseSortingFunction = (a: string, b: string) => a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
 
 export function formikOnBlur<T>(e: React.FocusEvent<T>, props: FieldProps) {
   const { field, form } = props;
@@ -582,20 +613,53 @@ export const getAcrNameFromLoginServer = (loginServer: string): string => {
   return loginServerParts.length > 0 ? loginServerParts[0] : '';
 };
 
+// The name of a federated identity credentials must be within 3 and 120 characters
+// only contains letters (A-Z, a-z), numbers, hyphens and dashes and must start with
+// a number or letter.
 export const getFederatedCredentialName = (fullRepoName: string): string => {
-  const guid = Guid.newGuid();
-  if (fullRepoName.length + guid.length > 120) {
-    return `${truncate(fullRepoName, { length: 120 - guid.length, omission: '' })}-${guid}`;
+  const guid = Guid.newTinyGuid();
+  let name = `${fullRepoName}-${guid}`;
+
+  if (name.length > 120) {
+    name = `${truncate(fullRepoName, { length: 120 - `fc--${guid}`.length, omission: '' })}-${guid}`;
   }
 
-  return `${fullRepoName}-${guid}`;
+  // Remove characters that are not letters, numbers, hyphens, or dashes
+  name = name.replace(/[^a-zA-Z0-9-]/g, '');
+
+  // Ensure the string starts with a letter or number
+  if (name && !/^[a-zA-Z0-9]/.test(name)) {
+    return 'fc-' + name.slice(1);
+  }
+
+  return name;
 };
 
 export const getUserAssignedIdentityName = (appName: string): string => {
   const guid = Guid.newTinyGuid();
-  if (`${appName}-id-${guid}`.length > 24) {
-    return `${truncate(appName, { length: 24 - `-id-${guid}`.length, omission: '' })}-id-${guid}`;
+  const encodedAppName = toASCII(appName);
+  if (`${encodedAppName}-id-${guid}`.length > 24) {
+    return `${truncate(encodedAppName, { length: 24 - `-id-${guid}`.length, omission: '' })}-id-${guid}`;
   }
 
-  return `${appName}-id-${guid}`;
+  return `${encodedAppName}-id-${guid}`;
+};
+
+export const isScmTypeValidForContainers = (scmType: ScmType): boolean => {
+  return scmType === ScmType.None || scmType === ScmType.GitHubAction || scmType === ScmType.Vsts;
+};
+
+export const isFederatedCredentialsSupported = (identityLocation: string): boolean => {
+  const unsupportedRegions = [
+    'germanynorth',
+    'swedensouth',
+    'swedencentral',
+    'eastasia',
+    'qatarcentral',
+    'brazilsoutheast',
+    'malaysiasouth',
+    'polandcentral',
+  ];
+
+  return !unsupportedRegions.some(region => isSameLocation(region, identityLocation));
 };

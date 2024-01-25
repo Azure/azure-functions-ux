@@ -34,9 +34,9 @@ export class CommonConstants {
     sitesApiVersion20201201: '2020-12-01',
     storageApiVersion20180701: '2018-07-01',
     storageApiVersion20210401: '2021-04-01',
-    eventHubApiVersion20150801: '2015-08-01',
+    eventHubApiVersion20211101: '2021-11-01',
     iotHubApiVersion20170119: '2017-01-19',
-    serviceBusApiVersion20150801: '2015-08-01',
+    serviceBusApiVersion20211101: '2021-11-01',
     documentDBApiVersion20150408: '2015-04-08',
     documentDBApiVersion20191212: '2019-12-12',
     documentDBApiVersion20210415: '2021-04-15',
@@ -60,6 +60,7 @@ export class CommonConstants {
     managedIdentityApiVersion20230131: '2023-01-31',
     containerAppApiVersion20230502Preview: '2023-05-02-preview',
     antaresApiVersion20141101: '2014-11-01',
+    resourceManagementApiVersion20210401: '2021-04-01',
   };
 
   public static readonly NonThemeColors = {
@@ -82,7 +83,6 @@ export class CommonConstants {
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
     showJBossClustering: 'showJBossClustering',
-    showNFSFileShares: 'showNFSFileShares',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -99,6 +99,11 @@ export class CommonConstants {
   public static readonly FunctionAppServicePlanConstants = {
     defaultMaximumElasticWorkerCount: 20,
   };
+
+  public static readonly WordPressLinuxFxVersions: string[] = [
+    "WORDPRESS|8.2",
+    "DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2"
+  ];
 
   public static readonly AppSettingNames = {
     appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
@@ -135,6 +140,8 @@ export class CommonConstants {
     dynamic: 'dynamic',
     elasticPremium: 'elasticpremium',
     elasticIsolated: 'elasticisolated',
+    flexConsumption: 'flexconsumption',
+    workflowStandard: 'workflowstandard',
   };
 
   public static readonly SiteStates = {
@@ -345,6 +352,7 @@ export enum RBACRoleId {
   contributor = 'b24988ac-6180-42a0-ab88-20f7382dd24c',
   owner = '8e3af657-a8ff-443c-a75c-2fe8c4bcb635',
   userAccessAdministrator = '18d7d88d-d35e-4fb5-a5c3-7773c20a72d9',
+  websiteContributor = 'de139f84-1756-47ae-9be6-808fbbe84772',
 }
 
 export enum PrincipalType {
@@ -373,6 +381,7 @@ export class ExperimentationConstants {
     patchCallOnConfig: 'enable-patch-call-config',
     showEnvironmentVariables: 'show-environment-variables',
     enableOidc: 'enable-oidc',
+    showSWAEnvironmentVariables: 'show-swa-environment-variables',
   };
 
   public static ControlFlight = {

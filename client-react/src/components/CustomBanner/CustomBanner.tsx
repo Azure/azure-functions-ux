@@ -14,7 +14,9 @@ interface CustomBannerProps {
   customIcon?: JSX.Element;
   className?: string;
   learnMoreLink?: string;
+  learnMoreText?: string;
   learnMoreLinkAriaLabel?: string;
+  onClickLearnMoreLink?: (e?: any) => any;
   onDismiss?: (e?: any) => any;
   undocked?: boolean;
   onClick?: (e?: any) => any;
@@ -27,8 +29,10 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
     id,
     customIcon,
     className: customClassName,
+    learnMoreText,
     learnMoreLink,
     learnMoreLinkAriaLabel,
+    onClickLearnMoreLink,
     onDismiss,
     undocked,
     onClick,
@@ -55,9 +59,13 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         {icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
         <span>
           <span tabIndex={0}>{message}</span>
-          {learnMoreLink ? (
-            <Link href={learnMoreLink} target="_blank" aria-label={learnMoreLinkAriaLabel ? learnMoreLinkAriaLabel : t('learnMore')}>
-              {t('learnMore')}
+          {learnMoreLink || onClickLearnMoreLink ? (
+            <Link
+              href={learnMoreLink}
+              onClick={onClickLearnMoreLink}
+              target="_blank"
+              aria-label={learnMoreLinkAriaLabel ? learnMoreLinkAriaLabel : t('learnMore')}>
+              {learnMoreText || t('learnMore')}
             </Link>
           ) : (
             undefined

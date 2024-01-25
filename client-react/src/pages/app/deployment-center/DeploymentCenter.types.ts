@@ -1,4 +1,4 @@
-import { ArmArray } from '../../../models/arm-obj';
+import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { FormikProps } from 'formik';
 import * as Yup from 'yup';
 import { ScmType, BuildProvider } from '../../../models/site/config';
@@ -74,6 +74,7 @@ export enum RuntimeStackOptions {
   Dotnet = 'dotnet',
   DotnetIsolated = 'dotnet-isolated',
   Go = 'go',
+  WordPress = 'wordpress',  // NOTE(zmohammed): This is not really a part of runtime stack, we just need it for showing the code integration view in Deployment Center.
 }
 
 export enum RuntimeStackDisplayNames {
@@ -89,6 +90,7 @@ export enum RuntimeStackDisplayNames {
   Dotnet = '.NET',
   DotnetIsolated = '.Net Isolated',
   Go = 'Go',
+  WordPress = 'WordPress',
 }
 
 export enum RuntimeVersionOptions {
@@ -318,11 +320,9 @@ export interface DeploymentCenterCommonFormData {
   folder?: string;
   devOpsProjectName?: string;
   searchTerm?: string;
-  authType?: AuthType;
-  authIdentityClientId?: string;
-  authIdentity?: UserAssignedIdentity;
-  hasPermissionToAssignRBAC?: boolean;
-  hasOidcFlightEnabled?: boolean;
+  authType: AuthType;
+  authIdentity: ArmObj<UserAssignedIdentity>;
+  hasPermissionToUseOIDC?: boolean;
 }
 
 export interface AcrFormData {
@@ -413,6 +413,7 @@ export interface DeploymentCenterCodeLogsTimerProps {
 export interface DeploymentCenterCommitLogsProps {
   dismissLogPanel: () => void;
   commitId?: string;
+  failed?: boolean;
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
@@ -584,6 +585,19 @@ export interface SourceControlProperties {
   branch: string;
   isMercurial: boolean;
   isGitHubAction?: boolean;
+  gitHubActionConfiguration?: {
+    generateWorkflowFile: boolean;
+    workflowSettings: {
+      appType: AppType;
+      publishType: PublishType;
+      os: string;
+      workflowApiVersion: string;
+      slotName: string;
+      variables: KeyValue<string>;
+      runtimeStack?: string;
+      authType?: AuthType;
+    };
+  };
 }
 
 export interface DateTimeObj {
@@ -597,7 +611,7 @@ export interface CodeDeploymentsRow {
   displayTime: string;
   commit: JSX.Element;
   message: string | JSX.Element;
-  status: string;
+  status: string | JSX.Element;
   author: string;
 }
 
@@ -796,20 +810,12 @@ export interface UserAssignedIdentity {
   clientId: string;
   principalId: string;
   tenantId: string;
-  subscriptionId: string;
-  name: string;
-  resourceId: string;
 }
 
 export interface FederatedCredential {
-  id: string;
-  name: string;
-  properties: {
-    audiences: string[];
-    issuer: string;
-    subject: string;
-  };
-  type: string;
+  audiences: string[];
+  issuer: string;
+  subject: string;
 }
 
 export interface User {

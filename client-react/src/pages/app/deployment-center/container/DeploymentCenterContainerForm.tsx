@@ -31,6 +31,7 @@ import {
   getTelemetryInfo,
   isSettingsDirty,
   isFtpsDirty,
+  isScmTypeValidForContainers,
 } from '../utility/DeploymentCenterUtility';
 import { ACRWebhookPayload } from '../../../../models/acr';
 import { ScmType, SiteConfig } from '../../../../models/site/config';
@@ -324,6 +325,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
       }
 
+      siteConfigResponse.data.properties.scmType = values.scmType;
       if (values.scmType !== ScmType.GitHubAction) {
         if (siteContext.isLinuxApp) {
           siteConfigResponse.data.properties.linuxFxVersion = getFxVersion(values);
@@ -752,11 +754,12 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     };
     portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
 
-    // Only do the save if scmType in the config is set to none.
+    // Only do the save if scmType in the config is set to none, or if the scmType was invalid for containers.
     // If the scmType in the config is not none, the user should be doing a disconnect operation first.
-    // This check is in place, because the use could set the form props ina dirty state by just modifying the
+    // This check is in place, because the use could set the form props in a dirty state by just modifying the
     // publishing user information.
-    if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {
+    const initialScmType = deploymentCenterContext.siteConfig?.properties.scmType;
+    if (initialScmType && (initialScmType === ScmType.None || !isScmTypeValidForContainers(initialScmType))) {
       if (values.scmType === ScmType.GitHubAction) {
         await saveGithubActionContainerSettings(values, deploymentProperties);
       } else {

@@ -19,7 +19,6 @@ import { azureStorageTypeLabelStyle, formElementStyle } from '../AppSettings.sty
 import { isStorageAccessAppSetting } from '../AppSettingsFormData';
 import { Links } from '../../../../utils/FwLinks';
 import { InfoTooltip } from '../../../../components/InfoTooltip/InfoTooltip';
-import Url from '../../../../utils/url';
 
 const MountPathValidationRegex = ValidationRegex.StorageMountPath;
 const MountPathExamples = CommonConstants.MountPathValidationExamples;
@@ -32,6 +31,11 @@ export interface AzureStorageMountsAddEditProps {
   // TODO (refortie): Temporary until xenon validation is put in
   enableValidation: boolean;
   appSettings: FormAppSetting[];
+}
+
+export interface AzureStorageMountsAddEditConfigurationOptionsProps {
+  storageTypeOptions: IChoiceGroupOption[];
+  fileShareInfoBubbleMessage?: string;
 }
 
 export type AzureStorageMountsAddEditPropsCombined = AzureStorageMountsAddEditProps;
@@ -341,10 +345,7 @@ const AzureStorageMountsAddEditSubForm: React.FC<AzureStorageMountsAddEdtSubForm
   }, []);
 
   const fileShareInfoBubbleMessage = React.useMemo(() => {
-    return props.values.type === StorageType.azureFiles &&
-      (!isLinuxApp || Url.getFeatureValue(CommonConstants.FeatureFlags.showNFSFileShares) !== 'true')
-      ? t('shareNameInfoBubbleMessage')
-      : undefined;
+    return props.values.type === StorageType.azureFiles && !isLinuxApp ? t('shareNameInfoBubbleMessage') : undefined;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [props.values.type, isLinuxApp]);

@@ -1,4 +1,4 @@
-import { IStyleBaseArray } from '@fluentui/merge-styles';
+import { IStyleBaseArray, IRawStyle } from '@fluentui/merge-styles';
 import { IDropdownStyles, ITextFieldStyles, ITooltipHostStyles } from '@fluentui/react';
 import { style } from 'typestyle';
 import { ComboBoxStyles } from '../../theme/CustomOfficeFabric/AzurePortal/ComboBox.styles';
@@ -21,12 +21,7 @@ export const dropdownStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
       },
     ],
     title: [...baseStyle.title],
-    errorMessage: [
-      ...baseStyle.errorMessage,
-      fullpage && {
-        paddingLeft: '200px',
-      },
-    ],
+    errorMessage: [...baseStyle.errorMessage],
     dropdown: [
       ...baseStyle.dropdown,
       {
@@ -47,6 +42,10 @@ export const comboboxStyleOverrides = (theme: ThemeExtended, fullpage: boolean, 
         width: widthOverride || FORM_DEFAULT_WIDTH,
       },
     ],
+    errorMessage: {
+      ...(baseStyle.errorMessage as IRawStyle),
+      width: widthOverride || FORM_DEFAULT_WIDTH,
+    },
   } as IDropdownStyles;
 };
 

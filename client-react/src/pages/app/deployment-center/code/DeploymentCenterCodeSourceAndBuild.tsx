@@ -36,6 +36,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const [selectedBuildChoice, setSelectedBuildChoice] = useState<BuildProvider>(BuildProvider.None);
   const [isCalloutVisible, setIsCalloutVisible] = useState(false);
   const [showInfoBanner, setShowInfoBanner] = useState(true);
+  const [basicAuthErrorMessage, setBasicAuthErrorMessage] = useState();
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
@@ -183,6 +184,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     siteStateContext.isLinuxApp,
     siteStateContext.isFunctionApp,
     siteStateContext.isKubeApp,
+    siteStateContext.isWordPressApp,
     deploymentCenterContext.siteConfig,
     deploymentCenterContext.configMetadata,
     deploymentCenterContext.applicationSettings
@@ -239,11 +241,24 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const showBasicAuthError = useMemo(() => {
     const isGitHubActionsOrKuduBuild =
       selectedBuild === BuildProvider.GitHubAction || selectedBuild === BuildProvider.AppServiceBuildService;
+    setBasicAuthErrorMessage(
+      selectedBuild === BuildProvider.GitHubAction
+        ? t('deploymentCenterScmBasicAuthErrorMessageWithOidc')
+        : t('deploymentCenterScmBasicAuthErrorMessage')
+    );
     const isBasicAuthSelected = formProps.values.authType === AuthType.PublishProfile;
     return (
       isBasicAuthSelected && isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow
     );
   }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow, formProps.values.authType]);
+
+  useEffect(() => {
+    if (selectedBuild === BuildProvider.GitHubAction) {
+      formProps.setFieldValue('authType', AuthType.Oidc);
+    } else {
+      formProps.setFieldValue('authType', AuthType.PublishProfile);
+    }
+  }, [selectedBuild]);
 
   const showNoWritePermissionBanner = useMemo(() => {
     return !deploymentCenterContext.hasWritePermission;
@@ -265,7 +280,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
             <div className={deploymentCenterInfoBannerDiv}>
               <CustomBanner
                 id="deployment-center-scm-basic-auth-warning"
-                message={t('deploymentCenterScmBasicAuthErrorMessage')}
+                message={basicAuthErrorMessage ?? ''}
                 type={MessageBarType.error}
                 onClick={openConfigurationBlade}
               />

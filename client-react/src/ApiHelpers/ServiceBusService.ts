@@ -11,7 +11,7 @@ export default class ServiceBusService {
     return MakeArmCall<ArmArray<Namespace>>({
       resourceId: id,
       commandName: 'fetchNamespaces',
-      apiVersion: CommonConstants.ApiVersions.serviceBusApiVersion20150801,
+      apiVersion: CommonConstants.ApiVersions.serviceBusApiVersion20211101,
     });
   };
 
@@ -20,7 +20,7 @@ export default class ServiceBusService {
     return MakeArmCall<ArmArray<AuthorizationRule>>({
       resourceId: id,
       commandName: 'fetchAuthorizationRules',
-      apiVersion: CommonConstants.ApiVersions.serviceBusApiVersion20150801,
+      apiVersion: CommonConstants.ApiVersions.serviceBusApiVersion20211101,
     });
   };
 
@@ -30,7 +30,7 @@ export default class ServiceBusService {
       method: 'POST',
       resourceId: id,
       commandName: 'fetchKeyList',
-      apiVersion: CommonConstants.ApiVersions.serviceBusApiVersion20150801,
+      apiVersion: CommonConstants.ApiVersions.serviceBusApiVersion20211101,
     });
   };
 }

@@ -17,11 +17,15 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
               linuxRuntimeSettings: {
                 runtimeVersion: 'GO|1.19',
                 remoteDebuggingSupported: false,
+                isDeprecated: true,
                 appInsightsSettings: {
                   isSupported: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
                 isHidden: false,
                 isEarlyAccess: false,
@@ -40,6 +44,9 @@ const getGolangStack: (useIsoDateFormat: boolean) => WebAppStack = () => {
                 },
                 gitHubActionSettings: {
                   isSupported: false,
+                },
+                supportedFeatures: {
+                  disableSsh: true,
                 },
                 isHidden: false,
                 isEarlyAccess: false,

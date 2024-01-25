@@ -288,7 +288,7 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       this._portalService
         .openFrameBlade(
           {
-            detailBlade: 'SpecPickerFrameBlade',
+            detailBlade: 'ScaleSpecPicker.ReactView',
             detailBladeInputs: {
               id: this.siteArm.properties.serverFarmId,
               feature: 'scaleup',
@@ -579,34 +579,52 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
   }
 
   private _getSupportedRemoteDebuggingVersionOptions(): SelectOption<string>[] {
-    return [{ displayLabel: '2015', value: 'VS2015' }, { displayLabel: '2017', value: 'VS2017' }];
+    return [
+      { displayLabel: '2015', value: 'VS2015' },
+      { displayLabel: '2017', value: 'VS2017' },
+    ];
   }
 
   private _generateRadioOptions() {
     const onString = this._translateService.instant(PortalResources.on);
     const offString = this._translateService.instant(PortalResources.off);
 
-    this.clientAffinityEnabledOptions = [{ displayLabel: offString, value: false }, { displayLabel: onString, value: true }];
+    this.clientAffinityEnabledOptions = [
+      { displayLabel: offString, value: false },
+      { displayLabel: onString, value: true },
+    ];
 
     this.use32BitWorkerProcessOptions = [
       { displayLabel: this._translateService.instant(PortalResources.architecture32), value: true },
       { displayLabel: this._translateService.instant(PortalResources.architecture64), value: false },
     ];
 
-    this.webSocketsEnabledOptions = [{ displayLabel: offString, value: false }, { displayLabel: onString, value: true }];
+    this.webSocketsEnabledOptions = [
+      { displayLabel: offString, value: false },
+      { displayLabel: onString, value: true },
+    ];
 
-    this.alwaysOnOptions = [{ displayLabel: offString, value: false }, { displayLabel: onString, value: true }];
+    this.alwaysOnOptions = [
+      { displayLabel: offString, value: false },
+      { displayLabel: onString, value: true },
+    ];
 
     this.managedPipelineModeOptions = [
       { displayLabel: this._translateService.instant(PortalResources.pipelineModeIntegrated), value: 'Integrated' },
       { displayLabel: this._translateService.instant(PortalResources.pipelineModeClassic), value: 'Classic' },
     ];
 
-    this.remoteDebuggingEnabledOptions = [{ displayLabel: offString, value: false }, { displayLabel: onString, value: true }];
+    this.remoteDebuggingEnabledOptions = [
+      { displayLabel: offString, value: false },
+      { displayLabel: onString, value: true },
+    ];
 
     this.remoteDebuggingVersionOptions = this._getSupportedRemoteDebuggingVersionOptions();
 
-    this.autoSwapEnabledOptions = [{ displayLabel: offString, value: false }, { displayLabel: onString, value: true }];
+    this.autoSwapEnabledOptions = [
+      { displayLabel: offString, value: false },
+      { displayLabel: onString, value: true },
+    ];
 
     this.FTPAccessOptions = [
       { displayLabel: this._translateService.instant(PortalResources.FTPBoth), value: 'AllAllowed' },
@@ -614,7 +632,10 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       { displayLabel: this._translateService.instant(PortalResources.FTPDisable), value: 'Disabled' },
     ];
 
-    this.http20EnabledOptions = [{ displayLabel: '1.1', value: false }, { displayLabel: '2.0', value: true }];
+    this.http20EnabledOptions = [
+      { displayLabel: '1.1', value: false },
+      { displayLabel: '2.0', value: true },
+    ];
   }
 
   private _adjustRemoteDebuggingVersionOptions(remoteDebuggingVersion: string) {
@@ -1430,9 +1451,9 @@ export class GeneralSettingsComponent extends ConfigSaveComponent implements OnC
       if (this.javaSupported) {
         siteConfigArm.properties.javaVersion =
           <string>generalSettingsControls['javaMinorVersion'].value || <string>generalSettingsControls['javaVersion'].value || '';
-        const javaWebContainerProperties: JavaWebContainerProperties = JSON.parse(<string>(
-          generalSettingsControls['javaWebContainer'].value
-        ));
+        const javaWebContainerProperties: JavaWebContainerProperties = JSON.parse(
+          <string>generalSettingsControls['javaWebContainer'].value
+        );
         siteConfigArm.properties.javaContainer = !siteConfigArm.properties.javaVersion ? '' : javaWebContainerProperties.container || '';
         siteConfigArm.properties.javaContainerVersion = !siteConfigArm.properties.javaVersion
           ? ''

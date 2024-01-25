@@ -1,5 +1,5 @@
 import { Formik, FormikProps } from 'formik';
-import React, { useContext, useRef, useState } from 'react';
+import React, { useContext, useRef, useState, useEffect } from 'react';
 import { AppSettingsFormValues } from './AppSettings.types';
 import AppSettingsCommandBar from './AppSettingsCommandBar';
 import AppSettingsDataLoader from './AppSettingsDataLoader';
@@ -21,7 +21,7 @@ import { PortalContext } from '../../../PortalContext';
 import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
 import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
 import { SiteStateContext } from '../../../SiteState';
-import { Links } from '../../../utils/FwLinks';
+import { ExperimentationConstants } from '../../../utils/CommonConstants';
 
 const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
@@ -83,6 +83,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
   const scenarioChecker = scenarioCheckerRef.current!;
   const [showRefreshConfirmDialog, setShowRefreshConfirmDialog] = useState(false);
   const [showSaveConfirmDialog, setShowSaveConfirmDialog] = useState(false);
+  const [showAppSettings, setShowAppSettings] = useState<boolean | undefined>(undefined);
 
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -169,6 +170,23 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
     }
   };
 
+  const onEnvironmentVariablesMenuLinkClick = () => {
+    portalContext.switchMenuItem({ menuItemId: 'environmentVariables' });
+  };
+
+  useEffect(() => {
+    let isSubscribed = true;
+    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.showEnvironmentVariables).then(enabled => {
+      if (isSubscribed) {
+        setShowAppSettings(!enabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [portalContext]);
+
   return (
     <AppSettingsDataLoader resourceId={resourceId}>
       {({ initialFormValues, onSubmit, scaleUpPlan, refreshAppSettings, setInitialValues, asyncData }) => (
@@ -242,7 +260,6 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                                     'disabled')) && (
                                 <UpsellBanner
                                   onClick={scaleUpPlan}
-                                  learnMoreLink={Links.customErrorPagesLearnMore}
                                   bannerMessage={
                                     scenarioChecker.checkScenario(ScenarioIds.showAppSettingsUpsell, { site }).status === 'enabled'
                                       ? t('appSettingsUpsellBannerMessage')
@@ -263,31 +280,42 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                               )}
                           </div>
                           {initialFormValues ? (
-                            <div className={formStyle}>
-                              <AppSettingsForm
-                                asyncData={asyncData}
-                                tab={props.tab}
-                                onServiceLinkerUpdateClick={(settingName: string) =>
-                                  onServiceLinkerUpdateClick(
-                                    settingName,
-                                    initialFormValues,
-                                    setInitialValues,
-                                    formProps.values,
-                                    formProps.setValues
-                                  )
-                                }
-                                onServiceLinkerDeleteClick={(settingName: string) =>
-                                  onServiceLinkerDeleteClick(
-                                    settingName,
-                                    initialFormValues,
-                                    setInitialValues,
-                                    formProps.values,
-                                    formProps.setValues
-                                  )
-                                }
-                                {...formProps}
-                              />
-                            </div>
+                            <>
+                              {showAppSettings === false && (
+                                <CustomBanner
+                                  type={MessageBarType.info}
+                                  message={t('directToEnvironmentVariablesInfoMessage')}
+                                  learnMoreText={t('directToEnvironmentVariablesLink')}
+                                  onClickLearnMoreLink={onEnvironmentVariablesMenuLinkClick}
+                                />
+                              )}
+                              <div className={formStyle}>
+                                <AppSettingsForm
+                                  asyncData={asyncData}
+                                  tab={props.tab}
+                                  showAppSettings={showAppSettings}
+                                  onServiceLinkerUpdateClick={(settingName: string) =>
+                                    onServiceLinkerUpdateClick(
+                                      settingName,
+                                      initialFormValues,
+                                      setInitialValues,
+                                      formProps.values,
+                                      formProps.setValues
+                                    )
+                                  }
+                                  onServiceLinkerDeleteClick={(settingName: string) =>
+                                    onServiceLinkerDeleteClick(
+                                      settingName,
+                                      initialFormValues,
+                                      setInitialValues,
+                                      formProps.values,
+                                      formProps.setValues
+                                    )
+                                  }
+                                  {...formProps}
+                                />
+                              </div>
+                            </>
                           ) : (
                             <CustomBanner message={t('configLoadFailure')} type={MessageBarType.error} />
                           )}

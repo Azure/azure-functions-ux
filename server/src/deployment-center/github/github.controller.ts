@@ -14,6 +14,7 @@ import {
   Param,
   Patch,
 } from '@nestjs/common';
+import { detectProjectFolders } from '@azure/web-apps-framework-detection';
 import * as sodium from 'tweetsodium';
 import { DeploymentCenterService } from '../deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
@@ -296,6 +297,63 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
+  @Post('api/github/getWorkflowRunLogs')
+  @HttpCode(200)
+  async getJobLogs(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('runId') runId: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}/logs`;
+    try {
+      await this.httpService
+        .get(url, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+          responseType: 'arraybuffer',
+        })
+        .then(response => {
+          res.json(response.data);
+        });
+    } catch (err) {
+      this.loggingService.error(`Failed to get workflow run logs.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  @Post('api/github/getWorkflowRun')
+  @HttpCode(200)
+  async getWorkflowRun(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('runId') runId: number,
+    @Res() res
+  ) {
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}`;
+    try {
+      await this.httpService
+        .get(url, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        })
+        .then(response => {
+          res.json(response.data);
+        });
+    } catch (err) {
+      this.loggingService.error(`Failed to get workflow run.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
   @Post('api/github/deleteWorkflowRun')
   @HttpCode(200)
   async deleteWorkflowRun(
@@ -424,11 +482,12 @@ export class GithubController {
   @HttpCode(200)
   async rerunWorkflow(
     @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
     @Body('repo') repo: string,
     @Body('runId') runId: string,
     @Body('data') data: string
   ) {
-    const url = `${this.githubApiUrl}/repos/${repo}/actions/runs/${runId}/rerun`;
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}/rerun`;
 
     try {
       await this.httpService.post(url, data, {
@@ -609,6 +668,37 @@ export class GithubController {
       };
     } catch (err) {
       this.loggingService.error(`Failed to refresh token.`);
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      } else {
+        throw new HttpException(err, 500);
+      }
+    }
+  }
+
+  @Post('api/github/detectFrameworks')
+  @HttpCode(200)
+  async detectFrameworks(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branch') branch: string,
+    @Body('frameworksUri') frameworksUri: string,
+    @Body('filterDescendantFolders') filterDescendantFolders = true,
+    @Res() res
+  ) {
+    try {
+      const frameworks = await detectProjectFolders(
+        `${githubOrigin}/${org}/${repo}/tree/${branch}`,
+        gitHubToken,
+        null,
+        frameworksUri,
+        filterDescendantFolders
+      );
+      res.json(frameworks);
+    } catch (err) {
+      this.loggingService.error(`Failed to detect frameworks.`);
 
       if (err.response) {
         throw new HttpException(err.response.data, err.response.status);

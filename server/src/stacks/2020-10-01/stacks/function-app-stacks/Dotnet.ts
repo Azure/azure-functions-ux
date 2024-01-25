@@ -3,13 +3,11 @@ import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   // End of support dates from https://dotnet.microsoft.com/en-us/platform/support/policy/dotnet-core
-  const dotnetCore3EOL = getDateString(new Date(2022, 11, 3), useIsoDateFormat);
-  const dotnet5EOL = getDateString(new Date(2022, 4, 8), useIsoDateFormat);
-  const dotnet6EOL = getDateString(new Date(2024, 10, 12), useIsoDateFormat);
-  const dotnet7EOL = getDateString(new Date(2024, 4, 14), useIsoDateFormat);
-
-  // projected as a guess - not on the support lifecycle page yet and should be adjusted when moved out of preview
-  const dotnet8EOL = getDateString(new Date(2026, 11, 1), useIsoDateFormat);
+  const dotnetCore3EOL = getDateString(new Date('2022/12/03'), useIsoDateFormat);
+  const dotnet5EOL = getDateString(new Date('2022/05/08'), useIsoDateFormat);
+  const dotnet6EOL = getDateString(new Date('2024/11/12'), useIsoDateFormat);
+  const dotnet7EOL = getDateString(new Date('2024/05/14'), useIsoDateFormat);
+  const dotnet8EOL = getDateString(new Date('2026/11/10'), useIsoDateFormat);
 
   return {
     displayText: '.NET',
@@ -22,7 +20,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET Framework 4.8',
-            value: '4.8',
+            value: '.NET Framework 4.8',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v4.0',
@@ -58,7 +56,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               windowsRuntimeSettings: {
                 runtimeVersion: 'v8.0',
                 isHidden: false,
-                isPreview: true,
+                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -69,6 +67,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -80,7 +79,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET-ISOLATED|8.0',
                 isHidden: false,
-                isPreview: true,
+                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -91,6 +90,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -123,6 +123,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -143,6 +144,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -156,16 +158,15 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         ],
       },
       {
-        displayText: '.NET 6',
+        displayText: '.NET 6 In-process',
         value: 'dotnet6',
         minorVersions: [
           {
-            displayText: '.NET 6 (LTS)',
-            value: '6 (LTS)',
+            displayText: '.NET 6 (LTS) In-process',
+            value: '6 (LTS) In-process',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v6.0',
-                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -186,7 +187,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNET|6.0',
-                isDefault: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -229,6 +229,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
@@ -249,6 +250,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,

@@ -1,3 +1,7 @@
+interface SupportedFeatures {
+  disableSsh?: boolean;
+}
+
 export interface AppStack<T> {
   displayText: string;
   value: string;
@@ -40,4 +44,5 @@ export interface CommonSettings {
   isAutoUpdate?: boolean;
   isEarlyAccess?: boolean;
   gitHubActionSettings: GitHubActionSettings;
+  supportedFeatures?: SupportedFeatures;
 }

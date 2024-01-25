@@ -1,8 +1,8 @@
-import { HttpResponseObject } from './../ArmHelper.types';
-import axios, { AxiosRequestConfig } from 'axios';
-import { Guid } from '../utils/Guid';
+import axios, { AxiosHeaderValue, AxiosRequestConfig } from 'axios';
 import { KeyValue } from '../models/portal-models';
+import { Guid } from '../utils/Guid';
 import Url from '../utils/url';
+import { HttpResponseObject } from './../ArmHelper.types';
 
 export class WellKnownHeaders {
   static readonly REQUEST_ID = 'x-ms-client-request-id';
@@ -58,10 +58,10 @@ export const getTextHeaders = (): KeyValue<string> => {
   };
 };
 
-export const getLinksFromLinkHeader = (linksHeader: string): { [key: string]: string } => {
-  const links: { [key: string]: string } = {};
+export const getLinksFromLinkHeader = (linksHeader: AxiosHeaderValue | undefined): Record<string, string> => {
+  const links: Record<string, string> = {};
 
-  if (linksHeader) {
+  if (typeof linksHeader === 'string') {
     // Parse each part into a named link
     linksHeader.split(',').forEach(part => {
       const section = part.split(';');
@@ -76,7 +76,7 @@ export const getLinksFromLinkHeader = (linksHeader: string): { [key: string]: st
   return links;
 };
 
-export const getLastPageNumberFromLinks = (links: { [key: string]: string }) => {
+export const getLastPageNumberFromLinks = (links: Record<string, string>) => {
   const lastPageLink = links && links.last;
   if (lastPageLink) {
     const lastPageNumberString = Url.getParameterByName(lastPageLink, 'page');
@@ -87,7 +87,7 @@ export const getLastPageNumberFromLinks = (links: { [key: string]: string }) => 
   return 1;
 };
 
-export const getLastItemFromLinks = (links: { [key: string]: string }) => {
+export const getLastItemFromLinks = (links: Record<string, string>) => {
   const nextPageLink = links && links.next;
   if (nextPageLink) {
     const lastItemString = Url.getParameterByName(nextPageLink, 'last');

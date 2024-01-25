@@ -49,12 +49,14 @@ const DeploymentCenterVstsDisconnect: React.FC<DeploymentCenterFieldProps<
     if (updateSiteConfigResponse.metadata.success) {
       formProps.resetForm();
       portalContext.stopNotification(notificationId, true, t('disconnectingDeploymentSuccess'));
+      setIsDisconnecting(false);
       await deploymentCenterContext.refresh();
     } else {
       const errorMessage = getErrorMessage(updateSiteConfigResponse.metadata.error);
       const message = errorMessage ? t('disconnectingDeploymentFailWithMessage').format(errorMessage) : t('disconnectingDeploymentFail');
 
       portalContext.stopNotification(notificationId, false, message);
+      setIsDisconnecting(false);
       portalContext.log(
         getTelemetryInfo('error', 'updateSiteConfigResponse', 'failed', {
           message: errorMessage,

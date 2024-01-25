@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useMemo } from 'react';
 import { FormAzureStorageMounts, StorageFileShareProtocol } from '../AppSettings.types';
-import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
+import { AzureStorageMountsAddEditConfigurationOptionsProps, AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
 import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormikProps, Field } from 'formik';
@@ -10,7 +10,6 @@ import { useTranslation } from 'react-i18next';
 import { StorageAccountsContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { IChoiceGroupOption } from '@fluentui/react';
 import { Links } from '../../../../utils/FwLinks';
 import { StorageType } from '../../../../models/site/config';
 import StorageService from '../../../../ApiHelpers/StorageService';
@@ -44,10 +43,8 @@ const initializeStorageContainerErrorSchemaValue = (): StorageContainerErrorSche
 };
 
 const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMounts> &
-  AzureStorageMountsAddEditPropsCombined & {
-    storageTypeOptions: IChoiceGroupOption[];
-    fileShareInfoBubbleMessage?: string;
-  }> = props => {
+  AzureStorageMountsAddEditPropsCombined &
+  AzureStorageMountsAddEditConfigurationOptionsProps> = props => {
   const { values, initialValues, fileShareInfoBubbleMessage, setValues, setFieldValue, validateForm, storageTypeOptions } = props;
   const [accountSMBSharesFiles, setAccountSMBSharesFiles] = useState<any[]>([]);
   const [accountNFSSharesFiles, setAccountNFSSharesFiles] = useState<any[]>([]);

@@ -134,15 +134,17 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         options={acrCredentialsOptions}
         displayInVerticalLayout={true}
       />
-      <div className={addIdentityLinkStyle}>
-        <ManagedIdentitiesDropdown
-          fieldName={'acrManagedIdentityClientId'}
-          resourceId={deploymentCenterContext.resourceId}
-          identityOptions={managedIdentityOptions}
-          loadingIdentities={loadingManagedIdentities}
-          fetchManagedIdentityOptions={fetchManagedIdentityOptions}
-        />
-      </div>
+      {acrUseManagedIdentities && (
+        <div className={addIdentityLinkStyle}>
+          <ManagedIdentitiesDropdown
+            fieldName={'acrManagedIdentityClientId'}
+            resourceId={deploymentCenterContext.resourceId}
+            identityOptions={managedIdentityOptions}
+            loadingIdentities={loadingManagedIdentities}
+            fetchManagedIdentityOptions={fetchManagedIdentityOptions}
+          />
+        </div>
+      )}
       <Field
         id="container-acr-registry"
         label={t('containerACRRegistry')}

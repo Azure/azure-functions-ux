@@ -12,7 +12,7 @@ import { useStyles } from './ConfigurationPivot.styles';
 import ConfigurationSnippets from './ConfigurationSnippets';
 
 const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: ConfigurationPivotProps) => {
-  const { isLoading, hasWritePermissions, formProps, staticSiteSku, refresh, resourceId } = props;
+  const { isLoading, hasWritePermissions, formProps, staticSiteSku, refresh, resourceId, showAppSettings } = props;
 
   const styles = useStyles();
   const { t } = useTranslation();
@@ -45,15 +45,17 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
 
   return (
     <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
-      <PivotItem
-        itemKey="appSettings"
-        headerText={t('staticSite_applicationSettings')}
-        ariaLabel={t('staticSite_applicationSettings')}
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, isAppSettingsDirty, t('modifiedTag'))
-        }>
-        <Configuration {...props} />
-      </PivotItem>
+      {showAppSettings && (
+        <PivotItem
+          itemKey="appSettings"
+          headerText={t('staticSite_applicationSettings')}
+          ariaLabel={t('staticSite_applicationSettings')}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, isAppSettingsDirty, t('modifiedTag'))
+          }>
+          <Configuration {...props} />
+        </PivotItem>
+      )}
       <PivotItem
         itemKey="generalSettings"
         headerText={t('staticSite_generalSettings')}

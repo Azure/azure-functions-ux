@@ -75,10 +75,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isVstsSetup, setIsVstsSetup] = useState(false);
   const [isTfsOrVsoSetup, setIsTfsOrVsoSetup] = useState(false);
   const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
-  const showDCAuthSettings = React.useMemo<boolean | undefined>(() => {
-    formProps.setFieldValue('hasOidcFlightEnabled', deploymentCenterContext.hasOidcFlightEnabled);
-    return deploymentCenterContext.hasOidcFlightEnabled;
-  }, [deploymentCenterContext.hasOidcFlightEnabled]);
 
   useEffect(() => {
     setSiteConfigScmType(deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType);
@@ -166,10 +162,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         const appType = siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp;
         const os = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
         const authType = formProps.values.authType;
-        const hasOidcFlightEnabled = deploymentCenterContext.hasOidcFlightEnabled;
-        const apiVersion = hasOidcFlightEnabled
-          ? CommonConstants.ApiVersions.workflowApiVersion20221001
-          : CommonConstants.ApiVersions.workflowApiVersion20201201;
+        const apiVersion = CommonConstants.ApiVersions.workflowApiVersion20221001;
 
         const getWorkflowFile = await deploymentCenterData.getWorkflowFile(
           appType,
@@ -178,7 +171,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
           variables,
           formProps.values.runtimeStack,
           authType,
-          hasOidcFlightEnabled,
           apiVersion
         );
         if (getWorkflowFile.metadata.success) {
@@ -221,7 +213,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       formProps.values.workflowOption === WorkflowOption.UseAvailableWorkflowConfigs ||
       (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig && githubActionExistingWorkflowContents);
 
-    const authTypeFormFilled = showDCAuthSettings ? !!formProps.values.authType : true;
+    const authTypeFormFilled = !!formProps.values.authType;
 
     const formFilled =
       formProps.values.workflowOption !== WorkflowOption.None &&
@@ -235,7 +227,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     githubActionExistingWorkflowContents,
     formProps.values.runtimeStack,
     formProps.values.runtimeVersion,
-    showDCAuthSettings,
     formProps.values.authType,
     formProps.values.authIdentity,
   ]);
@@ -243,6 +234,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   useEffect(() => {
     if (
       deploymentCenterContext.siteDescriptor &&
+      formProps.values.branch &&
       (formProps.values.workflowOption === WorkflowOption.UseExistingWorkflowConfig ||
         formProps.values.workflowOption === WorkflowOption.Add ||
         formProps.values.workflowOption === WorkflowOption.Overwrite)
@@ -257,7 +249,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       setWorkflowFilePath('');
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps.values.workflowOption]);
+  }, [deploymentCenterContext.siteDescriptor, formProps.values.branch, formProps.values.workflowOption]);
 
   const getSettingsControls = () => (
     <>
@@ -304,7 +296,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
                 setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}
               />
               {!isUsingExistingOrAvailableWorkflowConfig && <DeploymentCenterCodeBuildRuntimeAndVersion formProps={formProps} />}
-              {showDCAuthSettings && <DeploymentCenterAuthenticationSettings formProps={formProps} />}
+              <DeploymentCenterAuthenticationSettings formProps={formProps} />
               <DeploymentCenterGitHubWorkflowConfigPreview
                 isPreviewFileButtonDisabled={isPreviewFileButtonDisabled}
                 getWorkflowFileContent={getWorkflowFileContent}

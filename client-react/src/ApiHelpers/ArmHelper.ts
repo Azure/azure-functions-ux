@@ -1,5 +1,5 @@
-import axios, { AxiosResponse } from 'axios';
-import { from, of, Subject } from 'rxjs';
+import axios, { AxiosHeaderValue, AxiosResponse } from 'axios';
+import { Subject, from, of } from 'rxjs';
 import { async } from 'rxjs/internal/scheduler/async';
 import { bufferTime, catchError, concatMap, filter, share, take } from 'rxjs/operators';
 import { ArmRequestObject, HttpResponseObject, MethodTypes } from '../ArmHelper.types';
@@ -10,6 +10,8 @@ import { Guid } from '../utils/Guid';
 import { LogCategories } from '../utils/LogCategories';
 import LogService from '../utils/LogService';
 import Url from '../utils/url';
+import PortalCommunicator from '../portal-communicator';
+import { getTelemetryInfo } from '../utils/TelemetryUtils';
 
 const alwaysSkipBatching = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
@@ -22,7 +24,7 @@ interface InternalArmRequest {
   body: any;
   apiVersion: string | null;
   queryString?: string;
-  headers?: KeyValue<string>;
+  headers?: KeyValue<AxiosHeaderValue | undefined>;
 }
 
 interface ArmBatchObject {
@@ -238,7 +240,10 @@ const _extractErrorMessage = (error: any, recursionLimit: number): string => {
   return recursionLimit ? _extractErrorMessage(error.error, recursionLimit - 1) : '';
 };
 
-export const MakePagedArmCall = async <T, U = T>(requestObject: ArmRequestObject<ArmArray<U>>): Promise<ArmObj<T>[]> => {
+export const MakePagedArmCall = async <T, U = T>(
+  requestObject: ArmRequestObject<ArmArray<U>>,
+  portalContext?: PortalCommunicator
+): Promise<ArmObj<T>[]> => {
   let results: ArmObj<T>[] = [];
   const response = await MakeArmCall<ArmArray<T>, ArmArray<U>>(requestObject);
 
@@ -248,16 +253,27 @@ export const MakePagedArmCall = async <T, U = T>(requestObject: ArmRequestObject
     if (response.data.nextLink) {
       const pathAndQuery = Url.getPathAndQuery(response.data.nextLink);
 
-      const pagedResult = await MakePagedArmCall<T, U>({
-        ...requestObject,
-        resourceId: pathAndQuery,
-        apiVersion: null,
-      });
+      const pagedResult = await MakePagedArmCall<T, U>(
+        {
+          ...requestObject,
+          resourceId: pathAndQuery,
+          apiVersion: null,
+        },
+        portalContext
+      );
 
       results = [...results, ...pagedResult];
     }
   } else {
     LogService.error(LogCategories.armHelper, 'MakePagedArmCall', response.metadata.error);
+    if (portalContext) {
+      portalContext.log(
+        getTelemetryInfo('error', 'MakePagedArmCall', 'failed', {
+          message: getErrorMessage(response.metadata.error),
+          errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+        })
+      );
+    }
   }
 
   return results;

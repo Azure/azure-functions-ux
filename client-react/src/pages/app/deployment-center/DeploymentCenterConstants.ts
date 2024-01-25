@@ -79,4 +79,7 @@ export class DeploymentCenterConstants {
   public static readonly appSettings_SCM_DO_BUILD_DURING_DEPLOYMENT = 'SCM_DO_BUILD_DURING_DEPLOYMENT';
   public static readonly appSettings_ENABLE_ORYX_BUILD = 'ENABLE_ORYX_BUILD';
   public static readonly appSettings_WEBSITE_NODE_DEFAULT_VERSION = 'WEBSITE_NODE_DEFAULT_VERSION';
+
+  public static readonly managedIdentityNamespace = 'Microsoft.ManagedIdentity';
+  public static readonly createNew = 'createNew';
 }

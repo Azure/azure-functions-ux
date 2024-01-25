@@ -21,6 +21,7 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC = () => {
       siteStateContext.isLinuxApp,
       siteStateContext.isFunctionApp,
       siteStateContext.isKubeApp,
+      siteStateContext.isWordPressApp,
       deploymentCenterContext.siteConfig,
       deploymentCenterContext.configMetadata,
       deploymentCenterContext.applicationSettings

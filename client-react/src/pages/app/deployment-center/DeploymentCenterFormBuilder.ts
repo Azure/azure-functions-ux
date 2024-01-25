@@ -41,8 +41,17 @@ export abstract class DeploymentCenterFormBuilder {
       gitHubPublishProfileSecretGuid: '',
       externalRepoType: RepoTypeOptions.Public,
       devOpsProject: '',
-      authType: AuthType.PublishProfile,
-      hasOidcFlightEnabled: false,
+      authType: AuthType.Oidc,
+      authIdentity: {
+        id: '',
+        name: '',
+        location: '',
+        properties: {
+          clientId: '',
+          principalId: '',
+          tenantId: '',
+        },
+      },
     };
   }
 
@@ -143,18 +152,13 @@ export abstract class DeploymentCenterFormBuilder {
         }),
       externalRepoType: Yup.mixed().notRequired(),
       devOpsProjectName: Yup.mixed().notRequired(),
-      authType: Yup.mixed().when('hasPermissionToAssignRBAC', {
-        is: true,
-        then: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          return this.parent.hasOidcFlightEnabled ? !!value : true;
-        }),
-        otherwise: Yup.mixed().test('authTypeIsNotOidc', '', function(value) {
-          return value !== AuthType.Oidc;
-        }),
+      authType: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.buildProvider === BuildProvider.GitHubAction ? !!value : true;
       }),
-      authIdentity: Yup.mixed().notRequired(),
-      hasPermissionToAssignRBAC: Yup.boolean().notRequired(),
-      hasOidcFlightEnabled: Yup.boolean().notRequired(),
+      authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        return this.parent.buildProvider === BuildProvider.GitHubAction && this.parent.authType === AuthType.Oidc ? !!value.id : true;
+      }),
+      hasPermissionToUseOIDC: Yup.boolean().notRequired(),
     };
   }
 

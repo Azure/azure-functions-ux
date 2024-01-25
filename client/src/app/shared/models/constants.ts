@@ -662,7 +662,6 @@ export class FeatureFlags {
 
 export class SupportedFeatures {
   public static ElasticScaleOut = 'ElasticScaleOut';
-  public static NewOverviewBlades = 'NewOverviewBlades';
 }
 
 export enum FunctionAppVersion {

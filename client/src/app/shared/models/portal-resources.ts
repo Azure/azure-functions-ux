@@ -324,6 +324,7 @@ export class PortalResources {
   public static functionEdit_functionState = 'functionEdit_functionState';
   public static off = 'off';
   public static on = 'on';
+  public static grpcOnly = 'grpcOnly';
   public static topBar_functionApiSettings = 'topBar_functionApiSettings';
   public static sidebar_newApiProxy = 'sidebar_newApiProxy';
   public static apiProxy_allMethods = 'apiProxy_allMethods';
@@ -513,6 +514,8 @@ export class PortalResources {
   public static minTlsCipherSuitePanelHeader = 'minTlsCipherSuitePanelHeader';
   public static minTlsCipherSuiteMostSecure = 'minTlsCipherSuiteMostSecure';
   public static minTlsCipherSuiteLeastSecure = 'minTlsCipherSuiteLeastSecure';
+  public static endToEndEncryptionLabel = 'endToEndEncryptionLabel';
+  public static endToEndEncryptionInfoMessage = 'endToEndEncryptionInfoMessage';
   public static selected = 'selected';
   public static change = 'change';
   public static clientAffinityInfoText = 'clientAffinityInfoText';
@@ -1473,6 +1476,8 @@ export class PortalResources {
   public static platformSettings = 'platformSettings';
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
+  public static directToEnvironmentVariablesInfoMessage = 'directToEnvironmentVariablesInfoMessage';
+  public static directToEnvironmentVariablesLink = 'directToEnvironmentVariablesLink';
   public static applicationSettings = 'applicationSettings';
   public static functionRuntimeSettings = 'functionRuntimeSettings';
   public static generalSettings = 'generalSettings';
@@ -2553,6 +2558,7 @@ export class PortalResources {
   public static ibizafication_readOnlyDotnetIsolated = 'ibizafication_readOnlyDotnetIsolated';
   public static consoleContainerTextAreaAriaLabel = 'consoleContainerTextAreaAriaLabel';
   public static deploymentCenterScmBasicAuthErrorMessage = 'deploymentCenterScmBasicAuthErrorMessage';
+  public static deploymentCenterScmBasicAuthErrorMessageWithOidc = 'deploymentCenterScmBasicAuthErrorMessageWithOidc';
   public static deploymentCenterScmBasicAuthValidationError = 'deploymentCenterScmBasicAuthValidationError';
   public static configureDeploymentCredentialsLinkAriaLabel = 'configureDeploymentCredentialsLinkAriaLabel';
   public static portCountRange = 'portCountRange';
@@ -2574,6 +2580,19 @@ export class PortalResources {
   public static authenticationSettingsAuthenticationType = 'authenticationSettingsAuthenticationType';
   public static authenticationSettingsAuthenticationPlaceholder = 'authenticationSettingsAuthenticationPlaceholder';
   public static authenticationSettingsIdentity = 'authenticationSettingsIdentity';
-  public static authenticationSettingsIdentityPermissionsError = 'authenticationSettingsIdentityPermissionsError';
-  public static authenticationSettingsIdentityPermissionsLinkAriaLabel = 'authenticationSettingsIdentityPermissionsLinkAriaLabel';
+  public static authenticationSettingsIdentityPlaceholder = 'authenticationSettingsIdentityPlaceholder';
+  public static authenticationSettingsSubscriptionPlaceholder = 'authenticationSettingsSubscriptionPlaceholder';
+  public static createNewOption = 'createNewOption';
+  public static authenticationSettingsOidcPermissionsValidationError = 'authenticationSettingsOidcPermissionsValidationError';
+  public static authenticationSettingsIdentityAssignmentPermissionsError = 'authenticationSettingsIdentityAssignmentPermissionsError';
+  public static authenticationSettingsIdentityWritePermissionsError = 'authenticationSettingsIdentityWritePermissionsError';
+  public static authenticationSettingsIdentityUnsupportedRegionError = 'authenticationSettingsIdentityUnsupportedRegionError';
+  public static authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel =
+    'authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel';
+  public static authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel =
+    'authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel';
+  public static authenticationSettingsFederatedCredentialsLinkAriaLabel = 'authenticationSettingsFederatedCredentialsLinkAriaLabel';
+  public static authenticationSettingsOidcPermissionsLinkAriaLabel = 'authenticationSettingsOidcPermissionsLinkAriaLabel';
+  public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
+  public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
 }

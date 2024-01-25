@@ -51,7 +51,6 @@ export interface AppSettingsFormValues {
   currentlySelectedStack: string;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
   references?: KeyVaultReferences;
-  httpTwo?: boolean;
 }
 
 export interface FormState {
@@ -114,6 +113,7 @@ export type AppSettingsFormikPropsCombined = FormikProps<AppSettingsFormValues> 
 export interface AppSettingsFormProps extends AppSettingsFormikPropsCombined {
   asyncData: AppSettingsAsyncData;
   tab?: string;
+  showAppSettings?: boolean;
 }
 
 export type LeaseDurationType = 'infinite' | 'fixed';
@@ -180,6 +180,7 @@ export enum StorageAccess {
 export enum StorageFileShareProtocol {
   SMB = 'Smb',
   NFS = 'Nfs',
+  HTTP = 'Http',
 }
 
 export enum ConfigurationOption {
