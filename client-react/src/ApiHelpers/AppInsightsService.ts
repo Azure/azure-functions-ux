@@ -639,8 +639,9 @@ export default class AppInsightsService {
     return [functionAppName, functionName];
   }
 
-  private _extractFunctionName(functionResourceId: string): string {
-    const functionName = ArmId.getResourceNames(ArmId.parse(functionResourceId))[1];
+  private static _extractFunctionName(functionResourceId: string): string {
+    const armFunctionDescriptor = new ArmFunctionDescriptor(functionResourceId);
+    const functionName = armFunctionDescriptor.name;
     return functionName;
   }
 
