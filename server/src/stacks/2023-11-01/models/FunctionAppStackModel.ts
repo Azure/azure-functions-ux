@@ -15,38 +15,17 @@ export interface AppSettingsDictionary {
   WEBSITE_NODE_DEFAULT_VERSION?: string;
 }
 
-export interface InstanceSize {
+export interface InstanceMemoryMB {
   size: string;
   isDefault: boolean;
-  concurrencySettings: ConcurrencySetting;
-  maxAlwaysReady: number; // min number of instances that need to be ready. This is the default value.
 }
 
-export interface AppScaleOut {
-  min: number;
-  max: number;
+export interface MaximumInstanceCount {
+  lowestMaximumInstanceCount: number;
+  highestMaximumInstanceCount: number;
   defaultValue: number;
 }
 
-export interface ConcurrencySetting {
-  // These will be per trigger type. All supported trigger types will be returned everytime.
-  http: {
-    maxHttpConcurrency: number;
-    defaultHttpConcurrency: number;
-  };
-  serviceBus: {
-    maxConcurrentCalls: number;
-    maxConcurrentSettings: number;
-  };
-  eventHubs: {
-    maxEventBatchSize: number;
-  };
-  queue: {
-    batchSize: number;
-  };
-}
-
-// NOTE: This might have more optional properties as required by flex consumption
 export interface SiteConfigPropertiesDictionary {
   use32BitWorkerProcess?: boolean;
   linuxFxVersion?: string;
@@ -63,11 +42,20 @@ export interface FunctionsExtensionVersion {
   isDefault: boolean;
 }
 
+export interface Runtime {
+  name: string;
+  version: string;
+}
+
+export interface FunctionAppConfigPropertiesDictionary {
+  runtime: Runtime;
+}
+
 export interface Sku {
   skuCode: string;
   instanceSizes?: InstanceSize[];
   appScaleOut?: AppScaleOut;
-  siteConfigProperties?: SiteConfigPropertiesDictionary; // NOTE: If this property on the sku exists then it overrides the one of the version itself
+  functionAppConfigProperties?: FunctionAppConfigPropertiesDictionary;
 }
 
 export interface FunctionAppRuntimeSettings extends CommonSettings {
