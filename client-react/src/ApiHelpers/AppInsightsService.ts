@@ -185,7 +185,7 @@ export default class AppInsightsService {
   };
 
   public static formOrchestrationTracesQuery = (functionResourceId: string, top: number = 20) => {
-    const [, functionName] = AppInsightsService._extractFunctionAppNameAndFunctionName(functionResourceId);
+    const functionName = AppInsightsService._extractFunctionName(functionResourceId);
     const tracesQuery =
       `traces ` +
       `| where customDimensions.Category == "Host.Triggers.DurableTask" ` +
@@ -637,6 +637,11 @@ export default class AppInsightsService {
       : armFunctionDescriptor.site;
     const functionName = armFunctionDescriptor.name;
     return [functionAppName, functionName];
+  }
+
+  private _extractFunctionName(functionResourceId: string): string {
+    const functionName = ArmId.getResourceNames(ArmId.parse(functionResourceId))[1];
+    return functionName;
   }
 
   private static _formLast30DayUrl = (appInsightsAppId: string): string => {
