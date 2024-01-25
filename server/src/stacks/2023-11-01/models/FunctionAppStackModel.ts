@@ -66,5 +66,5 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: FunctionsExtensionVersion[];
-  sku?: Skus[]; // NOTE: This property gets added on the geomaster side. The static stacks defined on Fusion side will not change
+  skus?: Sku[]; // NOTE: This property gets added on the geomaster side. The static stacks defined on Fusion side will not change
 }
