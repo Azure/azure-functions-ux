@@ -53,8 +53,8 @@ export interface FunctionAppConfigPropertiesDictionary {
 
 export interface Sku {
   skuCode: string;
-  instanceSizes?: InstanceSize[];
-  appScaleOut?: AppScaleOut;
+  instanceSizes?: InstanceMemoryMB[];
+  appScaleOut?: MaximumInstanceCount;
   functionAppConfigProperties?: FunctionAppConfigPropertiesDictionary;
 }
 
