@@ -15,37 +15,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
     preferredOs: 'windows',
     majorVersions: [
       {
-        displayText: '.NET Framework 4.8',
-        value: 'dotnetframework48',
-        minorVersions: [
-          {
-            displayText: '.NET Framework 4.8',
-            value: '.NET Framework 4.8',
-            stackSettings: {
-              windowsRuntimeSettings: {
-                runtimeVersion: 'v4.0',
-                remoteDebuggingSupported: false,
-                appInsightsSettings: {
-                  isSupported: true,
-                },
-                gitHubActionSettings: {
-                  isSupported: true,
-                  supportedVersion: '4.8.x',
-                },
-                appSettingsDictionary: {
-                  FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
-                },
-                siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
-                  netFrameworkVersion: 'v4.0',
-                },
-                supportedFunctionsExtensionVersions: ['~4'],
-              },
-            },
-          },
-        ],
-      },
-      {
         displayText: '.NET 8 Isolated',
         value: 'dotnet8isolated',
         minorVersions: [
@@ -158,58 +127,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         ],
       },
       {
-        displayText: '.NET 6 In-process',
-        value: 'dotnet6',
-        minorVersions: [
-          {
-            displayText: '.NET 6 (LTS) In-process',
-            value: '6 (LTS) In-process',
-            stackSettings: {
-              windowsRuntimeSettings: {
-                runtimeVersion: 'v6.0',
-                remoteDebuggingSupported: false,
-                appInsightsSettings: {
-                  isSupported: true,
-                },
-                gitHubActionSettings: {
-                  isSupported: true,
-                  supportedVersion: '6.0.x',
-                },
-                appSettingsDictionary: {
-                  FUNCTIONS_WORKER_RUNTIME: 'dotnet',
-                },
-                siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
-                  netFrameworkVersion: 'v6.0',
-                },
-                supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: dotnet6EOL,
-              },
-              linuxRuntimeSettings: {
-                runtimeVersion: 'DOTNET|6.0',
-                remoteDebuggingSupported: false,
-                appInsightsSettings: {
-                  isSupported: true,
-                },
-                gitHubActionSettings: {
-                  isSupported: true,
-                  supportedVersion: '6.0.x',
-                },
-                appSettingsDictionary: {
-                  FUNCTIONS_WORKER_RUNTIME: 'dotnet',
-                },
-                siteConfigPropertiesDictionary: {
-                  use32BitWorkerProcess: true,
-                  linuxFxVersion: 'DOTNET|6.0',
-                },
-                supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: dotnet6EOL,
-              },
-            },
-          },
-        ],
-      },
-      {
         displayText: '.NET 6 Isolated',
         value: 'dotnet6isolated',
         minorVersions: [
@@ -255,6 +172,89 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: false,
                   linuxFxVersion: 'DOTNET-ISOLATED|6.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet6EOL,
+              },
+            },
+          },
+        ],
+      },
+      {
+        displayText: '.NET Framework 4.8',
+        value: 'dotnetframework48',
+        minorVersions: [
+          {
+            displayText: '.NET Framework 4.8',
+            value: '.NET Framework 4.8',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: 'v4.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '4.8.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  netFrameworkVersion: 'v4.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+              },
+            },
+          },
+        ],
+      },
+      {
+        displayText: '.NET 6 In-process',
+        value: 'dotnet6',
+        minorVersions: [
+          {
+            displayText: '.NET 6 (LTS) In-process',
+            value: '6 (LTS) In-process',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: 'v6.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '6.0.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  netFrameworkVersion: 'v6.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                endOfLifeDate: dotnet6EOL,
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'DOTNET|6.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '6.0.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  linuxFxVersion: 'DOTNET|6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
                 endOfLifeDate: dotnet6EOL,
