@@ -63,11 +63,8 @@ export interface AppInsightsInvocationTraceDetail {
 export interface AppInsightsOrchestrationTrace {
   timestamp: string;
   timestampFriendly: string;
-  id: string;
-  name: string;
   DurableFunctionsInstanceId: string;
   DurableFunctionsRuntimeStatus: string;
-  DurableFunctionsType: number;
 }
 
 export interface AppInsightsOrchestrationTraceDetail {
