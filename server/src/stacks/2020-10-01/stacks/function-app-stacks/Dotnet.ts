@@ -20,7 +20,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 8 Isolated',
-            value: '8 (LTS) Isolated',
+            value: '8 (LTS), isolated worker model',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v8.0',
@@ -78,7 +78,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 7 Isolated',
-            value: '7 (STS) Isolated',
+            value: '7 (STS), isolated worker model',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v7.0',
@@ -132,7 +132,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 6 (LTS) Isolated',
-            value: '6 (LTS) Isolated',
+            value: '6 (LTS), isolated worker model',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v6.0',
@@ -186,7 +186,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET Framework 4.8',
-            value: '.NET Framework 4.8',
+            value: '.NET Framework 4.8, isolated worker model',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v4.0',
@@ -217,7 +217,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         minorVersions: [
           {
             displayText: '.NET 6 (LTS) In-process',
-            value: '6 (LTS) In-process',
+            value: '6 (LTS), in-process model',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v6.0',
