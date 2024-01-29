@@ -43,7 +43,7 @@ export interface FunctionsExtensionVersion {
 }
 
 export interface Runtime {
-  name: string;
+  name: FunctionsWorkerRuntime;
   version: string;
 }
 
