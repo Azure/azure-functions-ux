@@ -541,6 +541,7 @@ export class PortalResources {
   public static feature_generalSettings = 'feature_generalSettings';
   public static feature_codeDeployment = 'feature_codeDeployment';
   public static feature_deploymentSlotsName = 'feature_deploymentSlotsName';
+  public static feature_deploymentSlotsPreviewName = 'feature_deploymentSlotsPreviewName';
   public static feature_developmentTools = 'feature_developmentTools';
   public static feature_networkingName = 'feature_networkingName';
   public static feature_networkingInfo = 'feature_networkingInfo';
