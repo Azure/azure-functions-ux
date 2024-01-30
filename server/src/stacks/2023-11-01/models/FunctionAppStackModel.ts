@@ -10,6 +10,7 @@ export interface FunctionAppRuntimes {
   windowsRuntimeSettings?: FunctionAppRuntimeSettings;
 }
 
+// NOTE: When skus property under FunctionAppRuntimeSettings has functionAppConfigProperties set then ignore this dictionary for the particular sku.
 export interface AppSettingsDictionary {
   FUNCTIONS_WORKER_RUNTIME?: FunctionsWorkerRuntime;
   WEBSITE_NODE_DEFAULT_VERSION?: string;
@@ -26,6 +27,7 @@ export interface MaximumInstanceCount {
   defaultValue: number;
 }
 
+// NOTE: When skus property under FunctionAppRuntimeSettings has functionAppConfigProperties set then ignore this dictionary for the particular sku.
 export interface SiteConfigPropertiesDictionary {
   use32BitWorkerProcess?: boolean;
   linuxFxVersion?: string;
@@ -34,8 +36,7 @@ export interface SiteConfigPropertiesDictionary {
   netFrameworkVersion?: string;
 }
 
-// NOTE: This change is something we would like to have for a long time to better support deprecated version on the client side post create.
-// This change does need a new api-version for the stacks API
+// NOTE: This is a breaking change in this api-version
 export interface FunctionsExtensionVersion {
   version: '~1' | '~2' | '~3' | '~4';
   isDeprecated: boolean;
