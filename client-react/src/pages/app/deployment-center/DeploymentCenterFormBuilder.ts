@@ -134,18 +134,26 @@ export abstract class DeploymentCenterFormBuilder {
               this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.https) ||
               this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.http)
             );
-          const isNotGitHubOrBitbucketRepo = !(
-            this.parent.repo.includes(DeploymentCenterConstants.githubHostname) ||
-            this.parent.repo.includes(DeploymentCenterConstants.bitbucketHostname)
-          );
-          return isRepoSSH && isNotGitHubOrBitbucketRepo ? !value : true;
+          const isNotGitHubOrBitbucketRepo =
+            this.parent.repo &&
+            !(
+              this.parent.repo.includes(DeploymentCenterConstants.githubHostname) ||
+              this.parent.repo.includes(DeploymentCenterConstants.bitbucketHostname)
+            );
+          return this.parent.sourceProvider === ScmType.ExternalGit && isRepoSSH && isNotGitHubOrBitbucketRepo ? !value : true;
         })
         .test('externalUsernameRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          const isNotGitHubOrBitbucketRepo = !(
-            this.parent.repo.includes(DeploymentCenterConstants.githubHostname) ||
-            this.parent.repo.includes(DeploymentCenterConstants.bitbucketHostname)
-          );
-          return this.parent.externalRepoType === RepoTypeOptions.Private && isNotGitHubOrBitbucketRepo ? !!value : true;
+          const isNotGitHubOrBitbucketRepo =
+            this.parent.repo &&
+            !(
+              this.parent.repo.includes(DeploymentCenterConstants.githubHostname) ||
+              this.parent.repo.includes(DeploymentCenterConstants.bitbucketHostname)
+            );
+          return this.parent.sourceProvider === ScmType.ExternalGit &&
+            this.parent.externalRepoType === RepoTypeOptions.Private &&
+            isNotGitHubOrBitbucketRepo
+            ? !!value
+            : true;
         }),
       externalPassword: Yup.mixed()
         .test('externalPasswordRequired', this._t('deploymentCenterFieldPrivateSSHMessage'), function(value) {
@@ -157,18 +165,26 @@ export abstract class DeploymentCenterFormBuilder {
               this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.https) ||
               this.parent.repo.startsWith(CommonConstants.DeploymentCenterConstants.http)
             );
-          const isNotGitHubOrBitbucketRepo = !(
-            this.parent.repo.includes(DeploymentCenterConstants.githubHostname) ||
-            this.parent.repo.includes(DeploymentCenterConstants.bitbucketHostname)
-          );
-          return isRepoSSH && isNotGitHubOrBitbucketRepo ? !value : true;
+          const isNotGitHubOrBitbucketRepo =
+            this.parent.repo &&
+            !(
+              this.parent.repo.includes(DeploymentCenterConstants.githubHostname) ||
+              this.parent.repo.includes(DeploymentCenterConstants.bitbucketHostname)
+            );
+          return this.parent.sourceProvider === ScmType.ExternalGit && isRepoSSH && isNotGitHubOrBitbucketRepo ? !value : true;
         })
         .test('externalPasswordRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
-          const isNotGitHubOrBitbucketRepo = !(
-            this.parent.repo.includes(DeploymentCenterConstants.githubHostname) ||
-            this.parent.repo.includes(DeploymentCenterConstants.bitbucketHostname)
-          );
-          return this.parent.externalRepoType === RepoTypeOptions.Private && isNotGitHubOrBitbucketRepo ? !!value : true;
+          const isNotGitHubOrBitbucketRepo =
+            this.parent.repo &&
+            !(
+              this.parent.repo.includes(DeploymentCenterConstants.githubHostname) ||
+              this.parent.repo.includes(DeploymentCenterConstants.bitbucketHostname)
+            );
+          return this.parent.sourceProvider === ScmType.ExternalGit &&
+            this.parent.externalRepoType === RepoTypeOptions.Private &&
+            isNotGitHubOrBitbucketRepo
+            ? !!value
+            : true;
         }),
       externalRepoType: Yup.mixed().notRequired(),
       devOpsProjectName: Yup.mixed().notRequired(),

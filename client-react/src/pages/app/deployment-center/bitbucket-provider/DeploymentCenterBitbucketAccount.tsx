@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterBitbucketAccountProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl, authorizeButtonStyle } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
@@ -36,9 +36,13 @@ const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketAccoun
       </ReactiveFormControl>
     </>
   ) : (
-    <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
-      {t('deploymentCenterOAuthAuthorize')}
-    </PrimaryButton>
+    <ReactiveFormControl id="deployment-center-bitbucket-oauth" label={t('deploymentCenterAccountSignIn')}>
+      <div className={authorizeButtonStyle}>
+        <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
+          {t('deploymentCenterOAuthAuthorize')}
+        </PrimaryButton>
+      </div>
+    </ReactiveFormControl>
   );
 
   const accountStatusMessageControl = <Label>{accountStatusMessage}</Label>;

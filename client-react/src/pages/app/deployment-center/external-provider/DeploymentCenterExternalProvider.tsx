@@ -77,15 +77,6 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
       setGitHubUser(gitHubUserResponse.data);
       formProps.setFieldValue('gitHubUser', gitHubUserResponse.data);
     }
-
-    // if (!!deploymentCenterContext.gitHubToken && !deploymentCenterContext.gitHubToken.startsWith('gho')) {
-    //   portalContext.log(
-    //     getTelemetryInfo('info', 'checkDeprecatedToken', 'submit', {
-    //       resourceId: deploymentCenterContext.resourceId,
-    //     })
-    //   );
-    //   setHasDeprecatedToken(true);
-    // }
   };
 
   const authorizeBitbucketAccount = () => {
@@ -108,7 +99,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         }
       });
     } else {
-      return fetchData();
+      return fetchBitbucketData();
     }
   };
 
@@ -116,7 +107,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
     setBitbucketAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
   };
 
-  const fetchData = async () => {
+  const fetchBitbucketData = async () => {
     portalContext.log(getTelemetryInfo('info', 'getBitbucketUser', 'submit'));
     const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
 
@@ -153,23 +144,22 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
   }, [formProps?.values.repo]);
 
   useEffect(() => {
-    if (!formProps.values.gitHubUser) {
-      fetchData();
+    if (!formProps.values.gitHubUser && deploymentCenterContext.gitHubToken) {
+      fetchGitHubData();
     } else {
       setGitHubUser(formProps.values.gitHubUser);
       setGitHubAccountStatusMessage(undefined);
     }
-  }, [showGitHubOAuthButton]);
+  }, [showGitHubOAuthButton, deploymentCenterContext.gitHubToken]);
 
   useEffect(() => {
-    if (!formProps.values.bitbucketUser) {
-      fetchData();
+    if (!formProps.values.bitbucketUser && deploymentCenterContext.bitbucketToken) {
+      fetchBitbucketData();
     } else {
       setBitbucketUser(formProps.values.bitbucketUser);
       setBitbucketAccountStatusMessage(undefined);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showBitbucketOAuthButton]);
+  }, [showBitbucketOAuthButton, deploymentCenterContext.bitbucketToken]);
 
   const authentication = useMemo(() => {
     if (showGitHubOAuthButton) {
@@ -210,7 +200,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         />
       </>;
     }
-  }, [showGitHubOAuthButton, showGitHubOAuthButton]);
+  }, [showGitHubOAuthButton, showBitbucketOAuthButton]);
 
   return (
     <>
