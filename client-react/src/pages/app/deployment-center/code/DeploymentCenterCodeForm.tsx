@@ -335,6 +335,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20221001,
         slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
         variables: variables,
+        ...(values.runtimeStack === RuntimeStacks.dotnetIsolated ? { useCanaryFusionServer: true } : {}),
       },
     };
 
