@@ -261,3 +261,7 @@ export const logStatusIconStyle = (color: string) =>
     color: color,
     marginTop: '4px',
   });
+
+export const authorizeButtonStyle = style({
+  maxWidth: '30px',
+});

@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubAccountProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link, TooltipHost, IconButton } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl, authorizeButtonStyle, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
@@ -42,9 +42,13 @@ const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubAccountProps
       </ReactiveFormControl>
     </>
   ) : (
-    <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
-      {t('deploymentCenterOAuthAuthorize')}
-    </PrimaryButton>
+    <ReactiveFormControl id="deployment-center-github-oauth" label={t('deploymentCenterAccountSignIn')}>
+      <div className={authorizeButtonStyle}>
+        <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
+          {t('deploymentCenterOAuthAuthorize')}
+        </PrimaryButton>
+      </div>
+    </ReactiveFormControl>
   );
 
   const accountStatusMessageControl = <Label>{accountStatusMessage}</Label>;
