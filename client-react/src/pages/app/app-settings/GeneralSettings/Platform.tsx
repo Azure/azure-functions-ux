@@ -125,15 +125,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         values.basicPublishingCredentialsPolicies && (
           <Field
             name={'basicPublishingCredentialsPolicies.properties.scm.allow'}
-            dirty={
-              values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
-              initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow
-            }
             component={RadioButton}
             label={t('scmBasicAuthPublishingCredentials')}
             id="app-settings-scm-basic-authentication-publishing-creds"
             disabled={disableAllControls}
-            selectedKey={values.basicPublishingCredentialsPolicies?.properties.scm.allow}
             options={[
               {
                 key: true,
@@ -151,17 +146,12 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
         values.basicPublishingCredentialsPolicies && (
           <Field
             name={'basicPublishingCredentialsPolicies.properties.ftp.allow'}
-            dirty={
-              values.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-              initialValues.basicPublishingCredentialsPolicies?.properties.ftp.allow
-            }
             component={RadioButton}
             label={t('ftpBasicAuthPublishingCredentials')}
             infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
             learnMoreLink={Links.ftpDisabledByPolicyLink}
             id="app-settings-ftp-basic-authentication-publishing-creds"
             disabled={disableAllControls}
-            selectedKey={values.basicPublishingCredentialsPolicies?.properties.ftp.allow}
             options={[
               {
                 key: true,
