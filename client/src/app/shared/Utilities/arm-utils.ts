@@ -14,6 +14,10 @@ export namespace ArmUtil {
     return obj && AppKind.hasKinds(obj, [Kinds.functionApp]) && !AppKind.hasKinds(obj, [Kinds.botapp]);
   }
 
+  export function isWorkflowApp(obj: ArmObj<any> | FunctionContainer): boolean {
+    return obj && AppKind.hasKinds(obj, [Kinds.functionApp, Kinds.workflowApp]);
+  }
+
   export function isLinuxApp(obj: ArmObj<any> | FunctionContainer): boolean {
     // NOTE(andimarc): For kube apps 'linux' doesn't currently get added to the kind.
     // However kube apps only support linux so we can treat all kube apps as linux apps.

@@ -89,4 +89,5 @@ export interface CreateSlotRequest {
     publicNetworkAccess?: EnableState;
   };
   extendedLocation?: ExtendedLocation;
+  identity?: { type: string };
 }
