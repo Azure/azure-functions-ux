@@ -105,7 +105,7 @@ const getRuntimeStackVersionForWindows = (
     return javaVersion === '11' ? '11.0' : javaVersion;
   } else if (stack === RuntimeStacks.powershell) {
     return siteConfig.properties.powerShellVersion || '';
-  } else if (stack === RuntimeStacks.dotnet && metadataStack !== 'dotnetcore') {
+  } else if ((stack === RuntimeStacks.dotnet || stack === RuntimeStacks.dotnetIsolated) && metadataStack !== 'dotnetcore') {
     // NOTE(michinoy): This could be either .NET 5 or ASP .NET V*
     return siteConfig.properties.netFrameworkVersion;
   } else if (metadataStack === 'dotnetcore') {
