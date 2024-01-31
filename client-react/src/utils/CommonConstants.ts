@@ -102,7 +102,9 @@ export class CommonConstants {
 
   public static readonly WordPressLinuxFxVersions: string[] = [
     "WORDPRESS|8.2",
-    "DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2"
+    "DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2",
+    "WORDPRESS|8.3",
+    "DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3",
   ];
 
   public static readonly AppSettingNames = {

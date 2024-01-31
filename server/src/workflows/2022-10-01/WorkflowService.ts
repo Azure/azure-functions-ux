@@ -92,6 +92,7 @@ export class WorkflowService20221001 {
       case RuntimeStacks.Powershell:
         return this.readWorkflowFile('function-app-configs/powershell-windows.config.yml');
       case RuntimeStacks.Dotnet:
+      case RuntimeStacks.DotnetIsolated:
         return this.readWorkflowFile('function-app-configs/dotnetcore-windows.config.yml');
       case RuntimeStacks.Java:
         return this.readWorkflowFile('function-app-configs/java-windows.config.yml');

@@ -1738,6 +1738,9 @@
     <data name="feature_deploymentSlotsName" xml:space="preserve">
         <value>Deployment Slots</value>
     </data>
+    <data name="feature_deploymentSlotsPreviewName" xml:space="preserve">
+        <value>Deployment Slots (Preview)</value>
+    </data>
     <data name="feature_developmentTools" xml:space="preserve">
         <value>Development tools</value>
     </data>
