@@ -3,15 +3,89 @@ import { getDateString } from '../date-utilities';
 
 const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDateFormat: boolean) => {
   // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
-  const java17EOL = getDateString(new Date(2031, 8), useIsoDateFormat);
-  const java11EOL = getDateString(new Date(2026, 8), useIsoDateFormat);
-  const java8EOL = getDateString(new Date(2025, 2), useIsoDateFormat);
+  const java21EOL = getDateString(new Date('2031/09/01'), useIsoDateFormat);
+  const java17EOL = getDateString(new Date('2031/09/01'), useIsoDateFormat);
+  const java11EOL = getDateString(new Date('2026/09/01'), useIsoDateFormat);
+  const java8EOL = getDateString(new Date('2025/03/01'), useIsoDateFormat);
 
   return {
     displayText: 'Java',
     value: 'java',
     preferredOs: 'windows',
     majorVersions: [
+      {
+        displayText: 'Java 21',
+        value: '21',
+        minorVersions: [
+          {
+            displayText: 'Java 21',
+            value: '21.0',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '21',
+                isPreview: true,
+                isHidden: true,
+                isAutoUpdate: true,
+                isDefault: false,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'java',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  javaVersion: '21',
+                  netFrameworkVersion: 'v6.0',
+                },
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
+                endOfLifeDate: java21EOL,
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'Java|21',
+                isPreview: true,
+                isHidden: false,
+                isAutoUpdate: true,
+                isDefault: false,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'java',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'Java|21',
+                },
+                supportedFunctionsExtensionVersions: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
+                endOfLifeDate: java21EOL,
+              },
+            },
+          },
+        ],
+      },
       {
         displayText: 'Java 17',
         value: '17',
@@ -47,9 +121,9 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                     version: '~4',
                     isDeprecated: false,
                     isDefault: true,
-                  }
+                  },
                 ],
-                endOfLifeDate: java17EOL
+                endOfLifeDate: java17EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Java|17',
@@ -77,7 +151,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                     version: '~4',
                     isDeprecated: false,
                     isDefault: true,
-                  }
+                  },
                 ],
                 endOfLifeDate: java17EOL,
               },
@@ -122,7 +196,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                     version: '~3',
                     isDeprecated: true,
                     isDefault: false,
-                  }
+                  },
                 ],
                 endOfLifeDate: java11EOL,
               },
@@ -154,7 +228,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                     version: '~3',
                     isDeprecated: true,
                     isDefault: false,
-                  }
+                  },
                 ],
                 endOfLifeDate: java11EOL,
               },
@@ -205,9 +279,9 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                     version: '~2',
                     isDeprecated: true,
                     isDefault: false,
-                  }
+                  },
                 ],
-                endOfLifeDate: java8EOL
+                endOfLifeDate: java8EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Java|8',
@@ -238,7 +312,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                     version: '~3',
                     isDeprecated: true,
                     isDefault: false,
-                  }
+                  },
                 ],
                 endOfLifeDate: java8EOL,
               },
@@ -247,7 +321,7 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
         ],
       },
     ],
-  }
+  };
 };
 
 export const javaStackNonIsoDates: FunctionAppStack = getJavaStack(false);
