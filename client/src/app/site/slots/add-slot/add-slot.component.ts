@@ -76,6 +76,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
   private _functionAppContext: FunctionAppContext;
   // @ts-ignore: error TS6133: '_isKubeApp' is declared but its value is never read.
   private _isKubeApp = false;
+  private _isWorkflowApp = false;
   private _customLocationId = '';
 
   constructor(
@@ -130,6 +131,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         this.slotOptInEnabled = false;
         this.isFunctionApp = false;
         this._isKubeApp = false;
+        this._isWorkflowApp = false;
         this._customLocationId = '';
 
         this.progressMessage = null;
@@ -164,6 +166,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           const site = siteResult.result;
           this.isFunctionApp = ArmUtil.isFunctionApp(site);
           this._isKubeApp = ArmUtil.isKubeApp(site);
+          this._isWorkflowApp = ArmUtil.isWorkflowApp(site);
           this._customLocationId = !!site.extendedLocation && site.extendedLocation.name;
         }
 
@@ -341,6 +344,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           clientCertExclusionPaths: prodSlot.properties.clientCertExclusionPaths,
           publicNetworkAccess: prodSlot.properties.publicNetworkAccess,
         },
+        identity: this._isWorkflowApp ? { type: 'SystemAssigned' } : undefined,
       };
     } else {
       newSlot = !!sourceSlot

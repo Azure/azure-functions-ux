@@ -1934,12 +1934,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have a Website Contributor or higher role on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Du har inte tillräcklig behörighet för att kunna ge rollbaserad åtkomst till en hanterad identitet i den här resursgruppen och ställa in federerade autentiseringsuppgifter. Välj en befintlig identitet nedan om du vill fortsätta. Identiteten måste ha skrivbehörighet för appen.]]></Val>
+            <Val><![CDATA[Du har inte tillräcklig behörighet för att kunna ge rollbaserad åtkomst till en hanterad identitet i den här resursgruppen och ställa in federerade autentiseringsuppgifter. Välj en befintlig identitet nedan om du vill fortsätta. Identiteten måste ha rollen webbplatsdeltagare eller högre i appen.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1973,10 +1973,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Val><![CDATA[This identity does not have a Website Contributor or higher role on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Den här identiteten har inte skrivbehörigheter för den här appen. Välj en annan identitet eller be administratören att ge rollen webbplatsdeltagare till din identitet i den här appen.]]></Val>
+            <Val><![CDATA[Identiteten har inte rollen webbplatsdeltagare eller högre i appen. Välj en annan identitet eller be administratören att ge rollen webbplatsdeltagare till din identitet i den här appen.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10187,6 +10190,15 @@
           <Val><![CDATA[Deployment Slots]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Distributionsplatser]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";feature_deploymentSlotsPreviewName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deployment Slots (Preview)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Distributionsfack (förhandsversion)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

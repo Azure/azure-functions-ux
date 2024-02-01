@@ -1934,12 +1934,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have a Website Contributor or higher role on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Nem jogosult arra, hogy szerepköralapú hozzáférést rendeljen hozzá egy felügyelt identitáshoz, és hogy konfigurálja az összevont hitelesítő adatokat. Ha folytatni szeretné a műveletet, válasszon ki egy meglévő identitást az alábbiak közül. Az identitásnak írási engedéllyel kell rendelkeznie az alkalmazásban.]]></Val>
+            <Val><![CDATA[Nem jogosult arra, hogy szerepköralapú hozzáférést rendeljen hozzá egy felügyelt identitáshoz, és hogy konfigurálja az összevont hitelesítő adatokat. Ha folytatni szeretné a műveletet, válasszon ki egy meglévő identitást az alábbiak közül. Az identitásnak webhely-közreműködői vagy magasabb szintű szerepkörrel kell rendelkeznie az alkalmazásban.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1973,10 +1973,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Val><![CDATA[This identity does not have a Website Contributor or higher role on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ez az identitás nem rendelkezik írási engedélyekkel ehhez az alkalmazáshoz. Válasszon másik identitást, vagy kérje meg a rendszergazdát, hogy adja meg az identitásának a Webhelyek közreműködője szerepkört az alkalmazásban.]]></Val>
+            <Val><![CDATA[Ez az identitás nem rendelkezik webhely-közreműködői vagy magasabb szintű szerepkörrel az alkalmazásban. Válasszon másik identitást, vagy kérje meg a rendszergazdát, hogy adja meg az identitásának a Webhelyek közreműködője szerepkört az alkalmazásban.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10190,6 +10193,15 @@
           <Val><![CDATA[Deployment Slots]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Üzembe helyezési pontok]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";feature_deploymentSlotsPreviewName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deployment Slots (Preview)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Üzembe helyezési pontok (előzetes verzió)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

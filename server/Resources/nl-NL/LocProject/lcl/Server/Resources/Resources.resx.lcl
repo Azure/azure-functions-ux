@@ -1937,12 +1937,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have a Website Contributor or higher role on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[U beschikt niet over voldoende machtigingen om op rollen gebaseerde toegang toe te wijzen aan een beheerde identiteit binnen deze resourcegroep en om federatieve aanmeldingsgegevens te configureren. Als u wilt doorgaan, selecteert u hieronder een bestaande identiteit. De identiteit moet schrijfmachtigingen hebben voor de app.]]></Val>
+            <Val><![CDATA[U beschikt niet over voldoende machtigingen om op rollen gebaseerde toegang toe te wijzen aan een beheerde identiteit binnen deze resourcegroep en om federatieve aanmeldingsgegevens te configureren. Als u wilt doorgaan, selecteert u hieronder een bestaande identiteit. De identiteit moet de rol van Websitebijdrager of hoger hebben in de app.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1976,10 +1976,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Val><![CDATA[This identity does not have a Website Contributor or higher role on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Deze identiteit heeft geen schrijfmachtigingen voor deze app. Selecteer een andere identiteit of werk samen met uw beheerder om de rol Websitebijdrager toe te kennen aan uw identiteit in deze app.]]></Val>
+            <Val><![CDATA[Deze identiteit heeft niet de rol van Websitebijdrager of hoger in deze app. Selecteer een andere identiteit of werk samen met uw beheerder om de rol Websitebijdrager toe te kennen aan uw identiteit in deze app.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10193,6 +10196,15 @@
           <Val><![CDATA[Deployment Slots]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Implementatiesleuven]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";feature_deploymentSlotsPreviewName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deployment Slots (Preview)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Implementatiesites (preview)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
