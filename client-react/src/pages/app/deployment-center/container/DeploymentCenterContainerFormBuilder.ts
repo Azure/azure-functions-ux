@@ -57,7 +57,7 @@ export class DeploymentCenterContainerFormBuilder extends DeploymentCenterFormBu
   }
 
   public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType<DeploymentCenterContainerFormData> {
-    const scmAllowed = this._basicPublishingCredentialsPolicies.scm.allow;
+    const scmAllowed = this._basicPublishingCredentialsPolicies?.scm.allow;
     return Yup.object().shape({
       scmType: Yup.mixed()
         .required(this._t('deploymentCenterFieldRequiredMessage'))

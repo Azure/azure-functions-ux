@@ -21,7 +21,7 @@ export class DeploymentCenterCodeFormBuilder extends DeploymentCenterFormBuilder
   }
 
   public generateYupValidationSchema(): DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> {
-    const scmAllowed = this._basicPublishingCredentialsPolicies.scm.allow;
+    const scmAllowed = this._basicPublishingCredentialsPolicies?.scm.allow;
     return Yup.object().shape({
       sourceProvider: Yup.mixed().test('sourceProviderRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return value !== ScmType.None || (value === ScmType.None && this.parent.publishingUsername);
