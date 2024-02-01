@@ -42,6 +42,13 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   netFrameworkVersion: 'v8.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'PowerShell|7.4',
@@ -63,6 +70,13 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   linuxFxVersion: 'PowerShell|7.4',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
               },
             },
           },
@@ -91,6 +105,13 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
                 endOfLifeDate: powershell72EOL,
               },
               linuxRuntimeSettings: {
@@ -113,6 +134,13 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   linuxFxVersion: 'PowerShell|7.2',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
                 endOfLifeDate: powershell72EOL,
               },
             },
@@ -140,6 +168,18 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: powershell70EOL,
               },
               linuxRuntimeSettings: {
@@ -162,6 +202,13 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                   linuxFxVersion: 'PowerShell|7',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
                 endOfLifeDate: powershell70EOL,
               },
             },
@@ -194,6 +241,18 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                 },
                 isDeprecated: true,
                 supportedFunctionsExtensionVersions: ['~2', '~3'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: powershell62EOL,
               },
             },

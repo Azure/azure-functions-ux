@@ -44,7 +44,14 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
-                endOfLifeDate: java21EOL
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
+                endOfLifeDate: java21EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'Java|21',
@@ -68,6 +75,13 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Java|21',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
                 endOfLifeDate: java21EOL,
               },
             },
@@ -105,6 +119,13 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
                 endOfLifeDate: java17EOL,
               },
               linuxRuntimeSettings: {
@@ -129,6 +150,13 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Java|17',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
                 endOfLifeDate: java17EOL,
               },
             },
@@ -163,6 +191,18 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: java11EOL,
               },
               linuxRuntimeSettings: {
@@ -184,6 +224,18 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Java|11',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: java11EOL,
               },
             },
@@ -219,6 +271,23 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   netFrameworkVersion: 'v6.0',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: java8EOL,
               },
               linuxRuntimeSettings: {
@@ -241,6 +310,18 @@ const getJavaStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
                   linuxFxVersion: 'Java|8',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: java8EOL,
               },
             },
