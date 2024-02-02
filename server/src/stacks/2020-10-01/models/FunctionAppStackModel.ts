@@ -7,9 +7,6 @@
       /providers/Microsoft.Web/functionAppStacks?api-version=2020-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>
 
    2. If clients need the data returned by the new "skus" property on "FunctionAppRuntimeSettings", then they need to use specific filter queries
-   
-      Get non-region specific list of functionApp stacks  
-      /providers/Microsoft.Web/functionAppStacks?api-version=2020-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>
 
       Get region specific list of functionApp stacks. This will not return new "skus" property with additional information to avoid the size of the response to be huge  
       /providers/Microsoft.Web/locations/<location>/functionAppStacks?api-version=2020-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>
