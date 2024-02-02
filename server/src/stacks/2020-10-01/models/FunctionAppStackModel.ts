@@ -4,18 +4,18 @@
    1. If clients don't care or need the new "skus" property on "FunctionAppRuntimeSettings", then there are no changes
 
       Get non-region specific list of functionApp stacks  
-      /providers/Microsoft.Web/functionAppStacks?api-version=2023-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>
+      /providers/Microsoft.Web/functionAppStacks?api-version=2020-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>
 
    2. If clients need the data returned by the new "skus" property on "FunctionAppRuntimeSettings", then they need to use specific filter queries
    
       Get non-region specific list of functionApp stacks  
-      /providers/Microsoft.Web/functionAppStacks?api-version=2023-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>
+      /providers/Microsoft.Web/functionAppStacks?api-version=2020-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>
 
       Get region specific list of functionApp stacks. This will not return new "skus" property with additional information to avoid the size of the response to be huge  
-      /providers/Microsoft.Web/functionAppStacks?api-version=2023-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>&region=<region>
+      /providers/Microsoft.Web/locations/<location>/functionAppStacks?api-version=2020-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>
 
       Get a list of all versions of a particular stack for a given region. This will return list of all versions for the specific stack including "skus" property
-      /providers/Microsoft.Web/functionAppStacks?api-version=2023-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>&region=<region>&stack=<stack>
+      /providers/Microsoft.Web/locations/<location>/functionAppStacks?api-version=2020-10-01&removeHiddenStacks=<true or false>&removeDeprecatedStacks=<true or false>&stack=<stack>
 */
 
 import { AppStack, CommonSettings, AppInsightsSettings, GitHubActionSettings } from './AppStackModel';
