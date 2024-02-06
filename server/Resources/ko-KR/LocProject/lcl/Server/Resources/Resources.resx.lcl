@@ -6959,19 +6959,25 @@
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[앱에 대해 기본 인증을 사용할 수 없습니다. 사용하도록 설정할 구성 설정으로 이동하려면 여기를 클릭하세요.]]></Val>
+            <Val><![CDATA[앱에 대해 SCM 기본 인증을 사용할 수 없습니다. 사용하도록 설정하려면 여기를 클릭하여 구성 설정으로 이동하세요.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[앱에 대해 기본 인증을 사용할 수 없습니다. 여기를 클릭하여 설정 설정으로 이동하여 사용 설정하거나 아래의 '사용자 할당 ID' 옵션을 선택하세요.]]></Val>
+            <Val><![CDATA[앱에 대해 SCM 기본 인증을 사용할 수 없습니다. 사용하도록 설정하려면 여기를 클릭하여 구성 설정으로 이동하거나 아래의 ‘사용자 할당 ID’ 옵션을 선택하세요.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10994,6 +11000,15 @@
           <Val><![CDATA[Free]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[무료]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[FTP Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[FTP 기본 인증 게시 자격 증명]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18887,6 +18902,15 @@
           <Val><![CDATA[The proxies schema is not valid. Error: '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[프록시 스키마가 잘못되었습니다. 오류: '{0}'.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";scmBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SCM Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SCM 기본 인증 게시 자격 증명]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

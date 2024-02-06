@@ -6956,19 +6956,25 @@
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A autenticação básica está desativada para a sua aplicação. Clique aqui para aceder às definições de configuração para ativar.]]></Val>
+            <Val><![CDATA[A autenticação básica de SCM está desativada para a sua aplicação. Clique aqui para aceder às definições de configuração para ativar.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[A autenticação básica está desativada para a sua aplicação. Clique aqui para aceder às suas definições de configuração para ativar ou escolha a opção “Identidade atribuída pelo utilizador” abaixo.]]></Val>
+            <Val><![CDATA[A autenticação básica de SCM está desativada para a sua aplicação. Clique aqui para aceder às suas definições de configuração para ativar ou escolha a opção “Identidade atribuída pelo utilizador” abaixo.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -11000,6 +11006,15 @@
           <Val><![CDATA[Free]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Gratuito]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[FTP Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Credenciais de Publicação de Autenticação Básica de FTP]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18893,6 +18908,15 @@
           <Val><![CDATA[The proxies schema is not valid. Error: '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[O esquema dos proxies não é válido. Erro: "{0}".]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";scmBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SCM Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Credenciais de Publicação de Autenticação Básica de SCM]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
