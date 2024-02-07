@@ -6337,7 +6337,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Manage publish profile</value>
     </data>
     <data name="managePublishProfileBasicAuthDisabled" xml:space="preserve">
-        <value>Basic authentication is disabled, and publish profile will not work.</value>
+        <value>Basic authentication is disabled.</value>
     </data>
     <data name="ibizafication_readOnlyPython" xml:space="preserve">
         <value>Editing Python Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
