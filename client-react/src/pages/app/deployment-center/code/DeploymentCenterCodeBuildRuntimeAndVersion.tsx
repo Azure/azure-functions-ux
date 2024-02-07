@@ -125,11 +125,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     // select the minor version. Do not fail at this point, like this in case if a new stack is incorrectly added, we can
     // always fall back on the minor version instead of blocking or messing customers workflow file.
     const gitHubActionRuntimeVersionMapping: KeyValue<string> = {};
-    const curStack = formProps.values.runtimeStack
-      ? formProps.values.runtimeStack === 'dotnet-isolated'
-        ? 'dotnet'
-        : formProps.values.runtimeStack
-      : '';
+    const curStack = formProps.values.runtimeStack || '';
     const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === curStack);
 
     if (runtimeStack) {
