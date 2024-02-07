@@ -51,8 +51,6 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
     return isFtpsDirty(formProps, deploymentCenterPublishingContext);
   };
 
-  const showFtpsTab = !!deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.scm.allow;
-
   return (
     <>
       <Pivot onLinkClick={onLinkClick} defaultSelectedKey={tab ?? 'settings'}>
@@ -102,17 +100,15 @@ const DeploymentCenterContainerPivot: React.FC<DeploymentCenterContainerPivotPro
           </PivotItem>
         )}
 
-        {showFtpsTab && (
-          <PivotItem
-            itemKey="ftps"
-            headerText={t('deploymentCenterPivotItemFtpsHeaderText')}
-            ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}
-            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-              CustomTabRenderer(link, defaultRenderer, theme, isFtpsTabDirty, t('modifiedTag'))
-            }>
-            <DeploymentCenterFtps formProps={formProps} isDataRefreshing={isDataRefreshing} />
-          </PivotItem>
-        )}
+        <PivotItem
+          itemKey="ftps"
+          headerText={t('deploymentCenterPivotItemFtpsHeaderText')}
+          ariaLabel={t('deploymentCenterPivotItemFtpsAriaLabel')}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, isFtpsTabDirty, t('modifiedTag'))
+          }>
+          <DeploymentCenterFtps formProps={formProps} isDataRefreshing={isDataRefreshing} />
+        </PivotItem>
       </Pivot>
     </>
   );

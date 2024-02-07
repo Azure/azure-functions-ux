@@ -149,7 +149,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             component={RadioButton}
             label={t('ftpBasicAuthPublishingCredentials')}
             infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
-            learnMoreLink={Links.ftpDisabledByPolicyLink}
+            learnMoreLink={Links.disableBasicAuthLearnMore}
             id="app-settings-ftp-basic-authentication-publishing-creds"
             disabled={disableAllControls}
             options={[

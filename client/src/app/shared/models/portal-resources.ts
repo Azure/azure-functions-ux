@@ -2055,6 +2055,7 @@ export class PortalResources {
   public static deploymentCenterDeleteLogsFailureWithErrorNotificationDescription =
     'deploymentCenterDeleteLogsFailureWithErrorNotificationDescription';
   public static managePublishProfile = 'managePublishProfile';
+  public static managePublishProfileBasicAuthDisabled = 'managePublishProfileBasicAuthDisabled';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
   public static ibizafication_readOnlyLocalCache = 'ibizafication_readOnlyLocalCache';

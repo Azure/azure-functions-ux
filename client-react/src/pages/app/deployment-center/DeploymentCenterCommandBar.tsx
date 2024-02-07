@@ -10,7 +10,6 @@ import { ScmType } from '../../../models/site/config';
 import { PortalContext } from '../../../PortalContext';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
 import { CommonConstants } from '../../../utils/CommonConstants';
-import { DeploymentCenterPublishingContext } from './authentication/DeploymentCenterPublishingContext';
 
 const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = props => {
   const {
@@ -28,10 +27,8 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
-  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };
   const hasNoWritePermission = deploymentCenterContext && !deploymentCenterContext.hasWritePermission;
-  const isBasicAuthDisabled = !deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.scm.allow;
 
   const isSiteLoaded = () => {
     return siteStateContext.site && siteStateContext.site.properties;
@@ -218,7 +215,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
         iconName: 'FileCode',
       },
       ariaLabel: t('deploymentCenterPublishProfileCommandAriaLabel'),
-      disabled: !isSiteLoaded() || isBasicAuthDisabled,
+      disabled: !isSiteLoaded(),
       onClick: onManagePublishProfileButtonClick,
     };
   };

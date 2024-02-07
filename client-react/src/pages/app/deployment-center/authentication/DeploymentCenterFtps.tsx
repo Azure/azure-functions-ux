@@ -77,7 +77,9 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
     setShowWarningBanner(false);
   };
 
-  const disableFtp = () => !deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.ftp?.allow;
+  const disableFtp = React.useMemo(() => !deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.ftp?.allow, [
+    deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.ftp?.allow,
+  ]);
 
   const getCredentialsControls = () => {
     return (
@@ -93,7 +95,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           </div>
         )}
 
-        {deploymentCenterPublishingContext && disableFtp() && showWarningBanner && (
+        {deploymentCenterPublishingContext && disableFtp && showWarningBanner && (
           <div className={deploymentCenterInfoBannerDiv}>
             <CustomBanner
               id="deployment-center-ftps-permission-warning"
@@ -114,6 +116,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           value={ftpsEndpoint}
           copyButton={true}
           readOnly={true}
+          disabled={disableFtp}
         />
 
         {isScmLocalGit && (
@@ -125,6 +128,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             value={gitCloneUri ? gitCloneUri : t('deploymentCenterCodeLocalGitFetchCloneUriError')}
             copyButton={true}
             readOnly={true}
+            disabled={disableFtp}
           />
         )}
 
@@ -149,6 +153,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
           value={publishingProfile && publishingProfile.userName}
           copyButton={true}
           readOnly={true}
+          disabled={disableFtp}
         />
 
         {isScmLocalGit && (
@@ -160,6 +165,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             value={gitUsername}
             copyButton={true}
             readOnly={true}
+            disabled={disableFtp}
           />
         )}
 
@@ -172,6 +178,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
             value={publishingProfile && publishingProfile.userPWD}
             copyButton={true}
             readOnly={true}
+            disabled={disableFtp}
             type={TextFieldType.password}
             canRevealPassword
             revealPasswordAriaLabel={t('showApplicationPasswordAriaLabel')}
@@ -181,6 +188,7 @@ const DeploymentCenterFtps: React.FC<DeploymentCenterFtpsProps &
                 key="deployment-center-ftps-application-password-reset"
                 className={additionalTextFieldControl}
                 ariaLabel={t('resetPublishProfileAriaLabel')}
+                disabled={disableFtp}
                 onClick={toggleResetCalloutVisibility}
                 iconProps={{ iconName: 'refresh' }}>
                 {t('reset')}

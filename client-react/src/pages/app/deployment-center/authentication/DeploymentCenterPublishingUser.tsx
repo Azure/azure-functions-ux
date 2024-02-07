@@ -43,6 +43,9 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
   const { fullpageElementWithLabel } = useFullPage();
 
   const { publishingUser, publishingUserFetchFailedMessage } = deploymentCenterPublishingContext;
+  const disableFtp = React.useMemo(() => !deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.ftp?.allow, [
+    deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.ftp?.allow,
+  ]);
 
   const publishingUserLoading = !publishingUser && !publishingUserFetchFailedMessage;
   const publishingUserError = !publishingUser && publishingUserFetchFailedMessage;
@@ -148,6 +151,7 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
             component={TextField}
             label={t('deploymentCenterUserScopeUsernameLabel')}
             widthOverride={'100%'}
+            disabled={disableFtp}
           />
 
           <div className={ftpsPasswordTextboxStyle(fullpageElementWithLabel)}>
@@ -161,12 +165,14 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
               canRevealPassword
               revealPasswordAriaLabel={t('showProviderPasswordAriaLabel')}
               widthOverride={'100%'}
+              disabled={disableFtp}
               additionalControls={[
                 <ActionButton
                   id="deployment-center-ftps-provider-password-reset"
                   key="deployment-center-ftps-provider-password-reset"
                   className={additionalTextFieldControl}
                   ariaLabel={t('resetUserScopeCredentialsAriaLabel')}
+                  disabled={disableFtp}
                   onClick={toggleResetCalloutVisibility}
                   iconProps={{ iconName: 'refresh' }}>
                   {t('reset')}
@@ -184,6 +190,7 @@ const DeploymentCenterPublishingUser: React.FC<DeploymentCenterFtpsProps &
               canRevealPassword
               revealPasswordAriaLabel={t('showProviderConfirmPasswordAriaLabel')}
               widthOverride={'100%'}
+              disabled={disableFtp}
             />
           </div>
 
