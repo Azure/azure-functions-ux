@@ -43,6 +43,13 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.11',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
                 endOfLifeDate: python311EOL,
               },
             },
@@ -72,6 +79,13 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.10',
                 },
                 supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
                 endOfLifeDate: python310EOL,
               },
             },
@@ -100,6 +114,18 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.9',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: python39EOL,
               },
             },
@@ -126,6 +152,18 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.8',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: python38EOL,
               },
             },
@@ -152,6 +190,23 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.7',
                 },
                 supportedFunctionsExtensionVersions: ['~4', '~3', '~2'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: python37EOL,
               },
             },
@@ -179,6 +234,18 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                   linuxFxVersion: 'Python|3.6',
                 },
                 supportedFunctionsExtensionVersions: ['~2', '~3'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~2',
+                    isDeprecated: true,
+                    isDefault: true,
+                  },
+                  {
+                    version: '~3',
+                    isDeprecated: true,
+                    isDefault: false,
+                  },
+                ],
                 endOfLifeDate: python36EOL,
               },
             },

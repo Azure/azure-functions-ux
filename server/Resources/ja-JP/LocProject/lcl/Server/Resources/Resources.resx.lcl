@@ -6962,19 +6962,25 @@
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[アプリに対して基本認証が無効になっています。有効にするには、こちらをクリックして構成設定に移動してください。]]></Val>
+            <Val><![CDATA[アプリに対して SCM 基本認証が無効になっています。有効にするには、こちらをクリックして構成設定に移動してください。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[アプリに対して基本認証が無効になっています。構成設定に移動して有効にするにはここをクリックするか、下の [ユーザー割り当て ID]5D; オプションを選択します。]]></Val>
+            <Val><![CDATA[アプリに対して SCM 基本認証が無効になっています。構成設定に移動して有効にするにはここをクリックするか、下の [ユーザー割り当て ID]5D; オプションを選択します。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -11012,6 +11018,15 @@
           <Val><![CDATA[Free]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[無料]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[FTP Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[FTP 基本認証の発行資格情報]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18914,6 +18929,15 @@
           <Val><![CDATA[The proxies schema is not valid. Error: '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[プロキシ スキーマが無効です。エラー: '{0}'。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";scmBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SCM Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SCM 基本認証の発行資格情報]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

@@ -6959,19 +6959,25 @@
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[您的應用程式已停用基本驗證。按一下這裡以前往您組態設定以啟用。]]></Val>
+            <Val><![CDATA[您的應用程式已停用 SCM 基本驗證。按一下這裡以前往您組態設定以啟用。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[您的應用程式已停用基本驗證。按一下這裡以移至組態設定來啟用，或選擇下方的 [使用者指派的身分識別]5D; 選項。]]></Val>
+            <Val><![CDATA[您的應用程式已停用 SCM 基本驗證。按一下這裡以移至組態設定來啟用，或選擇下方的 [使用者指派的身分識別]5D; 選項。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -11009,6 +11015,15 @@
           <Val><![CDATA[Free]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[免費]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[FTP Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[FTP 基本驗證發佈認證]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18911,6 +18926,15 @@
           <Val><![CDATA[The proxies schema is not valid. Error: '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[proxies 結構描述無效。錯誤: '{0}'。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";scmBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SCM Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SCM 基本驗證發佈認證]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
