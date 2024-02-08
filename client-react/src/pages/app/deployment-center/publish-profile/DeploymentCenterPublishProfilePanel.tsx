@@ -5,12 +5,29 @@ import DeploymentCenterPublishProfileCommandBar from './DeploymentCenterPublishP
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { PanelType, PrimaryButton } from '@fluentui/react';
 import { closePublishProfileButtonStyle, panelOverflowStyle } from '../DeploymentCenter.styles';
+import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 
 const DeploymentCenterPublishProfilePanel: React.FC<DeploymentCenterPublishProfilePanelProps> = props => {
-  const { isPanelOpen: isOpen, dismissPanel, resetApplicationPassword } = props;
+  const { isBasicAuthDisabled, isPanelOpen: isOpen, dismissPanel, resetApplicationPassword } = props;
   const { t } = useTranslation();
 
-  return (
+  return isBasicAuthDisabled ? (
+    <ConfirmDialog
+      primaryActionButton={{
+        title: t('ok'),
+        onClick: dismissPanel,
+      }}
+      defaultActionButton={{
+        title: t('cancel'),
+        onClick: dismissPanel,
+      }}
+      hideDefaultActionButton={true}
+      title={t('managePublishProfile')}
+      content={t('managePublishProfileBasicAuthDisabled')}
+      hidden={!isOpen}
+      onDismiss={dismissPanel}
+    />
+  ) : (
     <CustomPanel
       customStyle={panelOverflowStyle}
       isOpen={isOpen}
