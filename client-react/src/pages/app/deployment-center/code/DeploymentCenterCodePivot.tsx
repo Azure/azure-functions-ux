@@ -131,9 +131,9 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
 
     if (siteStateContext && siteStateContext.site) {
       const scenarioStatus = scenarioService.checkScenario(ScenarioIds.ftpSource, { site: siteStateContext.site }).status;
-      setShowFtpsTab(scenarioStatus !== 'disabled' && !!deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.scm.allow);
+      setShowFtpsTab(scenarioStatus !== 'disabled');
     }
-  }, [siteStateContext.site, isScmGitHubActions, deploymentCenterPublishingContext?.basicPublishingCredentialsPolicies?.scm.allow]);
+  }, [siteStateContext.site, isScmGitHubActions]);
 
   useEffect(() => {
     const scmType = deploymentCenterContext.siteConfig?.properties?.scmType;

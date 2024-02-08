@@ -6728,19 +6728,25 @@
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Autentikasi dasar dinonaktifkan untuk aplikasi Anda. Untuk mengaktifkannya, klik di sini untuk masuk ke pengaturan konfigurasi Anda.]]></Val>
+            <Val><![CDATA[Autentikasi dasar SCM dinonaktifkan untuk aplikasi Anda. Klik di sini untuk masuk ke pengaturan konfigurasi Anda untuk mengaktifkannya.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Autentikasi dasar dinonaktifkan untuk aplikasi Anda. Klik di sini untuk membuka pengaturan konfigurasi untuk mengaktifkan, atau pilih opsi "Identitas yang ditetapkan pengguna" di bawah ini.]]></Val>
+            <Val><![CDATA[Autentikasi dasar SCM dinonaktifkan untuk aplikasi Anda. Klik di sini untuk masuk ke pengaturan konfigurasi untuk mengaktifkannya, atau pilih opsi "Identitas yang ditetapkan pengguna" di bawah ini.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10559,6 +10565,15 @@
           <Val><![CDATA[Free]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Gratis]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[FTP Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kredensial Penerbitan Autentikasi Dasar FTP]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18086,6 +18101,15 @@
           <Val><![CDATA[The proxies schema is not valid. Error: '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Skema proksi tidak valid. Kesalahan: '{0}'.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";scmBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SCM Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kredensial Penerbitan Autentikasi Dasar SCM]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

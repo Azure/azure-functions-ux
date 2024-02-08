@@ -67,14 +67,6 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     [setFieldValue]
   );
 
-  const onBasicAuthenticationCredentialsChange = React.useCallback(
-    (_event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
-      setFieldValue('basicPublishingCredentialsPolicies.properties.scm.allow', option.key);
-      setFieldValue('basicPublishingCredentialsPolicies.properties.ftp.allow', option.key);
-    },
-    [setFieldValue]
-  );
-
   const onHttp20EnabledChange = (event: React.FormEvent<HTMLDivElement>, option: { key: boolean }) => {
     props.setFieldValue('config.properties.http20ProxyFlag', 0);
     if (option.key) {
@@ -132,24 +124,34 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
         values.basicPublishingCredentialsPolicies && (
           <Field
-            name="basicPublishingCredentialsPolicies.scm.allow"
-            dirty={
-              values.basicPublishingCredentialsPolicies?.properties.scm.allow !==
-                initialValues.basicPublishingCredentialsPolicies?.properties.scm.allow ||
-              values.basicPublishingCredentialsPolicies?.properties.ftp.allow !==
-                initialValues.basicPublishingCredentialsPolicies?.properties.ftp.allow
-            }
+            name={'basicPublishingCredentialsPolicies.properties.scm.allow'}
             component={RadioButton}
-            label={t('basicAuthPublishingCred')}
-            infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
-            learnMoreLink={Links.ftpDisabledByPolicyLink}
-            id="app-settings-basic-authentication-publishing-creds"
+            label={t('scmBasicAuthPublishingCredentials')}
+            id="app-settings-scm-basic-authentication-publishing-creds"
             disabled={disableAllControls}
-            selectedKey={
-              values.basicPublishingCredentialsPolicies?.properties.scm.allow ||
-              values.basicPublishingCredentialsPolicies?.properties.ftp.allow
-            }
-            onChange={onBasicAuthenticationCredentialsChange}
+            options={[
+              {
+                key: true,
+                text: t('on'),
+              },
+              {
+                key: false,
+                text: t('off'),
+              },
+            ]}
+          />
+        )}
+
+      {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
+        values.basicPublishingCredentialsPolicies && (
+          <Field
+            name={'basicPublishingCredentialsPolicies.properties.ftp.allow'}
+            component={RadioButton}
+            label={t('ftpBasicAuthPublishingCredentials')}
+            infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
+            learnMoreLink={Links.disableBasicAuthLearnMore}
+            id="app-settings-ftp-basic-authentication-publishing-creds"
+            disabled={disableAllControls}
             options={[
               {
                 key: true,

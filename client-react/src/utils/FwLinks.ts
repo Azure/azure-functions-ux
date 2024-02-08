@@ -58,6 +58,7 @@ export const Links = {
   connectionStringLearnmore: 'https://go.microsoft.com/fwlink/?linkid=2225650',
   customErrorPagesLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2245451',
   endToEndEncryptionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2252411',
+  disableBasicAuthLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2260316',
 };
 
 export const DeploymentCenterLinks = {

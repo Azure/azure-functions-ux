@@ -1240,6 +1240,8 @@ export class PortalResources {
   public static httpVersion = 'httpVersion';
   public static http20Proxy = 'http20Proxy';
   public static basicAuthPublishingCred = 'basicAuthPublishingCred';
+  public static scmBasicAuthPublishingCredentials = 'scmBasicAuthPublishingCredentials';
+  public static ftpBasicAuthPublishingCredentials = 'ftpBasicAuthPublishingCredentials';
   public static dismiss = 'dismiss';
   public static provider = 'provider';
   public static newAccount = 'newAccount';
@@ -2053,6 +2055,7 @@ export class PortalResources {
   public static deploymentCenterDeleteLogsFailureWithErrorNotificationDescription =
     'deploymentCenterDeleteLogsFailureWithErrorNotificationDescription';
   public static managePublishProfile = 'managePublishProfile';
+  public static managePublishProfileBasicAuthDisabled = 'managePublishProfileBasicAuthDisabled';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
   public static ibizafication_readOnlyLocalCache = 'ibizafication_readOnlyLocalCache';
