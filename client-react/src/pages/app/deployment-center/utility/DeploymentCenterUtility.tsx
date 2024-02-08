@@ -105,10 +105,10 @@ const getRuntimeStackVersionForWindows = (
     return javaVersion === '11' ? '11.0' : javaVersion;
   } else if (stack === RuntimeStacks.powershell) {
     return siteConfig.properties.powerShellVersion || '';
-  } else if (stack === RuntimeStacks.dotnet && metadataStack !== 'dotnetcore') {
+  } else if ((stack === RuntimeStacks.dotnet || stack === RuntimeStacks.dotnetIsolated) && metadataStack !== RuntimeStacks.dotnetcore) {
     // NOTE(michinoy): This could be either .NET 5 or ASP .NET V*
     return siteConfig.properties.netFrameworkVersion;
-  } else if (metadataStack === 'dotnetcore') {
+  } else if (metadataStack === RuntimeStacks.dotnetcore) {
     // NOTE(michinoy): Due to the entire .NET dropdown now containing all .NET versions (.NET, ASP.NET, and .NETCORE)
     // combined with the fact there is no storage of .NET CORE version, we now return an assumed value of the latest
     // .NET Core
