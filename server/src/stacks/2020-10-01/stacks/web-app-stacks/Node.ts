@@ -74,8 +74,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 gitHubActionSettings: {
                   isSupported: true,
                   supportedVersion: '20.x',
-                },
-                isHidden: true,
+                }
               },
             },
           },
