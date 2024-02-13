@@ -276,41 +276,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       getAllAppSettingReferences(resourceId),
       getAllConnectionStringsReferences(resourceId),
     ]);
-    let appSettingsData;
-    let connectionStringsData;
-    if (appSettingReferences.metadata.success) {
-      appSettingsData = getCleanedReferences(appSettingReferences.data);
-    } else {
-      portalContext.log({
-        action: 'getAllAppSettingReferences',
-        actionModifier: 'failed',
-        resourceId: resourceId,
-        logLevel: 'error',
-        data: {
-          error: appSettingReferences.metadata.error,
-          message: 'Failed to fetch keyvault references for AppSettings',
-        },
-      });
-    }
-
-    if (connectionStringReferences.metadata.success) {
-      connectionStringsData = getCleanedReferences(connectionStringReferences.data);
-    } else {
-      portalContext.log({
-        action: 'getAllConnectionStringReferences',
-        actionModifier: 'failed',
-        resourceId: resourceId,
-        logLevel: 'error',
-        data: {
-          error: connectionStringReferences.metadata.error,
-          message: 'Failed to fetch keyvault references for ConnectionStrings',
-        },
-      });
-    }
 
     setReferences({
-      appSettings: appSettingsData,
-      connectionStrings: connectionStringsData,
+      appSettings: getCleanedReferences(appSettingReferences),
+      connectionStrings: getCleanedReferences(connectionStringReferences),
     });
   };
 

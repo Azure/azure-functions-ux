@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
@@ -15,7 +15,6 @@ import { ValidationRegex } from '../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { azureAppConfigRefStart, CommonConstants } from '../../../../utils/CommonConstants';
 import ReferenceComponent from '../ReferenceComponent';
-import { PortalContext } from '../../../../PortalContext';
 
 export interface AppSettingAddEditProps {
   updateAppSetting: (item: FormAppSetting) => void;
@@ -33,35 +32,19 @@ const AppSettingAddEdit: React.SFC<AppSettingAddEditProps> = props => {
 
   const isLinux = isLinuxApp(site);
 
-  const portalContext = useContext(PortalContext);
-
   const { t } = useTranslation();
 
   const getReference = async () => {
     // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
     const allReferences = await getAllAppSettingReferences(site.id);
-    if (allReferences.metadata.success) {
-      const currentRefrence = allReferences.data.properties.keyToReferenceStatuses[currentAppSetting.name];
-      if (site.properties.keyVaultReferenceIdentity) {
-        if (site.properties.keyVaultReferenceIdentity.includes('userAssignedIdentities')) {
-          currentRefrence.identityType = 'userassigned';
-        }
+    const currentRefrence = allReferences.find(ref => ref.name === currentAppSetting.name)?.properties;
+    if (site.properties.keyVaultReferenceIdentity && currentRefrence) {
+      if (site.properties.keyVaultReferenceIdentity.includes('userAssignedIdentities')) {
+        currentRefrence.identityType = 'userassigned';
       }
-      setCurrentAppSettingReference(currentRefrence);
-    } else {
-      setCurrentAppSettingReference(undefined);
-      portalContext.log({
-        action: 'getAllAppSettingReferences',
-        actionModifier: 'failed',
-        resourceId: site?.id,
-        logLevel: 'error',
-        data: {
-          error: allReferences?.metadata.error,
-          message: 'Failed to fetch reference',
-        },
-      });
     }
+    setCurrentAppSettingReference(currentRefrence);
   };
 
   const updateAppSettingName = (e: any, name: string) => {

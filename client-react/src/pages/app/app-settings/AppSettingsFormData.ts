@@ -6,7 +6,6 @@ import {
   FormAzureStorageMounts,
   ReferenceSummary,
   ReferenceStatus,
-  ConfigReferenceList,
   AppSettingReference,
   StorageAccess,
   ConfigurationOption,
@@ -512,17 +511,12 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
   return configCopy;
 }
 
-export function getCleanedReferences(references: ArmObj<ConfigReferenceList>) {
-  const keyToReferenceStatuses = !!references && !!references.properties && references.properties.keyToReferenceStatuses;
-  if (!keyToReferenceStatuses) {
-    return [];
-  }
-
-  return Object.keys(keyToReferenceStatuses).map(key => ({
-    name: key,
-    reference: keyToReferenceStatuses[key].reference,
-    status: keyToReferenceStatuses[key].status,
-    details: keyToReferenceStatuses[key].details,
+export function getCleanedReferences(references: ArmObj<Reference>[]) {
+  return references.map(ref => ({
+    name: ref.name,
+    reference: ref.properties.reference,
+    status: ref.properties.status,
+    details: ref.properties.details,
   }));
 }
 
