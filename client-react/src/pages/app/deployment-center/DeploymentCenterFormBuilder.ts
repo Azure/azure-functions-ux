@@ -95,7 +95,8 @@ export abstract class DeploymentCenterFormBuilder {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
-          this.parent.sourceProvider === ScmType.Vsts
+          this.parent.sourceProvider === ScmType.Vsts ||
+          this.parent.sourceProvider === ScmType.Vso
           ? !!value
           : true;
       }),
@@ -104,7 +105,8 @@ export abstract class DeploymentCenterFormBuilder {
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
           this.parent.sourceProvider === ScmType.ExternalGit ||
-          this.parent.sourceProvider === ScmType.Vsts
+          this.parent.sourceProvider === ScmType.Vsts ||
+          this.parent.sourceProvider === ScmType.Vso
           ? !!value
           : true;
       }),
@@ -113,7 +115,8 @@ export abstract class DeploymentCenterFormBuilder {
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
           this.parent.sourceProvider === ScmType.ExternalGit ||
-          this.parent.sourceProvider === ScmType.Vsts
+          this.parent.sourceProvider === ScmType.Vsts ||
+          this.parent.sourceProvider === ScmType.Vso
           ? !!value
           : true;
       }),
