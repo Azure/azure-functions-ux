@@ -15237,6 +15237,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";managePublishProfileBasicAuthDisabled" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Basic authentication is disabled.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Die Standardauthentifizierung ist deaktiviert.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";managePublishProfileCommandBarAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Manage publish profile commands]]></Val>
