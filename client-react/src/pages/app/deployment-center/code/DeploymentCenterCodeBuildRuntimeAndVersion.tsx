@@ -126,8 +126,8 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
     // always fall back on the minor version instead of blocking or messing customers workflow file.
     const gitHubActionRuntimeVersionMapping: KeyValue<string> = {};
     const curStack = formProps.values.runtimeStack
-      ? formProps.values.runtimeStack === 'dotnet-isolated'
-        ? 'dotnet'
+      ? formProps.values.runtimeStack === RuntimeStacks.dotnetIsolated
+        ? RuntimeStacks.dotnet
         : formProps.values.runtimeStack
       : '';
     const runtimeStack = runtimeStacksData.find(stack => stack.value.toLocaleLowerCase() === curStack);
