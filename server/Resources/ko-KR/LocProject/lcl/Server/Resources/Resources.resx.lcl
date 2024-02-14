@@ -1934,12 +1934,12 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityAssignmentPermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
+          <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have a Website Contributor or higher role on the app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[권한이 부족하여 이 리소스 그룹 내의 관리 ID에 역할 기반 액세스 권한을 할당하고 페더레이션 자격 증명을 구성할 수 없습니다. 계속하려면 아래에서 기존 ID를 선택하세요. ID에는 앱에 대한 쓰기 권한이 있어야 합니다.]]></Val>
+            <Val><![CDATA[권한이 부족하여 이 리소스 그룹 내의 관리 ID에 역할 기반 액세스 권한을 할당하고 페더레이션 자격 증명을 구성할 수 없습니다. 계속하려면 아래에서 기존 ID를 선택하세요. ID에는 앱에 대한 웹 사이트 기여자 이상의 역할이 있어야 합니다.]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials.]]></Val>
+            <Val><![CDATA[You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -1973,10 +1973,13 @@
       </Item>
       <Item ItemId=";authenticationSettingsIdentityWritePermissionsError" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          <Val><![CDATA[This identity does not have a Website Contributor or higher role on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[이 ID는 이 앱에 대한 쓰기 권한이 없습니다. 다른 ID를 선택하거나 관리자와 협력하여 이 앱의 ID에 웹 사이트 기여자 역할을 부여하세요.]]></Val>
+            <Val><![CDATA[이 ID에는 이 앱에 대한 웹 사이트 기여자 이상의 역할이 없습니다. 다른 ID를 선택하거나 관리자와 협력하여 이 앱의 ID에 웹 사이트 기여자 역할을 부여하세요.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -6956,19 +6959,25 @@
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[앱에 대해 기본 인증을 사용할 수 없습니다. 사용하도록 설정할 구성 설정으로 이동하려면 여기를 클릭하세요.]]></Val>
+            <Val><![CDATA[앱에 대해 SCM 기본 인증을 사용할 수 없습니다. 사용하도록 설정하려면 여기를 클릭하여 구성 설정으로 이동하세요.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";deploymentCenterScmBasicAuthErrorMessageWithOidc" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          <Val><![CDATA[SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[앱에 대해 기본 인증을 사용할 수 없습니다. 여기를 클릭하여 설정 설정으로 이동하여 사용 설정하거나 아래의 '사용자 할당 ID' 옵션을 선택하세요.]]></Val>
+            <Val><![CDATA[앱에 대해 SCM 기본 인증을 사용할 수 없습니다. 사용하도록 설정하려면 여기를 클릭하여 구성 설정으로 이동하거나 아래의 ‘사용자 할당 ID’ 옵션을 선택하세요.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10185,6 +10194,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";feature_deploymentSlotsPreviewName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deployment Slots (Preview)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[배포 슬롯(미리 보기)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";feature_deploymentSourceInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Configure and manage deployment options for your app, including continuous deployment from Azure Repos, GitHub and Bitbucket as well as trigger deployments from OneDrive, Dropbox, external Git and more.]]></Val>
@@ -10982,6 +11000,15 @@
           <Val><![CDATA[Free]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[무료]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ftpBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[FTP Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[FTP 기본 인증 게시 자격 증명]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18875,6 +18902,15 @@
           <Val><![CDATA[The proxies schema is not valid. Error: '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[프록시 스키마가 잘못되었습니다. 오류: '{0}'.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";scmBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SCM Basic Auth Publishing Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SCM 기본 인증 게시 자격 증명]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

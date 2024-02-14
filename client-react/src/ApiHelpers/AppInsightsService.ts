@@ -185,25 +185,25 @@ export default class AppInsightsService {
   };
 
   public static formOrchestrationTracesQuery = (functionResourceId: string, top: number = 20) => {
-    const [functionAppName, functionName] = AppInsightsService._extractFunctionAppNameAndFunctionName(functionResourceId);
-    const orchestratorRequests =
-      `requests ` +
-      `| extend DurableFunctionsInstanceId = tostring(customDimensions['DurableFunctionsInstanceId']), DurableFunctionsRuntimeStatus = tostring(customDimensions['DurableFunctionsRuntimeStatus']), DurableFunctionsType = tostring(customDimensions['DurableFunctionsType']) ` +
-      `| where DurableFunctionsType == 'Orchestrator' `;
-    return (
-      `${orchestratorRequests}` +
-      `| project timestamp, id, name, operation_Name, cloud_RoleName, DurableFunctionsRuntimeStatus, DurableFunctionsType, DurableFunctionsInstanceId ` +
-      `| where DurableFunctionsRuntimeStatus != 'Terminated' and name == '${functionName}' ` +
-      `| union ( ${orchestratorRequests}` +
-      `| where DurableFunctionsRuntimeStatus == 'Terminated' and DurableFunctionsInstanceId in (` +
-      `(${orchestratorRequests}` +
-      `| where DurableFunctionsRuntimeStatus != 'Terminated' and name == '${functionName}' ` +
-      `| distinct DurableFunctionsInstanceId )) ` +
-      `) ` +
-      `| where cloud_RoleName =~ '${functionAppName}' and operation_Name =~ '${functionName}' ` +
-      `| summarize arg_max(timestamp, *) by DurableFunctionsInstanceId ` +
-      `| order by timestamp desc | take ${top}`
-    );
+    const functionName = AppInsightsService._extractFunctionName(functionResourceId);
+    const tracesQuery =
+      `traces ` +
+      `| where customDimensions.Category == "Host.Triggers.DurableTask" ` +
+      `| extend functionName = tostring(customDimensions["prop__functionName"]) ` +
+      `| extend instanceId = tostring(customDimensions["prop__instanceId"]) ` +
+      `| extend state = tostring(customDimensions["prop__state"]) ` +
+      `| extend isReplay = tobool(tolower(customDimensions["prop__isReplay"])) ` +
+      `| extend hubName = tostring(tolower(customDimensions["prop__hubName"])) ` +
+      `| extend runtimeStatus = tostring(customDimensions["prop__runtimeStatus"]) ` +
+      `| where isReplay != true ` +
+      `| where functionName =~ '${functionName}' ` +
+      `| where state != "Awaited" ` +
+      `| where runtimeStatus != "" ` +
+      `| summarize arg_max(timestamp, *) by instanceId ` +
+      `| order by timestamp desc | take ${top}` +
+      `| project timestamp, instanceId, runtimeStatus`;
+
+    return tracesQuery;
   };
 
   public static getOrchestrationDetails = (appInsightsAppId: string, appInsightsToken: string, instanceId: string) => {
@@ -639,6 +639,12 @@ export default class AppInsightsService {
     return [functionAppName, functionName];
   }
 
+  private static _extractFunctionName(functionResourceId: string): string {
+    const armFunctionDescriptor = new ArmFunctionDescriptor(functionResourceId);
+    const functionName = armFunctionDescriptor.name;
+    return functionName;
+  }
+
   private static _formLast30DayUrl = (appInsightsAppId: string): string => {
     return `${AppInsightsService._getEndpoint()}/${appInsightsAppId}/query?api-version=${
       CommonConstants.ApiVersions.appInsightsQueryApiVersion20180420
@@ -799,15 +805,12 @@ export default class AppInsightsService {
 
     if (rows) {
       rows.forEach(row => {
-        if (row.length >= 8) {
+        if (row.length >= 3) {
           traces.push({
-            timestamp: row[1],
-            timestampFriendly: moment.utc(row[1]).format('YYYY-MM-DD HH:mm:ss.SSS'),
-            id: row[2],
-            name: row[3],
-            DurableFunctionsInstanceId: row[0],
-            DurableFunctionsRuntimeStatus: row[6],
-            DurableFunctionsType: row[7],
+            timestamp: row[0],
+            timestampFriendly: moment.utc(row[0]).format('YYYY-MM-DD HH:mm:ss.SSS'),
+            DurableFunctionsInstanceId: row[1],
+            DurableFunctionsRuntimeStatus: row[2],
           });
         } else {
           LogService.trackEvent(

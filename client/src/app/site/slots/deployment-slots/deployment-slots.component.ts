@@ -6,7 +6,15 @@ import { CustomFormControl } from '../../../controls/click-to-edit/click-to-edit
 import { ArmSiteDescriptor } from '../../../shared/resourceDescriptors';
 import { FeatureComponent } from '../../../shared/components/feature-component';
 import { BroadcastEvent, EventMessage } from '../../../shared/models/broadcast-event';
-import { Links, LogCategories, ScenarioIds, SiteTabIds, SlotOperationState, SwapOperationType } from '../../../shared/models/constants';
+import {
+  Kinds,
+  Links,
+  LogCategories,
+  ScenarioIds,
+  SiteTabIds,
+  SlotOperationState,
+  SwapOperationType,
+} from '../../../shared/models/constants';
 import { HttpResult } from '../../../shared/models/http-result';
 import { OpenBladeInfo, EventVerbs, FrameBladeParams } from '../../../shared/models/portal';
 import { PortalResources } from '../../../shared/models/portal-resources';
@@ -32,6 +40,7 @@ import { ArmUtil } from '../../../shared/Utilities/arm-utils';
   styleUrls: ['./../common.scss', './deployment-slots.component.scss'],
 })
 export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<SiteData>> implements OnDestroy {
+  public title: string;
   public FwdLinks = Links;
   public SumValidator = RoutingSumValidator;
   public viewInfo: TreeViewInfo<SiteData>;
@@ -103,6 +112,8 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
 
     this.featureName = 'deploymentslots';
     this.isParentComponent = true;
+
+    this.title = this._translateService.instant(PortalResources.feature_deploymentSlotsName);
 
     this.slotsQuotaScaleUp = () => {
       if (this._confirmIfDirty()) {
@@ -207,6 +218,15 @@ export class DeploymentSlotsComponent extends FeatureComponent<TreeViewInfo<Site
         this.clearBusyEarly();
 
         const scenarioInput = this._getScenarioCheckInput();
+
+        if (
+          scenarioInput &&
+          scenarioInput.site &&
+          scenarioInput.site.kind &&
+          scenarioInput.site.kind.toLowerCase().includes(Kinds.workflowApp)
+        ) {
+          this.title = this._translateService.instant(PortalResources.feature_deploymentSlotsPreviewName);
+        }
 
         const slotLimitsPromise = !!scenarioInput
           ? this._scenarioService.checkScenarioAsync(ScenarioIds.getSiteSlotLimits, scenarioInput)

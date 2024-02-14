@@ -74,6 +74,7 @@ export enum RuntimeStackOptions {
   Dotnet = 'dotnet',
   DotnetIsolated = 'dotnet-isolated',
   Go = 'go',
+  WordPress = 'wordpress', // NOTE(zmohammed): This is not really a part of runtime stack, we just need it for showing the code integration view in Deployment Center.
 }
 
 export enum RuntimeStackDisplayNames {
@@ -89,6 +90,7 @@ export enum RuntimeStackDisplayNames {
   Dotnet = '.NET',
   DotnetIsolated = '.Net Isolated',
   Go = 'Go',
+  WordPress = 'WordPress',
 }
 
 export enum RuntimeVersionOptions {
@@ -411,6 +413,7 @@ export interface DeploymentCenterCodeLogsTimerProps {
 export interface DeploymentCenterCommitLogsProps {
   dismissLogPanel: () => void;
   commitId?: string;
+  failed?: boolean;
 }
 
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
@@ -461,6 +464,7 @@ export interface DeploymentCenterContainerCommandBarProps extends DeploymentCent
 }
 
 export interface DeploymentCenterPublishProfilePanelProps {
+  isBasicAuthDisabled: boolean;
   isPanelOpen: boolean;
   dismissPanel: () => void;
   resetApplicationPassword: () => void;
@@ -608,7 +612,7 @@ export interface CodeDeploymentsRow {
   displayTime: string;
   commit: JSX.Element;
   message: string | JSX.Element;
-  status: string;
+  status: string | JSX.Element;
   author: string;
 }
 

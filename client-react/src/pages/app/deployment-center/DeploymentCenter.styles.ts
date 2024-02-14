@@ -251,3 +251,13 @@ export const deploymentCenterAddIdentityLink = style({
   marginTop: '-15px',
   maxWidth: FORM_DEFAULT_WIDTH, // To match the Dropdown override style
 });
+
+export const logStatusIconStyle = (color: string) =>
+  style({
+    width: '16px',
+    height: '16px',
+    minWidth: '16px',
+    minHeight: '16px',
+    color: color,
+    marginTop: '4px',
+  });

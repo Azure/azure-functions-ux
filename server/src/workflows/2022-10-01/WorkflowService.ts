@@ -2,6 +2,7 @@ import { HttpException, Injectable } from '@nestjs/common';
 import * as fs from 'fs';
 import { join, normalize } from 'path';
 import { AppType, JavaContainers, Os, PublishType, RuntimeStacks, AuthType } from '../WorkflowModel';
+import { toASCII } from 'punycode';
 
 @Injectable()
 export class WorkflowService20221001 {
@@ -47,7 +48,10 @@ export class WorkflowService20221001 {
 
     Object.keys(variables).forEach(variableKey => {
       const replaceKey = `__${variableKey}__`;
-      workflowFile = workflowFile.replace(new RegExp(replaceKey, 'gi'), variables[variableKey]);
+      workflowFile = workflowFile.replace(
+        new RegExp(replaceKey, 'gi'),
+        variableKey === 'siteName' || variableKey === 'slotName' ? toASCII(variables[variableKey]) : variables[variableKey]
+      );
     });
 
     return workflowFile;
@@ -92,6 +96,7 @@ export class WorkflowService20221001 {
       case RuntimeStacks.Powershell:
         return this.readWorkflowFile('function-app-configs/powershell-windows.config.yml');
       case RuntimeStacks.Dotnet:
+      case RuntimeStacks.DotnetIsolated:
         return this.readWorkflowFile('function-app-configs/dotnetcore-windows.config.yml');
       case RuntimeStacks.Java:
         return this.readWorkflowFile('function-app-configs/java-windows.config.yml');

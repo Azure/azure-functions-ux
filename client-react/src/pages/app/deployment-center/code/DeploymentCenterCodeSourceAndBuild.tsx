@@ -184,6 +184,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     siteStateContext.isLinuxApp,
     siteStateContext.isFunctionApp,
     siteStateContext.isKubeApp,
+    siteStateContext.isWordPressApp,
     deploymentCenterContext.siteConfig,
     deploymentCenterContext.configMetadata,
     deploymentCenterContext.applicationSettings
@@ -250,6 +251,14 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
       isBasicAuthSelected && isGitHubActionsOrKuduBuild && !deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow
     );
   }, [selectedBuild, deploymentCenterPublishingContext.basicPublishingCredentialsPolicies?.scm.allow, formProps.values.authType]);
+
+  useEffect(() => {
+    if (selectedBuild === BuildProvider.GitHubAction) {
+      formProps.setFieldValue('authType', AuthType.Oidc);
+    } else {
+      formProps.setFieldValue('authType', AuthType.PublishProfile);
+    }
+  }, [selectedBuild]);
 
   const showNoWritePermissionBanner = useMemo(() => {
     return !deploymentCenterContext.hasWritePermission;

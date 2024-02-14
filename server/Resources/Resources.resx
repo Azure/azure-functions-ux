@@ -1738,6 +1738,9 @@
     <data name="feature_deploymentSlotsName" xml:space="preserve">
         <value>Deployment Slots</value>
     </data>
+    <data name="feature_deploymentSlotsPreviewName" xml:space="preserve">
+        <value>Deployment Slots (Preview)</value>
+    </data>
     <data name="feature_developmentTools" xml:space="preserve">
         <value>Development tools</value>
     </data>
@@ -3853,6 +3856,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="basicAuthPublishingCred" xml:space="preserve">
         <value>Basic Auth Publishing Credentials</value>
+    </data>
+    <data name="scmBasicAuthPublishingCredentials" xml:space="preserve">
+        <value>SCM Basic Auth Publishing Credentials</value>
+    </data>
+    <data name="ftpBasicAuthPublishingCredentials" xml:space="preserve">
+        <value>FTP Basic Auth Publishing Credentials</value>
     </data>
     <data name="dismiss" xml:space="preserve">
         <value>Dismiss</value>
@@ -6327,6 +6336,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="managePublishProfile" xml:space="preserve">
         <value>Manage publish profile</value>
     </data>
+    <data name="managePublishProfileBasicAuthDisabled" xml:space="preserve">
+        <value>Basic authentication is disabled.</value>
+    </data>
     <data name="ibizafication_readOnlyPython" xml:space="preserve">
         <value>Editing Python Function Apps is not supported in the Azure portal. Use your local development environment to edit this function.</value>
     </data>
@@ -7814,10 +7826,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Console text area container</value>
     </data>
     <data name="deploymentCenterScmBasicAuthErrorMessage" xml:space="preserve">
-        <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable.</value>
+        <value>SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable.</value>
     </data>
     <data name="deploymentCenterScmBasicAuthErrorMessageWithOidc" xml:space="preserve">
-        <value>Basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.</value>
+        <value>SCM basic authentication is disabled for your app. Click here to go to your configuration settings to enable, or choose the "User-assigned identity" option below.</value>
     </data>
     <data name="deploymentCenterScmBasicAuthValidationError" xml:space="preserve">
         <value>Basic authentication is disabled for your app.</value>
@@ -7895,10 +7907,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>You do not have sufficient permissions to authenticate with user-assigned identity.</value>
     </data>
     <data name="authenticationSettingsIdentityAssignmentPermissionsError" xml:space="preserve">
-        <value>You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have write permissions on the app.</value>
+        <value>You do not have sufficient permissions to assign role-based access to a managed identity within this resource group and configure federated credentials. If you wish to continue, please select an existing identity below. The identity must have a Website Contributor or higher role on the app.</value>
     </data>
     <data name="authenticationSettingsIdentityWritePermissionsError" xml:space="preserve">
-        <value>This identity does not have write permissions on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.</value>
+        <value>This identity does not have a Website Contributor or higher role on this app. Please select a different identity, or work with your admin to grant the Website Contributor role to your identity on this app.</value>
     </data>
     <data name="authenticationSettingsIdentityUnsupportedRegionError" xml:space="preserve">
         <value>This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.</value>

@@ -80,6 +80,7 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       siteStateContext.isLinuxApp,
       siteStateContext.isFunctionApp,
       siteStateContext.isKubeApp,
+      siteStateContext.isWordPressApp,
       deploymentCenterContext.siteConfig,
       deploymentCenterContext.configMetadata,
       deploymentCenterContext.applicationSettings

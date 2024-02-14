@@ -541,6 +541,7 @@ export class PortalResources {
   public static feature_generalSettings = 'feature_generalSettings';
   public static feature_codeDeployment = 'feature_codeDeployment';
   public static feature_deploymentSlotsName = 'feature_deploymentSlotsName';
+  public static feature_deploymentSlotsPreviewName = 'feature_deploymentSlotsPreviewName';
   public static feature_developmentTools = 'feature_developmentTools';
   public static feature_networkingName = 'feature_networkingName';
   public static feature_networkingInfo = 'feature_networkingInfo';
@@ -1239,6 +1240,8 @@ export class PortalResources {
   public static httpVersion = 'httpVersion';
   public static http20Proxy = 'http20Proxy';
   public static basicAuthPublishingCred = 'basicAuthPublishingCred';
+  public static scmBasicAuthPublishingCredentials = 'scmBasicAuthPublishingCredentials';
+  public static ftpBasicAuthPublishingCredentials = 'ftpBasicAuthPublishingCredentials';
   public static dismiss = 'dismiss';
   public static provider = 'provider';
   public static newAccount = 'newAccount';
@@ -2052,6 +2055,7 @@ export class PortalResources {
   public static deploymentCenterDeleteLogsFailureWithErrorNotificationDescription =
     'deploymentCenterDeleteLogsFailureWithErrorNotificationDescription';
   public static managePublishProfile = 'managePublishProfile';
+  public static managePublishProfileBasicAuthDisabled = 'managePublishProfileBasicAuthDisabled';
   public static ibizafication_readOnlyPython = 'ibizafication_readOnlyPython';
   public static ibizafication_readOnlyJava = 'ibizafication_readOnlyJava';
   public static ibizafication_readOnlyLocalCache = 'ibizafication_readOnlyLocalCache';

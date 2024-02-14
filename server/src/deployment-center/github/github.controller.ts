@@ -482,11 +482,12 @@ export class GithubController {
   @HttpCode(200)
   async rerunWorkflow(
     @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
     @Body('repo') repo: string,
     @Body('runId') runId: string,
     @Body('data') data: string
   ) {
-    const url = `${this.githubApiUrl}/repos/${repo}/actions/runs/${runId}/rerun`;
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/actions/runs/${runId}/rerun`;
 
     try {
       await this.httpService.post(url, data, {

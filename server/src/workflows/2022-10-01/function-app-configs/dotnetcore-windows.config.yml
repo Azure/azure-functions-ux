@@ -3,7 +3,7 @@
 
 name: Build and deploy dotnet core app to Azure Function App - __sitename__
 
-on: |+
+on:
   push:
     branches:
       - __branch__

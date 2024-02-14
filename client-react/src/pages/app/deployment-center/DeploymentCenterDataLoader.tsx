@@ -58,6 +58,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   );
   const [isIlbASE, setIsIlbASE] = useState<boolean>(false);
   const [isDataRefreshing, setIsDataRefreshing] = useState(true);
+  const isBasicAuthDisabled = React.useMemo(
+    () => !(basicPublishingCredentialsPolicies?.ftp.allow || basicPublishingCredentialsPolicies?.scm.allow),
+    [basicPublishingCredentialsPolicies?.ftp.allow, basicPublishingCredentialsPolicies?.scm.allow]
+  );
 
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
@@ -340,6 +344,7 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
         )}
         {/* NOTE(michinoy): Load the publishing profile panel which is common between both code and container experiences  */}
         <DeploymentCenterPublishProfilePanel
+          isBasicAuthDisabled={isBasicAuthDisabled}
           isPanelOpen={isPublishProfilePanelOpen}
           dismissPanel={dismissPublishProfilePanel}
           resetApplicationPassword={resetApplicationPassword}
