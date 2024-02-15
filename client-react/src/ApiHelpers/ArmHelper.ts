@@ -226,13 +226,13 @@ const pollForCompletion = <T, U = T>(response: ArmBatchObject, request: ArmReque
     return pollAzureAsyncOperationForCompletion(response, azureAsyncOperation, request);
   } else if ((<any>response.content)?.properties.provisioningState) {
   } else {
-    const responseSuccess = response?.httpStatusCode < 300;
+    const responseSuccess = response.httpStatusCode < 300;
     return Promise.resolve({
       data: response.content,
       metadata: {
         success: responseSuccess,
-        status: response?.httpStatusCode,
-        headers: response?.headers,
+        status: response.httpStatusCode,
+        headers: response.headers,
         error: responseSuccess ? null : response.content,
       },
     });
@@ -386,15 +386,15 @@ const pollProvisioningStateForCompletion = <T, U = T>(request: ArmRequestObject<
 
 const getHeader = (headerToFind: string, headers: KeyValue<string>) => {
   for (const key of Object.keys(headers)) {
-    if (Object.prototype.hasOwnProperty.call(headers, key) && key.toLowerCase() === headerToFind.toLowerCase()) {
+    if (key.toLowerCase() === headerToFind.toLowerCase()) {
       return headers[key];
     }
   }
 };
 
-const delay = async (func: () => Promise<any>, ms: number = 3000) => {
-  const sleepPromise = new Promise(resolve => setTimeout(resolve, ms));
-  return await sleepPromise.then(func);
+const delay = async (func: () => Promise<any>, ms = 3000) => {
+  await new Promise(resolve => setTimeout(resolve, ms));
+  return await func();
 };
 
 export const getErrorMessage = (error: any, recursionLimit: number = 1): string => {
