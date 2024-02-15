@@ -225,6 +225,7 @@ const pollForCompletion = <T, U = T>(response: ArmBatchObject, request: ArmReque
   } else if (azureAsyncOperation) {
     return pollAzureAsyncOperationForCompletion(response, azureAsyncOperation, request);
   } else if ((<any>response.content)?.properties.provisioningState) {
+    return pollProvisioningStateForCompletion(request);
   } else {
     const responseSuccess = response.httpStatusCode < 300;
     return Promise.resolve({
