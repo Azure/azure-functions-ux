@@ -21,3 +21,14 @@ export interface HttpResponseObject<T> {
   };
   data: T;
 }
+
+export enum AzureAsyncOperationStatus {
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+  Cancelled = 'Cancelled',
+}
+
+export enum ProvisioningState {
+  Succeeded = 'Succeeded',
+  Failed = 'Failed',
+}
