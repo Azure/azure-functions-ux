@@ -182,7 +182,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           this._slotsArm = slotsResult.result.value;
           this._slotsArm.unshift(siteResult.result);
 
-          if (this.isFunctionApp) {
+          if (this.isFunctionApp && !this._isWorkflowApp) {
             this._setFunctionAppContext(siteResult, appSettingsResult);
 
             // This is a function app, so we need to check if it needs to be opted in to using slots.
