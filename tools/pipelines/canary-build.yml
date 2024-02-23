@@ -1,0 +1,283 @@
+# Node.js with gulp
+# Build a Node.js project using the gulp task runner.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+# For Localization task, we need to use windows image since OneLocBuildTask is not supported otherwise
+jobs:
+  - job: ReactBuild
+    pool:
+      vmImage: 'macOS-latest'
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          cd client-react
+          npm ci --legacy-peer-deps
+        displayName: 'npm install'
+
+      - script: |
+          cd client-react
+          export REACT_APP_CACHE_KEY=$(uuidgen)
+          npm run build
+        displayName: 'build production react'
+        env:
+          REACT_APP_RUNETIME_TYPE: $(reactRuntimeType)
+          REACT_APP_APPLICATION_INSIGHTS_KEY: $(applicationInsightsKey)
+          REACT_APP_APPLICATION_VERSION: ${BUILD_BUILDID}
+
+      - script: |
+          cd client-react/build
+          mv index.html index.react.html
+        displayName: 'Rename index.html'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client-react/build
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public/react'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: react-build'
+        inputs:
+          ArtifactName: react-build
+
+  - job: AngularFull
+    pool:
+      vmImage: 'macOS-latest'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          cd client
+          npm ci
+        displayName: 'npm install'
+
+      - script: |
+          cd client
+          node_modules/.bin/ng build --progress false --output-path="public/ng-full"
+        displayName: 'ng build full'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client/public
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: angular-full'
+        inputs:
+          ArtifactName: angular-full
+
+  - job: AngularMin
+    pool:
+      vmImage: 'macOS-latest'
+
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '14.x'
+        displayName: 'Install Node.js'
+
+      - script: |
+          npm install -g gulp-cli
+        displayName: 'install gulp'
+
+      - script: |
+          cd client
+          npm ci
+        displayName: 'npm install'
+
+      - script: |
+          cd client
+          node_modules/.bin/ng build --progress false --prod --environment=prod --output-path="../server/public/ng-min"
+        displayName: 'ng build full'
+
+      - script: |
+          cd server
+          npm ci
+          gulp replace-tokens-for-minimized-angular
+        displayName: 'Generate config file with angular files'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: server/public
+          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
+
+      - task: CopyFiles@2
+        displayName: 'Copy Assets to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: client/src/assets
+          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: angular-min'
+        inputs:
+          ArtifactName: angular-min
+
+  - job: Localization
+    pool:
+      vmImage: 'windows-2019'
+    steps:
+      - task: OneLocBuild@2
+        env:
+          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+        inputs:
+          locProj: 'server/LocProject.json'
+          outDir: '$(Build.ArtifactStagingDirectory)'
+          packageSourceAuth: 'patAuth'
+          dependencyPackageSource: 'https://azure-functions-ux.pkgs.visualstudio.com/_packaging/azure-functions-ux-loc/nuget/v3/index.json'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: loc'
+        inputs:
+          ArtifactName: loc
+
+  - job: Server
+    pool:
+      vmImage: 'macOS-latest'
+    dependsOn:
+      - AngularFull
+      - AngularMin
+      - ReactBuild
+      - Localization
+    steps:
+      - task: NodeTool@0
+        inputs:
+          versionSpec: '18.x'
+        displayName: 'Install Node.js'
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Loc Artifacts'
+        inputs:
+          artifactName: loc
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: CopyFiles@2
+        displayName: 'Copy Loc to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/loc/loc
+          TargetFolder: server/resources-resx
+
+      - script: |
+          cd server
+          npm ci
+        displayName: 'npm install'
+
+      - script: |
+          cd server
+          npm run build
+        displayName: 'Setup Environment Variables and Build Resources'
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Angular Full Artifacts'
+        inputs:
+          artifactName: angular-full
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download Angular Min Artifacts'
+        inputs:
+          artifactName: angular-min
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: DownloadBuildArtifacts@0
+        displayName: 'Download React Build Artifacts'
+        inputs:
+          artifactName: react-build
+          downloadPath: $(System.DefaultWorkingDirectory)
+
+      - task: CopyFiles@2
+        displayName: 'Copy Angular Full Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/angular-full
+          TargetFolder: server/dist
+
+      - task: CopyFiles@2
+        displayName: 'Copy Angular Min Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/angular-min
+          TargetFolder: server/dist
+
+      - task: CopyFiles@2
+        displayName: 'Copy React Build Files to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/react-build
+          TargetFolder: server/dist
+
+      - task: CopyFiles@2
+        displayName: 'Copy EtwLogger Folder to: $(Build.ArtifactStagingDirectory)'
+        inputs:
+          SourceFolder: server/EtwLogger
+          TargetFolder: server/dist/EtwLogger
+
+      - script: |
+          cd server
+          npm run bundle
+        displayName: 'Run Production Ready Script'
+        env:
+          bitbucketClientId: $(bitbucketClientId)
+          githubClientId: $(githubClientId)
+          githubClientSecret: $(githubClientSecret)
+          githubNationalCloudsClientId: $(githubNationalCloudsClientId)
+          githubNationalCloudsClientSecret: $(githubNationalCloudsClientSecret)
+          githubRedirectUrl: $(githubRedirectUrl)
+          bitbucketClientSecret: $(bitbucketClientSecret)
+          bitbucketRedirectUrl: $(bitbucketRedirectUrl)
+          staticSitesGithubClientId: $(staticSitesGithubClientId)
+          staticSitesGithubClientSecret: $(staticSitesGithubClientSecret)
+          githubForCreatesClientId: $(githubForCreatesClientId)
+          githubForCreatesClientSecret: $(githubForCreatesClientSecret)
+          githubForCreatesNationalCloudsClientId: $(githubForCreatesNationalCloudsClientId)
+          githubForCreatesNationalCloudsClientSecret: $(githubForCreatesNationalCloudsClientSecret)
+          githubForReactViewsV2ClientId: $(githubForReactViewsV2ClientId)
+          githubForReactViewsV2ClientSecret: $(githubForReactViewsV2ClientSecret)
+
+      - script: |
+          cd server/dist
+          npm ci --production
+        displayName: 'Run Production Ready Script'
+
+      - task: ArchiveFiles@2
+        inputs:
+          rootFolderOrFile: server/dist
+          includeRootFolder: false
+          archiveType: 'zip'
+          archiveFile: '$(Build.ArtifactStagingDirectory)/bin/UX.zip'
+          replaceExistingArchive: true
+
+      - task: AzureCLI@2
+        displayName: 'Download Rollout-spec'
+        inputs:
+          scriptType: 'ps'
+          azureSubscription: $(serviceConnectionForRolloutSpec)
+          scriptLocation: inlineScript
+          inlineScript: |
+            mkdir '$(Build.ArtifactStagingDirectory)/rollout-spec'
+            $storageAccountKey = az storage account keys list -n '$(rolloutSpecStorageAccount)' --query [0].value -o tsv 
+            az storage blob download-batch -s '$(rolloutSpecContainer)' --account-name '$(rolloutSpecStorageAccount)' --account-key $storageAccountKey -d '$(Build.ArtifactStagingDirectory)'
+
+      - task: UniversalPackages@0
+        displayName: 'Publish artifact to Feed'
+        inputs:
+          command: publish
+          publishDirectory: '$(Build.ArtifactStagingDirectory)'
+          feedsToUsePublish: 'external'
+          publishFeedCredentials: $(buildArtifactPublishConnection)
+          feedPublishExternal: azure-functions-ux
+          packagePublishExternal: canary
+          versionOption: minor
+          packagePublishDescription: 'Canary build for UX from branch - $(Build.SourceBranch)'
+
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: dest'
+        inputs:
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)'
+          ArtifactName: dest
