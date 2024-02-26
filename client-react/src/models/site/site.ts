@@ -170,11 +170,16 @@ export enum AppOs {
   windows = 'windows',
 }
 
-export interface CredentialPolicy {
-  allow: boolean;
+export enum PublishingCredentialPolicyType {
+  FTP = 'ftp',
+  SCM = 'scm',
 }
 
 export interface PublishingCredentialPolicies {
-  ftp: CredentialPolicy;
-  scm: CredentialPolicy;
+  allow: boolean;
+}
+
+export interface PublishingCredentialPoliciesContext {
+  ftp: PublishingCredentialPolicies;
+  scm: PublishingCredentialPolicies;
 }

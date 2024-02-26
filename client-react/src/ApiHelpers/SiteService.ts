@@ -1,9 +1,9 @@
-import MakeArmCall from './ArmHelper';
+import MakeArmCall, { MakePagedArmCall } from './ArmHelper';
 import { AvailableStack } from '../models/available-stacks';
 import { CommonConstants } from '../utils/CommonConstants';
 import LogService from '../utils/LogService';
 import { ArmObj, ArmArray } from '../models/arm-obj';
-import { Site, PublishingCredentialPolicies, CredentialPolicy } from '../models/site/site';
+import { Site, PublishingCredentialPolicies } from '../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ErrorPage } from '../models/site/config';
 import { SlotConfigNames } from '../models/site/slot-config-names';
 import { SiteLogsConfig } from '../models/site/logs-config';
@@ -417,7 +417,7 @@ export default class SiteService {
     apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
   ) => {
     const id = `${resourceId}/basicPublishingCredentialsPolicies`;
-    return MakeArmCall<ArmObj<PublishingCredentialPolicies>>({
+    return MakePagedArmCall<PublishingCredentialPolicies>({
       method: 'GET',
       resourceId: id,
       commandName: 'getBasicPublishingCredentialsPolicies',
@@ -432,16 +432,11 @@ export default class SiteService {
     apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
   ) => {
     const id = `${resourceId}/basicPublishingCredentialsPolicies/${type}`;
-    const content = {
-      ...newBasicPublishingCredentials,
-      properties: {
-        allow: type === 'scm' ? newBasicPublishingCredentials.properties.scm.allow : newBasicPublishingCredentials.properties.ftp.allow,
-      },
-    };
-    return MakeArmCall<ArmObj<CredentialPolicy>>({
+
+    return MakeArmCall<ArmObj<PublishingCredentialPolicies>>({
       method: 'PUT',
       resourceId: id,
-      body: content,
+      body: newBasicPublishingCredentials,
       commandName: `put${type}BasicPublishingCredentialsPolicies`,
       apiVersion,
     });
@@ -451,7 +446,7 @@ export default class SiteService {
     resourceId: string,
     errorCode: string,
     content: string,
-    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
   ) => {
     const id = `${resourceId}/errorpages/${errorCode}`;
 
@@ -468,7 +463,7 @@ export default class SiteService {
     });
   };
 
-  public static GetCustomErrorPagesForSite = (resourceId: string, apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101) => {
+  public static GetCustomErrorPagesForSite = (resourceId: string, apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301) => {
     const id = `${resourceId}/errorpages`;
     return MakeArmCall<ArmArray<ErrorPage>>({
       method: 'GET',
@@ -481,7 +476,7 @@ export default class SiteService {
   public static GetCustomErrorPageForSite = (
     resourceId: string,
     errorCode: string,
-    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
   ) => {
     const id = `${resourceId}/errorpages/${errorCode}`;
     return MakeArmCall<ArmObj<ErrorPage>>({
@@ -495,7 +490,7 @@ export default class SiteService {
   public static DeleteCustomErrorPageForSite = (
     resourceId: string,
     errorCode: string,
-    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20141101
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
   ) => {
     const id = `${resourceId}/errorpages/${errorCode}`;
     return MakeArmCall<void>({

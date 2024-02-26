@@ -245,9 +245,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: !!azureStorageMounts && azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-          basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
-            ? basicPublishingCredentialsPolicies.data
-            : null,
+          basicPublishingCredentialsPolicies,
           appPermissions: appPermissions,
           errorPages: errorPagesResponse?.metadata.success ? errorPagesResponse.data : null,
         }),
@@ -412,12 +410,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (values.basicPublishingCredentialsPolicies) {
         // NOTE(krmitta): Update scm only if the value has changed from before
         if (
-          initialValues?.basicPublishingCredentialsPolicies?.properties.scm?.allow !==
-          values.basicPublishingCredentialsPolicies?.properties.scm?.allow
+          values.basicPublishingCredentialsPolicies?.scm &&
+          !!initialValues?.basicPublishingCredentialsPolicies?.scm?.properties?.allow !==
+            !!values.basicPublishingCredentialsPolicies?.scm?.properties?.allow
         ) {
           const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
             resourceId,
-            values.basicPublishingCredentialsPolicies,
+            values.basicPublishingCredentialsPolicies.scm,
             'scm'
           );
 
@@ -439,12 +438,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
         // NOTE(krmitta): Update ftp only if the value has changed from before
         if (
-          initialValues?.basicPublishingCredentialsPolicies?.properties.ftp?.allow !==
-          values.basicPublishingCredentialsPolicies?.properties.ftp?.allow
+          values.basicPublishingCredentialsPolicies.ftp &&
+          !!initialValues?.basicPublishingCredentialsPolicies?.ftp?.properties?.allow !==
+            !!values.basicPublishingCredentialsPolicies?.ftp?.properties?.allow
         ) {
           const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
             resourceId,
-            values.basicPublishingCredentialsPolicies,
+            values.basicPublishingCredentialsPolicies.ftp,
             'ftp'
           );
 

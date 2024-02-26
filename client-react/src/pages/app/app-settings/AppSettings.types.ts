@@ -40,6 +40,11 @@ export interface FormErrorPage {
   content?: string;
 }
 
+export interface FormBasicPublishingCrendentialPolicies {
+  ftp?: ArmObj<PublishingCredentialPolicies>;
+  scm?: ArmObj<PublishingCredentialPolicies>;
+}
+
 export interface AppSettingsFormValues {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
@@ -49,7 +54,7 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   errorPages: FormErrorPage[];
   currentlySelectedStack: string;
-  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
+  basicPublishingCredentialsPolicies: FormBasicPublishingCrendentialPolicies;
   references?: KeyVaultReferences;
 }
 
