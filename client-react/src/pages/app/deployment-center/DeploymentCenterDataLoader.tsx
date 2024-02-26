@@ -59,10 +59,10 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   >(undefined);
   const [isIlbASE, setIsIlbASE] = useState<boolean>(false);
   const [isDataRefreshing, setIsDataRefreshing] = useState(true);
-  const isBasicAuthDisabled = React.useMemo(() => {
-    return !(basicPublishingCredentialsPolicies?.ftp.allow || basicPublishingCredentialsPolicies?.scm.allow);
-  }, [basicPublishingCredentialsPolicies]);
-
+  const isBasicAuthDisabled = React.useMemo(
+    () => !(basicPublishingCredentialsPolicies?.ftp.allow || basicPublishingCredentialsPolicies?.scm.allow),
+    [basicPublishingCredentialsPolicies?.ftp.allow, basicPublishingCredentialsPolicies?.scm.allow]
+  );
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
       const publishingProfiles = parsePublishProfileXml(publishProfileResponse.data);
