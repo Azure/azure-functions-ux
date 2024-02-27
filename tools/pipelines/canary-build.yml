@@ -1,3 +1,10 @@
+trigger: none
+schedules:
+  - cron: '0 22 * * 1-5'
+    displayName: Daily weekday 2PM PST or 10PM UTC build
+    branches:
+      include:
+        - dev
 # Node.js with gulp
 # Build a Node.js project using the gulp task runner.
 # Add steps that analyze code, save build artifacts, deploy, and more:
@@ -274,7 +281,7 @@ jobs:
           feedPublishExternal: azure-functions-ux
           packagePublishExternal: canary
           versionOption: minor
-          packagePublishDescription: 'Canary build for UX from branch - $(Build.SourceBranch)'
+          packagePublishDescription: 'Canary build using - $(Build.SourceBranch)'
 
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
