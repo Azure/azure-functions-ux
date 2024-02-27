@@ -28,6 +28,7 @@ export class CommonConstants {
   public static readonly ApiVersions = {
     antaresApiVersion20181101: '2018-11-01',
     antaresApiVersion20201201: '2020-12-01',
+    antaresApiVersion20220301: '2022-03-01',
     armBatchApi20151101: '2015-11-01',
     armDeploymentApiVersion20210401: '2021-04-01',
     resourceGraphApiVersion20180901preview: '2018-09-01-preview',
@@ -101,10 +102,10 @@ export class CommonConstants {
   };
 
   public static readonly WordPressLinuxFxVersions: string[] = [
-    "WORDPRESS|8.2",
-    "DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2",
-    "WORDPRESS|8.3",
-    "DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3",
+    'WORDPRESS|8.2',
+    'DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2',
+    'WORDPRESS|8.3',
+    'DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3',
   ];
 
   public static readonly AppSettingNames = {

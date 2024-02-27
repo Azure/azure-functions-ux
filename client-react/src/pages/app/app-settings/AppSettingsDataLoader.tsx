@@ -245,9 +245,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           appSettings: applicationSettings.metadata.success ? applicationSettings.data : null,
           slotConfigNames: slotConfigNames.data,
           azureStorageMounts: !!azureStorageMounts && azureStorageMounts.metadata.success ? azureStorageMounts.data : null,
-          basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
-            ? basicPublishingCredentialsPolicies.data
-            : null,
+          basicPublishingCredentialsPolicies,
           appPermissions: appPermissions,
           errorPages: errorPagesResponse?.metadata.success ? errorPagesResponse.data : null,
         }),
@@ -276,41 +274,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       getAllAppSettingReferences(resourceId),
       getAllConnectionStringsReferences(resourceId),
     ]);
-    let appSettingsData;
-    let connectionStringsData;
-    if (appSettingReferences.metadata.success) {
-      appSettingsData = getCleanedReferences(appSettingReferences.data);
-    } else {
-      portalContext.log({
-        action: 'getAllAppSettingReferences',
-        actionModifier: 'failed',
-        resourceId: resourceId,
-        logLevel: 'error',
-        data: {
-          error: appSettingReferences.metadata.error,
-          message: 'Failed to fetch keyvault references for AppSettings',
-        },
-      });
-    }
-
-    if (connectionStringReferences.metadata.success) {
-      connectionStringsData = getCleanedReferences(connectionStringReferences.data);
-    } else {
-      portalContext.log({
-        action: 'getAllConnectionStringReferences',
-        actionModifier: 'failed',
-        resourceId: resourceId,
-        logLevel: 'error',
-        data: {
-          error: connectionStringReferences.metadata.error,
-          message: 'Failed to fetch keyvault references for ConnectionStrings',
-        },
-      });
-    }
 
     setReferences({
-      appSettings: appSettingsData,
-      connectionStrings: connectionStringsData,
+      appSettings: getCleanedReferences(appSettingReferences),
+      connectionStrings: getCleanedReferences(connectionStringReferences),
     });
   };
 
@@ -443,12 +410,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (values.basicPublishingCredentialsPolicies) {
         // NOTE(krmitta): Update scm only if the value has changed from before
         if (
-          initialValues?.basicPublishingCredentialsPolicies?.properties.scm?.allow !==
-          values.basicPublishingCredentialsPolicies?.properties.scm?.allow
+          values.basicPublishingCredentialsPolicies?.scm &&
+          !!initialValues?.basicPublishingCredentialsPolicies?.scm?.properties?.allow !==
+            !!values.basicPublishingCredentialsPolicies?.scm?.properties?.allow
         ) {
           const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
             resourceId,
-            values.basicPublishingCredentialsPolicies,
+            values.basicPublishingCredentialsPolicies.scm,
             'scm'
           );
 
@@ -470,12 +438,13 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
         // NOTE(krmitta): Update ftp only if the value has changed from before
         if (
-          initialValues?.basicPublishingCredentialsPolicies?.properties.ftp?.allow !==
-          values.basicPublishingCredentialsPolicies?.properties.ftp?.allow
+          values.basicPublishingCredentialsPolicies.ftp &&
+          !!initialValues?.basicPublishingCredentialsPolicies?.ftp?.properties?.allow !==
+            !!values.basicPublishingCredentialsPolicies?.ftp?.properties?.allow
         ) {
           const basicAuthCredentialsResponse = await SiteService.putBasicAuthCredentials(
             resourceId,
-            values.basicPublishingCredentialsPolicies,
+            values.basicPublishingCredentialsPolicies.ftp,
             'ftp'
           );
 

@@ -124,7 +124,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
         values.basicPublishingCredentialsPolicies && (
           <Field
-            name={'basicPublishingCredentialsPolicies.properties.scm.allow'}
+            name={'basicPublishingCredentialsPolicies.scm.properties.allow'}
             component={RadioButton}
             label={t('scmBasicAuthPublishingCredentials')}
             id="app-settings-scm-basic-authentication-publishing-creds"
@@ -145,7 +145,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
         values.basicPublishingCredentialsPolicies && (
           <Field
-            name={'basicPublishingCredentialsPolicies.properties.ftp.allow'}
+            name={'basicPublishingCredentialsPolicies.ftp.properties.allow'}
             component={RadioButton}
             label={t('ftpBasicAuthPublishingCredentials')}
             infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}

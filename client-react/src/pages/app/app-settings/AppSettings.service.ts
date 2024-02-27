@@ -5,11 +5,11 @@ import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { SiteConfig, Reference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
-import MakeArmCall from '../../../ApiHelpers/ArmHelper';
+import MakeArmCall, { MakePagedArmCall } from '../../../ApiHelpers/ArmHelper';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import PortalCommunicator from '../../../portal-communicator';
 import FunctionsService from '../../../ApiHelpers/FunctionsService';
-import { ConfigReferenceList } from './AppSettings.types';
+import { CommonConstants } from '../../../utils/CommonConstants';
 
 export const fetchApplicationSettingValues = async (resourceId: string) => {
   const [webConfig, metadata, slotConfigNames, connectionStrings, applicationSettings] = await Promise.all([
@@ -69,43 +69,55 @@ export const getProductionAppWritePermissions = async (portalContext: PortalComm
 
 export const getApplicationSettingReference = async (
   resourceId: string,
-  appSettingName: string
+  appSettingName: string,
+  apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
 ): Promise<HttpResponseObject<ArmObj<{ [keyToReferenceStatuses: string]: { [key: string]: Reference } }>>> => {
   const id = `${resourceId}/config/configreferences/appsettings/${appSettingName}`;
   return MakeArmCall<ArmObj<Record<string, Record<string, Reference>>>>({
     resourceId: id,
     commandName: 'getApplicationSettingReference',
     method: 'GET',
+    apiVersion,
   });
 };
 
 export const getConnectionStringReference = async (
   resourceId: string,
-  connectionstringName: string
+  connectionstringName: string,
+  apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
 ): Promise<HttpResponseObject<ArmObj<Reference>>> => {
   const id = `${resourceId}/config/configreferences/connectionstrings/${connectionstringName}`;
   return MakeArmCall<ArmObj<Reference>>({
     resourceId: id,
     commandName: 'getConnectionStringReference',
     method: 'GET',
+    apiVersion,
   });
 };
 
-export const getAllAppSettingReferences = async (resourceId: string) => {
+export const getAllAppSettingReferences = async (
+  resourceId: string,
+  apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
+) => {
   const id = `${resourceId}/config/configreferences/appsettings`;
-  return MakeArmCall<ArmObj<ConfigReferenceList>>({
+  return MakePagedArmCall<Reference>({
     resourceId: id,
     commandName: 'getAllAppSettingReferences',
     method: 'GET',
+    apiVersion,
   });
 };
 
-export const getAllConnectionStringsReferences = async (resourceId: string) => {
+export const getAllConnectionStringsReferences = async (
+  resourceId: string,
+  apiVersion = CommonConstants.ApiVersions.antaresApiVersion20220301
+) => {
   const id = `${resourceId}/config/configreferences/connectionstrings`;
-  return MakeArmCall<ArmObj<ConfigReferenceList>>({
+  return MakePagedArmCall<Reference>({
     resourceId: id,
     commandName: 'getAllConnectionStringsReferences',
     method: 'GET',
+    apiVersion,
   });
 };
 
