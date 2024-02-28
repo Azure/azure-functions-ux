@@ -130,6 +130,8 @@ async function fetchAndResolveNewNodePreviewState(
 function resolveStateFromSite(site: ArmObj<Site>, appSettings?: ArmObj<AppSettings>) {
   const workerRuntime = FunctionAppService.getWorkerRuntimeSetting(appSettings);
 
+  return FunctionAppEditMode.ReadOnlyVsCodeForTheWeb;
+
   if (isLinuxDynamic(site) && !FunctionAppService.enableEditingForLinux(site, workerRuntime)) {
     return FunctionAppEditMode.ReadOnlyLinuxDynamic;
   }
