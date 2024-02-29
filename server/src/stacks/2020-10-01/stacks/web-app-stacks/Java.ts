@@ -3,8 +3,10 @@ import { getDateString } from '../date-utilities';
 
 const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
   // EOL source: https://docs.microsoft.com/en-us/java/azure/jdk/?view=azure-java-stable#supported-java-versions-and-update-schedule
-  const java17EOL = getDateString(new Date('2031/09/01'), useIsoDateFormat);
-  const java11EOL = getDateString(new Date('2026/09/01'), useIsoDateFormat);
+  // EOL sources for MSOpenJDK (Java 11, 17 and 21): https://learn.microsoft.com/en-us/java/openjdk/support#release-and-servicing-roadmap
+  const java21EOL = getDateString(new Date('2028/09/01'), useIsoDateFormat);
+  const java17EOL = getDateString(new Date('2027/09/01'), useIsoDateFormat);
+  const java11EOL = getDateString(new Date('2027/09/01'), useIsoDateFormat);
   const java8EOL = getDateString(new Date('2025/03/01'), useIsoDateFormat);
   const java7EOL = getDateString(new Date('2023/07/01'), useIsoDateFormat);
 
@@ -13,6 +15,80 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
     value: 'java',
     preferredOs: 'linux',
     majorVersions: [
+      {
+        displayText: 'Java 21',
+        value: '21',
+        minorVersions: [
+          {
+            displayText: 'Java 21',
+            value: '21.0',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                endOfLifeDate: java21EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '21',
+                isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                endOfLifeDate: java21EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Java 21.0.2',
+            value: '21.0.2',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                endOfLifeDate: java21EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '21.0.2',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                endOfLifeDate: java21EOL,
+              },
+            },
+          },
+        ],
+      },
       {
         displayText: 'Java 17',
         value: '17',
@@ -53,6 +129,38 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             },
           },
           {
+            displayText: 'Java 17.0.10',
+            value: '17.0.10',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '17',
+                },
+                endOfLifeDate: java17EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '17.0.10',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '17',
+                },
+                endOfLifeDate: java17EOL,
+              },
+            },
+          }, {
             displayText: 'Java 17.0.4',
             value: '17.0.4',
             stackSettings: {
@@ -212,6 +320,39 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               windowsRuntimeSettings: {
                 runtimeVersion: '11',
                 isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '11',
+                },
+                endOfLifeDate: java11EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Java 11.0.21',
+            value: '11.0.21',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '11',
+                },
+                endOfLifeDate: java11EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '11.0.21',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -642,6 +783,25 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               windowsRuntimeSettings: {
                 runtimeVersion: '1.8',
                 isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8',
+                },
+                endOfLifeDate: java8EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Java 1.8.0_392',
+            value: '8.0.392',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '1.8.0_392',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
