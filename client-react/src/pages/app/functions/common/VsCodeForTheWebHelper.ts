@@ -17,14 +17,35 @@ export const fetchAuthToken = async (portalCommunicator: PortalCommunicator) => 
   });
 };
 
-export const getVsCodeForTheWebLink = async (resourceId: string, authToken: string) => {
+export const fetchUserId = async (portalCommunicator: PortalCommunicator) => {
+  const authToken = await fetchAuthToken(portalCommunicator);
+  if (authToken) {
+    return GraphService.getUser(authToken).then(response => {
+      if (response.metadata.success) {
+        return response.data.id;
+      } else {
+        portalCommunicator.log(
+          getTelemetryInfo('error', 'getUser', 'failed', {
+            message: 'Failed to get user data',
+          })
+        );
+      }
+    });
+  }
+};
+
+const removeDashes = (stringToSanitize: string) => {
+  return stringToSanitize.replaceAll('-', '');
+};
+
+export const getVsCodeForTheWebLink = (resourceId: string, userAccountId: string, mode: 'deployed' | 'saved') => {
   const descriptor = new ArmResourceDescriptor(resourceId);
   const subscription = descriptor.subscription;
   const resourceGroup = descriptor.resourceGroup;
   const resource = descriptor.parts[7];
 
-  const response = await GraphService.getUser(authToken);
-  const userAccountId = response.data.id;
+  const userAccountIdWithoutDashes = removeDashes(userAccountId);
+  const encodedIdentifiers = btoa(`${subscription}+${resourceGroup}+${resource}+${userAccountIdWithoutDashes}`);
 
-  return `https://insiders.vscode.dev/+ms-azuretools.vscode-azure-functions-remote-web/${subscription}+${resourceGroup}+${resource}+${userAccountId}/functionApp?version=edit`;
+  return `https://vscode.dev/+ms-azuretools.vscode-azure-functions-remote-web/${encodedIdentifiers}/home/${userAccountIdWithoutDashes}/${resource}?useCodeVersion=${mode}`;
 };

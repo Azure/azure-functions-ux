@@ -5,7 +5,7 @@ import SiteHelper from '../../utils/SiteHelper';
 import { MessageBarType } from '@fluentui/react';
 import CustomBanner from '../CustomBanner/CustomBanner';
 import { FunctionAppEditMode } from '../../models/portal-models';
-import { fetchAuthToken, getVsCodeForTheWebLink } from '../../pages/app/functions/common/VsCodeForTheWebHelper';
+import { fetchUserId, getVsCodeForTheWebLink } from '../../pages/app/functions/common/VsCodeForTheWebHelper';
 import { PortalContext } from '../../PortalContext';
 
 interface EditModeBannerProps {
@@ -23,11 +23,12 @@ const EditModeBanner: React.FC<EditModeBannerProps> = props => {
 
   const portalCommunicator = useContext(PortalContext);
 
-  const handleVSCodeForTheWebClick = async () => {
-    if (editState === FunctionAppEditMode.ReadOnlyVsCodeForTheWeb && resourceId) {
-      const authToken = await fetchAuthToken(portalCommunicator);
-      const uri = getVsCodeForTheWebLink(resourceId, authToken as string);
-      window.open(await uri, '_blank');
+  const handleVsCodeWebClick = async () => {
+    const userAccountId = await fetchUserId(portalCommunicator);
+
+    if (resourceId && userAccountId && editState === FunctionAppEditMode.ReadOnlyVsCodeForTheWeb) {
+      const uri = getVsCodeForTheWebLink(resourceId, userAccountId, 'deployed');
+      window.open(uri, '_blank');
     }
   };
 
@@ -38,7 +39,7 @@ const EditModeBanner: React.FC<EditModeBannerProps> = props => {
           message={SiteHelper.getFunctionAppEditModeString(editState, t)}
           type={MessageBarType.info}
           learnMoreLink={SiteHelper.getLearnMoreLinkForFunctionAppEditMode(editState)}
-          onClick={handleVSCodeForTheWebClick}
+          onClick={handleVsCodeWebClick}
         />
       </div>
     );
