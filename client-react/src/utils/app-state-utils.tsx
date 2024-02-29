@@ -8,7 +8,16 @@ import { FunctionAppEditMode, SiteReadWriteState } from '../models/portal-models
 import { SiteConfig } from '../models/site/config';
 import { Site } from '../models/site/site';
 import PortalCommunicator from '../portal-communicator';
-import { isContainerAppEnvironmentApp, isContainerApp, isElastic, isFunctionApp, isKubeApp, isLinuxApp, isLinuxDynamic } from './arm-utils';
+import {
+  isContainerAppEnvironmentApp,
+  isContainerApp,
+  isElastic,
+  isFunctionApp,
+  isKubeApp,
+  isLinuxApp,
+  isLinuxDynamic,
+  isFlexConsumption,
+} from './arm-utils';
 import { CommonConstants } from './CommonConstants';
 import FunctionAppService from './FunctionAppService';
 import RbacConstants from './rbac-constants';
@@ -149,6 +158,10 @@ function resolveStateFromAppSetting(appSettings: ArmObj<AppSettings>, site: ArmO
 
   if (isFunctionApp(site) && FunctionAppService.usingDotnetIsolatedRuntime(appSettings)) {
     return FunctionAppEditMode.ReadOnlyDotnetIsolated;
+  }
+
+  if (FunctionAppService.usingPythonWorkerRuntime(appSettings) && isFlexConsumption(site)) {
+    return FunctionAppEditMode.ReadOnlyVsCodeForTheWeb;
   }
 
   if (FunctionAppService.usingRunFromPackage(appSettings)) {

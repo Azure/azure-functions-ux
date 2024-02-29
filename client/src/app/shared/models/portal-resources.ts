@@ -1044,6 +1044,7 @@ export class PortalResources {
   public static DurableFunctionsHttpStart_description = 'DurableFunctionsHttpStart_description';
   public static functionsPreviewTitle = 'functionsPreviewTitle';
   public static readOnlyRunFromZip = 'readOnlyRunFromZip';
+  public static readOnlyVsCodeForTheWeb = 'readOnlyVsCodeForTheWeb';
   public static diagnostics_code = 'diagnostics_code';
   public static diagnostics_column = 'diagnostics_column';
   public static diagnostics_description = 'diagnostics_description';

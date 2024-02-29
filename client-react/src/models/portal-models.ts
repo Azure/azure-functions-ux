@@ -342,6 +342,7 @@ export enum FunctionAppEditMode {
   ReadOnlyArc,
   ReadOnlyAzureFiles,
   ReadOnlyNewNodePreview,
+  ReadOnlyVsCodeForTheWeb,
 }
 
 export enum PortalTheme {
