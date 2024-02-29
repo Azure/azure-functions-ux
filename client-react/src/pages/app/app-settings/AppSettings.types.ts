@@ -1,6 +1,6 @@
 import { FormikProps } from 'formik';
 import { AvailableStack } from '../../../models/available-stacks';
-import { AzureStorageMount, Reference, SiteConfig, VirtualApplication } from '../../../models/site/config';
+import { AzureStorageMount, SiteConfig, VirtualApplication } from '../../../models/site/config';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
 import { HostStatus } from '../../../models/functions/host-status';
@@ -40,6 +40,11 @@ export interface FormErrorPage {
   content?: string;
 }
 
+export interface FormBasicPublishingCrendentialPolicies {
+  ftp?: ArmObj<PublishingCredentialPolicies>;
+  scm?: ArmObj<PublishingCredentialPolicies>;
+}
+
 export interface AppSettingsFormValues {
   site: ArmObj<Site>;
   config: ArmObj<SiteConfig>;
@@ -49,7 +54,7 @@ export interface AppSettingsFormValues {
   virtualApplications: VirtualApplication[];
   errorPages: FormErrorPage[];
   currentlySelectedStack: string;
-  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
+  basicPublishingCredentialsPolicies: FormBasicPublishingCrendentialPolicies | null;
   references?: KeyVaultReferences;
 }
 
@@ -157,10 +162,6 @@ export interface ShareItem {
 export enum ReferenceStatus {
   resolved = 'resolved',
   initialized = 'initialized',
-}
-
-export interface ConfigReferenceList {
-  keyToReferenceStatuses: Record<string, Reference>;
 }
 
 export enum AppSettingsTabs {

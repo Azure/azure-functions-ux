@@ -6,7 +6,6 @@ import {
   FormAzureStorageMounts,
   ReferenceSummary,
   ReferenceStatus,
-  ConfigReferenceList,
   AppSettingReference,
   StorageAccess,
   ConfigurationOption,
@@ -35,6 +34,7 @@ import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import i18next from 'i18next';
 import { isJBossClusteringShown } from '../../../utils/stacks-utils';
+import { getBasicPublishingCredentialsSCMPolicies, getBasicPublishingCredentialsFTPPolicies } from '../../../utils/CredentialUtilities';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
   return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
@@ -73,7 +73,7 @@ interface StateToFormParams {
   azureStorageMounts: ArmObj<ArmAzureStorageMount> | null;
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<KeyValue<string>> | null;
-  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
+  basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies>[] | null;
   errorPages: ArmArray<ErrorPage> | null;
   appPermissions?: boolean;
 }
@@ -94,7 +94,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
 
   return {
     site,
-    basicPublishingCredentialsPolicies,
+    basicPublishingCredentialsPolicies: getFormBasicPublishingCredentialsPolicies(basicPublishingCredentialsPolicies),
     config: getCleanedConfig(config),
     appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
@@ -396,6 +396,13 @@ export function getFormConnectionStrings(
   );
 }
 
+export function getFormBasicPublishingCredentialsPolicies(policies: ArmObj<PublishingCredentialPolicies>[] | null) {
+  return {
+    ftp: getBasicPublishingCredentialsFTPPolicies(policies),
+    scm: getBasicPublishingCredentialsSCMPolicies(policies),
+  };
+}
+
 export function getConnectionStringsFromForm(connectionStrings: FormConnectionString[]): ConnStringInfo[] {
   return connectionStrings.map(({ name, value, type }) => ({
     name,
@@ -512,17 +519,12 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
   return configCopy;
 }
 
-export function getCleanedReferences(references: ArmObj<ConfigReferenceList>) {
-  const keyToReferenceStatuses = !!references && !!references.properties && references.properties.keyToReferenceStatuses;
-  if (!keyToReferenceStatuses) {
-    return [];
-  }
-
-  return Object.keys(keyToReferenceStatuses).map(key => ({
-    name: key,
-    reference: keyToReferenceStatuses[key].reference,
-    status: keyToReferenceStatuses[key].status,
-    details: keyToReferenceStatuses[key].details,
+export function getCleanedReferences(references: ArmObj<Reference>[]) {
+  return references.map(ref => ({
+    name: ref.name,
+    reference: ref.properties.reference,
+    status: ref.properties.status,
+    details: ref.properties.details,
   }));
 }
 

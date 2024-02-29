@@ -18,7 +18,7 @@ import {
   PublishingUser,
   parsePublishProfileXml,
 } from '../../../models/site/publish';
-import { PublishingCredentialPolicies } from '../../../models/site/site';
+import { PublishingCredentialPoliciesContext } from '../../../models/site/site';
 import RbacConstants from '../../../utils/rbac-constants';
 import { ArmSiteDescriptor } from '../../../utils/resourceDescriptors';
 import DeploymentCenterData from './DeploymentCenter.data';
@@ -29,6 +29,7 @@ import DeploymentCenterCodeDataLoader from './code/DeploymentCenterCodeDataLoade
 import DeploymentCenterContainerDataLoader from './container/DeploymentCenterContainerDataLoader';
 import DeploymentCenterPublishProfilePanel from './publish-profile/DeploymentCenterPublishProfilePanel';
 import { getTelemetryInfo } from './utility/DeploymentCenterUtility';
+import { getBasicPublishingCredentialsFTPPolicies, getBasicPublishingCredentialsSCMPolicies } from '../../../utils/CredentialUtilities';
 
 enum SourceControlTypes {
   bitBucket = 'bitbucket',
@@ -53,16 +54,15 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
   const [configMetadata, setConfigMetadata] = useState<ArmObj<KeyValue<string>> | undefined>(undefined);
   const [bitbucketToken, setBitbucketToken] = useState<string>('');
   const [gitHubToken, setGitHubToken] = useState<string>('');
-  const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<PublishingCredentialPolicies | undefined>(
-    undefined
-  );
+  const [basicPublishingCredentialsPolicies, setBasicPublishingCredentialsPolicies] = useState<
+    PublishingCredentialPoliciesContext | undefined
+  >(undefined);
   const [isIlbASE, setIsIlbASE] = useState<boolean>(false);
   const [isDataRefreshing, setIsDataRefreshing] = useState(true);
   const isBasicAuthDisabled = React.useMemo(
     () => !(basicPublishingCredentialsPolicies?.ftp.allow || basicPublishingCredentialsPolicies?.scm.allow),
     [basicPublishingCredentialsPolicies?.ftp.allow, basicPublishingCredentialsPolicies?.scm.allow]
   );
-
   const processPublishProfileResponse = (publishProfileResponse: HttpResponseObject<string>) => {
     if (publishProfileResponse.metadata.success) {
       const publishingProfiles = parsePublishProfileXml(publishProfileResponse.data);
@@ -167,21 +167,11 @@ const DeploymentCenterDataLoader: React.FC<DeploymentCenterDataLoaderProps> = pr
       );
     }
 
-    if (
-      !siteStateContext.isKubeApp &&
-      !!basicPublishingCredentialsPoliciesResponse &&
-      basicPublishingCredentialsPoliciesResponse.metadata.success
-    ) {
-      setBasicPublishingCredentialsPolicies(basicPublishingCredentialsPoliciesResponse.data.properties);
-    } else if (!siteStateContext.isKubeApp && !!basicPublishingCredentialsPoliciesResponse) {
-      portalContext.log(
-        getTelemetryInfo('error', 'basicPublishingCredentialsPoliciesResponse', 'failed', {
-          message: getErrorMessage(basicPublishingCredentialsPoliciesResponse.metadata.error),
-          errorAsString: basicPublishingCredentialsPoliciesResponse.metadata.error
-            ? JSON.stringify(basicPublishingCredentialsPoliciesResponse.metadata.error)
-            : '',
-        })
-      );
+    if (!siteStateContext.isKubeApp) {
+      setBasicPublishingCredentialsPolicies({
+        ftp: { allow: !!getBasicPublishingCredentialsFTPPolicies(basicPublishingCredentialsPoliciesResponse)?.properties.allow },
+        scm: { allow: !!getBasicPublishingCredentialsSCMPolicies(basicPublishingCredentialsPoliciesResponse)?.properties.allow },
+      });
     }
 
     setSiteDescriptor(new ArmSiteDescriptor(resourceId));

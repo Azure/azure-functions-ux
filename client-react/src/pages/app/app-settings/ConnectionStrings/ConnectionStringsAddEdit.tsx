@@ -1,5 +1,5 @@
 import { Checkbox, IDropdownOption } from '@fluentui/react';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
@@ -18,7 +18,6 @@ import ReferenceComponent from '../ReferenceComponent';
 import { Reference } from '../../../../models/site/config';
 import { CommonConstants, azureAppConfigRefStart } from '../../../../utils/CommonConstants';
 import { getAllConnectionStringsReferences } from '../AppSettings.service';
-import { PortalContext } from '../../../../PortalContext';
 import { Links } from '../../../../utils/FwLinks';
 
 export interface ConnectionStringAddEditProps {
@@ -40,8 +39,6 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
   const { t } = useTranslation();
 
   const isLinux = isLinuxApp(site);
-
-  const portalContext = useContext(PortalContext);
 
   const updateConnectionStringName = React.useCallback(
     (_e: any, name: string) => {
@@ -101,21 +98,7 @@ const ConnectionStringsAddEdit: React.SFC<ConnectionStringAddEditProps> = props 
     // NOTE (krmitta): The backend API to get a single reference fails if the app-setting name contains special characters.
     // There will be a fix for that in ANT96 but in the meantime we need to use all the references and then get the one needed.
     const allKeyVaultReferences = await getAllConnectionStringsReferences(site.id);
-    if (allKeyVaultReferences.metadata.success) {
-      setCurrentConnectionStringReference(allKeyVaultReferences.data.properties.keyToReferenceStatuses[currentConnectionString.name]);
-    } else {
-      setCurrentConnectionStringReference(undefined);
-      portalContext.log({
-        action: 'getAllConnectionStringsReferences',
-        actionModifier: 'failed',
-        resourceId: site?.id,
-        logLevel: 'error',
-        data: {
-          error: allKeyVaultReferences?.metadata.error,
-          message: 'Failed to fetch key vault reference',
-        },
-      });
-    }
+    setCurrentConnectionStringReference(allKeyVaultReferences.find(ref => ref.name === currentConnectionString.name)?.properties);
   };
 
   const actionBarPrimaryButtonProps = {
