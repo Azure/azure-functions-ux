@@ -459,17 +459,17 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Apache Tomcat 10.1.15',
-          value: '10.1.15',
+          displayText: 'Apache Tomcat 10.1.16',
+          value: '10.1.16',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
-              javaContainerVersion: '10.1.15',
+              javaContainerVersion: '10.1.16',
             },
             linuxContainerSettings: {
-              java11Runtime: 'TOMCAT|10.1.15-java11',
-              java17Runtime: 'TOMCAT|10.1.15-java17',
-              java21Runtime: 'TOMCAT|10.1.15-java21'
+              java11Runtime: 'TOMCAT|10.1.16-java11',
+              java17Runtime: 'TOMCAT|10.1.16-java17',
+              java21Runtime: 'TOMCAT|10.1.16-java21'
             },
           },
         },
@@ -595,17 +595,17 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Apache Tomcat 9.0.82',
-          value: '9.0.82',
+          displayText: 'Apache Tomcat 9.0.83',
+          value: '9.0.83',
           stackSettings: {
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
-              javaContainerVersion: '9.0.82',
+              javaContainerVersion: '9.0.83',
             },
             linuxContainerSettings: {
-              java8Runtime: 'TOMCAT|9.0.82-java8',
-              java11Runtime: 'TOMCAT|9.0.82-java11',
-              java17Runtime: 'TOMCAT|9.0.82-java17'
+              java8Runtime: 'TOMCAT|9.0.83-java8',
+              java11Runtime: 'TOMCAT|9.0.83-java11',
+              java17Runtime: 'TOMCAT|9.0.83-java17'
             },
           },
         },
@@ -844,16 +844,16 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
-          displayText: 'Apache Tomcat 8.5.95',
-          value: '8.5.95',
+          displayText: 'Apache Tomcat 8.5.96',
+          value: '8.5.96',
           stackSettings: {
             linuxContainerSettings: {
-              java8Runtime: 'TOMCAT|8.5.95-java8',
-              java11Runtime: 'TOMCAT|8.5.95-java11',
+              java8Runtime: 'TOMCAT|8.5.96-java8',
+              java11Runtime: 'TOMCAT|8.5.96-java11',
             },
             windowsContainerSettings: {
               javaContainer: 'TOMCAT',
-              javaContainerVersion: '8.5.95',
+              javaContainerVersion: '8.5.96',
             },
           },
         },
