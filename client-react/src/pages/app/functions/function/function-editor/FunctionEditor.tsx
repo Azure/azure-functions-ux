@@ -496,7 +496,7 @@ export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEdi
     } else if (addingCorsRules) {
       return <CustomBanner message={t('functionEditorCorsWarning')} type={MessageBarType.info} />;
     } else if (isAppReadOnly(siteStateContext.siteAppEditState)) {
-      return <EditModeBanner setBanner={setReadOnlyBanner} />;
+      return <EditModeBanner resourceId={functionInfo.id} setBanner={setReadOnlyBanner} />;
     } else if (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) {
       return (
         <CustomBanner

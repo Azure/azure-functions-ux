@@ -13,7 +13,18 @@
     Example:
 
     ... ado.net/XML headers & schema ...
-    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader><resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data><data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data><data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value><comment>This is a comment</comment></data>
+    <resheader name="resmimetype">text/microsoft-resx</resheader><resheader
+    name="version">2.0</resheader><resheader name="reader">System.Resources.ResXResourceReader,
+    System.Windows.Forms, ...</resheader><resheader
+    name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader><data
+    name="Name1"><value>this is my long string</value><comment>this is a
+    comment</comment></data><data name="Color1" type="System.Drawing.Color,
+    System.Drawing">Blue</data><data name="Bitmap1"
+    mimetype="application/x-microsoft.net.object.binary.base64"><value>[base64 mime encoded
+    serialized .NET Framework object]</value></data><data name="Icon1" type="System.Drawing.Icon,
+    System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64"><value>[base64
+    mime encoded string representing a byte array form of the .NET Framework
+    object]</value><comment>This is a comment</comment></data>
 
     There are any number of "resheader" rows that contain simple
     name/value pairs.
@@ -75,10 +86,13 @@
                     <xsd:element name="data">
                         <xsd:complexType>
                             <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
-                                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"
+                                    msdata:Ordinal="1" />
+                                <xsd:element name="comment" type="xsd:string" minOccurs="0"
+                                    msdata:Ordinal="2" />
                             </xsd:sequence>
-                            <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+                            <xsd:attribute name="name" type="xsd:string" use="required"
+                                msdata:Ordinal="1" />
                             <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
                             <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
                             <xsd:attribute ref="xml:space" />
@@ -87,7 +101,8 @@
                     <xsd:element name="resheader">
                         <xsd:complexType>
                             <xsd:sequence>
-                                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                                <xsd:element name="value" type="xsd:string" minOccurs="0"
+                                    msdata:Ordinal="1" />
                             </xsd:sequence>
                             <xsd:attribute name="name" type="xsd:string" use="required" />
                         </xsd:complexType>
@@ -103,10 +118,12 @@
         <value>2.0</value>
     </resheader>
     <resheader name="reader">
-        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <resheader name="writer">
-        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0,
+            Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="azureFunctions" xml:space="preserve">
         <value>Azure Functions</value>
@@ -2011,7 +2028,8 @@
     <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty" xml:space="preserve">
         <value>Azure Storage Account connection string stored in '{0}' is null or empty. This is required to have your function app working.</value>
     </data>
-    <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action" xml:space="preserve">
+    <data name="backend_error_StorageAccountConnectionStringIsNullOrEmpty_action"
+        xml:space="preserve">
         <value>Update the app setting with a valid storage connection string.</value>
     </data>
     <data name="backend_error_StorageAccountDoesNotExist" xml:space="preserve">
@@ -3261,6 +3279,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="readOnlyRunFromZip" xml:space="preserve">
         <value>Your app is currently in read only mode because you are running from a package file. To make any changes update the content in your zip file and WEBSITE_RUN_FROM_PACKAGE app setting.</value>
+    </data>
+    <data name="readOnlyVsCodeForTheWeb" xml:space="preserve">
+        <value>This app is in read only mode. Click to edit in VS code for the Web.</value>
     </data>
     <data name="diagnostics_code" xml:space="preserve">
         <value>Code</value>
@@ -6258,7 +6279,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceeded" xml:space="preserve">
         <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again.</value>
     </data>
-    <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage" xml:space="preserve">
+    <data name="disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage"
+        xml:space="preserve">
         <value>Failed to disconnect your deployment, but the workflow file was successfully deleted. Try to disconnect again. Error: {0}</value>
     </data>
     <data name="functionLog_rbacPermissionsForAppInsights" xml:space="preserve">
@@ -6330,7 +6352,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterDeleteLogsFailureNotificationDescription" xml:space="preserve">
         <value>Failed to delete logs</value>
     </data>
-    <data name="deploymentCenterDeleteLogsFailureWithErrorNotificationDescription" xml:space="preserve">
+    <data name="deploymentCenterDeleteLogsFailureWithErrorNotificationDescription"
+        xml:space="preserve">
         <value>Failed to delete logs: {0}</value>
     </data>
     <data name="managePublishProfile" xml:space="preserve">
@@ -6654,13 +6677,15 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistry" xml:space="preserve">
         <value>Container Registry</value>
     </data>
-    <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription" xml:space="preserve">
+    <data name="deploymentCenterContainerSettingsSourceOptionContainerRegistryDescription"
+        xml:space="preserve">
         <value>Set up your app to pull the container image from a registry.</value>
     </data>
     <data name="deploymentCenterContainerSettingsSourceOptionGitHubActions" xml:space="preserve">
         <value>GitHub Actions</value>
     </data>
-    <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription" xml:space="preserve">
+    <data name="deploymentCenterContainerSettingsSourceOptionGitHubActionsDescription"
+        xml:space="preserve">
         <value>Build, deploy, and manage your container app automatically with GitHub Actions.</value>
     </data>
     <data name="deploymentCenterGitHubActionsCancelRunMessage" xml:space="preserve">
@@ -7915,9 +7940,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="authenticationSettingsIdentityUnsupportedRegionError" xml:space="preserve">
         <value>This identity is in a region that does not support creating federated identity credentials. Please select an identity from a different region.</value>
     </data>
-    <data name="authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel" xml:space="preserve">
+    <data name="authenticationSettingsIdentityCreationPrerequisitesLinkAriaLabel"
+        xml:space="preserve">
         <value>Click here to learn more about how to create a managed identity.</value>
-    </data>    
+    </data>
     <data name="authenticationSettingsRoleAssignmentPrerequisitesLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about how to assign role-based access to a managed identity.</value>
     </data>
@@ -7927,7 +7953,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="authenticationSettingsOidcPermissionsLinkAriaLabel" xml:space="preserve">
         <value>Click here to learn more about what permissions are needed for authenticating with a user-assigned identity.</value>
     </data>
-     <data name="sshDisabledInfoBubbleMessage" xml:space="preserve">
+    <data name="sshDisabledInfoBubbleMessage" xml:space="preserve">
         <value>SSH isn't supported for your selected stack version.</value>
     </data>
     <data name="staticSite_appSettingsMoved" xml:space="preserve">
