@@ -1,7 +1,7 @@
 import { MessageBarType } from '@fluentui/react';
 import { Formik, FormikActions, FormikProps } from 'formik';
 import { sortBy } from 'lodash-es';
-import { useCallback, useContext, useState, useEffect } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
@@ -9,7 +9,7 @@ import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { PortalContext } from '../../../PortalContext';
-import { CommonConstants, ExperimentationConstants } from '../../../utils/CommonConstants';
+import { CommonConstants } from '../../../utils/CommonConstants';
 import { getTelemetryInfo } from '../StaticSiteUtility';
 import ConfigurationData from './Configuration.data';
 import { commandBarSticky } from './Configuration.styles';
@@ -40,24 +40,10 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
 
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
   const [isRefreshConfirmDialogVisible, setIsRefreshConfirmDialogVisible] = useState(false);
-  const [showAppSettings, setShowAppSettings] = useState(true);
 
   const { t } = useTranslation();
 
   const portalContext = useContext(PortalContext);
-
-  useEffect(() => {
-    let isSubscribed = true;
-    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.showSWAEnvironmentVariables).then(enabled => {
-      if (isSubscribed) {
-        setShowAppSettings(!enabled);
-      }
-    });
-
-    return () => {
-      isSubscribed = false;
-    };
-  }, [portalContext]);
 
   const getApplicableEnvironments = useCallback((passwordProtection: PasswordProtectionTypes) => {
     switch (passwordProtection) {
@@ -286,7 +272,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             />
 
             {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
-            {!showAppSettings && <CustomBanner message={t('staticSite_appSettingsMoved')} type={MessageBarType.info} />}
+            <CustomBanner message={t('staticSite_appSettingsMoved')} type={MessageBarType.info} />
 
             <>
               <ConfirmDialog
@@ -332,7 +318,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
               refresh={props.refresh}
               isLoading={isLoading || formProps.isSubmitting}
               formProps={formProps}
-              showAppSettings={showAppSettings}
+              showAppSettings={false}
             />
           </div>
         </div>
