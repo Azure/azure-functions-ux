@@ -384,7 +384,6 @@ export class ExperimentationConstants {
     patchCallOnConfig: 'enable-patch-call-config',
     showEnvironmentVariables: 'show-environment-variables',
     enableOidc: 'enable-oidc',
-    showSWAEnvironmentVariables: 'show-swa-environment-variables',
   };
 
   public static ControlFlight = {
