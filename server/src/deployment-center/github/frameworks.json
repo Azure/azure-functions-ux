@@ -6,14 +6,20 @@
     "config": {
       "outputLocation": "."
     },
-    "files": ["@(index.html|default.html|default.md)?(l)"]
+    "files": [
+      "@(index.html|default.html|default.md)?(l)"
+    ]
   },
   {
     "id": "angular",
     "name": "Angular",
     "kind": "app",
-    "files": ["angular.json"],
-    "packages": ["@angular/core"],
+    "files": [
+      "angular.json"
+    ],
+    "packages": [
+      "@angular/core"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
@@ -26,14 +32,19 @@
     "name": "Scully",
     "kind": "app",
     "parent": "angular",
-    "packages": ["@scullyio/scully"],
+    "packages": [
+      "@scullyio/scully"
+    ],
     "config": {}
   },
   {
     "id": "react",
     "name": "React",
     "kind": "app",
-    "packages": ["react", "react-dom"],
+    "packages": [
+      "react",
+      "react-dom"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
@@ -46,7 +57,9 @@
     "name": "Next.js",
     "kind": "app",
     "parent": "react",
-    "packages": ["next"],
+    "packages": [
+      "next"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm dev",
@@ -59,8 +72,12 @@
     "name": "Gatsby",
     "kind": "app",
     "parent": "react",
-    "files": ["gatsby-config.js"],
-    "packages": ["gatsby"],
+    "files": [
+      "gatsby-config.js"
+    ],
+    "packages": [
+      "gatsby"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
@@ -73,7 +90,9 @@
     "name": "Docusaurus",
     "kind": "app",
     "parent": "react",
-    "packages": ["@docusaurus/core"],
+    "packages": [
+      "@docusaurus/core"
+    ],
     "config": {}
   },
   {
@@ -81,7 +100,9 @@
     "name": "React-static",
     "kind": "app",
     "parent": "react",
-    "packages": ["react-static"],
+    "packages": [
+      "react-static"
+    ],
     "config": {
       "outputLocation": "dist"
     }
@@ -90,7 +111,9 @@
     "id": "preact",
     "name": "Preact",
     "kind": "app",
-    "packages": ["preact"],
+    "packages": [
+      "preact"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run dev",
@@ -102,7 +125,9 @@
     "id": "vue",
     "name": "Vue.js",
     "kind": "app",
-    "packages": ["vue"],
+    "packages": [
+      "vue"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run serve",
@@ -115,7 +140,9 @@
     "name": "Vite",
     "kind": "app",
     "parent": "vue",
-    "packages": ["vite"],
+    "packages": [
+      "vite"
+    ],
     "config": {
       "appDevserverCommand": "npm run dev",
       "appDevserverUrl": "http://localhost:3000"
@@ -126,8 +153,12 @@
     "name": "Nuxt.js",
     "kind": "app",
     "parent": "vue",
-    "files": ["nuxt.config.js"],
-    "packages": ["nuxt"],
+    "files": [
+      "nuxt.config.js"
+    ],
+    "packages": [
+      "nuxt"
+    ],
     "config": {
       "appBuildCommand": "npm run generate",
       "appDevserverCommand": "npm run dev",
@@ -139,8 +170,12 @@
     "id": "vuepress",
     "name": "VuePress",
     "kind": "app",
-    "overrides": ["vue"],
-    "packages": ["vuepress"],
+    "overrides": [
+      "vue"
+    ],
+    "packages": [
+      "vuepress"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run dev",
@@ -152,8 +187,12 @@
     "id": "vitepress",
     "name": "VitePress",
     "kind": "app",
-    "overrides": ["vue"],
-    "packages": ["vitepress"],
+    "overrides": [
+      "vue"
+    ],
+    "packages": [
+      "vitepress"
+    ],
     "config": {
       "appBuildCommand": "npm run docs:build",
       "appDevserverCommand": "npm run docs:dev",
@@ -165,7 +204,9 @@
     "id": "svelte",
     "name": "Svelte",
     "kind": "app",
-    "packages": ["svelte"],
+    "packages": [
+      "svelte"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run dev",
@@ -177,8 +218,12 @@
     "id": "svelte-kit",
     "name": "SvelteKit",
     "kind": "app",
-    "overrides": ["svelte"],
-    "packages": ["@sveltejs/kit"],
+    "overrides": [
+      "svelte"
+    ],
+    "packages": [
+      "@sveltejs/kit"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run dev",
@@ -190,8 +235,12 @@
     "id": "sapper",
     "name": "Sapper",
     "kind": "app",
-    "overrides": ["svelte"],
-    "packages": ["sapper"],
+    "overrides": [
+      "svelte"
+    ],
+    "packages": [
+      "sapper"
+    ],
     "config": {
       "appBuildCommand": "npm run export",
       "appDevserverCommand": "npm run dev",
@@ -203,7 +252,9 @@
     "id": "riot",
     "name": "Riot.js",
     "kind": "app",
-    "packages": ["riot"],
+    "packages": [
+      "riot"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
@@ -215,8 +266,12 @@
     "id": "stencil",
     "name": "Stencil.js",
     "kind": "app",
-    "files": ["stencil.config.ts"],
-    "packages": ["@stencil/core"],
+    "files": [
+      "stencil.config.ts"
+    ],
+    "packages": [
+      "@stencil/core"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
@@ -228,7 +283,10 @@
     "id": "aurelia",
     "name": "Aurelia",
     "kind": "app",
-    "packages": ["aurelia-bootstrapper", "aurelia-cli"],
+    "packages": [
+      "aurelia-bootstrapper",
+      "aurelia-cli"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
@@ -240,7 +298,11 @@
     "id": "ember",
     "name": "Ember.js",
     "kind": "app",
-    "packages": ["ember-cli", "ember-load-initializers", "ember-resolver"],
+    "packages": [
+      "ember-cli",
+      "ember-load-initializers",
+      "ember-resolver"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
@@ -252,7 +314,9 @@
     "id": "elm",
     "name": "Elm",
     "kind": "app",
-    "files": ["elm.json"],
+    "files": [
+      "elm.json"
+    ],
     "config": {
       "appBuildCommand": "elm make src/Main.elm --optimize",
       "appDevserverCommand": "elm reactor",
@@ -264,8 +328,12 @@
     "id": "polymer",
     "name": "Polymer",
     "kind": "app",
-    "files": ["polymer.json"],
-    "packages": ["@polymer/polymer"],
+    "files": [
+      "polymer.json"
+    ],
+    "packages": [
+      "@polymer/polymer"
+    ],
     "config": {
       "appBuildCommand": "polymer build --preset es6-bundled",
       "appDevserverCommand": "polymer serve --open",
@@ -277,7 +345,10 @@
     "id": "lit",
     "name": "Lit",
     "kind": "app",
-    "packages": ["lit", "lit-element"],
+    "packages": [
+      "lit",
+      "lit-element"
+    ],
     "config": {
       "appBuildCommand": "npm run build --if-present",
       "appDevserverCommand": "npm start",
@@ -289,7 +360,10 @@
     "id": "hugo",
     "name": "Hugo",
     "kind": "app",
-    "files": ["config.toml", "content"],
+    "files": [
+      "config.toml",
+      "content"
+    ],
     "contains": {
       "config.toml": "baseURL ="
     },
@@ -304,7 +378,10 @@
     "id": "flutter",
     "name": "Flutter",
     "kind": "app",
-    "files": ["pubspec.yaml", "web"],
+    "files": [
+      "pubspec.yaml",
+      "web"
+    ],
     "config": {
       "appBuildCommand": "flutter build web",
       "appDevserverCommand": "flutter run --web-port 8080",
@@ -316,7 +393,10 @@
     "id": "jekyll",
     "name": "Jekyll",
     "kind": "app",
-    "files": ["_config.yml", "Gemfile"],
+    "files": [
+      "_config.yml",
+      "Gemfile"
+    ],
     "config": {
       "appBuildCommand": "jekyll build",
       "appDevserverCommand": "bundle exec jekyll serve --livereload",
@@ -328,8 +408,13 @@
     "id": "slate",
     "name": "Slate",
     "kind": "app",
-    "overrides": ["middleman"],
-    "files": ["slate.sh", "Gemfile"],
+    "overrides": [
+      "middleman"
+    ],
+    "files": [
+      "slate.sh",
+      "Gemfile"
+    ],
     "config": {
       "appBuildCommand": "./slate.sh build",
       "appDevserverCommand": "./slate.sh serve",
@@ -341,7 +426,9 @@
     "id": "mkdocs",
     "name": "MkDocs",
     "kind": "app",
-    "files": ["mkdocs.yml"],
+    "files": [
+      "mkdocs.yml"
+    ],
     "config": {
       "appBuildCommand": "mkdocs build",
       "appDevserverCommand": "mkdocs serve",
@@ -353,7 +440,9 @@
     "id": "eleventy",
     "name": "Eleventy",
     "kind": "app",
-    "packages": ["@11ty/eleventy"],
+    "packages": [
+      "@11ty/eleventy"
+    ],
     "config": {
       "appBuildCommand": "eleventy",
       "appDevserverCommand": "eleventy --serve",
@@ -365,9 +454,21 @@
     "id": "astro",
     "name": "Astro",
     "kind": "app",
-    "overrides": ["alpine", "lit", "react", "preact", "solid", "svelte", "vue"],
-    "files": ["astro.config.mjs"],
-    "packages": ["astro"],
+    "overrides": [
+      "alpine",
+      "lit",
+      "react",
+      "preact",
+      "solid",
+      "svelte",
+      "vue"
+    ],
+    "files": [
+      "astro.config.mjs"
+    ],
+    "packages": [
+      "astro"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run dev",
@@ -379,7 +480,9 @@
     "id": "pelican",
     "name": "Pelican",
     "kind": "app",
-    "files": ["pelicanconf.py"],
+    "files": [
+      "pelicanconf.py"
+    ],
     "config": {
       "appBuildCommand": "make html",
       "appDevserverCommand": "make devserver",
@@ -391,7 +494,9 @@
     "id": "hexo",
     "name": "Hexo",
     "kind": "app",
-    "packages": ["hexo"],
+    "packages": [
+      "hexo"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run server",
@@ -403,7 +508,12 @@
     "id": "blazor-wasm",
     "name": "Blazor WASM",
     "kind": "app",
-    "files": ["*.csproj", "App.razor", "wwwroot", "Program.cs"],
+    "files": [
+      "*.csproj",
+      "App.razor",
+      "wwwroot",
+      "Program.cs"
+    ],
     "contains": {
       "Program.cs": "WebAssemblyHostBuilder.CreateDefault"
     },
@@ -418,7 +528,9 @@
     "id": "gridsome",
     "name": "Gridsome",
     "kind": "app",
-    "packages": ["gridsome"],
+    "packages": [
+      "gridsome"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run develop",
@@ -430,7 +542,9 @@
     "id": "solid",
     "name": "Solid",
     "kind": "app",
-    "packages": ["solid-js"],
+    "packages": [
+      "solid-js"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run dev",
@@ -442,8 +556,13 @@
     "id": "remix",
     "name": "Remix",
     "kind": "app",
-    "overrides": ["react"],
-    "packages": ["@remix-run/node", "@remix-run/server-runtime"],
+    "overrides": [
+      "react"
+    ],
+    "packages": [
+      "@remix-run/node",
+      "@remix-run/server-runtime"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm run dev",
@@ -455,7 +574,9 @@
     "id": "metalsmith",
     "name": "Metalsmith",
     "kind": "app",
-    "packages": ["metalsmith"],
+    "packages": [
+      "metalsmith"
+    ],
     "config": {
       "appBuildCommand": "npm start",
       "appDevserverCommand": "npm run serve",
@@ -467,7 +588,9 @@
     "id": "brunch",
     "name": "Brunch",
     "kind": "app",
-    "packages": ["brunch"],
+    "packages": [
+      "brunch"
+    ],
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
@@ -479,7 +602,10 @@
     "id": "wintersmith",
     "name": "Wintersmith",
     "kind": "app",
-    "files": ["config.json", "contents"],
+    "files": [
+      "config.json",
+      "contents"
+    ],
     "config": {
       "appBuildCommand": "wintersmith build",
       "appDevserverCommand": "wintersmith preview",
@@ -491,7 +617,11 @@
     "id": "middleman",
     "name": "Middleman",
     "kind": "app",
-    "files": ["config.rb", "Gemfile", "source"],
+    "files": [
+      "config.rb",
+      "Gemfile",
+      "source"
+    ],
     "config": {
       "appBuildCommand": "bundle exec middleman build",
       "appDevserverCommand": "bundle exec middleman server",
@@ -503,7 +633,9 @@
     "id": "mdbook",
     "name": "mdBook",
     "kind": "app",
-    "files": ["book.toml"],
+    "files": [
+      "book.toml"
+    ],
     "config": {
       "appBuildCommand": "mdbook build",
       "appDevserverCommand": "mdbook serve",
@@ -515,7 +647,10 @@
     "id": "zola",
     "name": "Zola",
     "kind": "app",
-    "files": ["config.toml", "content"],
+    "files": [
+      "config.toml",
+      "content"
+    ],
     "contains": {
       "config.toml": "base_url ="
     },
@@ -530,7 +665,9 @@
     "id": "lektor",
     "name": "Lektor",
     "kind": "app",
-    "files": ["*.lektorproject"],
+    "files": [
+      "*.lektorproject"
+    ],
     "config": {
       "appBuildCommand": "lektor build --output-path dist",
       "appDevserverCommand": "lektor server",
@@ -542,7 +679,9 @@
     "id": "nodejs",
     "name": "Node.js",
     "kind": "api",
-    "files": ["package.json"],
+    "files": [
+      "package.json"
+    ],
     "config": {
       "apiBuildCommand": "npm run build --if-present"
     }
@@ -551,8 +690,12 @@
     "id": "typescript",
     "name": "TypeScript",
     "kind": "api",
-    "files": ["tsconfig.json"],
-    "packages": ["typescript"],
+    "files": [
+      "tsconfig.json"
+    ],
+    "packages": [
+      "typescript"
+    ],
     "parent": "nodejs",
     "config": {
       "apiLocation": "{tsconfig.json#data.compilerOptions.outDir}"
@@ -562,7 +705,9 @@
     "id": "dotnet",
     "name": ".NET",
     "kind": "api",
-    "files": ["*.?(csproj|fsproj)"],
+    "files": [
+      "*.?(csproj|fsproj)"
+    ],
     "config": {
       "apiBuildCommand": "dotnet publish -c Release"
     }
@@ -571,28 +716,39 @@
     "id": "python",
     "name": "Python",
     "kind": "api",
-    "files": ["?(requirements.txt|pyproject.toml|runtime.txt|setup.py)"],
+    "files": [
+      "?(requirements.txt|pyproject.toml|runtime.txt|setup.py)"
+    ],
     "config": {}
   },
   {
     "id": "php",
     "name": "Php",
     "kind": "api",
-    "files": ["index.php"],
+    "files": [
+      "index.php",
+      "app.php"
+    ],
     "config": {}
   },
   {
     "id": "java",
     "name": "Java",
     "kind": "api",
-    "files": ["pom.xml", "build.gradle", "*.java"],
+    "files": [
+      "pom.xml",
+      "build.gradle",
+      "*.java"
+    ],
     "config": {}
   },
   {
     "id": "azure-functions",
     "name": "Azure Functions",
     "kind": "api",
-    "files": ["host.json"],
+    "files": [
+      "host.json"
+    ],
     "config": {}
   },
   {
@@ -600,14 +756,27 @@
     "name": "Azd Template",
     "kind": "api",
     "packages": [],
-    "files": ["azure.yaml"],
+    "files": [
+      "azure.yaml"
+    ],
     "config": {}
   },
   {
     "id": "docker-file",
     "name": "Dockerfile",
     "kind": "api",
-    "files": ["Dockerfile"],
+    "files": [
+      "Dockerfile"
+    ],
+    "config": {}
+  },
+  {
+    "id": "express",
+    "name": "Express",
+    "kind": "api",
+    "packages": [
+      "express"
+    ],
     "config": {}
   }
 ]
