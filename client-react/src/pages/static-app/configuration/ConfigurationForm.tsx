@@ -1,7 +1,7 @@
 import { MessageBarType } from '@fluentui/react';
 import { Formik, FormikActions, FormikProps } from 'formik';
 import { sortBy } from 'lodash-es';
-import { useCallback, useContext, useState, useEffect } from 'react';
+import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
 import EnvironmentService from '../../../ApiHelpers/static-site/EnvironmentService';
@@ -9,7 +9,7 @@ import StaticSiteService from '../../../ApiHelpers/static-site/StaticSiteService
 import ConfirmDialog from '../../../components/ConfirmDialog/ConfirmDialog';
 import CustomBanner from '../../../components/CustomBanner/CustomBanner';
 import { PortalContext } from '../../../PortalContext';
-import { CommonConstants, ExperimentationConstants } from '../../../utils/CommonConstants';
+import { CommonConstants } from '../../../utils/CommonConstants';
 import { getTelemetryInfo } from '../StaticSiteUtility';
 import ConfigurationData from './Configuration.data';
 import { commandBarSticky } from './Configuration.styles';
