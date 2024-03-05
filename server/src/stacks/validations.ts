@@ -29,7 +29,7 @@ export function validateFunctionAppStack(stack?: string) {
 }
 
 export function validateWebAppStack(stack?: string) {
-  const stackValues: WebAppStackValue20201001[] = ['dotnet', 'java', 'javacontainers', 'node', 'php', 'python', 'ruby'];
+  const stackValues: WebAppStackValue20201001[] = ['dotnet', 'java', 'javacontainers', 'node', 'php', 'python', 'ruby', 'wordpress'];
   if (stack && !(stackValues as string[]).includes(stack)) {
     throw new HttpException(`Incorrect web app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);
   }
