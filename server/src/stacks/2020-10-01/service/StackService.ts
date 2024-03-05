@@ -100,7 +100,7 @@ export class StacksService20201001 {
     ];
 
     if (stackValue) {
-      // NOTE(zmohammed): Return wordpress only if it is the queried stack. It should not be part of regular stacks.
+      // NOTE(zmohammed): Return wordpress only if it is the queried stack. Never return it alongside the other stacks.
       if (stackValue === wordpressStackCopy.value) {
         stacks = [wordpressStackCopy];
       } else {
