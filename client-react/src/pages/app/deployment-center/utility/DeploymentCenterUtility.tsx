@@ -163,7 +163,13 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFuncti
   if (!siteConfig.properties.linuxFxVersion) {
     return '';
   }
-  const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
+  let linuxFxVersion = siteConfig.properties.linuxFxVersion;
+  if (isWordPressApp) {
+    linuxFxVersion = CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion.toLocaleLowerCase()]
+      ? CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion.toLocaleLowerCase()] : linuxFxVersion;
+  }
+
+  const linuxFxVersionParts = linuxFxVersion ? linuxFxVersion.split('|') : [];
   const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
 
   // NOTE(zmohammed): We need to handle two different linuxFxVersion formats: 'WORDPRESS|tag' and 'DOCKER|image:tag'
