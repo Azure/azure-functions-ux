@@ -25,6 +25,7 @@ import {
   validateStaticSiteFilter,
   validateGoInStacks,
   validateGoInFilter,
+  validateWordPressFilter,
 } from './validations';
 
 const stacksService = new StacksService20201001();
@@ -152,6 +153,15 @@ describe('WebApp Stacks Test 2020-10-01', () => {
     it('should validate the PHP stack filter', done => {
       const stacks = stacksService.getWebAppStacks(undefined, 'php');
       validatePHPFilter(stacks);
+      done();
+    });
+  });
+
+  // Test WordPress stack filter
+  describe('Test the WordPress stack filter', () => {
+    it('should validate the WordPress stack filter', done => {
+      const stacks = stacksService.getWebAppStacks(undefined, 'wordpress');
+      validateWordPressFilter(stacks);
       done();
     });
   });
