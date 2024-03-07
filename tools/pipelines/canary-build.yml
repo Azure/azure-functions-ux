@@ -11,7 +11,7 @@ resources:
     - repository: templates
       type: github
       endpoint: Azure
-      name: Azure/azure-functions-deployment-template
+      name: Azure/azure-functions-ux-deployment-template
       ref: refs/heads/main
 
 # Node.js with gulp
@@ -269,24 +269,13 @@ jobs:
           archiveFile: '$(Build.ArtifactStagingDirectory)/bin/UX.zip'
           replaceExistingArchive: true
 
-      - task: AzureCLI@2
-        displayName: 'Download Rollout-spec'
-        inputs:
-          scriptType: 'ps'
-          azureSubscription: $(serviceConnectionForRolloutSpec)
-          scriptLocation: inlineScript
-          inlineScript: |
-            mkdir '$(Build.ArtifactStagingDirectory)/rollout-spec'
-            $storageAccountKey = az storage account keys list -n '$(rolloutSpecStorageAccount)' --query [0].value -o tsv 
-            az storage blob download-batch -s '$(rolloutSpecContainer)' --account-name '$(rolloutSpecStorageAccount)' --account-key $storageAccountKey -d '$(Build.ArtifactStagingDirectory)'
-
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
         inputs:
           pathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: dest
 
-  - job: Publish
+  - job: Fetch templates
     pool:
       vmImage: 'macOS-latest'
     dependsOn:
@@ -299,6 +288,18 @@ jobs:
           Contents: '**'
           TargetFolder: $(Build.ArtifactStagingDirectory)/templates
 
+      - task: PublishBuildArtifacts@1
+        displayName: 'Publish Artifact: dest'
+        inputs:
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)/templates/s'
+          ArtifactName: dest
+
+  - job: Publish to Feed
+    pool:
+      vmImage: 'macOS-latest'
+    dependsOn:
+      - Fetch templates
+    steps:
       - task: UniversalPackages@0
         displayName: 'Publish artifact to Feed'
         inputs:
@@ -310,9 +311,3 @@ jobs:
           packagePublishExternal: canary
           versionOption: minor
           packagePublishDescription: 'Canary build using - $(Build.SourceBranch)'
-
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: dest'
-        inputs:
-          pathtoPublish: '$(Build.ArtifactStagingDirectory)'
-          ArtifactName: dest
