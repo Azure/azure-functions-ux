@@ -275,7 +275,7 @@ jobs:
           pathtoPublish: '$(Build.ArtifactStagingDirectory)'
           ArtifactName: dest
 
-  - job: Fetch templates
+  - job: Fetch-templates
     pool:
       vmImage: 'macOS-latest'
     dependsOn:
@@ -294,7 +294,7 @@ jobs:
           pathtoPublish: '$(Build.ArtifactStagingDirectory)/templates/s'
           ArtifactName: dest
 
-  - job: Publish to Feed
+  - job: Publish-to-Feed
     pool:
       vmImage: 'macOS-latest'
     dependsOn:
