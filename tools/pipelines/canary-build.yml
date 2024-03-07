@@ -5,6 +5,15 @@ schedules:
     branches:
       include:
         - dev
+
+resources:
+  repositories:
+    - repository: templates
+      type: github
+      endpoint: Azure
+      name: Azure/azure-functions-deployment-template
+      ref: refs/heads/main
+
 # Node.js with gulp
 # Build a Node.js project using the gulp task runner.
 # Add steps that analyze code, save build artifacts, deploy, and more:
