@@ -280,6 +280,13 @@ jobs:
             $storageAccountKey = az storage account keys list -n '$(rolloutSpecStorageAccount)' --query [0].value -o tsv 
             az storage blob download-batch -s '$(rolloutSpecContainer)' --account-name '$(rolloutSpecStorageAccount)' --account-key $storageAccountKey -d '$(Build.ArtifactStagingDirectory)'
 
+      - checkout: templates
+      - task: CopyFiles@2
+        inputs:
+          SourceFolder: $(Agent.BuildDirectory)
+          Contents: '**'
+          TargetFolder: $(Build.ArtifactStagingDirectory)
+
       - task: UniversalPackages@0
         displayName: 'Publish artifact to Feed'
         inputs:
