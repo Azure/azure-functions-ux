@@ -1,10 +1,8 @@
-trigger: none
-schedules:
-  - cron: '0 22 * * 1-5'
-    displayName: Daily weekday 2PM PST or 10PM UTC build
-    branches:
-      include:
-        - dev
+trigger:
+  branches:
+    include:
+      - main
+      - release-s*
 
 resources:
   repositories:
@@ -313,6 +311,6 @@ jobs:
           feedsToUsePublish: 'external'
           publishFeedCredentials: $(buildArtifactPublishConnection)
           feedPublishExternal: azure-functions-ux
-          packagePublishExternal: canary
+          packagePublishExternal: production
           versionOption: minor
-          packagePublishDescription: 'Canary build using - $(Build.SourceBranch)'
+          packagePublishDescription: 'Production build using - $(Build.SourceBranch)'

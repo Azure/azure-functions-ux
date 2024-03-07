@@ -1,4 +1,9 @@
-trigger: none
+trigger:
+  branches:
+    include:
+      - main
+      - release-s*
+
 schedules:
   - cron: '0 22 * * 1-5'
     displayName: Daily weekday 2PM PST or 10PM UTC build
