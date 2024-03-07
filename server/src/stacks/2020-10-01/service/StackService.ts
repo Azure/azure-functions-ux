@@ -34,6 +34,7 @@ import { javaStack as javaWebAppStack, javaStackNonIsoDates as javaWebAppStackNo
 import { javaContainersStack as javaContainersWebAppStack } from '../stacks/web-app-stacks/JavaContainers';
 import { staticSiteStack as staticSiteWebAppStack } from '../stacks/web-app-stacks/StaticSite';
 import { golangStack, golangStackWithNonIsoDates } from '../stacks/web-app-stacks/Golang';
+import { wordpressStack as wordpressWebAppStack, wordpressStackNonIsoDates as wordpressWebAppStackNonIsoDates } from '../stacks/web-app-stacks/WordPress';
 
 @Injectable()
 export class StacksService20201001 {
@@ -84,6 +85,7 @@ export class StacksService20201001 {
     const javaContainersStackCopy = JSON.parse(JSON.stringify(javaContainersWebAppStack));
     const staticSiteStackCopy = JSON.parse(JSON.stringify(staticSiteWebAppStack));
     const goStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? golangStack : golangStackWithNonIsoDates));
+    const wordpressStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? wordpressWebAppStack : wordpressWebAppStackNonIsoDates));
 
     let stacks: WebAppStack[] = [
       dotnetStackCopy,
@@ -98,7 +100,12 @@ export class StacksService20201001 {
     ];
 
     if (stackValue) {
-      stacks = [stacks.find(stack => stack.value === stackValue)];
+      // NOTE(zmohammed): Return wordpress only if it is the queried stack. Never return it alongside the other stacks.
+      if (stackValue === wordpressStackCopy.value) {
+        stacks = [wordpressStackCopy];
+      } else {
+        stacks = [stacks.find(stack => stack.value === stackValue)];
+      }
     }
 
     return this._hasNoFilterFlags(os, removeHiddenStacks, removeDeprecatedStacks, removePreviewStacks, removeNonGitHubActionStacks)

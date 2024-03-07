@@ -8,12 +8,13 @@ import { javaStack as hardCodedJavaStack } from './../../../../stacks/2020-10-01
 import { javaContainersStack as hardCodedJavaContainersStack } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/JavaContainers';
 import { staticSiteStack as hardCodedStaticSite } from './../../../../stacks/2020-10-01/stacks/web-app-stacks/StaticSite';
 import { golangStack as hardCodedGolangStack } from '../../../../stacks/2020-10-01/stacks/web-app-stacks/Golang';
+import { wordpressStack as hardCodedWordPressStack } from '../../../../stacks/2020-10-01/stacks/web-app-stacks/WordPress';
 
 const expect = chai.expect;
 
 export function validateAllStackLength(stacks) {
   expect(stacks).to.be.an('array');
-  expect(stacks.length).to.equal(9);
+  expect(stacks.length).to.equal(9); // Wordpress should not be included with the regular stacks
 }
 
 export function validateWindowsStacks(stacks) {
@@ -346,4 +347,17 @@ function validateStaticSiteStack(staticSiteStack) {
   expect(staticSiteStack.preferredOs).to.equal('linux');
   expect(staticSiteStack.majorVersions.length).to.equal(1);
   expect(staticSiteStack).to.deep.equal(hardCodedStaticSite);
+}
+
+export function validateWordPressFilter(stacks) {
+  validateFilterStackLength(stacks);
+  validateWordPressStack(stacks[0]);
+}
+
+function validateWordPressStack(wordpressStack) {
+  expect(wordpressStack.displayText).to.equal('WordPress');
+  expect(wordpressStack.value).to.equal('wordpress');
+  expect(wordpressStack.preferredOs).to.equal('linux');
+  expect(wordpressStack.majorVersions.length).to.equal(1);
+  expect(wordpressStack).to.deep.equal(hardCodedWordPressStack);
 }
