@@ -291,7 +291,7 @@ jobs:
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
         inputs:
-          pathtoPublish: '$(Build.ArtifactStagingDirectory)/templates/s'
+          pathtoPublish: '$(Build.ArtifactStagingDirectory)/templates/s/deployment'
           ArtifactName: dest
 
   - job: PublishToFeed
