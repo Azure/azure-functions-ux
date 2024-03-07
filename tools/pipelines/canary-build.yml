@@ -11,7 +11,7 @@ resources:
     - repository: templates
       type: github
       endpoint: Azure
-      name: Azure/azure-functions-ux-deployment-template
+      name: Azure/azure-functions-ux-templates
       ref: refs/heads/main
 
 # Node.js with gulp
