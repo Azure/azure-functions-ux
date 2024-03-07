@@ -300,13 +300,16 @@ jobs:
     dependsOn:
       - FetchTemplates
     steps:
-      - checkout: templates
-      - checkout: self
+      task: DownloadBuildArtifacts@0
+        displayName: 'Download Build artifact'
+        inputs:
+          artifactName: dest
+          downloadPath: '$(Build.ArtifactStagingDirectory)/artifact'
       - task: UniversalPackages@0
         displayName: 'Publish artifact to Feed'
         inputs:
           command: publish
-          publishDirectory: '$(Build.ArtifactStagingDirectory)'
+          publishDirectory: '$(Build.ArtifactStagingDirectory)/artifact'
           feedsToUsePublish: 'external'
           publishFeedCredentials: $(buildArtifactPublishConnection)
           feedPublishExternal: azure-functions-ux
