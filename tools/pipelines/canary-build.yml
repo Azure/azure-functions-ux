@@ -281,10 +281,10 @@ jobs:
     dependsOn:
       - Server
     steps:
-      - checkout: git://templates/deployment
+      - checkout: templates
       - task: CopyFiles@2
         inputs:
-          SourceFolder: $(Agent.BuildDirectory)
+          SourceFolder: $(Agent.BuildDirectory)/s/deployment
           Contents: '**'
           TargetFolder: $(Build.ArtifactStagingDirectory)
 
@@ -300,7 +300,7 @@ jobs:
     dependsOn:
       - FetchTemplates
     steps:
-      - checkout: git://templates/deployment
+      - checkout: templates
       - checkout: self
       - task: UniversalPackages@0
         displayName: 'Publish artifact to Feed'
