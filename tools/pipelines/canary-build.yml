@@ -309,7 +309,7 @@ jobs:
         displayName: 'Publish artifact to Feed'
         inputs:
           command: publish
-          publishDirectory: '$(Build.ArtifactStagingDirectory)/artifact'
+          publishDirectory: '$(Build.ArtifactStagingDirectory)/artifact/dest'
           feedsToUsePublish: 'external'
           publishFeedCredentials: $(buildArtifactPublishConnection)
           feedPublishExternal: azure-functions-ux
