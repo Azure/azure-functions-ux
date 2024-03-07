@@ -300,7 +300,7 @@ jobs:
     dependsOn:
       - FetchTemplates
     steps:
-      task: DownloadBuildArtifacts@0
+      - task: DownloadBuildArtifacts@0
         displayName: 'Download Build artifact'
         inputs:
           artifactName: dest
