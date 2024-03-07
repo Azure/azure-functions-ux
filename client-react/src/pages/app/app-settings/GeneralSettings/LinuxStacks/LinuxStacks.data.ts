@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import { WebAppRuntimeSettings, WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 export const LINUXJAVASTACKKEY = 'java';
 export const LINUXJAVACONTAINERKEY = 'javacontainers';
@@ -68,6 +69,9 @@ export const getVersionDetails = (builtInStacks: WebAppStack[], version: string)
   };
 
   if (!!builtInStacks && !!version) {
+    version = CommonConstants.WordPressLinuxFxVersionsMapping[version.toLocaleLowerCase()]
+      ? CommonConstants.WordPressLinuxFxVersionsMapping[version.toLocaleLowerCase()] : version;
+
     builtInStacks.forEach(stack => {
       stack.majorVersions.forEach(stackMajorVersion => {
         stackMajorVersion.minorVersions.forEach(stackMinorVersion => {

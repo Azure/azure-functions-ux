@@ -29,6 +29,7 @@ import {
 } from '../../../../../utils/stacks-utils';
 import { SiteStateContext } from '../../../../../SiteState';
 import useStacks from '../../Hooks/useStacks';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 type PropsType = FormikProps<AppSettingsFormValues>;
 
@@ -127,6 +128,23 @@ const LinuxStacks: React.FC<PropsType> = props => {
     }
   };
 
+  const setInitialData = () => {
+    if (siteStateContext.isWordPressApp) {
+      const initialLinuxFxVersion = initialValues?.config?.properties?.linuxFxVersion;
+      if (initialLinuxFxVersion) {
+        const updatedLinuxFxVersion = CommonConstants.WordPressLinuxFxVersionsMapping[initialLinuxFxVersion.toLocaleLowerCase()];
+        if (updatedLinuxFxVersion) {
+          setFieldValue('config.properties.linuxFxVersion', updatedLinuxFxVersion);
+        }
+      }
+    }
+  };
+
+  useEffect(() => {
+    setInitialData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [initialValues.config.properties.linuxFxVersion]);
+
   useEffect(() => {
     setEolDate();
 
@@ -138,9 +156,10 @@ const LinuxStacks: React.FC<PropsType> = props => {
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.config.properties.linuxFxVersion]);
+
   return (
     <>
-      {scenarioService.checkScenario(ScenarioIds.linuxAppRuntime, { site }).status !== 'disabled' && !siteStateContext.isWordPressApp && (
+      {(scenarioService.checkScenario(ScenarioIds.linuxAppRuntime, { site }).status !== 'disabled' || siteStateContext.isWordPressApp) && (
         <>
           <DropdownNoFormik
             selectedKey={runtimeStack}
