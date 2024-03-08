@@ -309,4 +309,4 @@ jobs:
           feedPublishExternal: azure-functions-ux
           packagePublishExternal: production
           versionOption: minor
-          packagePublishDescription: 'Production build using - $(Build.SourceBranch)'
+          packagePublishDescription: 'Production build; Branch - $(Build.SourceBranchName)'
