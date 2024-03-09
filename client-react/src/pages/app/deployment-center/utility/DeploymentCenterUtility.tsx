@@ -165,8 +165,7 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFuncti
   }
   let linuxFxVersion = siteConfig.properties.linuxFxVersion;
   if (isWordPressApp) {
-    linuxFxVersion = CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion.toLocaleLowerCase()]
-      ? CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion.toLocaleLowerCase()] : linuxFxVersion;
+    linuxFxVersion = CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion.toLocaleLowerCase()] ||  linuxFxVersion;
   }
 
   const linuxFxVersionParts = linuxFxVersion ? linuxFxVersion.split('|') : [];
