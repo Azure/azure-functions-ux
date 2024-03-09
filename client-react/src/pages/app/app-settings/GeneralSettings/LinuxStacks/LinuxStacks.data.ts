@@ -69,8 +69,7 @@ export const getVersionDetails = (builtInStacks: WebAppStack[], version: string)
   };
 
   if (!!builtInStacks && !!version) {
-    version = CommonConstants.WordPressLinuxFxVersionsMapping[version.toLocaleLowerCase()]
-      ? CommonConstants.WordPressLinuxFxVersionsMapping[version.toLocaleLowerCase()] : version;
+    version = CommonConstants.WordPressLinuxFxVersionsMapping[version.toLocaleLowerCase()] || version;
 
     builtInStacks.forEach(stack => {
       stack.majorVersions.forEach(stackMajorVersion => {
