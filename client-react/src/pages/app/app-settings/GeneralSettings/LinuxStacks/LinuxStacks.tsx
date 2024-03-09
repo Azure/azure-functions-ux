@@ -128,7 +128,7 @@ const LinuxStacks: React.FC<PropsType> = props => {
     }
   };
 
-  const setInitialData = () => {
+  useEffect(() => {
     if (siteStateContext.isWordPressApp) {
       const initialLinuxFxVersion = initialValues?.config?.properties?.linuxFxVersion;
       if (initialLinuxFxVersion) {
@@ -138,13 +138,8 @@ const LinuxStacks: React.FC<PropsType> = props => {
         }
       }
     }
-  };
-
-  useEffect(() => {
-    setInitialData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [initialValues.config.properties.linuxFxVersion]);
-
+  }, [initialValues?.config?.properties?.linuxFxVersion]);
   useEffect(() => {
     setEolDate();
 
