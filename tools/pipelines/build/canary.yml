@@ -1,4 +1,5 @@
 trigger: none
+
 schedules:
   - cron: '0 22 * * 1-5'
     displayName: Daily weekday 2PM PST or 10PM UTC build
@@ -315,4 +316,4 @@ jobs:
           feedPublishExternal: azure-functions-ux
           packagePublishExternal: canary
           versionOption: minor
-          packagePublishDescription: 'Canary build using - $(Build.SourceBranch)'
+          packagePublishDescription: 'Canary build; Branch - $(Build.SourceBranchName)'
