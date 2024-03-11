@@ -10,9 +10,9 @@ import { HttpResponseObject } from '../ArmHelper.types';
 import { NationalCloudEnvironment } from '../utils/scenario-checker/national-cloud.environment';
 
 export default class RuntimeStackService {
-  public static getWebAppConfigurationStacks = (stacksOs: AppStackOs) => {
+  public static getWebAppConfigurationStacks = (stacksOs: AppStackOs, stack?: string) => {
     if (RuntimeStackService._useFusionApi()) {
-      return RuntimeStackService._getWebAppConfigurationStacksNonArm(stacksOs);
+      return RuntimeStackService._getWebAppConfigurationStacksNonArm(stacksOs, stack);
     }
 
     const queryParams = [
@@ -20,6 +20,10 @@ export default class RuntimeStackService {
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `useCanaryFusionServer=${Url.isNextEnvironment()}`,
     ];
+
+    if (!!stack && stack.trim().length > 0) {
+      queryParams.push(`stack=${stack.trim()}`);
+    }
 
     return MakeArmCall<ArmArray<WebAppStack>>({
       resourceId: `/providers/Microsoft.Web/webAppStacks?${queryParams.join('&')}`,
@@ -99,12 +103,16 @@ export default class RuntimeStackService {
     return NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec();
   }
 
-  private static _getWebAppConfigurationStacksNonArm = (stacksOs: AppStackOs) => {
+  private static _getWebAppConfigurationStacksNonArm = (stacksOs: AppStackOs, stack?: string) => {
     const queryParams = [
       `os=${stacksOs}`,
       `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
       `api-version=${CommonConstants.ApiVersions.stacksApiVersion20201001}`,
     ];
+
+    if (!!stack && stack.trim().length > 0) {
+      queryParams.push(`stack=${stack.trim()}`);
+    }
 
     const url = `${Url.serviceHost}stacks/webAppStacks?${queryParams.join('&')}`;
     return RuntimeStackService._getStacksResponse<WebAppStack>(url);

@@ -131,9 +131,7 @@ export function isWordPressApp(obj: ArmObj<Site>): boolean {
   return (
     isLinuxApp(obj) &&
     !!linuxFxVersion &&
-    CommonConstants.WordPressLinuxFxVersions.some(
-      version => version.toLocaleLowerCase() === linuxFxVersion
-    )
+    !!CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion]
   );
 }
 

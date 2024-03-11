@@ -41,14 +41,14 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { isFunctionApp, isKubeApp, isLinuxApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isKubeApp, isLinuxApp, isWordPressApp } from '../../../utils/arm-utils';
 import { KeyValue } from '../../../models/portal-models';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import { WebAppStack } from '../../../models/stacks/web-app-stacks';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
-import { ExperimentationConstants } from '../../../utils/CommonConstants';
+import { CommonConstants, ExperimentationConstants } from '../../../utils/CommonConstants';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
@@ -172,7 +172,9 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           loadingFailed = true;
         }
       } else {
-        const stacksResponse = await RuntimeStackService.getWebAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
+        const isWordPress = isWordPressApp(site.data);
+        const stacksResponse = await RuntimeStackService.getWebAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows, isWordPress ? CommonConstants.WordPressStack : undefined);
+
         if (stacksResponse.metadata.status && !!stacksResponse.data.value) {
           const allWebAppStacks: WebAppStack[] = [];
           stacksResponse.data.value.forEach(stack => {
