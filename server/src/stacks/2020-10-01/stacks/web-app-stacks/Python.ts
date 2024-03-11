@@ -41,7 +41,8 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'PYTHON|3.11',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: false,
+                  isSupported: true,
+                  isDefaultOff: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -62,7 +63,8 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'PYTHON|3.10',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: false,
+                  isSupported: true,
+                  isDefaultOff: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -84,7 +86,8 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'PYTHON|3.9',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: false,
+                  isSupported: true,
+                  isDefaultOff: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -105,7 +108,8 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'PYTHON|3.8',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: false,
+                  isSupported: true,
+                  isDefaultOff: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
