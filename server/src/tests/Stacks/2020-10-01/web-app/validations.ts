@@ -258,7 +258,7 @@ function validateJavaStack(javaStack) {
   expect(javaStack.displayText).to.equal('Java');
   expect(javaStack.value).to.equal('java');
   expect(javaStack.preferredOs).to.equal('linux');
-  expect(javaStack.majorVersions.length).to.equal(5); // Java 7, 8, 11, 17 and 21
+  expect(javaStack.majorVersions.length).to.equal(4);
   expect(javaStack).to.deep.equal(hardCodedJavaStack);
 }
 
@@ -276,7 +276,7 @@ function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.displayText).to.equal('Java Containers');
   expect(javaContainersStack.value).to.equal('javacontainers');
   expect(javaContainersStack.preferredOs).to.equal(undefined);
-  expect(javaContainersStack.majorVersions.length).to.equal(11); // 1 x Java web server, 1 x JBoss, 6 x Tomcat, 2 x Jetty, 1 x Wildfly
+  expect(javaContainersStack.majorVersions.length).to.equal(10);
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
 }
 
