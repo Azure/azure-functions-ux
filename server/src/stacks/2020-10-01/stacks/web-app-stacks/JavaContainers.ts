@@ -19,10 +19,29 @@ export const javaContainersStack: WebAppStack = {
               isAutoUpdate: true,
             },
             linuxContainerSettings: {
+              java21Runtime: 'JAVA|21-java21',
               java17Runtime: 'JAVA|17-java17',
               java11Runtime: 'JAVA|11-java11',
               java8Runtime: 'JAVA|8-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 21.0.1',
+          value: '21.0.1',
+          stackSettings: {
+            linuxContainerSettings: {
+              java21Runtime: 'JAVA|21.0.1',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 17.0.9',
+          value: '17.0.9',
+          stackSettings: {
+            linuxContainerSettings: {
+              java17Runtime: 'JAVA|17.0.9',
             },
           },
         },
@@ -62,6 +81,15 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
               java17Runtime: 'JAVA|17.0.1',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 11.0.21',
+          value: '11.0.21',
+          stackSettings: {
+            linuxContainerSettings: {
+              java11Runtime: 'JAVA|11.0.21',
             },
           },
         },
@@ -161,6 +189,15 @@ export const javaContainersStack: WebAppStack = {
             linuxContainerSettings: {
               // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
               java11Runtime: 'JAVA|11.0.5',
+            },
+          },
+        },
+        {
+          displayText: 'Java SE 8u392',
+          value: '1.8.392',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JAVA|8u392',
             },
           },
         },
@@ -282,6 +319,17 @@ export const javaContainersStack: WebAppStack = {
           },
         },
         {
+          displayText: 'Red Hat JBoss EAP 7.4.13',
+          value: '7.4.13',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'JBOSSEAP|7.4.13-java8',
+              java11Runtime: 'JBOSSEAP|7.4.13-java11',
+              java17Runtime: 'JBOSSEAP|7.4.13-java17'
+            }
+          }
+        },
+        {
           displayText: 'Red Hat JBoss EAP 7.4.7',
           value: '7.4.7',
           stackSettings: {
@@ -390,6 +438,44 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
+      displayText: 'Apache Tomcat 10.1',
+      value: 'tomcat10.1',
+      minorVersions: [
+        {
+          displayText: 'Apache Tomcat 10.1',
+          value: '10.1',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '10.1',
+              isAutoUpdate: true,
+            },
+            linuxContainerSettings: {
+              java21Runtime: 'TOMCAT|10.1-java21',
+              java17Runtime: 'TOMCAT|10.1-java17',
+              java11Runtime: 'TOMCAT|10.1-java11',
+              isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 10.1.16',
+          value: '10.1.16',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '10.1.16',
+            },
+            linuxContainerSettings: {
+              java11Runtime: 'TOMCAT|10.1.16-java11',
+              java17Runtime: 'TOMCAT|10.1.16-java17',
+              java21Runtime: 'TOMCAT|10.1.16-java21'
+            },
+          },
+        },
+      ]
+    },
+    {
       displayText: 'Apache Tomcat 10.0',
       value: 'tomcat10.0',
       minorVersions: [
@@ -407,6 +493,21 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|10.0-java11',
               java8Runtime: 'TOMCAT|10.0-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 10.0.27',
+          value: '10.0.27',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '10.0.27',
+            },
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|10.0.27-java8',
+              java11Runtime: 'TOMCAT|10.0.27-java11',
+              java17Runtime: 'TOMCAT|10.0.27-java17'
             },
           },
         },
@@ -490,6 +591,21 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|9.0-java11',
               java8Runtime: 'TOMCAT|9.0-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 9.0.83',
+          value: '9.0.83',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '9.0.83',
+            },
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|9.0.83-java8',
+              java11Runtime: 'TOMCAT|9.0.83-java11',
+              java17Runtime: 'TOMCAT|9.0.83-java17'
             },
           },
         },
@@ -724,6 +840,20 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|8.5-java11',
               java8Runtime: 'TOMCAT|8.5-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 8.5.96',
+          value: '8.5.96',
+          stackSettings: {
+            linuxContainerSettings: {
+              java8Runtime: 'TOMCAT|8.5.96-java8',
+              java11Runtime: 'TOMCAT|8.5.96-java11',
+            },
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '8.5.96',
             },
           },
         },
