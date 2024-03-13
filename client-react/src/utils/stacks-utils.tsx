@@ -208,7 +208,9 @@ export const getFilteredLinuxJavaContainerSettings = (
     if (
       !!ignoreStackVersion &&
       stackName.toLowerCase() === ignoreStackName.toLowerCase() &&
-      (!settings.java17Runtime ||
+      (!settings.java21Runtime ||
+        ignoreStackVersion.toLowerCase() === settings.java21Runtime.toLowerCase() ||
+        !settings.java17Runtime ||
         ignoreStackVersion.toLowerCase() === settings.java17Runtime.toLowerCase() ||
         !settings.java11Runtime ||
         ignoreStackVersion.toLowerCase() === settings.java11Runtime.toLowerCase() ||
