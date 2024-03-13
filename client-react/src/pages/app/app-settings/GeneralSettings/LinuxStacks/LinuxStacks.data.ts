@@ -120,7 +120,8 @@ export const isJavaStackSelected = (builtInStacks: WebAppStack[], runtimeVersion
         const containerSettings = stackMinorVersion.stackSettings.linuxContainerSettings;
         if (
           containerSettings &&
-          ((containerSettings.java17Runtime && containerSettings.java17Runtime.toLowerCase() === runtimeVersion) ||
+          ((containerSettings.java21Runtime && containerSettings.java21Runtime.toLowerCase() === runtimeVersion) ||
+            (containerSettings.java17Runtime && containerSettings.java17Runtime.toLowerCase() === runtimeVersion) ||
             (containerSettings.java11Runtime && containerSettings.java11Runtime.toLowerCase() === runtimeVersion) ||
             (containerSettings.java8Runtime && containerSettings.java8Runtime.toLowerCase() === runtimeVersion))
         ) {
