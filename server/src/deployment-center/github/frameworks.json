@@ -56,7 +56,6 @@
     "id": "nextjs",
     "name": "Next.js",
     "kind": "app",
-    "parent": "react",
     "overrides": [
       "react"
     ],
@@ -155,7 +154,6 @@
     "id": "nuxtjs",
     "name": "Nuxt.js",
     "kind": "app",
-    "parent": "vue",
     "overrides": [
       "vue"
     ],
