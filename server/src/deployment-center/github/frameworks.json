@@ -65,8 +65,7 @@
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm dev",
-      "appDevserverUrl": "http://localhost:3000",
-      "outputLocation": "."
+      "appDevserverUrl": "http://localhost:3000"
     }
   },
   {
