@@ -7565,7 +7565,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Loading general settings...</value>
     </data>
     <data name="staticSite_snippets" xml:space="preserve">
-        <value>Snippets (preview)</value>
+        <value>Snippets</value>
     </data>
     <data name="staticSite_snippetsMax" xml:space="preserve">
         <value>Static Web Apps may only have a maximum of ten snippets. You have reached this limit.</value>
