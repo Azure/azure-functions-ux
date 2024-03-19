@@ -1,6 +1,7 @@
 import i18next from 'i18next';
 import { WebAppRuntimeSettings, WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 export const LINUXJAVASTACKKEY = 'java';
 export const LINUXJAVACONTAINERKEY = 'javacontainers';
@@ -68,6 +69,8 @@ export const getVersionDetails = (builtInStacks: WebAppStack[], version: string)
   };
 
   if (!!builtInStacks && !!version) {
+    version = CommonConstants.WordPressLinuxFxVersionsMapping[version.toLocaleLowerCase()] || version;
+
     builtInStacks.forEach(stack => {
       stack.majorVersions.forEach(stackMajorVersion => {
         stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
@@ -117,7 +120,8 @@ export const isJavaStackSelected = (builtInStacks: WebAppStack[], runtimeVersion
         const containerSettings = stackMinorVersion.stackSettings.linuxContainerSettings;
         if (
           containerSettings &&
-          ((containerSettings.java17Runtime && containerSettings.java17Runtime.toLowerCase() === runtimeVersion) ||
+          ((containerSettings.java21Runtime && containerSettings.java21Runtime.toLowerCase() === runtimeVersion) ||
+            (containerSettings.java17Runtime && containerSettings.java17Runtime.toLowerCase() === runtimeVersion) ||
             (containerSettings.java11Runtime && containerSettings.java11Runtime.toLowerCase() === runtimeVersion) ||
             (containerSettings.java8Runtime && containerSettings.java8Runtime.toLowerCase() === runtimeVersion))
         ) {

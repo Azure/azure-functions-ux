@@ -101,12 +101,18 @@ export class CommonConstants {
     defaultMaximumElasticWorkerCount: 20,
   };
 
-  public static readonly WordPressLinuxFxVersions: string[] = [
-    'WORDPRESS|8.2',
-    'DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2',
-    'WORDPRESS|8.3',
-    'DOCKER|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3',
-  ];
+  public static readonly WordPressStack = 'wordpress';
+
+  public static readonly WordPressLinuxFxVersionsMapping = {
+    'wordpress|latest': 'wordpress|8.0',
+    'wordpress|8.0': 'wordpress|8.0',
+    'wordpress|8.2': 'wordpress|8.2',
+    'wordpress|8.3': 'wordpress|8.3',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:latest': 'wordpress|8.0',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0': 'wordpress|8.0',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2': 'wordpress|8.2',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3': 'wordpress|8.3',
+  };
 
   public static readonly AppSettingNames = {
     appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',

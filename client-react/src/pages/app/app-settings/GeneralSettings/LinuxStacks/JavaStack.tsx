@@ -26,6 +26,7 @@ import RadioButton from '../../../../../components/form-controls/RadioButton';
 const JAVA8KEY = '8';
 const JAVA11KEY = '11';
 const JAVA17KEY = '17';
+const JAVA21KEY = '21';
 
 interface JavaStackValues {
   majorVersion: string;
@@ -82,7 +83,8 @@ const JavaStack: React.SFC<StackProps> = props => {
             containerSettings &&
             ((majorVersion === JAVA8KEY && !!containerSettings.java8Runtime) ||
               (majorVersion === JAVA11KEY && !!containerSettings.java11Runtime) ||
-              (majorVersion === JAVA17KEY && !!containerSettings.java17Runtime))
+              (majorVersion === JAVA17KEY && !!containerSettings.java17Runtime) ||
+              (majorVersion === JAVA21KEY && !!containerSettings.java21Runtime))
           ) {
             containerMinorVersions.push(javaContainerMinorVersion);
           }
@@ -140,6 +142,16 @@ const JavaStack: React.SFC<StackProps> = props => {
                   ),
                   data: containerSettings,
                 });
+              } else if (majorVersion === JAVA21KEY && !!containerSettings.java21Runtime) {
+                options.push({
+                  key: containerSettings.java21Runtime.toLowerCase(),
+                  text: getMinorVersionText(
+                    javaContainerMinorVersion.displayText,
+                    t,
+                    javaContainerMinorVersion.stackSettings.linuxContainerSettings
+                  ),
+                  data: containerSettings,
+                });
               }
             }
           });
@@ -167,6 +179,10 @@ const JavaStack: React.SFC<StackProps> = props => {
               values.majorVersion = JAVA17KEY;
               values.containerKey = javaContainerMajorVersion.value;
               values.containerVersion = containerSettings.java17Runtime;
+            } else if (containerSettings.java21Runtime && containerSettings.java21Runtime.toLowerCase() === linuxFxVersion.toLowerCase()) {
+              values.majorVersion = JAVA21KEY;
+              values.containerKey = javaContainerMajorVersion.value;
+              values.containerVersion = containerSettings.java21Runtime;
             }
           }
         });

@@ -31,7 +31,7 @@ import { pythonStack as pythonWebAppStack, pythonStackNonIsoDates as pythonWebAp
 import { phpStack as phpWebAppStack, phpStackNonIsoDates as phpWebAppStackNonIsoDates } from '../stacks/web-app-stacks/Php';
 import { rubyStack as rubyWebAppStack, rubyStackNonIsoDates as rubyWebAppStackNonIsoDates } from '../stacks/web-app-stacks/Ruby';
 import { javaStack as javaWebAppStack, javaStackNonIsoDates as javaWebAppStackNonIsoDates } from '../stacks/web-app-stacks/Java';
-import { javaContainersStack as javaContainersWebAppStack } from '../stacks/web-app-stacks/JavaContainers';
+import { javaContainersStack as javaContainersWebAppStack, javaContainersStackNonIsoDates as javaContainersWebAppStackNonIsoDates } from '../stacks/web-app-stacks/JavaContainers';
 import { staticSiteStack as staticSiteWebAppStack } from '../stacks/web-app-stacks/StaticSite';
 import { golangStack, golangStackWithNonIsoDates } from '../stacks/web-app-stacks/Golang';
 import { wordpressStack as wordpressWebAppStack, wordpressStackNonIsoDates as wordpressWebAppStackNonIsoDates } from '../stacks/web-app-stacks/WordPress';
@@ -82,7 +82,7 @@ export class StacksService20201001 {
     const phpStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? phpWebAppStack : phpWebAppStackNonIsoDates));
     const rubyStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? rubyWebAppStack : rubyWebAppStackNonIsoDates));
     const javaStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? javaWebAppStack : javaWebAppStackNonIsoDates));
-    const javaContainersStackCopy = JSON.parse(JSON.stringify(javaContainersWebAppStack));
+    const javaContainersStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? javaContainersWebAppStack : javaContainersWebAppStackNonIsoDates));
     const staticSiteStackCopy = JSON.parse(JSON.stringify(staticSiteWebAppStack));
     const goStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? golangStack : golangStackWithNonIsoDates));
     const wordpressStackCopy = JSON.parse(JSON.stringify(useIsoDateFormat ? wordpressWebAppStack : wordpressWebAppStackNonIsoDates));
