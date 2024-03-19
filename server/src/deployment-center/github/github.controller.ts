@@ -166,7 +166,7 @@ export class GithubController {
   @Post('api/github/getOrgRepositories')
   @HttpCode(200)
   async getOrgRepositories(@Body('gitHubToken') gitHubToken: string, @Body('org') org: string, @Body('page') page: number, @Res() res) {
-    const url = `${this.githubApiUrl}/orgs/${org}/repos?page=${page}`;
+    const url = `${this.githubApiUrl}/orgs/${org}/repos?page=${page}&sort=pushed`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
@@ -179,7 +179,7 @@ export class GithubController {
     @Body('page') page: number
   ) {
     try {
-      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}+fork:true&per_page=100`;
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+org:${org}+fork:true&per_page=100&sort=pushed`;
       // Successive searchTerms have zero white space char added to front
       const encodedURI = encodeURI(url).replace('%E2%80%8B/g', '');
       const r = await this.httpService.get(encodedURI, {
@@ -200,7 +200,7 @@ export class GithubController {
   @Post('api/github/getUserRepositories')
   @HttpCode(200)
   async getUserRepositories(@Body('gitHubToken') gitHubToken: string, @Body('page') page: number, @Res() res) {
-    const url = `${this.githubApiUrl}/user/repos?type=owner&page=${page}`;
+    const url = `${this.githubApiUrl}/user/repos?type=owner&page=${page}&sort=pushed`;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
@@ -211,7 +211,7 @@ export class GithubController {
     const username = userResponse.data.login;
 
     try {
-      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}+fork:true&per_page=100`;
+      const url = `${this.githubApiUrl}/search/repositories?q=${searchTerm} in:name+user:${username}+fork:true&per_page=100&sort=pushed`;
       // Successive searchTerms have zero white space char added to front
       const encodedURI = encodeURI(url).replace('%E2%80%8B/g', '');
       const r = await this.httpService.get(encodedURI, {
