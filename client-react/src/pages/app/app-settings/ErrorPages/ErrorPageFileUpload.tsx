@@ -14,8 +14,8 @@ import {
 import { ThemeContext } from '../../../../ThemeContext';
 import InputLabel from '../../../../components/InputLabel/InputLabel';
 import { Checkbox } from '@fluentui/react/lib/Checkbox';
-import { ExperimentationConstants } from '../../../utils/CommonConstants';
 import { PortalContext } from '../../../../PortalContext';
+import { ExperimentationConstants } from '../../../../utils/CommonConstants';
 
 interface ErrorPageFileUploaderProps {
   setFileUploadSuccess: (upload: boolean) => void;
