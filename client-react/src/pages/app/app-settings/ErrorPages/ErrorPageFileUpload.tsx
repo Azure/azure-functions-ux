@@ -19,7 +19,6 @@ import { PortalContext } from '../../../../PortalContext';
 
 interface ErrorPageFileUploaderProps {
   setFileUploadSuccess: (upload: boolean) => void;
-  setAlwaysUse: (use: boolean) => void;
   setFile: (file: string) => void;
   fileUploadSuccess: boolean;
 }
