@@ -239,7 +239,7 @@ export const mockWebConfig = {
     http20Enabled: false,
     minTlsVersion: '1.2',
     ftpsState: 'AllAllowed',
-    reservedInstanceCount: 0,
+    minimumElasticInstanceCount: 0,
   },
 };
 
