@@ -89,7 +89,7 @@ export interface SiteConfig {
   appCommandLine: string;
   ipSecurityRestrictions?: IpRestriction[];
   scmIpSecurityRestrictions?: IpRestriction[];
-  reservedInstanceCount?: number;
+  minimumElasticInstanceCount?: number; // Used to be reservedInstanceCount in 2018-11-01
   functionsRuntimeScaleMonitoringEnabled?: boolean;
   powerShellVersion?: string;
   ClusteringEnabled?: boolean;
