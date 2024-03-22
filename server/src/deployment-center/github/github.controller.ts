@@ -708,7 +708,7 @@ export class GithubController {
     }
   }
 
-  @Get('api/github/getStaticWebAppConfiguration')
+  @Post('api/github/getStaticWebAppConfiguration')
   @HttpCode(200)
   async getStaticWebAppConfiguration(
     @Body('gitHubToken') gitHubToken: string,
