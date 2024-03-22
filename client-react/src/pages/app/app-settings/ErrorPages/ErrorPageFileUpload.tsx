@@ -110,11 +110,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = (props: Erro
             <InputLabel labelText={t('ErrorPagesAlwaysUse')} tooltipContent={t('ErrorPagesAlwaysUseTooltip')} tooltipId={'6'} />
           </StackItem>
           <StackItem>
-            <Checkbox
-              onChange={(): void => {
-                // setAlwaysUse(!!checked);
-              }}
-            />
+            <Checkbox />
           </StackItem>
         </Stack>
       )}
