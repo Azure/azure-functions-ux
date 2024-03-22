@@ -720,7 +720,7 @@
     "name": "Python",
     "kind": "api",
     "files": [
-      "?(requirements.txt|pyproject.toml|runtime.txt|setup.py)"
+      "?(requirements.txt|pyproject.toml|runtime.txt|setup.py|config.py)"
     ],
     "config": {}
   },
