@@ -24,7 +24,7 @@ import { ReactComponent as DeploymentCenterIcon } from '../../../../images/Commo
 import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
-import { deleteDeploymentCenterLogs, fetchDeploymentLogs } from '../utility/DeploymentCenterUtility';
+import { deleteDeploymentCenterLogs, fetchDeploymentLogs, sanitizeLogMessage } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { SiteStateContext } from '../../../../SiteState';
@@ -161,7 +161,7 @@ const DeploymentCenterCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = props 
         </Link>
       ),
       author: deployment.properties.author,
-      message: getZipDeployMessage(deployment.properties.message),
+      message: getZipDeployMessage(sanitizeLogMessage(deployment.properties.message)),
       status: deployment.properties.active ? (
         <>{`${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`}</>
       ) : (

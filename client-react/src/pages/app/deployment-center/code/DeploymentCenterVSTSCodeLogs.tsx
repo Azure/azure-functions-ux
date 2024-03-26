@@ -33,7 +33,7 @@ import { ScmType } from '../../../../models/site/config';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import ConfirmDialog from '../../../../components/ConfirmDialog/ConfirmDialog';
 import { PortalContext } from '../../../../PortalContext';
-import { deleteDeploymentCenterLogs, fetchDeploymentLogs } from '../utility/DeploymentCenterUtility';
+import { deleteDeploymentCenterLogs, fetchDeploymentLogs, sanitizeLogMessage } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { SiteStateContext } from '../../../../SiteState';
 import { IconGridCell } from '../../../../components/IconGridCell/IconGridCell';
@@ -296,7 +296,7 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
         </Link>
       ),
       author: deployment.properties.author,
-      message: getMessage(deployment.properties.message, deployment.properties.status) || deployment.properties.message,
+      message: getMessage(sanitizeLogMessage(deployment.properties.message), deployment.properties.status),
       status: deployment.properties.active ? (
         <>{`${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`}</>
       ) : (
