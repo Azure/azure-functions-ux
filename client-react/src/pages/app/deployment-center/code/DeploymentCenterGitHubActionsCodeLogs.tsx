@@ -24,6 +24,7 @@ import {
   getSourceControlsWorkflowFileName,
   getTelemetryInfo,
   getWorkflowFileName,
+  sanitizeLogMessage,
 } from '../utility/DeploymentCenterUtility';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterData from '../DeploymentCenter.data';
@@ -99,7 +100,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
   const getZipDeployMessage = (message: string) => {
     try {
       const parsed = JSON.parse(message);
-      return parsed.commitMessage;
+      return parsed?.commitMessage ?? message;
     } catch (e) {
       return message;
     }
@@ -294,7 +295,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         </Link>
       ),
       author: deployment.properties.author,
-      message: getZipDeployMessage(deployment.properties.message) || deployment.properties.message,
+      message: getZipDeployMessage(sanitizeLogMessage(deployment.properties.message)),
       status: deployment.properties.active ? (
         <>{`${getStatusString(deployment.properties.status, deployment.properties.progress)} (${t('active')})`}</>
       ) : (
