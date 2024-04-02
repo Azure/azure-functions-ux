@@ -21311,10 +21311,13 @@
       </Item>
       <Item ItemId=";staticSite_snippets" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Snippets (preview)]]></Val>
+          <Val><![CDATA[Snippets]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Frammenti (anteprima)]]></Val>
+            <Val><![CDATA[Frammenti]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Snippets (preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
