@@ -90,7 +90,7 @@ export enum CipherSuite {
 
 export interface Site {
   name: string;
-  /** @note `state` can be `null` for Function Apps on Azure Container Apps */
+  /** @note (joechung): `state` can be `null` for Function Apps on Azure Container Apps */
   state: string | null;
   defaultHostName: string;
   hostNames: string[];
