@@ -64,6 +64,9 @@
       "react-dom",
       "webpack"
     ],
+    "contains": {
+      "package.json": "\"build\": \"webpack"
+    }
     "config": {
       "appBuildCommand": "npm run build",
       "appDevserverCommand": "npm start",
