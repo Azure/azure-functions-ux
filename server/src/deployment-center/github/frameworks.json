@@ -61,7 +61,7 @@
     ],
     "packages": [
       "react",
-      "react-dom",
+      "react-dom"
       "webpack"
     ],
     "contains": {
