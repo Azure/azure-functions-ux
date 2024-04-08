@@ -65,7 +65,7 @@
       "webpack"
     ],
     "contains": {
-        "build: webpack"
+        "package.json": "build: webpack"
     },
     "config": {
       "appBuildCommand": "npm run build",
