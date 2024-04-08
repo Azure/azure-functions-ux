@@ -62,7 +62,7 @@
     "packages": [
       "react",
       "react-dom",
-.     "webpack"
+      "webpack"
     ],
     "contains": {
         "build: webpack"
