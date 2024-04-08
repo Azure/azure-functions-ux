@@ -53,6 +53,28 @@
     }
   },
   {
+    "id": "react webpack",
+    "name": "React Webpack",
+    "kind": "app",
+    "overrides": [
+      "react"
+    ],
+    "packages": [
+      "react",
+      "react-dom",
+      "webpack"
+    ],
+    "contains": {
+        "package.json": "build: webpack"
+    },
+    "config": {
+      "appBuildCommand": "npm run build",
+      "appDevserverCommand": "npm start",
+      "appDevserverUrl": "http://localhost:3000",
+      "outputLocation": "dist"
+    }
+  },
+  {
     "id": "nextjs",
     "name": "Next.js",
     "kind": "app",
