@@ -7,8 +7,6 @@ const fs = require('fs');
 const path = require('path');
 const merge = require('gulp-merge-json');
 const del = require('del');
-const download = require('gulp-download-stream');
-const decompress = require('gulp-decompress');
 const replace = require('gulp-token-replace');
 const string_replace = require('gulp-string-replace');
 const prettier = require('gulp-prettier');
@@ -19,7 +17,7 @@ const prettier = require('gulp-prettier');
 /********
  *   In the process of building resources, intermediate folders are created for processing, this cleans them up at the end of the process
  */
-gulp.task('resources-clean', function (cb) {
+gulp.task('resources-clean', function () {
   return del([
     'template-downloads',
     'Templates',
@@ -138,7 +136,7 @@ gulp.task('bundle-config', function () {
 /********
  *   This will make the portal-resources.ts file
  */
-gulp.task('resx-to-typescript-models', function (cb) {
+gulp.task('resx-to-typescript-models', function () {
   const resources = require('../server/src/data/resources/Resources.json').en;
   let typescriptFileContent = '// This file is auto generated\r\n    export class PortalResources {\r\n';
   Object.keys(resources).forEach(function (stringName) {
@@ -167,8 +165,8 @@ gulp.task('resx-to-typescript-models', function (cb) {
  *   Also it will change the file name format to Resources.<language code>.json
  */
 gulp.task('resources-convert', function () {
-  const portalResourceStream = gulp
-    .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'])
+  return gulp
+    .src(['./Resources/Resources.resx'])
     .pipe(resx2())
     .pipe(
       rename(function (p) {
@@ -181,100 +179,24 @@ gulp.task('resources-convert', function () {
       })
     )
     .pipe(gulp.dest('resources-convert'));
-
-  const templateResourceStream = gulp
-    .src(['templates/**/Resources/**/Resources.resx', '!templates/**/Resources/**/qps-*/**'])
-    .pipe(resx2())
-    .pipe(
-      rename(function (p) {
-        const parts = p.dirname.split(path.sep);
-        const version = parts[0];
-
-        const language = parts.length > 2 ? parts[parts.length - 2] : null;
-        if (!!language && language !== '.') {
-          p.basename = 'Resources.' + language;
-        }
-        p.dirname = '.' + path.sep + version + path.sep;
-        p.extname = '.json';
-      })
-    )
-    .pipe(gulp.dest('templateResoureces-convert'));
-  return gulpMerge(portalResourceStream, templateResourceStream);
 });
 
 /********
  *   This is the task takes the output of the  convert task and formats the json to be in the format that gets sent back to the client by the API, it's easier to do this here than at the end
  */
 gulp.task('resources-build', function () {
-  const streams = [];
-  streams.push(
-    gulp
-      .src(['resources-convert/**/Resources.*.json'])
-      .pipe(
-        jeditor(function (json) {
-          const enver = require(path.normalize('../server/resources-convert/Resources.json'));
-          const retVal = {
-            lang: json,
-            en: enver,
-          };
+  return gulp
+    .src(['resources-convert/Resources.json'])
+    .pipe(
+      jeditor(function (json) {
+        const retVal = {
+          en: json,
+        };
 
-          return retVal;
-        })
-      )
-      .pipe(gulp.dest('resources-build'))
-  );
-
-  streams.push(
-    gulp
-      .src(['resources-convert/Resources.json'])
-      .pipe(
-        jeditor(function (json) {
-          const retVal = {
-            en: json,
-          };
-
-          return retVal;
-        })
-      )
-      .pipe(gulp.dest('resources-build'))
-  );
-
-  //This fetches all version folders for templates and makes sure the appropriate action is done to each one
-  const TemplateVersionDirectories = getSubDirectories('templateResoureces-convert');
-  TemplateVersionDirectories.forEach((x) => {
-    streams.push(
-      gulp
-        .src('templateResoureces-convert/' + x + '/Resources.*.json')
-        .pipe(
-          jeditor(function (json) {
-            const enver = require(path.normalize('../server/templateResoureces-convert/' + x + '/Resources.json'));
-            const retVal = {
-              lang: json,
-              en: enver,
-            };
-
-            return retVal;
-          })
-        )
-        .pipe(gulp.dest('templateresources-build/' + x))
-    );
-
-    streams.push(
-      gulp
-        .src('templateResoureces-convert/' + x + '/Resources.json')
-        .pipe(
-          jeditor(function (json) {
-            const retVal = {
-              en: json,
-            };
-
-            return retVal;
-          })
-        )
-        .pipe(gulp.dest('templateresources-build/' + x))
-    );
-  });
-  return gulpMerge(streams);
+        return retVal;
+      })
+    )
+    .pipe(gulp.dest('resources-build'));
 });
 
 /*************
@@ -427,24 +349,6 @@ function getSubDirectories(folder) {
   }
   const dir = (p) => fs.readdirSync(p).filter((f) => fs.statSync(path.join(p, f)).isDirectory());
   return dir(folder);
-}
-
-function getFilesWithContent(folder, filesToIgnore) {
-  if (!fs.existsSync(folder)) {
-    return {};
-  }
-  let obj = {};
-  const fileNames = fs.readdirSync(folder).filter((f) => fs.statSync(path.join(folder, f)).isFile());
-  fileNames
-    .filter((x) => filesToIgnore.indexOf(x) === -1)
-    .forEach((fileName) => {
-      const fileContent = fs.readFileSync(path.join(folder, fileName), {
-        encoding: 'utf8',
-      });
-      obj[fileName] = fileContent;
-    });
-
-  return obj;
 }
 
 function newGuid() {
