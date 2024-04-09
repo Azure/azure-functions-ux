@@ -5971,7 +5971,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Configure a custom HTML document that will be presented to users instead of the standard platform error page.</value>
     </data>
     <data name="errorPagesEditMessage" xml:space="preserve">
-        <value>Upload custom error page (.html) for use with your application. File size limit: 10kb</value>
+        <value>Upload custom error page (.html) for use with your application. File size limit: 10kb. Only ASCII HTML uploads are accepted</value>
     </data>
     <data name="validField_validationMessage" xml:space="preserve">
         <value>Name and value must not be empty and must contain only letters and numbers.</value>
