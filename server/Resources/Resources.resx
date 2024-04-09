@@ -2116,9 +2116,6 @@
     <data name="error_uploadHTMLFile" xml:space="preserve">
         <value>Please only upload an .html File. File Size limit is 10kb</value>
     </data>
-    <data name="customErrorPages_fileType" xml:space="preserve">
-        <value>text/html</value>
-    </data>
     <data name="functionKeys_actions" xml:space="preserve">
         <value>ACTIONS</value>
     </data>
