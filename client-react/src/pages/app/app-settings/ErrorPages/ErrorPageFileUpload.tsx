@@ -46,7 +46,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = (props: Erro
       const file = event.target.files[0];
       setFileName(file.name);
 
-      if (file.type.includes(t('customErrorPages_fileType')) || file.size > 10000) {
+      if (!file.type.includes(t('customErrorPages_fileType')) || file.size > 10000) {
         setErrorMsg(t('error_uploadHTMLFile'));
         setFileUploadSuccess(false);
       } else {
