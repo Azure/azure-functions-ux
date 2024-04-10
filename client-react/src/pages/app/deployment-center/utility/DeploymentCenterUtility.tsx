@@ -165,7 +165,7 @@ const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFuncti
   }
   let linuxFxVersion = siteConfig.properties.linuxFxVersion;
   if (isWordPressApp) {
-    linuxFxVersion = CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion.toLocaleLowerCase()] ||  linuxFxVersion;
+    linuxFxVersion = CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion.toLocaleLowerCase()] || linuxFxVersion;
   }
 
   const linuxFxVersionParts = linuxFxVersion?.split('|') ?? [];
@@ -667,4 +667,9 @@ export const isFederatedCredentialsSupported = (identityLocation: string): boole
   ];
 
   return !unsupportedRegions.some(region => isSameLocation(region, identityLocation));
+};
+
+export const sanitizeLogMessage = (message: string) => {
+  const credPattern = /https:(.+):(.+)@/;
+  return message.replace(credPattern, 'https://pii-removed:secret-removed@');
 };

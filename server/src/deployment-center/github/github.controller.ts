@@ -708,6 +708,20 @@ export class GithubController {
     }
   }
 
+  @Post('api/github/getStaticWebAppConfiguration')
+  @HttpCode(200)
+  async getStaticWebAppConfiguration(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branchName') branchName: string,
+    @Res() res
+  ) {
+    const baseUrl = `${this.githubApiUrl}/repos/${org}/${repo}/contents/staticwebapp.config.json`;
+    const url = branchName ? `${baseUrl}?ref=${branchName}` : baseUrl;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
   private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
     return {
       Authorization: `token ${accessToken}`,

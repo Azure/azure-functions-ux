@@ -41,6 +41,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = (props: Erro
   const [errorMsg, setErrorMsg] = React.useState<string>('');
   const [fileName, setFileName] = React.useState<string>('');
   const theme = useContext(ThemeContext);
+  const fileType = 'text/html';
 
   const [customErrorFlighting, setCustomErrorFlighting] = React.useState(false);
 
@@ -65,7 +66,7 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = (props: Erro
       const file = event.target.files[0];
       setFileName(file.name);
 
-      if (file.type !== t('customErrorPages_fileType') || file.size > 10000) {
+      if (file.size > 10000 || !fileType.startsWith(fileType)) {
         setErrorMsg(t('error_uploadHTMLFile'));
         setFileUploadSuccess(false);
       } else {
