@@ -1487,8 +1487,6 @@ export class PortalResources {
   public static defaultDocuments = 'defaultDocuments';
   public static customErrorPage = 'customErrorPage';
   public static ErrorPagesGrid = 'ErrorPagesGrid';
-  public static ErrorPagesAlwaysUse = 'ErrorPagesAlwaysUse';
-  public static ErrorPagesAlwaysUseTooltip = 'ErrorPagesAlwaysUseTooltip';
   public static ErrorPagesGridNotAvailable = 'ErrorPagesGridNotAvailable';
   public static errorPage = 'errorPage';
   public static pathMappings = 'pathMappings';
