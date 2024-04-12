@@ -4626,15 +4626,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";customErrorPages_fileType" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[text/html]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[text/html]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";customPivot_key" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Key]]></Val>
@@ -8372,10 +8363,13 @@
       </Item>
       <Item ItemId=";errorPagesEditMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb]]></Val>
+          <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb. Only ASCII HTML uploads are accepted]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Unggah halaman kesalahan kustom (.html) untuk digunakan dengan aplikasi Anda. Batas ukuran file: 10kb]]></Val>
+            <Val><![CDATA[Unggah halaman kesalahan kustom (.html) untuk digunakan dengan aplikasi Anda. Batas ukuran file: 10kb. Hanya unggahan ASCII HTML yang diterima]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20429,10 +20423,13 @@
       </Item>
       <Item ItemId=";staticSite_snippets" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Snippets (preview)]]></Val>
+          <Val><![CDATA[Snippets]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Cuplikan (pratinjau)]]></Val>
+            <Val><![CDATA[Cuplikan]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Snippets (preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
