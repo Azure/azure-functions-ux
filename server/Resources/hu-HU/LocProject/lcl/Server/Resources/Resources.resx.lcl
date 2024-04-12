@@ -4821,15 +4821,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";customErrorPages_fileType" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[text/html]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[szöveg/html]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";customPivot_key" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Key]]></Val>
@@ -8660,10 +8651,13 @@
       </Item>
       <Item ItemId=";errorPagesEditMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb]]></Val>
+          <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb. Only ASCII HTML uploads are accepted]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Egyéni hibaoldal (.html) feltöltése az alkalmazással való használatra. Fájlméretkorlát: 10 kb]]></Val>
+            <Val><![CDATA[Feltölthet egyéni hibalapot (.html) az alkalmazásával való használatra. A fájlméret korlátja: 10 kb. Csak ASCII formátumú HTML-feltöltések fogadhatók el.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21290,10 +21284,13 @@
       </Item>
       <Item ItemId=";staticSite_snippets" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Snippets (preview)]]></Val>
+          <Val><![CDATA[Snippets]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kódrészletek (előzetes verzió)]]></Val>
+            <Val><![CDATA[Kódtöredékek]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Snippets (preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
