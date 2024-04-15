@@ -387,6 +387,7 @@ export class SubscriptionQuotaIds {
 export class ExperimentationConstants {
   public static TreatmentFlight = {
     portalCallOnEditor: 'enable-portal-call-editor',
+    customErrorAlwaysUse: 'enable-customErrorAlwaysUse',
     patchCallOnConfig: 'enable-patch-call-config',
     showEnvironmentVariables: 'show-environment-variables',
     enableOidc: 'enable-oidc',
@@ -395,6 +396,7 @@ export class ExperimentationConstants {
   public static ControlFlight = {
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
+    customErrorAlwaysUse: 'disable-customErrorAlwaysUse',
   };
 }
 
