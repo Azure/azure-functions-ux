@@ -662,7 +662,6 @@ export class PortalResources {
   public static error_unableToRetrieveFunctionKeys = 'error_unableToRetrieveFunctionKeys';
   public static error_appOffline = 'error_appOffline';
   public static error_uploadHTMLFile = 'error_uploadHTMLFile';
-  public static customErrorPages_fileType = 'customErrorPages_fileType';
   public static functionKeys_actions = 'functionKeys_actions';
   public static functionNew_chooseTemplateQuickstart = 'functionNew_chooseTemplateQuickstart';
   public static httpRun_noQuery = 'httpRun_noQuery';
