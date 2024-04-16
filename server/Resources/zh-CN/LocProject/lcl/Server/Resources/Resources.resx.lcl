@@ -4821,15 +4821,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";customErrorPages_fileType" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[text/html]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[text/html]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";customPivot_key" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Key]]></Val>
@@ -8657,10 +8648,13 @@
       </Item>
       <Item ItemId=";errorPagesEditMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb]]></Val>
+          <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb. Only ASCII HTML uploads are accepted]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[上传用于应用程序的自定义错误页(.html)。文件大小限制: 10kb]]></Val>
+            <Val><![CDATA[上传自定义错误页(.html)，以便与应用程序一起使用。文件大小限制: 10kb。仅接受 ASCII HTML 上传]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21302,10 +21296,13 @@
       </Item>
       <Item ItemId=";staticSite_snippets" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Snippets (preview)]]></Val>
+          <Val><![CDATA[Snippets]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[代码片段(预览版)]]></Val>
+            <Val><![CDATA[代码片段]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Snippets (preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
