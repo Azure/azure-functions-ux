@@ -8,6 +8,14 @@ export const stackStyle = style({
   paddingTop: '5px',
 });
 
+export const checkboxStyle = style({
+  paddingTop: '15px',
+});
+
+export const errorPageCheckboxStyles = style({
+  paddingRight: '15px',
+});
+
 export const uploadStyle = mergeStyleSets({
   labelHeader: {
     fontWeight: FontWeights.semibold,

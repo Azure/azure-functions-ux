@@ -4824,15 +4824,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";customErrorPages_fileType" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[text/html]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[metin/html]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";customPivot_key" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Key]]></Val>
@@ -8663,10 +8654,13 @@
       </Item>
       <Item ItemId=";errorPagesEditMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb]]></Val>
+          <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb. Only ASCII HTML uploads are accepted]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Uygulamanızla birlikte kullanılmak üzere özel hata sayfasını (.html) karşıya yükleyin. Dosya boyutu sınırı: 10 KB]]></Val>
+            <Val><![CDATA[Uygulamanızla birlikte kullanılmak üzere özel hata sayfasını (.html) karşıya yükleyin. Dosya boyutu sınırı: 10 KB. Yalnızca ASCII HTML karşıya yüklemeleri kabul ediliyor]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Upload custom error page (.html) for use with your application. File size limit: 10kb]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21299,10 +21293,13 @@
       </Item>
       <Item ItemId=";staticSite_snippets" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Snippets (preview)]]></Val>
+          <Val><![CDATA[Snippets]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kod parçacıkları (önizleme)]]></Val>
+            <Val><![CDATA[Kod parçacıkları]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Snippets (preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>

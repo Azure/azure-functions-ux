@@ -393,6 +393,10 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               key: MinTlsVersion.tLS12,
               text: MinTlsVersion.tLS12,
             },
+            {
+              key: MinTlsVersion.tLS13,
+              text: MinTlsVersion.tLS13,
+            },
           ]}
         />
       }

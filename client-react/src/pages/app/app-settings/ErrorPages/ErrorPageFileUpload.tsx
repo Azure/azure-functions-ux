@@ -2,8 +2,20 @@ import React, { useContext, useRef } from 'react';
 import { IconButton, Stack, StackItem, TextField } from '@fluentui/react';
 import { Text } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
-import { uploadStyle, stackStyle, stackTokens, FabricFolder, browseButtonStyle } from './ErrorPageGrid.styles';
+import {
+  uploadStyle,
+  stackStyle,
+  stackTokens,
+  FabricFolder,
+  browseButtonStyle,
+  checkboxStyle,
+  errorPageCheckboxStyles,
+} from './ErrorPageGrid.styles';
 import { ThemeContext } from '../../../../ThemeContext';
+import InputLabel from '../../../../components/InputLabel/InputLabel';
+import { Checkbox } from '@fluentui/react/lib/Checkbox';
+import { PortalContext } from '../../../../PortalContext';
+import { ExperimentationConstants } from '../../../../utils/CommonConstants';
 
 interface ErrorPageFileUploaderProps {
   setFileUploadSuccess: (upload: boolean) => void;
@@ -23,12 +35,19 @@ const extractErrorPageFromFile = (input): Promise<string> => {
 
 const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = (props: ErrorPageFileUploaderProps) => {
   const { setFileUploadSuccess, setFile, fileUploadSuccess } = props;
+  const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
   const uploadFileRef = useRef<HTMLInputElement | null>(null);
   const [errorMsg, setErrorMsg] = React.useState<string>('');
   const [fileName, setFileName] = React.useState<string>('');
   const theme = useContext(ThemeContext);
   const fileType = 'text/html';
+
+  const [customErrorFlighting, setCustomErrorFlighting] = React.useState(false);
+
+  React.useEffect(() => {
+    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.customErrorAlwaysUse).then(setCustomErrorFlighting);
+  }, [portalContext]);
 
   const onBrowseButtonClick = () => {
     if (uploadFileRef?.current) {
@@ -86,6 +105,16 @@ const ErrorPageFileUploader: React.FC<ErrorPageFileUploaderProps> = (props: Erro
           />
         </StackItem>
       </Stack>
+      {customErrorFlighting && (
+        <Stack horizontal className={checkboxStyle} tokens={stackTokens}>
+          <StackItem className={errorPageCheckboxStyles}>
+            <InputLabel labelText={t('ErrorPagesAlwaysUse')} tooltipContent={t('ErrorPagesAlwaysUseTooltip')} tooltipId={'6'} />
+          </StackItem>
+          <StackItem>
+            <Checkbox />
+          </StackItem>
+        </Stack>
+      )}
     </>
   );
 };
