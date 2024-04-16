@@ -722,6 +722,12 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
+  @Put('api/github/updateGitHubContent')
+  @HttpCode(200)
+  async updateGitHubContent(@Body('gitHubToken') gitHubToken: string, @Body('commit') commit: GitHubCommit) {
+    await this._commitGitHubFile(gitHubToken, commit);
+  }
+
   private _getAuthorizationHeader(accessToken: string): { Authorization: string } {
     return {
       Authorization: `token ${accessToken}`,
@@ -812,6 +818,33 @@ export class GithubController {
     } catch (err) {
       this.loggingService.error(
         `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${content.commit.repoName}'.`
+      );
+
+      if (err.response) {
+        throw new HttpException(err.response.data, err.response.status);
+      }
+      throw new HttpException(err, 500);
+    }
+  }
+
+  private async _commitGitHubFile(gitHubToken: string, commit: GitHubCommit) {
+    const url = `${this.githubApiUrl}/repos/${commit.repoName}/contents/${commit.filePath}`;
+
+    const commitContent = {
+      message: commit.message,
+      content: commit.contentBase64Encoded,
+      sha: commit.sha,
+      branch: commit.branchName,
+      comitter: commit.committer,
+    };
+
+    try {
+      await this.httpService.put(url, commitContent, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+    } catch (err) {
+      this.loggingService.error(
+        `Failed to commit GitHub '${commit.filePath}' on branch '${commit.branchName}' in repo '${commit.repoName}'.`
       );
 
       if (err.response) {
