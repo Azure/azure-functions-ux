@@ -10,11 +10,13 @@ import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
 import { MinTlsVersion, SslState, VnetPrivatePortsCount } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from '@fluentui/react';
+import { MessageBar, MessageBarType, mergeStyles } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
 import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import useStacks from '../Hooks/useStacks';
+import { messageBannerStyle } from '../AppSettings.styles';
+import { ThemeContext } from '../../../../ThemeContext';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -22,6 +24,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values, initialValues, setFieldValue } = props;
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
+  const theme = useContext(ThemeContext);
 
   // @note(krmitta): Only this for linux apps for now.
   const { stackVersionDetails } = useStacks(values?.config.properties.linuxFxVersion);
@@ -76,6 +79,20 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     props.setFieldValue('config.properties.http20Enabled', option.key);
   };
 
+  const ftpBasicAuthBanner = useMemo(() => {
+    return (
+      values.basicPublishingCredentialsPolicies?.ftp?.properties.allow === true &&
+      values.basicPublishingCredentialsPolicies?.scm?.properties.allow === false && (
+        <MessageBar
+          id="ftp-basic-auth-info-message"
+          className={mergeStyles(messageBannerStyle(theme, MessageBarType.info), { maxWidth: '750px' })}
+          messageBarType={MessageBarType.info}>
+          {t('ftpBasicAuthInfoMessage')}
+        </MessageBar>
+      )
+    );
+  }, [values.basicPublishingCredentialsPolicies?.ftp?.properties.allow, values.basicPublishingCredentialsPolicies?.scm?.properties.allow]);
+
   return (
     <div>
       {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' &&
@@ -123,46 +140,45 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
       {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
         values.basicPublishingCredentialsPolicies && (
-          <Field
-            name={'basicPublishingCredentialsPolicies.scm.properties.allow'}
-            component={RadioButton}
-            label={t('scmBasicAuthPublishingCredentials')}
-            id="app-settings-scm-basic-authentication-publishing-creds"
-            disabled={disableAllControls}
-            options={[
-              {
-                key: true,
-                text: t('on'),
-              },
-              {
-                key: false,
-                text: t('off'),
-              },
-            ]}
-          />
-        )}
-
-      {scenarioChecker.checkScenario(ScenarioIds.basicAuthPublishingCreds, { site }).status !== 'disabled' &&
-        values.basicPublishingCredentialsPolicies && (
-          <Field
-            name={'basicPublishingCredentialsPolicies.ftp.properties.allow'}
-            component={RadioButton}
-            label={t('ftpBasicAuthPublishingCredentials')}
-            infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
-            learnMoreLink={Links.disableBasicAuthLearnMore}
-            id="app-settings-ftp-basic-authentication-publishing-creds"
-            disabled={disableAllControls}
-            options={[
-              {
-                key: true,
-                text: t('on'),
-              },
-              {
-                key: false,
-                text: t('off'),
-              },
-            ]}
-          />
+          <>
+            {ftpBasicAuthBanner}
+            <Field
+              name={'basicPublishingCredentialsPolicies.scm.properties.allow'}
+              component={RadioButton}
+              label={t('scmBasicAuthPublishingCredentials')}
+              id="app-settings-scm-basic-authentication-publishing-creds"
+              disabled={disableAllControls}
+              options={[
+                {
+                  key: true,
+                  text: t('on'),
+                },
+                {
+                  key: false,
+                  text: t('off'),
+                },
+              ]}
+            />
+            <Field
+              name={'basicPublishingCredentialsPolicies.ftp.properties.allow'}
+              component={RadioButton}
+              label={t('ftpBasicAuthPublishingCredentials')}
+              infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
+              learnMoreLink={Links.disableBasicAuthLearnMore}
+              id="app-settings-ftp-basic-authentication-publishing-creds"
+              disabled={disableAllControls}
+              options={[
+                {
+                  key: true,
+                  text: t('on'),
+                },
+                {
+                  key: false,
+                  text: t('off'),
+                },
+              ]}
+            />
+          </>
         )}
 
       {scenarioChecker.checkScenario(ScenarioIds.ftpStateSupported, { site }).status !== 'disabled' && (

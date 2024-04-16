@@ -7956,4 +7956,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_appSettingsMoved" xml:space="preserve">
         <value>App Settings have moved to 'Environment Variables'</value>
     </data>
+    <data name="ftpBasicAuthInfoMessage" xml:space="preserve">
+        <value>SCM basic authentication is required when enabling FTP basic authentication.</value>
+    </data>
 </root>
