@@ -1,6 +1,7 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-import { isContainerApp, isLinuxApp } from '../arm-utils';
+import { isContainerApp, isLinuxApp, isStandardOrHigher } from '../arm-utils';
+import { NationalCloudEnvironment } from './national-cloud.environment';
 
 export class ContainerApp extends Environment {
   public name = 'ContainerApp';
@@ -54,6 +55,23 @@ export class ContainerApp extends Environment {
         } else {
           return { status: 'disabled' };
         }
+      },
+    };
+    this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
+      id: ScenarioIds.http20ProxySupported,
+      runCheck: () => {
+        return {
+          status: NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec() ? 'disabled' : 'enabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.enableE2ETlsEncryption] = {
+      id: ScenarioIds.enableE2ETlsEncryption,
+      runCheck: (input?: ScenarioCheckInput) => {
+        return {
+          status: input?.site && isStandardOrHigher(input?.site) ? 'enabled' : 'disabled',
+        };
       },
     };
   }
