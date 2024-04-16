@@ -31,7 +31,7 @@
     "typestyle": "^2.0.1",
     "xterm-for-react": "^1.0.4",
     "yaml-lint": "^1.7.0",
-    "yup": "^0.26.10"
+    "yup": "0.28.5"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -54,7 +54,7 @@
     "@types/react": "^17.0.80",
     "@types/react-dom": "^17.0.25",
     "@types/webpack-env": "^1.18.4",
-    "@types/yup": "^0.26.37",
+    "@types/yup": "0.28.3",
     "@typescript-eslint/eslint-plugin": "^5.62.0",
     "@typescript-eslint/parser": "^5.62.0",
     "axios-mock-adapter": "^1.22.0",
