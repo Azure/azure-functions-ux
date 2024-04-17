@@ -2599,4 +2599,5 @@ export class PortalResources {
   public static authenticationSettingsOidcPermissionsLinkAriaLabel = 'authenticationSettingsOidcPermissionsLinkAriaLabel';
   public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
   public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
+  public static ftpBasicAuthInfoMessage = 'ftpBasicAuthInfoMessage';
 }

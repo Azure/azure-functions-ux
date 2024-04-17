@@ -114,6 +114,15 @@ export class LinuxSiteEnvironment extends Environment {
       },
     };
 
+    this.scenarioChecks[ScenarioIds.http20ProxyGRPCOnlySupported] = {
+      id: ScenarioIds.http20ProxySupported,
+      runCheck: () => {
+        return {
+          status: NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec() ? 'disabled' : 'enabled',
+        };
+      },
+    };
+
     this.scenarioChecks[ScenarioIds.linuxAppStack] = {
       id: ScenarioIds.linuxAppStack,
       runCheck: () => {
