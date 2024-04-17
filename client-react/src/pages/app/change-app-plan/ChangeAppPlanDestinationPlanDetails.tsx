@@ -26,7 +26,7 @@ import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 
 interface SpecPickerOutput {
-  selectedKey:string; 
+  selectedKey: string; 
   selectedSkuCode: string; // Like "S1"
   selectedTier: string; // Like "Standard"
 }
@@ -148,13 +148,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         ...formProps.values.serverFarmInfo,
         newPlanInfo: {
           ...formProps.values.serverFarmInfo.newPlanInfo,
-          skuCode: result.data.selectedSkuCode,
-          tier: result.data.selectedTier,
+          skuCode: result.data.value.selectedSkuCode,
+          tier: result.data.value.selectedTier,
         },
       };
 
       formProps.setFieldValue('serverFarmInfo', newServerFarmInfo);
-      setSkuTier(result.data.selectedTier);
+      setSkuTier(result.data.value.selectedTier);
     }
   };
 
