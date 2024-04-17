@@ -36,7 +36,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSsh, [
     stackVersionDetails.data?.supportedFeatures?.disableSsh,
   ]);
-  const gPRCOnlyEnabled = scenarioChecker.checkScenario(ScenarioIds.http20ProxyGRPCOnlySupported, { site });
+  const gRPCOnlyEnabled = scenarioChecker.checkScenario(ScenarioIds.http20ProxyGRPCOnlySupported, { site });
 
   const http20ProxyDropdownItems = useMemo<IDropdownOption[]>(() => {
     const items = [
@@ -51,7 +51,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
       },
     ];
 
-    if (gPRCOnlyEnabled.status === 'enabled') {
+    if (gRPCOnlyEnabled.status === 'enabled') {
       items.push({
         key: 2,
         text: t('grpcOnly'),
@@ -60,7 +60,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     }
 
     return items;
-  }, [gPRCOnlyEnabled, values.config.properties.http20Enabled, t]);
+  }, [gRPCOnlyEnabled, values.config.properties.http20Enabled, t]);
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;

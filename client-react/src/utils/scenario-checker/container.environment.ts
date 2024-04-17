@@ -70,7 +70,7 @@ export class ContainerApp extends Environment {
       id: ScenarioIds.enableE2ETlsEncryption,
       runCheck: (input?: ScenarioCheckInput) => {
         return {
-          status: input?.site && isStandardOrHigher(input?.site) ? 'enabled' : 'disabled',
+          status: input?.site && isStandardOrHigher(input.site) ? 'enabled' : 'disabled',
         };
       },
     };
