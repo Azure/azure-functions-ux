@@ -47,6 +47,7 @@ export class DeploymentCenterConstants {
   public static readonly dockerPrefix = 'DOCKER';
   public static readonly composePrefix = 'COMPOSE';
   public static readonly kubernetesPrefix = 'KUBE';
+  public static readonly sitecontainers = 'sitecontainers';
   public static readonly dockerHubServerUrlHost = 'index.docker.io';
   public static readonly dockerHubServerUrl = 'https://index.docker.io/v1';
   public static readonly microsoftMcrUrl = 'https://mcr.microsoft.com';

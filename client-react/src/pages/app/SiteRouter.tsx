@@ -120,7 +120,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
         const editMode = await resolveState(portalContext, trimmedResourceId, site, appSettings, resourceId);
         const isWPApplication = isWordPressApp(site);
         setSite(site);
-        setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+        /** @note (joechung): `state` can be `null` for Function Apps on Azure Container Apps. Ignore `stopped` since we do not expose Start/Stop commands for those. */
+        setStopped(site.properties.state?.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
         setIsLinuxApplication(isLinuxApp(site));
         setIsContainerApplication((isContainerApp(site) || isContainerAppEnvironmentApp(site)) && !isWPApplication);
         setIsFunctionApplication(isFunctionApp(site));

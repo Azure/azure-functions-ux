@@ -303,8 +303,8 @@ export class CommonConstants {
   //min length is 8, must contain uppercase, lowercase, number, and symbol
   public static readonly passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
 
-  //min length is 1, must contain 2048 chars
-  public static readonly snippetsContentRegEx = new RegExp(/^(.{1,2048})$/s);
+  //min length is 1, must contain 5000 chars
+  public static readonly snippetsContentRegEx = new RegExp(/^(.{1,5000})$/s);
 
   public static newlineRegex = new RegExp(/\r?\n/);
 
@@ -387,6 +387,7 @@ export class SubscriptionQuotaIds {
 export class ExperimentationConstants {
   public static TreatmentFlight = {
     portalCallOnEditor: 'enable-portal-call-editor',
+    customErrorAlwaysUse: 'enable-customErrorAlwaysUse',
     patchCallOnConfig: 'enable-patch-call-config',
     showEnvironmentVariables: 'show-environment-variables',
     enableOidc: 'enable-oidc',
@@ -395,6 +396,7 @@ export class ExperimentationConstants {
   public static ControlFlight = {
     portalCallOnEditor: 'disable-portal-call-editor',
     patchCallOnConfig: 'disable-patch-call-config',
+    customErrorAlwaysUse: 'disable-customErrorAlwaysUse',
   };
 }
 
