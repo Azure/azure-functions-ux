@@ -10,7 +10,7 @@ import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
 import { MinTlsVersion, SslState, VnetPrivatePortsCount } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { MessageBar, MessageBarType, mergeStyles } from '@fluentui/react';
+import { IDropdownOption, MessageBar, MessageBarType, mergeStyles } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
 import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
@@ -36,6 +36,31 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSsh, [
     stackVersionDetails.data?.supportedFeatures?.disableSsh,
   ]);
+  const gRPCOnlyEnabled = scenarioChecker.checkScenario(ScenarioIds.http20ProxyGRPCOnlySupported, { site });
+
+  const http20ProxyDropdownItems = useMemo<IDropdownOption[]>(() => {
+    const items = [
+      {
+        key: 0,
+        text: t('off'),
+      },
+      {
+        key: 1,
+        text: t('on'),
+        disabled: !values.config.properties.http20Enabled,
+      },
+    ];
+
+    if (gRPCOnlyEnabled.status === 'enabled') {
+      items.push({
+        key: 2,
+        text: t('grpcOnly'),
+        disabled: !values.config.properties.http20Enabled,
+      });
+    }
+
+    return items;
+  }, [gRPCOnlyEnabled, values.config.properties.http20Enabled, t]);
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
@@ -240,22 +265,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
               infoBubbleMessage={t('https20ProxyInfoBubbleMessage')}
               id="app-settings-http20-proxy-enabled"
               disabled={disableAllControls}
-              options={[
-                {
-                  key: 0,
-                  text: t('off'),
-                },
-                {
-                  key: 1,
-                  text: t('on'),
-                  disabled: !values.config.properties.http20Enabled,
-                },
-                {
-                  key: 2,
-                  text: t('grpcOnly'),
-                  disabled: !values.config.properties.http20Enabled,
-                },
-              ]}
+              options={http20ProxyDropdownItems}
             />
           )}
         </>

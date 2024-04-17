@@ -114,6 +114,7 @@ export class ScenarioIds {
   public static readonly incomingClientCertSupported = 'incomingClientCertSupported';
   public static readonly httpVersionSupported = 'httpVersionSupported';
   public static readonly http20ProxySupported = 'http20ProxySupported';
+  public static readonly http20ProxyGRPCOnlySupported = 'http20ProxyGRPCOnlySupported';
   public static readonly enableTLSVersion = 'enableTLSVersion';
   public static readonly enableCustomErrorPages = 'enableCustomErrorPages';
   public static readonly enableCustomErrorPagesOverlay = 'enableCustomErrorPagesOverlay';

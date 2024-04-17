@@ -1,4 +1,5 @@
-import { isWindowsCode } from '../arm-utils';
+import { isStandardOrHigher, isWindowsCode } from '../arm-utils';
+import { NationalCloudEnvironment } from './national-cloud.environment';
 import { ScenarioIds } from './scenario-ids';
 import { Environment, ScenarioCheckInput } from './scenario.models';
 
@@ -29,6 +30,24 @@ export class WindowsCode extends Environment {
       runCheck: () => {
         return {
           status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
+      id: ScenarioIds.http20ProxySupported,
+      runCheck: () => {
+        return {
+          status: NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec() ? 'disabled' : 'enabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.enableE2ETlsEncryption] = {
+      id: ScenarioIds.enableE2ETlsEncryption,
+      runCheck: (input?: ScenarioCheckInput) => {
+        return {
+          status: input?.site && isStandardOrHigher(input.site) ? 'enabled' : 'disabled',
         };
       },
     };
