@@ -25,6 +25,7 @@ import {
   isWindowsNodeApp,
 } from '../../../../../../utils/stacks-utils';
 import StringUtils from '../../../../../../utils/string';
+import { isFlexConsumption } from '../../../../../../utils/arm-utils';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
@@ -35,7 +36,14 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   const disableAllControls = React.useMemo(() => !app_write || !editable || saving, [app_write, editable, saving]);
   const functionAppFilteredStacks = React.useMemo(
-    () => filterFunctionAppStack(functionAppStackContext, initialValues, siteStateContext.isLinuxApp, initialValues.currentlySelectedStack),
+    () =>
+      filterFunctionAppStack(
+        functionAppStackContext,
+        initialValues,
+        siteStateContext.isLinuxApp,
+        initialValues.currentlySelectedStack,
+        siteStateContext.site
+      ),
     [functionAppStackContext, initialValues, siteStateContext]
   );
 
@@ -52,11 +60,13 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     const runtimeVersion = findFormAppSettingValue(values.appSettings, CommonConstants.AppSettingNames.functionsExtensionVersion) ?? '';
     const isLinux = siteStateContext.isLinuxApp;
     const osType = isLinux ? AppStackOs.linux : AppStackOs.windows;
+    const isFlexConsumptionApp = !!siteStateContext.site && isFlexConsumption(siteStateContext.site);
     const dropdownOptions = currentStackData
       ? getStackVersionDropdownOptions(
           currentStackData,
           FunctionsRuntimeVersionHelper.getFunctionsRuntimeMajorVersionWithV4(runtimeVersion),
-          osType
+          osType,
+          isFlexConsumptionApp
         )
       : [];
 
@@ -114,6 +124,9 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
           );
           setFieldValue('appSettings', appSettings);
         }
+      } else if (!!siteStateContext.site && isFlexConsumption(siteStateContext.site)) {
+        const runtimeVersion = (option.key as string).split('|')[1];
+        setFieldValue('site.properties.functionAppConfig.runtime.version', runtimeVersion);
       } else {
         setFieldValue(`config.properties.${getStackVersionConfigPropertyName(siteStateContext.isLinuxApp, runtimeStack)}`, option.key);
       }
@@ -147,10 +160,10 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
 
   useEffect(() => {
     const isLinux = siteStateContext.isLinuxApp;
-    const initialStackVersion = getFunctionAppStackVersion(initialValues, isLinux, runtimeStack);
+    const initialStackVersion = getFunctionAppStackVersion(initialValues, isLinux, values.site, runtimeStack);
     setInitialStackVersion(initialStackVersion);
 
-    const stackVersion = getFunctionAppStackVersion(values, isLinux, runtimeStack);
+    const stackVersion = getFunctionAppStackVersion(values, isLinux, values.site, runtimeStack);
     setSelectedStackVersion(stackVersion);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

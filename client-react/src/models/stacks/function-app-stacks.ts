@@ -26,6 +26,32 @@ export interface FunctionAppRuntimeSettings extends CommonSettings {
   appSettingsDictionary: AppSettingsDictionary;
   siteConfigPropertiesDictionary: SiteConfigPropertiesDictionary;
   supportedFunctionsExtensionVersions: RuntimeExtensionMajorVersions[];
+  Sku?: SkuType[];
+}
+
+export interface InstanceSize {
+  size: number;
+  isDefault: boolean;
+}
+
+export interface MaximumInstanceCountSettings {
+  lowestMaximumInstanceCount: number;
+  highestMaximumInstanceCount: number;
+  defaultValue: number;
+}
+
+export interface FunctionAppConfigProperties {
+  runtime: {
+    name: string;
+    version: string;
+  };
+}
+
+export interface SkuType {
+  skuCode: string;
+  instanceMemoryMB: InstanceSize[];
+  maximumInstanceCount: MaximumInstanceCountSettings;
+  functionAppConfigProperties: FunctionAppConfigProperties;
 }
 
 export type FunctionAppStack = AppStack<FunctionAppRuntimes>;
