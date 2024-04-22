@@ -19,7 +19,7 @@ export const getStackVersionDropdownOptions = (
           : stackMinorVersion.stackSettings.linuxRuntimeSettings;
 
       if (settings) {
-        if (isFlexConsumptionApp && settings.Sku && settings.Sku.length > 0 && settings.Sku.some(sku => sku.skuCode === 'FC1')) {
+        if (isFlexConsumptionApp && settings.Sku && settings.Sku.length > 0 && settings.Sku.some(sku => sku.skuCode.toLowerCase() === 'FC1'.toLowerCase())) {
           stackMinorVersions.push({
             key: settings.runtimeVersion.toLowerCase(),
             text: stackMinorVersion.displayText,
