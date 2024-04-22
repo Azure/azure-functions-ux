@@ -101,7 +101,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
   const getSupportedExtensionVersions = (): RuntimeExtensionMajorVersions[] => {
     const currentStack = values.currentlySelectedStack;
     const { isLinux, site}  = siteStateContext;
-    let currentStackVersion = getFunctionAppStackVersion(values, isLinux, siteStateContext.site, currentStack);
+    let currentStackVersion = getFunctionAppStackVersion(values, isLinux, site, currentStack);
 
     //(note): stpelleg -- Need to handle this version of dotnet bc it will not appear in stacks API call as v4.0. it will be 3.1
     if (currentStack === WorkerRuntimeLanguages.dotnet && currentStackVersion === FunctionsDotnetVersion.v4) {
