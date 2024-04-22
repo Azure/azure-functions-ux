@@ -108,7 +108,7 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
       currentStackVersion = FunctionsDotnetVersion.v3;
     }
 
-    const filteredStacks = filterFunctionAppStack(functionAppStacksContext, values, isLinux, currentStack, siteStateContext.site);
+    const filteredStacks = filterFunctionAppStack(functionAppStacksContext, values, isLinux, currentStack, site);
     const stackObject = getFunctionAppStackObject(filteredStacks, isLinux, currentStack);
 
     if (stackObject) {
