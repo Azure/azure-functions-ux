@@ -6,7 +6,8 @@ import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../../..
 export const getStackVersionDropdownOptions = (
   stack: FunctionAppStack,
   runtimeVersion: RuntimeExtensionMajorVersions,
-  osType: AppStackOs
+  osType: AppStackOs,
+  isFlexConsumptionApp: boolean
 ): IDropdownOption[] => {
   const stackMinorVersions: IDropdownOption[] = [];
 
@@ -16,16 +17,24 @@ export const getStackVersionDropdownOptions = (
         osType === AppStackOs.windows
           ? stackMinorVersion.stackSettings.windowsRuntimeSettings
           : stackMinorVersion.stackSettings.linuxRuntimeSettings;
-      if (
-        settings &&
-        (settings.supportedFunctionsExtensionVersions.find(supportedRuntimeVersion => supportedRuntimeVersion === runtimeVersion) ||
-          settings.runtimeVersion === runtimeVersion)
-      ) {
-        stackMinorVersions.push({
-          key: settings.runtimeVersion.toLowerCase(),
-          text: stackMinorVersion.displayText,
-          data: stackMinorVersion,
-        });
+
+      if (settings) {
+        if (isFlexConsumptionApp && settings.Sku && settings.Sku.length > 0 && settings.Sku.some(sku => sku.skuCode.toLowerCase() === 'FC1'.toLowerCase())) {
+          stackMinorVersions.push({
+            key: settings.runtimeVersion.toLowerCase(),
+            text: stackMinorVersion.displayText,
+            data: stackMinorVersion,
+          });
+        } else if (
+          settings.supportedFunctionsExtensionVersions.find(supportedRuntimeVersion => supportedRuntimeVersion === runtimeVersion) ||
+          settings.runtimeVersion === runtimeVersion
+        ) {
+          stackMinorVersions.push({
+            key: settings.runtimeVersion.toLowerCase(),
+            text: stackMinorVersion.displayText,
+            data: stackMinorVersion,
+          });
+        }
       }
     });
   });

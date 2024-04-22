@@ -52,6 +52,26 @@ export default class RuntimeStackService {
     });
   };
 
+  public static getFunctionAppConfigurationStackForLocation = (stacksOs: AppStackOs, location: string, stack: string) => {
+    if (RuntimeStackService._useFusionApi()) {
+      return RuntimeStackService._getFunctionAppConfigurationStacksNonArm(stacksOs);
+    }
+
+    const queryParams = [
+      `stackOsType=${stacksOs}`,
+      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
+      `useCanaryFusionServer=${Url.isNextEnvironment()}`,
+      `stack=${stack}`,
+    ];
+
+    return MakeArmCall<ArmArray<FunctionAppStack>>({
+      resourceId: `/providers/Microsoft.Web/locations/${location}/functionAppStacks?${queryParams.join('&')}`,
+      commandName: 'GetFunctionAppConfigurationStacks',
+      apiVersion: CommonConstants.ApiVersions.stacksApiVersion20201001,
+      method: 'GET',
+    });
+  };
+
   public static getWebAppGitHubActionStacks = async (stacksOs: AppStackOs) => {
     if (RuntimeStackService._useFusionApi()) {
       return RuntimeStackService._getWebAppGitHubActionStacksNonArm(stacksOs);

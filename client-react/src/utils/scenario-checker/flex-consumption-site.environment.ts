@@ -74,6 +74,13 @@ export class FlexConsumptionEnvironment extends Environment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.showFunctionRuntimeSettings] = {
+      id: ScenarioIds.showFunctionRuntimeSettings,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
