@@ -1,15 +1,15 @@
 const gulp = require('gulp');
 const resx2 = require('./gulp-utils/gulp-resx-js');
 const rename = require('gulp-rename');
-const gulpMerge = require('merge-stream');
 const jeditor = require('gulp-json-editor');
 const fs = require('fs');
 const path = require('path');
-const merge = require('gulp-merge-json');
 const del = require('del');
 const replace = require('gulp-token-replace');
 const string_replace = require('gulp-string-replace');
 const prettier = require('gulp-prettier');
+const ordered = require('ordered-read-streams');
+
 /********
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
@@ -185,9 +185,23 @@ gulp.task('resources-convert', function () {
  *   This is the task takes the output of the  convert task and formats the json to be in the format that gets sent back to the client by the API, it's easier to do this here than at the end
  */
 gulp.task('resources-build', function () {
-  return gulp
-    .src(['resources-convert/Resources.json'])
-    .pipe(
+  const streams = [];
+  streams.push(
+    gulp.src(['resources-convert/**/Resources.*.json']).pipe(
+      jeditor(function (json) {
+        const enver = require(path.normalize('../server/resources-convert/Resources.json'));
+        const retVal = {
+          lang: json,
+          en: enver,
+        };
+
+        return retVal;
+      })
+    )
+  );
+
+  streams.push(
+    gulp.src(['resources-convert/Resources.json']).pipe(
       jeditor(function (json) {
         const retVal = {
           en: json,
@@ -196,7 +210,9 @@ gulp.task('resources-build', function () {
         return retVal;
       })
     )
-    .pipe(gulp.dest('resources-build'));
+  );
+
+  return ordered(streams).pipe(gulp.dest('resources-build'));
 });
 
 /*************
@@ -207,71 +223,10 @@ gulp.task('resources-build', function () {
  * It also builds a version which contains no version, mostly for development purposes
  * The end file name format is Resources.<language code>.<template version>.json for the template includes, for the default no template it'll be Resources.<language code>.json, also the english version will have no language code, it'll just be default
  */
-const files = [];
-const parentFolders = [];
-let streams = [];
-const baseNames = [];
-
 gulp.task('resources-combine', function () {
-  const TemplateVersionDirectories = getSubDirectories('templateresources-build');
-  const s = [];
-  TemplateVersionDirectories.forEach(x => {
-    const folders = ['templateresources-build/' + x, 'resources-build'];
-    getFiles(folders);
-    makeStreams();
-
-    streams.forEach(stream => {
-      let fileName = path.basename(stream[stream.length - 1]);
-
-      let dirName = path.dirname(stream[stream.length - 1]);
-      dirName = dirName.substr(dirName.indexOf(path.sep));
-
-      s.push(
-        gulp
-          .src(stream)
-          .pipe(
-            merge({
-              fileName: fileName,
-            })
-          )
-          .pipe(
-            rename(function (p) {
-              p.basename += '.' + x;
-            })
-          )
-          .pipe(gulp.dest('src/data/resources'))
-      );
-    });
-  });
-
   //this is copying over files that have no template data, it's the final fallback resources if there are no templates, useful for development
-  s.push(gulp.src('resources-build/*.json').pipe(gulp.dest('src/data/resources')));
-
-  return gulpMerge(s);
+  return gulp.src('resources-build/*.json').pipe(gulp.dest('src/data/resources'));
 });
-
-function makeStreams() {
-  files.forEach(function (file) {
-    let thisParentFolders = path.dirname(file).substr(file.indexOf(path.sep));
-
-    if (parentFolders.indexOf(thisParentFolders) === -1) {
-      parentFolders.push(thisParentFolders);
-    }
-  });
-
-  parentFolders.forEach(function (folder) {
-    let foldersFile = folder.substr(folder.indexOf(path.sep));
-
-    baseNames.forEach(function (baseName) {
-      streams.push(
-        files.filter(function (file) {
-          return file.endsWith(path.join(foldersFile, baseName));
-        })
-      );
-    });
-  });
-  streams = streams.filter(stream => stream.length >= 1);
-}
 
 const templateVersionMap = {
   default: '1.0.3.10338',
@@ -343,14 +298,6 @@ gulp.task(
  * UTILITIES
  */
 
-function getSubDirectories(folder) {
-  if (!fs.existsSync(folder)) {
-    return [];
-  }
-  const dir = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
-  return dir(folder);
-}
-
 function newGuid() {
   return 'xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
     var r = (Math.random() * 16) | 0,
@@ -361,25 +308,4 @@ function newGuid() {
 
 function getBuildVersion() {
   return !!process.env.BUILD_BUILDID ? `1.0.${process.env.BUILD_BUILDID}` : '1.0.0';
-}
-
-function getFiles(folders) {
-  let possibleDirectory;
-
-  folders.forEach(function (folder, index) {
-    let tempFiles = fs.readdirSync('./' + folder);
-
-    tempFiles.forEach(function (fileOrDirectory) {
-      possibleDirectory = path.join(folder, fileOrDirectory);
-      if (fs.lstatSync(possibleDirectory).isDirectory()) {
-        getFiles([possibleDirectory]);
-      } else {
-        files.push(path.join(folder, fileOrDirectory));
-
-        if (baseNames.indexOf(fileOrDirectory) === -1) {
-          baseNames.push(fileOrDirectory);
-        }
-      }
-    });
-  });
 }
