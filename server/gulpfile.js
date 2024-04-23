@@ -32,7 +32,7 @@ gulp.task('resources-clean', function () {
  *   replace values in index.html with minified bundle names with hash
  *  This should only be ran as part of the production deployment
  */
-gulp.task('replace-tokens-for-minimized-angular', (cb) => {
+gulp.task('replace-tokens-for-minimized-angular', cb => {
   const ngMinPath = path.join(__dirname, 'public', 'ng-min');
   const minFolderExists = fs.existsSync(ngMinPath);
   if (minFolderExists) {
@@ -81,7 +81,7 @@ gulp.task('copy-env-template-to-env', () => {
     )
     .pipe(gulp.dest('./'));
 });
-gulp.task('replace-environment-variables', (cb) => {
+gulp.task('replace-environment-variables', cb => {
   const envPath = path.join(__dirname, '.env');
   const minFolderExists = fs.existsSync(envPath);
   if (minFolderExists) {
@@ -166,7 +166,7 @@ gulp.task('resx-to-typescript-models', function () {
  */
 gulp.task('resources-convert', function () {
   return gulp
-    .src(['./Resources/Resources.resx'])
+    .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'])
     .pipe(resx2())
     .pipe(
       rename(function (p) {
@@ -215,12 +215,12 @@ const baseNames = [];
 gulp.task('resources-combine', function () {
   const TemplateVersionDirectories = getSubDirectories('templateresources-build');
   const s = [];
-  TemplateVersionDirectories.forEach((x) => {
+  TemplateVersionDirectories.forEach(x => {
     const folders = ['templateresources-build/' + x, 'resources-build'];
     getFiles(folders);
     makeStreams();
 
-    streams.forEach((stream) => {
+    streams.forEach(stream => {
       let fileName = path.basename(stream[stream.length - 1]);
 
       let dirName = path.dirname(stream[stream.length - 1]);
@@ -270,7 +270,7 @@ function makeStreams() {
       );
     });
   });
-  streams = streams.filter((stream) => stream.length >= 1);
+  streams = streams.filter(stream => stream.length >= 1);
 }
 
 const templateVersionMap = {
@@ -291,7 +291,7 @@ gulp.task('list-numeric-versions', function (cb) {
   // Checks version matches patter x.x with unlimited .x and x being any numeric value
   const regex = /\d+(?:\.\d+)*/;
   const templateKeys = Object.keys(templateVersionMap);
-  const templateVersions = templateKeys.filter((x) => regex.test(x));
+  const templateVersions = templateKeys.filter(x => regex.test(x));
   let writePath = path.join(__dirname, 'src', 'data', 'data');
   if (!fs.existsSync(writePath)) {
     fs.mkdirSync(writePath);
@@ -347,7 +347,7 @@ function getSubDirectories(folder) {
   if (!fs.existsSync(folder)) {
     return [];
   }
-  const dir = (p) => fs.readdirSync(p).filter((f) => fs.statSync(path.join(p, f)).isDirectory());
+  const dir = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
   return dir(folder);
 }
 
