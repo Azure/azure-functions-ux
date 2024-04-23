@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useMemo } from 'react';
 import Platform from '../GeneralSettings/Platform';
 import SlotAutoSwap from '../GeneralSettings/SlotAutoSwap';
 import Stacks from '../GeneralSettings/Stacks';
@@ -12,6 +12,8 @@ import DebuggingWindows from '../GeneralSettings/DebuggingWindows';
 import DebuggingLinux from '../GeneralSettings/DebuggingLinux';
 import { isEqual } from 'lodash-es';
 import ClientCert from '../GeneralSettings/ClientCert/ClientCert';
+import { DeploymentCenterConstants } from '../../deployment-center/DeploymentCenterConstants';
+import StringUtils from '../../../../utils/string';
 
 const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values } = props;
@@ -30,9 +32,15 @@ const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     return null;
   };
 
+  const isSiteContainer = useMemo(() => {
+    return values.config?.properties.linuxFxVersion
+      ? StringUtils.equalsIgnoreCase(values.config?.properties.linuxFxVersion, DeploymentCenterConstants.sitecontainers)
+      : false;
+  }, [values.config?.properties.linuxFxVersion]);
+
   return (
     <>
-      <Stacks {...props} />
+      {!isSiteContainer && <Stacks {...props} />}
       {/* NOTE (krmitta): Need to hide platform settings except TLS settings for KubeApp as elements within are not shown */}
       <>
         <h3>{t('platformSettings')}</h3>

@@ -1,13 +1,5 @@
 const gulp = require('gulp');
 const prompt = require('gulp-prompt');
-const inlinesource = require('gulp-inline-source');
-
-gulp.task('inline-react-code-coverage', async () => {
-  return gulp
-    .src('./client-react/coverage/**/*.html')
-    .pipe(inlinesource({ attribute: false }))
-    .pipe(gulp.dest('./coverage'));
-});
 
 gulp.task('build-fusion-url', async () => {
   gulp.src('./package.json').pipe(

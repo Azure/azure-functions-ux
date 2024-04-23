@@ -662,7 +662,6 @@ export class PortalResources {
   public static error_unableToRetrieveFunctionKeys = 'error_unableToRetrieveFunctionKeys';
   public static error_appOffline = 'error_appOffline';
   public static error_uploadHTMLFile = 'error_uploadHTMLFile';
-  public static customErrorPages_fileType = 'customErrorPages_fileType';
   public static functionKeys_actions = 'functionKeys_actions';
   public static functionNew_chooseTemplateQuickstart = 'functionNew_chooseTemplateQuickstart';
   public static httpRun_noQuery = 'httpRun_noQuery';
@@ -2600,4 +2599,5 @@ export class PortalResources {
   public static authenticationSettingsOidcPermissionsLinkAriaLabel = 'authenticationSettingsOidcPermissionsLinkAriaLabel';
   public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
   public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
+  public static ftpBasicAuthInfoMessage = 'ftpBasicAuthInfoMessage';
 }

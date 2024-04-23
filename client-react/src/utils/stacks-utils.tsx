@@ -22,6 +22,7 @@ import { filterDeprecatedFunctionAppStack } from '../pages/app/app-settings/Gene
 import { Site } from '../models/site/site';
 import { ArmObj } from '../models/arm-obj';
 import Url from './url';
+import { isFlexConsumption } from './arm-utils';
 
 const ENDOFLIFEMAXSECONDS = 15780000; // 6 months
 export const NETFRAMEWORKVERSION5 = 5;
@@ -315,7 +316,12 @@ export const getStackVersionConfigPropertyName = (isLinuxApp: boolean, runtimeSt
 export const isWindowsNodeApp = (isLinux: boolean, stack?: string) =>
   !isLinux && !!stack && stack.toLocaleLowerCase() === WorkerRuntimeLanguages.nodejs;
 
-export const getFunctionAppStackVersion = (values: AppSettingsFormValues, isLinux: boolean, stack?: string) => {
+export const getFunctionAppStackVersion = (
+  values: AppSettingsFormValues,
+  isLinux: boolean,
+  site: ArmObj<Site> | undefined,
+  stack?: string
+) => {
   // NOTE(krmitta): For Windows node app only we get the version from app-setting instead of config, thus this special case.
   if (isWindowsNodeApp(isLinux, stack)) {
     const index = findFormAppSettingIndex([...values.appSettings], CommonConstants.AppSettingNames.websiteNodeDefaultVersion);
@@ -325,6 +331,12 @@ export const getFunctionAppStackVersion = (values: AppSettingsFormValues, isLinu
       return undefined;
     }
   } else {
+    if (!!site && isFlexConsumption(site)) {
+      return (
+        `${site.properties.functionAppConfig?.runtime?.name}|${site.properties.functionAppConfig?.runtime?.version}`.toLowerCase() ||
+        undefined
+      );
+    }
     const stackVersionProperty = getStackVersionConfigPropertyName(isLinux, stack);
     const stackVersion = values.config && values.config.properties && values.config.properties[stackVersionProperty];
     return stackVersion ?? undefined;
@@ -335,9 +347,10 @@ export const filterFunctionAppStack = (
   supportedStacks: FunctionAppStack[],
   values: AppSettingsFormValues,
   isLinux: boolean,
-  stack: string
+  stack: string,
+  site: ArmObj<Site> | undefined
 ) => {
-  const version = getFunctionAppStackVersion(values, isLinux, stack);
+  const version = getFunctionAppStackVersion(values, isLinux, site, stack);
   return filterDeprecatedFunctionAppStack(supportedStacks, stack, version || '');
 };
 

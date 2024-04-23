@@ -35,6 +35,52 @@ export class FlexConsumptionEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.ftpBasicAuthSupported] = {
+      id: ScenarioIds.ftpBasicAuthSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.http20ProxySupported] = {
+      id: ScenarioIds.http20ProxySupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.alwaysOnSupported] = {
+      id: ScenarioIds.alwaysOnSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.windowsRemoteDebuggingSupported] = {
+      id: ScenarioIds.windowsRemoteDebuggingSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.linuxRemoteDebuggingSupported] = {
+      id: ScenarioIds.linuxRemoteDebuggingSupported,
+      runCheck: () => {
+        return {
+          status: 'disabled',
+        };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.showFunctionRuntimeSettings] = {
+      id: ScenarioIds.showFunctionRuntimeSettings,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
