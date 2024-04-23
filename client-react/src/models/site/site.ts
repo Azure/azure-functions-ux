@@ -5,6 +5,7 @@ import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
 import { KeyValue } from '../portal-models';
 import { MsiIdentity } from '../arm-obj';
+import { FunctionAppConfig } from './function-app-config';
 
 export enum ContentAvailabilityState {
   Normal = 'Normal',
@@ -62,6 +63,7 @@ export enum MinTlsVersion {
   tLS10 = '1.0',
   tLS11 = '1.1',
   tLS12 = '1.2',
+  tLS13 = '1.3',
 }
 
 export enum VnetPrivatePortsCount {
@@ -71,11 +73,13 @@ export enum VnetPrivatePortsCount {
 
 export enum CipherSuite {
   // Order matters here; default cipher suites ordered from most secure to least.
+  TLS_AES_256_GCM_SHA384 = 'TLS_AES_256_GCM_SHA384',
+  TLS_AES_128_GCM_SHA256 = 'TLS_AES_128_GCM_SHA256',
   TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384 = 'TLS_ECDHE_ECDSA_WITH_AES_256_GCM_SHA384',
-  TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 = 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256',
   TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256 = 'TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256',
   TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384 = 'TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384',
   TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256 = 'TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256',
+  TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256 = 'TLS_ECDHE_ECDSA_WITH_AES_128_CBC_SHA256',
   TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384 = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384',
   TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256 = 'TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256',
   TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA = 'TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA',
@@ -90,7 +94,8 @@ export enum CipherSuite {
 
 export interface Site {
   name: string;
-  state: string;
+  /** @note (joechung): `state` can be `null` for Function Apps on Azure Container Apps */
+  state: string | null;
   defaultHostName: string;
   hostNames: string[];
   webSpace: string;
@@ -151,6 +156,7 @@ export interface Site {
   keyVaultReferenceIdentity: string;
   sshEnabled?: boolean | null;
   endToEndEncryptionEnabled?: boolean;
+  functionAppConfig?: FunctionAppConfig;
 }
 
 export interface HostNameSslState {

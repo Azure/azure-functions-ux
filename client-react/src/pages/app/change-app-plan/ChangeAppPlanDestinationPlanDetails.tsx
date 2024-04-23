@@ -26,8 +26,9 @@ import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 
 interface SpecPickerOutput {
-  skuCode: string; // Like "S1"
-  tier: string; // Like "Standard"
+  selectedKey: string; 
+  selectedSkuCode: string; // Like "S1"
+  selectedTier: string; // Like "Standard"
 }
 
 export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
@@ -133,12 +134,11 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
 
   const openSpecPicker = async (currentServerFarmId: string, linkElement: React.MutableRefObject<ILink | null>) => {
     const result = await portalCommunicator.openBlade<SpecPickerOutput>({
-      detailBlade: 'SpecPickerFrameBlade',
+      detailBlade: 'ScaleSpecPicker.ReactView',
       detailBladeInputs: {
         id: currentServerFarmId,
         data: skuPickerData,
       },
-      openAsContextBlade: true,
     });
 
     (linkElement.current as ILink).focus();
@@ -148,13 +148,13 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         ...formProps.values.serverFarmInfo,
         newPlanInfo: {
           ...formProps.values.serverFarmInfo.newPlanInfo,
-          skuCode: result.data.value.skuCode,
-          tier: result.data.value.tier,
+          skuCode: result.data.value.selectedSkuCode,
+          tier: result.data.value.selectedTier,
         },
       };
 
       formProps.setFieldValue('serverFarmInfo', newServerFarmInfo);
-      setSkuTier(result.data.value.tier);
+      setSkuTier(result.data.value.selectedTier);
     }
   };
 
@@ -192,12 +192,10 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       return {
         forbiddenSkus,
         isFunctionApp: isFunctionApp(formProps.values.site),
-        returnObjectResult: true,
       };
     }
     return {
-      selectedSkuCode: 'F1',
-      returnObjectResult: true,
+      isFunctionApp: isFunctionApp(formProps.values.site),
     };
   }, [currentServerFarm, forbiddenSkus, formProps.values.site]);
 

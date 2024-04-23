@@ -29,7 +29,7 @@ import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { KeyValue } from '../../../models/portal-models';
-import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
+import { isFlexConsumption, isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import i18next from 'i18next';
@@ -99,7 +99,15 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
-    currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site), isWindowsCode(site), appPermissions),
+    currentlySelectedStack: getCurrentStackString(
+      config,
+      site,
+      metadata,
+      appSettings,
+      isFunctionApp(site),
+      isWindowsCode(site),
+      appPermissions
+    ),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts, slotConfigNames),
     errorPages: getFormErrorPages(errorPages),
   };
@@ -471,12 +479,16 @@ export function flattenVirtualApplicationsList(virtualApps: VirtualApplication[]
 
 export function getCurrentStackString(
   config: ArmObj<SiteConfig>,
+  site: ArmObj<Site>,
   metadata?: ArmObj<KeyValue<string>> | null,
   appSettings?: ArmObj<KeyValue<string>> | null,
   isFunctionApp?: boolean,
   isWindowsCodeApp?: boolean,
   appPermissions?: boolean
 ): string {
+  if (!!isFunctionApp && isFlexConsumption(site)) {
+    return site.properties.functionAppConfig?.runtime?.name || '';
+  }
   if (
     !!isFunctionApp &&
     appSettings &&
