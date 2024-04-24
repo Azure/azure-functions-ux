@@ -2,6 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
+  const php8Point3EOL = getDateString(new Date('2026/11/23'), useIsoDateFormat);
   const php8Point2EOL = getDateString(new Date('2025/12/08'), useIsoDateFormat);
   const php8Point1EOL = getDateString(new Date('2023/11/26'), useIsoDateFormat);
   const php8Point0EOL = getDateString(new Date('2023/11/26'), useIsoDateFormat);
@@ -21,6 +22,28 @@ const getPhpStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForma
         displayText: 'PHP 8',
         value: '8',
         minorVersions: [
+          {
+            displayText: 'PHP 8.3',
+            value: '8.3',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'PHP|8.3',
+                isHidden: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.3',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
+                endOfLifeDate: php8Point3EOL,
+              },
+            },
+          },
           {
             displayText: 'PHP 8.2',
             value: '8.2',
