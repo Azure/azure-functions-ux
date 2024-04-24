@@ -5,6 +5,7 @@ import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
 import { KeyValue } from '../portal-models';
 import { MsiIdentity } from '../arm-obj';
+import { FunctionAppConfig } from './function-app-config';
 
 export enum ContentAvailabilityState {
   Normal = 'Normal',
@@ -155,6 +156,7 @@ export interface Site {
   keyVaultReferenceIdentity: string;
   sshEnabled?: boolean | null;
   endToEndEncryptionEnabled?: boolean;
+  functionAppConfig?: FunctionAppConfig;
 }
 
 export interface HostNameSslState {

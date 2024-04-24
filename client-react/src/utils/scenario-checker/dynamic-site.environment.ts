@@ -59,6 +59,13 @@ export class DynamicSiteEnvironment extends Environment {
         return { status: 'enabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.ftpBasicAuthSupported] = {
+      id: ScenarioIds.ftpBasicAuthSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

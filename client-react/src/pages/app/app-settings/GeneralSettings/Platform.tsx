@@ -184,25 +184,25 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
                 },
               ]}
             />
-            <Field
-              name={'basicPublishingCredentialsPolicies.ftp.properties.allow'}
-              component={RadioButton}
-              label={t('ftpBasicAuthPublishingCredentials')}
-              infoBubbleMessage={t('basicAuthPublishingCredInfoBubbleMessage')}
-              learnMoreLink={Links.disableBasicAuthLearnMore}
-              id="app-settings-ftp-basic-authentication-publishing-creds"
-              disabled={disableAllControls}
-              options={[
-                {
-                  key: true,
-                  text: t('on'),
-                },
-                {
-                  key: false,
-                  text: t('off'),
-                },
-              ]}
-            />
+            {scenarioChecker.checkScenario(ScenarioIds.ftpBasicAuthSupported, { site }).status !== 'disabled' && (
+              <Field
+                name={'basicPublishingCredentialsPolicies.scm.properties.allow'}
+                component={RadioButton}
+                label={t('scmBasicAuthPublishingCredentials')}
+                id="app-settings-scm-basic-authentication-publishing-creds"
+                disabled={disableAllControls}
+                options={[
+                  {
+                    key: true,
+                    text: t('on'),
+                  },
+                  {
+                    key: false,
+                    text: t('off'),
+                  },
+                ]}
+              />
+            )}
           </>
         )}
 

@@ -41,7 +41,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { isFunctionApp, isKubeApp, isLinuxApp, isWordPressApp } from '../../../utils/arm-utils';
+import { isFlexConsumption, isFunctionApp, isKubeApp, isLinuxApp, isWordPressApp } from '../../../utils/arm-utils';
 import { KeyValue } from '../../../models/portal-models';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import { WebAppStack } from '../../../models/stacks/web-app-stacks';
@@ -161,7 +161,12 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     // Get stacks response
     if (!loadingFailed) {
       if (isFunctionApp(site.data)) {
-        const stacksResponse = await RuntimeStackService.getFunctionAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows);
+        const os = isLinux ? AppStackOs.linux : AppStackOs.windows;
+        const stack = site.data.properties.functionAppConfig?.runtime?.name;
+        const stacksResponse =
+          isFlexConsumption(site.data) && stack
+            ? await RuntimeStackService.getFunctionAppConfigurationStackForLocation(os, site.data.location, stack)
+            : await RuntimeStackService.getFunctionAppConfigurationStacks(os);
         if (stacksResponse.metadata.status && !!stacksResponse.data.value) {
           const allFunctionAppStacks: FunctionAppStack[] = [];
           stacksResponse.data.value.forEach(stack => {
@@ -173,7 +178,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
         }
       } else {
         const isWordPress = isWordPressApp(site.data);
-        const stacksResponse = await RuntimeStackService.getWebAppConfigurationStacks(isLinux ? AppStackOs.linux : AppStackOs.windows, isWordPress ? CommonConstants.WordPressStack : undefined);
+        const stacksResponse = await RuntimeStackService.getWebAppConfigurationStacks(
+          isLinux ? AppStackOs.linux : AppStackOs.windows,
+          isWordPress ? CommonConstants.WordPressStack : undefined
+        );
 
         if (stacksResponse.metadata.status && !!stacksResponse.data.value) {
           const allWebAppStacks: WebAppStack[] = [];

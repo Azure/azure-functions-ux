@@ -100,26 +100,26 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
   const getSupportedExtensionVersions = (): RuntimeExtensionMajorVersions[] => {
     const currentStack = values.currentlySelectedStack;
-    const isLinux = siteStateContext.isLinuxApp;
-    let currentStackVersion = getFunctionAppStackVersion(values, isLinux, currentStack);
+    const { isLinuxApp, site}  = siteStateContext;
+    let currentStackVersion = getFunctionAppStackVersion(values, isLinuxApp, site, currentStack);
 
     //(note): stpelleg -- Need to handle this version of dotnet bc it will not appear in stacks API call as v4.0. it will be 3.1
     if (currentStack === WorkerRuntimeLanguages.dotnet && currentStackVersion === FunctionsDotnetVersion.v4) {
       currentStackVersion = FunctionsDotnetVersion.v3;
     }
 
-    const filteredStacks = filterFunctionAppStack(functionAppStacksContext, values, isLinux, currentStack);
-    const stackObject = getFunctionAppStackObject(filteredStacks, isLinux, currentStack);
+    const filteredStacks = filterFunctionAppStack(functionAppStacksContext, values, isLinuxApp, currentStack, site);
+    const stackObject = getFunctionAppStackObject(filteredStacks, isLinuxApp, currentStack);
 
     if (stackObject) {
       for (const stackMajorVersion of stackObject.majorVersions) {
         for (const stackMinorVersion of stackMajorVersion.minorVersions) {
-          const settings = isLinux
+          const settings = isLinuxApp
             ? stackMinorVersion.stackSettings.linuxRuntimeSettings
             : stackMinorVersion.stackSettings.windowsRuntimeSettings;
           if (settings) {
             const supportedFunctionsExtensionVersions = settings.supportedFunctionsExtensionVersions;
-            if (isWindowsNodeApp(isLinux, currentStack)) {
+            if (isWindowsNodeApp(isLinuxApp, currentStack)) {
               const nodeVersion = settings.appSettingsDictionary[CommonConstants.AppSettingNames.websiteNodeDefaultVersion];
               if (!!nodeVersion && nodeVersion === currentStackVersion) {
                 return supportedFunctionsExtensionVersions;
