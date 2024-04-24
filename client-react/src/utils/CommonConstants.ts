@@ -304,7 +304,7 @@ export class CommonConstants {
   public static readonly passwordMinimumRequirementsRegex = new RegExp(/^((?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[\W]).{8,})$/);
 
   //min length is 1, must contain 5000 chars
-  public static readonly snippetsContentRegEx = new RegExp(/^(.{1,5000})$/s);
+  public static readonly snippetsContentRegEx = new RegExp(/^(.{1,10240})$/s);
 
   public static newlineRegex = new RegExp(/\r?\n/);
 
