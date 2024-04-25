@@ -49,6 +49,7 @@ import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
 import { FunctionAppStack } from '../../../models/stacks/function-app-stacks';
 import { CommonConstants, ExperimentationConstants } from '../../../utils/CommonConstants';
+import { RuntimeStacks } from '../../../utils/stacks-utils';
 
 export interface AppSettingsDataLoaderProps {
   children: (props: {
