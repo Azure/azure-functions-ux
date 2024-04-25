@@ -162,10 +162,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     if (!loadingFailed) {
       if (isFunctionApp(site.data)) {
         const os = isLinux ? AppStackOs.linux : AppStackOs.windows;
-        const stack = site.data.properties.functionAppConfig?.runtime?.name;
+        const stackValueForStacksAPI = (stack === RuntimeStacks.dotnetIsolated || stack === RuntimeStacks.dotnet) ? RuntimeStacks.dotnet : stack;
         const stacksResponse =
-          isFlexConsumption(site.data) && stack
-            ? await RuntimeStackService.getFunctionAppConfigurationStackForLocation(os, site.data.location, stack)
+          isFlexConsumption(site.data) && stackValueForStacksAPI
+            ? await RuntimeStackService.getFunctionAppConfigurationStackForLocation(os, site.data.location, stackValueForStacksAPI)
             : await RuntimeStackService.getFunctionAppConfigurationStacks(os);
         if (stacksResponse.metadata.status && !!stacksResponse.data.value) {
           const allFunctionAppStacks: FunctionAppStack[] = [];
