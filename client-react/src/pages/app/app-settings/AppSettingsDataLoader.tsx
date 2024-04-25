@@ -162,6 +162,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     if (!loadingFailed) {
       if (isFunctionApp(site.data)) {
         const os = isLinux ? AppStackOs.linux : AppStackOs.windows;
+        const stack = site.data.properties.functionAppConfig?.runtime?.name;
         const stackValueForStacksAPI = (stack === RuntimeStacks.dotnetIsolated || stack === RuntimeStacks.dotnet) ? RuntimeStacks.dotnet : stack;
         const stacksResponse =
           isFlexConsumption(site.data) && stackValueForStacksAPI
