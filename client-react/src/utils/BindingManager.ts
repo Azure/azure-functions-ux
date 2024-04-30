@@ -23,7 +23,11 @@ export class BindingManager {
   };
 
   public static getAuthenticationEventsTriggerTypeInfo = (functionInfo: FunctionInfo): BindingInfo | undefined => {
-    return functionInfo.config?.bindings.find(e => BindingManager.isBindingTypeEqual(e.type, BindingType.authenticationEventsTrigger));
+    return functionInfo.config?.bindings.find(
+      e =>
+        BindingManager.isBindingTypeEqual(e.type, BindingType.authenticationEventsTrigger) ||
+        BindingManager.isBindingTypeEqual(e.type, BindingType.webJobsAuthenticationEventsTrigger)
+    );
   };
 
   public static isBindingTypeEqual = (bindingType1: BindingType | string, bindingType2: BindingType | string): boolean => {
