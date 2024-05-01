@@ -2,6 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
+  const dotnet7EOL = getDateString(new Date('2024/05/14'), useIsoDateFormat);
   const dotnet5EOL = getDateString(new Date('2022/05/08'), useIsoDateFormat);
   const dotnetCore3Point0EOL = getDateString(new Date('2020/03/03'), useIsoDateFormat);
   const dotnetCore3Point1EOL = getDateString(new Date('2022/12/03'), useIsoDateFormat);
@@ -73,6 +74,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '7.x',
                 },
+                endOfLifeDate: dotnet7EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|7.0',
@@ -88,6 +90,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 supportedFeatures: {
                   disableSsh: true,
                 },
+                endOfLifeDate: dotnet7EOL,
               },
             },
           },
