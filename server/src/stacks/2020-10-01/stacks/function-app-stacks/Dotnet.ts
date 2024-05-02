@@ -261,6 +261,76 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         ],
       },
       {
+        displayText: '.NET 8 In-process',
+        value: 'dotnet8',
+        minorVersions: [
+          {
+            displayText: '.NET 8 (LTS) In-process',
+            value: '8 (LTS), in-process model',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                isHidden: true,
+                runtimeVersion: 'v8.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.0.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+                  FUNCTIONS_INPROC_NET8_ENABLED: '1'
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  netFrameworkVersion: 'v8.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: false,
+                  },
+                ],
+                endOfLifeDate: dotnet8EOL,
+              },
+              linuxRuntimeSettings: {
+                isHidden: true,
+                runtimeVersion: 'DOTNET|8.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.0.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet',
+                  FUNCTIONS_INPROC_NET8_ENABLED: '1'
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  linuxFxVersion: 'DOTNET|8.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: false,
+                  },
+                ],
+                endOfLifeDate: dotnet8EOL,
+              },
+            },
+          },
+        ],
+      },
+      {
         displayText: '.NET 6 In-process',
         value: 'dotnet6',
         minorVersions: [
