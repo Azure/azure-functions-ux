@@ -11,20 +11,24 @@ export const getStackVersionDropdownOptions = (
 ): IDropdownOption[] => {
   const stackMinorVersions: IDropdownOption[] = [];
 
-  stack.majorVersions.forEach(stackMajorVersion => {
-    stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
+  for (const stackMajorVersion of stack.majorVersions) {
+    for (const stackMinorVersion of stackMajorVersion.minorVersions) {
       const settings =
         osType === AppStackOs.windows
           ? stackMinorVersion.stackSettings.windowsRuntimeSettings
           : stackMinorVersion.stackSettings.linuxRuntimeSettings;
 
       if (settings) {
-        if (isFlexConsumptionApp && settings.Sku && settings.Sku.length > 0 && settings.Sku.some(sku => sku.skuCode.toLowerCase() === 'FC1'.toLowerCase())) {
-          stackMinorVersions.push({
-            key: settings.runtimeVersion.toLowerCase(),
-            text: stackMinorVersion.displayText,
-            data: stackMinorVersion,
-          });
+        if (isFlexConsumptionApp) {
+          if (settings.Sku) {
+            if (settings.Sku.length > 0 && settings.Sku.some(sku => sku.skuCode === 'FC1')) {
+              stackMinorVersions.push({
+                key: settings.runtimeVersion.toLowerCase(),
+                text: stackMinorVersion.displayText,
+                data: stackMinorVersion,
+              });
+            }
+          }
         } else if (
           settings.supportedFunctionsExtensionVersions.find(supportedRuntimeVersion => supportedRuntimeVersion === runtimeVersion) ||
           settings.runtimeVersion === runtimeVersion
@@ -36,8 +40,8 @@ export const getStackVersionDropdownOptions = (
           });
         }
       }
-    });
-  });
+    }
+  }
 
   return stackMinorVersions;
 };
