@@ -11028,6 +11028,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";ftpBasicAuthInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[SCM basic authentication is required when enabling FTP basic authentication.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[启用 FTP 基本身份验证时需要 SCM 基本身份验证。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";ftpBasicAuthPublishingCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[FTP Basic Auth Publishing Credentials]]></Val>
