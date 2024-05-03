@@ -708,6 +708,24 @@ export class GithubController {
     }
   }
 
+  private _trimAppLocation(appLocation: string): string {
+    let trimmedString = appLocation;
+    if (trimmedString.startsWith('/')) {
+      //ex: /src >> src
+      trimmedString = trimmedString.substring(1);
+    } else if (trimmedString.startsWith('./')) {
+      //ex: ./src >> src
+      trimmedString = trimmedString.substring(2);
+    }
+
+    if (trimmedString.endsWith('/')) {
+      //ex: src/ >> src
+      trimmedString = trimmedString.substring(0, trimmedString.length - 1);
+    }
+
+    return trimmedString;
+  }
+
   @Post('api/github/getStaticWebAppConfiguration')
   @HttpCode(200)
   async getStaticWebAppConfiguration(
@@ -715,9 +733,15 @@ export class GithubController {
     @Body('org') org: string,
     @Body('repo') repo: string,
     @Body('branchName') branchName: string,
+    @Body('appLocation') appLocation: string = '',
     @Res() res
   ) {
-    const baseUrl = `${this.githubApiUrl}/repos/${org}/${repo}/contents/staticwebapp.config.json`;
+    // If appLocation is not specify, or is the root, we will look for the staticwebapp.config.json in the root of the repo.
+    const baseUrl =
+      !appLocation || appLocation === '/'
+        ? `${this.githubApiUrl}/repos/${org}/${repo}/contents/staticwebapp.config.json`
+        : `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(appLocation)}/staticwebapp.config.json`;
+
     const url = branchName ? `${baseUrl}?ref=${branchName}` : baseUrl;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
