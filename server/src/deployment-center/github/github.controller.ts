@@ -709,7 +709,7 @@ export class GithubController {
   }
 
   private _trimAppLocation(appLocation: string): string {
-    let trimmedString = appLocation;
+    let trimmedString: string = appLocation;
     if (trimmedString.startsWith('/')) {
       //ex: /src >> src
       trimmedString = trimmedString.substring(1);
