@@ -709,6 +709,10 @@ export class GithubController {
   }
 
   private _trimAppLocation(appLocation: string): string {
+    if (typeof appLocation !== 'string') {
+      throw new HttpException(`'appLication' property should be a string. `, 400);
+    }
+
     let trimmedString: string = appLocation;
     if (trimmedString.startsWith('/')) {
       //ex: /src >> src
