@@ -115,7 +115,9 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           if (listFederatedCredentialsResponse.metadata.success) {
             // For error: Issuer and subject combination already exists for this Managed Identity.
             // Find all federated credentials, and if there's some with the same issuer and subject, don't add a new one
-            const subject = `repo:${values.org}/${values.repo}:environment:production`;
+            const subject = siteStateContext.isFunctionApp
+              ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
+              : `repo:${values.org}/${values.repo}:environment:production`;
             const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
               subject,
               listFederatedCredentialsResponse.data.value ?? []
