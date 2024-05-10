@@ -98,8 +98,8 @@
     "files": [
       "gatsby-config.js"
     ],
-    "packages": [
-      "gatsby"
+    "overrides": [
+      "react"
     ],
     "config": {
       "appBuildCommand": "npm run build",
