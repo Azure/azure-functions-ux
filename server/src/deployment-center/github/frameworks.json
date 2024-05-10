@@ -94,7 +94,9 @@
     "id": "gatsby",
     "name": "Gatsby",
     "kind": "app",
-    "parent": "react",
+    "overrides": [
+      "react"
+    ],
     "files": [
       "gatsby-config.js"
     ],
