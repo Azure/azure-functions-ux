@@ -389,7 +389,6 @@ export class ExperimentationConstants {
     portalCallOnEditor: 'enable-portal-call-editor',
     customErrorAlwaysUse: 'enable-customErrorAlwaysUse',
     patchCallOnConfig: 'enable-patch-call-config',
-    showEnvironmentVariables: 'show-environment-variables',
     enableOidc: 'enable-oidc',
   };
 
