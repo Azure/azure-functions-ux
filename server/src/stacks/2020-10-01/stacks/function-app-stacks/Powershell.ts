@@ -7,6 +7,7 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
   const powershell62EOL = getDateString(new Date('2022/09/30'), useIsoDateFormat);
   const powershell70EOL = getDateString(new Date('2022/12/03'), useIsoDateFormat);
   const powershell72EOL = getDateString(new Date('2024/11/08'), useIsoDateFormat);
+  const powershell74EOL = getDateString(new Date('2026/11/10'), useIsoDateFormat);
 
   return {
     displayText: 'PowerShell Core',
@@ -49,6 +50,7 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                     isDefault: true,
                   },
                 ],
+                endOfLifeDate: powershell74EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'PowerShell|7.4',
@@ -77,6 +79,7 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
                     isDefault: true,
                   },
                 ],
+                endOfLifeDate: powershell74EOL,
               },
             },
           },
