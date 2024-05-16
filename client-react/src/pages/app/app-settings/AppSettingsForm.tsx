@@ -4,7 +4,6 @@ import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
 import { AppSettingsFormProps, AppSettingsTabs } from './AppSettings.types';
 import GeneralSettings, { generalSettingsDirty, generalSettingsError } from './Sections/GeneralSettings';
-import ApplicationSettingsPivot, { applicationSettingsDirty } from './Sections/ApplicationSettingsPivot';
 import FunctionRuntimeSettingsPivot, { functionRuntimeSettingsDirty } from './Sections/FunctionRuntimeSettingsPivot';
 import DefaultDocumentsPivot, { defaultDocumentsDirty, defaultDocumentsError } from './Sections/DefaultDocumentsPivot';
 import PathMappingsPivot, { pathMappingsDirty } from './Sections/PathMappingsPivot';
@@ -25,7 +24,7 @@ export const settingsWrapper = style({
 
 const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
   const theme = useContext(ThemeContext);
-  const { values, initialValues, tab, errors, showAppSettings } = props;
+  const { values, initialValues, tab, errors } = props;
   const site = useContext(SiteContext);
 
   const { t } = useTranslation();
@@ -34,10 +33,6 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
   const generalSettingsDirtyCheck = () => {
     return generalSettingsDirty(values, initialValues);
-  };
-
-  const applicationSettingsDirtyCheck = () => {
-    return applicationSettingsDirty(values, initialValues);
   };
 
   const functionRuntimeSettingsDirtyCheck = () => {
@@ -74,18 +69,6 @@ const AppSettingsForm: React.FC<AppSettingsFormProps> = props => {
 
   return (
     <Pivot getTabId={getPivotTabId} defaultSelectedKey={tab} overflowBehavior={OverflowBehavior.menu}>
-      {showAppSettings ? (
-        <PivotItem
-          className={pivotWrapper}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, applicationSettingsDirtyCheck, dirtyLabel)
-          }
-          itemKey={AppSettingsTabs.applicationSettings}
-          headerText={t('applicationSettings')}>
-          <ApplicationSettingsPivot {...props} />
-        </PivotItem>
-      ) : null}
-
       {showFunctionRuntimeSettings ? (
         <PivotItem
           className={pivotWrapper}
@@ -157,8 +140,6 @@ const getPivotTabId = (itemKey: string) => {
       return 'app-settings-path-mappings-tab';
     case AppSettingsTabs.defaultDocuments:
       return 'app-settings-default-documents-tab';
-    case AppSettingsTabs.applicationSettings:
-      return 'app-settings-application-settings-tab';
     case AppSettingsTabs.functionRuntimeSettings:
       return 'app-settings-function-runtime-settings-tab';
     case AppSettingsTabs.customErrorPage:
