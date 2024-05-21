@@ -52,7 +52,7 @@ import {
   updateGitHubActionSourceControlPropertiesManually,
 } from '../utility/GitHubActionUtility';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
-import { ArmResourceDescriptor } from '../../../../utils/resourceDescriptors';
+import { ArmResourceDescriptor, ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -75,6 +75,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     } else {
       if (values.buildProvider === BuildProvider.GitHubAction && values.authType === AuthType.Oidc) {
         const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
+        const armSiteId = new ArmSiteDescriptor(deploymentCenterContext.resourceId);
         portalContext.log(getTelemetryInfo('info', 'registerManagedIdentityProvider', 'submit'));
         const registerManagedIdentityProviderResponse = await deploymentCenterData.registerProvider(
           armId.subscription,
@@ -117,7 +118,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             // Find all federated credentials, and if there's some with the same issuer and subject, don't add a new one
             const subject = siteStateContext.isFunctionApp
               ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-              : `repo:${values.org}/${values.repo}:environment:production`;
+              : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? 'production'}`;
             const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
               subject,
               listFederatedCredentialsResponse.data.value ?? []
