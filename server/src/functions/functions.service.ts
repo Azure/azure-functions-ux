@@ -169,7 +169,7 @@ export class FunctionsService implements OnModuleInit {
       } else if (err.response) {
         res.status(err.response.status).send(err.response.data);
       } else if (err.request) {
-        res.json({ error: err.request });
+        res.status(502).json({ request: err.request });
       } else {
         res.status(500).json({ error: err.message });
       }
