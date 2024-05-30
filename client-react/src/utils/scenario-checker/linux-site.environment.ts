@@ -160,7 +160,7 @@ export class LinuxSiteEnvironment extends Environment {
     };
 
     this.scenarioChecks[ScenarioIds.defaultDocumentsSupported] = {
-      id: ScenarioIds.windowsRemoteDebuggingSupported,
+      id: ScenarioIds.defaultDocumentsSupported,
       runCheck: () => {
         return {
           status: 'disabled',
