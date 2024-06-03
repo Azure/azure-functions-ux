@@ -35,7 +35,7 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
     };
 
     this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
-      id: ScenarioIds.clientAffinitySupported,
+      id: ScenarioIds.enableMinCipherSuite,
       runCheck: () => ({ status: 'disabled' }),
     };
 
