@@ -32,7 +32,8 @@ export class WorkflowService20221001 {
           tenant-id: \${{ secrets.__tenantidsecretname__ }}
           subscription-id: \${{ secrets.__subscriptionidsecretname__ }}\n`;
       const permssions = `permissions:
-      id-token: write #This is required for requesting the JWT\n`;
+      id-token: write #This is required for requesting the JWT\n
+      contents: read #Required to enable use with Private Repositories\n`;
       workflowFile = workflowFile.replace(new RegExp(publishProfilePlaceholder, 'gi'), '');
       workflowFile = workflowFile.replace(new RegExp(loginToAzureStepPlaceholder, 'gi'), loginToAzureStep);
       workflowFile = workflowFile.replace(new RegExp(permissionsPlaceholder, 'gi'), permssions);
