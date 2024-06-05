@@ -1,7 +1,9 @@
 export class DeploymentCenterConstants {
   public static readonly githubUri = 'https://github.com';
+  public static readonly githubHostname = 'github.com';
   public static readonly bitbucketApiUrl = 'https://api.bitbucket.org/2.0';
   public static readonly bitbucketUrl = 'https://bitbucket.org';
+  public static readonly bitbucketHostname = 'bitbucket.org';
 
   public static readonly AzDevDevFabricTfsUri = 'https://codedev.ms/';
   public static readonly AzDevDevFabricSpsUri = 'https://vssps.codedev.ms/';

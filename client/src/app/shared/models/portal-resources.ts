@@ -2424,6 +2424,7 @@ export class PortalResources {
   public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
   public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
   public static readOnlyNewNodePreview = 'readOnlyNewNodePreview';
+  public static deploymentCenterAccountSignIn = 'deploymentCenterAccountSignIn';
   public static deploymentCenterChangeAccountInfoMessage = 'deploymentCenterChangeAccountInfoMessage';
   public static deploymentCenterChangeAccountInfoButton = 'deploymentCenterChangeAccountInfoButton';
   public static deploymentCenterDeprecatedTokenWarningMessage = 'deploymentCenterDeprecatedTokenWarningMessage';
