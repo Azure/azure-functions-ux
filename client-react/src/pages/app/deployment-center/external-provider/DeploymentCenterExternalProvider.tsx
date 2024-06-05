@@ -99,7 +99,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         }
       });
     } else {
-      return fetchData();
+      return fetchBitbucketData();
     }
   };
 
@@ -107,7 +107,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
     setBitbucketAccountStatusMessage(t('deploymentCenterOAuthAuthorizingUser'));
   };
 
-  const fetchData = async () => {
+  const fetchBitbucketData = async () => {
     portalContext.log(getTelemetryInfo('info', 'getBitbucketUser', 'submit'));
     const bitbucketUserResponse = await deploymentCenterData.getBitbucketUser(deploymentCenterContext.bitbucketToken);
 
@@ -145,7 +145,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
 
   useEffect(() => {
     if (!formProps.values.gitHubUser) {
-      fetchData();
+      fetchGitHubData();
     } else {
       setGitHubUser(formProps.values.gitHubUser);
       setGitHubAccountStatusMessage(undefined);
@@ -154,7 +154,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
 
   useEffect(() => {
     if (!formProps.values.bitbucketUser) {
-      fetchData();
+      fetchBitbucketData();
     } else {
       setBitbucketUser(formProps.values.bitbucketUser);
       setBitbucketAccountStatusMessage(undefined);
@@ -201,7 +201,14 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         />
       </>;
     }
-  }, [showGitHubOAuthButton, showBitbucketOAuthButton]);
+  }, [
+    showGitHubOAuthButton,
+    gitHubUser,
+    gitHubAccountStatusMessage,
+    showBitbucketOAuthButton,
+    bitbucketUser,
+    bitbucketAccountStatusMessage,
+  ]);
 
   return (
     <>
