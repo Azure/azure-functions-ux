@@ -7965,4 +7965,19 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="ftpBasicAuthInfoMessage" xml:space="preserve">
         <value>SCM basic authentication is required when enabling FTP basic authentication.</value>
     </data>
+    <data name="noRuntimeStackFound" xml:space="preserve">
+        <value>No run time stack found</value>
+    </data>
+    <data name="invalidStack" xml:space="preserve">
+        <value>{0} is not a valid stack</value>
+    </data>
+    <data name="invalidWindowsNodeStackVersion" xml:space="preserve">
+        <value>Node.js version is missing or invalid. Please select a valid version or go to Environment variables to add/update WEBSITE_NODE_DEFAULT_VERSION app setting</value>
+    </data>
+    <data name="invalidNonWindowsNodeStackVersion" xml:space="preserve">
+        <value>{0} version is missing or invalid. Please select a valid version</value>
+    </data>
+    <data name="disabledDotNetVersion" xml:space="preserve">
+        <value>The selected version '{0}' does not match with the stack {1}. Please select a valid .NET version or go to Environment Variables to add/update FUNCTIONS_WORKER_RUNTIME to {2}</value>
+    </data>
 </root>
