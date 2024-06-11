@@ -2603,4 +2603,9 @@ export class PortalResources {
   public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
   public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
   public static ftpBasicAuthInfoMessage = 'ftpBasicAuthInfoMessage';
+  public static noRuntimeStackFound = 'noRuntimeStackFound';
+  public static invalidStack = 'invalidStack';
+  public static invalidWindowsNodeStackVersion = 'invalidWindowsNodeStackVersion';
+  public static invalidNonWindowsNodeStackVersion = 'invalidNonWindowsNodeStackVersion';
+  public static disabledDotNetVersion = 'disabledDotNetVersion';
 }

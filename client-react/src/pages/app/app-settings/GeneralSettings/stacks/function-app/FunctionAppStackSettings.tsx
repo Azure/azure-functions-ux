@@ -12,7 +12,7 @@ import { Field } from 'formik';
 import { getStackVersionDropdownOptions } from './FunctionAppStackSettings.data';
 import { AppStackOs } from '../../../../../../models/stacks/app-stacks';
 import { settingsWrapper } from '../../../AppSettingsForm';
-import { IDropdownOption } from '@fluentui/react';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import { FormAppSetting } from '../../../AppSettings.types';
 import Dropdown from '../../../../../../components/form-controls/DropDown';
 import {
@@ -26,6 +26,7 @@ import {
 } from '../../../../../../utils/stacks-utils';
 import StringUtils from '../../../../../../utils/string';
 import { isFlexConsumption } from '../../../../../../utils/arm-utils';
+import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 
 const FunctionAppStackSettings: React.FC<StackProps> = props => {
   const { t } = useTranslation();
@@ -70,39 +71,84 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
         )
       : [];
 
-    if (StringUtils.equalsIgnoreCase(runtimeStack, WorkerRuntimeLanguages.dotnetIsolated)) {
-      return dropdownOptions.filter(option => {
+    if (
+      StringUtils.equalsIgnoreCase(runtimeStack, WorkerRuntimeLanguages.dotnetIsolated) ||
+      StringUtils.equalsIgnoreCase(runtimeStack, WorkerRuntimeLanguages.dotnet)
+    ) {
+      // Disable dotnet-isolated options when the runtime stack is dotnet, vise versa
+      const dropdownWithDisabledOptions = dropdownOptions.map(option => {
         const settings =
           osType === AppStackOs.windows
             ? option.data?.stackSettings?.windowsRuntimeSettings
             : option.data?.stackSettings?.linuxRuntimeSettings;
-        return (
-          !settings?.appSettingsDictionary?.FUNCTIONS_WORKER_RUNTIME ||
-          StringUtils.equalsIgnoreCase(settings.appSettingsDictionary?.FUNCTIONS_WORKER_RUNTIME, WorkerRuntimeLanguages.dotnetIsolated)
-        );
+        return {
+          ...option,
+          disabled:
+            settings?.appSettingsDictionary?.FUNCTIONS_WORKER_RUNTIME &&
+            !StringUtils.equalsIgnoreCase(settings.appSettingsDictionary?.FUNCTIONS_WORKER_RUNTIME, runtimeStack),
+        };
       });
+
+      // Any duplicated and disabled dotnet/dotnet-isolated key will be assigned with a new key to prevent default selection
+      const keySet = new Set<string>();
+      const duplicatedDotNetKeys = new Set<string>();
+      for (const option of dropdownWithDisabledOptions) {
+        const key = `${option.key}`;
+        if (keySet.has(key)) {
+          duplicatedDotNetKeys.add(key);
+        }
+        keySet.add(key);
+      }
+
+      if (duplicatedDotNetKeys.size > 0) {
+        return dropdownWithDisabledOptions.map(option => {
+          if (duplicatedDotNetKeys.has(`${option.key}`) && option.disabled) {
+            return { ...option, key: `${option.key}-disabled` };
+          }
+          return option;
+        });
+      }
+
+      return dropdownWithDisabledOptions;
     } else {
       return dropdownOptions;
     }
   }, [values, siteStateContext, currentStackData, runtimeStack]);
 
   const isSettingSectionVisible = React.useMemo(
-    () =>
-      siteStateContext.site &&
-      siteStateContext.isFunctionApp &&
-      !siteStateContext.isContainerApp &&
-      runtimeStack &&
-      (siteStateContext.isLinuxApp ||
-        StringUtils.isStringInArray(
-          runtimeStack,
-          [WorkerRuntimeLanguages.dotnetIsolated, WorkerRuntimeLanguages.powershell, WorkerRuntimeLanguages.java],
-          true
-        ) ||
-        initialValues.appSettings.some(appSetting =>
-          StringUtils.equalsIgnoreCase(appSetting.name, CommonConstants.AppSettingNames.websiteNodeDefaultVersion)
-        )),
-    [siteStateContext.isLinuxApp, siteStateContext.isFunctionApp, siteStateContext.site, runtimeStack, initialValues.appSettings]
+    () => siteStateContext.site && siteStateContext.isFunctionApp && !siteStateContext.isContainerApp,
+    [siteStateContext.site, siteStateContext.isFunctionApp, siteStateContext.isContainerApp]
   );
+
+  const stackErrorMessage = React.useMemo(() => {
+    // Handle errors on stack
+    if (!runtimeStack) {
+      return t('noRuntimeStackFound');
+    }
+    if (!currentStackData) {
+      return t('invalidStack').format(runtimeStack);
+    }
+
+    // Handle errors on version
+    if (!StringUtils.equalsIgnoreCase(runtimeStack, WorkerRuntimeLanguages.custom)) {
+      const selectedVersionOption = options.find(option => option.key === selectedStackVersion);
+      if (!selectedVersionOption) {
+        if (isWindowsNodeApp(siteStateContext.isLinuxApp, runtimeStack)) {
+          return t('invalidWindowsNodeStackVersion');
+        } else {
+          return t('invalidNonWindowsNodeStackVersion').format(currentStackData.displayText);
+        }
+      }
+
+      if (selectedVersionOption.disabled) {
+        return t('disabledDotNetVersion').format(
+          selectedVersionOption.text,
+          runtimeStack,
+          StringUtils.equalsIgnoreCase(runtimeStack, WorkerRuntimeLanguages.dotnetIsolated) ? 'dotnet' : 'dotnet-isolated'
+        );
+      }
+    }
+  }, [runtimeStack, currentStackData, selectedStackVersion, options, siteStateContext.isLinuxApp, t]);
 
   const onMajorVersionChange = React.useCallback(
     (_, option: IDropdownOption) => {
@@ -169,7 +215,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteStateContext.isLinuxApp, initialValues, values, runtimeStack, setSelectedStackVersion, setInitialStackVersion]);
 
-  return isSettingSectionVisible && currentStackData ? (
+  return isSettingSectionVisible ? (
     <>
       <h3>{t('stackSettings')}</h3>
       <div className={settingsWrapper}>
@@ -198,6 +244,7 @@ const FunctionAppStackSettings: React.FC<StackProps> = props => {
           </>
         )}
         {getEolBanner()}
+        {stackErrorMessage && <CustomBanner type={MessageBarType.warning} id={'stack-error-banner'} message={stackErrorMessage} />}
       </div>
     </>
   ) : null;
