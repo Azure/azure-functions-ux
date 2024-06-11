@@ -7438,6 +7438,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="readOnlyNewNodePreview" xml:space="preserve">
         <value>Your app is currently in read only mode because new Node programming model experience is in preview.</value>
     </data>
+    <data name="deploymentCenterAccountSignIn" xml:space="preserve">
+        <value>Sign in</value>
+    </data>
     <data name="deploymentCenterChangeAccountInfoMessage" xml:space="preserve">
         <value>In order to sign in with a different account, please go to www.github.com and log out of the account currently signed into GitHub.</value>
     </data>

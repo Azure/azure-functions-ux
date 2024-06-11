@@ -1,26 +1,27 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { DeploymentCenterBitbucketProviderProps } from '../DeploymentCenter.types';
 import { PrimaryButton, Label, Link } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
+import { additionalTextFieldControl, authorizeButtonStyle } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
 import { ScmType } from '../../../../models/site/config';
+import { DeploymentCenterBitbucketAccountProps } from '../DeploymentCenter.types';
 
-const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketProviderProps> = props => {
-  const { accountUser, accountStatusMessage, authorizeAccount } = props;
+const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketAccountProps> = props => {
+  const { accountUser, accountStatusMessage, authorizeAccount, isExternalGit } = props;
 
   const { t } = useTranslation();
 
   const bitbucketAccountControls = accountUser ? (
     <>
-      {getDescriptionSection(
-        ScmType.BitbucketHg,
-        t('deploymentCenterBitbucketDescriptionText'),
-        DeploymentCenterLinks.bitbucketDeployment,
-        t('learnMore')
-      )}
+      {!isExternalGit &&
+        getDescriptionSection(
+          ScmType.BitbucketHg,
+          t('deploymentCenterBitbucketDescriptionText'),
+          DeploymentCenterLinks.bitbucketDeployment,
+          t('learnMore')
+        )}
       <ReactiveFormControl id="deployment-center-bitbucket-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
           {accountUser.username}
@@ -35,9 +36,13 @@ const DeploymentCenterBitbucketAccount: React.FC<DeploymentCenterBitbucketProvid
       </ReactiveFormControl>
     </>
   ) : (
-    <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
-      {t('deploymentCenterOAuthAuthorize')}
-    </PrimaryButton>
+    <ReactiveFormControl id="deployment-center-bitbucket-oauth" label={t('deploymentCenterAccountSignIn')}>
+      <div className={authorizeButtonStyle}>
+        <PrimaryButton ariaDescription={t('deploymentCenterOAuthAuthorizeAriaLabel')} onClick={authorizeAccount}>
+          {t('deploymentCenterOAuthAuthorize')}
+        </PrimaryButton>
+      </div>
+    </ReactiveFormControl>
   );
 
   const accountStatusMessageControl = <Label>{accountStatusMessage}</Label>;
