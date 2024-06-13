@@ -7992,4 +7992,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="ipv4AndIpv6" xml:space="preserve">
         <value>IPv4 and IPv6</value>
     </data>
+    <data name="inboundIpModePreviewLabel" xml:space="preserve">
+        <value>Inbound IP mode (preview)</value>
+    </data>
 </root>

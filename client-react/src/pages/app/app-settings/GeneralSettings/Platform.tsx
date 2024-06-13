@@ -240,7 +240,7 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           name="site.properties.ipMode"
           dirty={values.site.properties.ipMode !== initialValues.site.properties.ipMode}
           component={Dropdown}
-          label={'Inbound IP mode (preview)'}
+          label={t('inboundIpModePreviewLabel')}
           id="app-settings-ip-mode"
           disabled={disableAllControls}
           options={[

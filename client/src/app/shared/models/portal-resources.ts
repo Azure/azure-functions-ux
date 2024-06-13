@@ -2611,4 +2611,5 @@ export class PortalResources {
   public static ipv4 = 'ipv4';
   public static ipv6 = 'ipv6';
   public static ipv4AndIpv6 = 'ipv4AndIpv6';
+  public static inboundIpModePreviewLabel = 'inboundIpModePreviewLabel';
 }
