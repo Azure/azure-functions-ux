@@ -8,7 +8,7 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
-import { MinTlsVersion, SslState, VnetPrivatePortsCount } from '../../../../models/site/site';
+import { IPMode, MinTlsVersion, SslState, VnetPrivatePortsCount } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { IDropdownOption, MessageBar, MessageBarType, mergeStyles } from '@fluentui/react';
 import { ScmHosts } from '../../../../utils/CommonConstants';
@@ -230,6 +230,31 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
             {
               key: 'Disabled',
               text: t('disabled'),
+            },
+          ]}
+        />
+      )}
+
+      {scenarioChecker.checkScenario(ScenarioIds.ipModeSupported, { site }).status === 'enabled' && (
+        <Field
+          name="site.properties.ipMode"
+          dirty={values.site.properties.ipMode !== initialValues.site.properties.ipMode}
+          component={Dropdown}
+          label={t('inboundIpModePreviewLabel')}
+          id="app-settings-ip-mode"
+          disabled={disableAllControls}
+          options={[
+            {
+              key: IPMode.IPv4,
+              text: t('ipv4'),
+            },
+            {
+              key: IPMode.IPv6,
+              text: t('ipv6'),
+            },
+            {
+              key: IPMode.IPv4AndIPv6,
+              text: t('ipv4AndIpv6'),
             },
           ]}
         />

@@ -7983,4 +7983,16 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="disabledDotNetVersion" xml:space="preserve">
         <value>The selected version '{0}' does not match with the stack {1}. Please select a valid .NET version or go to Environment Variables to add/update FUNCTIONS_WORKER_RUNTIME to {2}</value>
     </data>
+    <data name="ipv4" xml:space="preserve">
+        <value>IPv4</value>
+    </data>
+    <data name="ipv6" xml:space="preserve">
+        <value>IPv6</value>
+    </data>
+    <data name="ipv4AndIpv6" xml:space="preserve">
+        <value>IPv4 and IPv6</value>
+    </data>
+    <data name="inboundIpModePreviewLabel" xml:space="preserve">
+        <value>Inbound IP mode (preview)</value>
+    </data>
 </root>
