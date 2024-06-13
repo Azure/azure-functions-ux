@@ -4,6 +4,7 @@ import { ScenarioCheckInput, ScenarioResult, Environment } from './scenario.mode
 import ServerFarmService from '../../ApiHelpers/ServerFarmService';
 import { ArmPlanDescriptor } from '../../utils/resourceDescriptors';
 import { CommonConstants } from '../../utils/CommonConstants';
+import { isElasticPremium, isPremium } from '../arm-utils';
 
 export class AzureEnvironment extends Environment {
   public name = 'Azure';
@@ -138,6 +139,15 @@ export class AzureEnvironment extends Environment {
             status: 'disabled',
           };
         }
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.ipModeSupported] = {
+      id: ScenarioIds.ipModeSupported,
+      runCheck: (input?: ScenarioCheckInput) => {
+        return {
+          status: input?.site && (isPremium(input.site) || isElasticPremium(input.site)) ? 'enabled' : 'disabled',
+        };
       },
     };
   }

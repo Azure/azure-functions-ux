@@ -71,6 +71,12 @@ export enum VnetPrivatePortsCount {
   max = 100,
 }
 
+export enum IPMode {
+  IPv4 = 'IPv4',
+  IPv6 = 'IPv6',
+  IPv4AndIPv6 = 'IPv4AndIPv6',
+}
+
 export enum CipherSuite {
   // Order matters here; default cipher suites ordered from most secure to least.
   TLS_AES_256_GCM_SHA384 = 'TLS_AES_256_GCM_SHA384',
@@ -154,6 +160,7 @@ export interface Site {
   identity: MsiIdentity;
   vnetImagePullEnabled: boolean;
   keyVaultReferenceIdentity: string;
+  ipMode?: IPMode;
   sshEnabled?: boolean | null;
   endToEndEncryptionEnabled?: boolean;
   functionAppConfig?: FunctionAppConfig;
