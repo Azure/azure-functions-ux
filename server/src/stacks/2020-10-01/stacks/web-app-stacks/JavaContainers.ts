@@ -606,6 +606,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
                 isAutoUpdate: true,
               },
               linuxContainerSettings: {
+                java21Runtime: 'TOMCAT|9.0-java21',
                 java17Runtime: 'TOMCAT|9.0-java17',
                 java11Runtime: 'TOMCAT|9.0-java11',
                 java8Runtime: 'TOMCAT|9.0-jre8',
@@ -624,7 +625,8 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
               linuxContainerSettings: {
                 java8Runtime: 'TOMCAT|9.0.83-java8',
                 java11Runtime: 'TOMCAT|9.0.83-java11',
-                java17Runtime: 'TOMCAT|9.0.83-java17'
+                java17Runtime: 'TOMCAT|9.0.83-java17',
+                java21Runtime: 'TOMCAT|9.0.83-java21'
               },
             },
           },
