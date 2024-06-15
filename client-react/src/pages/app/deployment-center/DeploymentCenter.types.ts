@@ -491,6 +491,14 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   clearComboBox?: KeyValue<boolean>;
 }
 
+export interface DeploymentCenterGitHubAccountProps {
+  authorizeAccount: () => void;
+  accountUser?: GitHubUser;
+  accountStatusMessage?: string;
+  isGitHubActions?: boolean;
+  isExternalGit?: boolean;
+}
+
 export interface DeploymentCenterGitHubDisconnectProps {
   branch: string;
   org: string;
@@ -695,6 +703,13 @@ export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterCont
   loadingBranches: boolean;
   accountStatusMessage?: string;
   accountUser?: BitbucketUser;
+}
+
+export interface DeploymentCenterBitbucketAccountProps {
+  authorizeAccount: () => void;
+  accountUser?: BitbucketUser;
+  accountStatusMessage?: string;
+  isExternalGit?: boolean;
 }
 
 export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCenterFieldProps<DeploymentCenterContainerFormData> {

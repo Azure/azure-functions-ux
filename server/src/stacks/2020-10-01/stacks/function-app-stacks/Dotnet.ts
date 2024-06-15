@@ -269,7 +269,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
             value: '8 (LTS), in-process model',
             stackSettings: {
               windowsRuntimeSettings: {
-                isHidden: true,
+                isHidden: false,
                 runtimeVersion: 'v8.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {

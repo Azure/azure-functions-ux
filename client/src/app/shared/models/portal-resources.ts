@@ -2424,6 +2424,7 @@ export class PortalResources {
   public static deploymentCenterJavaWebServerStack = 'deploymentCenterJavaWebServerStack';
   public static readOnlyMissingAzureFilesSetting = 'readOnlyMissingAzureFilesSetting';
   public static readOnlyNewNodePreview = 'readOnlyNewNodePreview';
+  public static deploymentCenterAccountSignIn = 'deploymentCenterAccountSignIn';
   public static deploymentCenterChangeAccountInfoMessage = 'deploymentCenterChangeAccountInfoMessage';
   public static deploymentCenterChangeAccountInfoButton = 'deploymentCenterChangeAccountInfoButton';
   public static deploymentCenterDeprecatedTokenWarningMessage = 'deploymentCenterDeprecatedTokenWarningMessage';
@@ -2602,4 +2603,13 @@ export class PortalResources {
   public static sshDisabledInfoBubbleMessage = 'sshDisabledInfoBubbleMessage';
   public static staticSite_appSettingsMoved = 'staticSite_appSettingsMoved';
   public static ftpBasicAuthInfoMessage = 'ftpBasicAuthInfoMessage';
+  public static noRuntimeStackFound = 'noRuntimeStackFound';
+  public static invalidStack = 'invalidStack';
+  public static invalidWindowsNodeStackVersion = 'invalidWindowsNodeStackVersion';
+  public static invalidNonWindowsNodeStackVersion = 'invalidNonWindowsNodeStackVersion';
+  public static disabledDotNetVersion = 'disabledDotNetVersion';
+  public static ipv4 = 'ipv4';
+  public static ipv6 = 'ipv6';
+  public static ipv4AndIpv6 = 'ipv4AndIpv6';
+  public static inboundIpModePreviewLabel = 'inboundIpModePreviewLabel';
 }

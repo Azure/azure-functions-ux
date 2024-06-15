@@ -123,4 +123,5 @@ export class ScenarioIds {
   public static readonly sshEnabledSupported = 'sshEnabledSupported';
   public static readonly enableE2ETlsEncryption = 'enableE2ETlsEncryption';
   public static readonly ftpBasicAuthSupported = 'ftpBasicAuthSupported';
+  public static readonly ipModeSupported = 'ipModeSupported';
 }
