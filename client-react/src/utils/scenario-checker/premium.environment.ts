@@ -24,7 +24,7 @@ export class PremiumAppEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input?.site) {
-      return isPremium(input.site) || isIsolatedV2(input.site);
+      return isPremium(input.site) || isIsolatedV2(input.site) || isIsolatedMV2(input.site);
     }
     return false;
   }
