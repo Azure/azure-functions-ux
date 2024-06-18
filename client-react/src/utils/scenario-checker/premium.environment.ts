@@ -1,4 +1,4 @@
-import { isIsolatedV2, isPremium } from '../arm-utils';
+import { isIsolatedV2, isPremium, isIsolatedMV2 } from '../arm-utils';
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
 export class PremiumAppEnvironment extends Environment {
