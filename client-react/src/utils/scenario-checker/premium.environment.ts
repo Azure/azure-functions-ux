@@ -1,4 +1,4 @@
-import { isIsolatedV2, isPremium } from '../arm-utils';
+import { isIsolatedV2, isPremium, isIsolatedMV2 } from '../arm-utils';
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
 export class PremiumAppEnvironment extends Environment {
@@ -24,7 +24,7 @@ export class PremiumAppEnvironment extends Environment {
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
     if (input?.site) {
-      return isPremium(input.site) || isIsolatedV2(input.site);
+      return isPremium(input.site) || isIsolatedV2(input.site) || isIsolatedMV2(input.site);
     }
     return false;
   }
