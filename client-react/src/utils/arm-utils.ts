@@ -84,6 +84,11 @@ export function isIsolatedV2(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.isolatedV2;
 }
 
+export function isIsolatedMV2(obj: ArmObj<Site>): boolean {
+  const sku = obj.properties.sku?.toLocaleLowerCase();
+  return sku === CommonConstants.SkuNames.isolatedMV2;
+}
+
 export function isPremiumV3(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premiumV3;
@@ -128,11 +133,7 @@ export function isWorkflowApp(obj: ArmObj<any>): boolean {
 
 export function isWordPressApp(obj: ArmObj<Site>): boolean {
   const linuxFxVersion = obj?.properties?.siteConfig?.linuxFxVersion?.toLocaleLowerCase();
-  return (
-    isLinuxApp(obj) &&
-    !!linuxFxVersion &&
-    !!CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion]
-  );
+  return isLinuxApp(obj) && !!linuxFxVersion && !!CommonConstants.WordPressLinuxFxVersionsMapping[linuxFxVersion];
 }
 
 export function isKubeApp(obj: ArmObj<unknown>): boolean {
