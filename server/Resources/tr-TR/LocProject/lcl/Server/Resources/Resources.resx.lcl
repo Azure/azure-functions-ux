@@ -7659,6 +7659,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";disabledDotNetVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The selected version '{0}' does not match with the stack {1}. Please select a valid .NET version or go to Environment Variables to add/update FUNCTIONS_WORKER_RUNTIME to {2}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Seçili '{0}' sürümü {1} yığınıyla eşleşmiyor. Lütfen geçerli bir .NET sürümü seçin veya FUNCTIONS_WORKER_RUNTIME değerini {2} olarak eklemek/güncelleştirmek için Ortam Değişkenleri seçeneğine gidin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";discard" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Discard]]></Val>
@@ -14268,11 +14277,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";invalidNonWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} version is missing or invalid. Please select a valid version]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} sürümü eksik veya geçersiz. Lütfen geçerli bir sürüm seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";invalidShare" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Invalid share]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Geçersiz paylaşım]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidStack" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} is not a valid stack]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} geçerli bir yığın değil]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14303,6 +14330,15 @@
           <Val><![CDATA[Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sağlanan URL geçerli değil. URL'nin bir protokol (https/http), etki alanı veya ana bilgisayar ve isteğe bağlı olarak da bir bağlantı noktası içermesi bekleniyor.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node.js version is missing or invalid. Please select a valid version or go to Environment variables to add/update WEBSITE_NODE_DEFAULT_VERSION app setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Node.js sürümü eksik veya geçersiz. Lütfen geçerli bir sürüm seçin veya WEBSITE_NODE_DEFAULT_VERSION uygulama ayarını eklemek/güncelleştirmek için Ortam değişkenleri seçeneğine gidin]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16142,6 +16178,15 @@
           <Val><![CDATA[No results]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sonuç yok]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";noRuntimeStackFound" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No run time stack found]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Çalışma zamanı yığını bulunamadı]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
