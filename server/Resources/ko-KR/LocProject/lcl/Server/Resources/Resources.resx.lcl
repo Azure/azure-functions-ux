@@ -7656,6 +7656,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";disabledDotNetVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The selected version '{0}' does not match with the stack {1}. Please select a valid .NET version or go to Environment Variables to add/update FUNCTIONS_WORKER_RUNTIME to {2}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[선택한 '{0}' 버전이 {1} 스택과 일치하지 않습니다. 유효한 .NET 버전을 선택하거나 환경 변수로 이동하여 {2}에 FUNCTIONS_WORKER_RUNTIME 추가/업데이트하세요.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";discard" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Discard]]></Val>
@@ -14250,11 +14259,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";invalidNonWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} version is missing or invalid. Please select a valid version]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} 버전이 없거나 잘못되었습니다. 유효한 버전을 선택하세요.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";invalidShare" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Invalid share]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[잘못된 공유]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidStack" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} is not a valid stack]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}은(는) 올바른 스택이 아닙니다.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14285,6 +14312,15 @@
           <Val><![CDATA[Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[제공한 URL이 잘못되었습니다. URL은 프로토콜(http/https), 도메인 또는 호스트 및 선택적 포트를 포함해야 합니다.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node.js version is missing or invalid. Please select a valid version or go to Environment variables to add/update WEBSITE_NODE_DEFAULT_VERSION app setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Node.js 버전이 없거나 잘못되었습니다. 유효한 버전을 선택하거나 환경 변수로 이동하여 WEBSITE_NODE_DEFAULT_VERSION 앱 설정을 추가/업데이트하세요.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16124,6 +16160,15 @@
           <Val><![CDATA[No results]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[결과 없음]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";noRuntimeStackFound" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No run time stack found]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[런타임 스택을 찾을 수 없음]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

@@ -7659,6 +7659,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";disabledDotNetVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The selected version '{0}' does not match with the stack {1}. Please select a valid .NET version or go to Environment Variables to add/update FUNCTIONS_WORKER_RUNTIME to {2}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[De geselecteerde versie {0} komt niet overeen met de stack {1}. Selecteer een geldige .NET-versie of ga naar Omgevingsvariabelen om FUNCTIONS_WORKER_RUNTIME toe te voegen of bij te werken naar {2}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";discard" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Discard]]></Val>
@@ -14268,11 +14277,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";invalidNonWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} version is missing or invalid. Please select a valid version]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} versie ontbreekt of is ongeldig. Selecteer een geldige versie]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";invalidShare" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Invalid share]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Share is ongeldig]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidStack" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} is not a valid stack]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} is geen geldige stack]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14303,6 +14330,15 @@
           <Val><![CDATA[Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[De opgegeven URL is ongeldig. Er wordt verwacht dat de URL een protocol (https/http), domein of host bevat en eventueel een poort.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node.js version is missing or invalid. Please select a valid version or go to Environment variables to add/update WEBSITE_NODE_DEFAULT_VERSION app setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Node.js versie ontbreekt of is ongeldig. Selecteer een geldige versie of ga naar Omgevingsvariabelen om WEBSITE_NODE_DEFAULT_VERSION-app-instelling toe te voegen of bij te werken]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16145,6 +16181,15 @@
           <Val><![CDATA[No results]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Geen resultaten]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";noRuntimeStackFound" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No run time stack found]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Geen runtimestack gevonden]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

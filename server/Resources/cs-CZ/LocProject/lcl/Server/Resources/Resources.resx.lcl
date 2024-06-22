@@ -7659,6 +7659,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";disabledDotNetVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The selected version '{0}' does not match with the stack {1}. Please select a valid .NET version or go to Environment Variables to add/update FUNCTIONS_WORKER_RUNTIME to {2}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vybraná verze {0} neodpovídá zásobníku {1}. Vyberte prosím platnou verzi .NET nebo přejděte do části Proměnné prostředí, abyste mohli přidat nebo aktualizovat FUNCTIONS_WORKER_RUNTIME v {2}.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";discard" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Discard]]></Val>
@@ -14283,11 +14292,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";invalidNonWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} version is missing or invalid. Please select a valid version]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Verze {0} chybí nebo je neplatná. Vyberte prosím platnou verzi.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";invalidShare" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Invalid share]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Neplatná sdílená složka]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidStack" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} is not a valid stack]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} není platný zásobník.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -14318,6 +14345,15 @@
           <Val><![CDATA[Provided URL is not valid. URL is expected to contain protocol (https/http), domain or host, and optionally a port.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Poskytnutá adresa URL není platná. Očekává se, že adresa URL bude obsahovat protokol (https/http), doménu nebo hostitele a nepovinně port.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node.js version is missing or invalid. Please select a valid version or go to Environment variables to add/update WEBSITE_NODE_DEFAULT_VERSION app setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Verze Node.js chybí nebo je neplatná. Pokud chcete přidat nebo aktualizovat nastavení aplikace WEBSITE_NODE_DEFAULT_VERSION, vyberte prosím platnou verzi nebo přejděte do části Proměnné prostředí.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16160,6 +16196,15 @@
           <Val><![CDATA[No results]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Žádné výsledky]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";noRuntimeStackFound" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No run time stack found]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nenašel se žádný zásobník doby běhu.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
