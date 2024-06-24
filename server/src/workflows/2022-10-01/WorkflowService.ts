@@ -26,7 +26,7 @@ export class WorkflowService20221001 {
       // and the addition of a login to Azure step
       const loginToAzureStep = `
       - name: Login to Azure
-        uses: azure/login@v1
+        uses: azure/login@v2
         with:
           client-id: \${{ secrets.__clientidsecretname__ }}
           tenant-id: \${{ secrets.__tenantidsecretname__ }}
