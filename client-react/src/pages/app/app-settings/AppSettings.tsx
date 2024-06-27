@@ -270,6 +270,7 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
                                 type={MessageBarType.info}
                                 message={t('directToEnvironmentVariablesInfoMessage')}
                                 learnMoreText={t('directToEnvironmentVariablesLink')}
+                                learnMoreLinkAriaLabel={t('directToEnvironmentVariablesLink')}
                                 onClickLearnMoreLink={onEnvironmentVariablesMenuLinkClick}
                               />
                               <div className={formStyle}>
