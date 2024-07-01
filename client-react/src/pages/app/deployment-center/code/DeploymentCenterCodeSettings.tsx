@@ -36,12 +36,13 @@ import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/Depl
 import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/DeploymentCenterGitHubWorkflowConfigSelector';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
 import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
-import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo, getWorkflowFileName, isFtpsDirty } from '../utility/DeploymentCenterUtility';
 import { getRuntimeVersion, isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 import DeploymentCenterCodeBuildConfiguredView from './DeploymentCenterCodeBuildConfiguredView';
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import DeploymentCenterCodeSourceAndBuild from './DeploymentCenterCodeSourceAndBuild';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -50,6 +51,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
+  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
@@ -82,7 +84,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   useEffect(() => {
     const loadSetupView = !!siteConfigScmType && siteConfigScmType !== ScmType.None;
-    if (loadSetupView && formProps.dirty) {
+    if (loadSetupView && formProps.dirty && !isFtpsDirty(formProps, deploymentCenterPublishingContext)) {
       formProps.resetForm();
     }
     setShouldLoadSetupView(loadSetupView);
