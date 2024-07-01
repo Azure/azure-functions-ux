@@ -88,7 +88,13 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       formProps.resetForm();
     }
     setShouldLoadSetupView(loadSetupView);
-  }, [siteConfigScmType, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata, formProps.dirty]);
+  }, [
+    siteConfigScmType,
+    deploymentCenterContext.siteConfig,
+    deploymentCenterContext.configMetadata,
+    formProps,
+    deploymentCenterPublishingContext,
+  ]);
 
   useEffect(() => {
     setIsKuduBuild(formProps.values.buildProvider === BuildProvider.AppServiceBuildService);
