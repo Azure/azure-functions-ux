@@ -416,7 +416,7 @@ const isContainerGeneralSettingsDirty = (formProps: FormikProps<DeploymentCenter
 };
 
 export const isFtpsDirty = (
-  formProps: FormikProps<DeploymentCenterFormData<DeploymentCenterContainerFormData>>,
+  formProps: FormikProps<DeploymentCenterFormData>,
   deploymentCenterPublishingContext: IDeploymentCenterPublishingContext
 ): boolean => {
   const currentUser = deploymentCenterPublishingContext.publishingUser;

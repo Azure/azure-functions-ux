@@ -36,12 +36,13 @@ import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/Depl
 import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/DeploymentCenterGitHubWorkflowConfigSelector';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
 import DeploymentCenterLocalGitProvider from '../local-git-provider/DeploymentCenterLocalGitProvider';
-import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getTelemetryInfo, getWorkflowFileName, isFtpsDirty } from '../utility/DeploymentCenterUtility';
 import { getRuntimeVersion, isWorkflowOptionExistingOrAvailable } from '../utility/GitHubActionUtility';
 import DeploymentCenterCodeBuildConfiguredView from './DeploymentCenterCodeBuildConfiguredView';
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import DeploymentCenterCodeSourceAndBuild from './DeploymentCenterCodeSourceAndBuild';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -50,6 +51,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
+  const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const deploymentCenterData = new DeploymentCenterData();
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
@@ -78,21 +80,26 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   useEffect(() => {
     setSiteConfigScmType(deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
 
   useEffect(() => {
-    setShouldLoadSetupView(!!siteConfigScmType && siteConfigScmType !== ScmType.None);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [siteConfigScmType, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
+    const loadSetupView = !!siteConfigScmType && siteConfigScmType !== ScmType.None;
+    if (loadSetupView && formProps.dirty && !isFtpsDirty(formProps, deploymentCenterPublishingContext)) {
+      formProps.resetForm();
+    }
+    setShouldLoadSetupView(loadSetupView);
+  }, [
+    siteConfigScmType,
+    deploymentCenterContext.siteConfig,
+    deploymentCenterContext.configMetadata,
+    formProps,
+    deploymentCenterPublishingContext,
+  ]);
 
   useEffect(() => {
     setIsKuduBuild(formProps.values.buildProvider === BuildProvider.AppServiceBuildService);
     setIsVstsBuild(formProps.values.buildProvider === BuildProvider.Vsts);
     setIsGitHubActionsBuild(formProps.values.buildProvider === BuildProvider.GitHubAction);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.buildProvider]);
 
   useEffect(() => {
@@ -109,8 +116,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     }
 
     setIsUnsupportedSource(sourceProvider === ScmType.Dropbox || sourceProvider === ScmType.OneDrive);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.sourceProvider]);
 
   useEffect(() => {
@@ -121,8 +126,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     setIsExternalGitSetup(siteConfigScmType === ScmType.ExternalGit);
     setIsVstsSetup(siteConfigScmType === ScmType.Vsts);
     setIsTfsOrVsoSetup(siteConfigScmType === ScmType.Tfs || siteConfigScmType === ScmType.Vso);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteConfigScmType, deploymentCenterContext.configMetadata]);
 
   const getWorkflowFileVariables = () => {
@@ -205,7 +208,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     }
 
     setIsUsingExistingOrAvailableWorkflowConfig(isWorkflowOptionExistingOrAvailable(formProps.values.workflowOption));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [formProps.values.workflowOption]);
 
   useEffect(() => {
@@ -221,7 +223,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       authTypeFormFilled;
 
     setIsPreviewFileButtonDisabled(formProps.values.workflowOption === WorkflowOption.None || !formFilled);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     formProps.values.workflowOption,
     githubActionExistingWorkflowContents,
@@ -248,7 +249,6 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     } else {
       setWorkflowFilePath('');
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [deploymentCenterContext.siteDescriptor, formProps.values.branch, formProps.values.workflowOption]);
 
   const getSettingsControls = () => (
