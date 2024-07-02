@@ -5121,6 +5121,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterAccountSignIn" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Sign in]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Iniciar sessão]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterAcrComboBoxPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Select Azure Container Registry]]></Val>
@@ -7650,6 +7659,12 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Desativado]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";disabledDotNetVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The selected version '{0}' does not match with the stack {1}. Please select a valid .NET version or go to Environment Variables to add/update FUNCTIONS_WORKER_RUNTIME to {2}]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -13683,6 +13698,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";inboundIpModePreviewLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Inbound IP mode (preview)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Modo IP de entrada (pré-visualização)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";incomingClientCertificates" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Incoming client certificates]]></Val>
@@ -14259,12 +14283,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";invalidNonWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} version is missing or invalid. Please select a valid version]]></Val>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";invalidShare" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Invalid share]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Partilha inválida]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidStack" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} is not a valid stack]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14295,6 +14331,12 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[O URL fornecido não é válido. O URL deve conter um protocolo (https/http), domínio ou anfitrião e, opcionalmente, uma porta.]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidWindowsNodeStackVersion" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node.js version is missing or invalid. Please select a valid version or go to Environment variables to add/update WEBSITE_NODE_DEFAULT_VERSION app setting]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14406,6 +14448,33 @@
           <Prev Cat="Text">
             <Val><![CDATA[Access restrictions have been added to your function app which may affect your ability to manage it from the portal.]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ipv4" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[IPv4]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[IPv4]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ipv4AndIpv6" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[IPv4 and IPv6]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[IPv4 e IPv6]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";ipv6" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[IPv6]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[IPv6]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16131,6 +16200,12 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sem resultados]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";noRuntimeStackFound" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No run time stack found]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
