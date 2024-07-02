@@ -132,7 +132,7 @@ export default class AzureDevOpsService {
   }
 
   public getBuildDef(account: string, projectUrl: string, buildId: string): Promise<HttpResponseObject<DevOpsBuildDefinition>> {
-    const url = `${projectUrl}/_apis/build/Definitions/${buildId}?api-version=2.0`;
+    const url = `${projectUrl}/_apis/build/Definitions/${buildId}?api-version=7.0`;
 
     // NOTE(michinoy): Need to figure out
     return this._sendRequest<DevOpsBuildDefinition>(url, account);
