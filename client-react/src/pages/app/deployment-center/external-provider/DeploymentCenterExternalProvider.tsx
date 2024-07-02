@@ -182,24 +182,26 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         />
       );
     } else {
-      <>
-        <Field
-          id="deployment-center-external-provider-username"
-          label={t('deploymentCenterCodeExternalUsernameLabel')}
-          name="externalUsername"
-          required={true}
-          component={TextField}
-        />
+      return (
+        <>
+          <Field
+            id="deployment-center-external-provider-username"
+            label={t('deploymentCenterCodeExternalUsernameLabel')}
+            name="externalUsername"
+            required={true}
+            component={TextField}
+          />
 
-        <Field
-          id="deployment-center-external-provider-password"
-          label={t('deploymentCenterCodeExternalPasswordLabel')}
-          name="externalPassword"
-          component={TextField}
-          required={true}
-          type="password"
-        />
-      </>;
+          <Field
+            id="deployment-center-external-provider-password"
+            label={t('deploymentCenterCodeExternalPasswordLabel')}
+            name="externalPassword"
+            component={TextField}
+            required={true}
+            type="password"
+          />
+        </>
+      );
     }
   }, [
     showGitHubOAuthButton,
