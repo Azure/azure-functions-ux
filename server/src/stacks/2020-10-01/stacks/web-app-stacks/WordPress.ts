@@ -16,8 +16,8 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
         value: '8',
         minorVersions: [
           {
-            displayText: 'PHP 8.3',
-            value: '8.3',
+            displayText: 'Alpine PHP 8.3',
+            value: 'alpine-8.3',
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'WORDPRESS|8.3',
@@ -37,8 +37,8 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
             },
           },
           {
-            displayText: 'PHP 8.2',
-            value: '8.2',
+            displayText: 'Alpine PHP 8.2',
+            value: 'alpine-8.2',
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'WORDPRESS|8.2',
@@ -58,8 +58,8 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
             },
           },
           {
-            displayText: 'PHP 8.0',
-            value: '8.0',
+            displayText: 'Alpine PHP 8.0',
+            value: 'alpine-8.0',
             stackSettings: {
               linuxRuntimeSettings: {
                 runtimeVersion: 'WORDPRESS|8.0',
@@ -75,6 +75,48 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
                   disableSsh: false,
                 },
                 endOfLifeDate: php8Point0EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Debian PHP 8.3',
+            value: 'debian-8.3',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'WORDPRESS_DEBIAN|8.3',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.3',
+                },
+                supportedFeatures: {
+                  disableSsh: false,
+                },
+                endOfLifeDate: php8Point3EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Debian PHP 8.2',
+            value: 'debian-8.2',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'WORDPRESS_DEBIAN|8.2',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.2',
+                },
+                supportedFeatures: {
+                  disableSsh: false,
+                },
+                endOfLifeDate: php8Point2EOL,
               },
             },
           },
