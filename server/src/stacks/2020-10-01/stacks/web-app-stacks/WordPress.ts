@@ -20,7 +20,7 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
             value: 'alpine-8.3',
             stackSettings: {
               linuxRuntimeSettings: {
-                runtimeVersion: 'WORDPRESS|8.3',
+                runtimeVersion: 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
@@ -41,7 +41,7 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
             value: 'alpine-8.2',
             stackSettings: {
               linuxRuntimeSettings: {
-                runtimeVersion: 'WORDPRESS|8.2',
+                runtimeVersion: 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
@@ -62,7 +62,7 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
             value: 'alpine-8.0',
             stackSettings: {
               linuxRuntimeSettings: {
-                runtimeVersion: 'WORDPRESS|8.0',
+                runtimeVersion: 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
@@ -83,7 +83,7 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
             value: 'debian-8.3',
             stackSettings: {
               linuxRuntimeSettings: {
-                runtimeVersion: 'WORDPRESS_DEBIAN|8.3',
+                runtimeVersion: 'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
@@ -104,7 +104,7 @@ const getWordPressStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDat
             value: 'debian-8.2',
             stackSettings: {
               linuxRuntimeSettings: {
-                runtimeVersion: 'WORDPRESS_DEBIAN|8.2',
+                runtimeVersion: 'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.2',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: false,
