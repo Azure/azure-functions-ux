@@ -232,9 +232,10 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
         setRuns(curRuns);
       }
     } else {
+      const errorMessage = getErrorMessage(cancelWorkflowResponse.metadata.error);
       portalContext.log(
         getTelemetryInfo('error', 'cancelWorkflow', 'failed', {
-          error: cancelWorkflowResponse.metadata.error,
+          error: errorMessage,
         })
       );
     }
