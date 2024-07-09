@@ -3,6 +3,7 @@ import { KeyValue } from '../models/portal-models';
 import { Guid } from '../utils/Guid';
 import Url from '../utils/url';
 import { HttpResponseObject } from './../ArmHelper.types';
+import { getErrorMessage } from './ArmHelper';
 
 export class WellKnownHeaders {
   static readonly REQUEST_ID = 'x-ms-client-request-id';
@@ -33,7 +34,12 @@ export const sendHttpRequest = <T>(options: AxiosRequestConfig, excludeWellKnown
       metadata: {
         success,
         status: r.status,
-        error: success ? null : r.data,
+        error: success
+          ? null
+          : {
+              message: getErrorMessage(r.data),
+              code: r.data.HttpStatusCode ?? r.data.code,
+            },
         headers: r.headers,
       },
       data: r.data,

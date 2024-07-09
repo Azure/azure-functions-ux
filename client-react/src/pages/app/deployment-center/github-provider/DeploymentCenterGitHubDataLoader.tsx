@@ -12,6 +12,7 @@ import { PortalContext } from '../../../../PortalContext';
 import { KeyValue } from '../../../../models/portal-models';
 import { Subject } from 'rxjs';
 import { debounceTime, switchMap } from 'rxjs/operators';
+import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 
 const searchTermObserver = new Subject<SearchTermObserverInfo>();
 searchTermObserver
@@ -39,10 +40,11 @@ searchTermObserver
         gitHubRepositories = await deploymentCenterData.getGitHubUserRepositories(
           deploymentCenterContext.gitHubToken,
           (page, response) => {
+            const errorMessage = getErrorMessage(response.metadata.error);
             portalContext.log(
               getTelemetryInfo('error', 'getGitHubUserRepositoriesResponse', 'failed', {
                 page,
-                errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+                errorAsString: errorMessage,
               })
             );
           },
@@ -53,10 +55,11 @@ searchTermObserver
           org,
           deploymentCenterContext.gitHubToken,
           (page, response) => {
+            const errorMessage = getErrorMessage(response.metadata.error);
             portalContext.log(
               getTelemetryInfo('error', 'getGitHubOrgRepositoriesResponse', 'failed', {
                 page,
-                errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+                errorAsString: errorMessage,
               })
             );
           },
@@ -127,10 +130,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       const gitHubOrganizations = await deploymentCenterData.getGitHubOrganizations(
         deploymentCenterContext.gitHubToken,
         (page, response) => {
+          const errorMessage = getErrorMessage(response.metadata.error);
           portalContext.log(
             getTelemetryInfo('error', 'getGitHubUserRepositoriesResponse', 'failed', {
               page,
-              errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+              errorAsString: errorMessage,
             })
           );
         }
@@ -189,10 +193,11 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
       repo,
       deploymentCenterContext.gitHubToken,
       (page, response) => {
+        const errorMessage = getErrorMessage(response.metadata.error);
         portalContext.log(
           getTelemetryInfo('error', 'getGitHubBranchesResponse', 'failed', {
             page,
-            errorAsString: response && response.metadata && response.metadata.error && JSON.stringify(response.metadata.error),
+            errorAsString: errorMessage,
           })
         );
       }
@@ -215,9 +220,10 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
         if (response.metadata.success) {
           deploymentCenterData.storeGitHubToken(response.data).then(() => deploymentCenterContext.refreshUserSourceControlTokens());
         } else {
+          const errorMessage = getErrorMessage(response.metadata.error);
           portalContext.log(
             getTelemetryInfo('error', 'getGitHubTokenResponse', 'failed', {
-              errorAsString: JSON.stringify(response.metadata.error),
+              errorAsString: errorMessage,
             })
           );
           return Promise.resolve(undefined);
@@ -242,9 +248,10 @@ const DeploymentCenterGitHubDataLoader: React.FC<DeploymentCenterFieldProps> = p
           setUpdateTokenSuccess(true);
         });
       } else {
+        const errorMessage = getErrorMessage(response.metadata.error);
         portalContext.log(
           getTelemetryInfo('error', 'resetToken', 'failed', {
-            errorAsString: JSON.stringify(response.metadata.error),
+            errorAsString: errorMessage,
           })
         );
       }
