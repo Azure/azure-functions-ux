@@ -86,10 +86,7 @@ export class GithubController {
         throw new HttpException('The url is not valid', 400);
       }
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -188,12 +185,7 @@ export class GithubController {
       return r.data.items;
     } catch (err) {
       this.loggingService.error(`Failed to retrieve org repositories with given search term. ${err}`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      } else {
-        throw new HttpException(err, 500);
-      }
+      this.httpService.handleError(err);
     }
   }
 
@@ -220,12 +212,7 @@ export class GithubController {
       return r.data.items;
     } catch (err) {
       this.loggingService.error(`Failed to retrieve user repositories with given search term. ${err}`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      } else {
-        throw new HttpException(err, 500);
-      }
+      this.httpService.handleError(err);
     }
   }
 
@@ -318,11 +305,7 @@ export class GithubController {
         });
     } catch (err) {
       this.loggingService.error(`Failed to get workflow run logs.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -346,11 +329,7 @@ export class GithubController {
         });
     } catch (err) {
       this.loggingService.error(`Failed to get workflow run.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -369,11 +348,7 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(`Failed to delete workflow run.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -446,11 +421,7 @@ export class GithubController {
       this.loggingService.error(
         `Failed to delete action workflow '${deleteCommit.filePath}' on branch '${deleteCommit.branchName}' in repo '${deleteCommit.repoName}'.`
       );
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -470,11 +441,7 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(`Failed to dispatch workflow file.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -495,11 +462,7 @@ export class GithubController {
       });
     } catch (err) {
       this.loggingService.error(`Failed to dispatch workflow file.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -574,10 +537,7 @@ export class GithubController {
         environment: null,
       };
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException('Internal Server Error', 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -612,10 +572,7 @@ export class GithubController {
         environment: null,
       };
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException('Internal Server Error', 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -640,10 +597,7 @@ export class GithubController {
         environment: null,
       };
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException('Internal Server Error', 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -668,12 +622,7 @@ export class GithubController {
       };
     } catch (err) {
       this.loggingService.error(`Failed to refresh token.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      } else {
-        throw new HttpException(err, 500);
-      }
+      this.httpService.handleError(err);
     }
   }
 
@@ -699,12 +648,7 @@ export class GithubController {
       res.json(frameworks);
     } catch (err) {
       this.loggingService.error(`Failed to detect frameworks.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      } else {
-        throw new HttpException(err, 500);
-      }
+      this.httpService.handleError(err);
     }
   }
 
@@ -780,11 +724,7 @@ export class GithubController {
       return response.data;
     } catch (err) {
       this.loggingService.error(`Failed to get the public key for '${repoName}'.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -820,11 +760,7 @@ export class GithubController {
       await this.httpService.put(url, data, config);
     } catch (err) {
       this.loggingService.error(`Failed to set the publish profile secret to GitHub repo '${repoName}'.`);
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -847,11 +783,7 @@ export class GithubController {
       this.loggingService.error(
         `Failed to commit action workflow '${content.commit.filePath}' on branch '${content.commit.branchName}' in repo '${content.commit.repoName}'.`
       );
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -874,11 +806,7 @@ export class GithubController {
       this.loggingService.error(
         `Failed to commit GitHub '${commit.filePath}' on branch '${commit.branchName}' in repo '${commit.repoName}'.`
       );
-
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -1032,10 +960,7 @@ export class GithubController {
       res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');
       res.json(response.data);
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -1069,10 +994,7 @@ export class GithubController {
       res.setHeader('access-control-expose-headers', 'link, x-oauth-scopes');
       res.json(response.data);
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 }
