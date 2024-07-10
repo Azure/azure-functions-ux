@@ -57,10 +57,7 @@ export class ACRController {
       }
       res.json(response.data);
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException(err, 500);
+      this.httpService.handleError(err);
     }
   }
 }
