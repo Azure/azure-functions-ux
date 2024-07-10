@@ -209,7 +209,7 @@ const DeploymentCenterGitHubActionsCodeLogs: React.FC<DeploymentCenterCodeLogsPr
           );
           portalContext.log(
             getTelemetryInfo('error', 'getWorkflowRuns', 'failed', {
-              error: errorMessage,
+              error: gitHubActionsWorkflowRunsResponse.metadata.error,
             })
           );
         }
