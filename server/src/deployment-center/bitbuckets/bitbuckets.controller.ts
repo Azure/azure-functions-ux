@@ -77,10 +77,7 @@ export class BitbucketsController {
         environment: environment,
       };
     } catch (err) {
-      if (err.response) {
-        throw new HttpException(err.response.data, err.response.status);
-      }
-      throw new HttpException('Internal Server Error', 500);
+      this.httpService.handleError(err);
     }
   }
 }
