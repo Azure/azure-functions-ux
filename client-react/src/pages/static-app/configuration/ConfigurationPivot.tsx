@@ -12,7 +12,7 @@ import { useStyles } from './ConfigurationPivot.styles';
 import ConfigurationSnippets from './ConfigurationSnippets';
 
 const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: ConfigurationPivotProps) => {
-  const { isLoading, hasWritePermissions, formProps, staticSiteSku, refresh, resourceId, showAppSettings } = props;
+  const { isLoading, hasWritePermissions, formProps, staticSiteSku, refresh, resourceId, showAppSettings, showGeneralSettings } = props;
 
   const styles = useStyles();
   const { t } = useTranslation();
@@ -56,20 +56,22 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
           <Configuration {...props} />
         </PivotItem>
       )}
-      <PivotItem
-        itemKey="generalSettings"
-        headerText={t('staticSite_generalSettings')}
-        ariaLabel={t('staticSite_generalSettings')}
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, isGeneralSettingsDirty, t('modifiedTag'))
-        }>
-        <ConfigurationGeneralSettings
-          disabled={isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free}
-          formProps={formProps}
-          isLoading={isLoading}
-          staticSiteSku={staticSiteSku}
-        />
-      </PivotItem>
+      {showGeneralSettings && (
+        <PivotItem
+          itemKey="generalSettings"
+          headerText={t('staticSite_generalSettings')}
+          ariaLabel={t('staticSite_generalSettings')}
+          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+            CustomTabRenderer(link, defaultRenderer, theme, isGeneralSettingsDirty, t('modifiedTag'))
+          }>
+          <ConfigurationGeneralSettings
+            disabled={isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free}
+            formProps={formProps}
+            isLoading={isLoading}
+            staticSiteSku={staticSiteSku}
+          />
+        </PivotItem>
+      )}
       <PivotItem
         itemKey="snippets"
         headerText={t('staticSite_snippets')}
