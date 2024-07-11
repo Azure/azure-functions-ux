@@ -322,7 +322,6 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
                 java11Runtime: 'JBOSSEAP|8-java11',
                 java17Runtime: 'JBOSSEAP|8-java17',
                 isAutoUpdate: true,
-                isHidden: true
               },
             },
           },
@@ -333,7 +332,6 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
               linuxContainerSettings: {
                 java11Runtime: 'JBOSSEAP|8.0.1-java11',
                 java17Runtime: 'JBOSSEAP|8.0.1-java17',
-                isHidden: true
               }
             }
           },
