@@ -25,6 +25,7 @@ import {
 } from './Configuration.types';
 import ConfigurationForm from './ConfigurationForm';
 import { ConfigurationFormBuilder } from './ConfigurationFormBuilder';
+import { ExperimentationConstants } from '../../../utils/CommonConstants';
 
 const configurationData = new ConfigurationData();
 
@@ -43,6 +44,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<ConfigurationYupValidationSchemaType>();
   const [staticSiteSku, setStaticSiteSku] = useState(StaticSiteSku.Standard);
   const [location, setLocation] = useState<string>();
+  const [showGeneralSettings, setShowGeneralSettings] = useState(false);
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -214,6 +216,11 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   );
 
   useEffect(() => {
+    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.swaConfigurationNew)
+      .then((isEnabled: boolean) => setShowGeneralSettings(isEnabled));
+  }, [portalContext]);
+
+  useEffect(() => {
     fetchData();
 
     /** @note (joechung): This was originally intended to be a once-only effect. */
@@ -237,6 +244,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
         staticSiteSku={staticSiteSku}
         validationSchema={codeFormValidationSchema}
+        showGeneralSettings={showGeneralSettings}
       />
     </ConfigurationContext.Provider>
   );
