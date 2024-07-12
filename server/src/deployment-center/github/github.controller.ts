@@ -38,6 +38,10 @@ const githubOrigin = 'https://github.com';
 @Controller()
 export class GithubController {
   private readonly githubApiUrl = 'https://api.github.com';
+  private readonly fileModes = {
+    file: '100644',
+    folder: '040000',
+  };
 
   constructor(
     private dcService: DeploymentCenterService,
@@ -674,6 +678,29 @@ export class GithubController {
     return trimmedString;
   }
 
+  @Post('api/github/getConfigFileFromRepo')
+  @HttpCode(200)
+  async getConfigFileFromRepo(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branchName') branchName: string,
+    @Body('appLocation') appLocation: string = '',
+    @Body('configFileLocation') configFileLocation: string = '',
+    @Body('fileName') fileName: string = '',
+    @Res() res
+  ) {
+    const baseUrl = configFileLocation
+      ? `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(configFileLocation)}/${fileName}`
+      : !appLocation || appLocation === '/'
+      ? `${this.githubApiUrl}/repos/${org}/${repo}/contents/${fileName}`
+      : `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(appLocation)}/${fileName}`;
+
+    const url = branchName ? `${baseUrl}?ref=${branchName}` : baseUrl;
+    await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  // TODO (miabe): Once getConfigFileFromRepo is deployed in prod, I will switch to getConfigFileFromRepo and delete this. (WI#: 28699788)
   @Post('api/github/getStaticWebAppConfiguration')
   @HttpCode(200)
   async getStaticWebAppConfiguration(
@@ -682,16 +709,34 @@ export class GithubController {
     @Body('repo') repo: string,
     @Body('branchName') branchName: string,
     @Body('appLocation') appLocation: string = '',
+    @Body('swaConfigFileLocation') swaConfigFileLocation: string = '',
     @Res() res
   ) {
-    // If appLocation is not specify, or is the root, we will look for the staticwebapp.config.json in the root of the repo.
-    const baseUrl =
-      !appLocation || appLocation === '/'
-        ? `${this.githubApiUrl}/repos/${org}/${repo}/contents/staticwebapp.config.json`
-        : `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(appLocation)}/staticwebapp.config.json`;
+    // If appLocation is not specify, or is the root, we will look for the file in the root of the repo.
+    const baseUrl = swaConfigFileLocation
+      ? `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(swaConfigFileLocation)}/staticwebapp.config.json`
+      : !appLocation || appLocation === '/'
+      ? `${this.githubApiUrl}/repos/${org}/${repo}/contents/staticwebapp.config.json`
+      : `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(appLocation)}/staticwebapp.config.json`;
 
     const url = branchName ? `${baseUrl}?ref=${branchName}` : baseUrl;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/getFilePathWithTreeSearch')
+  @HttpCode(200)
+  async getTree(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('fileName') fileName: string,
+    @Body('appLocation') appLocation: string,
+    @Body('branchName') branchName: string,
+    @Res() res
+  ) {
+    const repoBranchName = branchName ? branchName : await this._getDefaultBranch(org, repo, gitHubToken);
+    const response = await this._getFilePathForSpecifiedFile(org, repo, repoBranchName, gitHubToken, fileName, appLocation);
+    return res.json(response);
   }
 
   @Put('api/github/updateGitHubContent')
@@ -788,7 +833,7 @@ export class GithubController {
   }
 
   private async _commitGitHubFile(gitHubToken: string, commit: GitHubCommit) {
-    const url = `${this.githubApiUrl}/repos/${commit.repoName}/contents/${commit.filePath}`;
+    const url = `${this.githubApiUrl}/repos/${commit.repoName}/contents/${this._trimAppLocation(commit.filePath)}`;
 
     const commitContent = {
       message: commit.message,
@@ -997,4 +1042,172 @@ export class GithubController {
       this.httpService.handleError(err);
     }
   }
+
+  private _ignoreBicepInfraFolderRule = (currentTree, treesAtCurrentLevel) => {
+    if (currentTree.mode === this.fileModes.folder && currentTree.path === 'infra') {
+      for (const t of treesAtCurrentLevel) {
+        if (t.path === 'azure.yaml') {
+          return true;
+        }
+      }
+      return false;
+    }
+  };
+
+  private async _getFilePathForSpecifiedFile(userName, repoName, branchName, gitHubToken, fileName, appLocation) {
+    const appLocationFolder = await this._getAppLocationFolder(userName, repoName, branchName, gitHubToken, appLocation);
+    if (appLocationFolder) {
+      return await this._getFolderPathHelper(appLocationFolder, gitHubToken, fileName, appLocation);
+    } else {
+      throw new HttpException('Failed to retrieve data.', 500);
+    }
+  }
+
+  // this should return app level files and folders plus, path to the folder.
+  private async _getAppLocationFolder(userName, repoName, branchName, gitHubToken, appLocation) {
+    const url = `${this.githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`;
+    try {
+      const response = await this.httpService.get(url, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+
+      const rootFoldersAndFiles = response?.data?.tree;
+
+      if (rootFoldersAndFiles) {
+        return await this._getAppLocationFolderHelper(rootFoldersAndFiles, appLocation, '', gitHubToken);
+      } else {
+        this.loggingService.log('No data found in app location folder.');
+        return undefined;
+      }
+    } catch (error) {
+      this.loggingService.error(
+        `Either failed to retrieve app location folder or failed to retrieve files and folders under specified app location`
+      );
+      if (error.response) {
+        throw new HttpException(error.response.data, error.response.status);
+      }
+      throw new HttpException(error.message ?? 'Internal Server Error', 500);
+    }
+  }
+
+  private async _getAppLocationFolderHelper(foldersAndFiles, appLocation, folderPath, gitHubToken) {
+    const folders = [];
+    for (const t of foldersAndFiles) {
+      const currentPath = `${folderPath}/${t.path}`;
+      if (t.mode === this.fileModes.folder && currentPath.endsWith(appLocation)) {
+        try {
+          const appFolder = await this.httpService.get(`${t.url}`, {
+            headers: this._getAuthorizationHeader(gitHubToken),
+          });
+          return {
+            folderPath: currentPath,
+            appFolder: appFolder,
+          };
+        } catch (error) {
+          this.loggingService.error(`Failed to retrieve files and folders under specified app location: ${currentPath}`);
+          if (error.response) {
+            throw new HttpException(error.response.data, error.response.status);
+          }
+          throw new HttpException(error.message ?? 'Internal Server Error', 500);
+        }
+      }
+
+      if (t.mode === this.fileModes.folder) {
+        folders.push(t);
+      }
+    }
+
+    if (folders.length === 0) {
+      return undefined; // Explicity return undefined to keep searching in other folders.
+    }
+
+    for (const folder of folders) {
+      try {
+        const childFolder = await this.httpService.get(`${folder.url}`, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        });
+        if (childFolder?.data?.tree?.length > 0) {
+          const result = await this._getAppLocationFolderHelper(childFolder, appLocation, `${folderPath}/${folder.path}`, gitHubToken);
+          if (result) {
+            return result; // Return as soon as the file is found in a child folder
+          }
+        }
+      } catch (error) {
+        // Should not throw error since we should keep searching in other folders.
+        this.loggingService.error(`Failed to retrieve files and folders with url: ${folder.url}`);
+      }
+    }
+
+    return undefined;
+  }
+
+  private async _getFolderPathHelper(foldersAndPath, gitHubToken, fileName, appLocation) {
+    const { folderPath, appFolder } = foldersAndPath;
+    const folders = [];
+    for (const t of appFolder.data.tree) {
+      // find appLocation name if appLocation has value.
+      if (t.mode === this.fileModes.file && t.path === fileName) {
+        return {
+          shouldCreateNewFile: false,
+          folderPath,
+        };
+      }
+
+      if ([this._ignoreBicepInfraFolderRule].some(r => r(t, appFolder.data.tree))) {
+        continue;
+      }
+
+      if (t.mode === this.fileModes.folder) {
+        folders.push(t);
+      }
+    }
+
+    if (folders.length === 0) {
+      return {
+        shouldCreateNewFile: true,
+        folderPath: appLocation,
+        message:
+          'We found a app folder, but no more files to search for the file under app location. we create new config file under app location.',
+      };
+    }
+
+    for (const folder of folders) {
+      const path = `${folderPath}/${folder.path}`;
+      try {
+        const childFolderAndFiles = await this.httpService.get(`${folder.url}`, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        });
+        if (childFolderAndFiles?.data?.tree) {
+          const result = await this._getFolderPathHelper(
+            { folderPath: path, appFolder: childFolderAndFiles },
+            gitHubToken,
+            fileName,
+            appLocation
+          );
+          if (result) {
+            return result; // Return as soon as the file is found in a child folder
+          }
+        }
+      } catch (error) {
+        // Should not throw error since we should keep searching other folders.
+        this.loggingService.error(`Failed to fetch files and folders under ${path}. URL: ${folder.url}`);
+      }
+    }
+  }
+
+  private _getDefaultBranch = async (owner, repo, gitHubToken) => {
+    try {
+      const repoResponse = await this.httpService.get(`${this.githubApiUrl}/repos/${owner}/${repo}`, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+
+      return repoResponse.data.default_branch;
+    } catch (error) {
+      this.loggingService.error(`Failed to retrieve repo data`);
+      if (error.response) {
+        throw new HttpException(error.response.data, error.response.status);
+      }
+      throw new HttpException(error.message ?? 'Internal Server Error', 500);
+    }
+  };
 }
