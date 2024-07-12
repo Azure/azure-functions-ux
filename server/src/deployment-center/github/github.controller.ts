@@ -1079,14 +1079,11 @@ export class GithubController {
         this.loggingService.log('No data found in app location folder.');
         return undefined;
       }
-    } catch (error) {
+    } catch (err) {
       this.loggingService.error(
         `Either failed to retrieve app location folder or failed to retrieve files and folders under specified app location`
       );
-      if (error.response) {
-        throw new HttpException(error.response.data, error.response.status);
-      }
-      throw new HttpException(error.message ?? 'Internal Server Error', 500);
+      this.httpService.handleError(err);
     }
   }
 
@@ -1103,12 +1100,9 @@ export class GithubController {
             folderPath: currentPath,
             appFolder: appFolder,
           };
-        } catch (error) {
+        } catch (err) {
           this.loggingService.error(`Failed to retrieve files and folders under specified app location: ${currentPath}`);
-          if (error.response) {
-            throw new HttpException(error.response.data, error.response.status);
-          }
-          throw new HttpException(error.message ?? 'Internal Server Error', 500);
+          this.httpService.handleError(err);
         }
       }
 
@@ -1132,7 +1126,7 @@ export class GithubController {
             return result; // Return as soon as the file is found in a child folder
           }
         }
-      } catch (error) {
+      } catch (err) {
         // Should not throw error since we should keep searching in other folders.
         this.loggingService.error(`Failed to retrieve files and folders with url: ${folder.url}`);
       }
@@ -1188,7 +1182,7 @@ export class GithubController {
             return result; // Return as soon as the file is found in a child folder
           }
         }
-      } catch (error) {
+      } catch (err) {
         // Should not throw error since we should keep searching other folders.
         this.loggingService.error(`Failed to fetch files and folders under ${path}. URL: ${folder.url}`);
       }
@@ -1202,12 +1196,9 @@ export class GithubController {
       });
 
       return repoResponse.data.default_branch;
-    } catch (error) {
+    } catch (err) {
       this.loggingService.error(`Failed to retrieve repo data`);
-      if (error.response) {
-        throw new HttpException(error.response.data, error.response.status);
-      }
-      throw new HttpException(error.message ?? 'Internal Server Error', 500);
+      this.httpService.handleError(err);
     }
   };
 }
