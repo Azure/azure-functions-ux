@@ -104,17 +104,27 @@ export class CommonConstants {
   public static readonly WordPressStack = 'wordpress';
 
   public static readonly WordPressLinuxFxVersionsMapping = {
-    'wordpress|latest': 'wordpress|8.0',
-    'wordpress|8.0': 'wordpress|8.0',
-    'wordpress|8.2': 'wordpress|8.2',
-    'wordpress|8.3': 'wordpress|8.3',
+    'wordpress|latest': 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0',
+    'wordpress|8.0': 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0',
+    'wordpress|8.2': 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2',
+    'wordpress|8.3': 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3',
     'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:latest': 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0',
     'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0': 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0',
-    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2':  'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2': 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2',
     'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3': 'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3',
     'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.2': 'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.2',
     'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3': 'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3',
   };
+
+  public static readonly WordPressStackDisplayTextMapping = {
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:latest': 'WordPress | Alpine - PHP 8.0',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0': 'WordPress | Alpine - PHP 8.0',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2': 'WordPress | Alpine - PHP 8.2',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3': 'WordPress | Alpine - PHP 8.3',
+    'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.2': 'WordPress | PHP 8.2',
+    'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3': 'WordPress | PHP 8.3',
+  };
+
 
   public static readonly AppSettingNames = {
     appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',

@@ -260,6 +260,20 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
   if (eolDate === undefined) {
     return <></>;
   }
+  if (stackVersion.includes('wordpress')) {
+    return (
+      <CustomBanner
+        type={MessageBarType.warning}
+        id={'eol-stack-banner'}
+        message={
+          eolDate
+            ? t('endOfLifeStackMessage').format(CommonConstants.WordPressStackDisplayTextMapping[stackVersion.toLocaleLowerCase()], new Date(eolDate).toLocaleDateString())
+            : t('deprecatedStackMessage').format(CommonConstants.WordPressStackDisplayTextMapping[stackVersion.toLocaleLowerCase()])
+        }
+        learnMoreLink={Links.endOfLifeStackLink}
+      />
+    );
+  }
   return (
     <CustomBanner
       type={MessageBarType.warning}
