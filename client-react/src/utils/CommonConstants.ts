@@ -391,7 +391,6 @@ export class ExperimentationConstants {
     customErrorAlwaysUse: 'enable-customErrorAlwaysUse',
     patchCallOnConfig: 'enable-patch-call-config',
     swaConfigurationNew: 'swa-configuration-new',
-
   };
 
   public static ControlFlight = {
