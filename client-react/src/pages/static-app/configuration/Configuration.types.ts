@@ -159,7 +159,7 @@ export interface ConfigurationFormProps {
   refresh: (currentEnvironment?: ArmObj<Environment>) => Promise<void>;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
   staticSiteSku: StaticSiteSku;
-  showGeneralSettings: boolean;
+  showNewConfiguration: boolean;
   formData?: ConfigurationFormData;
   location?: string;
 }
@@ -177,7 +177,7 @@ export interface ConfigurationPivotProps {
   staticSiteSku: StaticSiteSku;
   refresh: (currentEnvironment?: ArmObj<Environment>) => Promise<void>;
   showAppSettings: boolean;
-  showGeneralSettings: boolean;
+  showNewConfiguration: boolean;
 }
 
 export enum StaticSiteSku {

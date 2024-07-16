@@ -44,7 +44,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<ConfigurationYupValidationSchemaType>();
   const [staticSiteSku, setStaticSiteSku] = useState(StaticSiteSku.Standard);
   const [location, setLocation] = useState<string>();
-  const [showGeneralSettings, setShowGeneralSettings] = useState(false);
+  const [showNewConfiguration, setShowNewConfiguration] = useState(false);
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -216,8 +216,9 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   );
 
   useEffect(() => {
-    portalContext.hasFlightEnabled(ExperimentationConstants.TreatmentFlight.swaConfigurationNew)
-      .then((isEnabled: boolean) => setShowGeneralSettings(isEnabled));
+    portalContext
+      .hasFlightEnabled(ExperimentationConstants.TreatmentFlight.swaConfigurationNew)
+      .then((isEnabled: boolean) => setShowNewConfiguration(isEnabled));
   }, [portalContext]);
 
   useEffect(() => {
@@ -244,7 +245,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
         staticSiteSku={staticSiteSku}
         validationSchema={codeFormValidationSchema}
-        showGeneralSettings={showGeneralSettings}
+        showNewConfiguration={showNewConfiguration}
       />
     </ConfigurationContext.Provider>
   );
