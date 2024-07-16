@@ -1098,7 +1098,7 @@ export class GithubController {
       const currentFolderPath = appLocation;
       return await this._getFolderPathHelper(currentFolderPath, appLocationFolder, gitHubToken, fileName, appLocation);
     } else {
-      throw new HttpException('Failed to retrieve data.', 400);
+      throw new HttpException('Failed to retrieve data.', 404);
     }
   }
 
