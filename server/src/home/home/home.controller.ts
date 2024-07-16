@@ -1,4 +1,5 @@
-import { Controller, Get, Query, UseInterceptors, CacheInterceptor } from '@nestjs/common';
+import { CacheInterceptor } from '@nestjs/cache-manager';
+import { Controller, Get, Query, UseInterceptors } from '@nestjs/common';
 import { ConfigService } from '../../shared/config/config.service';
 import { HomeService } from './home.service.base';
 
