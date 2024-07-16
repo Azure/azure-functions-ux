@@ -27,3 +27,25 @@ export interface GitHubSecretPublicKey {
   key_id: string;
   key: string;
 }
+
+export interface GitHubDatabaseGetTrees {
+  sha: string;
+  url: string;
+  tree: GitHubDatabaseTree[];
+  truncated: boolean;
+}
+
+export interface GitHubDatabaseTree {
+  path: string;
+  mode: string;
+  type: string;
+  sha: string;
+  size: number;
+  url: string;
+}
+
+export interface FindFilePathInGitHubRepo {
+  folderPath: string;
+  shouldCreateNewFile: boolean;
+  message?: string;
+}
