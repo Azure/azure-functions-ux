@@ -45,19 +45,28 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
 
   return (
     <>
-      <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
-        {showAppSettings && (
-          <PivotItem
-            itemKey="appSettings"
-            headerText={t('staticSite_applicationSettings')}
-            ariaLabel={t('staticSite_applicationSettings')}
-            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-              CustomTabRenderer(link, defaultRenderer, theme, isAppSettingsDirty, t('modifiedTag'))
-            }>
-            <Configuration {...props} />
-          </PivotItem>
-        )}
-        {!showNewConfiguration && (
+      {showNewConfiguration ? (
+        <ConfigurationSnippets
+          hasWritePermissions={hasWritePermissions}
+          refresh={refresh}
+          disabled={isLoading || !hasWritePermissions}
+          formProps={formProps}
+          isLoading={isLoading}
+          resourceId={resourceId}
+        />
+      ) : (
+        <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
+          {showAppSettings && (
+            <PivotItem
+              itemKey="appSettings"
+              headerText={t('staticSite_applicationSettings')}
+              ariaLabel={t('staticSite_applicationSettings')}
+              onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+                CustomTabRenderer(link, defaultRenderer, theme, isAppSettingsDirty, t('modifiedTag'))
+              }>
+              <Configuration {...props} />
+            </PivotItem>
+          )}
           <PivotItem
             itemKey="generalSettings"
             headerText={t('staticSite_generalSettings')}
@@ -72,8 +81,6 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
               staticSiteSku={staticSiteSku}
             />
           </PivotItem>
-        )}
-        {!showNewConfiguration && (
           <PivotItem
             itemKey="snippets"
             headerText={t('staticSite_snippets')}
@@ -90,17 +97,7 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
               resourceId={resourceId}
             />
           </PivotItem>
-        )}
-      </Pivot>
-      {showNewConfiguration && (
-        <ConfigurationSnippets
-          hasWritePermissions={hasWritePermissions}
-          refresh={refresh}
-          disabled={isLoading || !hasWritePermissions}
-          formProps={formProps}
-          isLoading={isLoading}
-          resourceId={resourceId}
-        />
+        </Pivot>
       )}
     </>
   );
