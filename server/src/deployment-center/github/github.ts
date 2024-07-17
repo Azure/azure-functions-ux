@@ -28,14 +28,14 @@ export interface GitHubSecretPublicKey {
   key: string;
 }
 
-export interface GitHubDatabaseGetTrees {
+export interface GitHubFileGetTrees {
   sha: string;
   url: string;
-  tree: GitHubDatabaseTree[];
+  tree: GitHubFileTree[];
   truncated: boolean;
 }
 
-export interface GitHubDatabaseTree {
+export interface GitHubFileTree {
   path: string;
   mode: string;
   type: string;
@@ -44,7 +44,7 @@ export interface GitHubDatabaseTree {
   url: string;
 }
 
-export interface FindFilePathInGitHubRepo {
+export interface GitHubFileSearchResult {
   folderPath: string;
   shouldCreateNewFile: boolean;
   message?: string;
