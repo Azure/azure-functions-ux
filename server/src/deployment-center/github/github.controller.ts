@@ -661,12 +661,12 @@ export class GithubController {
   }
 
   // This function cleans up prefix and suffix. It removes '/' or './' from the beginning and '/' from the end. (ex: ./src/client/ > src/client)
-  private _trimAppLocation(appLocation: string): string {
-    if (typeof appLocation !== 'string') {
+  private _trimFilePath(filePath: string): string {
+    if (typeof filePath !== 'string') {
       throw new HttpException(`'appLocation' property should be a string. `, 400);
     }
 
-    let trimmedString: string = appLocation;
+    let trimmedString: string = filePath;
     if (trimmedString.startsWith('/')) {
       //ex: /src >> src
       trimmedString = trimmedString.substring(1);
@@ -694,13 +694,13 @@ export class GithubController {
     @Res() res
   ) {
     if (gitHubToken && org && repo && branchName && filePath) {
-      const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(filePath)}?ref=${branchName}`;
+      const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimFilePath(filePath)}?ref=${branchName}`;
       await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
     } else {
       throw new HttpException(
         `One or more required parameters are missing. gitHubToken: ${gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / filePath: ${filePath}`,
         400
-      ); // should add which paramter is missing check.
+      );
     }
   }
 
@@ -718,7 +718,7 @@ export class GithubController {
     const baseUrl =
       !appLocation || appLocation === '/'
         ? `${this.githubApiUrl}/repos/${org}/${repo}/contents/staticwebapp.config.json`
-        : `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(appLocation)}/staticwebapp.config.json`;
+        : `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimFilePath(appLocation)}/staticwebapp.config.json`;
 
     const url = branchName ? `${baseUrl}?ref=${branchName}` : baseUrl;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
@@ -742,7 +742,7 @@ export class GithubController {
       throw new HttpException(
         `One or more required parameters are missing. gitHubToken: ${gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / fileName: ${fileName} / baseFilePath: ${baseFilePath}`,
         400
-      ); // should add which paramter is missing check.
+      );
     }
   }
 
@@ -840,7 +840,7 @@ export class GithubController {
   }
 
   private async _commitGitHubFile(gitHubToken: string, commit: GitHubCommit) {
-    const url = `${this.githubApiUrl}/repos/${commit.repoName}/contents/${this._trimAppLocation(commit.filePath)}`;
+    const url = `${this.githubApiUrl}/repos/${commit.repoName}/contents/${this._trimFilePath(commit.filePath)}`;
 
     const commitContent = {
       message: commit.message,
@@ -1074,17 +1074,17 @@ export class GithubController {
     fileName: string,
     baseFilePath: string
   ): Promise<GitHubFileSearchResult> {
-    const appLocationFolder = await this._getFoldersInAppLocation(userName, repoName, branchName, gitHubToken, baseFilePath);
-    if (appLocationFolder) {
+    const folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(userName, repoName, branchName, gitHubToken, baseFilePath);
+    if (folderUnderBaseFilePath) {
       const currentFolderPath = baseFilePath;
-      return await this._getFolderPathHelper(currentFolderPath, appLocationFolder, gitHubToken, fileName, baseFilePath);
+      return await this._getFolderPathHelper(currentFolderPath, folderUnderBaseFilePath, gitHubToken, fileName, baseFilePath);
     } else {
-      throw new HttpException('App location does not contain and files and folders.', 404);
+      throw new HttpException('Base file path does not contain files and folders.', 404);
     }
   }
 
-  // _getFoldersInAppLocation returns folders and files under the root of specified app location.
-  private async _getFoldersInAppLocation(
+  // _getFoldersInBaseFileLocation returns folders and files under the root of specified base file path.
+  private async _getFoldersInBaseFileLocation(
     userName: string,
     repoName: string,
     branchName: string,
@@ -1093,30 +1093,30 @@ export class GithubController {
   ): Promise<GitHubFileTree[]> {
     let url = `${this.githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`;
     if (!this._isRootOfRepository(baseFilePath)) {
-      url += `:${this._trimAppLocation(baseFilePath)}`;
+      url += `:${this._trimFilePath(baseFilePath)}`;
     }
     try {
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
 
-      const rootFoldersAndFiles = response?.data?.tree;
+      const foldersAndFiles = response?.data?.tree;
 
-      if (rootFoldersAndFiles) {
-        return rootFoldersAndFiles;
+      if (foldersAndFiles) {
+        return foldersAndFiles;
       } else {
-        this.loggingService.log('No data found in app location folder.');
+        this.loggingService.log('No data found under base file path.');
         return undefined;
       }
     } catch (err) {
-      this.loggingService.error(`Failed to retrieve app location folder. URL: ${url}.`);
+      this.loggingService.error(`Failed to retrieve files and folders under base file path. URL: ${url}.`);
       this.httpService.handleError(err);
     }
   }
 
   // _getFolderPathHelper is a recursive function that searches for fileName(ex: staticwebapp.config.json) in the provided git tree value.
   // If the file is found, it returns the folder path where the file is located.
-  // If the file is not found, set 'shouldCreateNewFile' to be 'true'. This means new file will be created under the app location.
+  // If the file is not found, set 'shouldCreateNewFile' to be 'true'. This means new file will be created under the base file path.
   private async _getFolderPathHelper(
     currentFolderPath: string,
     gitHubDatabaseTrees: GitHubFileTree[],
