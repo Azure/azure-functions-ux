@@ -701,7 +701,7 @@ export class GithubController {
       await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
     } else {
       throw new HttpException(
-        `One or more required parameters are missing. isGitHubTokenMissed: ${!!gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / filePath: ${filePath}`,
+        `One or more required parameters are missing. hasGitHubToken: ${!!gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / filePath: ${filePath}`,
         400
       );
     }
@@ -744,7 +744,7 @@ export class GithubController {
       return res.json(response);
     } else {
       throw new HttpException(
-        `One or more required parameters are missing. isGitHubTokenMissed: ${!!gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / fileName: ${fileName} / baseFilePath: ${baseFilePath}`,
+        `One or more required parameters are missing. hasGitHubToken: ${!!gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / fileName: ${fileName} / baseFilePath: ${baseFilePath}`,
         400
       );
     }
