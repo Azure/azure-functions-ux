@@ -22,7 +22,14 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
-import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit, GitHubFileTree, GitHubFileSearchResult } from './github';
+import {
+  GitHubActionWorkflowRequestContent,
+  GitHubSecretPublicKey,
+  GitHubCommit,
+  GitHubFileTree,
+  GitHubFileSearchResult,
+  GitHubFileTreeMode,
+} from './github';
 import {
   EnvironmentUrlMappings,
   Environments,
@@ -38,10 +45,6 @@ const githubOrigin = 'https://github.com';
 @Controller()
 export class GithubController {
   private readonly githubApiUrl = 'https://api.github.com';
-  private readonly modes = {
-    file: '100644',
-    folder: '040000',
-  };
 
   constructor(
     private dcService: DeploymentCenterService,
@@ -660,7 +663,7 @@ export class GithubController {
     return path === '/' || path === './';
   }
 
-  // This function cleans up prefix and suffix. It removes '/' or './' from the beginning and '/' from the end. (ex: ./src/client/ > src/client)
+  // This function cleans up prefix and suffix. It removes '/' or './' from the beginning and '/' from the end. (ex: /src/client/ > src/client)
   private _trimFilePath(filePath: string): string {
     if (typeof filePath !== 'string') {
       throw new HttpException(`'appLocation' property should be a string. `, 400);
@@ -690,7 +693,7 @@ export class GithubController {
     @Body('org') org: string,
     @Body('repo') repo: string,
     @Body('branchName') branchName: string,
-    @Body('filePath') filePath: string, //should include the path and file name. ex: client/public/staticwebapp.config.json
+    @Body('filePath') filePath: string, //should include the path and file name. ex: "/client/public/staticwebapp.config.json"
     @Res() res
   ) {
     if (gitHubToken && org && repo && branchName && filePath) {
@@ -698,7 +701,7 @@ export class GithubController {
       await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
     } else {
       throw new HttpException(
-        `One or more required parameters are missing. gitHubToken: ${gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / filePath: ${filePath}`,
+        `One or more required parameters are missing. isGitHubTokenMissed: ${!!gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / filePath: ${filePath}`,
         400
       );
     }
@@ -732,15 +735,16 @@ export class GithubController {
     @Body('repo') repo: string,
     @Body('branchName') branchName: string,
     @Body('fileName') fileName: string,
+    @Body('fileMode') fileMode: GitHubFileTreeMode,
     @Body('baseFilePath') baseFilePath: string, // This is a base search path within the repo to avoid searching the entire repo.
     @Res() res
   ) {
-    if (gitHubToken && org && repo && branchName && fileName && baseFilePath) {
-      const response = await this._searchSpecifiedGitHubFile(org, repo, branchName, gitHubToken, fileName, baseFilePath);
+    if (gitHubToken && org && repo && branchName && fileName && fileMode && baseFilePath) {
+      const response = await this._searchSpecifiedGitHubFile(org, repo, branchName, gitHubToken, fileName, fileMode, baseFilePath);
       return res.json(response);
     } else {
       throw new HttpException(
-        `One or more required parameters are missing. gitHubToken: ${gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / fileName: ${fileName} / baseFilePath: ${baseFilePath}`,
+        `One or more required parameters are missing. isGitHubTokenMissed: ${!!gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / fileName: ${fileName} / baseFilePath: ${baseFilePath}`,
         400
       );
     }
@@ -1051,7 +1055,7 @@ export class GithubController {
   }
 
   private _ignoreBicepInfraFolderRule = (currentTree, treesAtCurrentLevel) => {
-    if (currentTree.mode === this.modes.folder && currentTree.path === 'infra') {
+    if (currentTree.mode === GitHubFileTreeMode.folder && currentTree.path === 'infra') {
       for (const t of treesAtCurrentLevel) {
         if (t.path === 'azure.yaml') {
           return true;
@@ -1072,12 +1076,19 @@ export class GithubController {
     branchName: string,
     gitHubToken: string,
     fileName: string,
+    fileMode: GitHubFileTreeMode,
     baseFilePath: string
   ): Promise<GitHubFileSearchResult> {
-    const folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(userName, repoName, branchName, gitHubToken, baseFilePath);
-    if (folderUnderBaseFilePath) {
-      const currentFolderPath = baseFilePath;
-      return await this._getFolderPathHelper(currentFolderPath, folderUnderBaseFilePath, gitHubToken, fileName, baseFilePath);
+    const foldersUnderBaseFilePath = await this._getFoldersInBaseFileLocation(userName, repoName, branchName, gitHubToken, baseFilePath);
+    if (foldersUnderBaseFilePath) {
+      return await this._getFolderPathHelper(
+        baseFilePath /*currentFolderPath*/,
+        foldersUnderBaseFilePath,
+        gitHubToken,
+        fileName,
+        fileMode,
+        baseFilePath
+      );
     } else {
       throw new HttpException('Base file path does not contain files and folders.', 404);
     }
@@ -1122,13 +1133,14 @@ export class GithubController {
     gitHubDatabaseTrees: GitHubFileTree[],
     gitHubToken: string,
     fileName: string,
+    fileMode: GitHubFileTreeMode,
     baseFilePath: string
   ): Promise<GitHubFileSearchResult> {
     const folders = [];
     for (const t of gitHubDatabaseTrees) {
-      if (t.mode === this.modes.file && t.path === fileName) {
+      if (t.mode === fileMode && t.path === fileName) {
         return {
-          shouldCreateNewFile: false,
+          isFound: true,
           folderPath: currentFolderPath,
         };
       }
@@ -1137,16 +1149,14 @@ export class GithubController {
         continue;
       }
 
-      if (t.mode === this.modes.folder) {
+      if (t.mode === GitHubFileTreeMode.folder) {
         folders.push(t);
       }
     }
 
     if (folders.length === 0) {
       return {
-        shouldCreateNewFile: true,
-        folderPath: baseFilePath,
-        message: `We found a app folder, but no more files to search for the file.`,
+        isFound: false,
       };
     }
 
@@ -1158,8 +1168,8 @@ export class GithubController {
         });
         const childFolderAndFiles = response?.data?.tree;
         if (childFolderAndFiles) {
-          const result = await this._getFolderPathHelper(newPath, childFolderAndFiles, gitHubToken, fileName, baseFilePath);
-          if (result.shouldCreateNewFile === false) {
+          const result = await this._getFolderPathHelper(newPath, childFolderAndFiles, gitHubToken, fileName, fileMode, baseFilePath);
+          if (result.isFound) {
             return result; // Return as soon as the file is found in a child folder
           }
         }
@@ -1170,9 +1180,7 @@ export class GithubController {
     }
 
     return {
-      shouldCreateNewFile: true,
-      folderPath: baseFilePath,
-      message: `We found a app folder, but no more files to search for the file.`,
+      isFound: false,
     };
   }
 }
