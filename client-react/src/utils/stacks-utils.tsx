@@ -261,11 +261,6 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
     return <></>;
   }
 
-  if (eolDate) {
-    console.log(eolDate);
-    console.log(new Date(eolDate).toLocaleDateString());
-  }
-
   return (
     <CustomBanner
       type={MessageBarType.warning}
