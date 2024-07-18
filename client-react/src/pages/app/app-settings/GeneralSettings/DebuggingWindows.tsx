@@ -18,8 +18,6 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
   const [flexStamp, setFlexStamp] = useState(false);
   const { values, initialValues } = props;
 
-  initialValues.config.properties.remoteDebuggingVersion = 'VS2017';
-
   const getExpiredVSVersionText = () => {
     const version = initialValues.config.properties.remoteDebuggingVersion ?? '';
     return version.startsWith('VS') ? version.slice(2) : version;
@@ -41,8 +39,8 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
   }
 
   const showWarningForVSVersion =
-    values.config.properties.remoteDebuggingVersion !== 'VS2022' &&
     values.config.properties.remoteDebuggingVersion &&
+    values.config.properties.remoteDebuggingVersion !== 'VS2022' &&
     values.config.properties.remoteDebuggingEnabled;
 
   useEffect(() => {
