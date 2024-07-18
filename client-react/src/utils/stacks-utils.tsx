@@ -260,13 +260,19 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
   if (eolDate === undefined) {
     return <></>;
   }
+
+  if (eolDate) {
+    console.log(eolDate);
+    console.log(new Date(eolDate).toLocaleDateString());
+  }
+
   return (
     <CustomBanner
       type={MessageBarType.warning}
       id={'eol-stack-banner'}
       message={
         eolDate
-          ? t('endOfLifeStackMessage').format(stackVersion, new Date(eolDate).toLocaleDateString())
+          ? t('endOfLifeStackMessage').format(stackVersion, new Date(eolDate).toLocaleDateString(undefined, { timeZone: 'UTC' }))
           : t('deprecatedStackMessage').format(stackVersion)
       }
       learnMoreLink={Links.endOfLifeStackLink}
