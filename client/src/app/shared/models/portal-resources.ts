@@ -1915,7 +1915,7 @@ export class PortalResources {
   public static functionsRuntimeVersionExistingFunctionsConfirmationMessage = 'functionsRuntimeVersionExistingFunctionsConfirmationMessage';
   public static githubActionWorkflowScopeMissing = 'githubActionWorkflowScopeMissing';
   public static githubActionWorkflowFileExists = 'githubActionWorkflowFileExists';
-  public static remoteDebuggingVS2015NotSupported = 'remoteDebuggingVS2015NotSupported';
+  public static remoteDebuggingVSVersionNotSupported = 'remoteDebuggingVSVersionNotSupported';
   public static functionCreate_selectTemplate = 'functionCreate_selectTemplate';
   public static functionTestInput = 'functionTestInput';
   public static functionTestOutput = 'functionTestOutput';

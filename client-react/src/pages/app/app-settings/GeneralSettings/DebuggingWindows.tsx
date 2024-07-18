@@ -18,42 +18,48 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
   const [flexStamp, setFlexStamp] = useState(false);
   const { values, initialValues } = props;
 
+  initialValues.config.properties.remoteDebuggingVersion = 'VS2017';
+
+  const getExpiredVSVersionText = () => {
+    const version = initialValues.config.properties.remoteDebuggingVersion ?? '';
+    return version.startsWith('VS') ? version.slice(2) : version;
+  };
+
   const options: IDropdownOption[] = [
-    {
-      key: 'VS2017',
-      text: '2017',
-    },
-    {
-      key: 'VS2019',
-      text: '2019',
-    },
     {
       key: 'VS2022',
       text: '2022',
     },
   ];
 
-  if (initialValues.config.properties.remoteDebuggingVersion === 'VS2015') {
+  if (initialValues.config.properties.remoteDebuggingVersion && initialValues.config.properties.remoteDebuggingVersion !== 'VS2022') {
     options.unshift({
-      key: 'VS2015',
-      text: '2015',
+      key: initialValues.config.properties.remoteDebuggingVersion,
+      text: getExpiredVSVersionText(),
       disabled: true,
     });
   }
 
-  const showWarningForVS2015 =
-    values.config.properties.remoteDebuggingVersion === 'VS2015' && values.config.properties.remoteDebuggingEnabled;
+  const showWarningForVSVersion =
+    values.config.properties.remoteDebuggingVersion !== 'VS2022' &&
+    values.config.properties.remoteDebuggingVersion &&
+    values.config.properties.remoteDebuggingEnabled;
 
   useEffect(() => {
     setFlexStamp(SiteHelper.isFlexStamp(values.site));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [values.site.properties.possibleInboundIpAddresses]);
+
   return (
     <div id="app-settings-remote-debugging-section">
       <h3>{t('debugging')}</h3>
-      {showWarningForVS2015 && (
-        <CustomBanner message={t('remoteDebuggingVS2015NotSupported')} type={MessageBarType.warning} undocked={true} />
+      {showWarningForVSVersion && (
+        <CustomBanner
+          message={t('remoteDebuggingVSVersionNotSupported').format(getExpiredVSVersionText())}
+          type={MessageBarType.warning}
+          undocked={true}
+        />
       )}
       <div className={settingsWrapper}>
         <Field
