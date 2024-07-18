@@ -35,6 +35,5 @@ jobs:
         with:
           app-name: '__sitename__'
           slot-name: '__slotname__'
-          resource-group-name: '__resourceGroup__'
           package: '.\\app.zip'
           __publishing-profile__

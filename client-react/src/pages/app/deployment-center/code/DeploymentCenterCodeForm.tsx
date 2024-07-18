@@ -353,10 +353,8 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   };
 
   const getGitHubActionsConfigurationVariables = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    const armId = new ArmResourceDescriptor(deploymentCenterContext.resourceId);
     const variables = {
       runtimeVersion: getRuntimeVersion(siteStateContext.isLinuxApp, values.runtimeVersion, values.runtimeRecommendedVersion),
-      resourceGroup: armId.resourceGroup,
     };
 
     if (values.runtimeStack === RuntimeStackOptions.Java) {
