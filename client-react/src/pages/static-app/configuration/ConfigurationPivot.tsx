@@ -12,7 +12,7 @@ import { useStyles } from './ConfigurationPivot.styles';
 import ConfigurationSnippets from './ConfigurationSnippets';
 
 const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: ConfigurationPivotProps) => {
-  const { isLoading, hasWritePermissions, formProps, staticSiteSku, refresh, resourceId, showAppSettings } = props;
+  const { isLoading, hasWritePermissions, formProps, staticSiteSku, refresh, resourceId, showAppSettings, showNewConfiguration } = props;
 
   const styles = useStyles();
   const { t } = useTranslation();
@@ -44,39 +44,8 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
   }, [formProps.values?.isGeneralSettingsDirty]);
 
   return (
-    <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
-      {showAppSettings && (
-        <PivotItem
-          itemKey="appSettings"
-          headerText={t('staticSite_applicationSettings')}
-          ariaLabel={t('staticSite_applicationSettings')}
-          onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-            CustomTabRenderer(link, defaultRenderer, theme, isAppSettingsDirty, t('modifiedTag'))
-          }>
-          <Configuration {...props} />
-        </PivotItem>
-      )}
-      <PivotItem
-        itemKey="generalSettings"
-        headerText={t('staticSite_generalSettings')}
-        ariaLabel={t('staticSite_generalSettings')}
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, isGeneralSettingsDirty, t('modifiedTag'))
-        }>
-        <ConfigurationGeneralSettings
-          disabled={isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free}
-          formProps={formProps}
-          isLoading={isLoading}
-          staticSiteSku={staticSiteSku}
-        />
-      </PivotItem>
-      <PivotItem
-        itemKey="snippets"
-        headerText={t('staticSite_snippets')}
-        ariaLabel={t('staticSite_snippets')}
-        onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
-          CustomTabRenderer(link, defaultRenderer, theme, () => false, t('modifiedTag'))
-        }>
+    <>
+      {showNewConfiguration ? (
         <ConfigurationSnippets
           hasWritePermissions={hasWritePermissions}
           refresh={refresh}
@@ -85,8 +54,52 @@ const ConfigurationPivot: React.FC<ConfigurationPivotProps> = (props: Configurat
           isLoading={isLoading}
           resourceId={resourceId}
         />
-      </PivotItem>
-    </Pivot>
+      ) : (
+        <Pivot selectedKey={selectedKey} styles={styles.pivot} onLinkClick={onLinkClick}>
+          {showAppSettings && (
+            <PivotItem
+              itemKey="appSettings"
+              headerText={t('staticSite_applicationSettings')}
+              ariaLabel={t('staticSite_applicationSettings')}
+              onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+                CustomTabRenderer(link, defaultRenderer, theme, isAppSettingsDirty, t('modifiedTag'))
+              }>
+              <Configuration {...props} />
+            </PivotItem>
+          )}
+          <PivotItem
+            itemKey="generalSettings"
+            headerText={t('staticSite_generalSettings')}
+            ariaLabel={t('staticSite_generalSettings')}
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, isGeneralSettingsDirty, t('modifiedTag'))
+            }>
+            <ConfigurationGeneralSettings
+              disabled={isLoading || !hasWritePermissions || staticSiteSku === StaticSiteSku.Free}
+              formProps={formProps}
+              isLoading={isLoading}
+              staticSiteSku={staticSiteSku}
+            />
+          </PivotItem>
+          <PivotItem
+            itemKey="snippets"
+            headerText={t('staticSite_snippets')}
+            ariaLabel={t('staticSite_snippets')}
+            onRenderItemLink={(link: IPivotItemProps, defaultRenderer: (link: IPivotItemProps) => JSX.Element) =>
+              CustomTabRenderer(link, defaultRenderer, theme, () => false, t('modifiedTag'))
+            }>
+            <ConfigurationSnippets
+              hasWritePermissions={hasWritePermissions}
+              refresh={refresh}
+              disabled={isLoading || !hasWritePermissions}
+              formProps={formProps}
+              isLoading={isLoading}
+              resourceId={resourceId}
+            />
+          </PivotItem>
+        </Pivot>
+      )}
+    </>
   );
 };
 
