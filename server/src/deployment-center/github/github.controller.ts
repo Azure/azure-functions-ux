@@ -694,31 +694,6 @@ export class GithubController {
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
   }
 
-  @Post('api/github/getAngularOutputLocation')
-  @HttpCode(200)
-  async getAngularOutputLocation(
-    @Body('gitHubToken') gitHubToken: string,
-    @Body('org') org: string,
-    @Body('repo') repo: string,
-    @Body('branch') branch: string,
-    @Body('appLocation') appLocation: string,
-    @Res() res
-  ) {
-    try {
-      const baseUrl = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(appLocation)}/angular.json`;
-      const url = `${baseUrl}?ref=${branch}`;
-      const response = await this.httpService.get(url, {
-        headers: this._getAuthorizationHeader(gitHubToken),
-      });
-      const content = response.data.content;
-      const decodedContent = JSON.parse(Buffer.from(content, 'base64').toString('utf8'));
-      const outputPath: string = decodedContent.projects[Object.keys(decodedContent.projects)[0]].architect.build.options.outputPath;
-      res.json(outputPath);
-    } catch (error) {
-      throw new HttpException('Failed to retrieve data.', 400);
-    }
-  }
-
   @Put('api/github/updateGitHubContent')
   @HttpCode(200)
   async updateGitHubContent(@Body('gitHubToken') gitHubToken: string, @Body('commit') commit: GitHubCommit) {
