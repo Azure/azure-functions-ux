@@ -756,6 +756,32 @@ export class GithubController {
     }
   }
 
+  @Post('api/github/getAngularOutputLocation')
+  @HttpCode(200)
+  async getAngularOutputLocation(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branch') branch: string,
+    @Res() res
+  ) {
+    try {
+      const baseFilePath = '/';
+      const folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, baseFilePath);
+      const folderPath = (await this._getFolderPathHelper(baseFilePath, folderUnderBaseFilePath, gitHubToken, 'angular.json', baseFilePath))
+        .folderPath;
+      const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${folderPath}/angular.json?ref=${branch}`;
+      const response = await this.httpService.get(url, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+      const decodedContent = JSON.parse(Buffer.from(response.data.content, 'base64').toString('utf8'));
+      const outputPath: string = decodedContent.projects[Object.keys(decodedContent.projects)[0]].architect.build.options.outputPath;
+      res.json(outputPath);
+    } catch (error) {
+      throw new HttpException('Failed to retrieve data.', 400);
+    }
+  }
+
   private async _putGitHubRepoSecret(
     gitHubToken: string,
     publicKey: GitHubSecretPublicKey,
