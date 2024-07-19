@@ -22,7 +22,14 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
-import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit, GitHubFileTree, GitHubFileSearchResult } from './github';
+import {
+  GitHubActionWorkflowRequestContent,
+  GitHubSecretPublicKey,
+  GitHubCommit,
+  GitHubFileTree,
+  GitHubFileSearchResult,
+  GitHubFileTreeType,
+} from './github';
 import {
   EnvironmentUrlMappings,
   Environments,
@@ -38,10 +45,6 @@ const githubOrigin = 'https://github.com';
 @Controller()
 export class GithubController {
   private readonly githubApiUrl = 'https://api.github.com';
-  private readonly type = {
-    tree: 'tree',
-    blob: 'blob',
-  };
 
   constructor(
     private dcService: DeploymentCenterService,
@@ -1024,7 +1027,7 @@ export class GithubController {
   }
 
   private _ignoreBicepInfraFolderRule = (currentTree: GitHubFileTree, treesAtCurrentLevel: GitHubFileTree[]) => {
-    if (currentTree.type === this.type.tree && currentTree.path === 'infra') {
+    if (currentTree.type === GitHubFileTreeType.Tree && currentTree.path === 'infra') {
       for (const t of treesAtCurrentLevel) {
         if (t.path === 'azure.yaml') {
           return true;
@@ -1104,7 +1107,7 @@ export class GithubController {
   ): Promise<GitHubFileSearchResult> {
     const folders = [];
     for (const t of gitHubDatabaseTrees) {
-      if (t.type === this.type.blob && t.path === fileName) {
+      if (t.type === GitHubFileTreeType.Blob && t.path === fileName) {
         return {
           isFound: true,
           folderPath: currentFolderPath,
@@ -1115,7 +1118,7 @@ export class GithubController {
         continue;
       }
 
-      if (t.type === this.type.tree) {
+      if (t.type === GitHubFileTreeType.Tree) {
         folders.push(t);
       }
     }

@@ -48,3 +48,8 @@ export interface GitHubFileSearchResult {
   isFound: boolean;
   folderPath?: string;
 }
+
+export enum GitHubFileTreeType {
+  Tree = 'tree',
+  Blob = 'blob',
+}
