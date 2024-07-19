@@ -769,8 +769,8 @@ export class GithubController {
     const folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, baseFilePath);
     const folderPath = (await this._getFolderPathHelper(baseFilePath, folderUnderBaseFilePath, gitHubToken, 'angular.json', baseFilePath))
       .folderPath;
-    const trimmedPath = this._isRootOfRepository(folderPath) ? folderPath : this._trimFilePath(folderPath);
-    const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${trimmedPath}/angular.json?ref=${branch}`;
+    const trimmedPath = this._isRootOfRepository(folderPath) ? folderPath : `/${this._trimFilePath(folderPath)}/`;
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents${trimmedPath}angular.json?ref=${branch}`;
     try {
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
