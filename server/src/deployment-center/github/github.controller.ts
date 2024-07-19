@@ -22,14 +22,7 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
-import {
-  GitHubActionWorkflowRequestContent,
-  GitHubSecretPublicKey,
-  GitHubCommit,
-  GitHubFileTree,
-  GitHubFileSearchResult,
-  GitHubFileTreeMode,
-} from './github';
+import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit, GitHubFileTree, GitHubFileSearchResult } from './github';
 import {
   EnvironmentUrlMappings,
   Environments,
@@ -45,6 +38,10 @@ const githubOrigin = 'https://github.com';
 @Controller()
 export class GithubController {
   private readonly githubApiUrl = 'https://api.github.com';
+  private readonly type = {
+    tree: 'tree',
+    blob: 'blob',
+  };
 
   constructor(
     private dcService: DeploymentCenterService,
@@ -659,33 +656,6 @@ export class GithubController {
     }
   }
 
-  private _isRootOfRepository(path: string): boolean {
-    return path === '/' || path === './';
-  }
-
-  // This function cleans up prefix and suffix. It removes '/' or './' from the beginning and '/' from the end. (ex: /src/client/ > src/client)
-  private _trimFilePath(filePath: string): string {
-    if (typeof filePath !== 'string') {
-      throw new HttpException(`'appLocation' property should be a string. `, 400);
-    }
-
-    let trimmedString: string = filePath;
-    if (trimmedString.startsWith('/')) {
-      //ex: /src >> src
-      trimmedString = trimmedString.substring(1);
-    } else if (trimmedString.startsWith('./')) {
-      //ex: ./src >> src
-      trimmedString = trimmedString.substring(2);
-    }
-
-    if (trimmedString.endsWith('/')) {
-      //ex: src/ >> src
-      trimmedString = trimmedString.substring(0, trimmedString.length - 1);
-    }
-
-    return trimmedString;
-  }
-
   @Post('api/github/getFileFromRepo')
   @HttpCode(200)
   async getFileFromRepo(
@@ -735,12 +705,11 @@ export class GithubController {
     @Body('repo') repo: string,
     @Body('branchName') branchName: string,
     @Body('fileName') fileName: string,
-    @Body('fileMode') fileMode: GitHubFileTreeMode,
     @Body('baseFilePath') baseFilePath: string, // This is a base search path within the repo to avoid searching the entire repo.
     @Res() res
   ) {
-    if (gitHubToken && org && repo && branchName && fileName && fileMode && baseFilePath) {
-      const response = await this._searchSpecifiedGitHubFile(org, repo, branchName, gitHubToken, fileName, fileMode, baseFilePath);
+    if (gitHubToken && org && repo && branchName && fileName && baseFilePath) {
+      const response = await this._searchSpecifiedGitHubFile(org, repo, branchName, gitHubToken, fileName, baseFilePath);
       return res.json(response);
     } else {
       throw new HttpException(
@@ -1054,8 +1023,8 @@ export class GithubController {
     }
   }
 
-  private _ignoreBicepInfraFolderRule = (currentTree, treesAtCurrentLevel) => {
-    if (currentTree.mode === GitHubFileTreeMode.folder && currentTree.path === 'infra') {
+  private _ignoreBicepInfraFolderRule = (currentTree: GitHubFileTree, treesAtCurrentLevel: GitHubFileTree[]) => {
+    if (currentTree.type === this.type.tree && currentTree.path === 'infra') {
       for (const t of treesAtCurrentLevel) {
         if (t.path === 'azure.yaml') {
           return true;
@@ -1076,7 +1045,6 @@ export class GithubController {
     branchName: string,
     gitHubToken: string,
     fileName: string,
-    fileMode: GitHubFileTreeMode,
     baseFilePath: string
   ): Promise<GitHubFileSearchResult> {
     const foldersUnderBaseFilePath = await this._getFoldersInBaseFileLocation(userName, repoName, branchName, gitHubToken, baseFilePath);
@@ -1086,7 +1054,6 @@ export class GithubController {
         foldersUnderBaseFilePath,
         gitHubToken,
         fileName,
-        fileMode,
         baseFilePath
       );
     } else {
@@ -1133,12 +1100,11 @@ export class GithubController {
     gitHubDatabaseTrees: GitHubFileTree[],
     gitHubToken: string,
     fileName: string,
-    fileMode: GitHubFileTreeMode,
     baseFilePath: string
   ): Promise<GitHubFileSearchResult> {
     const folders = [];
     for (const t of gitHubDatabaseTrees) {
-      if (t.mode === fileMode && t.path === fileName) {
+      if (t.type === this.type.blob && t.path === fileName) {
         return {
           isFound: true,
           folderPath: currentFolderPath,
@@ -1149,7 +1115,7 @@ export class GithubController {
         continue;
       }
 
-      if (t.mode === GitHubFileTreeMode.folder) {
+      if (t.type === this.type.tree) {
         folders.push(t);
       }
     }
@@ -1168,7 +1134,7 @@ export class GithubController {
         });
         const childFolderAndFiles = response?.data?.tree;
         if (childFolderAndFiles) {
-          const result = await this._getFolderPathHelper(newPath, childFolderAndFiles, gitHubToken, fileName, fileMode, baseFilePath);
+          const result = await this._getFolderPathHelper(newPath, childFolderAndFiles, gitHubToken, fileName, baseFilePath);
           if (result.isFound) {
             return result; // Return as soon as the file is found in a child folder
           }
@@ -1182,5 +1148,32 @@ export class GithubController {
     return {
       isFound: false,
     };
+  }
+
+  private _isRootOfRepository(path: string): boolean {
+    return path === '/' || path === './';
+  }
+
+  // This function cleans up prefix and suffix. It removes '/' or './' from the beginning and '/' from the end. (ex: /src/client/ > src/client)
+  private _trimFilePath(filePath: string): string {
+    if (typeof filePath !== 'string') {
+      throw new HttpException(`'appLocation' property should be a string. `, 400);
+    }
+
+    let trimmedString: string = filePath;
+    if (trimmedString.startsWith('/')) {
+      //ex: /src >> src
+      trimmedString = trimmedString.substring(1);
+    } else if (trimmedString.startsWith('./')) {
+      //ex: ./src >> src
+      trimmedString = trimmedString.substring(2);
+    }
+
+    if (trimmedString.endsWith('/')) {
+      //ex: src/ >> src
+      trimmedString = trimmedString.substring(0, trimmedString.length - 1);
+    }
+
+    return trimmedString;
   }
 }

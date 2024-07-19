@@ -37,7 +37,7 @@ export interface GitHubFileGetTrees {
 
 export interface GitHubFileTree {
   path: string;
-  mode: GitHubFileTreeMode;
+  mode: string;
   type: string;
   sha: string;
   size: number;
@@ -47,10 +47,4 @@ export interface GitHubFileTree {
 export interface GitHubFileSearchResult {
   isFound: boolean;
   folderPath?: string;
-}
-
-export enum GitHubFileTreeMode {
-  file = '100644',
-  folder = '040000',
-  blob = '100755',
 }
