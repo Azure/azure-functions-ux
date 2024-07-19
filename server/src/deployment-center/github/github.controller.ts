@@ -22,7 +22,14 @@ import { LoggingService } from '../../shared/logging/logging.service';
 import { HttpService } from '../../shared/http/http.service';
 import { Constants } from '../../constants';
 import { GUID } from '../../utilities/guid';
-import { GitHubActionWorkflowRequestContent, GitHubSecretPublicKey, GitHubCommit } from './github';
+import {
+  GitHubActionWorkflowRequestContent,
+  GitHubSecretPublicKey,
+  GitHubCommit,
+  GitHubFileTree,
+  GitHubFileSearchResult,
+  GitHubFileTreeType,
+} from './github';
 import {
   EnvironmentUrlMappings,
   Environments,
@@ -652,28 +659,28 @@ export class GithubController {
     }
   }
 
-  private _trimAppLocation(appLocation: string): string {
-    if (typeof appLocation !== 'string') {
-      throw new HttpException(`'appLocation' property should be a string. `, 400);
+  @Post('api/github/getFileFromRepo')
+  @HttpCode(200)
+  async getFileFromRepo(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branchName') branchName: string,
+    @Body('filePath') filePath: string, //should include the path and file name. ex: "/client/public/staticwebapp.config.json"
+    @Res() res
+  ) {
+    if (gitHubToken && org && repo && branchName && filePath) {
+      const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimFilePath(filePath)}?ref=${branchName}`;
+      await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+    } else {
+      throw new HttpException(
+        `One or more required parameters are missing. hasGitHubToken: ${!!gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / filePath: ${filePath}`,
+        400
+      );
     }
-
-    let trimmedString: string = appLocation;
-    if (trimmedString.startsWith('/')) {
-      //ex: /src >> src
-      trimmedString = trimmedString.substring(1);
-    } else if (trimmedString.startsWith('./')) {
-      //ex: ./src >> src
-      trimmedString = trimmedString.substring(2);
-    }
-
-    if (trimmedString.endsWith('/')) {
-      //ex: src/ >> src
-      trimmedString = trimmedString.substring(0, trimmedString.length - 1);
-    }
-
-    return trimmedString;
   }
 
+  // TODO (miabe): Once getConfigFileFromRepo is deployed in prod, I will switch to getConfigFileFromRepo and delete this. (WI#: 28699788)
   @Post('api/github/getStaticWebAppConfiguration')
   @HttpCode(200)
   async getStaticWebAppConfiguration(
@@ -684,14 +691,35 @@ export class GithubController {
     @Body('appLocation') appLocation: string = '',
     @Res() res
   ) {
-    // If appLocation is not specify, or is the root, we will look for the staticwebapp.config.json in the root of the repo.
     const baseUrl =
       !appLocation || appLocation === '/'
         ? `${this.githubApiUrl}/repos/${org}/${repo}/contents/staticwebapp.config.json`
-        : `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimAppLocation(appLocation)}/staticwebapp.config.json`;
+        : `${this.githubApiUrl}/repos/${org}/${repo}/contents/${this._trimFilePath(appLocation)}/staticwebapp.config.json`;
 
     const url = branchName ? `${baseUrl}?ref=${branchName}` : baseUrl;
     await this._makeGetCallWithLinkAndOAuthHeaders(url, gitHubToken, res);
+  }
+
+  @Post('api/github/searchGitHubFile')
+  @HttpCode(200)
+  async searchGitHubFile(
+    @Body('gitHubToken') gitHubToken: string,
+    @Body('org') org: string,
+    @Body('repo') repo: string,
+    @Body('branchName') branchName: string,
+    @Body('fileName') fileName: string,
+    @Body('baseFilePath') baseFilePath: string, // This is a base search path within the repo to avoid searching the entire repo.
+    @Res() res
+  ) {
+    if (gitHubToken && org && repo && branchName && fileName && baseFilePath) {
+      const response = await this._searchSpecifiedGitHubFile(org, repo, branchName, gitHubToken, fileName, baseFilePath);
+      return res.json(response);
+    } else {
+      throw new HttpException(
+        `One or more required parameters are missing. hasGitHubToken: ${!!gitHubToken} / org: ${org} / repo: ${repo} / branchName: ${branchName} / fileName: ${fileName} / baseFilePath: ${baseFilePath}`,
+        400
+      );
+    }
   }
 
   @Put('api/github/updateGitHubContent')
@@ -788,7 +816,7 @@ export class GithubController {
   }
 
   private async _commitGitHubFile(gitHubToken: string, commit: GitHubCommit) {
-    const url = `${this.githubApiUrl}/repos/${commit.repoName}/contents/${commit.filePath}`;
+    const url = `${this.githubApiUrl}/repos/${commit.repoName}/contents/${this._trimFilePath(commit.filePath)}`;
 
     const commitContent = {
       message: commit.message,
@@ -996,5 +1024,159 @@ export class GithubController {
     } catch (err) {
       this.httpService.handleError(err);
     }
+  }
+
+  private _ignoreBicepInfraFolderRule = (currentTree: GitHubFileTree, treesAtCurrentLevel: GitHubFileTree[]) => {
+    if (currentTree.type === GitHubFileTreeType.Tree && currentTree.path === 'infra') {
+      for (const t of treesAtCurrentLevel) {
+        if (t.path === 'azure.yaml') {
+          return true;
+        }
+      }
+      return false;
+    }
+  };
+
+  // This rule ignores any folder and files start with '.'.
+  private _ignoreTypeRule = (currentTree: GitHubFileTree) => {
+    return currentTree.path.startsWith('.');
+  };
+
+  private async _searchSpecifiedGitHubFile(
+    userName: string,
+    repoName: string,
+    branchName: string,
+    gitHubToken: string,
+    fileName: string,
+    baseFilePath: string
+  ): Promise<GitHubFileSearchResult> {
+    const foldersUnderBaseFilePath = await this._getFoldersInBaseFileLocation(userName, repoName, branchName, gitHubToken, baseFilePath);
+    if (foldersUnderBaseFilePath) {
+      return await this._getFolderPathHelper(
+        baseFilePath /*currentFolderPath*/,
+        foldersUnderBaseFilePath,
+        gitHubToken,
+        fileName,
+        baseFilePath
+      );
+    } else {
+      throw new HttpException('Base file path does not contain files and folders.', 404);
+    }
+  }
+
+  // _getFoldersInBaseFileLocation returns folders and files under the root of specified base file path.
+  private async _getFoldersInBaseFileLocation(
+    userName: string,
+    repoName: string,
+    branchName: string,
+    gitHubToken: string,
+    baseFilePath: string
+  ): Promise<GitHubFileTree[]> {
+    let url = `${this.githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`;
+    if (!this._isRootOfRepository(baseFilePath)) {
+      url += `:${this._trimFilePath(baseFilePath)}`;
+    }
+    try {
+      const response = await this.httpService.get(url, {
+        headers: this._getAuthorizationHeader(gitHubToken),
+      });
+
+      const foldersAndFiles = response?.data?.tree;
+
+      if (foldersAndFiles) {
+        return foldersAndFiles;
+      } else {
+        this.loggingService.log('No data found under base file path.');
+        return undefined;
+      }
+    } catch (err) {
+      this.loggingService.error(`Failed to retrieve files and folders under base file path. URL: ${url}.`);
+      this.httpService.handleError(err);
+    }
+  }
+
+  // _getFolderPathHelper is a recursive function that searches for fileName(ex: staticwebapp.config.json) in the provided git tree value.
+  // If the file is found, it returns the folder path where the file is located.
+  // If the file is not found, set 'shouldCreateNewFile' to be 'true'. This means new file will be created under the base file path.
+  private async _getFolderPathHelper(
+    currentFolderPath: string,
+    gitHubDatabaseTrees: GitHubFileTree[],
+    gitHubToken: string,
+    fileName: string,
+    baseFilePath: string
+  ): Promise<GitHubFileSearchResult> {
+    const folders = [];
+    for (const t of gitHubDatabaseTrees) {
+      if (t.type === GitHubFileTreeType.Blob && t.path === fileName) {
+        return {
+          isFound: true,
+          folderPath: currentFolderPath,
+        };
+      }
+
+      if ([this._ignoreTypeRule, this._ignoreBicepInfraFolderRule].some(r => r(t, gitHubDatabaseTrees))) {
+        continue;
+      }
+
+      if (t.type === GitHubFileTreeType.Tree) {
+        folders.push(t);
+      }
+    }
+
+    if (folders.length === 0) {
+      return {
+        isFound: false,
+      };
+    }
+
+    for (const folder of folders) {
+      const newPath = this._isRootOfRepository(currentFolderPath) ? `/${folder.path}` : `${currentFolderPath}/${folder.path}`;
+      try {
+        const response = await this.httpService.get(`${folder.url}`, {
+          headers: this._getAuthorizationHeader(gitHubToken),
+        });
+        const childFolderAndFiles = response?.data?.tree;
+        if (childFolderAndFiles) {
+          const result = await this._getFolderPathHelper(newPath, childFolderAndFiles, gitHubToken, fileName, baseFilePath);
+          if (result.isFound) {
+            return result; // Return as soon as the file is found in a child folder
+          }
+        }
+      } catch (err) {
+        // Should not throw error since we should keep searching other folders.
+        this.loggingService.error(`Failed to fetch files and folders under ${newPath}. URL: ${folder.url}`);
+      }
+    }
+
+    return {
+      isFound: false,
+    };
+  }
+
+  private _isRootOfRepository(path: string): boolean {
+    return path === '/' || path === './';
+  }
+
+  // This function cleans up prefix and suffix. It removes '/' or './' from the beginning and '/' from the end. (ex: /src/client/ > src/client)
+  private _trimFilePath(filePath: string): string {
+    if (typeof filePath !== 'string') {
+      throw new HttpException(`'appLocation' property should be a string. `, 400);
+    }
+
+    let trimmedString: string = filePath;
+    if (trimmedString.startsWith('/')) {
+      //ex: /src >> src
+      trimmedString = trimmedString.substring(1);
+    } else if (trimmedString.startsWith('./')) {
+      //ex: ./src >> src
+      trimmedString = trimmedString.substring(2);
+    }
+
+    if (trimmedString.endsWith('/')) {
+      //ex: src/ >> src
+      trimmedString = trimmedString.substring(0, trimmedString.length - 1);
+    }
+
+    return trimmedString;
   }
 }

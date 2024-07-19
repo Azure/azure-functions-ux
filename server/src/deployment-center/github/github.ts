@@ -27,3 +27,29 @@ export interface GitHubSecretPublicKey {
   key_id: string;
   key: string;
 }
+
+export interface GitHubFileGetTrees {
+  sha: string;
+  url: string;
+  tree: GitHubFileTree[];
+  truncated: boolean;
+}
+
+export interface GitHubFileTree {
+  path: string;
+  mode: string;
+  type: string;
+  sha: string;
+  size: number;
+  url: string;
+}
+
+export interface GitHubFileSearchResult {
+  isFound: boolean;
+  folderPath?: string;
+}
+
+export enum GitHubFileTreeType {
+  Tree = 'tree',
+  Blob = 'blob',
+}
