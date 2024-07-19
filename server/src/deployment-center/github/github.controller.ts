@@ -763,27 +763,51 @@ export class GithubController {
     @Body('org') org: string,
     @Body('repo') repo: string,
     @Body('branch') branch: string,
-    @Res() res
-  ) {
-    const baseFilePath = '/';
-    const folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, baseFilePath);
-    const folderPath = (await this._getFolderPathHelper(baseFilePath, folderUnderBaseFilePath, gitHubToken, 'angular.json', baseFilePath))
-      .folderPath;
-    const trimmedPath = this._isRootOfRepository(folderPath) ? folderPath : `/${this._trimFilePath(folderPath)}/`;
-    const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents${trimmedPath}angular.json?ref=${branch}`;
+    @Body('appLocation') appLocation: string
+  ): Promise<{ outputPath: string }> {
+    let folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, appLocation);
+    let url = '';
+    const appLocationSearchResult = await this._getFolderPathHelper(
+      appLocation,
+      folderUnderBaseFilePath,
+      gitHubToken,
+      'angular.json',
+      appLocation
+    );
+
+    if (appLocationSearchResult.isFound) {
+      const trimmedPath = this._isRootOfRepository(appLocationSearchResult.folderPath)
+        ? appLocationSearchResult.folderPath
+        : `/${this._trimFilePath(appLocationSearchResult.folderPath)}/`;
+      url = `${this.githubApiUrl}/repos/${org}/${repo}/contents${trimmedPath}angular.json?ref=${branch}`;
+    } else {
+      const baseFilePath = '/';
+      folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, baseFilePath);
+      const rootSearchResult = await this._getFolderPathHelper(
+        baseFilePath,
+        folderUnderBaseFilePath,
+        gitHubToken,
+        'angular.json',
+        baseFilePath
+      );
+      if (!rootSearchResult.isFound) {
+        throw new HttpException('Failed to find angular.json file.', 400);
+      }
+      const trimmedPath = this._isRootOfRepository(rootSearchResult.folderPath)
+        ? rootSearchResult.folderPath
+        : `/${this._trimFilePath(rootSearchResult.folderPath)}/`;
+      url = `${this.githubApiUrl}/repos/${org}/${repo}/contents${trimmedPath}angular.json?ref=${branch}`;
+    }
+
     try {
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
-      try {
-        const decodedContent = JSON.parse(Buffer.from(response.data.content, 'base64').toString('utf8'));
-        const outputPath: string = decodedContent.projects[Object.keys(decodedContent.projects)[0]].architect.build.options.outputPath;
-        res.json(outputPath);
-      } catch (error) {
-        throw new HttpException('Failed to fetch output path from angular.json file.', 400);
-      }
+      const decodedContent = JSON.parse(Buffer.from(response.data.content, 'base64').toString('utf8'));
+      const outputPath: string = decodedContent.projects[Object.keys(decodedContent.projects)[0]]?.architect?.build?.options?.outputPath;
+      return { outputPath };
     } catch (error) {
-      throw new HttpException('Failed to find angular.json file.', 400);
+      throw new HttpException('Failed to fetch output path from angular.json file.', 400);
     }
   }
 
