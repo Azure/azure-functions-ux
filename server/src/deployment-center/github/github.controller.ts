@@ -766,7 +766,7 @@ export class GithubController {
     @Body('appLocation') appLocation: string
   ): Promise<{ outputPath: string }> {
     let folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, appLocation);
-    let url = '';
+    let url = '${this.githubApiUrl}/repos/${org}/${repo}/contents';
     const appLocationSearchResult = await this._getFolderPathHelper(
       appLocation,
       folderUnderBaseFilePath,
@@ -779,7 +779,7 @@ export class GithubController {
       const trimmedPath = this._isRootOfRepository(appLocationSearchResult.folderPath)
         ? appLocationSearchResult.folderPath
         : `/${this._trimFilePath(appLocationSearchResult.folderPath)}/`;
-      url = `${this.githubApiUrl}/repos/${org}/${repo}/contents${trimmedPath}angular.json?ref=${branch}`;
+      url += `${trimmedPath}angular.json?ref=${branch}`;
     } else {
       const baseFilePath = '/';
       folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, baseFilePath);
@@ -796,7 +796,7 @@ export class GithubController {
       const trimmedPath = this._isRootOfRepository(rootSearchResult.folderPath)
         ? rootSearchResult.folderPath
         : `/${this._trimFilePath(rootSearchResult.folderPath)}/`;
-      url = `${this.githubApiUrl}/repos/${org}/${repo}/contents${trimmedPath}angular.json?ref=${branch}`;
+      url += `${trimmedPath}angular.json?ref=${branch}`;
     }
 
     try {
