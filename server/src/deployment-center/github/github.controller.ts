@@ -765,20 +765,25 @@ export class GithubController {
     @Body('branch') branch: string,
     @Res() res
   ) {
+    const baseFilePath = '/';
+    const folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, baseFilePath);
+    const folderPath = (await this._getFolderPathHelper(baseFilePath, folderUnderBaseFilePath, gitHubToken, 'angular.json', baseFilePath))
+      .folderPath;
+    const trimmedPath = this._isRootOfRepository(folderPath) ? folderPath : this._trimFilePath(folderPath);
+    const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${trimmedPath}/angular.json?ref=${branch}`;
     try {
-      const baseFilePath = '/';
-      const folderUnderBaseFilePath = await this._getFoldersInBaseFileLocation(org, repo, branch, gitHubToken, baseFilePath);
-      const folderPath = (await this._getFolderPathHelper(baseFilePath, folderUnderBaseFilePath, gitHubToken, 'angular.json', baseFilePath))
-        .folderPath;
-      const url = `${this.githubApiUrl}/repos/${org}/${repo}/contents/${folderPath}/angular.json?ref=${branch}`;
       const response = await this.httpService.get(url, {
         headers: this._getAuthorizationHeader(gitHubToken),
       });
-      const decodedContent = JSON.parse(Buffer.from(response.data.content, 'base64').toString('utf8'));
-      const outputPath: string = decodedContent.projects[Object.keys(decodedContent.projects)[0]].architect.build.options.outputPath;
-      res.json(outputPath);
+      try {
+        const decodedContent = JSON.parse(Buffer.from(response.data.content, 'base64').toString('utf8'));
+        const outputPath: string = decodedContent.projects[Object.keys(decodedContent.projects)[0]].architect.build.options.outputPath;
+        res.json(outputPath);
+      } catch (error) {
+        throw new HttpException('Failed to fetch output path from angular.json file.', 400);
+      }
     } catch (error) {
-      throw new HttpException('Failed to retrieve data.', 400);
+      throw new HttpException('Failed to find angular.json file.', 400);
     }
   }
 
