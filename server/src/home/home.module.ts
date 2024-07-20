@@ -1,5 +1,4 @@
-import { CacheModule } from '@nestjs/cache-manager';
-import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
+import { Module, CacheModule, MiddlewareConsumer, RequestMethod } from '@nestjs/common';
 import { HomeController } from './home/home.controller';
 import { HomeServiceProd } from './home/home.service.prod';
 import { SharedModule } from '../shared/shared.module';
