@@ -26,7 +26,7 @@ import { CreateOrSelectPlan, NEW_PLAN } from './CreateOrSelectPlan';
 import { addNewRgOption } from './CreateOrSelectResourceGroup';
 
 interface SpecPickerOutput {
-  selectedKey: string; 
+  selectedKey: string;
   selectedSkuCode: string; // Like "S1"
   selectedTier: string; // Like "Standard"
 }
@@ -194,9 +194,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
         isFunctionApp: isFunctionApp(formProps.values.site),
       };
     }
-    return {
-      isFunctionApp: isFunctionApp(formProps.values.site),
-    };
+    return null;
   }, [currentServerFarm, forbiddenSkus, formProps.values.site]);
 
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
