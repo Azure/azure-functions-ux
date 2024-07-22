@@ -11,6 +11,10 @@ import SiteHelper from '../../../../utils/SiteHelper';
 import { Links } from '../../../../utils/FwLinks';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 
+enum RemoteDebuggingVersion {
+  VS2022 = 'VS2022',
+}
+
 const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { t } = useTranslation();
   const { app_write, editable, saving } = useContext(PermissionsContext);
@@ -25,12 +29,15 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
 
   const options: IDropdownOption[] = [
     {
-      key: 'VS2022',
+      key: RemoteDebuggingVersion.VS2022,
       text: '2022',
     },
   ];
 
-  if (initialValues.config.properties.remoteDebuggingVersion && initialValues.config.properties.remoteDebuggingVersion !== 'VS2022') {
+  if (
+    initialValues.config.properties.remoteDebuggingVersion &&
+    initialValues.config.properties.remoteDebuggingVersion !== RemoteDebuggingVersion.VS2022
+  ) {
     options.unshift({
       key: initialValues.config.properties.remoteDebuggingVersion,
       text: getExpiredVSVersionText(),
@@ -40,7 +47,7 @@ const DebuggingWindows: React.FC<FormikProps<AppSettingsFormValues>> = props => 
 
   const showWarningForVSVersion =
     values.config.properties.remoteDebuggingVersion &&
-    values.config.properties.remoteDebuggingVersion !== 'VS2022' &&
+    values.config.properties.remoteDebuggingVersion !== RemoteDebuggingVersion.VS2022 &&
     values.config.properties.remoteDebuggingEnabled;
 
   useEffect(() => {
