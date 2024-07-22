@@ -312,7 +312,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
       },
       {
         displayText: 'Red Hat JBoss EAP 8',
-        value: 'jbosseap',
+        value: 'jbosseap8.0',
         minorVersions: [
           {
             displayText: 'Red Hat JBoss EAP 8',
