@@ -17,16 +17,15 @@
     "start:prod": "node dist/server.js",
     "lint": "eslint --ext .ts src --format visualstudio --quiet",
     "build:resources": "gulp build-all",
-    "test": "mocha -require ts-node/register ./src/tests/**/*.ts"
+    "test": "./node_modules/.bin/mocha -require ts-node/register ./src/tests/**/*.ts"
   },
   "dependencies": {
     "@azure/storage-blob": "^12.6.0",
     "@azure/storage-file": "^10.3.0",
     "@azure/web-apps-framework-detection": "^0.1.0",
-    "@nestjs/cache-manager": "^2.2.2",
-    "@nestjs/common": "^10.3.10",
-    "@nestjs/core": "^10.3.10",
-    "@nestjs/platform-express": "^10.3.10",
+    "@nestjs/common": "^8.4.7",
+    "@nestjs/core": "^8.4.7",
+    "@nestjs/platform-express": "^8.4.7",
     "applicationinsights": "^2.1.4",
     "async-file": "^2.0.2",
     "axios": "^1.7.2",
@@ -47,7 +46,7 @@
     "tweetsodium": "^0.0.5"
   },
   "devDependencies": {
-    "@nestjs/testing": "^10.3.10",
+    "@nestjs/testing": "^8.4.7",
     "@types/chai": "^4.3.16",
     "@types/express": "^4.17.21",
     "@types/mocha": "^9.1.1",
