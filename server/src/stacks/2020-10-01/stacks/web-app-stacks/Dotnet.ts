@@ -17,17 +17,18 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
     preferredOs: 'windows',
     majorVersions: [
       {
-        displayText: '.NET 9 (LTS)',
+        displayText: '.NET 9 (STS)',
         value: 'dotnet9',
         minorVersions: [
           {
-            displayText: '.NET 9 (LTS)',
+            displayText: '.NET 9 (STS)',
             value: '9',
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v9.0',
                 remoteDebuggingSupported: false,
                 isHidden: true,
+                isPreview: true,
                 appInsightsSettings: {
                   isSupported: true,
                   isDefaultOff: false,
@@ -41,6 +42,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'DOTNETCORE|9.0',
                 remoteDebuggingSupported: false,
                 isHidden: true,
+                isPreview: true,
                 appInsightsSettings: {
                   isSupported: true,
                   isDefaultOff: false,
