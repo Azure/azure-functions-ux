@@ -217,7 +217,7 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
 
   useEffect(() => {
     portalContext
-      .hasFlightEnabled(ExperimentationConstants.TreatmentFlight.swaConfigurationNew)
+      .getBooleanFlight(ExperimentationConstants.TreatmentFlight.swaConfigurationNew)
       .then((isEnabled: boolean) => setShowNewConfiguration(isEnabled));
   }, [portalContext]);
 
