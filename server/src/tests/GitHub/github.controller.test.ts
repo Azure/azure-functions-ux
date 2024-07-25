@@ -29,7 +29,7 @@ describe('GitHub controller test', () => {
     httpServiceMock.get.mockReset();
   });
 
-  describe('Test searchGitHubFile', () => {
+  describe('searchGitHubFile', () => {
     const userName = 'testUser';
     const repoName = 'testRepo';
     const branchName = 'main';
@@ -50,7 +50,7 @@ describe('GitHub controller test', () => {
       publicSub3Folder,
     } = GitHubFileSearchMockData;
 
-    describe('Test _getFoldersInBaseFileLocation function', () => {
+    describe('_getFoldersInBaseFileLocation', () => {
       it('Should return an expected array ', async () => {
         httpServiceMock.get.mockImplementation(url => {
           if (url === `${(githubController as any).githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`) {
@@ -70,7 +70,7 @@ describe('GitHub controller test', () => {
       });
     });
 
-    describe('Test _getFolderPathHelper function', () => {
+    describe('_getFolderPathHelper', () => {
       it('Should find fileNameToLookFor.config.json under a subfolder.', async () => {
         httpServiceMock.get.mockImplementation((url: string) => {
           if (url === 'https://api.github.com/clientFolder') {
@@ -90,11 +90,11 @@ describe('GitHub controller test', () => {
         );
 
         expect(isFound).to.be.true;
-        expect(folderPath).to.equal('/client', `Expected: /client Actual: ${folderPath}`);
+        expect(folderPath).to.equal('/client');
       });
     });
 
-    describe('Test _searchSpecifiedGitHubFile function', () => {
+    describe('_searchSpecifiedGitHubFile', () => {
       it('Should find fileNameToLookFor.config.json under the base file path', async () => {
         httpServiceMock.get.mockImplementation(url => {
           if (
@@ -118,7 +118,7 @@ describe('GitHub controller test', () => {
         );
 
         expect(isFound).to.be.true;
-        expect(folderPath).to.equal('/client', `Expected: /client Actual: ${folderPath}`);
+        expect(folderPath).to.equal('/client');
       });
 
       it('Should find fileNameToLookFor.config.json under a nested subfolder', async () => {
@@ -153,7 +153,7 @@ describe('GitHub controller test', () => {
         );
 
         expect(isFound).to.be.true;
-        expect(folderPath).to.equal('/client/public/publicSub3', `Expected: /client/public/publicSub3 Actual: ${folderPath}`);
+        expect(folderPath).to.equal('/client/public/publicSub3');
       });
 
       it('Should not find missingFileName.config.json.', async () => {
@@ -179,11 +179,11 @@ describe('GitHub controller test', () => {
         );
 
         expect(isFound).to.be.false;
-        expect(folderPath).to.equal(undefined, `Expected: undefined Actual: ${folderPath}`);
+        expect(folderPath).to.equal(undefined);
       });
     });
 
-    describe('Test searchGitHubFile function', () => {
+    describe('searchGitHubFile', () => {
       it('Should throw an error if any required property is missing.', async () => {
         try {
           await (githubController as any).searchGitHubFile(gitHubToken, userName, repoName, branchName, fileNameToLookFor, '');
