@@ -1,4 +1,3 @@
-import * as sinon from 'sinon';
 import { expect } from 'chai';
 import { DeploymentCenterService } from '../../../src/deployment-center/deployment-center.service';
 import { ConfigService } from '../../shared/config/config.service';
@@ -7,16 +6,19 @@ import { HttpService } from '../../shared/http/http.service';
 import { GithubController } from '../../../src/deployment-center/github/github.controller';
 import { GitHubFileSearchMockData } from './githubFileSearchMock';
 import { gitHubTreeCallMockResponse } from './github.controller.utility';
+import { Mocked, fn } from 'jest-mock';
 
 describe('GitHub controller test', () => {
   let githubController: GithubController;
-  let httpServiceMock: sinon.SinonStubbedInstance<HttpService>;
+  let httpServiceMock: Mocked<HttpService>;
   let loggingServiceMock: LoggingService;
   let configService: ConfigService;
   let dcService: DeploymentCenterService;
 
   beforeEach(() => {
-    httpServiceMock = sinon.createStubInstance(HttpService);
+    httpServiceMock = ({
+      get: fn(),
+    } as unknown) as Mocked<HttpService>;
     loggingServiceMock = new LoggingService();
     configService = new ConfigService(httpServiceMock);
     dcService = new DeploymentCenterService(loggingServiceMock, configService, httpServiceMock);
@@ -24,7 +26,7 @@ describe('GitHub controller test', () => {
   });
 
   afterEach(function() {
-    sinon.restore();
+    httpServiceMock.get.mockReset();
   });
 
   describe('Test searchGitHubFile', () => {
@@ -50,9 +52,12 @@ describe('GitHub controller test', () => {
 
     describe('Test _getFoldersInBaseFileLocation function', () => {
       it('Should return an expected array ', async () => {
-        httpServiceMock.get
-          .withArgs(`${(githubController as any).githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`)
-          .resolves(gitHubTreeCallMockResponse(baseRootFolder));
+        httpServiceMock.get.mockImplementation(url => {
+          if (url === `${(githubController as any).githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`) {
+            return Promise.resolve(gitHubTreeCallMockResponse(baseRootFolder));
+          }
+          return Promise.reject(new Error(`Unexpected URL`));
+        });
 
         const foldersInBase = await (githubController as any)._getFoldersInBaseFileLocation(
           userName,
@@ -67,8 +72,14 @@ describe('GitHub controller test', () => {
 
     describe('Test _getFolderPathHelper function', () => {
       it('Should find fileNameToLookFor.config.json under a subfolder.', async () => {
-        httpServiceMock.get.withArgs('https://api.github.com/clientFolder').resolves(gitHubTreeCallMockResponse(clientFolder));
-        httpServiceMock.get.withArgs('https://api.github.com/srcFolder').resolves(gitHubTreeCallMockResponse(srcFolder));
+        httpServiceMock.get.mockImplementation((url: string) => {
+          if (url === 'https://api.github.com/clientFolder') {
+            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder));
+          } else if (url === 'https://api.github.com/srcFolder') {
+            return Promise.resolve(gitHubTreeCallMockResponse(srcFolder));
+          }
+          return Promise.reject(new Error('Unexpected URL'));
+        });
 
         const { isFound, folderPath } = await (githubController as any)._getFolderPathHelper(
           baseFilePath,
@@ -85,13 +96,17 @@ describe('GitHub controller test', () => {
 
     describe('Test _searchSpecifiedGitHubFile function', () => {
       it('Should find fileNameToLookFor.config.json under the base file path', async () => {
-        httpServiceMock.get
-          .withArgs(
+        httpServiceMock.get.mockImplementation(url => {
+          if (
+            url ===
             `${
               (githubController as any).githubApiUrl
             }/repos/${userName}/${repoName}/git/trees/${branchName}:${(githubController as any)._trimFilePath(baseClientPath)}`
-          )
-          .resolves(gitHubTreeCallMockResponse(clientFolder));
+          ) {
+            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder));
+          }
+          return Promise.reject(new Error('Unexpected URL'));
+        });
 
         const { isFound, folderPath } = await (githubController as any)._searchSpecifiedGitHubFile(
           userName,
@@ -107,21 +122,26 @@ describe('GitHub controller test', () => {
       });
 
       it('Should find fileNameToLookFor.config.json under a nested subfolder', async () => {
-        const url = `${
-          (githubController as any).githubApiUrl
-        }/repos/${userName}/${repoName}/git/trees/${branchName}:${(githubController as any)._trimFilePath(baseClientPath)}`;
-
-        httpServiceMock.get.withArgs(url).resolves(gitHubTreeCallMockResponse(baseClientFolder));
-
-        httpServiceMock.get.withArgs('https://api.github.com/srcFolder').resolves(gitHubTreeCallMockResponse(srcFolder));
-
-        httpServiceMock.get.withArgs('https://api.github.com/publicFolder').resolves(gitHubTreeCallMockResponse(publicFolder));
-
-        httpServiceMock.get.withArgs('https://api.github.com/publicSub1Folder').resolves(gitHubTreeCallMockResponse(publicSub1Folder));
-
-        httpServiceMock.get.withArgs('https://api.github.com/publicSub2Folder').resolves(gitHubTreeCallMockResponse(publicSub2Folder));
-
-        httpServiceMock.get.withArgs('https://api.github.com/publicSub3Folder').resolves(gitHubTreeCallMockResponse(publicSub3Folder));
+        httpServiceMock.get.mockImplementation(url => {
+          switch (url) {
+            case `${
+              (githubController as any).githubApiUrl
+            }/repos/${userName}/${repoName}/git/trees/${branchName}:${(githubController as any)._trimFilePath(baseClientPath)}`:
+              return Promise.resolve(gitHubTreeCallMockResponse(baseClientFolder));
+            case 'https://api.github.com/srcFolder':
+              return Promise.resolve(gitHubTreeCallMockResponse(srcFolder));
+            case 'https://api.github.com/publicFolder':
+              return Promise.resolve(gitHubTreeCallMockResponse(publicFolder));
+            case 'https://api.github.com/publicSub1Folder':
+              return Promise.resolve(gitHubTreeCallMockResponse(publicSub1Folder));
+            case 'https://api.github.com/publicSub2Folder':
+              return Promise.resolve(gitHubTreeCallMockResponse(publicSub2Folder));
+            case 'https://api.github.com/publicSub3Folder':
+              return Promise.resolve(gitHubTreeCallMockResponse(publicSub3Folder));
+            default:
+              return Promise.reject(new Error('Not Found'));
+          }
+        });
 
         const { isFound, folderPath } = await (githubController as any)._searchSpecifiedGitHubFile(
           userName,
@@ -137,13 +157,17 @@ describe('GitHub controller test', () => {
       });
 
       it('Should not find missingFileName.config.json.', async () => {
-        httpServiceMock.get
-          .withArgs(`${(githubController as any).githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`)
-          .resolves(gitHubTreeCallMockResponse(baseRootFolder));
-
-        httpServiceMock.get.withArgs('https://api.github.com/srcFolder').resolves(gitHubTreeCallMockResponse(srcFolder));
-
-        httpServiceMock.get.withArgs('https://api.github.com/clientFolder').resolves(gitHubTreeCallMockResponse(clientFolder));
+        httpServiceMock.get.mockImplementation(url => {
+          if (url === `${(githubController as any).githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`) {
+            return Promise.resolve(gitHubTreeCallMockResponse(baseRootFolder));
+          } else if (url === 'https://api.github.com/srcFolder') {
+            return Promise.resolve(gitHubTreeCallMockResponse(srcFolder));
+          } else if (url === 'https://api.github.com/clientFolder') {
+            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder));
+          } else {
+            return Promise.reject(new Error('Not Found'));
+          }
+        });
 
         const { isFound, folderPath } = await (githubController as any)._searchSpecifiedGitHubFile(
           userName,
