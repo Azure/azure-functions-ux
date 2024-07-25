@@ -40,8 +40,8 @@ export interface GitHubFileTree {
   mode: string;
   type: string;
   sha: string;
-  size: number;
   url: string;
+  size?: number;
 }
 
 export interface GitHubFileSearchResult {

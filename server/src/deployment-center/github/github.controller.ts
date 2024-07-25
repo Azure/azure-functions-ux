@@ -1160,7 +1160,7 @@ export class GithubController {
   // This function cleans up prefix and suffix. It removes '/' or './' from the beginning and '/' from the end. (ex: /src/client/ > src/client)
   private _trimFilePath(filePath: string): string {
     if (typeof filePath !== 'string') {
-      throw new HttpException(`'appLocation' property should be a string. `, 400);
+      throw new HttpException(`'filePath' property should be a string. `, 400);
     }
 
     let trimmedString: string = filePath;
