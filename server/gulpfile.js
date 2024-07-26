@@ -173,7 +173,7 @@ gulp.task('resources-convert', function () {
   ensurePath('templates/');
 
   const portalResourceStream = gulp
-    .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'], { base: '../server' })
+    .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'])
     .pipe(resx2())
     .pipe(
       rename(function (p) {
