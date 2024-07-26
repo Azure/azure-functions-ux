@@ -22,7 +22,7 @@
   "dependencies": {
     "@azure/storage-blob": "^12.6.0",
     "@azure/storage-file": "^10.3.0",
-    "@azure/web-apps-framework-detection": "^0.1.0",
+    "@azure/web-apps-framework-detection": "^0.1.1",
     "@nestjs/cache-manager": "^2.2.2",
     "@nestjs/common": "^10.3.10",
     "@nestjs/core": "^10.3.10",
