@@ -64,7 +64,7 @@
     "del": "^6.1.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "gulp": "^5.0.0",
+    "gulp": "^4.0.2",
     "gulp-json-editor": "^2.6.0",
     "gulp-merge-json": "^2.2.1",
     "gulp-prettier": "^5.0.0",
