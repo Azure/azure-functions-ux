@@ -32,7 +32,7 @@ gulp.task('resources-clean', function (cb) {
  *   replace values in index.html with minified bundle names with hash
  *  This should only be ran as part of the production deployment
  */
-gulp.task('replace-tokens-for-minimized-angular', cb => {
+gulp.task('replace-tokens-for-minimized-angular', (cb) => {
   const ngMinPath = path.join(__dirname, 'public', 'ng-min');
   const minFolderExists = fs.existsSync(ngMinPath);
   if (minFolderExists) {
@@ -81,8 +81,7 @@ gulp.task('copy-env-template-to-env', () => {
     )
     .pipe(gulp.dest('./'));
 });
-
-gulp.task('replace-environment-variables', cb => {
+gulp.task('replace-environment-variables', (cb) => {
   const envPath = path.join(__dirname, '.env');
   const minFolderExists = fs.existsSync(envPath);
   if (minFolderExists) {
@@ -119,9 +118,7 @@ gulp.task('replace-environment-variables', cb => {
   }
   cb();
 });
-
 gulp.task('inject-environment-variables', gulp.series('copy-env-template-to-env', 'replace-environment-variables'));
-
 /********
  *   Bundle Up production server static files
  */
@@ -168,10 +165,6 @@ gulp.task('resx-to-typescript-models', function (cb) {
  *   Also it will change the file name format to Resources.<language code>.json
  */
 gulp.task('resources-convert', function () {
-  /** @note Work around gulp 5 ENOENT errors when globbing on paths which may not exist. */
-  ensurePath('../server/resources-resx/');
-  ensurePath('templates/');
-
   const portalResourceStream = gulp
     .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'])
     .pipe(resx2())
@@ -211,9 +204,6 @@ gulp.task('resources-convert', function () {
  *   This is the task takes the output of the  convert task and formats the json to be in the format that gets sent back to the client by the API, it's easier to do this here than at the end
  */
 gulp.task('resources-build', function () {
-  /** @note Work around gulp 5 ENOENT errors when globbing on paths which may not exist. */
-  ensurePath('resources-convert/');
-
   const streams = [];
   streams.push(
     gulp
@@ -234,7 +224,7 @@ gulp.task('resources-build', function () {
 
   streams.push(
     gulp
-      .src(['resources-convert/Resources.json'], { allowEmpty: true })
+      .src(['resources-convert/Resources.json'])
       .pipe(
         jeditor(function (json) {
           const retVal = {
@@ -249,7 +239,7 @@ gulp.task('resources-build', function () {
 
   //This fetches all version folders for templates and makes sure the appropriate action is done to each one
   const TemplateVersionDirectories = getSubDirectories('templateResoureces-convert');
-  TemplateVersionDirectories.forEach(x => {
+  TemplateVersionDirectories.forEach((x) => {
     streams.push(
       gulp
         .src('templateResoureces-convert/' + x + '/Resources.*.json')
@@ -299,18 +289,14 @@ let streams = [];
 const baseNames = [];
 
 gulp.task('resources-combine', function () {
-  /** @note Work around gulp 5 ENOENT errors when globbing on paths which may not exist. */
-  ensurePath('templateresources-build/');
-  ensurePath('resources-build/');
-
   const TemplateVersionDirectories = getSubDirectories('templateresources-build');
   const s = [];
-  TemplateVersionDirectories.forEach(x => {
+  TemplateVersionDirectories.forEach((x) => {
     const folders = ['templateresources-build/' + x, 'resources-build'];
     getFiles(folders);
     makeStreams();
 
-    streams.forEach(stream => {
+    streams.forEach((stream) => {
       let fileName = path.basename(stream[stream.length - 1]);
 
       let dirName = path.dirname(stream[stream.length - 1]);
@@ -360,7 +346,7 @@ function makeStreams() {
       );
     });
   });
-  streams = streams.filter(stream => stream.length >= 1);
+  streams = streams.filter((stream) => stream.length >= 1);
 }
 
 const templateVersionMap = {
@@ -370,7 +356,6 @@ const templateVersionMap = {
   2: '2.1.0',
   3: '3.1.1',
 };
-
 /*****
  * Copy function templates
  */
@@ -382,7 +367,7 @@ gulp.task('list-numeric-versions', function (cb) {
   // Checks version matches patter x.x with unlimited .x and x being any numeric value
   const regex = /\d+(?:\.\d+)*/;
   const templateKeys = Object.keys(templateVersionMap);
-  const templateVersions = templateKeys.filter(x => regex.test(x));
+  const templateVersions = templateKeys.filter((x) => regex.test(x));
   let writePath = path.join(__dirname, 'src', 'data', 'data');
   if (!fs.existsSync(writePath)) {
     fs.mkdirSync(writePath);
@@ -410,15 +395,12 @@ gulp.task(
 );
 
 gulp.task('build-test', gulp.series('resources-convert', 'resources-build', 'resources-combine', 'copy-function-resources'));
-
 gulp.task('copy-data-to-dist', () => {
   return gulp.src('./src/data/**').pipe(gulp.dest('./dist/data'));
 });
-
 gulp.task('copy-quickstart-to-dist', () => {
   return gulp.src('./src/quickstart/**').pipe(gulp.dest('./dist/quickstart'));
 });
-
 gulp.task(
   'build-production',
   gulp.series(
@@ -441,8 +423,26 @@ function getSubDirectories(folder) {
   if (!fs.existsSync(folder)) {
     return [];
   }
-  const dir = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
+  const dir = (p) => fs.readdirSync(p).filter((f) => fs.statSync(path.join(p, f)).isDirectory());
   return dir(folder);
+}
+
+function getFilesWithContent(folder, filesToIgnore) {
+  if (!fs.existsSync(folder)) {
+    return {};
+  }
+  let obj = {};
+  const fileNames = fs.readdirSync(folder).filter((f) => fs.statSync(path.join(folder, f)).isFile());
+  fileNames
+    .filter((x) => filesToIgnore.indexOf(x) === -1)
+    .forEach((fileName) => {
+      const fileContent = fs.readFileSync(path.join(folder, fileName), {
+        encoding: 'utf8',
+      });
+      obj[fileName] = fileContent;
+    });
+
+  return obj;
 }
 
 function newGuid() {
@@ -476,10 +476,4 @@ function getFiles(folders) {
       }
     });
   });
-}
-
-function ensurePath(path, recursive = true) {
-  if (!fs.existsSync(path)) {
-    fs.mkdirSync(path, { recursive });
-  }
 }
