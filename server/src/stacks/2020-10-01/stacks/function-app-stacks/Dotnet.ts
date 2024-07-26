@@ -298,7 +298,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 endOfLifeDate: dotnet8EOL,
               },
               linuxRuntimeSettings: {
-                isHidden: true,
+                isHidden: false,
                 runtimeVersion: 'DOTNET|8.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {

@@ -18399,11 +18399,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";remoteDebuggingVS2015NotSupported" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";remoteDebuggingVSVersionNotSupported" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Visual Studio 2015 is no longer supported for remote debugging. Please select a supported Visual Studio version.]]></Val>
+          <Val><![CDATA[Visual Studio {0} is no longer supported for remote debugging. Please select a supported Visual Studio version.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Visual Studio 2015, artık uzaktan hata ayıklama için desteklenmiyor. Lütfen desteklenen bir Visual Studio sürümü seçin.]]></Val>
+            <Val><![CDATA[Visual Studio {0}, artık uzaktan hata ayıklama için desteklenmiyor. Lütfen desteklenen bir Visual Studio sürümü seçin.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
