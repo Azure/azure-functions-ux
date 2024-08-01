@@ -164,7 +164,8 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       if (isFunctionApp(site.data)) {
         const os = isLinux ? AppStackOs.linux : AppStackOs.windows;
         const stack = site.data.properties.functionAppConfig?.runtime?.name;
-        const stackValueForStacksAPI = (stack === RuntimeStacks.dotnetIsolated || stack === RuntimeStacks.dotnet) ? RuntimeStacks.dotnet : stack;
+        const stackValueForStacksAPI =
+          stack === RuntimeStacks.dotnetIsolated || stack === RuntimeStacks.dotnet ? RuntimeStacks.dotnet : stack;
         const stacksResponse =
           isFlexConsumption(site.data) && stackValueForStacksAPI
             ? await RuntimeStackService.getFunctionAppConfigurationStackForLocation(os, site.data.location, stackValueForStacksAPI)
@@ -246,11 +247,19 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
       }
 
       const sshEnabled = site.data.properties.sshEnabled;
+      const functionsRuntimeAdminIsolationEnabled: boolean = !!site.data.properties.functionsRuntimeAdminIsolationEnabled;
 
       setInitialValues({
         ...convertStateToForm({
           // @note(krmitta): Manually over-writing since the api returns null when sshEnabled property is not set in the database but the default is true
-          site: { ...site.data, properties: { ...site.data.properties, sshEnabled: isLinux && sshEnabled === null ? true : sshEnabled } },
+          site: {
+            ...site.data,
+            properties: {
+              ...site.data.properties,
+              sshEnabled: isLinux && sshEnabled === null ? true : sshEnabled,
+              functionsRuntimeAdminIsolationEnabled: functionsRuntimeAdminIsolationEnabled,
+            },
+          },
           config: webConfig.data,
           metadata: metadata.metadata.success ? metadata.data : null,
           connectionStrings: connectionStrings.metadata.success ? connectionStrings.data : null,

@@ -1477,6 +1477,8 @@ export class PortalResources {
   public static diagnoseAndSolveProblems = 'diagnoseAndSolveProblems';
   public static stackSettings = 'stackSettings';
   public static platformSettings = 'platformSettings';
+  public static functionsAdminIsolation = 'functionsAdminIsolation';
+  public static functionsAdminIsolationInfoBubble = 'functionsAdminIsolationInfoBubble';
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
   public static directToEnvironmentVariablesInfoMessage = 'directToEnvironmentVariablesInfoMessage';

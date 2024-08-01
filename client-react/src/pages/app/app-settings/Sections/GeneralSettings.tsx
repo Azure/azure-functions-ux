@@ -75,7 +75,11 @@ const platformDirty = (values: AppSettingsFormValues, initialValues: AppSettings
     !isEqual(values.site.properties.clientAffinityEnabled, initialValues.site.properties.clientAffinityEnabled) ||
     !isEqual(values.config.properties.webSocketsEnabled, initialValues.config.properties.webSocketsEnabled) ||
     !isEqual(values.config.properties.minTlsCipherSuite, initialValues.config.properties.minTlsCipherSuite) ||
-    !isEqual(!!values.site.properties.endToEndEncryptionEnabled, !!initialValues.site.properties.endToEndEncryptionEnabled)
+    !isEqual(!!values.site.properties.endToEndEncryptionEnabled, !!initialValues.site.properties.endToEndEncryptionEnabled) ||
+    !isEqual(
+      !!values.site.properties.functionsRuntimeAdminIsolationEnabled,
+      !!initialValues.site.properties.functionsRuntimeAdminIsolationEnabled
+    )
   );
 };
 
