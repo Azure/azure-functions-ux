@@ -200,24 +200,24 @@ const JavaStack: React.SFC<StackProps> = props => {
     const majorVersion = selectedValues.majorVersion
       ? selectedValues.majorVersion
       : majorVersionDropdownOptions.length > 0
-      ? (majorVersionDropdownOptions[0].key as string)
-      : undefined;
+        ? (majorVersionDropdownOptions[0].key as string)
+        : undefined;
 
     if (majorVersion) {
       containerKeyDropdownOptions = getJavaContainerDropdownOptionsForSelectedMajorVersion(majorVersion);
       const containerKey = selectedValues.containerKey
         ? selectedValues.containerKey
         : containerKeyDropdownOptions.length > 0
-        ? (containerKeyDropdownOptions[0].key as string)
-        : undefined;
+          ? (containerKeyDropdownOptions[0].key as string)
+          : undefined;
 
       if (containerKey) {
         containerVersionDropdownOptions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(majorVersion, containerKey);
         const containerVersion = selectedValues.containerVersion
           ? selectedValues.containerVersion
           : containerVersionDropdownOptions.length > 0
-          ? (containerVersionDropdownOptions[0].key as string)
-          : undefined;
+            ? (containerVersionDropdownOptions[0].key as string)
+            : undefined;
 
         if (containerVersion && containerVersion.toLowerCase() !== values.config.properties.linuxFxVersion.toLowerCase()) {
           setFieldValue('config.properties.linuxFxVersion', containerVersion);
@@ -269,8 +269,8 @@ const JavaStack: React.SFC<StackProps> = props => {
   };
 
   const isJBossClusteringDirty = useCallback(() => {
-    return !!initialValues.config.properties.ClusteringEnabled !== !!values.config.properties.ClusteringEnabled;
-  }, [initialValues.config.properties.ClusteringEnabled, values.config.properties.ClusteringEnabled]);
+    return !!initialValues.config.properties.clusteringEnabled !== !!values.config.properties.clusteringEnabled;
+  }, [initialValues.config.properties.clusteringEnabled, values.config.properties.clusteringEnabled]);
 
   const setStackBannerAndInfoMessage = () => {
     setEarlyAccessInfoVisible(false);
@@ -349,8 +349,8 @@ const JavaStack: React.SFC<StackProps> = props => {
       )}
       {isJBossClusteringShown(values.config.properties.linuxFxVersion, site) && (
         <Field
-          name="config.properties.ClusteringEnabled"
-          id={'config.properties.ClusteringEnabled'}
+          name="config.properties.clusteringEnabled"
+          id={'config.properties.clusteringEnabled'}
           dirty={isJBossClusteringDirty()}
           component={RadioButton}
           label={'JBOSS Clustering'}
