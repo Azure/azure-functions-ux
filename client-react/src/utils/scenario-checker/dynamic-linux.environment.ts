@@ -74,6 +74,13 @@ export class DynamicLinuxEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.functionsAdminIsolationSupported] = {
+      id: ScenarioIds.functionsAdminIsolationSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {

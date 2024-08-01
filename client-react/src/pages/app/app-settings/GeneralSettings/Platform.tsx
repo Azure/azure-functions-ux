@@ -483,6 +483,31 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           infoBubbleMessage={t('portCountRange').format(VnetPrivatePortsCount.min, VnetPrivatePortsCount.max)}
         />
       )}
+      {scenarioChecker.checkScenario(ScenarioIds.functionsAdminIsolationSupported, { site }).status !== 'disabled' && (
+        <Field
+          name="site.properties.functionsRuntimeAdminIsolationEnabled"
+          id="app-settings-functionsRuntimeAdminIsolationEnabled"
+          label={t('functionsAdminIsolation')}
+          infoBubbleMessage={t('functionsAdminIsolationInfoBubble')}
+          learnMoreLink={Links.functionsRuntimeAdminIsolationEnabled}
+          component={RadioButton}
+          dirty={
+            values.site.properties.functionsRuntimeAdminIsolationEnabled !==
+            initialValues.site.properties.functionsRuntimeAdminIsolationEnabled
+          }
+          disabled={disableAllControls}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
     </div>
   );
 };

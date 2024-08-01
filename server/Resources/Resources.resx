@@ -4589,6 +4589,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="platformSettings" xml:space="preserve">
         <value>Platform settings</value>
     </data>
+    <data name="functionsAdminIsolation" xml:space="preserve">
+        <value>Functions admin isolation</value>
+    </data>
+    <data name="functionsAdminIsolationInfoBubble" xml:space="preserve">
+        <value>Enable this feature to require Function App administrative actions to go through Azure Resource Manager.</value>
+    </data>
     <data name="debugging" xml:space="preserve">
         <value>Debugging</value>
     </data>
