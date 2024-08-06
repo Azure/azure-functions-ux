@@ -12495,6 +12495,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionsAdminIsolation" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Functions admin isolation]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Isolamento dell’amministratore di Funzioni]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";functionsAdminIsolationInfoBubble" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable this feature to require Function App administrative actions to go through Azure Resource Manager.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Abilitare questa funzionalità per richiedere che Azure Resource Manager esamini le azioni amministrative delle app per le funzioni.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionsDockerComposeDisableMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Docker compose based functions are not currently supported.]]></Val>
@@ -18393,11 +18411,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";remoteDebuggingVS2015NotSupported" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";remoteDebuggingVSVersionNotSupported" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Visual Studio 2015 is no longer supported for remote debugging. Please select a supported Visual Studio version.]]></Val>
+          <Val><![CDATA[Visual Studio {0} is no longer supported for remote debugging. Please select a supported Visual Studio version.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Visual Studio 2015 non è più supportato per il debug remoto. Selezionare una versione di Visual Studio supportata.]]></Val>
+            <Val><![CDATA[Visual Studio {0} non è più supportato per il debug remoto. Selezionare una versione di Visual Studio supportata.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

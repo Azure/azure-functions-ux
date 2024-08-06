@@ -12492,6 +12492,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionsAdminIsolation" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Functions admin isolation]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Isolering av funktionsadministratör]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";functionsAdminIsolationInfoBubble" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable this feature to require Function App administrative actions to go through Azure Resource Manager.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aktivera den här funktionen om du vill kräva administrativa åtgärder för funktionsappen för att gå igenom Azure Resource Manager.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionsDockerComposeDisableMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Docker compose based functions are not currently supported.]]></Val>
