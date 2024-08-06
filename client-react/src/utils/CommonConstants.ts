@@ -117,12 +117,12 @@ export class CommonConstants {
   };
 
   public static readonly WordPressStackDisplayTextMapping = {
-    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:latest': 'WordPress | Alpine - PHP 8.0',
-    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0': 'WordPress | Alpine - PHP 8.0',
-    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2': 'WordPress | Alpine - PHP 8.2',
-    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3': 'WordPress | Alpine - PHP 8.3',
-    'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.2': 'WordPress | PHP 8.2',
-    'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3': 'WordPress | PHP 8.3',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:latest': 'Alpine - PHP 8.0',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.0': 'Alpine - PHP 8.0',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.2': 'Alpine - PHP 8.2',
+    'docker|mcr.microsoft.com/appsvc/wordpress-alpine-php:8.3': 'Alpine - PHP 8.3',
+    'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.2': 'PHP 8.2',
+    'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3': 'PHP 8.3',
   };
 
 
