@@ -164,6 +164,7 @@ export interface Site {
   sshEnabled?: boolean | null;
   endToEndEncryptionEnabled?: boolean;
   functionAppConfig?: FunctionAppConfig;
+  functionsRuntimeAdminIsolationEnabled?: boolean;
 }
 
 export interface HostNameSslState {

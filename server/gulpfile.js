@@ -1,17 +1,16 @@
 const gulp = require('gulp');
 const resx2 = require('./gulp-utils/gulp-resx-js');
 const rename = require('gulp-rename');
-const gulpMerge = require('merge-stream');
+const gulpMerge = require('ordered-read-streams');
 const jeditor = require('gulp-json-editor');
 const fs = require('fs');
 const path = require('path');
 const merge = require('gulp-merge-json');
 const del = require('del');
-const download = require('gulp-download-stream');
-const decompress = require('gulp-decompress');
 const replace = require('gulp-token-replace');
 const string_replace = require('gulp-string-replace');
 const prettier = require('gulp-prettier');
+
 /********
  *   This is the task that is actually run in the cli, it will run the other tasks in the appropriate order
  */
@@ -34,7 +33,7 @@ gulp.task('resources-clean', function (cb) {
  *   replace values in index.html with minified bundle names with hash
  *  This should only be ran as part of the production deployment
  */
-gulp.task('replace-tokens-for-minimized-angular', (cb) => {
+gulp.task('replace-tokens-for-minimized-angular', cb => {
   const ngMinPath = path.join(__dirname, 'public', 'ng-min');
   const minFolderExists = fs.existsSync(ngMinPath);
   if (minFolderExists) {
@@ -56,16 +55,15 @@ gulp.task('replace-tokens-for-minimized-angular', (cb) => {
  *   Bundle Up production server views
  */
 gulp.task('bundle-views', function () {
-  return gulp.src(['src/**/*.jsx']).pipe(gulp.dest('dist'));
+  return gulp.src(['src/**/*.jsx'], { encoding: false }).pipe(gulp.dest('dist'));
 });
 
 /********
  *   This will set the correct package version
  */
 gulp.task('package-version', () => {
-  //
   return gulp
-    .src('package.json')
+    .src('package.json', { encoding: false })
     .pipe(string_replace('"version": "0.0.0"', `"version": "${getBuildVersion()}"`))
     .pipe(gulp.dest('dist'));
 });
@@ -75,7 +73,7 @@ gulp.task('package-version', () => {
  */
 gulp.task('copy-env-template-to-env', () => {
   return gulp
-    .src('**/.env.template')
+    .src('**/.env.template', { encoding: false })
     .pipe(
       rename(function (p) {
         p.extname = '';
@@ -83,7 +81,8 @@ gulp.task('copy-env-template-to-env', () => {
     )
     .pipe(gulp.dest('./'));
 });
-gulp.task('replace-environment-variables', (cb) => {
+
+gulp.task('replace-environment-variables', cb => {
   const envPath = path.join(__dirname, '.env');
   const minFolderExists = fs.existsSync(envPath);
   if (minFolderExists) {
@@ -120,19 +119,21 @@ gulp.task('replace-environment-variables', (cb) => {
   }
   cb();
 });
+
 gulp.task('inject-environment-variables', gulp.series('copy-env-template-to-env', 'replace-environment-variables'));
 /********
  *   Bundle Up production server static files
  */
+
 gulp.task('bundle-static-files', function () {
-  return gulp.src(['src/**/*.json', 'src/**/*.md', 'src/**/*.config.yml']).pipe(gulp.dest('dist'));
+  return gulp.src(['src/**/*.json', 'src/**/*.md', 'src/**/*.config.yml'], { encoding: false }).pipe(gulp.dest('dist'));
 });
 
 /********
  *   Bundle Up config
  */
 gulp.task('bundle-config', function () {
-  return gulp.src(['web.config', 'iisnode.yml', '.env', 'package-lock.json', 'gulpfile.js']).pipe(gulp.dest('dist'));
+  return gulp.src(['web.config', 'iisnode.yml', '.env', 'package-lock.json', 'gulpfile.js'], { encoding: false }).pipe(gulp.dest('dist'));
 });
 
 /********
@@ -167,6 +168,9 @@ gulp.task('resx-to-typescript-models', function (cb) {
  *   Also it will change the file name format to Resources.<language code>.json
  */
 gulp.task('resources-convert', function () {
+  /** @note Work around gulp 5 ENOENT errors when doing local builds. */
+  ensurePath('templates/');
+
   const portalResourceStream = gulp
     .src(['../server/resources-resx/**/Resources.*.resx', './Resources/Resources.resx'])
     .pipe(resx2())
@@ -241,7 +245,7 @@ gulp.task('resources-build', function () {
 
   //This fetches all version folders for templates and makes sure the appropriate action is done to each one
   const TemplateVersionDirectories = getSubDirectories('templateResoureces-convert');
-  TemplateVersionDirectories.forEach((x) => {
+  TemplateVersionDirectories.forEach(x => {
     streams.push(
       gulp
         .src('templateResoureces-convert/' + x + '/Resources.*.json')
@@ -293,12 +297,12 @@ const baseNames = [];
 gulp.task('resources-combine', function () {
   const TemplateVersionDirectories = getSubDirectories('templateresources-build');
   const s = [];
-  TemplateVersionDirectories.forEach((x) => {
+  TemplateVersionDirectories.forEach(x => {
     const folders = ['templateresources-build/' + x, 'resources-build'];
     getFiles(folders);
     makeStreams();
 
-    streams.forEach((stream) => {
+    streams.forEach(stream => {
       let fileName = path.basename(stream[stream.length - 1]);
 
       let dirName = path.dirname(stream[stream.length - 1]);
@@ -323,7 +327,7 @@ gulp.task('resources-combine', function () {
   });
 
   //this is copying over files that have no template data, it's the final fallback resources if there are no templates, useful for development
-  s.push(gulp.src('resources-build/*.json').pipe(gulp.dest('src/data/resources')));
+  s.push(gulp.src('resources-build/*.json', { encoding: false }).pipe(gulp.dest('src/data/resources')));
 
   return gulpMerge(s);
 });
@@ -348,7 +352,7 @@ function makeStreams() {
       );
     });
   });
-  streams = streams.filter((stream) => stream.length >= 1);
+  streams = streams.filter(stream => stream.length >= 1);
 }
 
 const templateVersionMap = {
@@ -362,14 +366,14 @@ const templateVersionMap = {
  * Copy function templates
  */
 gulp.task('copy-function-resources', function () {
-  return gulp.src('./function-resources/**').pipe(gulp.dest(`src/data/data/`));
+  return gulp.src('./function-resources/**', { encoding: false }).pipe(gulp.dest(`src/data/data/`));
 });
 
 gulp.task('list-numeric-versions', function (cb) {
   // Checks version matches patter x.x with unlimited .x and x being any numeric value
   const regex = /\d+(?:\.\d+)*/;
   const templateKeys = Object.keys(templateVersionMap);
-  const templateVersions = templateKeys.filter((x) => regex.test(x));
+  const templateVersions = templateKeys.filter(x => regex.test(x));
   let writePath = path.join(__dirname, 'src', 'data', 'data');
   if (!fs.existsSync(writePath)) {
     fs.mkdirSync(writePath);
@@ -397,12 +401,15 @@ gulp.task(
 );
 
 gulp.task('build-test', gulp.series('resources-convert', 'resources-build', 'resources-combine', 'copy-function-resources'));
+
 gulp.task('copy-data-to-dist', () => {
-  return gulp.src('./src/data/**').pipe(gulp.dest('./dist/data'));
+  return gulp.src('./src/data/**', { encoding: false }).pipe(gulp.dest('./dist/data'));
 });
+
 gulp.task('copy-quickstart-to-dist', () => {
-  return gulp.src('./src/quickstart/**').pipe(gulp.dest('./dist/quickstart'));
+  return gulp.src('./src/quickstart/**', { encoding: false }).pipe(gulp.dest('./dist/quickstart'));
 });
+
 gulp.task(
   'build-production',
   gulp.series(
@@ -425,7 +432,7 @@ function getSubDirectories(folder) {
   if (!fs.existsSync(folder)) {
     return [];
   }
-  const dir = (p) => fs.readdirSync(p).filter((f) => fs.statSync(path.join(p, f)).isDirectory());
+  const dir = p => fs.readdirSync(p).filter(f => fs.statSync(path.join(p, f)).isDirectory());
   return dir(folder);
 }
 
@@ -434,10 +441,10 @@ function getFilesWithContent(folder, filesToIgnore) {
     return {};
   }
   let obj = {};
-  const fileNames = fs.readdirSync(folder).filter((f) => fs.statSync(path.join(folder, f)).isFile());
+  const fileNames = fs.readdirSync(folder).filter(f => fs.statSync(path.join(folder, f)).isFile());
   fileNames
-    .filter((x) => filesToIgnore.indexOf(x) === -1)
-    .forEach((fileName) => {
+    .filter(x => filesToIgnore.indexOf(x) === -1)
+    .forEach(fileName => {
       const fileContent = fs.readFileSync(path.join(folder, fileName), {
         encoding: 'utf8',
       });
@@ -478,4 +485,10 @@ function getFiles(folders) {
       }
     });
   });
+}
+
+function ensurePath(path) {
+  if (!fs.existsSync(path)) {
+    fs.mkdirSync(path);
+  }
 }

@@ -260,6 +260,7 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
   if (eolDate === undefined) {
     return <></>;
   }
+<<<<<<< HEAD
   if (stackVersion.includes('wordpress')) {
     return (
       <CustomBanner
@@ -274,13 +275,16 @@ export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stac
       />
     );
   }
+=======
+
+>>>>>>> origin/dev
   return (
     <CustomBanner
       type={MessageBarType.warning}
       id={'eol-stack-banner'}
       message={
         eolDate
-          ? t('endOfLifeStackMessage').format(stackVersion, new Date(eolDate).toLocaleDateString())
+          ? t('endOfLifeStackMessage').format(stackVersion, new Date(eolDate).toLocaleDateString(undefined, { timeZone: 'UTC' }))
           : t('deprecatedStackMessage').format(stackVersion)
       }
       learnMoreLink={Links.endOfLifeStackLink}
