@@ -803,6 +803,10 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     setIsDiscardConfirmDialogVisible(false);
   };
 
+  if (!props.formData) {
+    return null;
+  }
+
   return (
     <Formik
       initialValues={props.formData}
