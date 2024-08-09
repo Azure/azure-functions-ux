@@ -9,11 +9,88 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
   const dotnet7EOL = getDateString(new Date('2024/05/14'), useIsoDateFormat);
   const dotnet8EOL = getDateString(new Date('2026/11/10'), useIsoDateFormat);
 
+  // projected as a guess - not on the support lifecycle page yet and should be adjusted when moved out of preview
+  const dotnet9EOL = getDateString(new Date('2026/05/12'), useIsoDateFormat);
+
   return {
     displayText: '.NET',
     value: 'dotnet',
     preferredOs: 'windows',
     majorVersions: [
+      {
+        displayText: '.NET 9 Isolated',
+        value: 'dotnet9isolated',
+        minorVersions: [
+          {
+            displayText: '.NET 9 Isolated',
+            value: '9 (LTS), isolated worker model',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: 'v9.0',
+                isHidden: true,
+                isPreview: true,
+                isDefault: false,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '9.0.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  netFrameworkVersion: 'v9.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: false,
+                  },
+                ],
+                endOfLifeDate: dotnet9EOL,
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'DOTNET-ISOLATED|9.0',
+                isHidden: true,
+                isPreview: true,
+                isDefault: false,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '9.0.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+                  WEBSITE_USE_PLACEHOLDER_DOTNETISOLATED: '1',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'DOTNET-ISOLATED|9.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: false,
+                  },
+                ],
+                endOfLifeDate: dotnet9EOL,
+              },
+            },
+          },
+        ],
+      },
       {
         displayText: '.NET 8 Isolated',
         value: 'dotnet8isolated',
