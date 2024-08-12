@@ -277,7 +277,6 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             />
 
             {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
-            <CustomBanner message={t('staticSite_appSettingsMoved')} type={MessageBarType.info} />
 
             <>
               <ConfirmDialog
