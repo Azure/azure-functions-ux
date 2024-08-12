@@ -1,5 +1,5 @@
 import { MessageBarType } from '@fluentui/react';
-import { Formik, FormikActions, FormikProps } from 'formik';
+import { Formik, FormikHelpers as FormikActions, FormikProps } from 'formik';
 import { sortBy } from 'lodash-es';
 import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -246,6 +246,10 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
   const showDiscardConfirmDialog = useCallback(() => {
     setIsDiscardConfirmDialogVisible(true);
   }, []);
+
+  if (!formData) {
+    return null;
+  }
 
   return (
     <Formik

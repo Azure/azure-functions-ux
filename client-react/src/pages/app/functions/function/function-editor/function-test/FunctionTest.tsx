@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import FunctionTestInput from './FunctionTestInput';
 import FunctionTestOutput from './FunctionTestOutput';
 import { InputFormValues, HttpMethods, ResponseContent, PivotType, UrlObj, urlParameterRegExp } from '../FunctionEditor.types';
-import { Form, FormikProps, Formik, FormikActions } from 'formik';
+import { Form, Formik, FormikHelpers as FormikActions, FormikProps } from 'formik';
 import { ArmObj } from '../../../../../../models/arm-obj';
 import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import { functionTestBodyStyle } from './FunctionTest.styles';
