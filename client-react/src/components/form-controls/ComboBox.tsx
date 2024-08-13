@@ -32,6 +32,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
     field,
     form,
     isLoading,
+    meta,
     options,
     overrideLoadingComboboxStyles,
     searchable,
@@ -87,7 +88,7 @@ const ComboBox = (props: FieldProps & IComboBoxProps & CustomComboBoxProps) => {
         ariaLabel={props.label}
         options={options}
         onChange={onChange}
-        onBlur={e => formikOnBlur(e, { field, form })}
+        onBlur={e => formikOnBlur(e, { field, form, meta })}
         errorMessage={errorMessage}
         styles={ComboBoxStyles(theme)}
         allowFreeform={allowFreeform}

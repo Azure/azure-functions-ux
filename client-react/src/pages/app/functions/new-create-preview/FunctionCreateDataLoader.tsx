@@ -275,51 +275,55 @@ const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = ({ res
         {selectedDropdownKey === DevelopmentExperience.developInPortal && programmingModel === 2 ? (
           <FormContainer hostStatus={hostStatus} resourceId={resourceId} />
         ) : selectedDropdownKey === DevelopmentExperience.developInPortal ? (
-          <Formik<CreateFunctionFormValues | undefined>
-            initialValues={initialFormValues}
-            enableReinitialize
-            isInitialValid // Using deprecated option to allow pristine values to be valid.
-            onSubmit={onSubmit}>
-            {(formProps: FormikProps<CreateFunctionFormValues>) => (
-              <form className={formContainerStyle}>
-                <div className={formContainerDivStyle}>
-                  <TemplateList
-                    resourceId={resourceId}
-                    formProps={formProps}
-                    setBuilder={setTemplateDetailFormBuilder}
-                    builder={templateDetailFormBuilder}
-                    selectedTemplate={selectedTemplate}
-                    setSelectedTemplate={setSelectedTemplate}
-                    templates={templates}
-                    setTemplates={setTemplates}
-                    hostStatus={hostStatus}
-                    setHostStatus={setHostStatus}
-                    armResources={armResources}
-                    setArmResources={setArmResources}
-                  />
-                </div>
-                <ActionBar
-                  fullPageHeight
-                  id="add-function-footer"
-                  primaryButton={{
-                    id: 'add',
-                    title: t('create'),
-                    onClick: formProps.submitForm,
-                    disable: !initialFormValues || creatingFunction,
-                  }}
-                  secondaryButton={{
-                    id: 'cancel',
-                    title: t('cancel'),
-                    onClick: cancel,
-                    disable: creatingFunction,
-                  }}
-                  statusMessage={createExperienceStatusMessage}
-                  validating={creatingFunction}
-                  validationMessage={t('creatingFunction')}
-                />
-              </form>
+          <>
+            {initialFormValues && (
+              <Formik<CreateFunctionFormValues>
+                initialValues={initialFormValues}
+                enableReinitialize
+                isInitialValid // Using deprecated option to allow pristine values to be valid.
+                onSubmit={onSubmit}>
+                {(formProps: FormikProps<CreateFunctionFormValues>) => (
+                  <form className={formContainerStyle}>
+                    <div className={formContainerDivStyle}>
+                      <TemplateList
+                        resourceId={resourceId}
+                        formProps={formProps}
+                        setBuilder={setTemplateDetailFormBuilder}
+                        builder={templateDetailFormBuilder}
+                        selectedTemplate={selectedTemplate}
+                        setSelectedTemplate={setSelectedTemplate}
+                        templates={templates}
+                        setTemplates={setTemplates}
+                        hostStatus={hostStatus}
+                        setHostStatus={setHostStatus}
+                        armResources={armResources}
+                        setArmResources={setArmResources}
+                      />
+                    </div>
+                    <ActionBar
+                      fullPageHeight
+                      id="add-function-footer"
+                      primaryButton={{
+                        id: 'add',
+                        title: t('create'),
+                        onClick: formProps.submitForm,
+                        disable: !initialFormValues || creatingFunction,
+                      }}
+                      secondaryButton={{
+                        id: 'cancel',
+                        title: t('cancel'),
+                        onClick: cancel,
+                        disable: creatingFunction,
+                      }}
+                      statusMessage={createExperienceStatusMessage}
+                      validating={creatingFunction}
+                      validationMessage={t('creatingFunction')}
+                    />
+                  </form>
+                )}
+              </Formik>
             )}
-          </Formik>
+          </>
         ) : (
           <>
             <LocalCreateInstructions resourceId={resourceId} localDevExperience={selectedDropdownKey} workerRuntime={workerRuntime} />

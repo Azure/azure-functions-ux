@@ -1,5 +1,5 @@
 import { MessageBarType } from '@fluentui/react';
-import { Formik, FormikActions, FormikProps } from 'formik';
+import { Formik, FormikHelpers as FormikActions, FormikProps } from 'formik';
 import { sortBy } from 'lodash-es';
 import { useCallback, useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -247,6 +247,10 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
     setIsDiscardConfirmDialogVisible(true);
   }, []);
 
+  if (!formData) {
+    return null;
+  }
+
   return (
     <Formik
       initialValues={formData}
@@ -273,7 +277,6 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             />
 
             {!hasWritePermissions && <CustomBanner message={t('staticSite_readOnlyRbac')} type={MessageBarType.info} />}
-            <CustomBanner message={t('staticSite_appSettingsMoved')} type={MessageBarType.info} />
 
             <>
               <ConfirmDialog
