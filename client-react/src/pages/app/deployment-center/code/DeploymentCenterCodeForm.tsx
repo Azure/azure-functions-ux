@@ -1,4 +1,4 @@
-import { Formik, FormikActions, FormikProps } from 'formik';
+import { Formik, FormikHelpers as FormikActions, FormikProps } from 'formik';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
@@ -633,7 +633,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
     if (values.buildProvider !== BuildProvider.None && isMissingOriginalConfigScmType) {
       // NOTE(stpelleg):Reset the form values only if deployment settings need to be updated.
-      formikActions.resetForm(values);
+      formikActions.resetForm({ values });
       const requestId = Guid.newGuid();
       const startTime = new Date().getTime();
       const deploymentProperties: KeyValue<any> = {
@@ -858,6 +858,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const hideDiscardConfirmDialog = () => {
     setIsDiscardConfirmDialogVisible(false);
   };
+
+  if (!props.formData) {
+    return null;
+  }
 
   return (
     <Formik initialValues={props.formData} onSubmit={onSubmit} enableReinitialize={true} validationSchema={props.formValidationSchema}>

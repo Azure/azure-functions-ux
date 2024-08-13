@@ -27,7 +27,7 @@ export const LoadingDropdownSpinnerStyle = style({
 });
 
 const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
-  const { field, form, multiSelect, isLoading } = props;
+  const { field, form, meta, multiSelect, isLoading } = props;
 
   const { t } = useTranslation();
 
@@ -71,7 +71,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
 
   return (
     <DropdownNoFormik
-      onBlur={e => formikOnBlur(e, { field, form })}
+      onBlur={e => formikOnBlur(e, { field, form, meta })}
       errorMessage={errorMessage}
       // Overriding default dropdown to panel transfer due to many of our dropdown existing in panels
       // https://github.com/OfficeDev/@fluentui/reactcommit/1aa8ab4e9e16ecc17d8e90c1374c0958eba77ee3#diff-406409baf14f369160f322b075e148d4

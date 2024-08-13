@@ -28,7 +28,7 @@ interface RadioButtonProps {
 const RadioButton: React.FC<IChoiceGroupProps & FieldProps & RadioButtonProps> = (
   props: IChoiceGroupProps & FieldProps & RadioButtonProps
 ) => {
-  const { field, form, options, theme, displayInVerticalLayout, ...rest } = props;
+  const { field, form, meta, options, theme, displayInVerticalLayout, ...rest } = props;
 
   const onChange = useCallback(
     (_: React.FormEvent<HTMLElement>, option?: IChoiceGroupOption) => {
@@ -40,7 +40,7 @@ const RadioButton: React.FC<IChoiceGroupProps & FieldProps & RadioButtonProps> =
   return (
     <RadioButtonNoFormik
       ariaLabelledBy={`${props.id}-label`}
-      onBlur={e => formikOnBlur(e, { field, form })}
+      onBlur={e => formikOnBlur(e, { field, form, meta })}
       onChange={onChange}
       options={options}
       selectedKey={field.value}

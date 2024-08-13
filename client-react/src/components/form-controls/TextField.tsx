@@ -24,7 +24,7 @@ export interface CustomTextFieldProps {
 
 /** @note (joechung): The `form` attribute from `FieldProps` does not match the one from `ITextFieldProps`. */
 const TextField: React.FC<FieldProps & Omit<ITextFieldProps, 'form'> & CustomTextFieldProps> = props => {
-  const { field, form, ...rest } = props;
+  const { field, form, meta, ...rest } = props;
 
   const { t } = useTranslation();
 
@@ -49,7 +49,7 @@ const TextField: React.FC<FieldProps & Omit<ITextFieldProps, 'form'> & CustomTex
   return (
     <TextFieldNoFormik
       value={field.value}
-      onBlur={e => formikOnBlur(e, { field, form })}
+      onBlur={e => formikOnBlur(e, { field, form, meta })}
       errorMessage={getErrorMessage()}
       onChange={onChange}
       {...rest}
