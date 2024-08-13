@@ -9,7 +9,7 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { HostStatus } from '../../../../../models/functions/host-status';
 import { Site } from '../../../../../models/site/site';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import LogService from '../../../../../utils/LogService';
+import { getTelemetryInfo } from '../../../../../utils/TelemetryUtils';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
 import { FunctionIntegrate } from './FunctionIntegrate';
 import FunctionIntegrateData from './FunctionIntegrate.data';
@@ -92,10 +92,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         this._setRefreshState(false);
 
         if (!r.metadata.success) {
-          LogService.error(
-            LogCategories.functionIntegrate,
-            'fireSyncTrigger',
-            `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
+          /** @note (joechung): Portal context is unavailable so log errors to console. */
+          console.error(
+            getTelemetryInfo('error', LogCategories.functionIntegrate, 'fireSyncTrigger', {
+              message: `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`,
+            })
           );
         }
       });
@@ -114,10 +115,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           site: r.data,
         });
       } else {
-        LogService.error(
-          LogCategories.functionIntegrate,
-          'fetchSite',
-          `Failed to fetch site: ${getErrorMessageOrStringify(r.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log errors to console. */
+        console.error(
+          getTelemetryInfo('error', LogCategories.functionIntegrate, 'fetchSite', {
+            message: `Failed to fetch site: ${getErrorMessageOrStringify(r.metadata.error)}`,
+          })
         );
       }
     });
@@ -139,10 +141,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
         this.setState({
           functionInfo: null,
         });
-        LogService.error(
-          LogCategories.functionIntegrate,
-          'getFunction',
-          `Failed to get function: ${getErrorMessageOrStringify(r.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log errors to console. */
+        console.error(
+          getTelemetryInfo('error', LogCategories.functionIntegrate, 'getFunction', {
+            message: `Failed to get function: ${getErrorMessageOrStringify(r.metadata.error)}`,
+          })
         );
       }
     });
@@ -155,10 +158,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           bindings: r.data.properties,
         });
       } else {
-        LogService.error(
-          LogCategories.functionIntegrate,
-          'getBindings',
-          `Failed to get bindings: ${getErrorMessageOrStringify(r.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log errors to console. */
+        console.error(
+          getTelemetryInfo('error', LogCategories.functionIntegrate, 'getBindings', {
+            message: `Failed to get bindings: ${getErrorMessageOrStringify(r.metadata.error)}`,
+          })
         );
         this.setState({
           bindings: [],
@@ -186,10 +190,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           bindings,
         });
       } else {
-        LogService.error(
-          LogCategories.functionIntegrate,
-          'getBinding',
-          `Failed to get binding: ${getErrorMessageOrStringify(r.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log errors to console. */
+        console.error(
+          getTelemetryInfo('error', LogCategories.functionIntegrate, 'getBinding', {
+            message: `Failed to get binding: ${getErrorMessageOrStringify(r.metadata.error)}`,
+          })
         );
         this.setState({ ...this.state, bindingsError: true });
       }
@@ -208,10 +213,11 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           hostStatus: r.data.properties,
         });
       } else {
-        LogService.trackEvent(
-          LogCategories.functionIntegrate,
-          'getHostStatus',
-          `Failed to get hostStatus: ${getErrorMessageOrStringify(r.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log messages to console. */
+        console.log(
+          getTelemetryInfo('info', LogCategories.functionIntegrate, 'getHostStatus', {
+            message: `Failed to get hostStatus: ${getErrorMessageOrStringify(r.metadata.error)}`,
+          })
         );
       }
     });

@@ -15,7 +15,7 @@ import { DeploymentCenterConstants } from './pages/app/deployment-center/Deploym
 import { getArmToken } from './pages/app/deployment-center/utility/DeploymentCenterUtility';
 import { CommonConstants } from './utils/CommonConstants';
 import { LogCategories } from './utils/LogCategories';
-import LogService from './utils/LogService';
+import { getTelemetryInfo } from './utils/TelemetryUtils';
 import Url from './utils/url';
 
 export default class AzureDevOpsService {
@@ -82,17 +82,19 @@ export default class AzureDevOpsService {
         return mixedAccountList;
       } else {
         if (accounts1Response.metadata.error) {
-          LogService.error(
-            LogCategories.deploymentCenter,
-            'DeploymentCenteAzureDevOpsService',
-            `Failed to get authenticated user error: ${accounts1Response.metadata.error}`
+          /** @note (joechung): Portal context is unavailable so log errors to console. */
+          console.error(
+            getTelemetryInfo('error', LogCategories.deploymentCenter, 'DeploymentCenteAzureDevOpsService', {
+              message: `Failed to get authenticated user error: ${accounts1Response.metadata.error}`,
+            })
           );
         }
         if (accounts2Response.metadata.error) {
-          LogService.error(
-            LogCategories.deploymentCenter,
-            'DeploymentCenteAzureDevOpsService',
-            `Failed to get authenticated user error: ${accounts2Response.metadata.error}`
+          /** @note (joechung): Portal context is unavailable so log errors to console. */
+          console.error(
+            getTelemetryInfo('error', LogCategories.deploymentCenter, 'DeploymentCenteAzureDevOpsService', {
+              message: `Failed to get authenticated user error: ${accounts2Response.metadata.error}`,
+            })
           );
         }
         return Promise.resolve(undefined);
@@ -113,10 +115,11 @@ export default class AzureDevOpsService {
     if (authenticatedUserResponse.metadata.success) {
       return Promise.resolve((this._authenticatedUser = authenticatedUserResponse.data.authenticatedUser));
     } else {
-      LogService.error(
-        LogCategories.deploymentCenter,
-        'DeploymentCenteAzureDevOpsService',
-        `Failed to get authenticated user error: ${authenticatedUserResponse.metadata.error}`
+      /** @note (joechung): Portal context is unavailable so log errors to console. */
+      console.error(
+        getTelemetryInfo('error', LogCategories.deploymentCenter, 'DeploymentCenteAzureDevOpsService', {
+          message: `Failed to get authenticated user error: ${authenticatedUserResponse.metadata.error}`,
+        })
       );
       return Promise.resolve(undefined);
     }

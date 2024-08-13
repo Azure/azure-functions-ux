@@ -1,16 +1,16 @@
-import MakeArmCall, { MakePagedArmCall } from './ArmHelper';
+import { ArmArray, ArmObj } from '../models/arm-obj';
 import { AvailableStack } from '../models/available-stacks';
-import { CommonConstants } from '../utils/CommonConstants';
-import LogService from '../utils/LogService';
-import { ArmObj, ArmArray } from '../models/arm-obj';
-import { Site, PublishingCredentialPolicies } from '../models/site/site';
-import { SiteConfig, ArmAzureStorageMount, ErrorPage } from '../models/site/config';
-import { SlotConfigNames } from '../models/site/slot-config-names';
-import { SiteLogsConfig } from '../models/site/logs-config';
 import { HostStatus } from '../models/functions/host-status';
 import { KeyValue } from '../models/portal-models';
+import { ArmAzureStorageMount, ErrorPage, SiteConfig } from '../models/site/config';
+import { SiteLogsConfig } from '../models/site/logs-config';
 import { PublishingCredentials } from '../models/site/publish';
-import { DeploymentProperties, DeploymentLogsItem, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { PublishingCredentialPolicies, Site } from '../models/site/site';
+import { SlotConfigNames } from '../models/site/slot-config-names';
+import { DeploymentLogsItem, DeploymentProperties, SourceControlProperties } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { CommonConstants } from '../utils/CommonConstants';
+import { getTelemetryInfo } from '../utils/TelemetryUtils';
+import MakeArmCall, { MakePagedArmCall } from './ArmHelper';
 
 export default class SiteService {
   private static readonly _configSettingsToIgnore = ['ipSecurityRestrictions', 'scmIpSecurityRestrictions', 'azureStorageAccounts'];
@@ -109,10 +109,13 @@ export default class SiteService {
       method: 'POST',
       apiVersion,
     });
-    LogService.trackEvent('site-service', 'connectionStringsLoaded', {
-      success: result.metadata.success,
-      resultCount: result.data && Object.keys(result.data.properties).length,
-    });
+    /** @note (joechung): Portal context is unavailable so log messages to console. */
+    console.log(
+      getTelemetryInfo('info', 'site-service', 'connectionStringsLoaded', {
+        success: result.metadata.success,
+        resultCount: Object.keys(result.data?.properties ?? {}).length,
+      })
+    );
     return result;
   };
 
@@ -129,10 +132,13 @@ export default class SiteService {
       skipBatching: force,
       apiVersion,
     });
-    LogService.trackEvent('site-service', 'appSettingsLoaded', {
-      success: result.metadata.success,
-      resultCount: result.data && Object.keys(result.data.properties).length,
-    });
+    /** @note (joechung): Portal context is unavailable so log messages to console. */
+    console.log(
+      getTelemetryInfo('info', 'site-service', 'appSettingsLoaded', {
+        success: result.metadata.success,
+        resultCount: Object.keys(result.data?.properties ?? {}).length,
+      })
+    );
     return result;
   };
 
@@ -272,10 +278,13 @@ export default class SiteService {
       body: appSettings,
       apiVersion,
     });
-    LogService.trackEvent('site-service', 'appSettingsUpdated', {
-      success: result.metadata.success,
-      resultCount: result.data && Object.keys(result.data.properties ?? {}).length,
-    });
+    /** @note (joechung): Portal context is unavailable so log messages to console. */
+    console.log(
+      getTelemetryInfo('info', 'site-service', 'appSettingsUpdated', {
+        success: result.metadata.success,
+        resultCount: Object.keys(result.data?.properties ?? {}).length,
+      })
+    );
     return result;
   };
 
@@ -287,12 +296,13 @@ export default class SiteService {
       method: 'POST',
       apiVersion,
     });
-    const properties = !!result.data && !!result.data.properties ? result.data.properties : {};
-
-    LogService.trackEvent('site-service', 'metadataLoaded', {
-      success: result.metadata.success,
-      resultCount: Object.keys(properties).length,
-    });
+    /** @note (joechung): Portal context is unavailable so log messages to console. */
+    console.log(
+      getTelemetryInfo('info', 'site-service', 'metadataLoaded', {
+        success: result.metadata.success,
+        resultCount: Object.keys(result.data?.properties ?? {}).length,
+      })
+    );
     return result;
   };
 
@@ -309,10 +319,13 @@ export default class SiteService {
       body: { properties },
       apiVersion,
     });
-    LogService.trackEvent('site-service', 'metadataLoaded', {
-      success: result.metadata.success,
-      resultCount: result.data && Object.keys(result.data.properties).length,
-    });
+    /** @note (joechung): Portal context is unavailable so log messages to console. */
+    console.log(
+      getTelemetryInfo('info', 'site-service', 'metadataLoaded', {
+        success: result.metadata.success,
+        resultCount: Object.keys(result.data?.properties ?? {}).length,
+      })
+    );
     return result;
   };
 
