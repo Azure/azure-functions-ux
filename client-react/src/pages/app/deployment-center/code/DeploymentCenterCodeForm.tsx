@@ -652,6 +652,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         appType: siteStateContext.isFunctionApp ? 'functionApp' : 'webApp',
         isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+        externalRepoType: values.externalRepoType,
         requestId,
         startTime,
       };
