@@ -43,6 +43,12 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
 
   const className = css(messageBannerClass(theme, type, !!onClick), customClassName);
 
+  // NOTE(yoonaoh): The color of the link is set to the default Fluent UI link color.
+  // Using the statusBar link color from @fluentui/azure-themes instead
+  const bannerLinkStyle = {
+    color: theme?.semanticColors?.link?.toLowerCase() == '#0078d4' ? '#005A9E' : '#6CB8F6',
+  };
+
   const icon = customIcon ? customIcon : _getIconForType(type);
 
   return (
@@ -59,16 +65,15 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         {icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
         <span>
           <span tabIndex={0}>{message}</span>
-          {learnMoreLink || onClickLearnMoreLink ? (
+          {(learnMoreLink || onClickLearnMoreLink) && (
             <Link
+              style={bannerLinkStyle}
               href={learnMoreLink}
               onClick={onClickLearnMoreLink}
               target="_blank"
               aria-label={learnMoreLinkAriaLabel ? learnMoreLinkAriaLabel : t('learnMore')}>
               {learnMoreText || t('learnMore')}
             </Link>
-          ) : (
-            undefined
           )}
         </span>
       </MessageBar>
