@@ -37,9 +37,6 @@ jobs:
     runs-on: ubuntu-latest
     __permissions__
     needs: build
-    environment:
-      name: '__slotname__'
-      url: ${{ steps.deploy-to-functions.outputs.functions-url }}
 
     steps:
       __login-to-azure-step__

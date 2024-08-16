@@ -36,9 +36,6 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
-    environment:
-      name: '__slotname__'
-      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     __permissions__
     steps:
       - name: Download artifact from build job
