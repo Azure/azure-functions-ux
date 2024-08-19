@@ -1,9 +1,9 @@
 import MakeArmCall from '../ApiHelpers/ArmHelper';
-import { QuotaSettings, QuotaScope } from '../models/quotaSettings';
-import { LogCategories } from './LogCategories';
-import LogService from './LogService';
-import { CommonConstants } from '../utils/CommonConstants';
+import { QuotaScope, QuotaSettings } from '../models/quotaSettings';
 import { ComputeMode } from '../models/site/compute-mode';
+import { CommonConstants } from '../utils/CommonConstants';
+import { LogCategories } from './LogCategories';
+import { getTelemetryInfo } from './TelemetryUtils';
 
 export class QuotaService {
   private static readonly _site = 'site';
@@ -25,7 +25,8 @@ export class QuotaService {
     });
 
     if (!quotaSettings.metadata.success) {
-      LogService.error(LogCategories.quotaService, '/quota-service', quotaSettings.metadata.error);
+      /** @note (joechung): Portal context is unavailable so log errors to console. */
+      console.error(getTelemetryInfo('error', LogCategories.quotaService, '/quota-service', { error: quotaSettings.metadata.error }));
     }
 
     const quotaSettingForCurrentSub = quotaSettings.data.value.first(quota => quota.properties.subscriptionId === subscriptionId);
@@ -54,8 +55,9 @@ export class QuotaService {
         const quotaValue = JSON.parse(quota.value);
         quotaLimit = quotaValue.Limit;
       }
-    } catch (e) {
-      LogService.error(LogCategories.quotaService, '/quota-service', e);
+    } catch (error) {
+      /** @note (joechung): Portal context is unavailable for the quota service so log errors to console. */
+      console.error(getTelemetryInfo('error', LogCategories.quotaService, '/quota-service', { error }));
     }
     return quotaLimit;
   }
@@ -70,7 +72,10 @@ export class QuotaService {
     } else if (computeMode === ComputeMode.Dynamic) {
       mode = QuotaService._dynamic;
     } else {
-      LogService.error(LogCategories.quotaService, '/quota-service', `Unrecognized compute mode ${computeMode}`);
+      /** @note (joechung): Portal context is unavailable for the quota service so log errors to console. */
+      console.error(
+        getTelemetryInfo('error', LogCategories.quotaService, '/quota-service', { message: `Unrecognized compute mode ${computeMode}` })
+      );
       return null;
     }
     return QuotaService._fullQuotaFormat.format(quotaName, mode, scope, sku).toLowerCase();

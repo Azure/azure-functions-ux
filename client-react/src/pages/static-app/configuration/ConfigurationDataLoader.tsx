@@ -8,8 +8,9 @@ import { PortalContext } from '../../../PortalContext';
 import { ArmObj } from '../../../models/arm-obj';
 import { KeyValue } from '../../../models/portal-models';
 import { Environment } from '../../../models/static-site/environment';
+import { ExperimentationConstants } from '../../../utils/CommonConstants';
 import { LogCategories } from '../../../utils/LogCategories';
-import LogService from '../../../utils/LogService';
+import { usePortalLogging } from '../../../utils/hooks/usePortalLogging';
 import RbacConstants from '../../../utils/rbac-constants';
 import { getTelemetryInfo, stringToPasswordProtectionType } from '../StaticSiteUtility';
 import ConfigurationData from './Configuration.data';
@@ -25,7 +26,6 @@ import {
 } from './Configuration.types';
 import ConfigurationForm from './ConfigurationForm';
 import { ConfigurationFormBuilder } from './ConfigurationFormBuilder';
-import { ExperimentationConstants } from '../../../utils/CommonConstants';
 
 const configurationData = new ConfigurationData();
 
@@ -49,22 +49,27 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
-  const fetchEnvironmentVariables = useCallback(async (environmentResourceId: string) => {
-    setInitialLoading(true);
-    const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environmentResourceId);
-    if (environmentSettingsResponse.metadata.success) {
-      setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
-    } else {
-      setApiFailure(true);
-      LogService.error(
-        LogCategories.staticSiteConfiguration,
-        'fetchEnvironmentSettings',
-        `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`
-      );
-    }
-    setInitialLoading(false);
-    return environmentSettingsResponse.data;
-  }, []);
+  const log = usePortalLogging();
+
+  const fetchEnvironmentVariables = useCallback(
+    async (environmentResourceId: string) => {
+      setInitialLoading(true);
+      const environmentSettingsResponse = await EnvironmentService.fetchEnvironmentSettings(environmentResourceId);
+      if (environmentSettingsResponse.metadata.success) {
+        setSelectedEnvironmentVariableResponse(environmentSettingsResponse.data);
+      } else {
+        setApiFailure(true);
+        log(
+          getTelemetryInfo('error', LogCategories.staticSiteConfiguration, 'fetchEnvironmentSettings', {
+            message: `Failed to fetch environment settings: ${getErrorMessageOrStringify(environmentSettingsResponse.metadata.error)}`,
+          })
+        );
+      }
+      setInitialLoading(false);
+      return environmentSettingsResponse.data;
+    },
+    [log]
+  );
 
   const getDefaultEnvironment = useCallback((environments: ArmObj<Environment>[]) => {
     return environments[0];
@@ -130,10 +135,10 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
         setEnvironments(envResponse);
       } else {
         setApiFailure(true);
-        LogService.error(
-          LogCategories.staticSiteConfiguration,
-          'getEnvironments',
-          `Failed to get environments: ${getErrorMessageOrStringify(environmentResponse.metadata.error)}`
+        log(
+          getTelemetryInfo('error', LogCategories.staticSiteConfiguration, 'getEnvironments', {
+            message: `Failed to get environments: ${getErrorMessageOrStringify(environmentResponse.metadata.error)}`,
+          })
         );
       }
 
@@ -142,10 +147,10 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
         passwordProtection = stringToPasswordProtectionType(staticSiteAuthResponse.data.properties.applicableEnvironmentsMode || '');
       } else {
         setApiFailure(true);
-        LogService.error(
-          LogCategories.staticSiteConfiguration,
-          'getStaticSiteBasicAuth',
-          `Failed to get basic auth: ${getErrorMessageOrStringify(staticSiteAuthResponse.metadata.error)}`
+        log(
+          getTelemetryInfo('error', LogCategories.staticSiteConfiguration, 'getStaticSiteBasicAuth', {
+            message: `Failed to get basic auth: ${getErrorMessageOrStringify(staticSiteAuthResponse.metadata.error)}`,
+          })
         );
       }
 
@@ -165,10 +170,10 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
         setLocation(staticSiteResponse.data.location);
       } else {
         setApiFailure(true);
-        LogService.error(
-          LogCategories.staticSiteConfiguration,
-          'getStaticSite',
-          `Failed to get site: ${getErrorMessageOrStringify(staticSiteResponse.metadata.error)}`
+        log(
+          getTelemetryInfo('error', LogCategories.staticSiteConfiguration, 'getStaticSite', {
+            message: `Failed to get site: ${getErrorMessageOrStringify(staticSiteResponse.metadata.error)}`,
+          })
         );
       }
       let snippets;
@@ -195,7 +200,16 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
 
       setInitialLoading(false);
     },
-    [apiFailure, fetchEnvironmentVariables, generateForm, getDefaultEnvironment, getInitialEnvironmentVariables, portalContext, resourceId]
+    [
+      apiFailure,
+      fetchEnvironmentVariables,
+      generateForm,
+      getDefaultEnvironment,
+      getInitialEnvironmentVariables,
+      log,
+      portalContext,
+      resourceId,
+    ]
   );
 
   const fetchDataOnEnvironmentChange = useCallback(
