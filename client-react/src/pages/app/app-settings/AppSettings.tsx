@@ -180,6 +180,10 @@ const AppSettings: React.FC<AppSettingsProps> = props => {
             return (
               <SiteContext.Consumer>
                 {site => {
+                  if (!initialFormValues) {
+                    return null;
+                  }
+
                   return (
                     <Formik
                       initialValues={initialFormValues}
