@@ -29,7 +29,7 @@
     "@nestjs/platform-express": "^10.3.10",
     "applicationinsights": "^2.1.4",
     "async-file": "^2.0.2",
-    "axios": "^1.7.2",
+    "axios": "^1.7.4",
     "cache-manager": "^4.1.0",
     "cookie-parser": "^1.4.6",
     "cookie-session": "^1.4.0",
