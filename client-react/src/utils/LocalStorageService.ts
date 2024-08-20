@@ -1,8 +1,9 @@
-import { StorageKeys, StorageItem } from '../models/LocalStorage.model';
+import { StorageItem, StorageKeys } from '../models/LocalStorage.model';
 import { KeyValue } from '../models/portal-models';
 import { getDateAfterXSeconds } from './DateUtilities';
-import LogService from './LogService';
+import { LogFunction } from './hooks/usePortalLogging';
 import { LogCategories } from './LogCategories';
+import { getTelemetryInfo } from './TelemetryUtils';
 
 export class LocalStorageService {
   public static supportsLocalStorage(): boolean {
@@ -49,15 +50,15 @@ export class LocalStorageService {
     }
   }
 
-  public static removeItem(resourceId: string) {
+  public static removeItem(resourceId: string, log?: LogFunction) {
     if (LocalStorageService.supportsLocalStorage()) {
       try {
         localStorage.removeItem(resourceId);
-      } catch (e) {
-        LogService.error(
-          LogCategories.localStorage,
-          'removeCachedItem',
-          `Was not able to clear the expired resourceId from the cache: '${resourceId}'`
+      } catch (error) {
+        log?.(
+          getTelemetryInfo('error', LogCategories.localStorage, 'removeCachedItem', {
+            message: `Was not able to clear the expired resourceId from the cache: '${resourceId}'`,
+          })
         );
       }
     }
