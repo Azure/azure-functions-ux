@@ -1,5 +1,5 @@
 import { Formik, FormikHelpers as FormikActions, FormikProps } from 'formik';
-import React, { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
