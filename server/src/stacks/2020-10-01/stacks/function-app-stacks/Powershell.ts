@@ -24,8 +24,8 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: '7.4',
-                isDefault: false,
-                isPreview: true,
+                isDefault: true,
+                isPreview: false,
                 isHidden: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -54,8 +54,8 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'PowerShell|7.4',
-                isDefault: false,
-                isPreview: true,
+                isDefault: true,
+                isPreview: false,
                 isHidden: false,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
@@ -89,7 +89,7 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: '7.2',
-                isDefault: true,
+                isDefault: false,
                 isPreview: false,
                 isHidden: false,
                 remoteDebuggingSupported: false,
@@ -119,7 +119,7 @@ const getPowershellStack: (useIsoDateFormat: boolean) => FunctionAppStack = (use
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'PowerShell|7.2',
-                isDefault: true,
+                isDefault: false,
                 isPreview: false,
                 isHidden: false,
                 remoteDebuggingSupported: false,

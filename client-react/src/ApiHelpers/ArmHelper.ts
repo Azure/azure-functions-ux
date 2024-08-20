@@ -5,13 +5,12 @@ import { bufferTime, catchError, concatMap, filter, share, take } from 'rxjs/ope
 import { ArmRequestObject, AzureAsyncOperationStatus, HttpResponseObject, MethodTypes, ProvisioningState } from '../ArmHelper.types';
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { KeyValue } from '../models/portal-models';
+import PortalCommunicator from '../portal-communicator';
 import { CommonConstants } from '../utils/CommonConstants';
 import { Guid } from '../utils/Guid';
 import { LogCategories } from '../utils/LogCategories';
-import LogService from '../utils/LogService';
-import Url from '../utils/url';
-import PortalCommunicator from '../portal-communicator';
 import { getTelemetryInfo } from '../utils/TelemetryUtils';
+import Url from '../utils/url';
 
 const alwaysSkipBatching = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
@@ -123,13 +122,17 @@ const makeArmRequest = async <T>(armObj: InternalArmRequest, retry = 0): Promise
       }
     }
 
-    LogService.trackEvent(LogCategories.armHelper, 'makeArmRequest', { resourceId, method, sessionId, correlationId: armObj.id });
+    /** @note (joechung): Portal context is unavailable so log messages to console. */
+    console.log(
+      getTelemetryInfo('info', LogCategories.armHelper, 'makeArmRequest', { resourceId, method, sessionId, correlationId: armObj.id })
+    );
 
     return result;
-  } catch (err) {
+  } catch (error) {
     // This shouldn't be hit since we're telling axios to not throw on error
-    LogService.error(LogCategories.armHelper, 'makeArmRequest', err);
-    throw err;
+    /** @note (joechung): Portal context is unavailable so log errors to console. */
+    console.error(getTelemetryInfo('error', LogCategories.armHelper, 'makeArmRequest', { error }));
+    throw error;
   }
 };
 
@@ -452,15 +455,14 @@ export const MakePagedArmCall = async <T, U = T>(
       results = [...results, ...pagedResult];
     }
   } else {
-    LogService.error(LogCategories.armHelper, 'MakePagedArmCall', response.metadata.error);
-    if (portalContext) {
-      portalContext.log(
-        getTelemetryInfo('error', 'MakePagedArmCall', 'failed', {
-          message: getErrorMessage(response.metadata.error),
-          errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
-        })
-      );
-    }
+    /** @note (joechung): Portal context may not be available so log errors to console. */
+    console.error(getTelemetryInfo('error', LogCategories.armHelper, 'MakePagedArmCall', { error: response.metadata.error }));
+    portalContext?.log(
+      getTelemetryInfo('error', 'MakePagedArmCall', 'failed', {
+        message: getErrorMessage(response.metadata.error),
+        errorAsString: response.metadata.error ? JSON.stringify(response.metadata.error) : '',
+      })
+    );
   }
 
   return results;

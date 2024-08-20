@@ -1,33 +1,33 @@
-import { QuickPulseToken } from './../models/app-insights';
-import { sendHttpRequest } from './HttpClient';
-import { CommonConstants, Monitoring } from './../utils/CommonConstants';
-import { ResourceGraph, ArmObj } from './../models/arm-obj';
-import MakeArmCall, { getErrorMessageOrStringify } from './ArmHelper';
-import { ISubscription } from '../models/subscription';
+import moment from 'moment';
+import { HttpResponseObject } from '../ArmHelper.types';
 import {
   AppInsightsComponent,
-  AppInsightsMonthlySummary,
-  AppInsightsQueryResult,
+  AppInsightsEntityTrace,
+  AppInsightsEntityTraceDetail,
   AppInsightsInvocationTrace,
   AppInsightsInvocationTraceDetail,
   AppInsightsKeyType,
+  AppInsightsMonthlySummary,
   AppInsightsOrchestrationTrace,
-  AppInsightsEntityTrace,
-  AppInsightsEntityTraceDetail,
   AppInsightsOrchestrationTraceDetail,
+  AppInsightsQueryResult,
 } from '../models/app-insights';
-import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
-import LogService from '../utils/LogService';
-import { LogCategories } from '../utils/LogCategories';
-import moment from 'moment';
-import { NationalCloudEnvironment } from '../utils/scenario-checker/national-cloud.environment';
-import { LocalStorageService } from '../utils/LocalStorageService';
 import { StorageKeys } from '../models/LocalStorage.model';
-import SiteService from './SiteService';
-import { ArmFunctionDescriptor } from '../utils/resourceDescriptors';
-import PortalCommunicator from '../portal-communicator';
-import { HttpResponseObject } from '../ArmHelper.types';
 import { KeyValue } from '../models/portal-models';
+import { ISubscription } from '../models/subscription';
+import PortalCommunicator from '../portal-communicator';
+import { mapResourcesTopologyToArmObjects } from '../utils/arm-utils';
+import { LocalStorageService } from '../utils/LocalStorageService';
+import { LogCategories } from '../utils/LogCategories';
+import { ArmFunctionDescriptor } from '../utils/resourceDescriptors';
+import { NationalCloudEnvironment } from '../utils/scenario-checker/national-cloud.environment';
+import { getTelemetryInfo } from '../utils/TelemetryUtils';
+import { QuickPulseToken } from './../models/app-insights';
+import { ArmObj, ResourceGraph } from './../models/arm-obj';
+import { CommonConstants, Monitoring } from './../utils/CommonConstants';
+import MakeArmCall, { getErrorMessageOrStringify } from './ArmHelper';
+import { sendHttpRequest } from './HttpClient';
+import SiteService from './SiteService';
 
 interface AppInsightsInstrumentationKeyObject {
   appInsightsKeyType?: AppInsightsKeyType;
@@ -74,10 +74,11 @@ export default class AppInsightsService {
       if (response.metadata.success && response.data) {
         result = AppInsightsService._extractSummaryFromQueryResult(response.data);
       } else {
-        LogService.trackEvent(
-          LogCategories.applicationInsightsQuery,
-          'getSummary',
-          `Failed to query summary: ${getErrorMessageOrStringify(response.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log messages to console. */
+        console.log(
+          getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'getSummary', {
+            message: `Failed to query summary: ${getErrorMessageOrStringify(response.metadata.error)}`,
+          })
         );
       }
       return result;
@@ -99,10 +100,11 @@ export default class AppInsightsService {
       if (response.metadata.success && response.data) {
         traces = AppInsightsService._extractInvocationTracesFromQueryResult(response.data);
       } else {
-        LogService.trackEvent(
-          LogCategories.applicationInsightsQuery,
-          'getInvocationTraces',
-          `Failed to query invocationTraces: ${getErrorMessageOrStringify(response.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log messages to console. */
+        console.log(
+          getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'getInvocationTraces', {
+            message: `Failed to query invocationTraces: ${getErrorMessageOrStringify(response.metadata.error)}`,
+          })
         );
       }
       return traces;
@@ -135,10 +137,11 @@ export default class AppInsightsService {
       if (response.metadata.success && response.data) {
         details = AppInsightsService._extractInvocationTraceDetailsFromQueryResult(response.data);
       } else {
-        LogService.trackEvent(
-          LogCategories.applicationInsightsQuery,
-          'getInvocationTraceDetails',
-          `Failed to query invocationTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log messages to console. */
+        console.log(
+          getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'getInvocationTraceDetails', {
+            message: `Failed to query invocationTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`,
+          })
         );
       }
       return details;
@@ -174,10 +177,11 @@ export default class AppInsightsService {
       if (response.metadata.success && response.data) {
         traces = AppInsightsService._extracOrchestrationTracesFromQueryResult(response.data);
       } else {
-        LogService.trackEvent(
-          LogCategories.applicationInsightsQuery,
-          'getOrchestrationTraces',
-          `Failed to query orchestrationTraces: ${getErrorMessageOrStringify(response.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log messages to console. */
+        console.log(
+          getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'getOrchestrationTraces', {
+            message: `Failed to query orchestrationTraces: ${getErrorMessageOrStringify(response.metadata.error)}`,
+          })
         );
       }
       return traces;
@@ -216,10 +220,11 @@ export default class AppInsightsService {
       if (response.metadata.success && response.data) {
         details = AppInsightsService._extractOrchestrationTraceDetailsFromQueryResult(response.data);
       } else {
-        LogService.trackEvent(
-          LogCategories.applicationInsightsQuery,
-          'getOrchestrationTraceDetails',
-          `Failed to query orchestrationTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log messages to console. */
+        console.log(
+          getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'getOrchestrationTraceDetails', {
+            message: `Failed to query orchestrationTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`,
+          })
         );
       }
       return details;
@@ -254,10 +259,11 @@ export default class AppInsightsService {
       if (response.metadata.success && response.data) {
         traces = AppInsightsService._extractEntityTracesFromQueryResult(response.data);
       } else {
-        LogService.trackEvent(
-          LogCategories.applicationInsightsQuery,
-          'getEntityTraces',
-          `Failed to query entity Traces: ${getErrorMessageOrStringify(response.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log messages to console. */
+        console.log(
+          getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'getEntityTraces', {
+            message: `Failed to query entity Traces: ${getErrorMessageOrStringify(response.metadata.error)}`,
+          })
         );
       }
       return traces;
@@ -287,10 +293,11 @@ export default class AppInsightsService {
       if (response.metadata.success && response.data) {
         details = AppInsightsService._extractEntityTraceDetailsFromQueryResult(response.data);
       } else {
-        LogService.trackEvent(
-          LogCategories.applicationInsightsQuery,
-          'getEntityTraceDetails',
-          `Failed to query entityTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log messages to console. */
+        console.log(
+          getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'getEntityTraceDetails', {
+            message: `Failed to query entityTraceDetails: ${getErrorMessageOrStringify(response.metadata.error)}`,
+          })
         );
       }
       return details;
@@ -487,10 +494,11 @@ export default class AppInsightsService {
         };
       }
     } else {
-      LogService.error(
-        logServiceName,
-        'getAppInsightsInstrumentationKeyFromAppSettings',
-        `Failed to getAppSettings: ${getErrorMessageOrStringify(appSettingsResult.metadata.error)}`
+      /** @note (joechung): Portal context is unavailable so log errors to console. */
+      console.error(
+        getTelemetryInfo('error', logServiceName, 'getAppInsightsInstrumentationKeyFromAppSettings', {
+          message: `Failed to getAppSettings: ${getErrorMessageOrStringify(appSettingsResult.metadata.error)}`,
+        })
       );
       return {};
     }
@@ -510,10 +518,11 @@ export default class AppInsightsService {
       if (appInsightsResponse.metadata.success) {
         return appInsightsResponse;
       } else {
-        LogService.error(
-          logServiceName,
-          'getAppInsightsResourceUsingInstrumentationKey',
-          `Failed to getAppInsight: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
+        /** @note (joechung): Portal context is unavailable so log errors to console. */
+        console.error(
+          getTelemetryInfo('error', logServiceName, 'getAppInsightsResourceUsingInstrumentationKey', {
+            message: `Failed to getAppInsight: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`,
+          })
         );
       }
     }
@@ -540,10 +549,11 @@ export default class AppInsightsService {
     const updatedSite = await SiteService.patchSite(resourceId, body);
 
     if (!updatedSite.metadata.success) {
-      LogService.error(
-        logServiceName,
-        'addApplicationInsightsToHiddenTags',
-        `Failed to update tags: ${getErrorMessageOrStringify(updatedSite.metadata.error)}`
+      /** @note (joechung): Portal context is unavailable so log errors to console. */
+      console.error(
+        getTelemetryInfo('error', logServiceName, 'addApplicationInsightsToHiddenTags', {
+          message: `Failed to update tags: ${getErrorMessageOrStringify(updatedSite.metadata.error)}`,
+        })
       );
     }
 
@@ -724,7 +734,10 @@ export default class AppInsightsService {
         }
       });
     } else {
-      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseSummary', `Unable to parse summary: ${result}`);
+      /** @note (joechung): Portal context is unavailable so log messages to console. */
+      console.log(
+        getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseSummary', { message: `Unable to parse summary: ${result}` })
+      );
     }
 
     return summary;
@@ -750,14 +763,20 @@ export default class AppInsightsService {
             invocationId: row[8],
           });
         } else {
-          LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseInvocationTrace', `Unable to parse invocation trace: ${row}`);
+          /** @note (joechung): Portal context is unavailable so log messages to console. */
+          console.log(
+            getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseInvocationTrace', {
+              message: `Unable to parse invocation trace: ${row}`,
+            })
+          );
         }
       });
     } else {
-      LogService.trackEvent(
-        LogCategories.applicationInsightsQuery,
-        'parseInvocationTraces',
-        `Unable to parse invocation traces: ${result}`
+      /** @note (joechung): Portal context is unavailable so log messages to console. */
+      console.log(
+        getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseInvocationTraces', {
+          message: `Unable to parse invocation traces: ${result}`,
+        })
       );
     }
 
@@ -780,18 +799,20 @@ export default class AppInsightsService {
             logLevel: row[2],
           });
         } else {
-          LogService.trackEvent(
-            LogCategories.applicationInsightsQuery,
-            'parseInvocationDetail',
-            `Unable to parse invocation detail: ${row}`
+          /** @note (joechung): Portal context is unavailable so log messages to console. */
+          console.log(
+            getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseInvocationDetail', {
+              message: `Unable to parse invocation detail: ${row}`,
+            })
           );
         }
       });
     } else {
-      LogService.trackEvent(
-        LogCategories.applicationInsightsQuery,
-        'parseInvocationDetails',
-        `Unable to parse invocation details: ${result}`
+      /** @note (joechung): Portal context is unavailable so log messages to console. */
+      console.log(
+        getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseInvocationDetails', {
+          message: `Unable to parse invocation details: ${result}`,
+        })
       );
     }
 
@@ -813,18 +834,20 @@ export default class AppInsightsService {
             DurableFunctionsRuntimeStatus: row[2],
           });
         } else {
-          LogService.trackEvent(
-            LogCategories.applicationInsightsQuery,
-            'parseOrchestrationTrace',
-            `Unable to parse orchestration trace: ${row}`
+          /** @note (joechung): Portal context is unavailable so log messages to console. */
+          console.log(
+            getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseOrchestrationTrace', {
+              message: `Unable to parse orchestration trace: ${row}`,
+            })
           );
         }
       });
     } else {
-      LogService.trackEvent(
-        LogCategories.applicationInsightsQuery,
-        'parseOrchestrationTraces',
-        `Unable to parse orchestration traces: ${result}`
+      /** @note (joechung): Portal context is unavailable so log messages to console. */
+      console.log(
+        getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseOrchestrationTraces', {
+          message: `Unable to parse orchestration traces: ${result}`,
+        })
       );
     }
 
@@ -847,18 +870,20 @@ export default class AppInsightsService {
             state: row[2],
           });
         } else {
-          LogService.trackEvent(
-            LogCategories.applicationInsightsQuery,
-            'parseOrchestrationDetail',
-            `Unable to parse orchestration detail: ${row}`
+          /** @note (joechung): Portal context is unavailable so log messages to console. */
+          console.log(
+            getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseOrchestrationDetail', {
+              message: `Unable to parse orchestration detail: ${row}`,
+            })
           );
         }
       });
     } else {
-      LogService.trackEvent(
-        LogCategories.applicationInsightsQuery,
-        'parseOrchestrationDetails',
-        `Unable to parse orchestration details: ${result}`
+      /** @note (joechung): Portal context is unavailable so log messages to console. */
+      console.log(
+        getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseOrchestrationDetails', {
+          message: `Unable to parse orchestration details: ${result}`,
+        })
       );
     }
 
@@ -883,11 +908,21 @@ export default class AppInsightsService {
             DurableFunctionsType: row[7],
           });
         } else {
-          LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityTrace', `Unable to parse entity trace: ${row}`);
+          /** @note (joechung): Portal context is unavailable so log messages to console. */
+          console.log(
+            getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseEntityTrace', {
+              message: `Unable to parse entity trace: ${row}`,
+            })
+          );
         }
       });
     } else {
-      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityTraces', `Unable to parse entity traces: ${result}`);
+      /** @note (joechung): Portal context is unavailable so log messages to console. */
+      console.log(
+        getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseEntityTraces', {
+          message: `Unable to parse entity traces: ${result}`,
+        })
+      );
     }
 
     return traces;
@@ -909,11 +944,21 @@ export default class AppInsightsService {
             state: row[2],
           });
         } else {
-          LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityDetails', `Unable to parse entity detail: ${row}`);
+          /** @note (joechung): Portal context is unavailable so log messages to console. */
+          console.log(
+            getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseEntityDetails', {
+              message: `Unable to parse entity detail: ${row}`,
+            })
+          );
         }
       });
     } else {
-      LogService.trackEvent(LogCategories.applicationInsightsQuery, 'parseEntityDetails', `Unable to parse entity details: ${result}`);
+      /** @note (joechung): Portal context is unavailable so log messages to console. */
+      console.log(
+        getTelemetryInfo('info', LogCategories.applicationInsightsQuery, 'parseEntityDetails', {
+          message: `Unable to parse entity details: ${result}`,
+        })
+      );
     }
 
     return details;

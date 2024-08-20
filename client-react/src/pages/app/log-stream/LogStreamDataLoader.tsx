@@ -1,14 +1,14 @@
 import React from 'react';
-import { LogEntry, LogsEnabled, LogType } from './LogStream.types';
-import { processLogs, processLogConfig, logStreamEnabled } from './LogStreamData';
-import LogStream from './LogStream';
 import SiteService from '../../../ApiHelpers/SiteService';
-import LogService from '../../../utils/LogService';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { isFunctionApp } from '../../../utils/arm-utils';
 import { LogCategories } from '../../../utils/LogCategories';
+import { getTelemetryInfo } from '../../../utils/TelemetryUtils';
 import Url from '../../../utils/url';
+import LogStream from './LogStream';
+import { LogEntry, LogsEnabled, LogType } from './LogStream.types';
+import { logStreamEnabled, processLogConfig, processLogs } from './LogStreamData';
 
 export interface LogStreamDataLoaderProps {
   resourceId: string;
@@ -47,7 +47,6 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
       },
       logsEnabled: { applicationLogs: false, webServerLogs: false },
     };
-    LogService.stopTrackPage('shell', { feature: 'LogStream' });
   }
 
   public componentDidMount() {
@@ -59,8 +58,9 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
           this.setState({ logsEnabled: processLogConfig(siteCall.data.properties, logsConfigCall.data.properties) });
         }
       })
-      .catch(reason => {
-        LogService.error(LogCategories.logStreamLoad, 'Fetch site and logs config', reason);
+      .catch(error => {
+        /** @note (joechung): Portal context is unavailable so log errors to console. */
+        console.error(getTelemetryInfo('error', LogCategories.logStreamLoad, 'Fetch site and logs config', { error }));
       });
   }
 
