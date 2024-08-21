@@ -500,7 +500,7 @@ export function getCurrentStackString(
   if (config.properties.javaVersion) {
     return 'java';
   }
-  if (metadata && metadata.properties && metadata.properties.CURRENT_STACK) {
+  if (metadata?.properties?.CURRENT_STACK) {
     return metadata.properties.CURRENT_STACK;
   } else if (isWindowsCodeApp || !appPermissions) {
     // Return empty value if the windows code app does not have meta data or has no access to metadata api
