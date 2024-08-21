@@ -2614,4 +2614,6 @@ export class PortalResources {
   public static ipv6 = 'ipv6';
   public static ipv4AndIpv6 = 'ipv4AndIpv6';
   public static inboundIpModePreviewLabel = 'inboundIpModePreviewLabel';
+  public static externalGitPrivateGitHubNotSupported = 'externalGitPrivateGitHubNotSupported';
+  public static externalGitPrivateBitbucketNotSupported = 'externalGitPrivateBitbucketNotSupported';
 }

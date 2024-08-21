@@ -1,5 +1,5 @@
 import { Formik, FormikHelpers as FormikActions, FormikProps } from 'formik';
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import GitHubService from '../../../../ApiHelpers/GitHubService';
@@ -12,7 +12,7 @@ import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../mo
 import { KeyValue } from '../../../../models/portal-models';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { AppOs } from '../../../../models/site/site';
-import { CommonConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
+import { CommonConstants, ExperimentationConstants, PrincipalType, RBACRoleId } from '../../../../utils/CommonConstants';
 import { Guid } from '../../../../utils/Guid';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import DeploymentCenterData from '../DeploymentCenter.data';
@@ -58,12 +58,27 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const { t } = useTranslation();
   const [isRedeployConfirmDialogVisible, setIsRedeployConfirmDialogVisible] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
+  const [isRemoveEnvEnabled, setIsRemoveEnvEnabled] = useState(false);
 
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const deploymentCenterData = new DeploymentCenterData();
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    portalContext?.hasFlightEnabled(ExperimentationConstants.FlightVariable.removeDeployEnvironment).then(hasFlightEnabled => {
+      if (isSubscribed) {
+        setIsRemoveEnvEnabled(hasFlightEnabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [portalContext]);
 
   const deployUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     if (values.sourceProvider === ScmType.LocalGit) {
@@ -114,11 +129,21 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           }
 
           if (listFederatedCredentialsResponse.metadata.success) {
-            // For error: Issuer and subject combination already exists for this Managed Identity.
-            // Find all federated credentials, and if there's some with the same issuer and subject, don't add a new one
-            const subject = siteStateContext.isFunctionApp
-              ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-              : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? 'production'}`;
+            // NOTE(yoonaoh): For Function Apps that are not node or python, the workflow file does not define
+            // an environment in the build and deploy step, so we need to use the branch as the subject.
+            // This is a workaround until we update the workflow files to define environments for all the stacks.
+            let subject = '';
+            if (isRemoveEnvEnabled) {
+              subject = siteStateContext.isFunctionApp
+                ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
+                : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? 'production'}`;
+            } else {
+              subject =
+                siteStateContext.isFunctionApp &&
+                !(values.runtimeStack === RuntimeStacks.node || values.runtimeStack === RuntimeStacks.python)
+                  ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
+                  : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? 'production'}`;
+            }
             const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
               subject,
               listFederatedCredentialsResponse.data.value ?? []
@@ -364,6 +389,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     if (values.authType === AuthType.Oidc) {
       variables['clientId'] = values.authIdentity.properties.clientId;
       variables['tenantId'] = values.authIdentity.properties.tenantId;
+    }
+
+    if (isRemoveEnvEnabled) {
+      variables['isRemoveEnvEnabled'] = true;
     }
 
     return variables;

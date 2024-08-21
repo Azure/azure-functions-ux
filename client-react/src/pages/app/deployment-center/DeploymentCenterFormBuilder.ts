@@ -7,19 +7,24 @@ import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
 import { RepoTypeOptions } from '../../../models/external';
 import { CommonConstants } from '../../../utils/CommonConstants';
-import { PublishingCredentialPoliciesContext } from '../../../models/site/site';
+import { PublishingCredentialPoliciesContext, Site } from '../../../models/site/site';
 import { DeploymentCenterConstants } from './DeploymentCenterConstants';
+import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
+import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 
 export abstract class DeploymentCenterFormBuilder {
   protected _publishingUser: ArmObj<PublishingUser>;
   protected _basicPublishingCredentialsPolicies: PublishingCredentialPoliciesContext;
+  protected _site: ArmObj<Site>;
   protected _siteConfig: ArmObj<SiteConfig>;
   protected _applicationSettings: ArmObj<KeyValue<string>>;
   protected _configMetadata: ArmObj<KeyValue<string>>;
   protected _t: i18next.TFunction;
+  protected scenarioService: ScenarioService;
 
   constructor(t: i18next.TFunction) {
     this._t = t;
+    this.scenarioService = new ScenarioService(this._t);
   }
 
   protected generateCommonFormData() {
@@ -62,6 +67,14 @@ export abstract class DeploymentCenterFormBuilder {
     const usernameMinLength = 3;
     const getPublishingUsername = () => {
       return this._publishingUser && this._publishingUser.properties ? this._publishingUser.properties.publishingUserName : '';
+    };
+
+    const checkGitHubAuthSupport = () => {
+      return this.scenarioService.checkScenario(ScenarioIds.githubSource, { site: this._site }).status !== 'disabled';
+    };
+
+    const checkBitbucketAuthSupport = () => {
+      return this.scenarioService.checkScenario(ScenarioIds.bitbucketSource, { site: this._site }).status !== 'disabled';
     };
 
     return {
@@ -186,7 +199,16 @@ export abstract class DeploymentCenterFormBuilder {
             ? !!value
             : true;
         }),
-      externalRepoType: Yup.mixed().notRequired(),
+      externalRepoType: Yup.mixed()
+        .notRequired()
+        .test('externalPrivateGitHubRepoValid', this._t('externalGitPrivateGitHubNotSupported'), function(value) {
+          const isGitHubAuthSupported = checkGitHubAuthSupport();
+          return value === RepoTypeOptions.Private ? isGitHubAuthSupported : true;
+        })
+        .test('externalPrivateBitbucketRepoValid', this._t('externalGitPrivateBitbucketNotSupported'), function(value) {
+          const isBitbucketAuthSupported = checkBitbucketAuthSupport();
+          return value === RepoTypeOptions.Private ? isBitbucketAuthSupported : true;
+        }),
       devOpsProjectName: Yup.mixed().notRequired(),
       authType: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
         return this.parent.buildProvider === BuildProvider.GitHubAction ? !!value : true;
@@ -204,6 +226,10 @@ export abstract class DeploymentCenterFormBuilder {
 
   public setBasicPublishingCredentialsPolicies(policies: PublishingCredentialPoliciesContext) {
     this._basicPublishingCredentialsPolicies = policies;
+  }
+
+  public setSite(site: ArmObj<Site>) {
+    this._site = site;
   }
 
   public setSiteConfig(siteConfig: ArmObj<SiteConfig>) {
