@@ -36,11 +36,29 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             },
           },
           {
+            displayText: 'Java SE 21.0.3',
+            value: '21.0.3',
+            stackSettings: {
+              linuxContainerSettings: {
+                java21Runtime: 'JAVA|21.0.3',
+              },
+            },
+          },
+          {
             displayText: 'Java SE 21.0.1',
             value: '21.0.1',
             stackSettings: {
               linuxContainerSettings: {
                 java21Runtime: 'JAVA|21.0.1',
+              },
+            },
+          },
+          {
+            displayText: 'Java SE 17.0.11',
+            value: '17.0.11',
+            stackSettings: {
+              linuxContainerSettings: {
+                java17Runtime: 'JAVA|17.0.11',
               },
             },
           },
@@ -89,6 +107,15 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
               linuxContainerSettings: {
                 // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.8 prevents auto-updates
                 java17Runtime: 'JAVA|17.0.1',
+              },
+            },
+          },
+          {
+            displayText: 'Java SE 11.0.23',
+            value: '11.0.23',
+            stackSettings: {
+              linuxContainerSettings: {
+                java11Runtime: 'JAVA|11.0.23',
               },
             },
           },
@@ -197,6 +224,15 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
               linuxContainerSettings: {
                 // Note (jafreebe): This doesn't have suffix of -java11 since setting to 11.0.5 prevents auto-updates
                 java11Runtime: 'JAVA|11.0.5',
+              },
+            },
+          },
+          {
+            displayText: 'Java SE 8u412',
+            value: '1.8.412',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JAVA|8u412',
               },
             },
           },
