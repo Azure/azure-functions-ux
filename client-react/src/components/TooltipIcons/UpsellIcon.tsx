@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { TooltipHost, Icon, registerIcons } from 'office-ui-fabric-react';
+import { FC } from 'react';
+import { TooltipHost, Icon, registerIcons } from '@fluentui/react';
 import { ReactComponent as UpsellIconSvg } from '../../upsell.svg';
 import { upsellIconStyle } from './Icon.styles';
 registerIcons({

@@ -1,4 +1,4 @@
-import { IButtonProps, ICommandBarStyles, MessageBarType } from 'office-ui-fabric-react';
+import { IButtonProps, ICommandBarStyles, MessageBarType } from '@fluentui/react';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 import { style } from 'typestyle';
 

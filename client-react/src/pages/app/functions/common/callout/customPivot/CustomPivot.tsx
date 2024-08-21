@@ -1,5 +1,5 @@
 import { Formik, FormikProps } from 'formik';
-import { IDropdownOption, PrimaryButton, TextField } from 'office-ui-fabric-react';
+import { IDropdownOption, PrimaryButton, TextField } from '@fluentui/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { NewConnectionCalloutProps } from '../Callout.properties';

@@ -369,6 +369,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";acrCredentialsWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ACR’de yönetici kimlik bilgileri devre dışı olduğundan ve yönetilen kimlik atanmadığından ACR’ye '{0}' erişilemiyor. Yönetici kimlik bilgilerini etkinleştirin veya aşağıdan bir yönetilen kimlik atayın.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";active" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Active]]></Val>
@@ -428,6 +437,15 @@
           <Val><![CDATA[Add host key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ana bilgisayar anahtarı ekle]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Add identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kimlik ekle]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -548,6 +566,15 @@
           <Val><![CDATA[Add system key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sistem anahtarı ekle]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";adminCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Admin Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yönetici Kimlik Bilgileri]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -1890,6 +1917,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";automatic" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatic]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Otomatik]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";availability" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Availability]]></Val>
@@ -2814,30 +2850,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kapsayıcı ayarlarınızı yönetmek, günlükleri görüntülemek ve GitHub'dan veya kapsayıcı kayıt defterinizden sürekli dağıtımı (CI/CD) ayarlamak için yeni ve iyileştirilmiş Dağıtım Merkezi'ni deneyin.]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";classicDeploymentCenterDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Dağıtım Merkezi (Klasik) deneyimi kullanım dışı bırakıldı ve Mart 2021'de kaldırılacak. Dağıtımlarınızı yönetmeye devam etmek için yeni Dağıtım Merkezi deneyimini deneyin.]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";classicDeprecation" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.]]></Val>
@@ -2949,6 +2961,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";clientCertificateModeAllowInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clients will be prompted for a certificate, if no certificate is provided fallback to SSO or other means of authentication. Unauthenticated requests will be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İstemcilerden sertifika istenir. Sertifika sağlanmazsa SSO veya başka bir kimlik doğrulama yöntemine geri dönün. Kimliği doğrulanmayan istekler engellenmez.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";clientCertificateModeIgnore" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Ignore]]></Val>
@@ -2958,11 +2979,47 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";clientCertificateModeIgnoreInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No client authentication is required. Unauthenticated requests will not be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İstemci kimlik doğrulaması gerekmez. Kimliği doğrulanmayan istekler engellenmez.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeOptional" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Optional]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İsteğe bağlı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeOptionalInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clients will not be prompted for a certificate by default. Unless the request can be authenticated through other means (like SSO), it will be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Varsayılan olarak, istemcilerden sertifika istenmez. Başka bir yöntem (SSO gibi) aracılığıyla doğrulanamadığı takdirde istek engellenir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";clientCertificateModeRequire" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Require]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Gerektir]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeRequiredInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[All requests must be authenticated through a client certificate.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tüm isteklerin bir istemci sertifikası aracılığıyla doğrulanması gerekir.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3309,6 +3366,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";connectedAndFilteredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bağlandı! Şu anda geçerli Kod + Test panelindeki İşlev çalıştırmalarının günlüklerini görüntülüyorsunuz. Bu İşlevin tüm günlüklerini görmek için lütfen İşlev menüsünden 'İzleyici' bölümüne gidin.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";connectionStringInvalidProperty" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[{0} is an invalid connection string property]]></Val>
@@ -3393,6 +3459,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";consumptionPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption (Serverless)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kullanım (Sunucusuz)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";container" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Container]]></Val>
@@ -3461,6 +3536,60 @@
           <Val><![CDATA[Tag]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Etiket]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_cancel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cancel]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İptal]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_chooseStartUpCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Choose start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Başlat komutunu seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_connect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connect]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bağlan]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_custom" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Özel]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_failedToConnect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to connect to replica.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Çoğaltmaya bağlanılamadı.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_startUpCommandAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Özel başlat komutu]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3753,11 +3882,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";containerStartupFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";containerStartupFileOrCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Startup File]]></Val>
+          <Val><![CDATA[Startup file or command]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Başlangıç Dosyası]]></Val>
+            <Val><![CDATA[Başlangıç dosyası veya komutu]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3878,6 +4007,330 @@
           <Val><![CDATA[CORS]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[CORS]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_apiType_coreSql" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Core (SQL)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Core (SQL)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameInvalid" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name must consist of minimum 3 and maximum 44 lowercase letters, numbers, or '-' characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hesap adı en az 3 ve en fazla 44 küçük harf, sayı veya '-' karakterinden oluşmalıdır.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name is required.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hesap adı gerekiyor.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameTaken" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name is already taken.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hesap adı zaten alınmış.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerAlreadyExists" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container already exists.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kapsayıcı zaten var.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerNameCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container name cannot contain any special characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kapsayıcı adı özel karakterler içeremez.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerNameSpace" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container name cannot end with a space.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kapsayıcı adı boşlukla bitemez.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseAlreadyExists" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database already exists.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Veritabanı zaten var.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseNameCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database name cannot contain any special characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Veritabanı adı özel karakterler içeremez.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseNameSpace" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database name cannot end with a space.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Veritabanı adı boşlukla bitemez.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_fieldRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The field is required.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alan gereklidir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_partitionKeyPathSlash" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The partition key path must contain at least one \'/\' at the beginning of the string.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bölüm anahtarı yolu, dizenin başında en az bir \'/\' içermelidir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_writePermissionsRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatic mode is disabled for users with read-only permissions in their subscription or resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Abonelik veya kaynak gruplarında salt okunur izinlere sahip kullanıcılar için otomatik mod devre dışı bırakıldı.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_header_customAppSetting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom app setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Özel uygulama ayarı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_header_details" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB details]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB ayrıntıları]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_accountName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Account name]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hesap adı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_apiType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[API]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[API]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_connection" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB connection]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB bağlantısı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_container" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kapsayıcı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_cosmosDbAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB hesabı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createAContainer" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kapsayıcı oluşturun]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createADatabase" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Veritabanı oluşturma]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createAnAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hesap oluşturun]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_customAppSettingKey" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Name]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ad]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_customAppSettingValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connection string setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bağlantı dizesi ayarı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_database" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Veritabanı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_partitionKeyPath" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Partition key path]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bölüm anahtarı yolu]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_description" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a new serverless account in the same Azure region and resource group as the function. For more options, go to ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İşlevle aynı Azure bölgesinde ve kaynak grubunda yeni bir sunucusuz hesap oluşturun. Daha fazla seçenek için şuraya gidin: ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_link" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create Cosmos DB account.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB hesabı oluşturun.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_title" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a Cosmos DB account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB hesabı oluşturma]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_noExistingAccounts" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hesap seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectAContainer" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kapsayıcı seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectADatabase" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Veritabanı seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectAnAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hesap seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_tooltip_customAppSettingKey" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enter the key/value pair for the Cosmos DB custom app setting.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB özel uygulama ayarının anahtar/değer çiftini girin.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_tooltip_partitionKeyPath" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bölüm anahtarı, bölümler arasında ölçeklenebilirlik için verileri otomatik olarak dağıtmak için kullanılır. JSON belgenizde çeşitli değerlerin yer aldığı ve istek hacmini eşit olarak dağıtan bir özellik seçin. Küçük okuma ağırlıklı iş yükleri veya her boyuttaki yazma ağırlıklı iş yükleri için /kimlik öğesini seçin.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4145,6 +4598,15 @@
           <Val><![CDATA[Created new slot]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Yeni yuva oluşturuldu]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";creatingFunction" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Creating function...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İşlev oluşturuluyor...]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4421,6 +4883,24 @@
           <Val><![CDATA[App Logs]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Uygulama Günlükleri]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterAzureReposDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on your chosen repository. When a new commit is pushed to the selected branch Azure will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service, seçtiğiniz depoya bir web kancası yerleştirir. Seçili dala yeni bir işleme gönderildiğinde Azure kodunuzu çeker, uygulamanızı derler ve web uygulamanıza dağıtır.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterBitbucketDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service, seçili depoya bir web kancası yerleştirir. Seçili dala yeni bir işleme gönderildiğinde App Service kodunuzu çeker, uygulamanızı derler ve web uygulamanıza dağıtır.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5070,11 +5550,38 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterConfigureGitHubPermissions" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Bir kuruluş veya depo bulamıyorsanız, GitHub'da ek izinleri etkinleştirmeniz gerekebilir.]]></Val>
+            <Val><![CDATA[App Service, seçili dalda bir işleme olduğunda uygulamanızı derlemek ve dağıtmak için seçtiğiniz depoya bir GitHub Actions iş akışı yerleştirir. Bir kuruluş veya depo bulamıyorsanız GitHub'da ek izinleri etkinleştirmeniz gerekebilir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureGitHubPermissionsKudu" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app. If you can't find your organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service, seçilen depoya bir web kancası yerleştirir. Seçili dala yeni bir işleme gönderildiğinde App Service kodunuzu çeker, uygulamanızı derler ve web uygulamanıza dağıtır. Kuruluşunuzu veya deponuzu bulamıyorsanız GitHub'da ek izinleri etkinleştirmeniz gerekebilir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureRuntimeLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Configure runtime]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Çalışma zamanını yapılandır]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureRuntimeMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[A runtime stack has not been configured for this app. Select a runtime stack here. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bu uygulama için bir çalışma zamanı yığını yapılandırılmadı. Buradan bir çalışma zamanı yığını seçin. ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5157,7 +5664,7 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterContainerAcrRegistrieNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterContainerAcrRegistriesNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[No ACR Registries are available in Subscription '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
@@ -5294,10 +5801,13 @@
       </Item>
       <Item ItemId=";deploymentCenterContainerType" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Container Type]]></Val>
+          <Val><![CDATA[Container type]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Kapsayıcı Türü]]></Val>
+            <Val><![CDATA[Kapsayıcı türü]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Container Type]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5306,6 +5816,33 @@
           <Val><![CDATA[All unsaved changes will be lost.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kaydedilmemiş tüm değişiklikler kaybolacak.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenDialogBody" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Do you want to update your GitHub token?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub belirtecinizi güncelleştirmek istiyor musunuz?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenDialogTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Update Token]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Belirteci Güncelleştir]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your GitHub token is outdated and needs to be refreshed. Click here to update your token to the latest secure format. This should not cause any downtime or changes to your app's configuration.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub belirteciniz güncel değil ve belirtecin yenilenmesi gerekiyor. Belirtecinizi en son güvenli biçime güncelleştirmek için buraya tıklayın. Bu, uygulamanızın yapılandırmasında herhangi bir kesinti veya değişikliğe yol açmamalıdır.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5349,11 +5886,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterDropboxDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authorize App Service with DropBox to manually sync your content from the selected folder with the Sync button above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yukarıdaki Eşitle düğmesini kullanarak seçili klasörden gelen içeriğinizi el ile eşitlemek için App Service’i DropBox ile yetkilendirin.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterErrorFetchingInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Error fetching information]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Bilgiler getirilirken hata oluştu]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterExternalGitDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[If your code is not on GitHub or BitBucket, you can use this option to manually sync your code from the repository. When you sync your repository, App Service will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kodunuz GitHub veya BitBucket'ta değilse kodunuzu depodan el ile eşitlemek için bu seçeneği kullanın. Deponuz eşitlendiğinde, App Service kodunuzu çeker, uygulamanızı derler ve web uygulamanıza dağıtır.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5381,6 +5936,15 @@
           <Val><![CDATA[How valuable is this improved App Service deployment center page?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Bu iyileştirilmiş App Service dağıtım merkezi sayfasını ne kadar değerli buldunuz?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterFieldPrivateSSHMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deploying with SSH and a private repository is not supported.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SSH ve özel depo ile dağıtım desteklenmiyor.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5711,10 +6275,13 @@
       </Item>
       <Item ItemId=";deploymentCenterOAuthRepositoryPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select repository]]></Val>
+          <Val><![CDATA[Select or type repository]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Depo seçin]]></Val>
+            <Val><![CDATA[Depo seçin veya yazın]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select repository]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5723,6 +6290,15 @@
           <Val><![CDATA[Signed in as]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Oturum açılan hesap:]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOneDriveDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authorize App Service with OneDrive to manually sync your content from the selected folder with the Sync button above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yukarıdaki Eşitle düğmesini kullanarak seçili klasörden gelen içeriğinizi el ile eşitlemek için App Service’i OneDrive ile yetkilendirin.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6207,6 +6783,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterUpdateTokenSuccessMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Succesfully updated your GitHub token.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub belirteciniz başarıyla güncelleştirildi.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterVstsBuildDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Building with Azure Pipelines.]]></Val>
@@ -6278,6 +6863,15 @@
           <Val><![CDATA[Loading workflow configurations]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[İş akışı yapılandırmaları yükleniyor]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterWorkflowError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[There was an error fetching the workflow file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İş akışı dosyası getirilirken bir sorun oluştu.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6608,6 +7202,15 @@
           <Val><![CDATA[Are you sure you want to disconnect your deployment?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Dağıtımınızın bağlantısının kesilmesini istediğinizden emin misiniz?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";disconnecting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Disconnecting...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bağlantı kesiliyor...]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -7034,10 +7637,13 @@
       </Item>
       <Item ItemId=";editCertificateExlusionPaths" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[edit client eclusion paths]]></Val>
+          <Val><![CDATA[edit client exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[istemci dışlama yollarını düzenle]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[edit client eclusion paths]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -7236,6 +7842,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Enable Load Testing]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";enablePortalEditingForLinuxConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Azure portalda üçüncü taraf bağımlılıkları ekleme işlemi şu anda Linux Tüketimi İşlev Uygulamaları için desteklenmiyor. Yerel ortamı ayarlamak için buraya tıklayın.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10323,6 +10938,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionEditorCorsWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[We are setting up the environment to enable testing in the Portal. This will restart your Function App and may take a few minutes.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Portalda test özelliğini etkinleştirmek için ortamı ayarlıyoruz. Bu işlem İşlev Uygulamanızı yeniden başlatır ve birkaç dakika sürebilir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionEditorDiscardAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Discard changes to your function.]]></Val>
@@ -11037,6 +11661,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionPremiumPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Function Premium]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İşlev Premium]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionRuntimeSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Function runtime settings]]></Val>
@@ -11091,6 +11724,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionSupportedRuntimeVersionNotConfiguredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is pinned to an unsupported runtime version for '{0}'. For better performance, we recommend using one of our supported versions instead: {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Uygulamanız '{0}' için desteklenmeyen bir çalışma zamanı sürümüne sabitlendi. Daha iyi performans için bunun yerine desteklenen sürümlerden birini kullanmanızı öneririz: {1}.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is not pinned to a supported runtime version. It might affect your app's performance. Please use one of the supported runtime version - {0}.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionTestInput" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Input]]></Val>
@@ -11102,9 +11747,21 @@
       </Item>
       <Item ItemId=";functionTestInputDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
+          <Val><![CDATA[Provide parameters to test your function in the portal. Results can be found in the Output tab.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İşlevinizi portalda sınamak için parametreleri belirtin. Sonuçları Çıkış sekmesinde bulabilirsiniz.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";functionTestInputDescriptionForHttp" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
           <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[HTTP isteğini test etmek için parametreleri belirtin. Sonuçları Çıkış sekmesinde bulabilirsiniz.]]></Val>
+            <Val><![CDATA[HTTP isteğini sınamak için parametreleri belirtin. Sonuçları Çıkış sekmesinde bulabilirsiniz.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11223,56 +11880,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionsRuntimeVersionInvalidWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";functionsSupportedRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
+          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Özel çalışma zamanı sürümünüz ({0}) desteklenmiyor. Bu nedenle uygulamanız en son sürümü {1} kullanıyor ve her zaman, bozukluğa neden olacak değişiklikler içerebilecek ana sürüm güncelleştirmelerinden sonra bile çalışma zamanının en son sürümünü çalıştırıyor olacaksınız. Bu değeri (~2 gibi) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.]]></Val>
+            <Val><![CDATA[Çalışma zamanı sürümü uygulamanız için yapılandırılmadığından çalışma zamanı başlatılamıyor. Lütfen geçerli bir çalışma zamanı sürümünü (ör. ~3) kullanın.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";functionsSupportedRuntimeVersionMissingWarningWithVersionList" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
+          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please use one of the supported runtime version - {0}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Uygulamanız şu anda '{0}' çalışma zamanı sürümüne sabitlenmiş. '{0}' sürümüne sabitleme, her zaman, bozukluğa neden olacak değişiklikler içerebilecek ana sürüm güncelleştirmelerinden sonra bile çalışma zamanının en son sürümünü çalıştırıyor olacağınız anlamına gelir. Bu değeri (~2 gibi) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Uygulamanız şu anda '{0}' çalışma zamanı sürümüne sabitlenmiş, bu nedenle uygulamanız en son sürümü ({1}) kullanıyor. '{0}' sürümüne sabitleme, her zaman, bozukluğa neden olacak değişiklikler içerebilecek ana sürüm güncelleştirmelerinden sonra bile çalışma zamanının en son sürümünü çalıştırıyor olacağınız anlamına gelir. Bu değeri (~2 gibi) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Çalışma zamanı sürümü, uygulamanız için yapılandırılmadığından çalışma zamanı başlatılamıyor. Lütfen çalışma zamanı sürümünü (~2 gibi) geçerli bir değere güncelleştirin.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Uygulamanız şu anda '{0}' çalışma zamanı sürümüne sabitlenmiş. Bu sürüm artık desteklenmediğinde, uygulamanız çalışma zamanının en son sürümünü kullanmaya başlar. Bu, farklı bir ana sürüm olabilir ve bozukluğa neden olacak değişiklikler içerebilir. Bu değeri (~2) belirli bir ana sürüme ayarlamanız önerilir. Bunu yaparsanız, daha yeni sürümler güncelleştirme için size bildirilir.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarningForV2" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Uygulamanız şu anda '{0}' çalışma zamanı sürümüne sabitlenmiş ve Ekim 2020'den sonra güvenlik yükseltmelerini almayacak. Çalışma zamanının en son sürümüne yükseltmeniz önerilir. Daha fazla bilgi için bu makaleye bakın.]]></Val>
+            <Val><![CDATA[Çalışma zamanı sürümü uygulamanız için yapılandırılmadığından çalışma zamanı başlatılamıyor. Lütfen desteklenen çalışma zamanı sürümlerinden birini kullanın - {0}.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11862,6 +12483,42 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";gridItemsCountAriaLabel" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} {1} for {2}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{2} için {0} {1}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoFilter" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} {1}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} {1}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoFilterNoResults" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No results found]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sonuç bulunamadı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoResults" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No results found for {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} için sonuç bulunmadı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";grouping_location" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Group by location]]></Val>
@@ -12120,6 +12777,33 @@
           <Prev Cat="Text">
             <Val><![CDATA[HTTP Version]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyInfoBoxText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Uygulamanıza yönelik özel ana bilgisayar adlarından bazılarında SSL bağlamaları eksik. Yalnızca HTTPS seçeneği etkin olduğunda, uygulamanıza bu özel ana bilgisayar adlarından erişen istemciler güvenlik uyarılarıyla karşılaşır. Bu durumu düzeltmek için, eksik olan SSL bağlamalarını ekleyin veya özel ana bilgisayar adlarını kaldırın.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable this feature to redirect all HTTP traffic to HTTPS.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tüm HTTP trafiğini HTTPS'ye yeniden yönlendirmek için bu özelliği etkinleştirin.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[HTTPS Only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yalnızca HTTPS]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12524,10 +13208,13 @@
       </Item>
       <Item ItemId=";integrate_bindingsFailedLoading" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[One or more bindings failed to load, please refresh the page.]]></Val>
+          <Val><![CDATA[One or more bindings failed to load. Please try again later.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[En az bir bağlama yüklenemedi. Lütfen sayfayı yenileyin.]]></Val>
+            <Val><![CDATA[Bir veya daha fazla bağlama yüklenemedi. Lütfen daha sonra yeniden deneyin.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[One or more bindings failed to load, please refresh the page.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12791,6 +13478,24 @@
           <Val><![CDATA[Invalid credentials]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Geçersiz kimlik bilgileri]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidCronExpressionMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid Cron Expression. Please consult the <a href="{0}" target="_blank">documentation</a> to learn more.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Geçersiz Cron İfadesi. Daha fazla bilgi edinmek için lütfen <a href="{0}" target="_blank">belgelere</a> başvurun.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidFileSelectedWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid {0} file was selected. Please upload a valid file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Geçersiz {0} dosyası seçildi. Lütfen geçerli bir dosyayı karşıya yükleyin.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13689,6 +14394,123 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan or features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Plan veya özellikler]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption plan. Serverless, event-driven scaling for lowest minimum cost. Fast dynamic scale. Pay as you go usage.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tüketim planı. En düşük minimum maliyet sağlayan sunucusuz, olay temelli ölçeklendirme. Hızlı dinamik ölçek. Kullandığın kadar öde kullanımı.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Serverless, event-driven scaling for lowest minimum cost.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[En düşük minimum maliyet sağlayan sunucusuz, olay temelli ölçeklendirme.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tüketim]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderFeatures" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan/Features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Plan/Özellikler]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Standard plan. Best for enterprise-level, serverless applications with event-based scaling and network isolation. Fast dynamic scale. Network isolation. Always on instances.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Standart plan. Olay tabanlı ölçeklendirme ve ağ yalıtımı ile birlikte kurumsal düzeydeki sunucusuz uygulamalar için en iyisidir. Hızlı dinamik ölçek. Ağ yalıtımı. Her zaman açık örnekler.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Best for enterprise-level, serverless applications with event-based scaling and network isolation.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Olay tabanlı ölçeklendirme ve ağ yalıtımı ile birlikte kurumsal düzeydeki sunucusuz uygulamalar için en iyisidir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Standard]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Standart]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridInstancesRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Always on instances]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Her zaman açık örnekler]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridNetworkRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Network isolation]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ağ yalıtımı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridScaleRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Fast dynamic scale]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hızlı dinamik ölçek]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridUsageRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pay as you go usage]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kullandığın kadar öde kullanımı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerHeaderText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Plan seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";logicApp_description" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows.]]></Val>
@@ -13743,6 +14565,36 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";managedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Managed Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yönetilen Kimlik]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yönetilen kimlik kullanılırken görüntü ve etiket alanları otomatik doldurulmaz. Lütfen aşağıda görüntüyü ve etiketi el ile girin.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select managed identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yönetilen kimlik seçin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";managedPipelineModeLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Managed Pipeline Version]]></Val>
@@ -13757,6 +14609,15 @@
           <Val><![CDATA[Managed pipeline version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Yönetilen işlem hattı sürümü]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";manual" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Manual]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[El ile]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13827,6 +14688,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";minTlsVersionInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select the minimum TLS encryption version required by your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Uygulamanız tarafından gerekli kılınan en düşük TLS şifreleme sürümünü seçin.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";minTlsVersionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Minimum TLS Version]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[En düşük TLS Sürümü]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";minimize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Minimize]]></Val>
@@ -13841,6 +14720,27 @@
           <Val><![CDATA[Minor version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[İkincil sürüm]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingCorsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Running your function in portal requires the app to explicitly accept requests from {0}. This is known as cross-origin resource sharing (CORS). Click here to add {0} to the allowed origin configuration.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[İşlevinizi portalda çalıştırmak, uygulamanın {0} kaynağından gelen istekleri açıkça kabul etmesini gerektirir. Bu, çıkış noktaları arası kaynak paylaşımı (CORS) olarak bilinir. İzin verilen kaynak yapılandırmasına {0} eklemek için burayı tıklayın.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingWorkflowDispatchTrigger" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Deponuzdaki iş akışı dosyanızda 'workflow_dispatch' tetikleyicisi bulunmadığından yeniden dağıtım başarısız oldu. Bu sorunu düzeltmek için 'workflow_dispatch' tetikleyicisini {0} altındaki iş akışı dosyasına ekleyin]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13970,10 +14870,13 @@
       </Item>
       <Item ItemId=";mountPath_info" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Şunlar geçerli bağlama yollarına örnektir: {0}. Şunlar geçersiz bağlama yollarına örnektir: {1}]]></Val>
+            <Val><![CDATA[Şunlar geçerli bağlama yollarına örnektir: {0}. Şunlar geçersiz bağlama yollarına örnektir: {1}.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14280,6 +15183,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";new_parenthesized" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[(new)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[(yeni)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";newest" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Newest]]></Val>
@@ -14547,6 +15459,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[You do not own any VSTS Repositories]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";nodeStackLearnMore" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node version is defined through the {0} app setting.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Düğüm sürümü, {0} uygulama ayarı aracılığıyla tanımlanır.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14970,6 +15891,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";planType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Plan türü]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";platform" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Platform]]></Val>
@@ -15029,6 +15959,15 @@
           <Val><![CDATA[Preload enabled]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Önyükleme etkin]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";premiumToConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[UYARI: Esnek Premium planlarının bazı özellikleri Tüketim'de desteklenmez. İşlev Uygulamanızın taşınması, uygulamanın çalışmamasına neden olabilir. İşlev Uygulaması'nın bir Tüketim planıyla uyumlu olduğundan ve yalnız Premium'da bulunan özellikleri kullanmadığından lütfen emin olun.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15302,10 +16241,13 @@
       </Item>
       <Item ItemId=";pricing_emptyIsolatedGroupNewPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          <Val><![CDATA[To create an app on a new App Service Environment, click a link below to create the environment first.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[App Service Ortamları'nın satır içinde oluşturulması şu anda desteklenmiyor.]]></Val>
+            <Val><![CDATA[Yeni App Service Ortamı’nda bir uygulama oluşturmak için önce ortamı oluşturmak üzere aşağıdaki bağlantıya tıklayın.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -15455,6 +16397,24 @@
           <Val><![CDATA[Isolated V2 is not supported for this scale unit. Please consider redeploying or cloning your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Yalıtılmış V2 bu ölçek birimi için desteklenmiyor. Uygulamanızı yeniden dağıtabilir veya kopyalayabilirsiniz.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jboss" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP Integrated Support]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP Tümleşik Desteği]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jbossDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP siteleriniz için Red Hat’tan ve Azure’dan otomatik olarak tümleşik teknik destek alın]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16412,10 +17372,13 @@
       </Item>
       <Item ItemId=";readonlyBlobStorageWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Mounted Blob containers will become read only in Feb 2020.]]></Val>
+          <Val><![CDATA[Mounted Blob containers are read only.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Bağlı Blob kapsayıcıları Şubat 2020'de salt okunur hale gelecek.]]></Val>
+            <Val><![CDATA[Bağlı Blob kapsayıcıları salt okunur.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Mounted Blob containers will become read only in Feb 2020.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16785,11 +17748,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";result" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[result]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[sonuç]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";resultCode" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Result Code]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Sonuç Kodu]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";results" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[results]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[sonuçlar]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18549,6 +19530,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";stackInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a stack to see how it is currently configured for your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bir yığının şu anda uygulamanız için nasıl yapılandırıldığını görmek istiyorsanız ilgili yığını seçin.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";stackSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Stack settings]]></Val>
@@ -18671,6 +19661,24 @@
           <Val><![CDATA[Custom domains]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Özel etki alanları]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdge" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enterprise-grade edge]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kurumsal sınıf Edge]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdgePrice" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0}/per app/month]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Uygulama başına ayda {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19086,6 +20094,51 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_configurationFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Configuration file]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yapılandırma dosyası]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_configurationFileDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Keep configuration file changes enabled to allow changes in your staticwebapp.config.json to take effect. Disabling them may cause new deployments to fail.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Staticwebapp.config.json dosyasındaki değişikliklerin etkili olması için yapılandırma dosyası değişikliklerini etkin durumda tutun. Bu değişikliklerin devre dışı bırakılması yeni dağıtımların başarısız olmasına neden olabilir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_configurationFileToggle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable configuration file changes]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yapılandırma dosyası değişikliklerini etkinleştir]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_confirmVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Confirm visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ziyaretçi parolasını onayla]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_confirmVisitorPasswordRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Please confirm the visitor password. This value must match the password entered above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Lütfen ziyaretçi parolasını onaylayın. Bu değer yukarıda girilen parolayla eşleşmelidir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_discardChangesMesssage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the application settings for the environment {0}?]]></Val>
@@ -19112,6 +20165,15 @@
           <Val><![CDATA[No application setting to display]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Görüntülenecek uygulama ayarı yok]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_enterVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enter visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ziyaretçi parolasını gir]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19143,6 +20205,123 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_generalSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[General settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Genel ayarlar]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdate" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Updating general settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Genel ayarlar güncelleştiriliyor]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to update general settings with message: {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Genel ayarlar güncelleştirilemedi, {0} hatası alındı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithFailureNoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to update general settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Genel ayarlar güncelleştirilemedi.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Successfully updated general settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Genel ayarlar başarıyla güncelleştirildi.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_loadingApplicationSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading application settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Uygulama ayarları yükleniyor...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_loadingGeneralSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading general settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Genel ayarlar yükleniyor...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtection" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Password protection]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Parola koruması]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a password protection option. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bir parola koruma seçeneği belirleyin. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionDisabled" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Disabled]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Devre dışı]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionEnabledProductionAndStaging" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Protect both staging and production environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hazırlama ve üretim ortamlarını koru]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionEnabledStaging" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Protect staging environments only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Yalnızca hazırlama ortamlarını koru]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionSkuWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Parola koruması yalnızca Standart barındırma planında kullanılabilir. Parola korumasını yapılandırmak için lütfen barındırma planınızı güncelleştirin.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_readOnlyRbac" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Your site is currently in read only mode because your RBAC assigned access is set to: Reader]]></Val>
@@ -19169,6 +20348,27 @@
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Refresh environment variables]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_visitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ziyaretçi parolası]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_visitorPasswordRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols. Key Vault references are not currently supported.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ziyaretçi parolası gerekiyor. Parola, en az sekiz karakter uzunluğunda olmalı ve büyük harf, küçük harf, rakam ve sembol içermelidir. Key Vault başvuruları şu anda desteklenmiyor.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols or a Key vault secret url.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -20208,6 +21408,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";switchToJbossWarningBaner" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP, Red Hat tarafından ortak olarak destekleniyor. Web uygulamanızı JBoss'a geçirdiğinizde aylık ek ücret uygulanır. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";sync" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
@@ -20241,6 +21450,18 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[{0} web uygulamasının deposu şu an güncelleştirilemiyor.]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[System assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sistem tarafından atanan]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[System-assigned]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21246,6 +22467,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kullanıcı tarafından atanan]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";userCreds" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User Credentials]]></Val>
@@ -21320,6 +22553,15 @@
           <Val><![CDATA[Name and value must not be empty and must contain only letters and numbers.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Ad ve değer boş olmamalı ve yalnızca harf ve rakam içermelidir.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";validFileShouldBeSelectedWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Please select a valid file to upload.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Lütfen karşıya yüklemek için geçerli bir dosya seçin.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -21438,29 +22680,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";validation_mountNameAllowedCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Bağlama yolu tam yol olmalıdır ve yalnızca alfasayısal karakterler, alt çizgiler, kısa çizgiler, eğik çizgiler, köşeli parantezler ve ayraçlar içerebilir]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";validation_mountPathNotHome" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Mount path cannot be '/home']]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Bağlama yolu '/home' olamaz]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";validation_mountPathNotRoot" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount path cannot be '/']]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Bağlama yolu '/' olamaz]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

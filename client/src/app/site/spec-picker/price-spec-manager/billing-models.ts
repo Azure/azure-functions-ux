@@ -304,7 +304,7 @@ export enum SpecCostQueryResultStatusCode {
    */
   SuccessAsRetailForEa = 12,
   /**
-   * Spec is not supported in the current environment, e.g. Mooncake, Blackforest
+   * Spec is not supported in the current environment, e.g. Mooncake
    */
   NotSupportedInCurrentEnvironment = 13,
 

@@ -8,8 +8,8 @@ import { InfoBoxType } from './../../../controls/info-box/info-box.component';
 import { FeatureComponent } from './../../../shared/components/feature-component';
 import { FunctionAppContext } from './../../../shared/function-app-context';
 import { ApplicationSettings } from './../../../shared/models/arm/application-settings';
-import { ArmObj, ResourceId } from './../../../shared/models/arm/arm-obj';
-import { CreateSlotRequest, ExtendedLocation, Site } from './../../../shared/models/arm/site';
+import { ArmObj, ExtendedLocation, ResourceId } from './../../../shared/models/arm/arm-obj';
+import { CreateSlotRequest, Site } from './../../../shared/models/arm/site';
 import {
   Constants,
   FunctionAppVersion,
@@ -75,6 +75,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
   private _slotsArm: ArmObj<Site>[];
   private _functionAppContext: FunctionAppContext;
   private _isKubeApp = false;
+  private _customLocationId = '';
 
   constructor(
     private _fb: FormBuilder,
@@ -128,6 +129,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
         this.slotOptInEnabled = false;
         this.isFunctionApp = false;
         this._isKubeApp = false;
+        this._customLocationId = '';
 
         this.progressMessage = null;
         this.progressMessageClass = 'info';
@@ -161,6 +163,7 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
           const site = siteResult.result;
           this.isFunctionApp = ArmUtil.isFunctionApp(site);
           this._isKubeApp = ArmUtil.isKubeApp(site);
+          this._customLocationId = !!site.extendedLocation && site.extendedLocation.name;
         }
 
         if (!slotsResult.isSuccessful) {
@@ -315,13 +318,9 @@ export class AddSlotComponent extends FeatureComponent<ResourceId> implements On
     let newSlot: CreateSlotRequest;
     let extendedLocation: ExtendedLocation;
 
-    if (this._isKubeApp) {
-      const armSiteDescriptor = new ArmSiteDescriptor(siteId);
-      const websiteIdObject = armSiteDescriptor.getWebsiteId();
+    if (!!this._customLocationId) {
       extendedLocation = {
-        name: `/subscriptions/${websiteIdObject.SubscriptionId}/resourcegroups/${
-          websiteIdObject.ResourceGroup
-        }/providers/microsoft.extendedlocation/customlocations/${newSlotName}-location`,
+        name: this._customLocationId,
         type: 'CustomLocation',
       };
     } else {

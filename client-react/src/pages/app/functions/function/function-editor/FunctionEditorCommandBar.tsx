@@ -1,11 +1,10 @@
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import React, { useContext, useEffect, useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { PortalContext } from '../../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
 import FunctionEditorGetFunctionUrlCallout from './FunctionEditorGetFunctionUrlCallout';
-import { IButtonProps, IContextualMenuRenderItem, TooltipHost } from 'office-ui-fabric-react';
+import { IButtonProps, IContextualMenuRenderItem, TooltipHost, CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import { UrlObj, UrlType } from './FunctionEditor.types';
 import { toolTipStyle } from './FunctionEditor.styles';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
@@ -23,6 +22,9 @@ interface FunctionEditorCommandBarProps {
   testFunction: () => void;
   refreshFunction: () => void;
   upload: (file: any) => void;
+  setShowInvalidFileSelectedWarning: (isValid: boolean | undefined) => void;
+  setSelectedFileName: (fileName: string) => void;
+  resetInvalidFileSelectedWarningAndFileName: () => void;
   isGetFunctionUrlVisible: boolean;
   dirty: boolean;
   disabled: boolean;
@@ -46,6 +48,9 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
     functionInfo,
     runtimeVersion,
     upload,
+    setShowInvalidFileSelectedWarning,
+    resetInvalidFileSelectedWarningAndFileName,
+    setSelectedFileName,
   } = props;
   const { t } = useTranslation();
   const portalCommunicator = useContext(PortalContext);
@@ -55,6 +60,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
   const [isDialogVisible, setIsDialogVisible] = useState<boolean>(false);
 
   const onClickGetFunctionUrlCommand = () => {
+    resetInvalidFileSelectedWarningAndFileName();
     setIsDialogVisible(true);
   };
 
@@ -69,12 +75,16 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const uploadFile = e => {
     const file = e.target && e.target.files && e.target.files.length > 0 && e.target.files[0];
-    if (file) {
+    const isValidFile = !!file && !!file.size;
+    if (isValidFile) {
       upload(file);
     }
+
+    setSelectedFileName((!!file && file.name) || '');
+    setShowInvalidFileSelectedWarning(!isValidFile);
   };
 
-  const onTestItemRender = (item: any, dismissMenu: () => void) => {
+  const onTestItemRender = (item: any) => {
     const tooltipId = 'tooltip-id';
     if (testDisabled) {
       return (
@@ -172,10 +182,10 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const getEventGridSubscriptionUrl = (code: string) => {
     const eventGridSubscriptionUrlEndPoint =
-      !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
+      runtimeVersion === RuntimeExtensionMajorVersions.v1
         ? CommonConstants.EventGridSubscriptionEndpoints.v1
         : CommonConstants.EventGridSubscriptionEndpoints.v2;
-    return !!siteStateContext.site
+    return siteStateContext.site
       ? `${Url.getMainUrl(siteStateContext.site)}/${eventGridSubscriptionUrlEndPoint}?functionName=${
           functionInfo.properties.name
         }&code=${code}`
@@ -184,9 +194,7 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
 
   const getUrlObjsForEventGridTriggerFunction = () => {
     const eventGridKeyName =
-      !!runtimeVersion && runtimeVersion === RuntimeExtensionMajorVersions.v1
-        ? CommonConstants.AppKeys.eventGridV1
-        : CommonConstants.AppKeys.eventGridV2;
+      runtimeVersion === RuntimeExtensionMajorVersions.v1 ? CommonConstants.AppKeys.eventGridV1 : CommonConstants.AppKeys.eventGridV2;
 
     return urlObjs
       .filter(urlObj => {
@@ -204,9 +212,33 @@ const FunctionEditorCommandBar: React.FC<FunctionEditorCommandBarProps> = props 
       .sort((urlObj1, urlObj2) => urlObj1.text.localeCompare(urlObj2.text));
   };
 
+  const getAuthenticationEventSubscriptionUrl = (code: string) => {
+    return siteStateContext.site
+      ? `${Url.getMainUrl(siteStateContext.site)}/runtime/webhooks/customauthenticationextension?functionName=${
+          functionInfo.properties.name
+        }&code=${code}`
+      : '';
+  };
+
+  const getUrlObjsForAuthenticationEventTriggerFunction = () => {
+    return urlObjs
+      .filter(urlObj => {
+        return urlObj.type === UrlType.System && urlObj.text === CommonConstants.AppKeys.authenticationEvent;
+      })
+      .map(urlObj => {
+        return {
+          ...urlObj,
+          url: getAuthenticationEventSubscriptionUrl(urlObj.data),
+        };
+      })
+      .sort((urlObj1, urlObj2) => urlObj1.text.localeCompare(urlObj2.text));
+  };
+
   const getFilteredUrlObj = (): UrlObj[] => {
     if (functionEditorContext.isEventGridTriggerFunction(functionInfo)) {
       return getUrlObjsForEventGridTriggerFunction();
+    } else if (functionEditorContext.isAuthenticationEventTriggerFunction(functionInfo)) {
+      return getUrlObjsForAuthenticationEventTriggerFunction();
     } else {
       return urlObjs;
     }

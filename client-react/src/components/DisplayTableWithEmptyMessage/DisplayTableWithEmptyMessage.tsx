@@ -1,10 +1,8 @@
-import { DetailsList, IDetailsListProps } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, IDetailsListProps, ShimmeredDetailsList } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { style } from 'typestyle';
-
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../ThemeContext';
-import { ShimmeredDetailsList } from 'office-ui-fabric-react';
 import { detailListHeaderStyle } from '../form-controls/formControl.override.styles';
 
 export interface ShimmerProps {

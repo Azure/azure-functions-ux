@@ -1,12 +1,12 @@
 import { CommonConstants } from './../CommonConstants';
 import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, ScenarioResult } from './scenario.models';
+import { ScenarioResult } from './scenario.models';
 import { AzureEnvironment } from './azure.environment';
 import Url from '../url';
 
 export class NationalCloudEnvironment extends AzureEnvironment {
   public static isNationalCloud() {
-    return this.isMooncake() || this.isFairFax() || this.isBlackforest() || this.isUSNat() || this.isUSSec();
+    return this.isMooncake() || this.isFairFax() || this.isUSNat() || this.isUSSec();
   }
 
   public static isFairFax() {
@@ -15,10 +15,6 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
   public static isMooncake() {
     return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.mooncake.toLowerCase();
-  }
-
-  public static isBlackforest() {
-    return this._getUrlForNationalCloudEnvironment().toLowerCase() === CommonConstants.NationalCloudArmUris.blackforest.toLowerCase();
   }
 
   public static isUSNat() {
@@ -68,7 +64,7 @@ export class NationalCloudEnvironment extends AzureEnvironment {
 
     this.scenarioChecks[ScenarioIds.appInsightsConfigurable] = {
       id: ScenarioIds.appInsightsConfigurable,
-      runCheckAsync: (input: ScenarioCheckInput) => {
+      runCheckAsync: () => {
         return Promise.resolve<ScenarioResult>({
           status: 'disabled',
           data: null,
@@ -150,16 +146,13 @@ export class NationalCloudEnvironment extends AzureEnvironment {
       id: ScenarioIds.showAppInsightsLogs,
       runCheck: () => {
         return {
-          status:
-            NationalCloudEnvironment.isBlackforest() || NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec()
-              ? 'disabled'
-              : 'enabled',
+          status: NationalCloudEnvironment.isUSNat() || NationalCloudEnvironment.isUSSec() ? 'disabled' : 'enabled',
         };
       },
     };
   }
 
-  public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
+  public isCurrentEnvironment(): boolean {
     return NationalCloudEnvironment.isNationalCloud();
   }
 

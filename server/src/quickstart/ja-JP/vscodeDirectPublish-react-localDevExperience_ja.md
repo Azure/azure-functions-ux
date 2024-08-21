@@ -4,7 +4,7 @@
 
 次のコマンドを実行して、Core Tools パッケージをインストールします。
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 次に、<a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Visual Studio Code 用 Azure Functions 拡張機能をインストール</a>します。 拡張機能がインストールされたら、アクティビティ バーの Azure のロゴをクリックします。 **[Azure:関数]** で、 **[Azure にサインイン]** をクリックし、画面の指示に従います。
 

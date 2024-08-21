@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { LoggingOptions } from '../function-editor/FunctionEditor.types';
-import { Callout, DirectionalHint, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
+import { Callout, DirectionalHint, PrimaryButton, DefaultButton } from '@fluentui/react';
 import { calloutStyle } from './FunctionLog.styles';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../../../../ThemeContext';
@@ -9,6 +9,8 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import Url from '../../../../../utils/url';
 import { SiteStateContext } from '../../../../../SiteState';
+import { getTelemetryInfo } from '../../common/FunctionsUtility';
+import { PortalContext } from '../../../../../PortalContext';
 
 interface FunctionLogOptionsCalloutProps {
   setIsDialogVisible: (isVisible: boolean) => void;
@@ -21,6 +23,7 @@ const FunctionLogOptionsCallout: React.FC<FunctionLogOptionsCalloutProps> = prop
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
 
   const onCloseDialog = () => {
     setIsDialogVisible(false);
@@ -29,6 +32,7 @@ const FunctionLogOptionsCallout: React.FC<FunctionLogOptionsCalloutProps> = prop
   const primaryButtonOnClick = () => {
     if (setSelectedLoggingOption) {
       setSelectedLoggingOption(LoggingOptions.fileBased);
+      portalContext.log(getTelemetryInfo('info', 'selectedLoggingOption', 'clicked', { selectedLoggingOption: LoggingOptions.fileBased }));
       LogService.trackEvent(LogCategories.functionLog, 'fileBased-logging-selected', {
         resourceId: siteStateContext.resourceId,
         sessionId: Url.getParameterByName(null, 'sessionId'),

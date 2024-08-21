@@ -369,6 +369,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";acrCredentialsWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ACR の管理者資格情報が無効になっており、マネージド ID が割り当てられていないため、ACR '{0}' にアクセスできません。管理者資格情報を有効にするか、以下のマネージド ID を割り当てます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";active" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Active]]></Val>
@@ -428,6 +437,15 @@
           <Val><![CDATA[Add host key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[ホスト キーの追加]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Add identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ID の追加]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -548,6 +566,15 @@
           <Val><![CDATA[Add system key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[システム キーの追加]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";adminCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Admin Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[管理者資格情報]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -1890,6 +1917,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";automatic" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatic]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[自動]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";availability" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Availability]]></Val>
@@ -2814,30 +2850,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[GitHub またはお客様のコンテナー レジストリからコンテナー設定の管理、ログの表示、継続的配置 (CI/CD) のセットアップを行うための、改良された新しいデプロイ センターをお試しください。]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";classicDeploymentCenterDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[デプロイ センター (クラシック) エクスペリエンスは非推奨であり、2021 年 3 月に廃止されます。お客様のデプロイの管理を続行するには、新しいデプロイ センター エクスペリエンスをお試しください。]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";classicDeprecation" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.]]></Val>
@@ -2949,6 +2961,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";clientCertificateModeAllowInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clients will be prompted for a certificate, if no certificate is provided fallback to SSO or other means of authentication. Unauthenticated requests will be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SSO またはその他の認証手段にフォールバックする証明書が提供されていない場合、証明書の入力を求めるメッセージがクライアントに表示されます。認証されていない要求はブロックされます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";clientCertificateModeIgnore" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Ignore]]></Val>
@@ -2958,11 +2979,47 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";clientCertificateModeIgnoreInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No client authentication is required. Unauthenticated requests will not be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[クライアント認証は必要ありません。認証されていない要求はブロックされません。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeOptional" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Optional]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[省略可能]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeOptionalInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clients will not be prompted for a certificate by default. Unless the request can be authenticated through other means (like SSO), it will be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[既定では、証明書の入力を求めるメッセージはクライアントに表示されません。要求を他の方法 (SSO など) で認証できない限り、その要求はブロックされます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";clientCertificateModeRequire" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Require]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[必須]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeRequiredInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[All requests must be authenticated through a client certificate.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[すべての要求はクライアント証明書を使用して認証される必要があります。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3309,6 +3366,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";connectedAndFilteredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[接続されました! 現在の [コード + テスト]5D; パネルに、関数の実行のログが表示されるようになります。この関数のすべてのログを表示するには、[関数]5D; メニューから [モニター]5D; に移動してください。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";connectionStringInvalidProperty" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[{0} is an invalid connection string property]]></Val>
@@ -3393,6 +3459,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";consumptionPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption (Serverless)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[従量課金 (サーバーレス)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";container" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Container]]></Val>
@@ -3465,6 +3540,60 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";containerApp_console_cancel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cancel]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[キャンセル]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_chooseStartUpCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Choose start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[スタートアップ コマンドの選択]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_connect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connect]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[接続]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_custom" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[カスタム]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_failedToConnect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to connect to replica.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[レプリカに接続できませんでした。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_startUpCommandAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[カスタムのスタートアップ コマンド]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";containerConfiguration" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Configuration]]></Val>
@@ -3487,7 +3616,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Continuous Deployment]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[継続的なデプロイ]]></Val>
+            <Val><![CDATA[継続的デプロイ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3753,11 +3882,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";containerStartupFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";containerStartupFileOrCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Startup File]]></Val>
+          <Val><![CDATA[Startup file or command]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[スタートアップ ファイル]]></Val>
+            <Val><![CDATA[スタートアップ ファイルまたはコマンド]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3793,7 +3922,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Continuous Deployment (CI / CD)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[継続的配置 (CI/CD)]]></Val>
+            <Val><![CDATA[継続的デプロイ (CI/CD)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3878,6 +4007,330 @@
           <Val><![CDATA[CORS]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[CORS]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_apiType_coreSql" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Core (SQL)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コア (SQL)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameInvalid" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name must consist of minimum 3 and maximum 44 lowercase letters, numbers, or '-' characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アカウント名は、3 文字以上、最大 44 文字の小文字、数字、または '-' 文字で構成されている必要があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name is required.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アカウント名が必要です。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameTaken" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name is already taken.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[このアカウント名は既に取得されています。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerAlreadyExists" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container already exists.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コンテナーは既に存在します。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerNameCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container name cannot contain any special characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コンテナー名に特殊文字を含めることはできません。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerNameSpace" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container name cannot end with a space.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コンテナー名の末尾にスペースを使用することはできません。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseAlreadyExists" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database already exists.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[データベースは既に存在します。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseNameCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database name cannot contain any special characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[データベース名に特殊文字を含めることはできません。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseNameSpace" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database name cannot end with a space.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[データベース名の末尾にスペースを使用することはできません。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_fieldRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The field is required.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[このフィールドは必須項目です。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_partitionKeyPathSlash" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The partition key path must contain at least one \'/\' at the beginning of the string.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[パーティション キーのパスには、文字列の先頭に少なくとも 1 つの \'/\' が含まれている必要があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_writePermissionsRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatic mode is disabled for users with read-only permissions in their subscription or resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[サブスクリプションまたはリソース グループで読み取り専用のアクセス許可を持つユーザーに対して自動モードが無効になっています。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_header_customAppSetting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom app setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[カスタム アプリ設定]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_header_details" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB details]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB の詳細]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_accountName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Account name]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アカウント名]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_apiType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[API]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[API]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_connection" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB connection]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB 接続]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_container" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コンテナー]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_cosmosDbAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB アカウント]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createAContainer" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コンテナーの作成]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createADatabase" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[データベースの作成]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createAnAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アカウントの作成]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_customAppSettingKey" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Name]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[名前]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_customAppSettingValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connection string setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[接続文字列の設定]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_database" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[データベース]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_partitionKeyPath" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Partition key path]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[パーティション キーのパス]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_description" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a new serverless account in the same Azure region and resource group as the function. For more options, go to ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[関数と同じ Azure リージョンとリソース グループに新しいサーバーレス アカウントを作成します。その他のオプションについては、次にアクセスしてください: ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_link" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create Cosmos DB account.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB アカウントを作成します。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_title" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a Cosmos DB account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB アカウントの作成]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_noExistingAccounts" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アカウントを選択してください]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectAContainer" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コンテナーを選択してください]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectADatabase" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[データベースを選択してください]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectAnAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アカウントを選択してください]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_tooltip_customAppSettingKey" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enter the key/value pair for the Cosmos DB custom app setting.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB カスタム アプリ設定のキーと値のペアを入力します。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_tooltip_partitionKeyPath" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[パーティション キーは、スケーラビリティのためにパーティション間でデータを自動的に分散するために使用されます。さまざまな値を持ち、要求ボリュームを均等に分散する JSON ドキュメントのプロパティを選択してください。小さくて読み取り負荷の高いワークロードまたは任意のサイズの書き込み負荷の高いワークロードの場合は、/id を選択してください。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4145,6 +4598,15 @@
           <Val><![CDATA[Created new slot]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[新しいスロットが作成されました]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";creatingFunction" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Creating function...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[関数を作成しています...]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4425,6 +4887,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterAzureReposDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on your chosen repository. When a new commit is pushed to the selected branch Azure will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service は、選択したリポジトリに Webhook を配置します。選択したブランチに新しいコミットがプッシュされると、Azure によってコードがプルされ、アプリケーションがビルドされ、Web アプリにデプロイされます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterBitbucketDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service は、選択したリポジトリに Webhook を配置します。選択したブランチに新しいコミットがプッシュされると、App Service によってコードがプルされ、アプリケーションがビルドされ、Web アプリにデプロイされます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterBrowseCommandAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Deployment center browse command]]></Val>
@@ -4465,7 +4945,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Configure your app so that you can check your code into source control and run it through a continuous deployment pipeline]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[コードをソース管理にチェックインして、継続的配置パイプラインに従って処理できるようアプリを構成します]]></Val>
+            <Val><![CDATA[コードをソース管理にチェックインして、継続的デプロイ パイプラインに従って処理できるようアプリを構成します]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4993,7 +5473,7 @@
         <Str Cat="Text">
           <Val><![CDATA[Continuous Deployment (CI/CD)]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[継続的なデプロイ (CI/CD)]]></Val>
+            <Val><![CDATA[継続的デプロイ (CI/CD)]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5070,11 +5550,38 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterConfigureGitHubPermissions" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[組織またはリポジトリが見つからない場合は、GitHub で追加のアクセス許可を有効にする必要があります。]]></Val>
+            <Val><![CDATA[App Service は、選択したリポジトリに GitHub Actions ワークフローを配置して、選択したブランチにコミットがある場合にアプリをビルドしてデプロイします。組織またはリポジトリが見つからない場合は、GitHub で追加のアクセス許可を有効にする必要がある場合があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureGitHubPermissionsKudu" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app. If you can't find your organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service は、選択したリポジトリに Webhook を配置します。選択したブランチに新しいコミットがプッシュされると、App Service によってコードがプルされ、アプリケーションがビルドされ、Web アプリにデプロイされます。組織またはリポジトリが見つからない場合は、GitHub で追加のアクセス許可を有効にする必要がある場合があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureRuntimeLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Configure runtime]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ランタイムの構成]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureRuntimeMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[A runtime stack has not been configured for this app. Select a runtime stack here. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[このアプリのランタイム スタックが構成されていません。ここでランタイム スタックを選択してください。 ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5157,7 +5664,7 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterContainerAcrRegistrieNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterContainerAcrRegistriesNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[No ACR Registries are available in Subscription '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
@@ -5294,10 +5801,13 @@
       </Item>
       <Item ItemId=";deploymentCenterContainerType" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Container Type]]></Val>
+          <Val><![CDATA[Container type]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[コンテナーの種類]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Container Type]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5306,6 +5816,33 @@
           <Val><![CDATA[All unsaved changes will be lost.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[保存されていない変更はすべて失われます。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenDialogBody" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Do you want to update your GitHub token?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub トークンを更新しますか?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenDialogTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Update Token]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[トークンの更新]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your GitHub token is outdated and needs to be refreshed. Click here to update your token to the latest secure format. This should not cause any downtime or changes to your app's configuration.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[お客様の GitHub トークンは期限切れであるため、更新する必要があります。トークンを最新のセキュリティで保護された形式に更新するには、ここをクリックします。これにより、ダウンタイムやアプリの構成の変更が発生することはありません。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5349,11 +5886,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterDropboxDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authorize App Service with DropBox to manually sync your content from the selected folder with the Sync button above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[DropBox で App Service を承認し、上の [同期]5D; ボタンを使用して、選択したフォルダーからコンテンツを手動で同期します。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterErrorFetchingInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Error fetching information]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[情報のフェッチでエラーが発生しました]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterExternalGitDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[If your code is not on GitHub or BitBucket, you can use this option to manually sync your code from the repository. When you sync your repository, App Service will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[コードが GitHub または BitBucket にない場合は、このオプションを使用してリポジトリからコードを手動で同期できます。リポジトリを同期すると、App Service によってコードがプルされ、アプリケーションがビルドされ、Web アプリにデプロイされます。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5381,6 +5936,15 @@
           <Val><![CDATA[How valuable is this improved App Service deployment center page?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[改善されたこの App Service デプロイ センター ページはどれほど役立ちましたか?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterFieldPrivateSSHMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deploying with SSH and a private repository is not supported.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[SSH とプライベート リポジトリを使用したデプロイはサポートされていません。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5711,10 +6275,13 @@
       </Item>
       <Item ItemId=";deploymentCenterOAuthRepositoryPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select repository]]></Val>
+          <Val><![CDATA[Select or type repository]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[リポジトリを選択してください]]></Val>
+            <Val><![CDATA[リポジトリを選択または入力してください]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select repository]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5723,6 +6290,15 @@
           <Val><![CDATA[Signed in as]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[次のユーザーとしてサインイン:]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOneDriveDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authorize App Service with OneDrive to manually sync your content from the selected folder with the Sync button above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[OneDrive で App Service を承認し、上の [同期]5D; ボタンを使用して、選択したフォルダーからコンテンツを手動で同期します。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6207,6 +6783,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterUpdateTokenSuccessMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Succesfully updated your GitHub token.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub トークンが正常に更新されました。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterVstsBuildDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Building with Azure Pipelines.]]></Val>
@@ -6278,6 +6863,15 @@
           <Val><![CDATA[Loading workflow configurations]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[ワークフローの構成を読み込んでいます]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterWorkflowError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[There was an error fetching the workflow file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ワークフロー ファイルのフェッチでエラーが発生しました。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6608,6 +7202,15 @@
           <Val><![CDATA[Are you sure you want to disconnect your deployment?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[デプロイとの接続を切断しますか?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";disconnecting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Disconnecting...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[切断しています...]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -7034,10 +7637,13 @@
       </Item>
       <Item ItemId=";editCertificateExlusionPaths" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[edit client eclusion paths]]></Val>
+          <Val><![CDATA[edit client exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[クライアント除外パスの編集]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[edit client eclusion paths]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -7236,6 +7842,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Enable Load Testing]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";enablePortalEditingForLinuxConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Azure portal でのサードパーティの依存関係の追加は、現在、Linux 従量課金プラン関数アプリではサポートされていません。ここをクリックして、ローカル環境をセットアップしてください。]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10323,6 +10938,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionEditorCorsWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[We are setting up the environment to enable testing in the Portal. This will restart your Function App and may take a few minutes.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ポータルでのテストを可能にするように環境を設定しています。これにより、関数アプリが再起動し、数分かかる場合があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionEditorDiscardAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Discard changes to your function.]]></Val>
@@ -11037,6 +11661,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionPremiumPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Function Premium]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Function Premium]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionRuntimeSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Function runtime settings]]></Val>
@@ -11091,6 +11724,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionSupportedRuntimeVersionNotConfiguredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is pinned to an unsupported runtime version for '{0}'. For better performance, we recommend using one of our supported versions instead: {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アプリが '{0}' のサポートされていないランタイム バージョンにピン留めされています。そのようにせずに、パフォーマンスを向上させるため、サポートされているバージョンのいずれかを使用することをお勧めします: {1}。]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is not pinned to a supported runtime version. It might affect your app's performance. Please use one of the supported runtime version - {0}.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionTestInput" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Input]]></Val>
@@ -11101,6 +11746,18 @@
         <Disp Icon="Str" />
       </Item>
       <Item ItemId=";functionTestInputDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Provide parameters to test your function in the portal. Results can be found in the Output tab.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ポータルで関数をテストするためのパラメーターを指定します。結果は [出力]5D; タブに表示されます。]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";functionTestInputDescriptionForHttp" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
@@ -11223,56 +11880,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionsRuntimeVersionInvalidWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";functionsSupportedRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
+          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[カスタム ランタイム バージョン ({0}) はサポートされていません。そのため、アプリでは最新バージョン {1} が使用されており、メジャー バージョンの更新により破壊的変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。]]></Val>
+            <Val><![CDATA[アプリにランタイム バージョンが構成されていません。そのため、ランタイムを開始できません。有効なランタイム バージョンを使用してください (例: ~3)。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";functionsSupportedRuntimeVersionMissingWarningWithVersionList" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
+          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please use one of the supported runtime version - {0}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[お客様のアプリは現在、ランタイム バージョン '{0}' に固定されています。'{0}' に固定すると、メジャー バージョンの更新により破壊的変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[お客様のアプリは現在、ランタイム バージョン '{0}' に固定されているため、このアプリでは最新バージョン ({1}) が使用されています。'{0}' に固定すると、メジャー バージョンの更新により破壊的変更があった場合でも、常に最新バージョンのランタイムが実行されることになります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[お客様のアプリにはランタイム バージョンが構成されていません。そのため、ランタイムを開始できません。ランタイム バージョンを有効な値に更新してください (~2 など)。]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[お客様のアプリは現在、ランタイム バージョン '{0}' に固定されています。このバージョンがサポートされなくなった場合、アプリは最新バージョンのランタイムを使用し始めますが、これは、異なるメジャー バージョンの場合があり、破壊的変更が含まれる可能性があります。この値は、特定のメジャー バージョン (~2 など) に設定することをお勧めします。その場合、新しいバージョンが公開されたときには更新の通知を受け取ります。]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarningForV2" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[現在、アプリはランタイム バージョン '{0}' にピン留めされており、2020 年 10 月以降セキュリティ アップグレードを受け取らなくなります。最新バージョンのランタイムにアップグレードすることをお勧めします。詳細については、この記事を参照してください。]]></Val>
+            <Val><![CDATA[アプリにランタイム バージョンが構成されていません。そのため、ランタイムを開始できません。サポートされているランタイム バージョン ({0}) のいずれかを使用してください。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11862,6 +12483,42 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";gridItemsCountAriaLabel" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} {1} for {2}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{2} の {0} {1}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoFilter" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} {1}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} {1}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoFilterNoResults" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No results found]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[結果は見つかりませんでした]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoResults" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No results found for {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} の結果が見つかりませんでした]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";grouping_location" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Group by location]]></Val>
@@ -12120,6 +12777,33 @@
           <Prev Cat="Text">
             <Val><![CDATA[HTTP Version]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyInfoBoxText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アプリのいくつかのカスタム ホスト名に SSL バインディングがありません。[HTTPS のみ]5D; を有効にすると、それらのカスタム ホスト名でアプリにアクセスするクライアントにセキュリティ警告が表示されます。これを修正するには、欠けている SSL バインディングを追加するか、カスタム ホスト名を削除してください。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable this feature to redirect all HTTP traffic to HTTPS.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[すべての HTTP トラフィックを HTTPS にリダイレクトするには、この機能を有効にします。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[HTTPS Only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[HTTPS のみ]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12527,10 +13211,13 @@
       </Item>
       <Item ItemId=";integrate_bindingsFailedLoading" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[One or more bindings failed to load, please refresh the page.]]></Val>
+          <Val><![CDATA[One or more bindings failed to load. Please try again later.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[1 つまたは複数のバインドを読み込めませんでした。ページを更新してください。]]></Val>
+            <Val><![CDATA[1 つ以上のバインドを読み込めませんでした。後でもう一度お試しください。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[One or more bindings failed to load, please refresh the page.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12794,6 +13481,24 @@
           <Val><![CDATA[Invalid credentials]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[資格情報が無効です]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidCronExpressionMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid Cron Expression. Please consult the <a href="{0}" target="_blank">documentation</a> to learn more.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cron 式が無効です。詳細については、<a href="{0}" target="_blank">ドキュメント</a>を参照してください。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidFileSelectedWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid {0} file was selected. Please upload a valid file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[無効な {0} ファイルが選択されました。有効なファイルをアップロードしてください。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13692,6 +14397,123 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan or features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[プランまたは機能]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption plan. Serverless, event-driven scaling for lowest minimum cost. Fast dynamic scale. Pay as you go usage.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[従量課金プラン。最低の最小コストのための、サーバーレスのイベントドリブン スケーリング。高速な動的スケール。従量課金制の使用量。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Serverless, event-driven scaling for lowest minimum cost.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[最低の最小コストのための、サーバーレスのイベントドリブン スケーリング。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[従量課金]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderFeatures" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan/Features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[プランまたは機能]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Standard plan. Best for enterprise-level, serverless applications with event-based scaling and network isolation. Fast dynamic scale. Network isolation. Always on instances.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Standard プラン。イベントベースのスケーリングとネットワークの分離を備えた、エンタープライズレベルのサーバーレス アプリケーションに最適です。高速な動的スケール。ネットワークの分離。Always On インスタンス。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Best for enterprise-level, serverless applications with event-based scaling and network isolation.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[イベントベースのスケーリングとネットワークの分離を備えた、エンタープライズレベルのサーバーレス アプリケーションに最適です。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Standard]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Standard]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridInstancesRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Always on instances]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Always On インスタンス]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridNetworkRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Network isolation]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ネットワークの分離]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridScaleRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Fast dynamic scale]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[高速な動的スケール]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridUsageRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pay as you go usage]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[従量課金制の使用量]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerHeaderText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[プランの選択]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";logicApp_description" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows.]]></Val>
@@ -13746,6 +14568,36 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";managedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Managed Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[マネージド ID]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[マネージド ID を使用する場合、画像およびタグのフィールドは自動入力されません。画像とタグを下に手動で入力してください。]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select managed identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[マネージド ID を選択してください]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";managedPipelineModeLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Managed Pipeline Version]]></Val>
@@ -13760,6 +14612,15 @@
           <Val><![CDATA[Managed pipeline version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[マネージド パイプライン バージョン]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";manual" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Manual]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[手動]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13830,6 +14691,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";minTlsVersionInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select the minimum TLS encryption version required by your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アプリに必要な最小の TLS 暗号化バージョンを選択してください。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";minTlsVersionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Minimum TLS Version]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[TLS の最小バージョン]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";minimize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Minimize]]></Val>
@@ -13844,6 +14723,27 @@
           <Val><![CDATA[Minor version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[マイナー バージョン]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingCorsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Running your function in portal requires the app to explicitly accept requests from {0}. This is known as cross-origin resource sharing (CORS). Click here to add {0} to the allowed origin configuration.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ポータルで関数を実行するには、アプリが {0} からの要求を明示的に受け入れる必要があります。これはクロスオリジン リソース共有 (CORS) と呼ばれます。許可された配信元の構成に {0} を追加するには、こちらをクリックします。]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingWorkflowDispatchTrigger" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[リポジトリのワークフロー ファイルに 'workflow_dispatch' トリガーがないため、再デプロイに失敗しました。修正するには、'workflow_dispatch' トリガーを {0} の下のワークフロー ファイルに追加してください]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13976,10 +14876,13 @@
       </Item>
       <Item ItemId=";mountPath_info" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[有効なマウント パスの例を次に示します: {0}。無効なマウント パスの例を次に示します: {1}]]></Val>
+            <Val><![CDATA[有効なマウント パスの例を次に示します: {0}。無効なマウント パスの例を次に示します: {1}。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14286,6 +15189,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";new_parenthesized" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[(new)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[(新規)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";newest" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Newest]]></Val>
@@ -14553,6 +15465,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[You do not own any VSTS Repositories]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";nodeStackLearnMore" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node version is defined through the {0} app setting.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ノードのバージョンは、{0} アプリ設定を通じて定義されます。]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14976,6 +15897,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";planType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[プランの種類]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";platform" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Platform]]></Val>
@@ -15035,6 +15965,15 @@
           <Val><![CDATA[Preload enabled]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[プリロードが有効]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";premiumToConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[警告: Elastic Premium プランでサポートされているすべての機能が従量課金でサポートされているわけではありません。関数アプリを移動すると、中断する可能性があります。関数アプリが従量課金プランと互換性があり、Premium でのみ利用可能な機能が使用されていないことを確認してください。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15308,10 +16247,13 @@
       </Item>
       <Item ItemId=";pricing_emptyIsolatedGroupNewPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          <Val><![CDATA[To create an app on a new App Service Environment, click a link below to create the environment first.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[App Service Environment のインライン作成は、現在サポートされていません。]]></Val>
+            <Val><![CDATA[新しい App Service Environment でアプリを作成するには、下のリンクをクリックして、まず環境を作成してください。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -15461,6 +16403,24 @@
           <Val><![CDATA[Isolated V2 is not supported for this scale unit. Please consider redeploying or cloning your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[このスケール ユニットでは Isolated V2 はサポートされていません。アプリの再デプロイまたは複製をご検討ください。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jboss" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP Integrated Support]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP 統合サポート]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jbossDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Red Hat と Azure から JBoss EAP サイトの統合テクニカル サポートを自動的に受けます]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16421,10 +17381,13 @@
       </Item>
       <Item ItemId=";readonlyBlobStorageWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Mounted Blob containers will become read only in Feb 2020.]]></Val>
+          <Val><![CDATA[Mounted Blob containers are read only.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[マウントされた BLOB コンテナーは、2020 年 2月に読み取り専用になります。]]></Val>
+            <Val><![CDATA[マウントされた BLOB コンテナーは読み取り専用です。]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Mounted Blob containers will become read only in Feb 2020.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16794,11 +17757,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";result" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[result]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[結果]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";resultCode" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Result Code]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[結果コード]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";results" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[results]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[結果]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18570,6 +19551,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";stackInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a stack to see how it is currently configured for your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[スタックを選択して、アプリに対して現在どのように構成されているかを確認します。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";stackSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Stack settings]]></Val>
@@ -18692,6 +19682,24 @@
           <Val><![CDATA[Custom domains]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[カスタム ドメイン]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdge" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enterprise-grade edge]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[エンタープライズ グレードのエッジ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdgePrice" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0}/per app/month]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[月ごとにアプリあたり {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19107,6 +20115,51 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_configurationFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Configuration file]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[構成ファイル]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_configurationFileDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Keep configuration file changes enabled to allow changes in your staticwebapp.config.json to take effect. Disabling them may cause new deployments to fail.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[staticwebapp.config.json の変更を有効にするには、構成ファイルの変更を有効にしたままにします。無効にすると、新しいデプロイが失敗する可能性があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_configurationFileToggle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable configuration file changes]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[構成ファイルの変更を有効にする]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_confirmVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Confirm visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[訪問者のパスワードの確認]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_confirmVisitorPasswordRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Please confirm the visitor password. This value must match the password entered above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[訪問者のパスワードを確認してください。この値は、上で入力したパスワードと一致する必要があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_discardChangesMesssage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the application settings for the environment {0}?]]></Val>
@@ -19133,6 +20186,15 @@
           <Val><![CDATA[No application setting to display]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[表示するアプリケーション設定がありません]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_enterVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enter visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[訪問者のパスワードを入力]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19164,6 +20226,123 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_generalSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[General settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[全般設定]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdate" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Updating general settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[全般設定を更新しています]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to update general settings with message: {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[全般設定を更新できませんでした。メッセージ: {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithFailureNoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to update general settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[全般設定を更新できませんでした。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Successfully updated general settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[全般設定が正常に更新されました。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_loadingApplicationSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading application settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アプリケーション設定を読み込んでいます...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_loadingGeneralSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading general settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[全般設定を読み込んでいます...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtection" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Password protection]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[パスワード保護]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a password protection option. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[パスワード保護オプションを選択します。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionDisabled" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Disabled]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[無効]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionEnabledProductionAndStaging" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Protect both staging and production environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ステージングと運用の両方の環境を保護]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionEnabledStaging" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Protect staging environments only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ステージング環境のみを保護]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionSkuWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[パスワード保護は、Standard ホスティング プランでのみ使用できます。パスワード保護を構成するには、ホスティング プランを更新してください。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_readOnlyRbac" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Your site is currently in read only mode because your RBAC assigned access is set to: Reader]]></Val>
@@ -19190,6 +20369,27 @@
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Refresh environment variables]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_visitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[訪問者のパスワード]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_visitorPasswordRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols. Key Vault references are not currently supported.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[訪問者のパスワードが必要です。パスワードは少なくとも 8 文字の長さで、大文字、小文字、数字、記号を含める必要があります。Key Vault 参照は現在サポートされていません。]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols or a Key vault secret url.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -20232,6 +21432,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";switchToJbossWarningBaner" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP は Red Hat によって共同でサポートされています。Web アプリを JBoss に切り替えると、1 か月あたりの追加コストが発生します。 ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";sync" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
@@ -20265,6 +21474,18 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Web アプリ {0} のリポジトリは、現在は更新できません。]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[System assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[システム割り当て]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[System-assigned]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21273,6 +22494,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[ユーザー割り当て]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";userCreds" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User Credentials]]></Val>
@@ -21347,6 +22580,15 @@
           <Val><![CDATA[Name and value must not be empty and must contain only letters and numbers.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[名前と値は、空にすることはできず、文字と数字のみを含める必要があります。]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";validFileShouldBeSelectedWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Please select a valid file to upload.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[アップロードする有効なファイルを選択してください。]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -21465,29 +22707,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";validation_mountNameAllowedCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[マウント パスは完全修飾パスである必要があり、英数字、アンダースコア、ハイフン、スラッシュ、角かっこ、かっこのみを含めることができます]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";validation_mountPathNotHome" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Mount path cannot be '/home']]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[マウント パスを '/home' にすることはできません]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";validation_mountPathNotRoot" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount path cannot be '/']]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[マウント パスを '/' にすることはできません]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

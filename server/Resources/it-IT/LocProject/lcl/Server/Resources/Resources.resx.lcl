@@ -369,6 +369,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";acrCredentialsWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non è possibile accedere al Registro Azure Container '{0}' perché le credenziali amministratore nel Registro Azure Container sono disabilitate e non è assegnata alcuna identità gestita. Abilitare le credenziali amministratore o assegnare un'identità gestita di seguito.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";active" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Active]]></Val>
@@ -428,6 +437,15 @@
           <Val><![CDATA[Add host key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Aggiungi chiave host]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Add identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aggiungi identità]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -548,6 +566,15 @@
           <Val><![CDATA[Add system key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Aggiungi chiave sistema]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";adminCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Admin Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Credenziali amministratore]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -1890,6 +1917,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";automatic" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatic]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Automatica]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";availability" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Availability]]></Val>
@@ -2814,30 +2850,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Provare il nuovo Centro distribuzione migliorato per gestire le impostazioni dei contenitori, visualizzare i log e configurare la distribuzione continua (CI/CD) da GitHub o dal registro contenitori.]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";classicDeploymentCenterDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[L'esperienza Centro distribuzione (versione classica) è deprecata e verrà rimossa nel mese di marzo 2021. Per continuare a gestire le distribuzioni, provare la nuova esperienza Centro distribuzione.]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";classicDeprecation" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.]]></Val>
@@ -2949,6 +2961,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";clientCertificateModeAllowInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clients will be prompted for a certificate, if no certificate is provided fallback to SSO or other means of authentication. Unauthenticated requests will be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ai client verrà richiesto un certificato, se non viene fornito alcun certificato, verrà eseguito il fallback su SSO o su altri mezzi di autenticazione. Le richieste non autenticate verranno bloccate.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";clientCertificateModeIgnore" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Ignore]]></Val>
@@ -2958,11 +2979,47 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";clientCertificateModeIgnoreInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No client authentication is required. Unauthenticated requests will not be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non è richiesta alcuna autenticazione client. Le richieste non autenticate non verranno bloccate.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeOptional" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Optional]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Facoltativo]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeOptionalInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clients will not be prompted for a certificate by default. Unless the request can be authenticated through other means (like SSO), it will be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Per impostazione predefinita, ai client non verrà richiesto un certificato. A meno che la richiesta non possa essere autenticata tramite altri mezzi (come SSO), verrà bloccata.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";clientCertificateModeRequire" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Require]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Richiedi]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeRequiredInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[All requests must be authenticated through a client certificate.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tutte le richieste devono essere autenticate tramite un certificato client.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3309,6 +3366,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";connectedAndFilteredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Collegato! Si stanno visualizzando i log delle esecuzioni di funzioni nel pannello Codice e test corrente. Per visualizzare tutti i log per questa funzione, passare a 'Monitoraggio' dal menu Funzione.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";connectionStringInvalidProperty" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[{0} is an invalid connection string property]]></Val>
@@ -3393,6 +3459,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";consumptionPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption (Serverless)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Consumo (Serverless)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";container" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Container]]></Val>
@@ -3461,6 +3536,60 @@
           <Val><![CDATA[Tag]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Tag]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_cancel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cancel]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Annulla]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_chooseStartUpCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Choose start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Scegliere il comando di avvio]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_connect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connect]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Connetti]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_custom" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Personalizzato]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_failedToConnect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to connect to replica.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Impossibile connettersi alla replica.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_startUpCommandAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Personalizzare il comando di avvio]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3753,11 +3882,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";containerStartupFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";containerStartupFileOrCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Startup File]]></Val>
+          <Val><![CDATA[Startup file or command]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[File di avvio]]></Val>
+            <Val><![CDATA[File o comando di avvio]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3878,6 +4007,330 @@
           <Val><![CDATA[CORS]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[CORS]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_apiType_coreSql" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Core (SQL)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Core (SQL)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameInvalid" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name must consist of minimum 3 and maximum 44 lowercase letters, numbers, or '-' characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il nome dell'account deve essere composto da un minimo di 3 e un massimo di 44 lettere minuscole, numeri o caratteri '-'.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name is required.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il nome dell'account è obbligatorio.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameTaken" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name is already taken.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il nome dell'account è già in uso.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerAlreadyExists" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container already exists.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il contenitore esiste già.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerNameCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container name cannot contain any special characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il nome del contenitore non può contenere caratteri speciali.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerNameSpace" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container name cannot end with a space.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il nome del contenitore non può terminare con uno spazio.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseAlreadyExists" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database already exists.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il database esiste già.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseNameCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database name cannot contain any special characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il nome del database non può contenere i caratteri speciali.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseNameSpace" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database name cannot end with a space.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il nome del database non può terminare con uno spazio.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_fieldRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The field is required.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Campo obbligatorio.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_partitionKeyPathSlash" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The partition key path must contain at least one \'/\' at the beginning of the string.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il percorso della chiave di partizione deve contenere almeno un \'/\' all'inizio della stringa.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_writePermissionsRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatic mode is disabled for users with read-only permissions in their subscription or resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La modalità automatica è disabilitata per gli utenti con autorizzazioni di sola lettura nell’abbonamento o nel gruppo di risorse.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_header_customAppSetting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom app setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Impostazione app personalizzata]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_header_details" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB details]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Dettagli Cosmos DB]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_accountName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Account name]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nome account]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_apiType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[API]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[API]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_connection" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB connection]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nuova connessione Cosmos DB]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_container" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Contenitore]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_cosmosDbAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Account Cosmos DB]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createAContainer" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Crea un contenitore]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createADatabase" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Crea un database]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createAnAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Crea un account]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_customAppSettingKey" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Name]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nome]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_customAppSettingValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connection string setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Impostazione della stringa di connessione]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_database" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Database]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_partitionKeyPath" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Partition key path]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Percorso della chiave di partizione]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_description" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a new serverless account in the same Azure region and resource group as the function. For more options, go to ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Crea un nuovo account serverless nella stessa area di Azure e nello stesso gruppo di risorse della funzione. Per altre opzioni, vai a ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_link" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create Cosmos DB account.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Account Azure Cosmos DB.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_title" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a Cosmos DB account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Crea un account Cosmos DB]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_noExistingAccounts" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Scegli un account]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectAContainer" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Seleziona un contenitore]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectADatabase" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Seleziona un database]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectAnAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Scegli un account]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_tooltip_customAppSettingKey" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enter the key/value pair for the Cosmos DB custom app setting.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Immettere la coppia chiave-valore per l'impostazione dell'app personalizzata Cosmos DB.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_tooltip_partitionKeyPath" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La chiave di partizione viene usata per distribuire automaticamente i dati tra le partizioni per la scalabilità. Scegli una proprietà nel documento JSON che abbia un'ampia gamma di valori e distribuisca uniformemente il volume delle richieste. Seleziona /id per carichi di lavoro di piccole dimensioni di dimensioni insufficienti per la lettura o carichi di lavoro con un elevato carico di scrittura di qualsiasi dimensione.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4145,6 +4598,15 @@
           <Val><![CDATA[Created new slot]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Il nuovo slot è stato creato]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";creatingFunction" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Creating function...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Creazione della funzione in corso...]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4421,6 +4883,24 @@
           <Val><![CDATA[App Logs]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Log dell'app]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterAzureReposDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on your chosen repository. When a new commit is pushed to the selected branch Azure will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il servizio app inserirà un webhook nel repository scelto. Quando viene eseguito il push di un nuovo commit nel ramo selezionato, Azure eseguirà il pull del codice, compilerà l'applicazione e la distribuirà nell'app Web.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterBitbucketDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il servizio app inserirà un webhook nel repository scelto. Quando viene eseguito il push di un nuovo commit nel ramo selezionato, il servizio app eseguirà il pull del codice, compilerà l'applicazione e la distribuirà nell'app Web.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5070,11 +5550,38 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterConfigureGitHubPermissions" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Se non si riesce a trovare un'organizzazione o un repository, potrebbe essere necessario abilitare autorizzazioni aggiuntive in GitHub.]]></Val>
+            <Val><![CDATA[Il servizio app inserirà un flusso di lavoro di GitHub Actions nel repository scelto per compilare e distribuire l'app ogni volta che viene eseguito il commit nel ramo scelto. Se non è possibile trovare un'organizzazione o un repository, potrebbe essere necessario abilitare ulteriori autorizzazioni in GitHub.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureGitHubPermissionsKudu" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app. If you can't find your organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il servizio app inserirà un webhook nel repository scelto. Quando viene eseguito il push di un nuovo commit nel ramo selezionato, il servizio app eseguirà il pull del codice, compilerà l'applicazione e la distribuirà nell'app Web. Se non è possibile trovare l'organizzazione o il repository, potrebbe essere necessario abilitare ulteriori autorizzazioni in GitHub.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureRuntimeLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Configure runtime]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Configurare runtime]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureRuntimeMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[A runtime stack has not been configured for this app. Select a runtime stack here. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non è stato configurato uno stack di runtime per questa app. Selezionare qui uno stack di runtime. ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5157,7 +5664,7 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterContainerAcrRegistrieNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterContainerAcrRegistriesNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[No ACR Registries are available in Subscription '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
@@ -5294,10 +5801,13 @@
       </Item>
       <Item ItemId=";deploymentCenterContainerType" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Container Type]]></Val>
+          <Val><![CDATA[Container type]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Tipo di contenitore]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Container Type]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5306,6 +5816,33 @@
           <Val><![CDATA[All unsaved changes will be lost.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Tutte le modifiche non salvate andranno perse.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenDialogBody" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Do you want to update your GitHub token?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aggiornare il token GitHub?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenDialogTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Update Token]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aggiornare token]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your GitHub token is outdated and needs to be refreshed. Click here to update your token to the latest secure format. This should not cause any downtime or changes to your app's configuration.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il token GitHub è obsoleto e deve essere aggiornato. Fare clic qui per aggiornare il token al formato sicuro più recente. Tale operazione non deve causare tempi di inattività o modifiche alla configurazione dell'app.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5349,11 +5886,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterDropboxDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authorize App Service with DropBox to manually sync your content from the selected folder with the Sync button above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Autorizzare il servizio app con DropBox a sincronizzare manualmente il contenuto dalla cartella selezionata con il pulsante Sincronizza in alto.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterErrorFetchingInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Error fetching information]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Si è verificato un errore durante il recupero delle informazioni]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterExternalGitDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[If your code is not on GitHub or BitBucket, you can use this option to manually sync your code from the repository. When you sync your repository, App Service will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Se il codice non si trova in GitHub o BitBucket, è possibile usare questa opzione per sincronizzare manualmente il codice dal repository. Quando si sincronizza il repository, il servizio app eseguirà il pull del codice, compilerà l'applicazione e la distribuirà nell'app Web.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5381,6 +5936,15 @@
           <Val><![CDATA[How valuable is this improved App Service deployment center page?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Quanto è utile questa pagina migliorata del Centro distribuzione del servizio app?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterFieldPrivateSSHMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deploying with SSH and a private repository is not supported.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La distribuzione con SSH e un repository privato non è supportata.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5711,10 +6275,13 @@
       </Item>
       <Item ItemId=";deploymentCenterOAuthRepositoryPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select repository]]></Val>
+          <Val><![CDATA[Select or type repository]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Seleziona repository]]></Val>
+            <Val><![CDATA[Selezionare o digitare il repository]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select repository]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5723,6 +6290,15 @@
           <Val><![CDATA[Signed in as]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Accesso eseguito come]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOneDriveDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authorize App Service with OneDrive to manually sync your content from the selected folder with the Sync button above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Autorizzare il servizio app con OneDrive a sincronizzare manualmente il contenuto dalla cartella selezionata con il pulsante Sincronizza in alto.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6207,6 +6783,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterUpdateTokenSuccessMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Succesfully updated your GitHub token.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Il token GitHub è stato aggiornato correttamente.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterVstsBuildDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Building with Azure Pipelines.]]></Val>
@@ -6278,6 +6863,15 @@
           <Val><![CDATA[Loading workflow configurations]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Caricamento delle configurazioni del flusso di lavoro]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterWorkflowError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[There was an error fetching the workflow file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Si è verificato un errore durante il recupero del file del flusso di lavoro.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6608,6 +7202,15 @@
           <Val><![CDATA[Are you sure you want to disconnect your deployment?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Disconnettere la distribuzione?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";disconnecting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Disconnecting...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Disconnessione...]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -7034,10 +7637,13 @@
       </Item>
       <Item ItemId=";editCertificateExlusionPaths" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[edit client eclusion paths]]></Val>
+          <Val><![CDATA[edit client exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[modifica percorsi di esclusione client]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[edit client eclusion paths]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -7236,6 +7842,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Enable Load Testing]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";enablePortalEditingForLinuxConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[L'aggiunta di dipendenze di terze parti nel portale di Azure non è attualmente supportata per le app delle funzioni a consumo di Linux. Fare clic qui per configurare l'ambiente locale.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10323,6 +10938,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionEditorCorsWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[We are setting up the environment to enable testing in the Portal. This will restart your Function App and may take a few minutes.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[È in corso la configurazione dell'ambiente per abilitare i test nel portale. L'app per le funzioni verrà riavviata e l'operazione potrebbe richiedere alcuni minuti.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionEditorDiscardAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Discard changes to your function.]]></Val>
@@ -11037,6 +11661,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionPremiumPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Function Premium]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Funzione Premium]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionRuntimeSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Function runtime settings]]></Val>
@@ -11091,6 +11724,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionSupportedRuntimeVersionNotConfiguredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is pinned to an unsupported runtime version for '{0}'. For better performance, we recommend using one of our supported versions instead: {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[L'app è stata aggiunta a una versione di runtime non supportata per '{0}'. Per prestazioni migliori, è consigliabile usare una delle versioni supportate: {1}.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is not pinned to a supported runtime version. It might affect your app's performance. Please use one of the supported runtime version - {0}.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionTestInput" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Input]]></Val>
@@ -11102,9 +11747,21 @@
       </Item>
       <Item ItemId=";functionTestInputDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
+          <Val><![CDATA[Provide parameters to test your function in the portal. Results can be found in the Output tab.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Specificare i parametri per testare la funzione nel portale. I risultati sono disponibili nella scheda Output.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";functionTestInputDescriptionForHttp" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
           <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Fornire i parametri per testare la richiesta HTTP. I risultati sono disponibili nella scheda Output.]]></Val>
+            <Val><![CDATA[Specificare i parametri per testare la richiesta HTTP. I risultati sono disponibili nella scheda Output.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11223,56 +11880,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionsRuntimeVersionInvalidWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";functionsSupportedRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
+          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[La versione run-time personalizzata ({0}) non è supportata, di conseguenza l'app usa l'ultima versione {1} e verrà sempre eseguita l'ultima versione del run-time anche in caso di aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche delle versioni più recenti per l'aggiornamento.]]></Val>
+            <Val><![CDATA[La versione di runtime non è configurata per l'app. Di conseguenza, non è possibile avviare il runtime. Usare una versione di runtime valida, ad esempio ~3.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";functionsSupportedRuntimeVersionMissingWarningWithVersionList" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
+          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please use one of the supported runtime version - {0}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[L'app è attualmente aggiunta alla versione run-time '{0}'. L'aggiunta a '{0}' significa che verrà sempre eseguita sempre l'ultima versione del run-time anche in caso di aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche sulla disponibilità di versioni più recenti per l'aggiornamento.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[L'app è attualmente aggiunta alla versione run-time '{0}' e quindi usa l'ultima versione ({1}). L'aggiunta a '{0}' significa che verrà sempre eseguita sempre l'ultima versione del run-time anche in caso di aggiornamenti della versione principale che potrebbero contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche sulla disponibilità di versioni più recenti per l'aggiornamento.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[La versione run-time non è configurata per l'app, di conseguenza, non è possibile avviare il run-time. Aggiornare la versione run-time a un valore valido, ad esempio ~2.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[L'app è attualmente aggiunta alla versione run-time '{0}'. Quando questa versione non sarà più supportata, l'app inizierà a usare l'ultima versione run-time, che potrebbe essere una versione principale diversa e potrebbe contenere modifiche che causano interruzioni. È consigliabile impostare questo valore su una versione principale specifica, ad esempio ~2, in modo da ricevere le notifiche sulla disponibilità di versioni più recenti per l'aggiornamento.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarningForV2" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[L'app è attualmente ancorata alla versione del runtime '{0}' e non riceverà più aggiornamenti di sicurezza dopo il mese di ottobre 2020. È consigliabile eseguire l'aggiornamento all'ultima versione del runtime. Per altre informazioni, vedere questo articolo.]]></Val>
+            <Val><![CDATA[La versione di runtime non è configurata per l'app. Di conseguenza, non è possibile avviare il runtime. Usare una delle versioni di runtime supportate: {0}.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11862,6 +12483,42 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";gridItemsCountAriaLabel" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} {1} for {2}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} {1} per {2}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoFilter" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} {1}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} {1}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoFilterNoResults" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No results found]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non sono stati trovati risultati]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoResults" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No results found for {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non sono stati trovati risultati per {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";grouping_location" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Group by location]]></Val>
@@ -12120,6 +12777,33 @@
           <Prev Cat="Text">
             <Val><![CDATA[HTTP Version]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyInfoBoxText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Per alcuni nomi host dell'app mancano le associazioni SSL. Quando l'impostazione Solo HTTPS è abilitata, i client che accedono all'app su tali nomi host personalizzati visualizzeranno avvisi di sicurezza. Per correggere il problema, aggiungere le associazioni SSL mancanti o rimuovere i nomi host personalizzati.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable this feature to redirect all HTTP traffic to HTTPS.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Abilitare questa funzionalità per reindirizzare tutto il traffico HTTP a HTTPS.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[HTTPS Only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Solo HTTPS]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12527,10 +13211,13 @@
       </Item>
       <Item ItemId=";integrate_bindingsFailedLoading" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[One or more bindings failed to load, please refresh the page.]]></Val>
+          <Val><![CDATA[One or more bindings failed to load. Please try again later.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Il caricamento di una o più associazioni non è riuscito. Aggiornare la pagina.]]></Val>
+            <Val><![CDATA[Il caricamento di una o più associazioni non è riuscito. Riprovare più tardi.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[One or more bindings failed to load, please refresh the page.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12794,6 +13481,24 @@
           <Val><![CDATA[Invalid credentials]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Credenziali non valide]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidCronExpressionMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid Cron Expression. Please consult the <a href="{0}" target="_blank">documentation</a> to learn more.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Espressione Cron non valida. Per altre informazioni, vedere la <a href="{0}" target="_blank">documentazione</a>.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidFileSelectedWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid {0} file was selected. Please upload a valid file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[È stato selezionato un file {0} non valido. Caricare un file valido.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13692,6 +14397,123 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan or features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Piano o funzionalità]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption plan. Serverless, event-driven scaling for lowest minimum cost. Fast dynamic scale. Pay as you go usage.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Piano a consumo. Scalabilità serverless basata su eventi per il costo minimo più basso. Ridimensionamento dinamico veloce. Utilizzo con pagamento in base al consumo.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Serverless, event-driven scaling for lowest minimum cost.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ridimensionamento serverless basato su eventi per il costo minimo più basso.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Consumo]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderFeatures" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan/Features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Piano/funzionalità]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Standard plan. Best for enterprise-level, serverless applications with event-based scaling and network isolation. Fast dynamic scale. Network isolation. Always on instances.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Piano Standard. Ideale per applicazioni serverless di livello aziendale con scalabilità basata su eventi e isolamento rete. Ridimensionamento dinamico veloce. Isolamento rete. Istanze Always On.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Best for enterprise-level, serverless applications with event-based scaling and network isolation.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ideale per le applicazioni serverless a livello di organizzazione, con ridimensionamento basato su eventi e isolamento rete.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Standard]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Standard]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridInstancesRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Always on instances]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Istanze Always On]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridNetworkRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Network isolation]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Isolamento rete]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridScaleRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Fast dynamic scale]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ridimensionamento dinamico del numero di istanze]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridUsageRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pay as you go usage]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Pagamento in base al consumo]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerHeaderText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selezionare piano]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";logicApp_description" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows.]]></Val>
@@ -13746,6 +14568,36 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";managedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Managed Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Identità gestita]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Quando si utilizza l'identità gestita, i campi immagine e tag non verranno popolati automaticamente. Immettere manualmente l'immagine e il tag di seguito.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select managed identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selezionare identità gestita]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";managedPipelineModeLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Managed Pipeline Version]]></Val>
@@ -13760,6 +14612,15 @@
           <Val><![CDATA[Managed pipeline version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Versione pipeline gestita]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";manual" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Manual]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Manuale]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13830,6 +14691,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";minTlsVersionInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select the minimum TLS encryption version required by your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selezionare la versione minima di crittografia TLS richiesta dall'app.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";minTlsVersionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Minimum TLS Version]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Versione TLS minima]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";minimize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Minimize]]></Val>
@@ -13844,6 +14723,27 @@
           <Val><![CDATA[Minor version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Versione secondaria]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingCorsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Running your function in portal requires the app to explicitly accept requests from {0}. This is known as cross-origin resource sharing (CORS). Click here to add {0} to the allowed origin configuration.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[L'esecuzione della funzione nel portale richiede che l'app accetti in modo esplicito le richieste da {0}. Questo processo è noto come condivisione di risorse tra le origini (CORS). Fare clic qui per aggiungere {0} alla configurazione delle origini consentite.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingWorkflowDispatchTrigger" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La ridistribuzione non è riuscita perché il file del flusso di lavoro nel repository non contiene un trigger 'workflow_dispatch'. Per risolvere il problema, aggiungere il trigger 'workflow_dispatch' al file del flusso di lavoro in {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13976,10 +14876,13 @@
       </Item>
       <Item ItemId=";mountPath_info" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Di seguito sono riportati alcuni esempi di percorsi di montaggio validi: {0}. Di seguito sono riportati alcuni esempi di percorsi di montaggio non validi: {1}]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14286,6 +15189,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";new_parenthesized" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[(new)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[(nuovo)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";newest" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Newest]]></Val>
@@ -14553,6 +15465,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[You do not own any VSTS Repositories]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";nodeStackLearnMore" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node version is defined through the {0} app setting.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La versione del nodo è definita tramite l'impostazione dell'app {0}.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14976,6 +15897,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";planType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Tipo di piano]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";platform" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Platform]]></Val>
@@ -15035,6 +15965,15 @@
           <Val><![CDATA[Preload enabled]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Precaricamento abilitato]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";premiumToConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[AVVISO: non tutte le funzionalità supportate nei piani elastici Premium sono supportate in Consumo. Lo spostamento dell'app per le funzioni potrebbe causare l'interruzione dell'app. Assicurarsi che l'app per le funzioni sia compatibile con un piano a consumo e che non usi le funzionalità disponibili solo in Premium.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15308,10 +16247,13 @@
       </Item>
       <Item ItemId=";pricing_emptyIsolatedGroupNewPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          <Val><![CDATA[To create an app on a new App Service Environment, click a link below to create the environment first.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[La creazione inline di ambienti del servizio app non è attualmente supportata.]]></Val>
+            <Val><![CDATA[Per creare un'app in un nuovo ambiente del servizio app, fare clic sul collegamento seguente per creare l'ambiente.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -15461,6 +16403,24 @@
           <Val><![CDATA[Isolated V2 is not supported for this scale unit. Please consider redeploying or cloning your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Lo SKU Isolato V2 non è supportato per questa unità di scala. Provare a ridistribuire o a clonare l'app.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jboss" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP Integrated Support]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Supporto integrato EAP JBoss]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jbossDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ricevi automaticamente il supporto tecnico integrato da Red Hat e Azure per i siti EAP JBoss]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16421,10 +17381,13 @@
       </Item>
       <Item ItemId=";readonlyBlobStorageWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Mounted Blob containers will become read only in Feb 2020.]]></Val>
+          <Val><![CDATA[Mounted Blob containers are read only.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[I contenitori BLOB montati diventeranno di sola lettura a partire dal mese di febbraio 2020.]]></Val>
+            <Val><![CDATA[I contenitori BLOB montati sono di sola lettura.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Mounted Blob containers will become read only in Feb 2020.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16794,11 +17757,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";result" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[result]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[risultato]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";resultCode" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Result Code]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Codice risultato]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";results" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[results]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[risultati]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18564,6 +19545,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";stackInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a stack to see how it is currently configured for your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selezionare uno stack per vedere la relativa configurazione attuale per l'app.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";stackSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Stack settings]]></Val>
@@ -18686,6 +19676,24 @@
           <Val><![CDATA[Custom domains]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Domini personalizzati]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdge" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enterprise-grade edge]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Rete perimetrale di livello aziendale]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdgePrice" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0}/per app/month]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}/per app/mese]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19101,6 +20109,51 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_configurationFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Configuration file]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[File di configurazione]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_configurationFileDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Keep configuration file changes enabled to allow changes in your staticwebapp.config.json to take effect. Disabling them may cause new deployments to fail.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Mantenere abilitate le modifiche al file di configurazione per consentire l'applicazione delle modifiche nel file staticwebapp.config.json. Se si disabilitano, le nuove distribuzioni potrebbero non riuscire.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_configurationFileToggle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable configuration file changes]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Abilitare modifiche al file di configurazione]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_confirmVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Confirm visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Confermare password visitatore]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_confirmVisitorPasswordRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Please confirm the visitor password. This value must match the password entered above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Confermare la password del visitatore. Questo valore deve corrispondere alla password immessa sopra.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_discardChangesMesssage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the application settings for the environment {0}?]]></Val>
@@ -19127,6 +20180,15 @@
           <Val><![CDATA[No application setting to display]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Nessuna impostazione applicazione da visualizzare]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_enterVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enter visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Immettere la password del visitatore]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19158,6 +20220,123 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_generalSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[General settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Impostazioni generali]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdate" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Updating general settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aggiornamento delle impostazioni generali in corso]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to update general settings with message: {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non è stato possibile aggiornare le impostazioni generali con il messaggio: {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithFailureNoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to update general settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Non è stato possibile aggiornare le impostazioni generali.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Successfully updated general settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Le impostazioni generali sono state aggiornate.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_loadingApplicationSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading application settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Caricamento delle impostazioni applicazione...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_loadingGeneralSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading general settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Caricamento delle impostazioni generali in corso...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtection" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Password protection]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Protezione con password]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a password protection option. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selezionare un'opzione di protezione tramite password. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionDisabled" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Disabled]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Disabilitato]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionEnabledProductionAndStaging" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Protect both staging and production environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Proteggere gli ambienti di gestione temporanea e di produzione]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionEnabledStaging" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Protect staging environments only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Proteggere solo gli ambienti di gestione temporanea]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionSkuWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La protezione tramite password è disponibile solo nel piano di hosting Standard. Aggiornare il piano di hosting per configurare la protezione tramite password.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_readOnlyRbac" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Your site is currently in read only mode because your RBAC assigned access is set to: Reader]]></Val>
@@ -19184,6 +20363,27 @@
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Refresh environment variables]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_visitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Password visitatore]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_visitorPasswordRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols. Key Vault references are not currently supported.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[La password del visitatore è obbligatoria. La password deve avere una lunghezza di almeno otto caratteri e deve contenere lettere maiuscole, lettere minuscole, numeri e simboli. I riferimenti a Key Vault al momento non sono supportati.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols or a Key vault secret url.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -20223,6 +21423,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";switchToJbossWarningBaner" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP è supportato da Red Hat, il passaggio dell'app Web a JBoss comporterà un costo mensile aggiuntivo. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";sync" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
@@ -20256,6 +21465,18 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Non è possibile aggiornare il repository per l'app Web {0} in questo momento.]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[System assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Assegnato dal sistema]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[System-assigned]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21264,6 +22485,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Assegnato dall'utente]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";userCreds" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User Credentials]]></Val>
@@ -21338,6 +22571,15 @@
           <Val><![CDATA[Name and value must not be empty and must contain only letters and numbers.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Il nome e il valore non devono essere vuoti e devono contenere solo lettere e numeri.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";validFileShouldBeSelectedWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Please select a valid file to upload.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Selezionare un file valido da caricare.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -21456,29 +22698,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";validation_mountNameAllowedCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Il percorso di montaggio deve essere un percorso completo e può includere solo caratteri alfanumerici, caratteri di sottolineatura, trattini, barre, parentesi quadre e parentesi]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";validation_mountPathNotHome" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Mount path cannot be '/home']]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Il percorso di montaggio non può essere '/home']]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";validation_mountPathNotRoot" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount path cannot be '/']]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Il percorso di montaggio non può essere '/']]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

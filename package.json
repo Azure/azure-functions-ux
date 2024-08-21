@@ -9,13 +9,13 @@
     "postinstall": "node child-install.js"
   },
   "devDependencies": {
-    "concurrently": "^4.1.0",
+    "concurrently": "^4.1.2",
     "gulp": "^3.9.1",
     "gulp-inline-source": "~4.0.0",
     "gulp-prompt": "^1.1.0",
     "husky": "^1.1.0",
-    "prettier": "^1.14.3",
-    "pretty-quick": "^1.7.0"
+    "prettier": "^1.19.1",
+    "pretty-quick": "^1.11.1"
   },
   "prettier": {
     "jsxBracketSameLine": true,

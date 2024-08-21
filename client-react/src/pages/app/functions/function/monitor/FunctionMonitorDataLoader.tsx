@@ -4,6 +4,7 @@ import { AppInsightsComponent, AppInsightsKeyType } from '../../../../../models/
 import { ArmObj } from '../../../../../models/arm-obj';
 import AppInsightsService from '../../../../../ApiHelpers/AppInsightsService';
 import LogService from '../../../../../utils/LogService';
+import SiteService from '../../../../../ApiHelpers/SiteService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { StartupInfoContext } from '../../../../../StartupInfoContext';
@@ -11,6 +12,8 @@ import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper'
 import { FunctionInfo } from '../../../../../models/functions/function-info';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { FunctionAppEditMode } from '../../../../../models/portal-models';
 
 interface FunctionMonitorDataLoaderProps {
   resourceId: string;
@@ -26,6 +29,8 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
 
   const startupInfoContext = useContext(StartupInfoContext);
   const portalContext = useContext(PortalContext);
+  const siteStateContext = useContext(SiteStateContext);
+  const { site, siteAppEditState } = siteStateContext;
 
   const fetchFunctionInfo = async () => {
     const functionInfoResponse = await FunctionsService.getFunction(resourceId);
@@ -40,42 +45,37 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
     }
   };
 
-  const fetchAppInsightsComponent = async (force?: boolean) => {
+  const fetchAppInsightsComponent = async () => {
     const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
     const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
+    const appSettingsPromise = SiteService.fetchApplicationSettings(siteResourceId);
+    const tagsProperty = site?.tags;
+    const hasWritePermission =
+      siteAppEditState !== FunctionAppEditMode.ReadOnlyLock && siteAppEditState !== FunctionAppEditMode.ReadOnlyRbac;
 
-    const appInsightsResourceIdResponse = await AppInsightsService.getAppInsightsResourceId(
+    const appInsightsData = await AppInsightsService.getAppInsightsResourceAndUpdateTags(
       siteResourceId,
-      startupInfoContext.subscriptions
+      LogCategories.FunctionMonitor,
+      appSettingsPromise,
+      tagsProperty,
+      startupInfoContext.subscriptions,
+      hasWritePermission
     );
-    if (appInsightsResourceIdResponse.metadata.success) {
-      const aiResourceId = appInsightsResourceIdResponse.data;
-      if (!!aiResourceId) {
-        const appInsightsResponse = await AppInsightsService.getAppInsights(aiResourceId);
-        if (appInsightsResponse.metadata.success) {
-          setErrorFetchingAppInsightsComponent(false);
-          setAppInsightsComponent(appInsightsResponse.data);
-        } else {
-          setErrorFetchingAppInsightsComponent(true);
-          LogService.error(
-            LogCategories.functionLog,
-            'getAppInsights',
-            `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
-          );
-        }
-      } else {
-        setErrorFetchingAppInsightsComponent(true);
-      }
+
+    if (appInsightsData?.data?.metadata.success) {
+      setErrorFetchingAppInsightsComponent(false);
+      setAppInsightsComponent(appInsightsData.data.data);
     } else {
+      setErrorFetchingAppInsightsComponent(true);
       setAppInsightsComponent(null);
       LogService.error(
         LogCategories.functionLog,
-        'getAppInsightsResourceId',
-        `Failed to get app insights resource Id: ${getErrorMessageOrStringify(appInsightsResourceIdResponse.metadata.error)}`
+        'getAppInsights',
+        `Failed to get app insights: ${getErrorMessageOrStringify(appInsightsData?.data?.metadata.error)}`
       );
     }
 
-    setAppInsightsKeyType(appInsightsResourceIdResponse.metadata.appInsightsKeyType);
+    setAppInsightsKeyType(appInsightsData?.appInsightsKeyType);
   };
 
   const fetchAppInsightsToken = async () => {
@@ -98,7 +98,6 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
 
   useEffect(() => {
     fetchFunctionInfo();
-    fetchAppInsightsComponent();
     fetchAppInsightsToken();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -106,7 +105,7 @@ const FunctionMonitorDataLoader: React.FC<FunctionMonitorDataLoaderProps> = prop
 
   useEffect(() => {
     if (!appInsightsComponent) {
-      fetchAppInsightsComponent(true);
+      fetchAppInsightsComponent();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

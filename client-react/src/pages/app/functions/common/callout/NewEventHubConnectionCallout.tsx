@@ -8,7 +8,7 @@ import RadioButtonNoFormik from '../../../../../components/form-controls/RadioBu
 import { paddingSidesStyle } from './Callout.styles';
 import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
 import { FieldProps } from 'formik';
-import { IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownProps } from '@fluentui/react';
 
 enum RadioState {
   eventHub = 'eventHub',

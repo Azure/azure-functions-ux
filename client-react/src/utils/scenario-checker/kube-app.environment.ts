@@ -7,7 +7,7 @@ import Url from '../url';
 export class KubeApp extends Environment {
   public name = 'KubeApp';
 
-  constructor(t: (string) => string) {
+  constructor() {
     super();
 
     this.scenarioChecks[ScenarioIds.onedriveSource] = {
@@ -121,6 +121,27 @@ export class KubeApp extends Environment {
 
     this.scenarioChecks[ScenarioIds.deploymentCenterLogs] = {
       id: ScenarioIds.deploymentCenterLogs,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.platform64BitSupported] = {
+      id: ScenarioIds.platform64BitSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.classicPipelineModeSupported] = {
+      id: ScenarioIds.classicPipelineModeSupported,
+      runCheck: () => {
+        return { status: 'disabled' };
+      },
+    };
+
+    this.scenarioChecks[ScenarioIds.enableTLSVersion] = {
+      id: ScenarioIds.enableTLSVersion,
       runCheck: () => {
         return { status: 'disabled' };
       },

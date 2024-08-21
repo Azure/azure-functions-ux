@@ -47,7 +47,7 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     };
   }
 
-  public componentWillMount() {
+  public componentDidMount() {
     this._loadSite();
     this._loadFunction();
     this._loadBindings();
@@ -81,10 +81,10 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
   }
 
   private _refresh() {
-    if (!!this.state.site) {
+    if (this.state.site) {
       this._setRefreshState(true);
 
-      SiteService.fireSyncTrigger(this.state.site, this.context.token || '').then(r => {
+      SiteService.fireSyncTrigger(this.state.site).then(r => {
         this._loadSite();
         this._loadFunction();
         this._loadHostStatus();
@@ -149,7 +149,6 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
     functionIntegrateData.getBindings(this.state.functionAppId).then(r => {
       if (r.metadata.success) {
         this.setState({
-          ...this.state,
           bindings: r.data.properties,
         });
       } else {
@@ -158,6 +157,10 @@ class FunctionIntegrateDataLoader extends React.Component<FunctionIntegrateDataL
           'getBindings',
           `Failed to get bindings: ${getErrorMessageOrStringify(r.metadata.error)}`
         );
+        this.setState({
+          bindings: [],
+          bindingsError: true,
+        });
       }
     });
   }

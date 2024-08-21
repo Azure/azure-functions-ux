@@ -4,7 +4,7 @@ A kezdés előtt <a href="https://go.microsoft.com/fwlink/?linkid=2016195" targe
 
 Futtassa az alábbi parancsot a Core Tools csomag telepítéséhez:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Azure Functions-projekt létrehozása
@@ -42,6 +42,6 @@ A hibakeresés leállításához használja a **Ctrl+C** billentyűparancsot a t
 
 A Functions-projekt Azure-beli közzétételéhez írja be az alábbi parancsot:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Lehet, hogy a rendszer arra kéri, hogy jelentkezzen be az Azure-ba. Kövesse a képernyőn megjelenő utasításokat.

@@ -5,7 +5,7 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { Link, Icon, MessageBarType } from 'office-ui-fabric-react';
+import { Link, Icon, MessageBarType } from '@fluentui/react';
 import {
   AuthorizationResult,
   DeploymentCenterFieldProps,
@@ -21,9 +21,9 @@ import { ScmType } from '../../../../models/site/config';
 import { PortalContext } from '../../../../PortalContext';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 
-const DeploymentCenterGitHubConfiguredView: React.FC<
-  DeploymentCenterFieldProps<DeploymentCenterCodeFormData | DeploymentCenterContainerFormData>
-> = props => {
+const DeploymentCenterGitHubConfiguredView: React.FC<DeploymentCenterFieldProps<
+  DeploymentCenterCodeFormData | DeploymentCenterContainerFormData
+>> = props => {
   const { t } = useTranslation();
   const { formProps } = props;
   const [org, setOrg] = useState<string | undefined>(undefined);
@@ -166,9 +166,9 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
   };
 
   const getBranchLink = () => {
-    if (!isBranchInfoMissing) {
+    if (!isBranchInfoMissing && !!branch) {
       return (
-        <Link key="deployment-center-branch-link" onClick={() => window.open(repoUrl, '_blank')} aria-label={`${branch}`}>
+        <Link key="deployment-center-branch-link" href={repoUrl + `/tree/${branch}`} target="_blank" aria-label={`${branch}`}>
           {`${branch} `}
           <Icon id={`branch-button`} iconName={'NavigateExternalInline'} />
         </Link>
@@ -220,7 +220,7 @@ const DeploymentCenterGitHubConfiguredView: React.FC<
     setBranch(getBranchValue(isLoading));
     setGitHubUsername(getSignedInAsComponent(isLoading));
 
-    if (!!deploymentCenterContext.configMetadata) {
+    if (deploymentCenterContext.configMetadata) {
       fetchData();
     }
 

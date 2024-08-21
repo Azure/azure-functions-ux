@@ -1,6 +1,5 @@
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
-import React, { Suspense, useState, useContext } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { Suspense, useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
@@ -11,15 +10,15 @@ import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import ConnectionStringsBulkEdit from './ConnectionStringsBulkEdit';
-import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps, ActionButton, DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
 import { dirtyElementStyle } from '../AppSettings.styles';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
-import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import SettingSourceColumn from '../SettingSourceColumn';
 import { isSettingServiceLinker, isServiceLinkerVisible } from '../AppSettings.utils';
+import { SearchFilterWithResultAnnouncement } from '../../../../components/form-controls/SearchBox';
 
 const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const { production_write, editable, saving } = useContext(PermissionsContext);
@@ -30,6 +29,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
+  const [gridItems, setGridItems] = useState<FormConnectionString[]>([]);
 
   const { values } = props;
   const { t } = useTranslation();
@@ -46,12 +46,14 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         iconProps: { iconName: 'Add' },
         name: t('newConnectionString'),
         ariaLabel: t('addNewConnectionString'),
+        role: 'button',
       },
       {
         key: 'app-settings-connection-strings-show-hide',
         onClick: flipHideSwitch,
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
+        role: 'button',
       },
       {
         key: 'app-settings-connection-strings-bulk-edit',
@@ -59,6 +61,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
         disabled: disableAllControls,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
+        role: 'button',
       },
     ];
   };
@@ -143,7 +146,7 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
 
   const isConnectionStringDirty = (index: number): boolean => {
     const initialAppSettings = props.initialValues.connectionStrings;
-    const currentRow = values.connectionStrings[index];
+    const currentRow = gridItems[index];
     const currentAppSettingIndex = initialAppSettings.findIndex(x => {
       return (
         x.name.toLowerCase() === currentRow.name.toLowerCase() &&
@@ -368,30 +371,40 @@ const ConnectionStrings: React.FC<AppSettingsFormikPropsCombined> = props => {
     return null;
   }
 
+  const setFilteredGridItems = (appSettings: FormConnectionString[], filter: string) => {
+    const filteredItems =
+      appSettings?.filter(x => {
+        if (!filter) {
+          return true;
+        }
+        return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
+      }) ?? [];
+    setGridItems(filteredItems);
+  };
+
+  useEffect(() => {
+    setFilteredGridItems(values.connectionStrings, filter);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.connectionStrings, filter]);
+
   return (
     <>
       <DisplayTableWithCommandBar
         commandBarItems={getCommandBarItems()}
-        items={values.connectionStrings.filter(x => {
-          if (!filter) {
-            return true;
-          }
-          return x.name.toLowerCase().includes(filter.toLowerCase()) || x.type.toLowerCase() === filter.toLowerCase();
-        })}
+        items={gridItems}
         columns={getColumns()}
         isHeaderVisible={true}
         layoutMode={DetailsListLayoutMode.justified}
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyConnectionStrings')}>
-        <SearchBox
+        <SearchFilterWithResultAnnouncement
           id="app-settings-connection-strings-search"
-          className="ms-slideDownIn20"
-          autoFocus
-          iconProps={{ iconName: 'Filter' }}
-          styles={filterTextFieldStyle}
-          placeholder={t('filterConnectionStrings')}
-          onChange={newValue => setFilter(newValue)}
+          setFilterValue={setFilter}
+          gridItemsCount={gridItems.length}
+          filter={filter}
+          placeHolder={t('filterConnectionStrings')}
         />
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditConnectionStringHeader')}>

@@ -3,7 +3,7 @@ import { StackProps } from '../WindowsStacks/WindowsStacks';
 import { WebAppStacksContext, PermissionsContext } from '../../Contexts';
 import { LINUXJAVASTACKKEY, LINUXJAVACONTAINERKEY } from './LinuxStacks.data';
 import { AppStackMinorVersion } from '../../../../../models/stacks/app-stacks';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, MessageBarType } from '@fluentui/react';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
 import { Field } from 'formik';
 import Dropdown from '../../../../../components/form-controls/DropDown';
@@ -14,11 +14,15 @@ import {
   getMinorVersionText,
   isStackVersionDeprecated,
   isStackVersionEndOfLife,
+  isJBossWarningBannerShown,
 } from '../../../../../utils/stacks-utils';
+import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
+import { Links } from '../../../../../utils/FwLinks';
 
 // NOTE(krmitta): These keys should be similar to what is being returned from the backend
 const JAVA8KEY = '8';
 const JAVA11KEY = '11';
+const JAVA17KEY = '17';
 
 interface JavaStackValues {
   majorVersion: string;
@@ -73,7 +77,8 @@ const JavaStack: React.SFC<StackProps> = props => {
           if (
             containerSettings &&
             ((majorVersion === JAVA8KEY && !!containerSettings.java8Runtime) ||
-              (majorVersion === JAVA11KEY && !!containerSettings.java11Runtime))
+              (majorVersion === JAVA11KEY && !!containerSettings.java11Runtime) ||
+              (majorVersion === JAVA17KEY && !!containerSettings.java17Runtime))
           ) {
             containerMinorVersions.push(javaContainerMinorVersion);
           }
@@ -121,6 +126,16 @@ const JavaStack: React.SFC<StackProps> = props => {
                   ),
                   data: containerSettings,
                 });
+              } else if (majorVersion === JAVA17KEY && !!containerSettings.java17Runtime) {
+                options.push({
+                  key: containerSettings.java17Runtime.toLowerCase(),
+                  text: getMinorVersionText(
+                    javaContainerMinorVersion.displayText,
+                    t,
+                    javaContainerMinorVersion.stackSettings.linuxContainerSettings
+                  ),
+                  data: containerSettings,
+                });
               }
             }
           });
@@ -144,6 +159,10 @@ const JavaStack: React.SFC<StackProps> = props => {
               values.majorVersion = JAVA11KEY;
               values.containerKey = javaContainerMajorVersion.value;
               values.containerVersion = containerSettings.java11Runtime;
+            } else if (containerSettings.java17Runtime && containerSettings.java17Runtime.toLowerCase() === linuxFxVersion.toLowerCase()) {
+              values.majorVersion = JAVA17KEY;
+              values.containerKey = javaContainerMajorVersion.value;
+              values.containerVersion = containerSettings.java17Runtime;
             }
           }
         });
@@ -204,17 +223,15 @@ const JavaStack: React.SFC<StackProps> = props => {
   };
 
   const onContainerKeyChange = (newMajorVersion: string, newContainerKey: string) => {
-    if (newContainerKey !== currentContainerKey) {
-      const containerVersionDropdownOptions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(
-        newMajorVersion,
-        newContainerKey
-      );
-      setCurrentContainerVersionDropdownOptions(containerVersionDropdownOptions);
-      if (containerVersionDropdownOptions.length > 0) {
-        setFieldValue('config.properties.linuxFxVersion', containerVersionDropdownOptions[0].key);
-      }
-      setCurrentContainerKey(newContainerKey);
+    const containerVersionDropdownOptions = getJavaContainerVersionDropdownOptionsForSelectedJavaContainer(
+      newMajorVersion,
+      newContainerKey
+    );
+    setCurrentContainerVersionDropdownOptions(containerVersionDropdownOptions);
+    if (containerVersionDropdownOptions.length > 0) {
+      setFieldValue('config.properties.linuxFxVersion', containerVersionDropdownOptions[0].key);
     }
+    setCurrentContainerKey(newContainerKey);
   };
 
   const isMajorVersionDirty = () => {
@@ -300,6 +317,13 @@ const JavaStack: React.SFC<StackProps> = props => {
           />
           {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.linuxFxVersion, eolStackDate)}
         </>
+      )}
+      {isJBossWarningBannerShown(values.config.properties.linuxFxVersion, initialValues.config.properties.linuxFxVersion) && (
+        <CustomBanner
+          type={MessageBarType.warning}
+          message={t('switchToJbossWarningBaner')}
+          learnMoreLink={Links.jbossAdditionalCostLearnMore}
+        />
       )}
     </>
   );

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IChoiceGroupOption, Link } from 'office-ui-fabric-react';
+import { IChoiceGroupOption, Link } from '@fluentui/react';
 import { Field } from 'formik';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScmType } from '../../../../models/site/config';

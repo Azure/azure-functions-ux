@@ -33,17 +33,14 @@ import { PortalContext } from '../../../PortalContext';
 import { useTranslation } from 'react-i18next';
 import { HttpResponseObject } from '../../../ArmHelper.types';
 import SiteService from '../../../ApiHelpers/SiteService';
-import LogService from '../../../utils/LogService';
 import { ArmArray, ArmObj } from '../../../models/arm-obj';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
 import { isFunctionApp, isKubeApp, isLinuxApp } from '../../../utils/arm-utils';
-import { StartupInfoContext } from '../../../StartupInfoContext';
-import { LogCategories } from '../../../utils/LogCategories';
 import { KeyValue } from '../../../models/portal-models';
-import { getErrorMessage, getErrorMessageOrStringify } from '../../../ApiHelpers/ArmHelper';
+import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import { WebAppStack } from '../../../models/stacks/web-app-stacks';
 import RuntimeStackService from '../../../ApiHelpers/RuntimeStackService';
 import { AppStackOs } from '../../../models/stacks/app-stacks';
@@ -114,7 +111,6 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
   const siteContext = useContext(SiteRouterContext);
-  const startUpInfoContext = useContext(StartupInfoContext);
 
   const [asyncData, setAsyncData] = useState<AppSettingsAsyncData>({
     functionsHostStatus: { loadingState: LoadingStates.loading },
@@ -186,13 +182,18 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     if (!loadingFailed) {
       setCurrentSiteNonForm(site.data);
       if (isFunctionApp(site.data)) {
-        SiteService.fireSyncTrigger(site.data, startUpInfoContext.token || '').then(r => {
+        SiteService.fireSyncTrigger(site.data).then(r => {
           if (!r.metadata.success) {
-            LogService.error(
-              LogCategories.appSettings,
-              'fireSyncTrigger',
-              `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
-            );
+            portalContext.log({
+              action: 'fireSyncTrigger',
+              actionModifier: 'failed',
+              resourceId: resourceId,
+              logLevel: 'error',
+              data: {
+                error: r.metadata.error,
+                message: 'Failed to fire syncTrigger',
+              },
+            });
           }
           fetchAsyncData();
         });
@@ -236,10 +237,16 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
           basicPublishingCredentialsPolicies: basicPublishingCredentialsPolicies.metadata.success
             ? basicPublishingCredentialsPolicies.data
             : null,
+          appPermissions: appPermissions,
         }),
       });
     }
-    LogService.stopTrackPage('shell', { feature: 'AppSettings' });
+    portalContext.log({
+      action: 'loadAppSettings',
+      actionModifier: 'load-complete',
+      resourceId: resourceId,
+      logLevel: 'info',
+    });
     portalContext.loadComplete();
     setInitialLoading(true);
     setRefreshValues(false);
@@ -262,21 +269,31 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     if (appSettingReferences.metadata.success) {
       appSettingsData = getCleanedReferences(appSettingReferences.data);
     } else {
-      LogService.error(
-        LogCategories.appSettings,
-        'getAllAppSettingReferences',
-        `Failed to get keyVault references: ${getErrorMessageOrStringify(appSettingReferences.metadata.error)}`
-      );
+      portalContext.log({
+        action: 'getAllAppSettingReferences',
+        actionModifier: 'failed',
+        resourceId: resourceId,
+        logLevel: 'error',
+        data: {
+          error: appSettingReferences.metadata.error,
+          message: 'Failed to fetch keyvault references for AppSettings',
+        },
+      });
     }
 
     if (connectionStringReferences.metadata.success) {
       connectionStringsData = getCleanedReferences(connectionStringReferences.data);
     } else {
-      LogService.error(
-        LogCategories.appSettings,
-        'getAllConnectionStringsReferences',
-        `Failed to get keyVault references: ${getErrorMessageOrStringify(connectionStringReferences.metadata.error)}`
-      );
+      portalContext.log({
+        action: 'getAllConnectionStringReferences',
+        actionModifier: 'failed',
+        resourceId: resourceId,
+        logLevel: 'error',
+        data: {
+          error: connectionStringReferences.metadata.error,
+          message: 'Failed to fetch keyvault references for ConnectionStrings',
+        },
+      });
     }
 
     setReferences({
@@ -341,10 +358,10 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const scaleUpPlan = async () => {
-    await portalContext.openFrameBlade(
-      { detailBlade: 'SpecPickerFrameBlade', detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId } },
-      'appsettings'
-    );
+    await portalContext.openFrameBlade({
+      detailBlade: 'SpecPickerFrameBlade',
+      detailBladeInputs: { id: currentSiteNonForm.properties.serverFarmId },
+    });
     const newSite = await SiteService.fetchSite(resourceId);
     setCurrentSiteNonForm(newSite.data);
   };
@@ -359,7 +376,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
   };
 
   const isAzureStorageMountUpdated = (current: FormAzureStorageMounts[], origin: FormAzureStorageMounts[] | null) => {
-    if (!!origin) {
+    if (origin) {
       if (current.length !== origin.length) {
         return true;
       }
@@ -379,7 +396,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     return true;
   };
 
-  const onSubmit = async (values: AppSettingsFormValues, actions: FormikActions<AppSettingsFormValues>) => {
+  const onSubmit = async (values: AppSettingsFormValues) => {
     setSaving(true);
     const notificationId = portalContext.startNotification(t('configUpdating'), t('configUpdating'));
     const { site, slotConfigNames, slotConfigNamesModified } = convertFormToState(
@@ -417,13 +434,18 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
 
       fetchReferences();
       if (isFunctionApp(site)) {
-        SiteService.fireSyncTrigger(site, startUpInfoContext.token || '').then(r => {
+        SiteService.fireSyncTrigger(site).then(r => {
           if (!r.metadata.success) {
-            LogService.error(
-              LogCategories.appSettings,
-              'fireSyncTrigger',
-              `Failed to fire syncTrigger: ${getErrorMessageOrStringify(r.metadata.error)}`
-            );
+            portalContext.log({
+              action: 'fireSyncTrigger',
+              actionModifier: 'failed',
+              resourceId: resourceId,
+              logLevel: 'error',
+              data: {
+                error: r.metadata.error,
+                message: 'Failed to fire sync trigger',
+              },
+            });
           }
           fetchAsyncData();
         });

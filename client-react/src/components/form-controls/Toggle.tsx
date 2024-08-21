@@ -1,6 +1,5 @@
 import { FieldProps } from 'formik';
-import { IToggleProps } from 'office-ui-fabric-react';
-import React from 'react';
+import { IToggleProps } from '@fluentui/react';
 import ToggleNoFormik from './ToggleNoFormik';
 import get from 'lodash-es/get';
 
@@ -19,7 +18,7 @@ const Toggle = (props: FieldProps & IToggleProps & CustomToggleProps) => {
   };
 
   const checked = field.value;
-  const errorMessage = get(form.errors, field.name, '') as string;
+  const errorMessage = get(form.touched, field.name, false) ? (get(form.errors, field.name, '') as string) : undefined;
 
   return <ToggleNoFormik checked={checked} onChange={onChange} onBlur={field.onBlur} errorMessage={errorMessage} {...props} />;
 };

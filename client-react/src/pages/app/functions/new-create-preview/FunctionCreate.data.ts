@@ -31,7 +31,7 @@ export default class FunctionCreateData {
       const bindingInfoCopy = { ...bindingInfo };
       // Update binding values that exist in the form
       for (const key in bindingInfo) {
-        if (formValues.hasOwnProperty(key)) {
+        if (Object.prototype.hasOwnProperty.call(formValues, key)) {
           bindingInfoCopy[key] = formValues[key];
         }
       }

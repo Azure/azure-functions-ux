@@ -1,15 +1,15 @@
 import axios, { AxiosResponse } from 'axios';
-import { CommonConstants } from '../utils/CommonConstants';
-import { Subject, from, of } from 'rxjs';
-import { bufferTime, filter, concatMap, share, take, catchError } from 'rxjs/operators';
-import { Guid } from '../utils/Guid';
+import { from, of, Subject } from 'rxjs';
 import { async } from 'rxjs/internal/scheduler/async';
-import Url from '../utils/url';
-import { MethodTypes, ArmRequestObject, HttpResponseObject } from '../ArmHelper.types';
-import LogService from '../utils/LogService';
-import { LogCategories } from '../utils/LogCategories';
+import { bufferTime, catchError, concatMap, filter, share, take } from 'rxjs/operators';
+import { ArmRequestObject, HttpResponseObject, MethodTypes } from '../ArmHelper.types';
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { KeyValue } from '../models/portal-models';
+import { CommonConstants } from '../utils/CommonConstants';
+import { Guid } from '../utils/Guid';
+import { LogCategories } from '../utils/LogCategories';
+import LogService from '../utils/LogService';
+import Url from '../utils/url';
 
 const alwaysSkipBatching = !!Url.getParameterByName(null, 'appsvc.skipbatching');
 const sessionId = Url.getParameterByName(null, 'sessionId');
@@ -181,12 +181,13 @@ const MakeArmCall = async <T>(requestObject: ArmRequestObject<T>): Promise<HttpR
 
       return ret;
     } catch (err) {
+      const { status = 500, headers = {}, data = null } = (err as any) || {};
       return {
         metadata: {
           success: false,
-          status: err.status ? err.status : 500,
-          headers: err.headers ? err.headers : {},
-          error: err.data ? err.data : null,
+          status,
+          headers,
+          error: data,
         },
         data: null as any,
       };
@@ -214,7 +215,7 @@ export const getErrorMessage = (error: any, recursionLimit: number = 1): string 
 
 export const getErrorMessageOrStringify = (error: any, recursionLimit: number = 1): string => {
   const extractedError = _extractErrorMessage(error, recursionLimit);
-  return !!extractedError ? extractedError : JSON.stringify(error || {});
+  return extractedError ?? JSON.stringify(error || {});
 };
 
 const _extractErrorMessage = (error: any, recursionLimit: number): string => {

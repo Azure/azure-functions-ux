@@ -43,7 +43,10 @@ export function validateFunctionAppStack(apiVersion: string, stack?: string) {
       break;
     }
     case Versions.version20201001:
-    case Versions.version20201201: {
+    case Versions.version20201201:
+    case Versions.version20210101:
+    case Versions.version20210115:
+    case Versions.version20210201: {
       const stackValues: FunctionAppStackValue20201001[] = ['dotnet', 'java', 'node', 'powershell', 'python', 'custom'];
       if (stack && !(stackValues as string[]).includes(stack)) {
         throw new HttpException(
@@ -66,7 +69,10 @@ export function validateWebAppStack(apiVersion: string, stack?: string) {
       break;
     }
     case Versions.version20201001:
-    case Versions.version20201201: {
+    case Versions.version20201201:
+    case Versions.version20210101:
+    case Versions.version20210115:
+    case Versions.version20210201: {
       const stackValues: WebAppStackValue20201001[] = ['dotnet', 'java', 'javacontainers', 'node', 'php', 'python', 'ruby'];
       if (stack && !(stackValues as string[]).includes(stack)) {
         throw new HttpException(`Incorrect web app stack '${stack}' provided. Allowed stack values are ${stackValues.join(', ')}.`, 400);

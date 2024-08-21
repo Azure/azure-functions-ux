@@ -1,20 +1,42 @@
-import React, { useContext } from 'react';
-import { Toggle as OfficeToggle, IToggleProps } from 'office-ui-fabric-react/lib/Toggle';
+import {
+  IStyleFunctionOrObject,
+  IToggleProps,
+  IToggleStyleProps,
+  IToggleStyles,
+  mergeStyleSets,
+  Toggle as OfficeToggle,
+} from '@fluentui/react';
+import { useContext, useMemo } from 'react';
 import { ThemeContext } from '../../ThemeContext';
 import ReactiveFormControl from './ReactiveFormControl';
 
 interface CustomToggleProps {
   id: string;
+  checked?: boolean;
+  errorMessage?: string; // Currently unsupported by office framework for toggle
   infoBubbleMessage?: string;
   label?: string;
-  errorMessage?: string; // Currently unsupported by office framework for toggle
-  checked?: boolean;
-  onChange?: (_e, checked: boolean) => void;
+  onChange?: (_: React.FormEvent<HTMLElement>, checked: boolean) => void;
+  styles?: IStyleFunctionOrObject<IToggleStyleProps, IToggleStyles>;
 }
 
-const ToggleNoFormik = (props: IToggleProps & CustomToggleProps) => {
-  const { checked, onChange, errorMessage, id, label } = props;
+const ToggleNoFormik: React.FC<IToggleProps & CustomToggleProps> = (props: IToggleProps & CustomToggleProps) => {
+  const { checked, errorMessage, id, label, onChange, styles } = props;
+
   const theme = useContext(ThemeContext);
+
+  const mergedStyleSets = useMemo(
+    () =>
+      mergeStyleSets(
+        {
+          thumb: {
+            backgroundColor: checked ? theme.semanticColors.buttonBackground : theme.semanticColors.primaryButtonBackground,
+          },
+        },
+        styles
+      ),
+    [checked, styles, theme]
+  );
 
   return (
     <ReactiveFormControl {...props}>
@@ -23,13 +45,9 @@ const ToggleNoFormik = (props: IToggleProps & CustomToggleProps) => {
         ariaLabel={label}
         onChange={onChange}
         errorMessage={errorMessage}
-        styles={{
-          thumb: {
-            backgroundColor: checked ? theme.semanticColors.buttonBackground : theme.semanticColors.primaryButtonBackground,
-          },
-        }}
+        styles={mergedStyleSets}
         {...props}
-        label={undefined} // ReactiveFormControl will handle the label
+        label="" // ReactiveFormControl will handle the label
       />
     </ReactiveFormControl>
   );

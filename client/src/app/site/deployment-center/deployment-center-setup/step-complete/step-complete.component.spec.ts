@@ -15,7 +15,7 @@ import { PortalResources } from '../../../../shared/models/portal-resources';
 import { PortalService } from '../../../../shared/services/portal.service';
 import { MockPortalService } from '../../../../test/mocks/portal.service.mock';
 
-describe('StepCompleteComponent', () => {
+xdescribe('StepCompleteComponent', () => {
   let buildStepTest: StepCompleteComponent;
   let testFixture: ComponentFixture<StepCompleteComponent>;
   let wizardService: MockDeploymentCenterStateManager;

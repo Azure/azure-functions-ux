@@ -4,7 +4,7 @@ import StorageAccountData from './StorageAccountPivot.data';
 import StorageAccountPivot from './StorageAccountPivot';
 import { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { FieldProps } from 'formik';
-import { IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownProps } from '@fluentui/react';
 
 const storageAccountPivotData = new StorageAccountData();
 export const StorageAccountPivotContext = React.createContext(storageAccountPivotData);

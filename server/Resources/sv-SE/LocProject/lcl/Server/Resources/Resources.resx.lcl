@@ -369,6 +369,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";acrCredentialsWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Det går inte att komma åt ACR {0} eftersom administratörsautentiseringsuppgifter för ACR är inaktiverade och ingen hanterad identitet har tilldelats. Aktivera administratörsautentiseringsuppgifter eller tilldela en hanterad identitet nedan.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";active" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Active]]></Val>
@@ -428,6 +437,15 @@
           <Val><![CDATA[Add host key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Lägg till värdtangent]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";addIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Add identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Lägg till identitet]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -548,6 +566,15 @@
           <Val><![CDATA[Add system key]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Lägg till systemtangent]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";adminCredentials" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Admin Credentials]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Autentiseringsuppgifter för administratör]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -1887,6 +1914,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";automatic" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatic]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Automatiskt]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";availability" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Availability]]></Val>
@@ -2811,30 +2847,6 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";classicContainerSettingDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Prova det nya och förbättrade distributionscentret för hantering av containerinställningar, loggvisning och konfiguration av kontinuerlig distribution (CI/CD) från GitHub eller ditt containerregister.]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[This Container Settings (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your container settings, try out the new Deployment Center experience.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";classicDeploymentCenterDeprecationMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Distributionscenter-upplevelsen (klassisk) är inaktuell och kommer att tas bort i mars 2021. Om du vill fortsätta att hantera dina distributioner kan du prova den nya distributionscenterupplevelsen.]]></Val>
-          </Tgt>
-          <Prev Cat="Text">
-            <Val><![CDATA[The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021.  To continue managing your deployments, check out the new Deployment Center experience.]]></Val>
-          </Prev>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";classicDeprecation" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[The classic Azure Functions management experience is deprecated and will be taken offline in October 2020.  If you are experiencing issues with the new experience, please click here to file an issue.]]></Val>
@@ -2946,6 +2958,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";clientCertificateModeAllowInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clients will be prompted for a certificate, if no certificate is provided fallback to SSO or other means of authentication. Unauthenticated requests will be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Klienter uppmanas att ange ett certifikat om inget certifikat tillhandahålls som reserv för enkel inloggning eller annan autentiseringsmetod. Oautentiserade begäranden blockeras.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";clientCertificateModeIgnore" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Ignore]]></Val>
@@ -2955,11 +2976,47 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";clientCertificateModeIgnoreInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No client authentication is required. Unauthenticated requests will not be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ingen klientautentisering krävs. Oautentiserade begäranden blockeras inte.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeOptional" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Optional]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Valfritt]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeOptionalInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Clients will not be prompted for a certificate by default. Unless the request can be authenticated through other means (like SSO), it will be blocked.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Klienter uppmanas inte att ange ett certifikat som standard. Om inte begäran kan autentiseras på annat sätt (t.ex. enkel inloggning) blockeras den.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";clientCertificateModeRequire" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Require]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Kräv]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";clientCertificateModeRequiredInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[All requests must be authenticated through a client certificate.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Alla begäranden måste autentiseras via ett klientcertifikat.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3306,6 +3363,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";connectedAndFilteredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ansluten! Du visar nu loggar för funktionskörningar på den aktuella panelen Kod + test. Om du vill se alla loggar för den här funktionen går du till Övervaka på funktionsmenyn.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";connectionStringInvalidProperty" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[{0} is an invalid connection string property]]></Val>
@@ -3390,6 +3456,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";consumptionPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption (Serverless)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Förbrukning (serverlös)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";container" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Container]]></Val>
@@ -3458,6 +3533,60 @@
           <Val><![CDATA[Tag]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Tagg]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_cancel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cancel]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Avbryt]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_chooseStartUpCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Choose start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj startkommando]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_connect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connect]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anslut]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_custom" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anpassad]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_failedToConnect" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to connect to replica.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Det gick inte att ansluta till repliken.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";containerApp_console_startUpCommandAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom start up command]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anpassat startkommando]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3750,11 +3879,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";containerStartupFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";containerStartupFileOrCommand" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Startup File]]></Val>
+          <Val><![CDATA[Startup file or command]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Startfil]]></Val>
+            <Val><![CDATA[Startfil eller startkommando]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -3875,6 +4004,330 @@
           <Val><![CDATA[CORS]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[CORS]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_apiType_coreSql" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Core (SQL)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kärna (SQL)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameInvalid" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name must consist of minimum 3 and maximum 44 lowercase letters, numbers, or '-' characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kontonamnet måste bestå av minst 3 och högst 44 gemener, siffror eller bindestreck.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name is required.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kontonamn krävs.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_accountNameTaken" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The account name is already taken.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kontonamnet finns redan.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerAlreadyExists" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container already exists.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Containern finns redan.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerNameCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container name cannot contain any special characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Containernamnet får inte innehålla specialtecken.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_containerNameSpace" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The container name cannot end with a space.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Containernamnet får inte sluta med ett blanksteg.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseAlreadyExists" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database already exists.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Databasen finns redan.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseNameCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database name cannot contain any special characters.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Databasnamnet får inte innehålla specialtecken.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_databaseNameSpace" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The database name cannot end with a space.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Databasnamnet får inte sluta med ett blanksteg.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_fieldRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The field is required.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Det här fältet måste fyllas i.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_partitionKeyPathSlash" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The partition key path must contain at least one \'/\' at the beginning of the string.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sökvägen till partitionsnyckeln måste innehålla minst ett \'/\' i början av strängen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_error_writePermissionsRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatic mode is disabled for users with read-only permissions in their subscription or resource group.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Automatiskt läge är inaktiverat för användare med läsbehörighet i prenumerationen eller resursgruppen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_header_customAppSetting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Custom app setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Anpassad appinställning]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_header_details" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB details]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB-information]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_accountName" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Account name]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kontonamn]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_apiType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[API]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[API]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_connection" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB connection]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB-anslutning]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_container" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Container]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_cosmosDbAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Cosmos DB account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Cosmos DB-konto]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createAContainer" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Skapa en container]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createADatabase" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Skapa en databas]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_createAnAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Skapa ett konto]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_customAppSettingKey" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Name]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Namn]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_customAppSettingValue" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Connection string setting]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Läge för anslutningssträng]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_database" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Databas]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_label_partitionKeyPath" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Partition key path]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Sökväg till partitionsnyckel]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_description" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a new serverless account in the same Azure region and resource group as the function. For more options, go to ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Skapa ett nytt serverlöst konto i samma Azure-region och resursgrupp som funktionen. Om du vill ha fler alternativ går du till ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_link" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create Cosmos DB account.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Skapa Cosmos DB-konto.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_newAccountDialog_title" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Create a Cosmos DB account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj ett Cosmos DB-konto]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_noExistingAccounts" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj ett konto]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectAContainer" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a container]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj en container]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectADatabase" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a database]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj en databas]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_placeholder_selectAnAccount" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select an account]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj ett konto]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_tooltip_customAppSettingKey" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enter the key/value pair for the Cosmos DB custom app setting.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ange nyckel/värde-par för den Cosmos DB-anpassade appinställningen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";cosmosDb_tooltip_partitionKeyPath" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Partitionsnyckeln används för att automatiskt distribuera data i alla partitioner för skalbarhet. Välj en egenskap i JSON-dokumentet som har ett stort antal värden och distribuerar begärandevolymen jämnt. Välj /id för små lästunga arbetsbelastningar eller skrivtunga arbetsbelastningar av valfri storlek.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4142,6 +4595,15 @@
           <Val><![CDATA[Created new slot]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Nytt fack har skapats]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";creatingFunction" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Creating function...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Funktionen skapas...]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -4418,6 +4880,24 @@
           <Val><![CDATA[App Logs]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Apploggar]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterAzureReposDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on your chosen repository. When a new commit is pushed to the selected branch Azure will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service placerar en webhook på den valda lagringsplatsen. När en ny incheckning skickas till den valda grenen, hämtar App Service din kod, bygger ditt program och distribuerar det till din webbapp.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterBitbucketDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service placerar en webhook på den valda lagringsplatsen. När en ny incheckning skickas till den valda grenen, hämtar App Service din kod, bygger ditt program och distribuerar det till din webbapp.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5067,11 +5547,38 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterConfigureGitHubPermissions" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterConfigureGitHubPermissionsGHA" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Val><![CDATA[App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Om du inte hittar en organisation eller ett centrallager kan du behöva aktivera ytterligare behörigheter på GitHub.]]></Val>
+            <Val><![CDATA[App Service placerar ett GitHub Actions-arbetsflöde på den valda lagringsplatsen så att din app kan skapas och distribueras när det finns en incheckning i den valda grenen. Om du inte hittar någon organisation eller lagringsplats behöver du kanske aktivera ytterligare behörigheter på GitHub.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureGitHubPermissionsKudu" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app. If you can't find your organization or repository, you may need to enable additional permissions on GitHub.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[App Service placerar en webhook på den valda lagringsplatsen. När en ny incheckning skickas till den valda grenen, hämtar App Service din kod, bygger ditt program och distribuerar det till din webbapp. Om du inte hittar din organisation eller lagringsplats behöver du kanske aktivera ytterligare behörigheter på GitHub.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureRuntimeLink" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Configure runtime]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ställ in körning]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterConfigureRuntimeMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[A runtime stack has not been configured for this app. Select a runtime stack here. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ingen körningsstack har ställts in för den här appen. Välj en körningsstack här. ]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5154,7 +5661,7 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";deploymentCenterContainerAcrRegistrieNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";deploymentCenterContainerAcrRegistriesNotAvailable" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[No ACR Registries are available in Subscription '{0}'.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
@@ -5291,10 +5798,13 @@
       </Item>
       <Item ItemId=";deploymentCenterContainerType" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Container Type]]></Val>
+          <Val><![CDATA[Container type]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Containertyp]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Container Type]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5303,6 +5813,33 @@
           <Val><![CDATA[All unsaved changes will be lost.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Alla ej sparade ändringar går förlorade.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenDialogBody" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Do you want to update your GitHub token?]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vill du uppdatera GitHub-token?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenDialogTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Update Token]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Uppdatera token]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterDeprecatedTokenWarningMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your GitHub token is outdated and needs to be refreshed. Click here to update your token to the latest secure format. This should not cause any downtime or changes to your app's configuration.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ditt GitHub-token är inaktuell och måste uppdateras. Klicka här om du vill uppdatera ditt token till det senaste säkra formatet. Det här bör inte medföra avbrott eller ändringar av appens konfiguration.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5346,11 +5883,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterDropboxDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authorize App Service with DropBox to manually sync your content from the selected folder with the Sync button above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Auktorisera App Service med DropBox om du vill synkronisera innehållet manuellt från den markerade mappen med knappen Synkronisera ovan.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterErrorFetchingInfo" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Error fetching information]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Det gick inte att hämta information]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterExternalGitDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[If your code is not on GitHub or BitBucket, you can use this option to manually sync your code from the repository. When you sync your repository, App Service will pull your code, build your application, and deploy it to your web app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Om koden inte finns på GitHub eller BitBucket kan du använda det här alternativet för att synkronisera koden manuellt från lagringsplatsen. När du synkroniserar lagringsplatsen hämtar App Service koden, bygger ditt program och distribuerar det till din webbapp.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5378,6 +5933,15 @@
           <Val><![CDATA[How valuable is this improved App Service deployment center page?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Hur värdefull är den här förbättrade sidan för App Service-distributionscentret?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterFieldPrivateSSHMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Deploying with SSH and a private repository is not supported.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Distribution med SSH och en privat lagringsplats stöds inte.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -5708,10 +6272,13 @@
       </Item>
       <Item ItemId=";deploymentCenterOAuthRepositoryPlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Select repository]]></Val>
+          <Val><![CDATA[Select or type repository]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Välj centrallager]]></Val>
+            <Val><![CDATA[Välj eller skriv lagringsplats]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Select repository]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -5720,6 +6287,15 @@
           <Val><![CDATA[Signed in as]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Inloggad som]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterOneDriveDescriptionText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Authorize App Service with OneDrive to manually sync your content from the selected folder with the Sync button above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Auktorisera App Service med OneDrive om du vill synkronisera innehållet manuellt från den markerade mappen med knappen Synkronisera ovan.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6204,6 +6780,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterUpdateTokenSuccessMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Succesfully updated your GitHub token.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[GitHub-token har uppdaterats.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterVstsBuildDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Building with Azure Pipelines.]]></Val>
@@ -6275,6 +6860,15 @@
           <Val><![CDATA[Loading workflow configurations]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Läser in arbetsflödeskonfigurationer]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";deploymentCenterWorkflowError" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[There was an error fetching the workflow file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ett fel uppstod vid hämtningen av arbetsflödesfilen.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -6605,6 +7199,15 @@
           <Val><![CDATA[Are you sure you want to disconnect your deployment?]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Vill du koppla ifrån din distribution?]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";disconnecting" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Disconnecting...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Kopplar från...]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -7028,10 +7631,13 @@
       </Item>
       <Item ItemId=";editCertificateExlusionPaths" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[edit client eclusion paths]]></Val>
+          <Val><![CDATA[edit client exclusion paths]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[redigera undantagssökvägar för klienten]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[edit client eclusion paths]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -7230,6 +7836,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[Enable Load Testing]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";enablePortalEditingForLinuxConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Det finns för närvarande inte stöd för att lägga till tredje parts beroenden i Azure Portal för funktionsappar för Linux-förbrukning. Klicka här om du vill konfigurera lokal miljö.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -10317,6 +10932,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionEditorCorsWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[We are setting up the environment to enable testing in the Portal. This will restart your Function App and may take a few minutes.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vi konfigurerar miljön för att aktivera testning i portalen. Funktionsappen startas då om, vilket kan ta några minuter.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionEditorDiscardAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Discard changes to your function.]]></Val>
@@ -11031,6 +11655,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionPremiumPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Function Premium]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Funktion Premium]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionRuntimeSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Function runtime settings]]></Val>
@@ -11085,6 +11718,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";functionSupportedRuntimeVersionNotConfiguredMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Your app is pinned to an unsupported runtime version for '{0}'. For better performance, we recommend using one of our supported versions instead: {1}.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Din app har fästs på en körningsversion som inte stöds för {0}. För bättre prestanda rekommenderar vi att du använder en av våra versioner som stöds istället: {1}.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is not pinned to a supported runtime version. It might affect your app's performance. Please use one of the supported runtime version - {0}.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";functionTestInput" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Input]]></Val>
@@ -11096,9 +11741,21 @@
       </Item>
       <Item ItemId=";functionTestInputDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
+          <Val><![CDATA[Provide parameters to test your function in the portal. Results can be found in the Output tab.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Testa din funktion i portalen genom att ange parametrar. Resultat finns på fliken Utdata.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";functionTestInputDescriptionForHttp" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
           <Val><![CDATA[Provide parameters to test the HTTP request. Results can be found in the Output tab.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Ange parametrar för att testa HTTP-begäran. Resultaten finns i Utdata-fliken.]]></Val>
+            <Val><![CDATA[Testa HTTP-begäran genom att tillhandahålla parametrar. Resultaten finns på Utdata-fliken.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11217,56 +11874,20 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionsRuntimeVersionInvalidWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";functionsSupportedRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
+          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Den anpassade runtimeversionen ({0}) stöds inte. Därmed använder din app den senaste versionen {1} och du kommer alltid att köra den senaste versionen av runtime även vid huvudversionsuppdateringar som kan innehålla icke-bakåtkompatibla ändringar. Du bör ange det värdet till en specifik huvudversion (t.ex. ~2) och du får ett meddelande med nyare versioner för uppdatering.]]></Val>
+            <Val><![CDATA[Körningsversionen har inte konfigurerats för din app. Därmed går det inte att starta körningen. Använd en giltig körningsversion (t.ex. ~3).]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+      <Item ItemId=";functionsSupportedRuntimeVersionMissingWarningWithVersionList" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
+          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please use one of the supported runtime version - {0}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Din app är för närvarande fäst till runtimeversion {0}. Om du fäster till {0} innebär det att du alltid kör den senaste versionen av runtime även vid huvudversionsuppdateringar som kan innehålla icke-bakåtkompatibla ändringar. Du bör ange det värdet till en specifik huvudversion (t.ex. ~2) så får du ett meddelande med senare versioner för uppdatering.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Din app är för närvarande fäst till runtimeversion {0} så din app använder den senaste versionen ({1}). Om du fäster till {0} innebär det att du alltid kör den senaste versionen av runtime även vid huvudversionsuppdateringar som kan innehålla icke-bakåtkompatibla ändringar. Du bör ange det värdet till en specifik huvudversion (t.ex. ~2) så får du ett meddelande med senare versioner för uppdatering.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionMissingWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Runtime-version har inte konfigurerats för din app. Därmed går det inte att starta runtime. Uppdatera runtimeversionen till ett giltigt värde (t.ex. ~2).]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Din appen är för närvarande fäst till runtimeversion {0}. Om den här versionen inte längre stöds kommer din app att börja använda den senaste versionen av runtime, vilket kan vara en annan huvudversion och kan innehålla icke-bakåtkompatibla ändringar. Du bör ange det värdet till en specifik huvudversion (t.ex. ~2) så får du ett meddelande med senare versioner för uppdatering.]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";functionsRuntimeVersionNeedsUpdateWarningForV2" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Din app har för närvarande fästs på runtime-versionen {0} och kommer inte längre att ta emot säkerhetsuppgraderingar efter oktober 2020. Vi rekommenderar att du uppgraderar till den senaste versionen av runtime. Mer information finns i den här artikeln.]]></Val>
+            <Val><![CDATA[Körningsversionen har inte konfigurerats för din app. Därmed går det inte att starta körningen. Använd en av de körningsversioner som stöds – {0}.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -11856,6 +12477,42 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";gridItemsCountAriaLabel" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} {1} for {2}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} {1} för {2}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoFilter" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0} {1}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0} {1}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoFilterNoResults" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No results found]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Inga resultat hittades]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";gridItemsCountAriaLabelNoResults" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[No results found for {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Inga resultat hittades för {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";grouping_location" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Group by location]]></Val>
@@ -12114,6 +12771,33 @@
           <Prev Cat="Text">
             <Val><![CDATA[HTTP Version]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyInfoBoxText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Vissa anpassade värddatornamn för din app saknar SSL-bindningar. När Endast HTTPS är aktiverat visas säkerhetsvarningar för klienter som ansluter till appen på dessa anpassade värddatornamn. Åtgärda detta genom att lägga till de SSL-bindningar som saknas eller ta bort de anpassade värddatornamnen.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable this feature to redirect all HTTP traffic to HTTPS.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aktivera den här funktionen om du vill omdirigera all HTTP-trafik till HTTPS.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";httpsOnlyLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[HTTPS Only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Endast https]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12518,10 +13202,13 @@
       </Item>
       <Item ItemId=";integrate_bindingsFailedLoading" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[One or more bindings failed to load, please refresh the page.]]></Val>
+          <Val><![CDATA[One or more bindings failed to load. Please try again later.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Det gick inte att läsa in en eller flera bindningar. Uppdatera sidan.]]></Val>
+            <Val><![CDATA[Det gick inte att läsa in en eller flera bindningar. Försök igen senare.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[One or more bindings failed to load, please refresh the page.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -12785,6 +13472,24 @@
           <Val><![CDATA[Invalid credentials]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Felaktiga autentiseringsuppgifter]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidCronExpressionMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid Cron Expression. Please consult the <a href="{0}" target="_blank">documentation</a> to learn more.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ogiltigt Cron-uttryck. Mer information finns i <a href="{0}" target="_blank">dokumentationen</a>.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";invalidFileSelectedWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Invalid {0} file was selected. Please upload a valid file.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ogiltig {0} fil har valts. Ladda upp en giltig fil.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13683,6 +14388,123 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan or features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Abonnemang eller funktioner]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption plan. Serverless, event-driven scaling for lowest minimum cost. Fast dynamic scale. Pay as you go usage.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Förbrukningsabonnemang. Serverlös, händelsedriven skalning för lägsta minimikostnad. Snabb dynamisk skala. Betala per användning.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Serverless, event-driven scaling for lowest minimum cost.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Serverlös, händelsedriven skalning för lägsta minimikostnad.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderConsumptionSectionTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Consumption]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Förbrukning]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderFeatures" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan/Features]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Abonnemang/funktioner]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Standard plan. Best for enterprise-level, serverless applications with event-based scaling and network isolation. Fast dynamic scale. Network isolation. Always on instances.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Standardabonnemang. Bäst för serverlösa program på företagsnivå med händelsebaserad skalning och nätverksisolering. Snabb dynamisk skala. Nätverksisolering. Alltid på-instanser.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Best for enterprise-level, serverless applications with event-based scaling and network isolation.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bäst för program på företagsnivå, serverlösa program med händelsebaserad skalning och nätverksisolering.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridHeaderStandardSectionTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Standard]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Standard]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridInstancesRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Always on instances]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Always On-instanser]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridNetworkRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Network isolation]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nätverksisolering:]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridScaleRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Fast dynamic scale]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Snabb dynamisk skala]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerGridUsageRowTitle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Pay as you go usage]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Betala-per-användning]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";logicAppPlanPickerHeaderText" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select plan]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj abonnemang]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";logicApp_description" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Logic Apps lets you quickly build integrations with SaaS and Enterprise apps, as well as visually design processes and workflows.]]></Val>
@@ -13737,6 +14559,36 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";managedIdentity" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Managed Identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Hanterad identitet]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[När hanterad identitet används, fylls inte bild- och taggfälten i automatiskt. Ange bilden och taggen manuellt nedan.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Image and tag fields will not auto populate. Please manually enter the image and tag below.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";managedIdentityTypePlaceholder" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select managed identity]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj hanterad identitet]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";managedPipelineModeLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Managed Pipeline Version]]></Val>
@@ -13751,6 +14603,15 @@
           <Val><![CDATA[Managed pipeline version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Hanterad pipeline-version]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";manual" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Manual]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Manuellt]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13821,6 +14682,24 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";minTlsVersionInfoBubbleMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select the minimum TLS encryption version required by your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj den minsta TLS-krypteringsversion som krävs av din app.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";minTlsVersionLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Minimum TLS Version]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Minsta TLS-version]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";minimize" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Minimize]]></Val>
@@ -13835,6 +14714,27 @@
           <Val><![CDATA[Minor version]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Mindre version]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingCorsMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Running your function in portal requires the app to explicitly accept requests from {0}. This is known as cross-origin resource sharing (CORS). Click here to add {0} to the allowed origin configuration.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Om du kör funktionen i portalen måste appen uttryckligen acceptera begäranden från {0}. Detta kallas resursdelning mellan ursprung (CORS). Klicka här om du vill lägga till {0} i konfigurationen för tillåtna ursprung.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Your app is missing the CORS rule, '{0}'. Click here to add the rule to test the function from the browser.]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";missingWorkflowDispatchTrigger" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Omdistributionen misslyckades eftersom arbetsflödesfilen i databasen saknar en workflow_dispatch-utlösare. Åtgärda problemet genom att lägga till utlösaren workflow_dispatch i arbetsflödesfilen under {0}]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -13967,10 +14867,13 @@
       </Item>
       <Item ItemId=";mountPath_info" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Följande är exempel på giltiga monteringssökvägar: {0}. Följande är exempel på ogiltiga monteringssökvägar: {1}]]></Val>
+            <Val><![CDATA[Detta är exempel på giltiga monteringssökvägar: {0}. Detta är exempel på ogiltiga monteringssökvägar: {1}]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14277,6 +15180,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";new_parenthesized" ItemType="0;.resx" PsrId="211" InstFlg="true" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[(new)]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[(ny)]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";newest" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Newest]]></Val>
@@ -14544,6 +15456,15 @@
           <Prev Cat="Text">
             <Val><![CDATA[You do not own any VSTS Repositories]]></Val>
           </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";nodeStackLearnMore" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Node version is defined through the {0} app setting.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Nodversionen definieras via appinställningen {0}.]]></Val>
+          </Tgt>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -14967,6 +15888,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";planType" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Plan type]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Typ av abonnemang]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";platform" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Platform]]></Val>
@@ -15026,6 +15956,15 @@
           <Val><![CDATA[Preload enabled]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Förhandsinläsning aktiverad]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";premiumToConsumptionWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[VARNING! Alla funktioner som stöds i elastiska Premium-planer stöds inte i förbrukningsplaner. Om du flyttar din funktionsapp kan den avbrytas. Kontrollera att funktionsappen är kompatibel med en förbrukningsplan och att den inte innehåller funktioner som bara är tillgängliga i Premium.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -15299,10 +16238,13 @@
       </Item>
       <Item ItemId=";pricing_emptyIsolatedGroupNewPlan" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          <Val><![CDATA[To create an app on a new App Service Environment, click a link below to create the environment first.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Infogat skapande av App Service-miljöer stöds inte för närvarande.]]></Val>
+            <Val><![CDATA[Om du vill skapa en app på en ny App Service-miljön, klicka på en länk nedan för att skapa miljön först.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Inline creation of App Service Environments is currently not supported.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -15452,6 +16394,24 @@
           <Val><![CDATA[Isolated V2 is not supported for this scale unit. Please consider redeploying or cloning your app.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Isolerad V2 stöds inte för den här skalningsenheten. Distribuera om eller klona din app.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jboss" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP Integrated Support]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Integrerad support för JBoss EAP]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";pricing_jbossDesc" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Få automatiskt integrerad teknisk support från Red Hat och Azure för dina JBoss EAP-webbplatser]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -16412,10 +17372,13 @@
       </Item>
       <Item ItemId=";readonlyBlobStorageWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Mounted Blob containers will become read only in Feb 2020.]]></Val>
+          <Val><![CDATA[Mounted Blob containers are read only.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Monterade blob-containrar blir skrivskyddade feb 2020.]]></Val>
+            <Val><![CDATA[Monterade blobcontainrar är skrivskyddade.]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Mounted Blob containers will become read only in Feb 2020.]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -16785,11 +17748,29 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";result" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[result]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[resultat]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";resultCode" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Result Code]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Resultatkod]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";results" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[results]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[resultat]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -18552,6 +19533,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";stackInfoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a stack to see how it is currently configured for your app.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj en stack om du vill se hur den har konfigurerats för din app.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";stackSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Stack settings]]></Val>
@@ -18674,6 +19664,24 @@
           <Val><![CDATA[Custom domains]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Anpassade domäner]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdge" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enterprise-grade edge]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Gräns för företagsklass]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSiteEnterpriseGradeEdgePrice" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[{0}/per app/month]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[{0}/per app/månad]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19089,6 +20097,51 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_configurationFile" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Configuration file]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Konfigurationsfil]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_configurationFileDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Keep configuration file changes enabled to allow changes in your staticwebapp.config.json to take effect. Disabling them may cause new deployments to fail.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Låt ändringar i konfigurationsfilen vara aktiverade så att ändringar i filen staticwebapp.config.json kan träda i kraft. Om du inaktiverar dem kan det leda till att nya distributioner misslyckas.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_configurationFileToggle" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enable configuration file changes]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Aktivera ändringar i konfigurationsfilen]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_confirmVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Confirm visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bekräfta besökarens lösenord]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_confirmVisitorPasswordRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Please confirm the visitor password. This value must match the password entered above.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Bekräfta besökarens lösenord. Värdet måste matcha lösenordet ovan.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_discardChangesMesssage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Are you sure you want to discard the changes to the application settings for the environment {0}?]]></Val>
@@ -19115,6 +20168,15 @@
           <Val><![CDATA[No application setting to display]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Det finns ingen programinställning att visa]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_enterVisitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Enter visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Ange besökarens lösenord]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -19146,6 +20208,123 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";staticSite_generalSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[General settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Allmänna inställningar]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdate" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Updating general settings]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Uppdaterar allmänna inställningar]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithFailure" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to update general settings with message: {0}]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Det gick inte att uppdatera allmänna inställningar. Felmeddelande: {0}]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithFailureNoMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Failed to update general settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Det gick inte att uppdatera allmänna inställningar.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_generalSettingsUpdateWithSuccess" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Successfully updated general settings.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[De allmänna inställningarna har uppdaterats.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_loadingApplicationSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading application settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Läser in programinställningarna...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_loadingGeneralSettings" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Loading general settings...]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Läser in allmänna inställningar...]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtection" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Password protection]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Lösenordsskydd]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionDescription" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Select a password protection option. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj ett alternativ för lösenordsskydd. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionDisabled" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Disabled]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Inaktiverat]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionEnabledProductionAndStaging" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Protect both staging and production environments]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Skydda både mellanlagrings- och produktionsmiljöer]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionEnabledStaging" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Protect staging environments only]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Skydda endast mellanlagringsmiljöer]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_passwordProtectionSkuWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Lösenordsskydd är bara tillgängligt i standardvärdplanen. Uppdatera värdplanen för att ställa in lösenordsskydd.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";staticSite_readOnlyRbac" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Your site is currently in read only mode because your RBAC assigned access is set to: Reader]]></Val>
@@ -19172,6 +20351,27 @@
           </Tgt>
           <Prev Cat="Text">
             <Val><![CDATA[Refresh environment variables]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_visitorPassword" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Visitor password]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Besökarens lösenord]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";staticSite_visitorPasswordRequired" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols. Key Vault references are not currently supported.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Besökarens lösenord måste anges. Lösenordet måste innehålla minst åtta tecken och bestå av versaler, gemener, siffror och symboler. Key Vault-referenser stöds inte för tillfället.]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols or a Key vault secret url.]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -20211,6 +21411,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";switchToJbossWarningBaner" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. ]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[JBoss EAP stöds av Red Hat. Om du byter din webbapp till JBoss kommer du att debiteras med en extra kostnad per månad. ]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";sync" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Sync]]></Val>
@@ -20244,6 +21453,18 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Lagringsplatsen för webbappen {0} kan inte uppdateras just nu.]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";systemAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[System assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Systemtilldelad]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[System-assigned]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -21249,6 +22470,18 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";userAssigned" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[User assigned]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Användartilldelad]]></Val>
+          </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[User-assigned]]></Val>
+          </Prev>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";userCreds" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[User Credentials]]></Val>
@@ -21323,6 +22556,15 @@
           <Val><![CDATA[Name and value must not be empty and must contain only letters and numbers.]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Namn och värde får inte vara tomt och får bara innehålla bokstäver och siffror.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";validFileShouldBeSelectedWarning" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Please select a valid file to upload.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Välj en giltig fil att ladda upp.]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />
@@ -21441,29 +22683,11 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
-      <Item ItemId=";validation_mountNameAllowedCharacters" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Monteringssökvägen måste vara en fullständigt kvalificerad sökväg och får bara innehålla alfanumeriska tecken, understreck, bindestreck, snedstreck, hakparenteser och parenteser]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
       <Item ItemId=";validation_mountPathNotHome" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Mount path cannot be '/home']]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Monteringssökvägen får inte vara /home]]></Val>
-          </Tgt>
-        </Str>
-        <Disp Icon="Str" />
-      </Item>
-      <Item ItemId=";validation_mountPathNotRoot" ItemType="0;.resx" PsrId="211" Leaf="true">
-        <Str Cat="Text">
-          <Val><![CDATA[Mount path cannot be '/']]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Monteringssökvägen får inte vara /]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

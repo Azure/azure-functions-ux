@@ -7,6 +7,7 @@ import { ArmObj, ResourceTopologyColumn, Identity, Sku } from './../models/arm/a
 import { FeatureFlags, Kinds } from '../models/constants';
 import { AppKind } from './app-kind';
 import { Url } from './url';
+import { NationalCloudEnvironment } from '../services/scenario/national-cloud.environment';
 
 export namespace ArmUtil {
   export function isFunctionApp(obj: ArmObj<any> | FunctionContainer): boolean {
@@ -50,6 +51,13 @@ export namespace ArmUtil {
     return (
       (obj && AppKind.hasAnyKind(obj, [Kinds.kubeApp, Kinds.kubernetes])) || Url.getFeatureValue(FeatureFlags.treatAsKubeApp) === 'true'
     );
+  }
+
+  export function isASEV3GenerallyAccessible(): boolean {
+    // NOTE(miabebax): ASEv3 is available in Public, Fairfax and USSec environment only.
+    // We use this helper function to decide whether we display ASEv3 or ASEv2 features.
+    // Ex: In spec picker blade, we hide isolatedV2 specs if it is not ASEv3 supported regions.
+    return !NationalCloudEnvironment.isNationalCloud() || NationalCloudEnvironment.isFairFax() || NationalCloudEnvironment.isUSSec();
   }
 
   export function mapArmSiteToContext(obj: ArmObj<Site>, injector: Injector): FunctionAppContext {

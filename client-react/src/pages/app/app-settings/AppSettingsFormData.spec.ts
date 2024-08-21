@@ -1,3 +1,4 @@
+import { AppSettingsFormValues } from './AppSettings.types';
 import {
   convertStateToForm,
   getFormAppSetting,
@@ -9,11 +10,31 @@ import {
   getConfigWithStackSettings,
 } from './AppSettingsFormData';
 import { mockSite, mockWebConfig, mockConnectionStrings, mockMetadata, mockAppSettings, mockSlotConfigName } from '../../../mocks/ArmMocks';
-import { VirtualApplication } from '../../../models/site/config';
+import { SiteConfig, VirtualApplication } from '../../../models/site/config';
+
+jest.mock('applicationinsights-js', () => {
+  return {
+    AppInsights: {
+      downloadAndSetup: () => {},
+      queue: {
+        push: jest.fn(),
+      },
+      context: {
+        application: {},
+        addTelemetryInitializer: jest.fn(),
+      },
+      trackEvent: jest.fn(),
+      startTrackPage: jest.fn(),
+      stopTrackPage: jest.fn(),
+      startTrackEvent: jest.fn(),
+      stopTrackEvent: jest.fn(),
+    },
+  };
+});
 
 describe('Convert State to Form Data', () => {
   it('convert redux state to form state', () => {
-    const mockFormData = convertStateToForm(mockProps as any);
+    const mockFormData = convertStateToForm({ ...mockProps, appPermissions: true });
     expect(mockFormData.virtualApplications.length).toBe(3);
     expect(mockFormData.appSettings.length).toBe(2);
     expect(mockFormData.connectionStrings.length).toBe(1);
@@ -31,8 +52,13 @@ describe('Get Form App Setting', () => {
 
 describe('Get Arm App Setting Objects', () => {
   it('Converts app settings to app settings with slot config tick', () => {
-    const mockFormData = convertStateToForm(mockProps as any);
-    const newObjs = convertFormToState(mockFormData, mockProps.metadata, mockProps.slotConfigNames);
+    const mockFormData = convertStateToForm(mockProps);
+    const newObjs = convertFormToState(
+      mockFormData,
+      mockProps.metadata,
+      (undefined as unknown) as AppSettingsFormValues,
+      mockProps.slotConfigNames
+    );
     expect(newObjs).toMatchSnapshot();
   });
 });
@@ -47,8 +73,9 @@ describe('Get Form Connection Strings', () => {
 
 describe('Flatten Virtual Applications List', () => {
   it('converts API virtual application list to form virtual application list', () => {
-    const mockVirtualApplicationForm = flattenVirtualApplicationsList(mockProps.config.properties
-      .virtualApplications as VirtualApplication[]);
+    const mockVirtualApplicationForm = flattenVirtualApplicationsList(
+      mockProps.config.properties.virtualApplications as VirtualApplication[]
+    );
     expect(mockVirtualApplicationForm.length).toBe(3);
     expect(mockVirtualApplicationForm.filter(x => x.virtualDirectory).length).toBe(1);
     expect(mockVirtualApplicationForm.filter(x => !x.virtualDirectory).length).toBe(2);
@@ -62,8 +89,9 @@ describe('Flatten Virtual Applications List', () => {
 
 describe('Unflatten Virtual Applications List', () => {
   it('converts Form virtual application list back to api virtual application list', () => {
-    const mockVirtualApplicationForm = flattenVirtualApplicationsList(mockProps.config.properties
-      .virtualApplications as VirtualApplication[]);
+    const mockVirtualApplicationForm = flattenVirtualApplicationsList(
+      mockProps.config.properties.virtualApplications as VirtualApplication[]
+    );
     const mockVirtualApplicationApi = unFlattenVirtualApplicationsList(mockVirtualApplicationForm);
     expect(mockVirtualApplicationApi.length).toBe(2);
     expect(mockVirtualApplicationApi[0].virtualDirectories!.length).toBe(1);
@@ -95,7 +123,7 @@ describe('Unflatten Virtual Applications List', () => {
       {
         physicalPath: 'site\\wwwroot',
         preloadEnabled: true,
-        virtualDirectories: [{ physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' }],
+        virtualDirectories: [expect.objectContaining({ physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' })],
         virtualDirectory: false,
         virtualPath: '/',
       },
@@ -104,7 +132,7 @@ describe('Unflatten Virtual Applications List', () => {
     expect(unflattenedData).toEqual(expectedVirtualApplicationsApiData);
   });
 
-  it('Handles virtual paths that does start with /', () => {
+  it('Handles virtual paths that do start with /', () => {
     const virtualApplicationsFormData = [
       {
         virtualPath: '/',
@@ -130,7 +158,7 @@ describe('Unflatten Virtual Applications List', () => {
       {
         physicalPath: 'site\\wwwroot',
         preloadEnabled: true,
-        virtualDirectories: [{ physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' }],
+        virtualDirectories: [expect.objectContaining({ physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' })],
         virtualDirectory: false,
         virtualPath: '/',
       },
@@ -171,8 +199,8 @@ describe('Unflatten Virtual Applications List', () => {
         physicalPath: 'site\\wwwroot',
         preloadEnabled: true,
         virtualDirectories: [
-          { physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' },
-          { physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test3' },
+          expect.objectContaining({ physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test2' }),
+          expect.objectContaining({ physicalPath: 'site\\wwwroot\\dir', virtualDirectory: true, virtualPath: 'test3' }),
         ],
         virtualDirectory: false,
         virtualPath: '/',
@@ -185,7 +213,7 @@ describe('Unflatten Virtual Applications List', () => {
 
 describe('Get Current Stack', () => {
   it('returns java if java version is there', () => {
-    const configData = { ...mockProps.config } as any;
+    const configData: any = { ...mockProps.config };
     const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = '1.8';
     const currentStack = getCurrentStackString(configData, metadata);
@@ -193,15 +221,22 @@ describe('Get Current Stack', () => {
   });
 
   it('returns .net as default is nothing else is there', () => {
-    const configData = { ...mockProps.config } as any;
+    const configData: any = { ...mockProps.config };
     const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = null;
-    const currentStack = getCurrentStackString(configData, metadata);
+    const currentStack = getCurrentStackString(
+      configData,
+      metadata,
+      /* appSettings */ undefined,
+      /* isFunctionApp */ undefined,
+      /* isWindowsCodeApp */ undefined,
+      /* appPermissions */ true
+    );
     expect(currentStack).toBe('dotnet');
   });
 
   it('returns what is stored in metadata absent a java version', () => {
-    const configData = { ...mockProps.config } as any;
+    const configData: any = { ...mockProps.config };
     const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = null;
     metadata.properties['CURRENT_STACK'] = 'python';
@@ -210,7 +245,7 @@ describe('Get Current Stack', () => {
   });
 
   it('java version takes precidense over metadata', () => {
-    const configData = { ...mockProps.config } as any;
+    const configData: any = { ...mockProps.config };
     const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = '1.8';
     metadata.properties['CURRENT_STACK'] = 'python';
@@ -221,38 +256,34 @@ describe('Get Current Stack', () => {
 
 describe('getConfigWithStackSettings', () => {
   it("removes java settings if currentlySelectedStack isn't java", () => {
-    const configData = {
+    const configData: SiteConfig = {
       ...mockProps.config,
-      properties: {
-        javaContainer: 'test',
-        javaContainerVersion: 'test',
-        javaVersion: 'test',
-      },
-    } as any;
-    const values = { currentlySelectedStack: 'notjava' } as any;
-    const configBack = getConfigWithStackSettings(configData, values);
-    expect(configBack.properties.javaContainer).toBe('');
-    expect(configBack.properties.javaContainerVersion).toBe('');
-    expect(configBack.properties.javaVersion).toBe('');
+      javaContainer: 'test',
+      javaContainerVersion: 'test',
+      javaVersion: 'test',
+    };
+    const values = { currentlySelectedStack: 'notjava' };
+    const configBack = getConfigWithStackSettings(configData, (values as unknown) as AppSettingsFormValues);
+    expect(configBack.javaContainer).toBe('');
+    expect(configBack.javaContainerVersion).toBe('');
+    expect(configBack.javaVersion).toBe('');
   });
   it('leaves java settings if currently selected stack is java', () => {
-    const configData = {
+    const configData: SiteConfig = {
       ...mockProps.config,
-      properties: {
-        javaContainer: 'test',
-        javaContainerVersion: 'test',
-        javaVersion: 'test',
-      },
-    } as any;
-    const values = { currentlySelectedStack: 'java' } as any;
-    const configBack = getConfigWithStackSettings(configData, values);
-    expect(configBack.properties.javaContainer).toBe('test');
-    expect(configBack.properties.javaContainerVersion).toBe('test');
-    expect(configBack.properties.javaVersion).toBe('test');
+      javaContainer: 'test',
+      javaContainerVersion: 'test',
+      javaVersion: 'test',
+    };
+    const values = { currentlySelectedStack: 'java' };
+    const configBack = getConfigWithStackSettings(configData, (values as unknown) as AppSettingsFormValues);
+    expect(configBack.javaContainer).toBe('test');
+    expect(configBack.javaContainerVersion).toBe('test');
+    expect(configBack.javaVersion).toBe('test');
   });
 });
 
-const mockProps = {
+const mockProps: any = {
   site: mockSite,
   config: mockWebConfig,
   appSettings: mockAppSettings,

@@ -4,7 +4,7 @@
 
 次のコマンドを実行して、Core Tools パッケージをインストールします。
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Azure Functions プロジェクトを作成する
@@ -42,6 +42,6 @@ HTTP 関数の URL が出力されます。これをブラウザーのアドレ�
 
 Functions プロジェクトを Azure に発行するには、次のコマンドを入力します。
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Azure へのサインインを求めるメッセージが表示される場合があります。 画面の指示に従います。

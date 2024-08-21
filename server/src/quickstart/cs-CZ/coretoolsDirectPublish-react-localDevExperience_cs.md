@@ -4,7 +4,7 @@ Než začnete, měli byste si <a href="https://go.microsoft.com/fwlink/?linkid=2
 
 Spuštěním následujícího příkazu nainstalujte balíček Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Vytvoření projektu služby Azure Functions
@@ -42,6 +42,6 @@ Pokud chcete zastavit ladění, použijte na terminálu **Ctrl+C**.
 
 Pokud chcete projekt Functions publikovat do Azure, zadejte následující příkaz:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Může se zobrazit výzva k přihlášení do Azure. Postupujte podle pokynů na obrazovce.

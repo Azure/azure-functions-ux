@@ -162,8 +162,8 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
   .spec-expander {
     text-align: center;
 
-    span:focus {
-      outline: #1f97f2 dashed 1px;
+    button:focus {
+      outline: #000000 solid 1px;
     }
 
     a {
@@ -254,6 +254,7 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
 
     .feature-learnMore {
       display: inline-block;
+      text-decoration: underline;
     }
   }
 
@@ -280,6 +281,10 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     .message-icon,
     .message-text {
       height: 27px;
+    }
+
+    button:focus {
+      outline: #000000 solid 1px;
     }
 
     .icon-medium {
@@ -341,9 +346,15 @@ $center-column-max-width: calc(#{$spec-card-max-width}* 4 - 40px);
     background-color: $body-bg-color-dark;
   }
 
+  #spec-picker-footer {
+    button:focus {
+      outline: #ffffff solid 1px;
+    }
+  }
+
   .spec-expander {
-    span:focus {
-      outline: #155f99 dashed 1px;
+    button:focus {
+      outline: #ffffff solid 1px;
     }
   }
 }

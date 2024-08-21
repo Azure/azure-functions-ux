@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Query, HttpException, HttpCode, Get } from '@nestjs/common';
+import { Controller, Post, Body, Query, HttpException, HttpCode } from '@nestjs/common';
 import { Versions } from './versions';
 import { WorkflowService20201201 } from './2020-12-01/WorkflowService';
 import { AppType, Os, PublishType } from './WorkflowModel';
@@ -119,7 +119,7 @@ export class WorkflowController {
       throw new HttpException(`Missing 'runtimeStack' in the request body.`, 400);
     }
 
-    const runtimeStacks = ['java', 'node', 'python', 'powershell', 'dotnet', 'php'];
+    const runtimeStacks = ['java', 'node', 'python', 'powershell', 'dotnet', 'dotnet-isolated', 'php'];
     if (runtimeStack && !runtimeStacks.includes(runtimeStack.toLocaleLowerCase())) {
       throw new HttpException(`Incorrect runtimeStack '${runtimeStack}' provided. Accepted types are: ${runtimeStacks.join(', ')}.`, 400);
     }

@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
@@ -143,9 +143,6 @@ const appendEndpoint = () => {
   }
   if (NationalCloudEnvironment.isMooncake()) {
     return ';EndpointSuffix=core.chinacloudapi.cn';
-  }
-  if (NationalCloudEnvironment.isBlackforest()) {
-    return ';EndpointSuffix=core.cloudapi.de';
   }
   if (NationalCloudEnvironment.isUSNat()) {
     return ';EndpointSuffix=core.eaglex.ic.gov';

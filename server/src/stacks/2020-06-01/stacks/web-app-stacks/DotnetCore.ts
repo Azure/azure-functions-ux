@@ -34,7 +34,7 @@ export const dotnetCoreStack: WebAppStack = {
               runtimeVersion: 'DOTNETCORE|3.1',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,

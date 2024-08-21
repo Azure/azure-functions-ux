@@ -1,54 +1,74 @@
+import { IDropdownOption } from '@fluentui/react';
 import { Field, FormikProps } from 'formik';
 import i18next from 'i18next';
-import { IDropdownOption } from 'office-ui-fabric-react';
-import React from 'react';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../components/form-controls/TextField';
 import Toggle from '../../../../components/form-controls/Toggle';
 import { Binding, BindingSetting, BindingSettingValue, BindingValidator } from '../../../../models/functions/binding';
 import { BindingInfo, BindingType } from '../../../../models/functions/function-binding';
+import { IArmResourceTemplate, TSetArmResourceTemplates } from '../../../../utils/ArmTemplateHelper';
 import { BindingManager } from '../../../../utils/BindingManager';
 import { getFunctionBindingDirection } from '../function/integrate/FunctionIntegrate.utils';
 import { FunctionIntegrateConstants } from '../function/integrate/FunctionIntegrateConstants';
+import { horizontalLabelStyle } from './BindingFormBuilder.styles';
 import HttpMethodMultiDropdown from './HttpMethodMultiDropdown';
 import ResourceDropdown from './ResourceDropdown';
-import { style } from 'typestyle';
 
-export interface BindingEditorFormValues {
-  [key: string]: any;
-}
+export type BindingEditorFormValues = Record<string, any>;
 
-export const horizontalLabelStyle = style({
-  width: '1500px',
-  maxWidth: '1500px !important',
-});
-
-export class BindingFormBuilder {
-  public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string => {
-    return (bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, currentBinding.type)) as Binding).displayName;
+export class BindingFormBuilder<TOptions> {
+  public static getBindingTypeName = (currentBinding: BindingInfo, bindings: Binding[]): string | undefined => {
+    return bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, currentBinding.type))?.displayName;
   };
 
+  protected bindingList: Binding[];
+  protected options?: TOptions;
+  protected resourceId: string;
+  protected t: i18next.TFunction;
+
+  private _areCreateFunctionFieldsHorizontal: boolean;
+  private _bindingInfoList: BindingInfo[];
+
   constructor(
-    private _bindingInfoList: BindingInfo[],
-    private _bindingList: Binding[],
-    private _resourceId: string,
-    private _t: i18next.TFunction,
-    private _areCreateFunctionFieldsHorizontal: boolean
-  ) {}
+    bindingInfoList: BindingInfo[],
+    bindingList: Binding[],
+    resourceId: string,
+    t: i18next.TFunction,
+    areCreateFunctionFieldsHorizontal: boolean,
+    options?: TOptions
+  ) {
+    this.bindingList = bindingList;
+    this.options = options;
+    this.resourceId = resourceId;
+    this.t = t;
+    this._areCreateFunctionFieldsHorizontal = areCreateFunctionFieldsHorizontal;
+    this._bindingInfoList = bindingInfoList;
+  }
 
   public getInitialFormValues(): BindingEditorFormValues {
     const initialFormValues: BindingEditorFormValues = {};
 
     let i = 0;
-    for (const binding of this._bindingList) {
-      for (const setting of binding.settings || []) {
+    for (const binding of this.bindingList) {
+      for (const setting of binding.settings ?? []) {
         let value = this._bindingInfoList[i][setting.name];
 
         // If the stored value is empty, then make the assumption that everything is selected.
         // That's how it works for HTTP, so for now let's assume that's how it works for all checkBoxLists
         if (setting.value === BindingSettingValue.checkBoxList && !value) {
-          value = setting.enum ? setting.enum.map(e => e.value) : [];
+          value = setting.enum?.map(e => e.value) ?? [];
+        }
+
+        // Ensure that value is set correctly when a case-insensitive match is found,
+        // e.g., 'ANONYMOUS' authorization level should match 'anonymous' enum option value.
+        if (setting.value === BindingSettingValue.enum && !!value) {
+          const match = setting.enum?.find(
+            option => value.localeCompare(option.value, /* locales */ undefined, { sensitivity: 'base' }) === 0
+          )?.value;
+          if (match) {
+            value = match;
+          }
         }
 
         initialFormValues[setting.name] = value;
@@ -58,15 +78,22 @@ export class BindingFormBuilder {
       initialFormValues.type = binding.type;
       i += 1;
     }
+
     return initialFormValues;
   }
 
-  public getFields(formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean, includeRules: boolean) {
+  public getFields(
+    formProps: FormikProps<BindingEditorFormValues>,
+    isDisabled: boolean,
+    includeRules: boolean,
+    armResources?: IArmResourceTemplate[],
+    setArmResources?: TSetArmResourceTemplates
+  ) {
     const fields: JSX.Element[] = [];
     const ignoredFields: string[] = [];
 
     let i = 0;
-    for (const binding of this._bindingList) {
+    for (const binding of this.bindingList) {
       // We don't want to use the rule for HTTP as it doesn't offer the user anything
       // and we can't restore the state of the rule properly on a second load
       if (includeRules && formProps.values['type'] !== FunctionIntegrateConstants.httpType) {
@@ -75,11 +102,11 @@ export class BindingFormBuilder {
 
       for (const setting of binding.settings || []) {
         if (!ignoredFields.includes(setting.name)) {
-          this._addField(fields, setting, formProps, isDisabled, i);
+          this._addField(fields, setting, formProps, isDisabled, i, armResources, setArmResources);
         }
       }
 
-      i = +1;
+      i += 1;
     }
 
     return fields;
@@ -151,14 +178,16 @@ export class BindingFormBuilder {
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
     isDisabled: boolean,
-    i: number
+    i: number,
+    armResources?: IArmResourceTemplate[],
+    setArmResources?: TSetArmResourceTemplates
   ) {
     switch (setting.value) {
       case BindingSettingValue.string:
         if (setting.resource) {
-          fields.push(this._getResourceField(setting, formProps, isDisabled, this._resourceId));
+          fields.push(this.getResourceField(setting, formProps, isDisabled, this.resourceId, armResources, setArmResources));
         } else {
-          fields.push(this._getTextField(setting, formProps, isDisabled));
+          fields.push(this.getTextField(setting, formProps, isDisabled));
         }
         break;
       case BindingSettingValue.enum:
@@ -181,15 +210,15 @@ export class BindingFormBuilder {
     return this._getFieldLayout() === Layout.Horizontal ? horizontalLabelStyle : undefined;
   }
 
-  private _getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, isDisabled: boolean) {
+  protected getTextField(setting: BindingSetting, formProps: FormikProps<BindingEditorFormValues>, disabled: boolean) {
     return (
       <Field
         label={setting.label}
         name={setting.name}
         id={setting.name}
         component={TextField}
-        disabled={isDisabled}
-        validate={value => this._validateText(value, setting.required, setting.validators)}
+        disabled={disabled}
+        validate={value => this.validateText(value, setting.required, setting.validators)}
         layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
         required={setting.required}
@@ -221,7 +250,7 @@ export class BindingFormBuilder {
         component={Dropdown}
         options={options}
         disabled={isDisabled}
-        validate={value => this._validateText(value, setting.required, setting.validators)}
+        validate={value => this.validateText(value, setting.required, setting.validators)}
         onPanel={true}
         layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
@@ -243,8 +272,8 @@ export class BindingFormBuilder {
         id={setting.name}
         component={Toggle}
         disabled={isDisabled}
-        onText={this._t('yes')}
-        offText={this._t('no')}
+        onText={this.t('yes')}
+        offText={this.t('no')}
         validate={(value: boolean) => this._validateBoolean(value, setting.required)}
         layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
@@ -258,11 +287,13 @@ export class BindingFormBuilder {
     );
   }
 
-  private _getResourceField(
+  protected getResourceField(
     setting: BindingSetting,
     formProps: FormikProps<BindingEditorFormValues>,
-    isDisabled: boolean,
-    resourceId: string
+    disabled: boolean,
+    resourceId: string,
+    armResources?: IArmResourceTemplate[],
+    setArmResources?: TSetArmResourceTemplates
   ) {
     return (
       <Field
@@ -272,8 +303,8 @@ export class BindingFormBuilder {
         component={ResourceDropdown}
         setting={setting}
         resourceId={resourceId}
-        disabled={isDisabled}
-        validate={value => this._validateText(value, setting.required, setting.validators)}
+        disabled={disabled}
+        validate={value => this.validateText(value, setting.required, setting.validators)}
         onPanel={true}
         layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
@@ -283,6 +314,8 @@ export class BindingFormBuilder {
         dirty={false}
         customLabelClassName={this._getHorizontalLabelStyle()}
         customLabelStackClassName={this._getHorizontalLabelStyle()}
+        armResources={armResources}
+        setArmResources={setArmResources}
       />
     );
   }
@@ -302,7 +335,7 @@ export class BindingFormBuilder {
           component={HttpMethodMultiDropdown}
           setting={setting}
           disabled={isDisabled}
-          validate={value => this._validateText(value, setting.required, setting.validators)}
+          validate={value => this.validateText(value, setting.required, setting.validators)}
           onPanel={true}
           layout={this._getFieldLayout()}
           mouseOverToolTip={setting.help}
@@ -331,7 +364,7 @@ export class BindingFormBuilder {
         options={options}
         multiSelect
         disabled={isDisabled}
-        validate={value => this._validateText(value, setting.required, setting.validators)}
+        validate={value => this.validateText(value, setting.required, setting.validators)}
         onPanel={true}
         layout={this._getFieldLayout()}
         mouseOverToolTip={setting.help}
@@ -345,13 +378,13 @@ export class BindingFormBuilder {
     );
   }
 
-  private _validateText(value: string, required: boolean, validators?: BindingValidator[]): string | undefined {
+  protected validateText(value: string, required: boolean, validators: BindingValidator[] = []): string | undefined {
     let error: string | undefined;
     if (required && !value) {
-      error = this._t('fieldRequired');
+      error = this.t('fieldRequired');
     }
 
-    if (value && validators) {
+    if (value) {
       validators.forEach(validator => {
         if (!value.match(validator.expression)) {
           error = validator.errorText;
@@ -365,7 +398,7 @@ export class BindingFormBuilder {
   private _validateBoolean(value: boolean, required: boolean): string | undefined {
     let error: string | undefined;
     if (required && value === undefined) {
-      error = this._t('fieldRequired');
+      error = this.t('fieldRequired');
     }
 
     return error;

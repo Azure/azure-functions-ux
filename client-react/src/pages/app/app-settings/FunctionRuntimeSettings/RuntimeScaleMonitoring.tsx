@@ -17,21 +17,21 @@ const RuntimeScaleMonitoring: React.FC<AppSettingsFormProps & WithTranslation> =
   const disableAllControls = !app_write || !editable || saving;
 
   const scaleMonitoringSupported = () => {
-    let isSupported = false;
+    let isSupported = true;
     const initialRuntimeVersion = findFormAppSettingValue(
       initialValues.appSettings,
       CommonConstants.AppSettingNames.functionsExtensionVersion
     );
 
-    if (!!initialRuntimeVersion) {
+    if (initialRuntimeVersion) {
       const exactRuntimeVersion = asyncData.functionsHostStatus.value && asyncData.functionsHostStatus.value.properties.version;
       const exactRuntimeVersionParsed = FunctionsRuntimeVersionHelper.parseExactRuntimeVersion(exactRuntimeVersion || null);
       const initialRuntimeVersionParsed = FunctionsRuntimeVersionHelper.parseConfiguredRuntimeVersion(initialRuntimeVersion);
 
-      const supportedVersions = [RuntimeExtensionMajorVersions.v2, RuntimeExtensionMajorVersions.v3];
-      supportedVersions.forEach(version => {
+      const nonSupportedVersions = [RuntimeExtensionMajorVersions.v1];
+      nonSupportedVersions.forEach(version => {
         if (initialRuntimeVersionParsed === version || exactRuntimeVersionParsed === version) {
-          isSupported = true;
+          isSupported = false;
         }
       });
     }

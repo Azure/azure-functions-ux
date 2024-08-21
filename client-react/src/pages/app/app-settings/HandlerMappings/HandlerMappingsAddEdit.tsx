@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import ActionBar from '../../../../components/ActionBar';
 import { formElementStyle } from '../AppSettings.styles';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';

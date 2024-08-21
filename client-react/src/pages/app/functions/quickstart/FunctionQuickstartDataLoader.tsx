@@ -6,7 +6,7 @@ import { Site } from '../../../../models/site/site';
 import FunctionQuickstartData from './FunctionQuickstart.data';
 import FunctionQuickstart from './FunctionQuickstart';
 import { CommonConstants } from '../../../../utils/CommonConstants';
-import { MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { MessageBar, MessageBarType } from '@fluentui/react';
 import { messageBannerStyle } from '../../app-settings/AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { useTranslation } from 'react-i18next';
@@ -39,7 +39,7 @@ const FunctionQuickstartDataLoader: React.FC<FunctionQuickstartDataLoaderProps> 
     } else {
       setSite(siteData.data);
       const appSettings = appSettingsData.data.properties;
-      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+      if (Object.prototype.hasOwnProperty.call(appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
     }

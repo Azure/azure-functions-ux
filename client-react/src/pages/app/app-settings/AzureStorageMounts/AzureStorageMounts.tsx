@@ -1,11 +1,18 @@
 import { FormikProps } from 'formik';
-import { DetailsListLayoutMode, SelectionMode, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import React, { useContext, useState } from 'react';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { AppSettingsFormValues, FormAzureStorageMounts } from '../AppSettings.types';
 import IconButton from '../../../../components/IconButton/IconButton';
 import AzureStorageMountsAddEdit from './AzureStorageMountsAddEdit';
-import { MessageBarType, TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
+import {
+  MessageBarType,
+  TooltipHost,
+  ICommandBarItemProps,
+  PanelType,
+  DetailsListLayoutMode,
+  SelectionMode,
+  IColumn,
+} from '@fluentui/react';
 import { PermissionsContext } from '../Contexts';
 import { sortBy } from 'lodash-es';
 import { StorageType } from '../../../../models/site/config';
@@ -40,6 +47,7 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
         disabled: disableAllControls || values.azureStorageMounts.length >= MAXALLOWEDAZUREMOUNTS,
         iconProps: { iconName: 'Add' },
         text: t('newAzureStorageMount'),
+        role: 'button',
       },
     ];
   };
@@ -164,7 +172,6 @@ const AzureStorageMounts: React.FC<FormikProps<AppSettingsFormValues>> = props =
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  // tslint:disable-next-line:member-ordering
   const getColumns = () => {
     return [
       {

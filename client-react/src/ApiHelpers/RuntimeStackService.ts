@@ -76,7 +76,7 @@ export default class RuntimeStackService {
 
     const queryParams = [
       `stackOsType=${stacksOs}`,
-      `removeHiddenStacks=${!RuntimeStackService._isShowHiddenStackFlagPassed()}`,
+      `removeHiddenStacks=${false}`, // to allow dotnet-isolated to be handled on portal
       `removeDeprecatedStacks=${true}`,
       `removeNonGitHubActionStacks=${true}`,
       `useCanaryFusionServer=${Url.isNextEnvironment()}`,

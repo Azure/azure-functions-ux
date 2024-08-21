@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { PanelType } from 'office-ui-fabric-react';
+import { PanelType } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomPanel from '../../../../../../components/CustomPanel/CustomPanel';

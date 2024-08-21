@@ -1,11 +1,9 @@
-import './polyfills';
-import { initializeIcons } from '@uifabric/icons';
-import React from 'react';
+import { initializeIcons, loadTheme } from '@fluentui/react';
+import 'react-app-polyfill/ie11';
 import * as ReactDOM from 'react-dom';
 import App from './pages/App';
+import './polyfills';
 import { lightTheme } from './theme/light';
-import { loadTheme } from '@uifabric/styling';
-import 'react-app-polyfill/ie11';
 import LogService from './utils/LogService';
 import Url from './utils/url';
 

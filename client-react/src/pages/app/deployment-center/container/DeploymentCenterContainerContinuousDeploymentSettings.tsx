@@ -5,36 +5,15 @@ import { useTranslation } from 'react-i18next';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { DeploymentCenterPublishingContext } from '../DeploymentCenterPublishingContext';
-import { additionalTextFieldControl } from '../DeploymentCenter.styles';
-import { ActionButton } from 'office-ui-fabric-react';
 import { getAppDockerWebhookUrl } from '../utility/DeploymentCenterUtility';
+import { TextFieldType } from '../../../../utils/CommonConstants';
 
-type WebhookFieldType = 'password' | undefined;
-
-const DeploymentCenterContainerContinuousDeploymentSettings: React.FC<
-  DeploymentCenterFieldProps<DeploymentCenterContainerFormData>
-> = props => {
+const DeploymentCenterContainerContinuousDeploymentSettings: React.FC<DeploymentCenterFieldProps<
+  DeploymentCenterContainerFormData
+>> = () => {
   const { t } = useTranslation();
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
-  const [webhookFieldType, setWebhookFieldType] = useState<WebhookFieldType>('password');
   const [webhookUrl, setWebhookUrl] = useState<string>('');
-
-  const toggleShowWebhook = () => {
-    setWebhookFieldType(!webhookFieldType ? 'password' : undefined);
-  };
-
-  const additionalWebhookControls = () => {
-    return [
-      <ActionButton
-        id="continuous-deployment-webhook-visibility-toggle"
-        key="continuous-deployment-webhook-visibility-toggle"
-        className={additionalTextFieldControl}
-        onClick={toggleShowWebhook}
-        iconProps={{ iconName: webhookFieldType === 'password' ? 'RedEye' : 'Hide' }}>
-        {webhookFieldType === 'password' ? t('show') : t('hide')}
-      </ActionButton>,
-    ];
-  };
 
   const continuousDeploymentOptions = [
     {
@@ -70,8 +49,7 @@ const DeploymentCenterContainerContinuousDeploymentSettings: React.FC<
         value={webhookUrl}
         copyButton={true}
         disabled={true}
-        type={webhookFieldType}
-        additionalControls={additionalWebhookControls()}
+        type={TextFieldType.password}
       />
     </>
   );

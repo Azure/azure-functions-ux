@@ -1,21 +1,23 @@
 import React from 'react';
 import { environmentSelectorStackStyle, environmentSelectorLabelStyle } from './Configuration.styles';
 import { useTranslation } from 'react-i18next';
-import { Dropdown as OfficeDropdown, Stack, Label, IDropdownOption } from 'office-ui-fabric-react';
+import { Stack, Label, IDropdownOption } from '@fluentui/react';
 import { fileSelectorDropdownStyle } from '../../app/functions/function/function-editor/FunctionEditor.styles';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
 import ConfigurationData from './Configuration.data';
+import DropdownNoFormik from '../../../components/form-controls/DropDownnoFormik';
 
 interface ConfigurationEnvironmentSelectorProps {
   environments: ArmObj<Environment>[];
   disabled: boolean;
   onDropdownChange: (environment: ArmObj<Environment>) => void;
   selectedEnvironment?: ArmObj<Environment>;
+  isLoading: boolean;
 }
 
 const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelectorProps> = props => {
-  const { environments, onDropdownChange, disabled, selectedEnvironment } = props;
+  const { environments, onDropdownChange, disabled, selectedEnvironment, isLoading } = props;
 
   const { t } = useTranslation();
 
@@ -35,14 +37,15 @@ const ConfigurationEnvironmentSelector: React.FC<ConfigurationEnvironmentSelecto
   return (
     <Stack horizontal className={environmentSelectorStackStyle()}>
       <Label className={environmentSelectorLabelStyle}>{t('staticSite_environment')}</Label>
-      <OfficeDropdown
+      <DropdownNoFormik
         id="configuration-environment-selector"
-        selectedKey={!!selectedEnvironment ? selectedEnvironment.properties.buildId : ''}
+        selectedKey={selectedEnvironment?.properties.buildId ?? ''}
         options={dropdownOptions}
         onChange={onChange}
         ariaLabel={t('staticSite_environmentDropdownAriaLabel')}
         disabled={disabled}
         styles={fileSelectorDropdownStyle()}
+        isLoading={isLoading}
       />
     </Stack>
   );

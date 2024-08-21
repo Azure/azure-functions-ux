@@ -4,7 +4,7 @@
 
 Выполните следующую команду, чтобы установить пакет Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 Затем <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">установите расширение Функций Azure для Visual Studio Code</a>. После установки расширения щелкните логотип Azure на панели действий. В разделе **Azure: Functions** (Azure: Функции) щелкните ссылку **Войти в Azure...** и следуйте инструкциям на экране.
 

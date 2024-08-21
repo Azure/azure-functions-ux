@@ -1,10 +1,10 @@
-import { Omit } from '@uifabric/utilities';
 import { KeyValue } from './portal-models';
 
 export interface MsiIdentity {
   principalId: string;
   tenantId: string;
   type: string;
+  userAssignedIdentities: KeyValue<KeyValue<string>>;
 }
 export interface ArmObj<T> {
   id: string;
@@ -18,7 +18,7 @@ export interface ArmObj<T> {
   sku?: ArmSku;
 }
 
-export interface UntrackedArmObj<T> extends Omit<ArmObj<T>, 'location' | 'name'> {}
+export type UntrackedArmObj<T> = Omit<ArmObj<T>, 'location' | 'name'>;
 
 export interface ArmArray<T> {
   value: ArmObj<T>[];
@@ -42,6 +42,7 @@ export interface Identity {
   principalId: string;
   tenantId: string;
   type: string;
+  userAssignedIdentities: KeyValue<KeyValue<string>>;
 }
 
 export interface ResourceGraph {

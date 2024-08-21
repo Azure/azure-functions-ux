@@ -2,10 +2,8 @@ import { Injectable, HttpException } from '@nestjs/common';
 import { HttpService } from '../shared/http/http.service';
 import { ConfigService } from '../shared/config/config.service';
 import { Constants } from '../constants';
-import { SourceControlProvider } from '../types/source-control-provider';
 import * as crypto from 'crypto';
 import { LoggingService } from '../shared/logging/logging.service';
-import { TokenData } from './deployment-center';
 import { HttpUtil } from '../utilities/http.util';
 
 @Injectable()

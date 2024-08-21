@@ -3,9 +3,15 @@ import { FunctionInfo } from '../../../../../models/functions/function-info';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { NameValuePair, HttpMethods } from './FunctionEditor.types';
 import { BindingManager } from '../../../../../utils/BindingManager';
+import { SiteConfig } from '../../../../../models/site/config';
+
+interface IFunctionData {
+  siteConfig: ArmObj<SiteConfig>;
+}
 
 export default class FunctionEditorData {
   public FUNCTION_JSON_FILE = 'function.json';
+  public functionData: IFunctionData;
   private blacklistedFileTypes = ['java', 'jar', 'zip', 'csproj'];
 
   public getFunctionInfo(resourceId: string) {
@@ -23,24 +29,24 @@ export default class FunctionEditorData {
       headers: [] as NameValuePair[],
       body: '',
     };
-    if (!!data.method) {
+    if (data.method) {
       response.method = data.method;
     }
-    if (!!data.queryStringParams) {
+    if (data.queryStringParams) {
       const queries: NameValuePair[] = [];
       for (const parameter of data.queryStringParams) {
         queries.push({ name: parameter.name, value: parameter.value });
       }
       response.queries = queries;
     }
-    if (!!data.headers) {
+    if (data.headers) {
       const headers: NameValuePair[] = [];
       for (const parameter of data.headers) {
         headers.push({ name: parameter.name, value: parameter.value });
       }
       response.headers = headers;
     }
-    if (!!data.body) {
+    if (data.body) {
       response.body = data.body;
     }
     return response;
@@ -64,10 +70,18 @@ export default class FunctionEditorData {
     return BindingManager.getEventGridTriggerInfo(functionInfo.properties);
   }
 
+  public isAuthenticationEventTriggerFunction(functionInfo: ArmObj<FunctionInfo>) {
+    return BindingManager.getAuthenticationEventTriggerTypeInfo(functionInfo.properties);
+  }
+
   public getSaveFileHeaders(mime: string) {
     return {
       'Content-Type': mime,
       'If-Match': '*',
     };
+  }
+
+  public getAuthenticationTriggerUrl(baseUrl: string, functionInfo: ArmObj<FunctionInfo>, code: string) {
+    return `${baseUrl}/runtime/webhooks/customauthenticationextension?functionName=${functionInfo.properties.name}&code=${code}`;
   }
 }

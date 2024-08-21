@@ -44,7 +44,7 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
     setEarlyAccessInfoVisible(false);
     setEolStackDate(undefined);
 
-    if (!!pythonStack) {
+    if (pythonStack) {
       const stackVersions = getStacksSummaryForDropdown(pythonStack, AppStackOs.windows, t);
       const selectionVersion = (values.config.properties.pythonVersion || '').toLowerCase();
       for (const stackVersion of stackVersions) {
@@ -89,13 +89,13 @@ const PythonStack: React.StatelessComponent<StackProps> = props => {
           values.config.properties.pythonVersion !== initialValues.config.properties.pythonVersion
         }
         component={Dropdown}
-        infoBubbleMessage={t('pythonInfoTextNoClick')}
-        learnMoreLink={Links.pythonStackInfo}
         disabled={disableAllControls}
         label={t('pythonVersion')}
         id="pythonVersion"
         options={pythonVersions}
         {...getEarlyStackMessageParameters(earlyAccessInfoVisible, t)}
+        infoBubbleMessage={t('pythonInfoTextNoClick')}
+        learnMoreLink={Links.pythonStackInfo}
       />
       {checkAndGetStackEOLOrDeprecatedBanner(t, values.config.properties.netFrameworkVersion, eolStackDate)}
     </>

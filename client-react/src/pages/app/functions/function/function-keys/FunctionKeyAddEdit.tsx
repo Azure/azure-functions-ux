@@ -5,7 +5,7 @@ import { addEditFormStyle } from '../../../../../components/form-controls/formCo
 import ActionBar from '../../../../../components/ActionBar';
 import { FunctionKeysModel } from './FunctionKeys.types';
 import { renewPanelStyle, renewPanelTextStyle, renewPanelIconStyle } from '../../app-keys/AppKeys.styles';
-import { Icon, Label } from 'office-ui-fabric-react';
+import { Icon, Label } from '@fluentui/react';
 import { ThemeContext } from '../../../../../ThemeContext';
 
 export interface FunctionKeyAddEditProps {

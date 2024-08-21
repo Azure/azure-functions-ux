@@ -62,7 +62,7 @@ const cloud3 = style({
   left: '960px',
   width: '100px',
 });
-const LandingPage: React.SFC<RouteComponentProps<any>> = props => {
+const LandingPage: React.SFC<RouteComponentProps<any>> = () => {
   return (
     <div className={divStyle}>
       <div className={errorPage}>

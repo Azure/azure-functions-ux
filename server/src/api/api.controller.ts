@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Query, HttpCode } from '@nestjs/common';
+import { Controller, Get, Query, HttpCode } from '@nestjs/common';
 import { ConfigService } from '../shared/config/config.service';
 import { ResourcesService } from './resources/resources.service';
 

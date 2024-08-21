@@ -5,7 +5,7 @@ import CustomPivot from './customPivot/CustomPivot';
 import RadioButtonNoFormik from '../../../../../components/form-controls/RadioButtonNoFormik';
 import { paddingSidesStyle } from './Callout.styles';
 import ServiceBusPivotDataLoader from './serviceBusPivot/ServiceBusPivotDataLoader';
-import { IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownProps } from '@fluentui/react';
 import { FieldProps } from 'formik';
 import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
 

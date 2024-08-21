@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, MessageBarType } from '@fluentui/react';
 import { paddingStyle } from './FunctionMonitor.styles';
 import { PivotState } from './FunctionMonitor.types';
 import { ArmFunctionDescriptor } from '../../../../../utils/resourceDescriptors';
@@ -50,7 +50,7 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   const armFunctionDescriptor = new ArmFunctionDescriptor(resourceId);
 
   const onPivotItemClicked = (item?: PivotItem) => {
-    if (!!item) {
+    if (item) {
       setPivotStateKey(item.props.itemKey as PivotState);
     }
   };
@@ -110,13 +110,10 @@ const FunctionMonitor: React.FC<FunctionMonitorProps> = props => {
   };
 
   const onAppInsightsMessageClick = () => {
-    portalContext.openFrameBlade(
-      {
-        detailBlade: 'SiteConfigSettingsFrameBladeReact',
-        detailBladeInputs: { id: armFunctionDescriptor.getSiteOnlyResourceId() },
-      },
-      'functionMonitoring'
-    );
+    portalContext.openFrameBlade({
+      detailBlade: 'SiteConfigSettingsFrameBladeReact',
+      detailBladeInputs: { id: armFunctionDescriptor.getSiteOnlyResourceId() },
+    });
   };
 
   if (!!appInsightsKeyType && appInsightsKeyType === AppInsightsKeyType.keyVault) {

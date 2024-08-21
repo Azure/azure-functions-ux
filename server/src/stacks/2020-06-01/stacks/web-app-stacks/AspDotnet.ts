@@ -6,6 +6,44 @@ export const aspDotnetStack: WebAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: '.NET 7',
+      value: '7',
+      minorVersions: [
+        {
+          displayText: '.NET 7',
+          value: '7',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v7.0',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '7.0.x',
+              },
+              isHidden: true,
+              isEarlyAccess: true,
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNETCORE|7.0',
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '7.0.x',
+              },
+              isHidden: true,
+              isEarlyAccess: true,
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET 6',
       value: '6',
       minorVersions: [
@@ -17,7 +55,7 @@ export const aspDotnetStack: WebAppStack = {
               runtimeVersion: 'v6.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,
@@ -53,6 +91,7 @@ export const aspDotnetStack: WebAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v5.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: false,
@@ -64,9 +103,10 @@ export const aspDotnetStack: WebAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNETCORE|5.0',
+              isDeprecated: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
-                isSupported: false,
+                isSupported: true,
               },
               gitHubActionSettings: {
                 isSupported: true,

@@ -45,6 +45,8 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
   private _rrOverrideValue: any;
   private _runtimeVersion: string;
 
+  private _disableSubmit: boolean;
+
   constructor(
     private _fb: FormBuilder,
     private _translateService: TranslateService,
@@ -57,6 +59,8 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
     super('api-details', injector, DashboardType.ProxyDashboard);
 
     this.initComplexFrom();
+
+    this._disableSubmit = false;
   }
 
   setup(navigationEvents: Observable<ExtendedTreeViewInfo>): Observable<any> {
@@ -189,7 +193,8 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
   }
 
   submitForm() {
-    if (this.complexForm.valid && this.rrOverrideValid) {
+    if (this.complexForm.valid && this.rrOverrideValid && !this._disableSubmit) {
+      this._disableSubmit = true;
       this.setBusy();
 
       this.apiProxyEdit.backendUri = this.complexForm.controls['backendUri'].value;
@@ -236,13 +241,19 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
             this._runtimeVersion
           );
         })
-        .subscribe(() => {
-          this.clearBusy();
-          if (this.rrComponent) {
-            this.rrComponent.saveModel();
+        .subscribe(
+          () => {
+            this.clearBusy();
+            if (this.rrComponent) {
+              this.rrComponent.saveModel();
+            }
+            this.onReset();
+            this._disableSubmit = false;
+          },
+          () => {
+            this._disableSubmit = false;
           }
-          this.onReset();
-        });
+        );
     }
   }
 
@@ -271,12 +282,10 @@ export class ApiDetailsComponent extends NavigableComponent implements OnDestroy
         this._broadcastService.setDirtyState('api-proxy');
       }
     });
-
-    // this.isEnabled = this._globalStateService.IsRoutingEnabled;
   }
 
   openAdvancedEditor() {
-    this._portalService.switchMenuItem({ menuItemId: 'functionAppFiles' });
+    this._portalService.closeSelf({ data: { isAdvanceEditorClicked: true } });
   }
 
   rrOverriedValueChanges(value: any) {

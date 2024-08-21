@@ -1,5 +1,5 @@
 import React, { useEffect, useContext } from 'react';
-import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { PortalContext } from '../../../../PortalContext';
 import { CustomCommandBarButton } from '../../../../components/CustomCommandBarButton';

@@ -6,7 +6,7 @@ import TextField from '../../../../components/form-controls/TextField';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { useTranslation } from 'react-i18next';
 import { StorageType } from '../../../../models/site/config';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
 import { SiteContext } from '../Contexts';
@@ -20,7 +20,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
   const scenarioService = new ScenarioService(t);
 
   const validateShareName = (value: any): string | undefined => {
-    return !!value ? undefined : t('validation_requiredError');
+    return value ? undefined : t('validation_requiredError');
   };
 
   const supportsBlobStorage = scenarioService.checkScenario(ScenarioIds.azureBlobMount, { site }).status !== 'disabled';
@@ -67,7 +67,7 @@ const AzureStorageMountsAddEditAdvanced: React.FC<FormikProps<FormAzureStorageMo
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}
           learnMoreLink={Links.byosBlobReadonlyLearnMore}
-          type={MessageBarType.warning}
+          type={MessageBarType.info}
           undocked={true}
         />
       )}

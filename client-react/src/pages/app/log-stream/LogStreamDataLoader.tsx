@@ -7,6 +7,7 @@ import LogService from '../../../utils/LogService';
 import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { isFunctionApp } from '../../../utils/arm-utils';
+import { LogCategories } from '../../../utils/LogCategories';
 import Url from '../../../utils/url';
 
 export interface LogStreamDataLoaderProps {
@@ -49,14 +50,18 @@ class LogStreamDataLoader extends React.Component<LogStreamDataLoaderProps, LogS
     LogService.stopTrackPage('shell', { feature: 'LogStream' });
   }
 
-  public async componentWillMount() {
+  public componentDidMount() {
     const { resourceId } = this.props;
-    const [siteCall, logsConfigCall] = await Promise.all([SiteService.fetchSite(resourceId), SiteService.fetchLogsConfig(resourceId)]);
-
-    if (siteCall.metadata.success && logsConfigCall.metadata.success) {
-      this.setState({ site: siteCall.data });
-      this.setState({ logsEnabled: processLogConfig(siteCall.data.properties, logsConfigCall.data.properties) });
-    }
+    Promise.all([SiteService.fetchSite(resourceId), SiteService.fetchLogsConfig(resourceId)])
+      .then(([siteCall, logsConfigCall]) => {
+        if (siteCall.metadata.success && logsConfigCall.metadata.success) {
+          this.setState({ site: siteCall.data });
+          this.setState({ logsEnabled: processLogConfig(siteCall.data.properties, logsConfigCall.data.properties) });
+        }
+      })
+      .catch(reason => {
+        LogService.error(LogCategories.logStreamLoad, 'Fetch site and logs config', reason);
+      });
   }
 
   public componentDidUpdate() {

@@ -11,11 +11,13 @@ import { FunctionInfo } from '../../../../../../models/functions/function-info';
 import LogService from '../../../../../../utils/LogService';
 import { LogCategories } from '../../../../../../utils/LogCategories';
 import { functionTestBodyStyle } from './FunctionTest.styles';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType, Pivot, PivotItem } from '@fluentui/react';
 import { ValidationRegex } from '../../../../../../utils/constants/ValidationRegex';
 import CustomBanner from '../../../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../../../utils/FwLinks';
 import { FunctionEditorContext } from '../FunctionEditorDataLoader';
+import { CommonConstants, OverflowBehavior } from '../../../../../../utils/CommonConstants';
+import Url from '../../../../../../utils/url';
 
 export interface FunctionTestProps {
   run: (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => void;
@@ -23,13 +25,15 @@ export interface FunctionTestProps {
   functionInfo: ArmObj<FunctionInfo>;
   reqBody: string;
   setReqBody: (reqBody: string) => void;
-  selectedPivotTab: PivotType;
   functionRunning: boolean;
   urlObjs: UrlObj[];
   getFunctionUrl: (key?: string) => string;
+  addCorsRule: (corsRule: string) => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   testData?: string;
+  enablePortalCall?: boolean;
+  addingCorsRules?: boolean;
 }
 
 // TODO (krmitta): Add Content for Function test panel [WI: 5536379]
@@ -41,6 +45,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     queries: [],
     headers: [],
   });
+  const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
 
   const {
     run,
@@ -49,12 +54,14 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     reqBody,
     setReqBody,
     responseContent,
-    selectedPivotTab,
     functionRunning,
     testData,
     urlObjs,
     xFunctionKey,
     getFunctionUrl,
+    addCorsRule,
+    enablePortalCall,
+    addingCorsRules,
   } = props;
 
   const errorMessage = {
@@ -91,7 +98,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     }
   };
 
-  const onRequestBodyChange = (newValue, event) => {
+  const onRequestBodyChange = newValue => {
     setReqBody(newValue);
   };
 
@@ -112,32 +119,32 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     } else {
       localTestData = testData || functionInfo.properties.test_data || '';
     }
-    if (!!localTestData) {
+    if (localTestData) {
       if (isHttpOrWebHookFunction) {
         // Make sure to remove the keys: {body, headers, method, queryStringParams};
         // if there are still some keys (meaning the test-data file has been manually updated by the user),
         // we consider the entire remaining object as the body
-        if (!!localTestData.method) {
+        if (localTestData.method) {
           updatedFormValues.method = localTestData.method;
           delete localTestData.method;
         } else {
           updatedFormValues.method = HttpMethods.post;
         }
-        if (!!localTestData.queryStringParams) {
+        if (localTestData.queryStringParams) {
           const queryParameters = localTestData.queryStringParams;
           for (const parameters of queryParameters) {
             updatedFormValues.queries.push({ name: parameters.name, value: parameters.value });
           }
           delete localTestData.queryStringParams;
         }
-        if (!!localTestData.headers) {
+        if (localTestData.headers) {
           const headers = localTestData.headers;
           for (const header of headers) {
             updatedFormValues.headers.push({ name: header.name, value: header.value });
           }
           delete localTestData.headers;
         }
-        setReqBody(!!localTestData.body ? localTestData.body : localTestData);
+        setReqBody(localTestData.body ?? localTestData);
       } else {
         setReqBody(localTestData);
       }
@@ -168,11 +175,69 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
     setDefaultInputFormValues(updatedFormValues);
   };
 
+  const isCorsRuleAdded = () => {
+    const siteConfig = functionEditorContext.functionData.siteConfig;
+    if (siteConfig?.properties.cors?.allowedOrigins) {
+      const referrer = CommonConstants.getReferrer();
+      if (referrer) {
+        return siteConfig.properties.cors.allowedOrigins.filter(allowedOrigin => allowedOrigin.toLocaleLowerCase() === referrer).length > 0;
+      }
+    }
+    return false;
+  };
+
+  const getCorsRuleToRunFromBrowser = () => {
+    return CommonConstants.getReferrer() ?? Url.getPortalUriByEnv;
+  };
+
+  const onMissingCorsMessageClick = () => {
+    addCorsRule(getCorsRuleToRunFromBrowser());
+  };
+
+  const checkCorsAndDisableTest = () => !isCorsRuleAdded() && !!enablePortalCall;
+
+  const getBanner = () => {
+    if (checkCorsAndDisableTest()) {
+      return (
+        <CustomBanner
+          message={t('missingCorsMessage').format(getCorsRuleToRunFromBrowser())}
+          type={MessageBarType.warning}
+          undocked={true}
+          learnMoreLink={Links.corsLearnMore}
+          onClick={() => {
+            onMissingCorsMessageClick();
+          }}
+        />
+      );
+    }
+
+    if (addingCorsRules) {
+      return <CustomBanner message={t('functionEditorCorsWarning')} type={MessageBarType.info} />;
+    } else if (!!responseContent && responseContent.code === 403) {
+      return (
+        <CustomBanner
+          message={t('functionEditor_privateLinkRunMessage')}
+          type={MessageBarType.warning}
+          undocked={true}
+          learnMoreLink={Links.functionsPrivateLinkLearnMore}
+        />
+      );
+    }
+  };
+
+  useEffect(() => {
+    !!responseContent && setSelectedPivotTab(PivotType.output);
+    console.log(responseContent);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [responseContent]);
+
   useEffect(() => {
     setUpdatedInputFormValues();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [testData, xFunctionKey]);
+
   return (
     <Formik
       initialValues={defaultInputFormValues}
@@ -184,7 +249,7 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
           id: 'run',
           title: t('run'),
           onClick: formProps.submitForm,
-          disable: !!statusMessage,
+          disable: !!statusMessage || checkCorsAndDisableTest() || !!addingCorsRules,
           autoFocus: true,
         };
 
@@ -197,25 +262,25 @@ const FunctionTest: React.SFC<FunctionTestProps> = props => {
 
         return (
           <Form className={addEditFormStyle}>
-            {!!responseContent && responseContent.code === 403 && (
-              <CustomBanner
-                message={t('functionEditor_privateLinkRunMessage')}
-                type={MessageBarType.warning}
-                undocked={true}
-                learnMoreLink={Links.functionsPrivateLinkLearnMore}
-              />
-            )}
+            {getBanner()}
             <div className={functionTestBodyStyle}>
-              {selectedPivotTab === PivotType.input && (
-                <FunctionTestInput
-                  {...formProps}
-                  functionInfo={functionInfo}
-                  body={reqBody}
-                  onRequestBodyChange={onRequestBodyChange}
-                  urlObjs={urlObjs}
-                />
-              )}
-              {selectedPivotTab === PivotType.output && <FunctionTestOutput responseContent={responseContent} />}
+              <Pivot
+                selectedKey={selectedPivotTab}
+                onLinkClick={(item?: PivotItem) => !!item && !!item.props.itemKey && setSelectedPivotTab(item.props.itemKey as PivotType)}
+                overflowBehavior={OverflowBehavior.menu}>
+                <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')}>
+                  <FunctionTestInput
+                    {...formProps}
+                    functionInfo={functionInfo}
+                    body={reqBody}
+                    onRequestBodyChange={onRequestBodyChange}
+                    urlObjs={urlObjs}
+                  />
+                </PivotItem>
+                <PivotItem itemKey={PivotType.output} linkText={t('functionTestOutput')}>
+                  <FunctionTestOutput responseContent={responseContent} />
+                </PivotItem>
+              </Pivot>
             </div>
             <ActionBar
               id="function-test-footer"

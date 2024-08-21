@@ -5,7 +5,7 @@ import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { useTranslation } from 'react-i18next';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
-import { Link, MessageBarType } from 'office-ui-fabric-react';
+import { Link, MessageBarType } from '@fluentui/react';
 import { AuthorizationResult, DeploymentCenterCodeFormData, DeploymentCenterFieldProps } from '../DeploymentCenter.types';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { authorizeWithProvider, getTelemetryInfo } from '../utility/DeploymentCenterUtility';

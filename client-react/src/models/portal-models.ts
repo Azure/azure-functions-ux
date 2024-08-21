@@ -41,6 +41,7 @@ export interface IStartupInfo<T> {
   theme: string;
   armEndpoint: string;
   featureInfo: IFeatureInfo<T>;
+  highContrastKey: HighContrastTheme;
 }
 
 export interface IDataMessage<T> {
@@ -48,8 +49,10 @@ export interface IDataMessage<T> {
   data: T;
 }
 
+export type DataMessageStatus = 'success' | 'failed' | 'cancelled';
+
 export interface IDataMessageResult<T> {
-  status: 'success' | 'failed' | 'cancelled';
+  status: DataMessageStatus;
   result: T;
 }
 
@@ -97,6 +100,8 @@ export class Verbs {
   public static getAllSubscriptions = 'get-all-subscriptions';
   public static getSpecCosts = 'get-spec-costs';
   public static broadcastMessage = 'broadcast-message';
+  public static httpRequest = 'http-request-from-portal';
+  public static ibizaExperimentationFlighting = 'ibiza-experimentation-flighting';
 
   public static hasPermission = 'has-permission';
   public static hasLock = 'has-lock';
@@ -111,6 +116,8 @@ export class Verbs {
   public static sendNotificationStarted = 'send-notification-started';
   public static sendData = 'send-data';
   public static loadComplete = 'load-complete';
+  public static sendUpdatedInputs = 'send-updated-inputs';
+  public static xtermReady = 'xterm-ready';
 }
 
 export enum LogEntryLevel {
@@ -254,6 +261,7 @@ export enum BroadcastMessageId {
   slotSwap = 'SLOT_SWAP',
   slotNew = 'SLOT_NEW',
   menuItemSelected = 'SELECTED_MENU_ITEM',
+  swaSkuUpdated = 'SWA_SKU_UPDATED',
 }
 
 export interface BroadcastMessage<T> {
@@ -324,7 +332,7 @@ export enum FunctionAppEditMode {
   ReadOnlyLock,
   ReadOnlyRbac,
   ReadOnlyCustom,
-  ReadOnlyDotnet5,
+  ReadOnlyDotnetIsolated,
   ReadOnlyArc,
   ReadOnlyAzureFiles,
 }
@@ -345,4 +353,10 @@ export enum BladeCloseReason {
 
 export enum OpenBladeSource {
   appSettings = 'app-settings',
+}
+
+export enum HighContrastTheme {
+  None = 0,
+  White = 1,
+  Black = 2,
 }

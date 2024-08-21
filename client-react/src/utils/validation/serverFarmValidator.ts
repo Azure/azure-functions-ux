@@ -8,13 +8,8 @@ const RESTRICTED_NAME = 'default';
 // matches any character(i.e. german, chinese, english) or -
 const INVALID_CHARS_REGEX = /[^\u00BF-\u1FFF\u2C00-\uD7FFa-zA-Z0-9-]/;
 
-export const getServerFarmValidator = <T>(
-  subscriptionId: string,
-  resourceGroupName: string,
-  t: i18next.TFunction,
-  errorMessageOverride?: string
-) => {
-  return (name: string, props?: T) => {
+export const getServerFarmValidator = (subscriptionId: string, resourceGroupName: string, t: i18next.TFunction) => {
+  return (name: string) => {
     return new Promise((resolve, reject) => {
       const errors: any = {};
 

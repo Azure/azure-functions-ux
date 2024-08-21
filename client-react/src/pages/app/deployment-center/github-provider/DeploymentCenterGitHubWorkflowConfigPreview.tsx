@@ -1,9 +1,15 @@
 import React, { useState, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubWorkflowConfigPreviewProps } from '../DeploymentCenter.types';
-import { PanelType, DefaultButton, MessageBarType, PrimaryButton } from 'office-ui-fabric-react';
+import { PanelType, DefaultButton, MessageBarType, PrimaryButton } from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
-import { panelBanner, deploymentCenterConsole, closePreviewButtonStyle, titleWithPaddingStyle } from '../DeploymentCenter.styles';
+import {
+  panelBanner,
+  deploymentCenterConsole,
+  closePreviewButtonStyle,
+  titleWithPaddingStyle,
+  buttonFooterStyle,
+} from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { ThemeContext } from '../../../../ThemeContext';
 
@@ -14,7 +20,8 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
   const theme = useContext(ThemeContext);
 
   const [isPreviewPanelOpen, setIsPreviewPanelOpen] = useState<boolean>(false);
-  const [showInfoBanner, setShowInfoBanner] = useState(true);
+  const [showInfoBanner, setShowInfoBanner] = useState<boolean>(true);
+  const [workflowFileContent, setWorkflowFileContent] = useState<string>('');
 
   const closeInfoBanner = () => {
     setShowInfoBanner(false);
@@ -24,7 +31,20 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
     setIsPreviewPanelOpen(false);
   };
 
-  const workflowFileContent = getWorkflowFileContent();
+  const fetchWorkflowContent = async () => {
+    setWorkflowFileContent(t('loading'));
+    const content = await getWorkflowFileContent();
+    setWorkflowFileContent(content);
+  };
+
+  const onRenderFooterContent = React.useCallback(
+    () => (
+      <div className={buttonFooterStyle(theme)}>
+        <PrimaryButton className={closePreviewButtonStyle} text={t('Close')} onClick={dismissPreviewPanel} ariaLabel={t('Close')} />
+      </div>
+    ),
+    [dismissPreviewPanel]
+  );
 
   return (
     <>
@@ -34,13 +54,19 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
         text={t('deploymentCenterSettingsWorkflowConfigPreviewFileButtonText')}
         ariaLabel={t('deploymentCenterSettingsWorkflowConfigPreviewFileButtonText')}
         onClick={() => {
+          fetchWorkflowContent();
           setIsPreviewPanelOpen(true);
           setShowInfoBanner(true);
         }}
         disabled={isPreviewFileButtonDisabled}
       />
       {isPreviewPanelOpen && (
-        <CustomPanel isOpen={isPreviewPanelOpen} onDismiss={dismissPreviewPanel} type={PanelType.medium}>
+        <CustomPanel
+          isOpen={isPreviewPanelOpen}
+          onDismiss={dismissPreviewPanel}
+          type={PanelType.medium}
+          isFooterAtBottom={true}
+          onRenderFooter={onRenderFooterContent}>
           <h1>{t('deploymentCenterSettingsWorkflowConfigTitle')}</h1>
           {workflowFilePath && <p>{`${t('deploymentCenterWorkflowConfigsFilePathLabel')}: ${workflowFilePath}`}</p>}
 
@@ -56,8 +82,6 @@ const DeploymentCenterGitHubWorkflowConfigPreview: React.FC<DeploymentCenterGitH
           )}
 
           {workflowFileContent && <pre className={deploymentCenterConsole(theme)}>{workflowFileContent}</pre>}
-
-          <PrimaryButton className={closePreviewButtonStyle} text={t('Close')} onClick={dismissPreviewPanel} ariaLabel={t('Close')} />
         </CustomPanel>
       )}
     </>

@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import { addEditFormStyle } from '../../../../components/form-controls/formControl.override.styles';
 import ActionBar from '../../../../components/ActionBar';
-import { Label, Icon } from 'office-ui-fabric-react';
+import { Label, Icon } from '@fluentui/react';
 import { ThemeContext } from '../../../../ThemeContext';
 import { renewPanelStyle, renewPanelIconStyle, renewPanelTextStyle } from './AppKeys.styles';
 

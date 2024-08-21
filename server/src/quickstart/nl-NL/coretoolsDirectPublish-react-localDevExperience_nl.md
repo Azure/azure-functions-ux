@@ -4,7 +4,7 @@ Voordat u aan de slag kunt gaan, moet u <a href="https://go.microsoft.com/fwlink
 
 Voer de volgende opdracht uit om het Core Tools-pakket te installeren:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Een Azure Functions-project maken
@@ -42,6 +42,6 @@ Gebruik **Ctrl-C** in de terminal om de foutopsporing te stoppen.
 
 Als u het Functions-project wilt publiceren in Azure, voert u de volgende opdracht in:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 U wordt mogelijk gevraagd u aan te melden bij Azure. Volg de instructies op het scherm.

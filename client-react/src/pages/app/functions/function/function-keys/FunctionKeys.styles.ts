@@ -36,7 +36,7 @@ export const renewTextStyle = (theme: ThemeExtended) =>
     cursor: 'pointer',
   });
 
-export const deleteButtonStyle = (theme: ThemeExtended) =>
+export const deleteButtonStyle = () =>
   style({
     float: 'right',
   });

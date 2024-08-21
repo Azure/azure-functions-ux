@@ -6,8 +6,12 @@ import {
   DeploymentCenterCodeFormData,
   SiteSourceControlRequestBody,
   WorkflowOption,
+  SiteSourceControlGitHubActionsRequestBody,
+  AppType,
+  PublishType,
+  RuntimeStackOptions,
 } from '../DeploymentCenter.types';
-import { KeyCodes } from 'office-ui-fabric-react';
+import { KeyCodes } from '@fluentui/react';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
 import { useTranslation } from 'react-i18next';
@@ -21,6 +25,7 @@ import DeploymentCenterCommandBar from '../DeploymentCenterCommandBar';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { GitHubActionWorkflowRequestContent, GitHubCommit } from '../../../../models/github';
 import DeploymentCenterData from '../DeploymentCenter.data';
+import { WorkflowFileUrlInfo } from '../DeploymentCenter.types';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
 import {
   getCodeWebAppWorkflowInformation,
@@ -28,6 +33,7 @@ import {
   isApiSyncError,
   updateGitHubActionSourceControlPropertiesManually,
   updateGitHubActionAppSettingsForPython,
+  getRuntimeVersion,
 } from '../utility/GitHubActionUtility';
 import {
   getWorkflowFilePath,
@@ -42,6 +48,8 @@ import GitHubService from '../../../../ApiHelpers/GitHubService';
 import { RuntimeStacks } from '../../../../utils/stacks-utils';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
+import { CommonConstants } from '../../../../utils/CommonConstants';
+import { RepoTypeOptions } from '../../../../models/external';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -54,21 +62,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
   const deploymentCenterData = new DeploymentCenterData();
 
-  const deployKudu = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
-    return siteStateContext.isKubeApp ? setSourceControlsInMetadata(values) : deployKuduUsingSourceControls(values);
-  };
-
-  const deployKuduUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const deployUsingSourceControls = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     //(NOTE: stpelleg) Only external git is expected to be manual integration
     // If manual integration is true the site config scm type is set to be external
-
-    const payload: SiteSourceControlRequestBody = {
-      repoUrl: getRepoUrl(values),
-      branch: values.branch || 'master',
-      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
-      isGitHubAction: values.buildProvider === BuildProvider.GitHubAction,
-      isMercurial: false,
-    };
+    const deployGithubActionsWithSourceControlsApi = !siteStateContext.isKubeApp && values.buildProvider === BuildProvider.GitHubAction;
+    const payload: SiteSourceControlRequestBody | SiteSourceControlGitHubActionsRequestBody = deployGithubActionsWithSourceControlsApi
+      ? getGitHubActionsSourceControlsPayload(values)
+      : getKuduSourceControlsPayload(values);
 
     if (values.sourceProvider === ScmType.LocalGit) {
       return deploymentCenterData.patchSiteConfig(deploymentCenterContext.resourceId, {
@@ -97,8 +97,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           deploymentCenterData,
           deploymentCenterContext.resourceId,
           payload,
-          deploymentCenterContext.gitHubToken,
-          siteStateContext.isKubeApp
+          deploymentCenterContext.gitHubToken
         );
       } else {
         if (!updateSourceControlResponse.metadata.success) {
@@ -113,6 +112,55 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         return updateSourceControlResponse;
       }
     }
+  };
+
+  const getKuduSourceControlsPayload = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>): SiteSourceControlRequestBody => {
+    return {
+      repoUrl: getRepoUrl(values),
+      branch: values.branch || 'master',
+      isManualIntegration: values.sourceProvider === ScmType.ExternalGit,
+      isGitHubAction: false,
+      isMercurial: false,
+    };
+  };
+
+  const getGitHubActionsSourceControlsPayload = (
+    values: DeploymentCenterFormData<DeploymentCenterCodeFormData>
+  ): SiteSourceControlGitHubActionsRequestBody => {
+    const variables = getGitHubActionsConfigurationVariables(values);
+
+    return {
+      repoUrl: getRepoUrl(values),
+      branch: values.branch || 'master',
+      isManualIntegration: false,
+      isGitHubAction: true,
+      deploymentRollbackEnabled: false,
+      isMercurial: false,
+      gitHubActionConfiguration: {
+        generateWorkflowFile: values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add,
+        workflowSettings: {
+          appType: siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp,
+          publishType: PublishType.Code,
+          os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
+          runtimeStack: values.runtimeStack,
+          workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20201201,
+          slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
+          variables: variables,
+        },
+      },
+    };
+  };
+
+  const getGitHubActionsConfigurationVariables = (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+    const variables = {
+      runtimeVersion: getRuntimeVersion(siteStateContext.isLinuxApp, values.runtimeVersion, values.runtimeRecommendedVersion),
+    };
+
+    if (values.runtimeStack === RuntimeStackOptions.Java) {
+      variables['javaContainer'] = values.javaContainer;
+    }
+
+    return variables;
   };
 
   const setSourceControlsInMetadata = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
@@ -130,8 +178,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       deploymentCenterData,
       deploymentCenterContext.resourceId,
       payload,
-      deploymentCenterContext.gitHubToken,
-      siteStateContext.isKubeApp
+      deploymentCenterContext.gitHubToken
     );
   };
 
@@ -144,20 +191,20 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       case ScmType.OneDrive:
         return `${DeploymentCenterConstants.onedriveApiUri}:/${values.folder}`;
       case ScmType.Dropbox:
-        // TODO: (stpelleg): Pending Implementation of these ScmTypes
         return `${DeploymentCenterConstants.dropboxUri}/${values.folder}`;
       case ScmType.LocalGit:
         //(note: stpelleg): Local Git does not require a Repo Url
         return '';
-      case ScmType.ExternalGit:
+      case ScmType.ExternalGit: {
         const repoUrlParts = values.repo.split('://');
         const protocol = repoUrlParts[0];
         const hostContents = repoUrlParts[1];
 
-        if (values.externalUsername && values.externalPassword) {
+        if (values.externalRepoType === RepoTypeOptions.Private && !!values.externalUsername && !!values.externalPassword) {
           return `${protocol}://${values.externalUsername}:${values.externalPassword}@${hostContents}`;
         }
         return values.repo;
+      }
       case ScmType.Vso:
         return values.repo;
       default:
@@ -170,7 +217,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     }
   };
 
-  const deployGithubActions = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
+  const deployGithubActionsManually = async (values: DeploymentCenterFormData<DeploymentCenterCodeFormData>) => {
     portalContext.log(getTelemetryInfo('info', 'commitGitHubActions', 'submit'));
 
     const repo = `${values.org}/${values.repo}`;
@@ -282,19 +329,21 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         }
       }
 
-      const gitHubActionDeployResponse = await deployGithubActions(values);
-      if (!gitHubActionDeployResponse.metadata.success) {
-        portalContext.log(
-          getTelemetryInfo('error', 'gitHubActionDeployResponse', 'failed', {
-            errorAsString: JSON.stringify(gitHubActionDeployResponse.metadata.error),
-          })
-        );
+      if (siteStateContext.isKubeApp) {
+        const gitHubActionDeployResponse = await deployGithubActionsManually(values);
+        if (!gitHubActionDeployResponse.metadata.success) {
+          portalContext.log(
+            getTelemetryInfo('error', 'gitHubActionDeployResponse', 'failed', {
+              errorAsString: JSON.stringify(gitHubActionDeployResponse.metadata.error),
+            })
+          );
 
-        return gitHubActionDeployResponse;
+          return gitHubActionDeployResponse;
+        }
       }
     }
 
-    return deployKudu(values);
+    return siteStateContext.isKubeApp ? setSourceControlsInMetadata(values) : deployUsingSourceControls(values);
   };
 
   const logSaveConclusion = (success: boolean, deploymentProperties: KeyValue<any>) => {
@@ -562,6 +611,14 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       'production'
     );
 
+    const sourceControlDetailsResponse = await deploymentCenterData.getSourceControlDetails(deploymentCenterContext.resourceId);
+    const repoUrl = sourceControlDetailsResponse.data.properties.repoUrl;
+    const workflowFileInfo: WorkflowFileUrlInfo = {
+      repoUrl: repoUrl,
+      branch: branch,
+      workflowFileName: workflowFileName,
+    };
+
     const [appWorkflowDispatchResponse, sourceControlsWorkflowDispatchResponse] = await Promise.all([
       GitHubService.dispatchWorkflow(deploymentCenterContext.gitHubToken, branch, repo, workflowFileName),
       GitHubService.dispatchWorkflow(deploymentCenterContext.gitHubToken, branch, repo, sourceControlsWorkflowFileName),
@@ -570,14 +627,20 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
     if (appWorkflowDispatchResponse.metadata.success || sourceControlsWorkflowDispatchResponse.metadata.success) {
       portalContext.stopNotification(notificationId, true, t('deploymentCenterCodeRedeploySuccess').format(siteName));
     } else if (appWorkflowDispatchResponse.metadata.status === 404 && sourceControlsWorkflowDispatchResponse.metadata.status !== 404) {
-      handleRedeployError(sourceControlsWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
+      handleRedeployError(sourceControlsWorkflowDispatchResponse, notificationId, 'dispatchWorkflow', workflowFileInfo);
     } else {
-      handleRedeployError(appWorkflowDispatchResponse, notificationId, 'dispatchWorkflow');
+      handleRedeployError(appWorkflowDispatchResponse, notificationId, 'dispatchWorkflow', workflowFileInfo);
     }
   };
 
-  const handleRedeployError = (response: any, notificationId: string, action: string) => {
-    const errorMessage = getErrorMessage(response.metadata.error);
+  const handleRedeployError = async (response: any, notificationId: string, action: string, workflowFileUrlInfo?: WorkflowFileUrlInfo) => {
+    let errorMessage = getErrorMessage(response.metadata.error);
+
+    if (errorMessage.toLowerCase() === CommonConstants.workflowDispatchTriggerErrorMessage && !!workflowFileUrlInfo) {
+      const url = `${workflowFileUrlInfo.repoUrl}/blob/${workflowFileUrlInfo.branch}/.github/workflows/${workflowFileUrlInfo.workflowFileName}`;
+      errorMessage = t('missingWorkflowDispatchTrigger').format(url);
+    }
+
     errorMessage
       ? portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFailWithStatusMessage').format(errorMessage))
       : portalContext.stopNotification(notificationId, false, t('deploymentCenterCodeRedeployFail'));

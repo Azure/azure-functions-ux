@@ -28,7 +28,6 @@ import { Url } from '../../shared/Utilities/url';
 import { FeatureComponent } from 'app/shared/components/feature-component';
 import { ArmUtil } from '../../shared/Utilities/arm-utils';
 import { OpenBladeInfo } from '../../shared/models/portal';
-import { NationalCloudEnvironment } from 'app/shared/services/scenario/national-cloud.environment';
 
 @Component({
   selector: 'site-manage',
@@ -364,7 +363,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     this.groups1 = [
       new FeatureGroup(this._translateService.instant(PortalResources.feature_generalSettings), generalFeatures),
       new FeatureGroup(this._translateService.instant(PortalResources.feature_codeDeployment), codeDeployFeatures),
-      new FeatureGroup(this._translateService.instant(PortalResources.feature_developmentTools), developmentToolFeatures.filter(f => !!f)),
+      new FeatureGroup(
+        this._translateService.instant(PortalResources.feature_developmentTools),
+        developmentToolFeatures.filter(f => !!f)
+      ),
     ];
   }
 
@@ -437,46 +439,27 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     ];
 
     if (this._scenarioService.checkScenario(ScenarioIds.addMsi, { site: site }).status !== 'disabled') {
-      if (NationalCloudEnvironment.isBlackforest()) {
-        networkFeatures.push(
-          new BladeFeature(
-            this._translateService.instant(PortalResources.feature_msiName),
-            this._translateService.instant(PortalResources.feature_msiName) +
-              this._translateService.instant(PortalResources.authentication) +
-              'MSI',
-            this._translateService.instant(PortalResources.feature_msiInfo),
-            'image/msi.svg',
-            {
-              detailBlade: 'MSIBlade',
-              detailBladeInputs: { resourceUri: site.id },
-              openAsContextBlade: true,
+      networkFeatures.push(
+        new BladeFeature(
+          this._translateService.instant(PortalResources.feature_msiName),
+          this._translateService.instant(PortalResources.feature_msiName) +
+            this._translateService.instant(PortalResources.authentication) +
+            'MSI',
+          this._translateService.instant(PortalResources.feature_msiInfo),
+          'image/msi.svg',
+          {
+            detailBlade: 'AzureResourceIdentitiesBladeV2',
+            extension: 'Microsoft_Azure_ManagedServiceIdentity',
+            detailBladeInputs: {
+              resourceId: site.id,
+              apiVersion: ARMApiVersions.antaresApiVersion20181101,
+              systemAssignedStatus: 2, // IdentityStatus.Supported
+              userAssignedStatus: 2, // IdentityStatus.Supported
             },
-            this._portalService
-          )
-        );
-      } else {
-        networkFeatures.push(
-          new BladeFeature(
-            this._translateService.instant(PortalResources.feature_msiName),
-            this._translateService.instant(PortalResources.feature_msiName) +
-              this._translateService.instant(PortalResources.authentication) +
-              'MSI',
-            this._translateService.instant(PortalResources.feature_msiInfo),
-            'image/msi.svg',
-            {
-              detailBlade: 'AzureResourceIdentitiesBladeV2',
-              extension: 'Microsoft_Azure_ManagedServiceIdentity',
-              detailBladeInputs: {
-                resourceId: site.id,
-                apiVersion: ARMApiVersions.antaresApiVersion20181101,
-                systemAssignedStatus: 2, // IdentityStatus.Supported
-                userAssignedStatus: 2, // IdentityStatus.Supported
-              },
-            },
-            this._portalService
-          )
-        );
-      }
+          },
+          this._portalService
+        )
+      );
     }
 
     if (this._scenarioService.checkScenario(ScenarioIds.addPushNotifications, { site: site }).status !== 'disabled') {
@@ -569,8 +552,14 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
 
     this.groups2 = [
-      new FeatureGroup(this._translateService.instant(PortalResources.feature_networkingName), networkFeatures.filter(f => !!f)),
-      new FeatureGroup(this._translateService.instant(PortalResources.feature_monitoring), monitoringFeatures.filter(f => !!f)),
+      new FeatureGroup(
+        this._translateService.instant(PortalResources.feature_networkingName),
+        networkFeatures.filter(f => !!f)
+      ),
+      new FeatureGroup(
+        this._translateService.instant(PortalResources.feature_monitoring),
+        monitoringFeatures.filter(f => !!f)
+      ),
     ];
   }
 
@@ -844,7 +833,10 @@ export class SiteManageComponent extends FeatureComponent<TreeViewInfo<SiteData>
     }
     this.groups3 = [
       new FeatureGroup(this._translateService.instant(PortalResources.feature_api), apiManagementFeatures),
-      new FeatureGroup(this._translateService.instant(PortalResources.appServicePlan), appServicePlanFeatures.filter(f => !!f)),
+      new FeatureGroup(
+        this._translateService.instant(PortalResources.appServicePlan),
+        appServicePlanFeatures.filter(f => !!f)
+      ),
       new FeatureGroup(this._translateService.instant(PortalResources.feature_resourceManagement), resourceManagementFeatures),
     ];
   }

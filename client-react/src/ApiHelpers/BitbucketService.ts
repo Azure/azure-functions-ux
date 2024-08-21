@@ -40,7 +40,7 @@ export default class BitbucketService {
     logger?: (page, response) => void
   ): Promise<BitbucketBranch[]> => {
     const url = `${DeploymentCenterConstants.bitbucketApiUrl}/repositories/${org}/${repo}/refs/branches?pagelen=100`;
-    return BitbucketService._getBitbucketObjectList<BitbucketRepository>(url, bitbucketToken, logger);
+    return BitbucketService._getBitbucketObjectList<BitbucketBranch>(url, bitbucketToken, logger);
   };
 
   private static _getBitbucketObjectList = async <T>(url: string, bitbucketToken: string, logger?: (page, response) => void) => {
@@ -49,13 +49,14 @@ export default class BitbucketService {
     let pageNumber = 1;
 
     do {
-      let pageResponse = await BitbucketService._sendBitbucketRequest<BitbucketArrayResponse<T>>(requestUrl, bitbucketToken, 'GET');
+      const pageResponse = await BitbucketService._sendBitbucketRequest<BitbucketArrayResponse<T>>(requestUrl, bitbucketToken, 'GET');
       if (pageResponse.metadata.success && pageResponse.data) {
         bitbucketObjectList.push(...pageResponse.data.values);
 
         requestUrl = pageResponse.data.next;
       } else if (logger && !pageResponse.metadata.success) {
         logger(pageNumber, pageResponse);
+        break;
       }
       ++pageNumber;
     } while (requestUrl);

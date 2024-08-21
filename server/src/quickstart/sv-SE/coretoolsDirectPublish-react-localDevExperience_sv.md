@@ -4,7 +4,7 @@ Innan du börjar måste du <a href="https://go.microsoft.com/fwlink/?linkid=2016
 
 Kör följande kommando för att installera Core Tools-paketet:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Skapa ett Azure Functions-projekt
@@ -42,6 +42,6 @@ Använd **Ctrl-C** i terminalen för att stoppa felsökningen.
 
 Om du vill publicera ditt Functions-projekt i Azure anger du följande kommando:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Du kan uppmanas att logga in i Azure. Följ anvisningarna på skärmen.

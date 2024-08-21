@@ -1,5 +1,5 @@
 import React from 'react';
-import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
+import { TextField as OfficeTextField, ITextFieldProps } from '@fluentui/react';
 import { FieldProps } from 'formik';
 import { Subject } from 'rxjs';
 import { debounceTime } from 'rxjs/operators';
@@ -12,7 +12,7 @@ interface EventMsg {
 class TextField extends React.Component<FieldProps & ITextFieldProps, any> {
   private inputDebouncer = new Subject<EventMsg>();
   private readonly DEBOUNCE_TIME = 300;
-  public componentWillMount() {
+  public componentDidMount() {
     const { field, form } = this.props;
     this.inputDebouncer.pipe(debounceTime(this.DEBOUNCE_TIME)).subscribe(({ e, value }) => {
       form.setFieldValue(field.name, value);

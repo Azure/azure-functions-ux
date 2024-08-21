@@ -1,11 +1,9 @@
 import { FieldProps } from 'formik';
 import get from 'lodash-es/get';
-import { IDropdownOption, IDropdownProps } from 'office-ui-fabric-react/lib/Dropdown';
-import { ResponsiveMode } from 'office-ui-fabric-react/lib/utilities/decorators/withResponsiveMode';
-import React from 'react';
+import { IDropdownOption, IDropdownProps, ResponsiveMode } from '@fluentui/react';
 import DropdownNoFormik from './DropDownnoFormik';
 import { Layout } from './ReactiveFormControl';
-import { Spinner, SpinnerSize } from 'office-ui-fabric-react';
+import { Spinner, SpinnerSize } from '@fluentui/react';
 import { style } from 'typestyle';
 import { useTranslation } from 'react-i18next';
 
@@ -57,7 +55,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
         ...props,
       };
 
-  const errorMessage = get(form.errors, field.name, '') as string;
+  const errorMessage = get(form.touched, field.name, false) ? (get(form.errors, field.name, '') as string) : undefined;
 
   const loadingProps = isLoading
     ? {
@@ -75,7 +73,7 @@ const Dropdown = (props: FieldProps & IDropdownProps & CustomDropdownProps) => {
       onBlur={field.onBlur}
       errorMessage={errorMessage}
       // Overriding default dropdown to panel transfer due to many of our dropdown existing in panels
-      // https://github.com/OfficeDev/office-ui-fabric-react/commit/1aa8ab4e9e16ecc17d8e90c1374c0958eba77ee3#diff-406409baf14f369160f322b075e148d4
+      // https://github.com/OfficeDev/@fluentui/reactcommit/1aa8ab4e9e16ecc17d8e90c1374c0958eba77ee3#diff-406409baf14f369160f322b075e148d4
       responsiveMode={ResponsiveMode.large}
       disabled={isLoading || props.disabled}
       {...loadingProps}

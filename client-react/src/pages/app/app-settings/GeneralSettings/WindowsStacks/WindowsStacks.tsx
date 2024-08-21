@@ -1,5 +1,5 @@
 import { FormikProps } from 'formik';
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormValues } from '../../AppSettings.types';
 import DotNetStack from './DotNetStack';
@@ -7,9 +7,11 @@ import JavaStack from './JavaStack';
 import PhpStack from './PhpStack';
 import PythonStack from './PythonStack';
 import { PermissionsContext, WebAppStacksContext } from '../../Contexts';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import { RuntimeStacks } from '../../../../../utils/stacks-utils';
 import DropdownNoFormik from '../../../../../components/form-controls/DropDownnoFormik';
+import { Links } from '../../../../../utils/FwLinks';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
 
 export type StackProps = FormikProps<AppSettingsFormValues>;
 
@@ -36,7 +38,8 @@ const WindowsStacks: React.FC<StackProps> = props => {
           stackValue === RuntimeStacks.java ||
           stackValue === RuntimeStacks.php ||
           stackValue === RuntimeStacks.python ||
-          stackValue === RuntimeStacks.dotnet
+          stackValue === RuntimeStacks.dotnet ||
+          stackValue === RuntimeStacks.node
         );
       })
       .map(stack => {
@@ -59,6 +62,21 @@ const WindowsStacks: React.FC<StackProps> = props => {
     props.setFieldValue('currentlySelectedStack', selectedDropdownValue);
   };
 
+  const getInfoBubleObject = useCallback(() => {
+    if (!stackDropdownValue) {
+      return {
+        infoBubbleMessage: t('stackInfoMessage'),
+      };
+    } else if (stackDropdownValue === RuntimeStacks.node) {
+      return {
+        infoBubbleMessage: t('nodeStackLearnMore').format(CommonConstants.AppSettingNames.websiteNodeDefaultVersion),
+        learnMoreLink: Links.configureNodeLearnMore,
+      };
+    } else {
+      return {};
+    }
+  }, [stackDropdownValue]);
+
   useEffect(() => {
     setStackDropdownValues(values);
 
@@ -74,6 +92,7 @@ const WindowsStacks: React.FC<StackProps> = props => {
         id="app-settings-stack-dropdown"
         onChange={onStackDropdownChange}
         selectedKey={stackDropdownValue}
+        {...getInfoBubleObject()}
       />
       {values.currentlySelectedStack === RuntimeStacks.dotnet ||
       values.currentlySelectedStack === RuntimeStacks.dotnetcore ||

@@ -1,7 +1,5 @@
-import { IChoiceGroupStyleProps, IChoiceGroupStyles } from 'office-ui-fabric-react/lib/ChoiceGroup';
-import { getGlobalClassNames } from '@uifabric/styling';
+import { getGlobalClassNames, IChoiceGroupStyleProps, IChoiceGroupStyles, IStyleFunction } from '@fluentui/react';
 import { ThemeExtended } from '../../SemanticColorsExtended';
-import { IStyleFunction } from 'office-ui-fabric-react/lib/Utilities';
 
 const GlobalClassNames = {
   root: 'ms-ChoiceFieldGroup',

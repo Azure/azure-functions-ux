@@ -4,7 +4,7 @@
 
 다음 명령을 실행하여 Core Tools 패키지를 설치합니다.
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Azure Functions 프로젝트 만들기
@@ -42,6 +42,6 @@
 
 Functions 프로젝트를 Azure에 게시하려면 다음 명령을 입력합니다.
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Azure에 로그인하라는 메시지가 표시될 수 있습니다. 화면의 지시를 따릅니다.

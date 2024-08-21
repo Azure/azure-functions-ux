@@ -3,7 +3,7 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { useTranslation } from 'react-i18next';
 import { choiceGroupSubLabel, disconnectLink, disconnectWorkflowInfoStyle } from '../DeploymentCenter.styles';
-import { Link, Icon, PanelType, ChoiceGroup, ProgressIndicator } from 'office-ui-fabric-react';
+import { Link, Icon, PanelType, ChoiceGroup, ProgressIndicator } from '@fluentui/react';
 import {
   DeploymentCenterGitHubDisconnectProps,
   DeploymentDisconnectStatus,
@@ -76,8 +76,7 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
       })
     );
 
-    const deleteWorkflowFileStatus = await deleteWorkflowFileIfNeeded(deleteWorkflowDuringDisconnect);
-    const deleteSourceControlStatus = await deleteSourceControl(deleteWorkflowDuringDisconnect, deleteWorkflowFileStatus);
+    const deleteSourceControlStatus = await deleteSourceControl(deleteWorkflowDuringDisconnect);
 
     if (deleteSourceControlStatus.isSuccessful) {
       formProps.resetForm();
@@ -95,13 +94,14 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
   // NOTE(michinoy): Eventually the deletion of workflow file will move entirely to the backend API.
   // As we are transitioning from having all the logic in the UX to the API, we are passing in the 'deleteWorkflowDuringDisconnect' flag.
   // This will make sure we are deleting the workflow from the UX only for now.
-  const deleteSourceControl = async (deleteWorkflowDuringDisconnect: boolean, deleteWorkflowFileStatus: DeploymentDisconnectStatus) => {
+  const deleteSourceControl = async (deleteWorkflowDuringDisconnect: boolean) => {
     return siteStateContext.isKubeApp
-      ? clearMetadataAndConfig(deleteWorkflowDuringDisconnect, deleteWorkflowFileStatus)
-      : deleteSourceControlDetails(deleteWorkflowDuringDisconnect, deleteWorkflowFileStatus);
+      ? clearMetadataAndConfig(deleteWorkflowDuringDisconnect)
+      : deleteSourceControlDetails(deleteWorkflowDuringDisconnect);
   };
 
-  const clearMetadataAndConfig = async (deleteWorkflowDuringDisconnect: boolean, deleteWorkflowFileStatus: DeploymentDisconnectStatus) => {
+  const clearMetadataAndConfig = async (deleteWorkflowDuringDisconnect: boolean) => {
+    const deleteWorkflowFileStatus = await deleteWorkflowFileManually(deleteWorkflowDuringDisconnect);
     if (deleteWorkflowFileStatus.isSuccessful) {
       portalContext.log(getTelemetryInfo('info', 'clearMetadataAndConfig', 'submit'));
 
@@ -146,58 +146,51 @@ const DeploymentCenterGitHubDisconnect: React.FC<DeploymentCenterGitHubDisconnec
     }
   };
 
-  const deleteSourceControlDetails = async (
-    deleteWorkflowDuringDisconnect: boolean,
-    deleteWorkflowFileStatus: DeploymentDisconnectStatus
-  ) => {
-    if (deleteWorkflowFileStatus.isSuccessful) {
-      portalContext.log(getTelemetryInfo('info', 'deleteSourceControlDetails', 'submit'));
+  const deleteSourceControlDetails = async (deleteWorkflowDuringDisconnect: boolean) => {
+    portalContext.log(getTelemetryInfo('info', 'deleteSourceControlDetails', 'submit'));
 
-      const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(
-        deploymentCenterContext.resourceId,
-        deleteWorkflowDuringDisconnect
+    const deleteSourceControlDetailsResponse = await deploymentCenterData.deleteSourceControlDetails(
+      deploymentCenterContext.resourceId,
+      deleteWorkflowDuringDisconnect
+    );
+
+    if (!deleteSourceControlDetailsResponse.metadata.success) {
+      portalContext.log(
+        getTelemetryInfo('error', 'deleteSourceControlDetailsResponse', 'failed', {
+          message: getErrorMessage(deleteSourceControlDetailsResponse.metadata.error),
+          errorAsString: JSON.stringify(deleteSourceControlDetailsResponse.metadata.error),
+        })
       );
 
-      if (!deleteSourceControlDetailsResponse.metadata.success) {
-        portalContext.log(
-          getTelemetryInfo('error', 'deleteSourceControlDetailsResponse', 'failed', {
-            message: getErrorMessage(deleteSourceControlDetailsResponse.metadata.error),
-            errorAsString: JSON.stringify(deleteSourceControlDetailsResponse.metadata.error),
-          })
-        );
+      const failedStatus: DeploymentDisconnectStatus = {
+        step: DeployDisconnectStep.ClearSCMSettings,
+        isSuccessful: false,
+        error: deleteSourceControlDetailsResponse.metadata.error,
+      };
 
-        const failedStatus: DeploymentDisconnectStatus = {
-          step: DeployDisconnectStep.ClearSCMSettings,
-          isSuccessful: false,
-          error: deleteSourceControlDetailsResponse.metadata.error,
-        };
+      const errorMessage = getErrorMessage(deleteSourceControlDetailsResponse.metadata.error);
 
-        const errorMessage = getErrorMessage(deleteSourceControlDetailsResponse.metadata.error);
-
-        if (errorMessage) {
-          failedStatus.errorMessage = deleteWorkflowDuringDisconnect
-            ? t('disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage').format(errorMessage)
-            : t('disconnectingDeploymentFailWithMessage').format(errorMessage);
-        } else {
-          failedStatus.errorMessage = deleteWorkflowDuringDisconnect
-            ? t('disconnectingDeploymentFailWorkflowFileDeleteSucceeded')
-            : t('disconnectingDeploymentFail');
-        }
-
-        return failedStatus;
+      if (errorMessage) {
+        failedStatus.errorMessage = deleteWorkflowDuringDisconnect
+          ? t('disconnectingDeploymentFailWorkflowFileDeleteSucceededWithMessage').format(errorMessage)
+          : t('disconnectingDeploymentFailWithMessage').format(errorMessage);
       } else {
-        const successStatus: DeploymentDisconnectStatus = {
-          step: DeployDisconnectStep.ClearSCMSettings,
-          isSuccessful: true,
-        };
-        return successStatus;
+        failedStatus.errorMessage = deleteWorkflowDuringDisconnect
+          ? t('disconnectingDeploymentFailWorkflowFileDeleteSucceeded')
+          : t('disconnectingDeploymentFail');
       }
+
+      return failedStatus;
     } else {
-      return deleteWorkflowFileStatus;
+      const successStatus: DeploymentDisconnectStatus = {
+        step: DeployDisconnectStep.ClearSCMSettings,
+        isSuccessful: true,
+      };
+      return successStatus;
     }
   };
 
-  const deleteWorkflowFileIfNeeded = async (deleteWorkflowDuringDisconnect: boolean) => {
+  const deleteWorkflowFileManually = async (deleteWorkflowDuringDisconnect: boolean) => {
     const errorMessage = t('githubActionDisconnectWorkflowDeleteFailed').format(workflowFileName, branch, repoUrl);
 
     const successStatus: DeploymentDisconnectStatus = {

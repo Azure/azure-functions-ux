@@ -1,5 +1,5 @@
-import { Link } from 'office-ui-fabric-react/lib/Link';
-import React, { useContext } from 'react';
+import { Link } from '@fluentui/react';
+import { useContext } from 'react';
 import ReactSVG from 'react-svg';
 import { style } from 'typestyle';
 

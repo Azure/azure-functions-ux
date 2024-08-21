@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
+import { ACRCredentialType, ContainerOptions, DeploymentCenterContainerAcrSettingsProps } from '../DeploymentCenter.types';
 import { Field } from 'formik';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -8,8 +8,10 @@ import DeploymentCenterContainerComposeFileUploader from './DeploymentCenterCont
 import ComboBox from '../../../../components/form-controls/ComboBox';
 import { ScmType } from '../../../../models/site/config';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import ComboBoxNoFormik from '../../../../components/form-controls/ComboBoxnoFormik';
+import RadioButton from '../../../../components/form-controls/RadioButton';
+import { addIdentityLinkStyle, deploymentCenterAcrBannerDiv } from '../DeploymentCenter.styles';
 
 const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAcrSettingsProps> = props => {
   const {
@@ -24,7 +26,12 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
     loadingImageOptions,
     loadingTagOptions,
     acrSubscription,
+    acrUseManagedIdentities,
+    managedIdentityOptions,
+    loadingManagedIdentities,
+    learnMoreLink,
     fetchRegistriesInSub,
+    openIdentityBlade,
   } = props;
   const { t } = useTranslation();
 
@@ -90,7 +97,9 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
   return (
     <>
       {acrStatusMessage && acrStatusMessageType && (
-        <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} />
+        <div id="acr-status-message-type-div" className={deploymentCenterAcrBannerDiv}>
+          <CustomBanner id="acr-status-message-type" type={acrStatusMessageType} message={acrStatusMessage} learnMoreLink={learnMoreLink} />
+        </div>
       )}
 
       <ComboBoxNoFormik
@@ -103,12 +112,38 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         onChange={(val, newSub) => fetchRegistriesInSub(newSub.key)}
         value={acrSubscription}
       />
-
+      <Field
+        id="container-acr-credentials"
+        label={t('authentication')}
+        name="acrCredentialType"
+        component={RadioButton}
+        options={[
+          { key: ACRCredentialType.adminCredentials, text: t('adminCredentials') },
+          { key: ACRCredentialType.managedIdentity, text: t('managedIdentity') },
+        ]}
+        displayInVerticalLayout={true}
+      />
+      {acrUseManagedIdentities && (
+        <Field
+          id="container-acr-managed-identities-type"
+          label={t('identity')}
+          name="acrManagedIdentityType"
+          component={ComboBox}
+          placeholder={t('managedIdentityTypePlaceholder')}
+          options={managedIdentityOptions}
+          isLoading={loadingManagedIdentities}
+          onRenderLowerContent={() => (
+            <Link id="container-acr-add-identity-link" className={addIdentityLinkStyle} onClick={openIdentityBlade}>
+              {t('addIdentity')}
+            </Link>
+          )}
+        />
+      )}
       <Field
         id="container-acr-repository"
         label={t('containerACRRegistry')}
         name="acrLoginServer"
-        selectedKey={!!formProps.values.acrLoginServer ? formProps.values.acrLoginServer.toLocaleLowerCase() : ''}
+        selectedKey={formProps.values.acrLoginServer?.toLocaleLowerCase() ?? ''}
         component={ComboBox}
         allowFreeform
         autoComplete="on"
@@ -123,6 +158,14 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
         <>
           {!isGitHubActionSelected && (
             <>
+              {acrUseManagedIdentities && (
+                <div id="acr-managed-identities-info-banner" className={deploymentCenterAcrBannerDiv}>
+                  <MessageBar id="acr-info-message-bar" messageBarType={MessageBarType.info} isMultiline={true}>
+                    {t('managedIdentityInfoMessage')}
+                  </MessageBar>
+                </div>
+              )}
+
               <Field
                 id="container-acr-image"
                 label={t('containerACRImage')}
@@ -172,7 +215,7 @@ const DeploymentCenterContainerAcrSettings: React.FC<DeploymentCenterContainerAc
             </>
           )}
 
-          <Field id="container-acr-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
+          <Field id="container-acr-startUpFileOrCommand" name="command" component={TextField} label={t('containerStartupFileOrCommand')} />
         </>
       )}
 

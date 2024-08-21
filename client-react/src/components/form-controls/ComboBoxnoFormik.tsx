@@ -1,6 +1,5 @@
-import React, { useContext } from 'react';
-import { ComboBox, IComboBoxProps, IComboBoxOption } from 'office-ui-fabric-react/lib/ComboBox';
-
+import { useContext } from 'react';
+import { ComboBox, IComboBoxProps, IComboBoxOption } from '@fluentui/react';
 import { ThemeContext } from '../../ThemeContext';
 import { comboboxStyleOverrides } from './formControl.override.styles';
 import { useWindowSize } from 'react-use';

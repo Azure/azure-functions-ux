@@ -13,16 +13,7 @@ import {
   tableValueTextFieldStyle,
 } from './FunctionKeys.styles';
 import FunctionKeysCommandBar from './FunctionKeysCommandBar';
-import {
-  ActionButton,
-  IColumn,
-  TooltipHost,
-  ICommandBarItemProps,
-  DetailsListLayoutMode,
-  SelectionMode,
-  SearchBox,
-  PanelType,
-} from 'office-ui-fabric-react';
+import { ActionButton, IColumn, TooltipHost, ICommandBarItemProps, DetailsListLayoutMode, SelectionMode, PanelType } from '@fluentui/react';
 import { defaultCellStyle } from '../../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import { FunctionKeysContext } from './FunctionKeysDataLoader';
 import IconButton from '../../../../../components/IconButton/IconButton';
@@ -35,8 +26,8 @@ import { LogCategories } from '../../../../../utils/LogCategories';
 import LogService from '../../../../../utils/LogService';
 import { PortalContext } from '../../../../../PortalContext';
 import { getErrorMessageOrStringify, getErrorMessage } from '../../../../../ApiHelpers/ArmHelper';
-import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
 import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
+import { getSearchFilter } from '../../../../../components/form-controls/SearchBox';
 
 interface FunctionKeysProps {
   resourceId: string;
@@ -62,7 +53,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
   const [showPanel, setShowPanel] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [renewKey, setRenewKey] = useState(emptyKey);
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState<string>('');
   const [panelItem, setPanelItem] = useState('');
   const [currentKey, setCurrentKey] = useState(emptyKey);
   const [shownValues, setShownValues] = useState<string[]>([]);
@@ -168,7 +159,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
 
   const deleteHostKey = async (deletingKey: string | undefined) => {
     closeDialog();
-    if (!!deletingKey) {
+    if (deletingKey) {
       setRefreshLoading(true);
       const notificationId = portalCommunicator.startNotification(
         t('deleteFunctionKeyNotification'),
@@ -242,7 +233,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
       return (
         <TooltipHost content={t('delete')} id={`function-keys-delete-tooltip-${index}`} calloutProps={{ gapSpace: 0 }} closeDelay={500}>
           <IconButton
-            className={`${defaultCellStyle} ${deleteButtonStyle(theme)}`}
+            className={`${defaultCellStyle} ${deleteButtonStyle()}`}
             disabled={!appPermission}
             id={`function-keys-delete-${index}`}
             iconProps={{ iconName: 'Delete' }}
@@ -320,6 +311,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
         onClick: flipHideSwitch,
         iconProps: { iconName: !showValues ? 'RedEye' : 'Hide' },
         name: !showValues ? t('showValues') : t('hideValues'),
+        ariaLabel: !showValues ? t('showValues') : t('hideValues'),
       },
     ];
   };
@@ -349,15 +341,7 @@ const FunctionKeys: React.FC<FunctionKeysProps> = props => {
             selectionPreservedOnEmptyClick={true}
             emptyMessage={t('emptyFunctionKeys')}
             shimmer={{ lines: 2, show: loading }}>
-            <SearchBox
-              id="function-keys-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterTextFieldStyle}
-              placeholder={t('filterFunctionKeys')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
+            {getSearchFilter('function-keys-search', setFilterValue, t('filterFunctionKeys'))}
           </DisplayTableWithCommandBar>
           {dialogType === DialogType.renew ? (
             <ConfirmDialog

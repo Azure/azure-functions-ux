@@ -1,8 +1,8 @@
-import { IPalette } from 'office-ui-fabric-react/lib/Styling';
+import { IPalette } from '@fluentui/react';
 import { ThemeExtended } from './SemanticColorsExtended';
 import { AzurePortalColors as LightThemePortalColors } from './light';
 
-const AzurePortalColors = {
+export const AzurePortalColors = {
   lineSeparator: 'rgba(107, 132, 156, 0.25)',
   sectionDividerScrollbar: 'rgba(107, 132, 156, 0.35)',
   background: '#111111',
@@ -46,7 +46,7 @@ const AzurePortalColors = {
   cardBackgroundColor: '#2b2b2b',
 };
 
-const themePalette: IPalette = {
+export const themePalette: IPalette = {
   themePrimary: '#4894fe',
   themeLighterAlt: '#03070a',
   themeLighter: '#0a1a27',
@@ -99,9 +99,13 @@ const themePalette: IPalette = {
   greenLight: '#bad80a',
 };
 
-const semanticColors = {
+export const semanticColors = {
   bodyBackground: AzurePortalColors.background,
   bodyStandoutBackground: AzurePortalColors.sectionBackground,
+  bodyBackgroundHovered: AzurePortalColors.background,
+  bodyBackgroundChecked: AzurePortalColors.background,
+  cardStandoutBackground: AzurePortalColors.cardBackgroundColor,
+  severeWarningBackground: AzurePortalColors.warningBackground,
   bodyFrameBackground: AzurePortalColors.background,
   bodyFrameDivider: AzurePortalColors.sectionDividerScrollbar,
   bodyText: AzurePortalColors.textColor,
@@ -110,7 +114,6 @@ const semanticColors = {
   bodyDivider: AzurePortalColors.sectionDividerScrollbar,
 
   disabledBackground: AzurePortalColors.buttonDisabled,
-
   disabledBodyText: AzurePortalColors.disabledText,
   disabledSubtext: AzurePortalColors.disabledText,
 
@@ -118,10 +121,13 @@ const semanticColors = {
   variantBorder: AzurePortalColors.standardControlOutlineAccent,
   variantBorderHovered: AzurePortalColors.standardControlOutlineHover,
   defaultStateBackground: AzurePortalColors.standardControlOutlineDisabled,
+  disabledBorder: 'transparent',
 
   warningText: AzurePortalColors.textColor,
   warningHighlight: AzurePortalColors.warningIcon,
   blockingBackground: AzurePortalColors.errorBackground,
+  cardShadow: AzurePortalColors.cardBackgroundColor,
+  cardShadowHovered: AzurePortalColors.cardBackgroundColor,
 
   inputBorder: AzurePortalColors.textControlOutlineRest,
   inputBorderHovered: AzurePortalColors.textControlOutlineHovered,
@@ -132,6 +138,10 @@ const semanticColors = {
   inputFocusBorderAlt: AzurePortalColors.standardControlOutlineAccent,
   smallInputBorder: AzurePortalColors.standardControlOutlineRest,
   inputPlaceholderText: AzurePortalColors.placeholderText,
+  inputPlaceholderBackgroundChecked: AzurePortalColors.buttonPressed,
+  inputIconDisabled: AzurePortalColors.buttonDisabled,
+  inputIconHovered: AzurePortalColors.buttonHovered,
+  inputIcon: AzurePortalColors.hyperlinkText,
 
   buttonBackground: AzurePortalColors.background,
   buttonBackgroundChecked: AzurePortalColors.buttonPressed,
@@ -184,6 +194,9 @@ const semanticColors = {
   actionLinkHovered: AzurePortalColors.hyperlinkText,
   link: AzurePortalColors.hyperlinkText,
   linkHovered: AzurePortalColors.hyperlinkText,
+  messageLink: AzurePortalColors.hyperlinkText,
+  messageLinkHovered: AzurePortalColors.hyperlinkHoverText,
+  messageText: AzurePortalColors.textColor,
 
   // Deprecated slots, second pass by _fixDeprecatedSlots() later for self-referential slots
   listTextColor: '',
@@ -193,6 +206,8 @@ const semanticColors = {
   inputTextHovered: AzurePortalColors.textControlOutlineHovered,
   accentButtonText: AzurePortalColors.textColor,
   menuItemBackgroundChecked: AzurePortalColors.background,
+  blockingIcon: AzurePortalColors.warningIcon,
+  severeWarningIcon: AzurePortalColors.warningIcon,
   ...AzurePortalColors,
 };
 
@@ -303,7 +318,6 @@ export const darkTheme: Partial<ThemeExtended> = {
       fontWeight: 100,
     },
   },
-  // tslint:disable-next-line:object-shorthand-properties-first
   semanticColors,
   isInverted: false,
   disableGlobalClassNames: false,

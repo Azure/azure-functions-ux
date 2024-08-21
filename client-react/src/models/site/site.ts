@@ -5,6 +5,7 @@ import { SiteConfig } from './config';
 import { CloningInfo } from './cloning-info';
 import { KeyValue } from '../portal-models';
 import { ComputeMode } from './compute-mode';
+import { MsiIdentity } from '../arm-obj';
 
 export enum ContentAvailabilityState {
   Normal = 'Normal',
@@ -55,6 +56,13 @@ export enum SiteDisabledReason {
 export enum ClientCertMode {
   Required = 'Required',
   Optional = 'Optional',
+  OptionalInteractiveUser = 'OptionalInteractiveUser',
+}
+
+export enum MinTlsVersion {
+  tLS10 = '1.0',
+  tLS11 = '1.1',
+  tLS12 = '1.2',
 }
 
 export interface Site {
@@ -114,6 +122,8 @@ export interface Site {
   dailyMemoryTimeQuota: number;
   siteDisabledReason: SiteDisabledReason;
   possibleInboundIpAddresses?: string;
+  virtualNetworkSubnetId?: string;
+  identity: MsiIdentity;
 }
 
 export interface HostNameSslState {

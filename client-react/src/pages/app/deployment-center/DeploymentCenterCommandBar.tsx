@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ICommandBarItemProps, CommandBar, IButtonProps } from 'office-ui-fabric-react';
+import { ICommandBarItemProps, CommandBar, IButtonProps } from '@fluentui/react';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
 import { SiteStateContext } from '../../../SiteState';
@@ -57,22 +57,19 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
 
   const openFeedbackBlade = () => {
     const featureName = 'DeploymentCenter';
-    portalContext.openBlade(
-      {
-        detailBlade: 'InProductFeedbackBlade',
-        extension: 'HubsExtension',
-        openAsContextBlade: true,
-        detailBladeInputs: {
-          bladeName: `${featureName}`,
-          cesQuestion: t('deploymentCenterFeedbackCESQuestion'),
-          cvaQuestion: t('deploymentCenterFeedbackCVAQuestion'),
-          extensionName: 'WebsitesExtension',
-          featureName: `${featureName}`,
-          surveyId: `${featureName}-0920`,
-        },
+    portalContext.openBlade({
+      detailBlade: 'InProductFeedbackBlade',
+      extension: 'HubsExtension',
+      openAsContextBlade: true,
+      detailBladeInputs: {
+        bladeName: `${featureName}`,
+        cesQuestion: t('deploymentCenterFeedbackCESQuestion'),
+        cvaQuestion: t('deploymentCenterFeedbackCVAQuestion'),
+        extensionName: 'WebsitesExtension',
+        featureName: `${featureName}`,
+        surveyId: `${featureName}-0920`,
       },
-      'deployment-center'
-    );
+    });
   };
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {

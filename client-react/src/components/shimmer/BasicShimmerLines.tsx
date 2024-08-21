@@ -1,13 +1,11 @@
 import React from 'react';
 import { wrapperClass, shimmerStyle } from './Shimmer.styles';
-import { Shimmer, Fabric } from 'office-ui-fabric-react';
-interface BasicShimmerLines {
+import { Shimmer, Fabric } from '@fluentui/react';
+interface BasicShimmerLinesProps {
   repeatShimmer?: number;
 }
 
-const BasicShimmerLines: React.FC<BasicShimmerLines> = props => {
-  const { repeatShimmer } = props;
-
+const BasicShimmerLines: React.FC<BasicShimmerLinesProps> = ({ repeatShimmer = 1 }) => {
   const getBasicPattern = (key: string) => {
     const shimmers = [{ width: '40%' }, { width: '30%' }, { width: '50%' }];
     return (
@@ -20,9 +18,8 @@ const BasicShimmerLines: React.FC<BasicShimmerLines> = props => {
   };
 
   const getLines = () => {
-    const lines = !!repeatShimmer ? repeatShimmer : 1;
     const elements: JSX.Element[] = [];
-    for (let i = 0; i < lines; i += 1) {
+    for (let i = 0; i < repeatShimmer; i += 1) {
       elements.push(getBasicPattern(`shimmerGroup-${i}`));
     }
     return elements;

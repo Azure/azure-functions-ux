@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FormAppSetting } from '../AppSettings.types';
 import ActionBar from '../../../../components/ActionBar';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import { getErrorMessage, formAppSettingToUseSlotSetting, formAppSettingToUseStickySetting } from './ApplicationSettings.utils';
 import MonacoEditor from '../../../../components/monaco-editor/monaco-editor';
 
@@ -45,7 +45,7 @@ const AppSettingsBulkEdit: React.FC<AppSettingsBulkEditProps> = props => {
     disable: false,
   };
 
-  const onChange = (newValue, event) => {
+  const onChange = newValue => {
     setAppSettingsState(newValue);
     validate(newValue);
   };

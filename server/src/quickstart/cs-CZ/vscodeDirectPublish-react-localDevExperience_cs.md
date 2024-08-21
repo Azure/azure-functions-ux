@@ -4,7 +4,7 @@ Než začnete, měli byste si <a href="https://go.microsoft.com/fwlink/?linkid=2
 
 Spuštěním následujícího příkazu nainstalujte balíček Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 Potom <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">nainstalujte rozšíření Azure Functions pro Visual Studio Code</a>. Po dokončení instalace tohoto rozšíření klikněte na logo Azure na panelu aktivit. V části **Azure: Functions** klikněte na **Přihlásit se k Azure...** a postupujte podle pokynů na obrazovce.
 

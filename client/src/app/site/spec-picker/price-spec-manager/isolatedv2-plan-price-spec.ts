@@ -3,7 +3,7 @@ import { Kinds, Links, Pricing } from '../../../shared/models/constants';
 import { Tier, SkuCode } from '../../../shared/models/serverFarmSku';
 import { PortalResources } from '../../../shared/models/portal-resources';
 import { AseService } from '../../../shared/services/ase.service';
-import { NationalCloudEnvironment } from '../../../shared/services/scenario/national-cloud.environment';
+import { ArmUtil } from '../../../shared/Utilities/arm-utils';
 import { AppKind } from '../../../shared/Utilities/app-kind';
 import { PriceSpec, PriceSpecInput } from './price-spec';
 import { PlanService } from './../../../shared/services/plan.service';
@@ -91,15 +91,21 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
     return Observable.of(null);
   }
 
+  private _updateHardwareItemsList(isHyperVOrXenon: boolean) {
+    if (isHyperVOrXenon) {
+      this.hardwareItems.unshift({
+        iconUrl: 'image/storage.svg',
+        title: this._ts.instant(PortalResources.hyperVIsolation),
+        description: this._ts.instant(PortalResources.hyperVIsolationDesc),
+      });
+    }
+  }
+
   runInitialization(input: PriceSpecInput) {
-    if (NationalCloudEnvironment.isBlackforest()) {
+    if (!ArmUtil.isASEV3GenerallyAccessible()) {
       this.state = 'hidden';
     } else if (input.planDetails) {
-      if (
-        !input.planDetails.plan.properties.hostingEnvironmentProfile ||
-        input.planDetails.plan.properties.hyperV ||
-        AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic])
-      ) {
+      if (!input.planDetails.plan.properties.hostingEnvironmentProfile || AppKind.hasAnyKind(input.planDetails.plan, [Kinds.elastic])) {
         this.state = 'hidden';
       } else {
         return this._aseService.getAse(input.planDetails.plan.properties.hostingEnvironmentProfile.id).do(r => {
@@ -109,6 +115,9 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
           // ASE permissions to scale their plan.
           if (r.isSuccessful && r.result.kind && r.result.kind.toLowerCase().indexOf(Kinds.aseV3.toLowerCase()) === -1) {
             this.state = 'hidden';
+          } else {
+            const { hyperV, isXenon } = input.planDetails.plan.properties;
+            this._updateHardwareItemsList(hyperV || isXenon);
           }
         });
       }
@@ -116,16 +125,18 @@ export abstract class IsolatedV2PlanPriceSpec extends PriceSpec {
       return this._checkIfSkuEnabledOnStamp(input.planDetails && input.planDetails.plan.id).switchMap(_ => {
         return this.checkIfDreamspark(input.subscriptionId);
       });
-    } else if (
-      input.specPickerInput.data &&
-      (!input.specPickerInput.data.allowAseV3Creation ||
-        input.specPickerInput.data.isXenon ||
-        input.specPickerInput.data.hyperV ||
+    } else if (input.specPickerInput.data) {
+      if (
+        !input.specPickerInput.data.allowAseV3Creation ||
         (input.specPickerInput.data.isNewFunctionAppCreate &&
-          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard)))
-    ) {
-      this.state = 'hidden';
-      return this.checkIfDreamspark(input.subscriptionId);
+          (input.specPickerInput.data.isElastic || input.specPickerInput.data.isWorkflowStandard))
+      ) {
+        this.state = 'hidden';
+        return this.checkIfDreamspark(input.subscriptionId);
+      } else {
+        const { hyperV, isXenon } = input.specPickerInput.data;
+        this._updateHardwareItemsList(hyperV || isXenon);
+      }
     }
 
     return Observable.of(null);

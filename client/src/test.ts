@@ -48,6 +48,7 @@ window.appsvc = {
   },
   cacheBreakQuery: 'test',
   functionsVersionInfo: null,
+  version: undefined,
 };
 
 // Prevent Karma from running prematurely.

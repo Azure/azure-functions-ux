@@ -13,7 +13,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBeFalsy();
   });
 
@@ -28,7 +28,7 @@ describe('getErrorMessage', () => {
         value: '1',
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBeFalsy();
   });
   it('Should give error message if object is put in', () => {
@@ -37,7 +37,7 @@ describe('getErrorMessage', () => {
       value: '6.9.1',
       slotSetting: false,
     });
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBe('appSettingValuesMustBeAnArray');
   });
 
@@ -53,7 +53,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBe('appSettingPropIsRequired');
   });
 
@@ -69,7 +69,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBe('appSettingPropIsRequired');
   });
 
@@ -86,7 +86,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBe('appSettingValueMustBeAString');
   });
 
@@ -103,7 +103,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBe('appSettingValueMustBeAString');
   });
 
@@ -121,8 +121,8 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, false, (key => `${key}:{0}`) as any);
-    expect(errMessage).toBe('invalidAppSettingProperty:testName');
+    const errMessage = getErrorMessage(appSettings, false, false, (key => `${key}:{0}`) as any);
+    expect(errMessage).toBe('appSettingInvalidProperty:testName');
   });
 
   it('Should give error message if slot setting is something other than a boolean', () => {
@@ -138,7 +138,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]);
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBe('slotSettingMustBeBoolean');
   });
 
@@ -155,7 +155,7 @@ describe('getErrorMessage', () => {
         slotSetting: false,
       },
     ]`;
-    const errMessage = getErrorMessage(appSettings, false, (key => key) as any);
+    const errMessage = getErrorMessage(appSettings, false, false, (key => key) as any);
     expect(errMessage).toBe('jsonInvalid');
   });
 });
@@ -170,7 +170,7 @@ describe('formAppSettingToUseSlotSetting', () => {
       },
     ];
 
-    const testOut = formAppSettingToUseSlotSetting(testVal);
+    const testOut = formAppSettingToUseSlotSetting(testVal, false);
     expect(testOut).toEqual(
       JSON.stringify(
         [
@@ -197,7 +197,7 @@ describe('formAppSettingToUseStickySetting', () => {
       },
     ]);
 
-    const testOut = formAppSettingToUseStickySetting(testVal);
+    const testOut = formAppSettingToUseStickySetting(testVal, false, []);
     expect(testOut).toEqual([
       {
         name: 'test',

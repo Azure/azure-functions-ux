@@ -1,0 +1,35 @@
+# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
+# More GitHub Actions for Azure: https://github.com/Azure/actions
+
+name: Build and Deploy Windows Container App to Azure App Service
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build-and-deploy-to-azure:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v1
+
+      - name: Docker login to container registry
+        uses: azure/docker-login@v1
+        with:
+          login-server: ${{ secrets.REGISTRY_NAME }}
+          username: ${{ secrets.REGISTRY_USERNAME }}
+          password: ${{ secrets.REGISTRY_PASSWORD }}
+
+      - name: Build and Push container to registry
+        run: |
+          docker build --file=taskapp/taskapp/Dockerfile -t ${{ secrets.REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }} .
+          docker push ${{ secrets.REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}
+
+      - name: Deploy container to Azure App Service
+        uses: Azure/webapps-deploy@v2
+        with:
+          app-name: ${{ secrets.APP_NAME }}
+          publish-profile: ${{ secrets.PUBLISH_PROFILE }}
+          images: ${{ secrets.REGISTRY_NAME }}/${{ secrets.IMAGE_NAME }}:${{ github.sha }}

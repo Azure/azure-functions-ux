@@ -1,4 +1,3 @@
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../../components/CustomCommandBarButton';
@@ -12,7 +11,8 @@ import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import Url from '../../../../../utils/url';
 import { SiteStateContext } from '../../../../../SiteState';
-import { IContextualMenuItem, ActionButton, IButtonProps } from 'office-ui-fabric-react';
+import { IContextualMenuItem, ActionButton, IButtonProps, CommandBar, ICommandBarItemProps } from '@fluentui/react';
+import { getTelemetryInfo } from '../../common/FunctionsUtility';
 
 interface FunctionLogCommandBarProps {
   isPanelVisible: boolean;
@@ -28,6 +28,7 @@ interface FunctionLogCommandBarProps {
   toggleConnection: () => void;
   clear: () => void;
   toggleMaximize: () => void;
+  useNewFunctionLogsApi?: boolean;
   appInsightsResourceId?: string;
   leftAlignMainToolbarItems?: boolean;
   showLoggingOptionsDropdown?: boolean;
@@ -54,6 +55,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     leftAlignMainToolbarItems,
     showLoggingOptionsDropdown,
     selectedLoggingOption,
+    useNewFunctionLogsApi,
   } = props;
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);
@@ -118,6 +120,9 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
       if (selectedLoggingOption === LoggingOptions.appInsights) {
         setIsLoggingOptionConfirmCallOutVisible(true);
       } else {
+        portalContext.log(
+          getTelemetryInfo('info', 'selectedLoggingOption', 'clicked', { selectedLoggingOption: LoggingOptions.appInsights })
+        );
         props.setSelectedLoggingOption(LoggingOptions.appInsights);
         LogService.trackEvent(LogCategories.functionLog, 'appInsights-logging-selected', {
           resourceId: siteStateContext.resourceId,
@@ -154,7 +159,7 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
     };
   };
 
-  const onRenderFilterItem = (item: IContextualMenuItem, dismissMenu: (ev?: any, dismissAll?: boolean) => void) => {
+  const onRenderFilterItem = (item: IContextualMenuItem) => {
     let iconProps = {};
     if (logLevel === item.data) {
       iconProps = {
@@ -243,21 +248,18 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   const openLiveMetrics = () => {
     if (appInsightsResourceId) {
       const descriptor = new ArmResourceDescriptor(appInsightsResourceId);
-      portalContext.openBlade(
-        {
-          detailBlade: 'QuickPulseBladeV2',
-          detailBladeInputs: {
-            ComponentId: {
-              Name: descriptor.resourceName,
-              SubscriptionId: descriptor.subscription,
-              ResourceGroup: descriptor.resourceGroup,
-            },
-            ResourceId: descriptor.resourceId,
+      portalContext.openBlade({
+        detailBlade: 'QuickPulseBladeV2',
+        detailBladeInputs: {
+          ComponentId: {
+            Name: descriptor.resourceName,
+            SubscriptionId: descriptor.subscription,
+            ResourceGroup: descriptor.resourceGroup,
           },
-          extension: 'AppInsightsExtension',
+          ResourceId: descriptor.resourceId,
         },
-        'function-logs'
-      );
+        extension: 'AppInsightsExtension',
+      });
     }
   };
 
@@ -288,23 +290,27 @@ const FunctionLogCommandBar: React.FC<FunctionLogCommandBarProps> = props => {
   };
 
   const openFeedbackBlade = () => {
-    const featureName = selectedLoggingOption === LoggingOptions.appInsights ? 'FunctionLogs-AppInsights' : 'FunctionLogs-FileBased';
-    portalContext.openBlade(
-      {
-        detailBlade: 'InProductFeedbackBlade',
-        extension: 'HubsExtension',
-        openAsContextBlade: true,
-        detailBladeInputs: {
-          bladeName: `${featureName}`,
-          cesQuestion: t('functionLogsFeedbackCESQuestion'),
-          cvaQuestion: t('functionLogsFeedbackCVAQuestion'),
-          extensionName: 'WebsitesExtension',
-          featureName: `${featureName}`,
-          surveyId: `${featureName}-0420`,
-        },
+    const featureName = getFeatureName();
+    portalContext.openBlade({
+      detailBlade: 'InProductFeedbackBlade',
+      extension: 'HubsExtension',
+      openAsContextBlade: true,
+      detailBladeInputs: {
+        bladeName: `${featureName}`,
+        cesQuestion: t('functionLogsFeedbackCESQuestion'),
+        cvaQuestion: t('functionLogsFeedbackCVAQuestion'),
+        extensionName: 'WebsitesExtension',
+        featureName: `${featureName}`,
+        surveyId: `${featureName}-0420`,
       },
-      'function-logs'
-    );
+    });
+  };
+
+  const getFeatureName = () => {
+    if (selectedLoggingOption === LoggingOptions.fileBased) {
+      return 'FunctionLogs-FileBased';
+    }
+    return useNewFunctionLogsApi ? 'FunctionLogs-AppInsights-V2' : 'FunctionLogs-AppInsights-V1';
   };
 
   const overflowButtonProps: IButtonProps = { ariaLabel: t('moreCommands') };

@@ -6,6 +6,60 @@ export const dotnetStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: '.NET 7 Isolated',
+      value: 'dotnet7isolated',
+      minorVersions: [
+        {
+          displayText: '.NET 7 Isolated',
+          value: '7 (non-LTS)',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v7.0',
+              isPreview: true,
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '7.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                netFrameworkVersion: 'v7.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNET-ISOLATED|7.0',
+              isPreview: true,
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: false,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '7.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                linuxFxVersion: 'DOTNET-ISOLATED|7.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: '.NET 6',
       value: 'dotnet6',
       minorVersions: [
@@ -15,8 +69,7 @@ export const dotnetStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: 'v6.0',
-              isEarlyAccess: true,
-              isPreview: true,
+              isDefault: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -36,8 +89,7 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'DOTNET|6.0',
-              isEarlyAccess: true,
-              isPreview: true,
+              isDefault: true,
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,
@@ -52,6 +104,58 @@ export const dotnetStack: FunctionAppStack = {
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
                 linuxFxVersion: 'DOTNET|6.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+          },
+        },
+      ],
+    },
+    {
+      displayText: '.NET 6 Isolated',
+      value: 'dotnet6isolated',
+      minorVersions: [
+        {
+          displayText: '.NET 6 Isolated',
+          value: '6 Isolated',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: 'v6.0',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '6.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                netFrameworkVersion: 'v6.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'DOTNET-ISOLATED|6.0',
+              isHidden: true,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '6.0.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'dotnet-isolated',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                linuxFxVersion: 'DOTNET-ISOLATED|6.0',
               },
               supportedFunctionsExtensionVersions: ['~4'],
             },
@@ -83,7 +187,6 @@ export const dotnetStack: FunctionAppStack = {
               },
               siteConfigPropertiesDictionary: {
                 use32BitWorkerProcess: true,
-                netFrameworkVersion: 'v5.0',
               },
               supportedFunctionsExtensionVersions: ['~3'],
             },
@@ -121,7 +224,6 @@ export const dotnetStack: FunctionAppStack = {
           stackSettings: {
             windowsRuntimeSettings: {
               runtimeVersion: '3.1',
-              isDefault: true,
               appInsightsSettings: {
                 isSupported: true,
               },
@@ -140,7 +242,6 @@ export const dotnetStack: FunctionAppStack = {
             },
             linuxRuntimeSettings: {
               runtimeVersion: 'dotnet|3.1',
-              isDefault: true,
               appInsightsSettings: {
                 isSupported: true,
               },

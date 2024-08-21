@@ -8,12 +8,14 @@
       "name": "Debug CRA Tests",
       "type": "node",
       "request": "launch",
-      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-scripts",
-      "args": ["test", "--runInBand", "--no-cache"],
+      "runtimeExecutable": "${workspaceRoot}/node_modules/.bin/react-app-rewired",
+      "args": ["test", "--runInBand", "--no-cache", "--watchAll=false"],
       "cwd": "${workspaceRoot}",
       "protocol": "inspector",
       "console": "integratedTerminal",
-      "internalConsoleOptions": "neverOpen"
+      "internalConsoleOptions": "neverOpen",
+      "env": { "CI": "true" },
+      "disableOptimisticBPs": true
     }
   ]
 }

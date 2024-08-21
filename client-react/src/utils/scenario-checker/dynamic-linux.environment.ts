@@ -5,7 +5,7 @@ import { isLinuxDynamic } from '../arm-utils';
 export class DynamicLinuxEnvironment extends Environment {
   public name = 'DynamicLinux';
 
-  constructor(t: (string) => string) {
+  constructor() {
     super();
     this.scenarioChecks[ScenarioIds.listExtensionsArm] = {
       id: ScenarioIds.listExtensionsArm,

@@ -17,13 +17,13 @@ export class LoggingService extends ConsoleLogger implements LoggerService {
     }
   }
 
-  public error(message: any, trace?: string, context?: string) {
+  public error(message, trace?: string, context?: string) {
     super.error(message, trace, context);
 
     this.trackEvent(context, { trace, message: JSON.stringify(message) }, undefined, EventType.Error);
   }
 
-  public warn(message: any, context?: string) {
+  public warn(message, context?: string) {
     super.warn(message, context);
 
     const warningId = `/warnings/server/${context}`;
@@ -31,12 +31,11 @@ export class LoggingService extends ConsoleLogger implements LoggerService {
     this.trackEvent(warningId, message, undefined, EventType.Warning);
   }
 
-  public log(message: any, context?: string) {
+  public log(message, context?: string) {
     super.log(message, context);
 
     const logId = `/info/server/${context}`;
 
-    // tslint:disable-next-line:no-console
     this.trackEvent(logId, message, undefined, EventType.Info);
   }
 
@@ -98,7 +97,7 @@ export class LoggingService extends ConsoleLogger implements LoggerService {
     if (value && (client || etwService)) {
       const counters = JSON.parse(value) as AppServicePerformanceCounters;
       for (const counterName in counters) {
-        if (counters.hasOwnProperty(counterName)) {
+        if (Object.prototype.hasOwnProperty.call(counters, counterName)) {
           const data = { name: counterName, value: counters[counterName] };
           if (client) {
             client.trackMetric(data);

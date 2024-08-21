@@ -1,0 +1,41 @@
+name: "Auto-merge Validation"
+
+on:
+  pull_request:
+    paths:
+      # NOTE(krmitta): We only need to run this for auto generated loc PRs
+      # And these PRs should only be updating *.lcl files
+      - 'server/Resources/**/Resources.resx.lcl'
+      
+jobs:
+  auto-merge-lcl-changes:
+    # NOTE(krmitta): We only need to run this for auto generated loc PRs
+
+    if: ${{ github.actor == 'csigs' }}
+    runs-on: ubuntu-latest
+    env:
+      PR_URL: ${{github.event.pull_request.html_url}}
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      AUTO_LOCALIZATION_LABEL: 'auto-localization-update'
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+      with:
+        # We must fetch at least the immediate parents so that if this is
+        # a pull request then we can checkout the head.
+        fetch-depth: 2
+    # If this run was triggered by a pull request event, then checkout
+    # the head of the pull request instead of the merge commit.
+    - run: git checkout HEAD^2
+      if: ${{ github.event_name == 'pull_request' }}
+
+      # Adding this label to help track and easily differentiate these PRs
+    - name: Auto-Label
+      run: gh pr edit --add-label "$AUTO_LOCALIZATION_LABEL" "$PR_URL"
+      
+    - name: Auto-approve
+      run: gh pr review --approve "$PR_URL"
+        
+    - name: Enable Auto-merge
+      run: gh pr merge --auto --merge "$PR_URL"

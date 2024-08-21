@@ -37,7 +37,15 @@ export class StacksController {
     @Query('removePreviewStacks') removePreviewStacks?: string,
     @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
-    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001, Versions.version20201201]);
+    validateApiVersion(apiVersion, [
+      Versions.version20200601,
+      Versions.version20201001,
+      Versions.version20201201,
+      Versions.version20210101,
+      Versions.version20210115,
+      Versions.version20210201,
+      Versions.version20210301,
+    ]);
     validateOs(os);
     validateFunctionAppStack(apiVersion, stack);
     validateRemoveHiddenStacks(removeHiddenStacks);
@@ -68,6 +76,20 @@ export class StacksController {
           removeHidden,
           removeDeprecated,
           removePreview,
+          removeNonGitHubAction,
+          false /*useIsoDateFormat*/
+        );
+      }
+      case Versions.version20210101:
+      case Versions.version20210115:
+      case Versions.version20210201:
+      case Versions.version20210301: {
+        return this._stackService20201001.getFunctionAppStacks(
+          os,
+          stack as FunctionAppStack20201001Value,
+          removeHidden,
+          removeDeprecated,
+          removePreview,
           removeNonGitHubAction
         );
       }
@@ -84,7 +106,15 @@ export class StacksController {
     @Query('removePreviewStacks') removePreviewStacks?: string,
     @Query('removeNonGitHubActionStacks') removeNonGitHubActionStacks?: string
   ) {
-    validateApiVersion(apiVersion, [Versions.version20200601, Versions.version20201001, Versions.version20201201]);
+    validateApiVersion(apiVersion, [
+      Versions.version20200601,
+      Versions.version20201001,
+      Versions.version20201201,
+      Versions.version20210101,
+      Versions.version20210115,
+      Versions.version20210201,
+      Versions.version20210301,
+    ]);
     validateOs(os);
     validateWebAppStack(apiVersion, stack);
     validateRemoveHiddenStacks(removeHiddenStacks);
@@ -109,6 +139,20 @@ export class StacksController {
       }
       case Versions.version20201001:
       case Versions.version20201201: {
+        return this._stackService20201001.getWebAppStacks(
+          os,
+          stack as WebAppStack20201001Value,
+          removeHidden,
+          removeDeprecated,
+          removePreview,
+          removeNonGitHubAction,
+          false /*useIsoDateFormat*/
+        );
+      }
+      case Versions.version20210101:
+      case Versions.version20210115:
+      case Versions.version20210201:
+      case Versions.version20210301: {
         return this._stackService20201001.getWebAppStacks(
           os,
           stack as WebAppStack20201001Value,

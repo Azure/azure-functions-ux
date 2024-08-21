@@ -9,6 +9,36 @@ export interface StorageAccount {
   statusOfSecondary: string;
 }
 
+export interface BlobContainer {
+  defaultEncryptionScope: string;
+  deleted: boolean;
+  denyEncryptionScopeOverride: boolean;
+  hasImmutabilityPolicy: boolean;
+  hasLegalHold: boolean;
+  immutableStorageWithVersioning: ImmutableStorageWithVersioning;
+  enabled: boolean;
+  lastModifiedTime: string;
+  leaseState: string;
+  leaseStatus: string;
+  publicAccess: string;
+  remainingRetentionDays: number;
+}
+
+export interface FileShareContainer {
+  lastModifiedTime: string;
+  shareQuota: number;
+  version: string;
+  deleted: true;
+  deletedTime: string;
+  remainingRetentionDays: number;
+}
+
+export interface ImmutableStorageWithVersioning {
+  enabled: boolean;
+  migrationState?: string;
+  timeStamp: string;
+}
+
 export interface StorageAccountKeys {
   keys: StorageAccountKey[];
 }
