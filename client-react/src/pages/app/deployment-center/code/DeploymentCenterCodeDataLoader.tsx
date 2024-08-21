@@ -15,6 +15,7 @@ import { DeploymentCenterPublishingContext } from '../authentication/DeploymentC
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { isDataRefreshing, tab } = props;
@@ -22,6 +23,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
 
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
@@ -34,6 +36,10 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   >(undefined);
 
   const generateForm = () => {
+    if (siteStateContext?.site) {
+      deploymentCenterCodeFormBuilder.setSite(siteStateContext.site);
+    }
+
     if (deploymentCenterContext.siteConfig) {
       deploymentCenterCodeFormBuilder.setSiteConfig(deploymentCenterContext.siteConfig);
     }
