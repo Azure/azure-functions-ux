@@ -1477,6 +1477,8 @@ export class PortalResources {
   public static diagnoseAndSolveProblems = 'diagnoseAndSolveProblems';
   public static stackSettings = 'stackSettings';
   public static platformSettings = 'platformSettings';
+  public static functionsAdminIsolation = 'functionsAdminIsolation';
+  public static functionsAdminIsolationInfoBubble = 'functionsAdminIsolationInfoBubble';
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
   public static directToEnvironmentVariablesInfoMessage = 'directToEnvironmentVariablesInfoMessage';
@@ -1915,7 +1917,7 @@ export class PortalResources {
   public static functionsRuntimeVersionExistingFunctionsConfirmationMessage = 'functionsRuntimeVersionExistingFunctionsConfirmationMessage';
   public static githubActionWorkflowScopeMissing = 'githubActionWorkflowScopeMissing';
   public static githubActionWorkflowFileExists = 'githubActionWorkflowFileExists';
-  public static remoteDebuggingVS2015NotSupported = 'remoteDebuggingVS2015NotSupported';
+  public static remoteDebuggingVSVersionNotSupported = 'remoteDebuggingVSVersionNotSupported';
   public static functionCreate_selectTemplate = 'functionCreate_selectTemplate';
   public static functionTestInput = 'functionTestInput';
   public static functionTestOutput = 'functionTestOutput';

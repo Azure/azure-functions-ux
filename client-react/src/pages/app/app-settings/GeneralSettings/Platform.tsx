@@ -11,12 +11,13 @@ import { Links } from '../../../../utils/FwLinks';
 import { IPMode, MinTlsVersion, SslState, VnetPrivatePortsCount } from '../../../../models/site/site';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { IDropdownOption, MessageBar, MessageBarType, mergeStyles } from '@fluentui/react';
-import { ScmHosts } from '../../../../utils/CommonConstants';
+import { CommonConstants, ScmHosts } from '../../../../utils/CommonConstants';
 import MinTLSCipherSuiteSelector from '../../../../components/CipherSuite/MinTLSCipherSuiteSelector';
 import TextFieldNoFormik from '../../../../components/form-controls/TextFieldNoFormik';
 import useStacks from '../Hooks/useStacks';
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
+import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -37,6 +38,11 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     stackVersionDetails.data?.supportedFeatures?.disableSsh,
   ]);
   const gRPCOnlyEnabled = scenarioChecker.checkScenario(ScenarioIds.http20ProxyGRPCOnlySupported, { site });
+
+  const runtimeVersionIsNotV1 = useMemo(() => {
+    const functionsExtensionVersion = values.appSettings.find(x => x.name === CommonConstants.AppSettingNames.functionsExtensionVersion);
+    return functionsExtensionVersion?.value !== RuntimeExtensionMajorVersions.v1;
+  }, [values.appSettings]);
 
   const http20ProxyDropdownItems = useMemo<IDropdownOption[]>(() => {
     const items = [
@@ -483,6 +489,32 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           infoBubbleMessage={t('portCountRange').format(VnetPrivatePortsCount.min, VnetPrivatePortsCount.max)}
         />
       )}
+      {scenarioChecker.checkScenario(ScenarioIds.functionsAdminIsolationSupported, { site }).status !== 'disabled' &&
+        runtimeVersionIsNotV1 && (
+          <Field
+            name="site.properties.functionsRuntimeAdminIsolationEnabled"
+            id="app-settings-functionsRuntimeAdminIsolationEnabled"
+            label={t('functionsAdminIsolation')}
+            infoBubbleMessage={t('functionsAdminIsolationInfoBubble')}
+            learnMoreLink={Links.functionsRuntimeAdminIsolationEnabled}
+            component={RadioButton}
+            dirty={
+              values.site.properties.functionsRuntimeAdminIsolationEnabled !==
+              initialValues.site.properties.functionsRuntimeAdminIsolationEnabled
+            }
+            disabled={disableAllControls}
+            options={[
+              {
+                key: true,
+                text: t('on'),
+              },
+              {
+                key: false,
+                text: t('off'),
+              },
+            ]}
+          />
+        )}
     </div>
   );
 };
