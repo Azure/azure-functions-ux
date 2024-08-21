@@ -55,6 +55,39 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             },
           },
           {
+            displayText: 'Java 21.0.3',
+            value: '21.0.3',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                endOfLifeDate: java21EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '21.0.3',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '21',
+                },
+                endOfLifeDate: java21EOL,
+              },
+            },
+          },
+          {
             displayText: 'Java 21.0.1',
             value: '21.0.1',
             stackSettings: {
@@ -129,6 +162,39 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
             },
           },
           {
+            displayText: 'Java 17.0.11',
+            value: '17.0.11',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '17',
+                },
+                endOfLifeDate: java17EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '17.0.11',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '17',
+                },
+                endOfLifeDate: java17EOL,
+              },
+            },
+          },
+          {
             displayText: 'Java 17.0.9',
             value: '17.0.9',
             stackSettings: {
@@ -160,7 +226,8 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
                 endOfLifeDate: java17EOL,
               },
             },
-          }, {
+          },
+          {
             displayText: 'Java 17.0.4',
             value: '17.0.4',
             stackSettings: {
@@ -320,6 +387,39 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               windowsRuntimeSettings: {
                 runtimeVersion: '11',
                 isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '11',
+                },
+                endOfLifeDate: java11EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Java 11.0.23',
+            value: '11.0.21',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                // Note (jafreebe): Runtime on Linux Java is determined by the Java container
+                runtimeVersion: '',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '11',
+                },
+                endOfLifeDate: java11EOL,
+              },
+              windowsRuntimeSettings: {
+                runtimeVersion: '11.0.23',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -783,6 +883,25 @@ const getJavaStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateForm
               windowsRuntimeSettings: {
                 runtimeVersion: '1.8',
                 isAutoUpdate: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8',
+                },
+                endOfLifeDate: java8EOL,
+              },
+            },
+          },
+          {
+            displayText: 'Java 1.8.0_412',
+            value: '8.0.412',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '1.8.0_412',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
