@@ -24,6 +24,7 @@ import ReactiveFormControl from '../../../../components/form-controls/ReactiveFo
 import { IconConstants } from '../../../../utils/constants/IconConstants';
 import { ThemeContext } from '../../../../ThemeContext';
 import { IconGridCell } from '../../../../components/IconGridCell/IconGridCell';
+import { style } from 'typestyle';
 
 const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -265,6 +266,9 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         label={t('deploymentCenterCodeExternalRepositoryTypeLabel')}
         name="externalRepoType"
         component={RadioButton}
+        formControlClassName={style({
+          marginBottom: '2px !important',
+        })}
         options={[
           {
             key: RepoTypeOptions.Public,
