@@ -21,6 +21,7 @@ export class WorkflowService20221001 {
     const loginToAzureStepPlaceholder = '__login-to-azure-step__';
     const publishProfilePlaceholder = '__publishing-profile__';
     const permissionsPlaceholder = '__permissions__';
+    const environmentPlaceholder = '__environment__';
     if (authType === AuthType.Oidc) {
       //NOTE (stpelleg): OIDC with GitHub Actions requires the id-token permissions to be set to write
       // and the addition of a login to Azure step
@@ -33,9 +34,19 @@ export class WorkflowService20221001 {
           subscription-id: \${{ secrets.__subscriptionidsecretname__ }}\n`;
       const permssions = `permissions:
       id-token: write #This is required for requesting the JWT\n`;
+      const environment = `environment:
+      name: '__slotname__'
+      url: \${{ steps.deploy-to-webapp.outputs.webapp-url }}`;
+
       workflowFile = workflowFile.replace(new RegExp(publishProfilePlaceholder, 'gi'), '');
       workflowFile = workflowFile.replace(new RegExp(loginToAzureStepPlaceholder, 'gi'), loginToAzureStep);
       workflowFile = workflowFile.replace(new RegExp(permissionsPlaceholder, 'gi'), permssions);
+
+      if (variables?.isRemoveEnvEnabled) {
+        workflowFile = workflowFile.replace(new RegExp(environmentPlaceholder, 'gi'), '');
+      } else {
+        workflowFile = workflowFile.replace(new RegExp(environmentPlaceholder, 'gi'), environment);
+      }
     } else {
       workflowFile = workflowFile.replace(
         new RegExp(publishProfilePlaceholder, 'gi'),
