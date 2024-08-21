@@ -1,7 +1,7 @@
 import { IDropdownOption } from '@fluentui/react';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';
@@ -62,7 +62,7 @@ export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack): ID
 export const getJavaMinorVersionAsDropdownOptions = (
   currentJavaMajorVersion: string,
   javaStack: WebAppStack,
-  t: i18next.TFunction
+  t: TFunction
 ): IDropdownOption[] => {
   const currentJavaMajorVersionDetails = javaStack.majorVersions.find(x => x.value === currentJavaMajorVersion);
   const options: IDropdownOption[] = [];
@@ -100,11 +100,7 @@ export const getJavaContainersOptions = (javaContainers: WebAppStack): IDropdown
   return options;
 };
 
-export const getFrameworkVersionOptions = (
-  javaContainers: WebAppStack,
-  selectedJavaContainer: string,
-  t: i18next.TFunction
-): IDropdownOption[] => {
+export const getFrameworkVersionOptions = (javaContainers: WebAppStack, selectedJavaContainer: string, t: TFunction): IDropdownOption[] => {
   const currentFramework = javaContainers.majorVersions.find(x => x.value === selectedJavaContainer);
   const options: IDropdownOption[] = [];
   currentFramework?.minorVersions.forEach(minorVersion => {

@@ -32,7 +32,7 @@ import { KeyValue } from '../../../models/portal-models';
 import { isFlexConsumption, isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { isJBossClusteringShown } from '../../../utils/stacks-utils';
 import { getBasicPublishingCredentialsSCMPolicies, getBasicPublishingCredentialsFTPPolicies } from '../../../utils/CredentialUtilities';
 
@@ -548,7 +548,7 @@ export function isReferenceResolved(reference: ReferenceSummary | Reference) {
   return getReferenceStatus(reference) === ReferenceStatus.resolved;
 }
 
-export function getAzureConfigRefAriaLabel(reference: ReferenceSummary | Reference, t: i18next.TFunction) {
+export function getAzureConfigRefAriaLabel(reference: ReferenceSummary | Reference, t: TFunction) {
   const status = isReferenceResolved(reference);
   if (!status) {
     return t('azureAppConfigRefAriaLabelNotResolved');
@@ -557,7 +557,7 @@ export function getAzureConfigRefAriaLabel(reference: ReferenceSummary | Referen
   }
 }
 
-export function getKeyVaultRefAriaLabel(reference: ReferenceSummary | Reference, t: i18next.TFunction) {
+export function getKeyVaultRefAriaLabel(reference: ReferenceSummary | Reference, t: TFunction) {
   const status = isReferenceResolved(reference);
   if (!status) {
     return t('azureKeyVaultRefNotResolved');
