@@ -7,6 +7,7 @@ import { GithubController } from '../../../src/deployment-center/github/github.c
 import { GitHubFileSearchMockData } from './githubFileSearchMock';
 import { gitHubTreeCallMockResponse } from './github.controller.utility';
 import { Mocked, fn } from 'jest-mock';
+import { AxiosPromise } from 'axios';
 
 describe('GitHub controller test', () => {
   let githubController: GithubController;
@@ -54,9 +55,9 @@ describe('GitHub controller test', () => {
       it('Should return an expected array ', async () => {
         httpServiceMock.get.mockImplementation(url => {
           if (url === `${(githubController as any).githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`) {
-            return Promise.resolve(gitHubTreeCallMockResponse(baseRootFolder));
+            return Promise.resolve(gitHubTreeCallMockResponse(baseRootFolder)) as AxiosPromise;
           }
-          return Promise.reject(new Error(`Unexpected URL`));
+          return Promise.reject(new Error(`Unexpected URL`)) as AxiosPromise;
         });
 
         const foldersInBase = await (githubController as any)._getFoldersInBaseFileLocation(
@@ -74,9 +75,9 @@ describe('GitHub controller test', () => {
       it('Should find fileNameToLookFor.config.json under a subfolder.', async () => {
         httpServiceMock.get.mockImplementation((url: string) => {
           if (url === 'https://api.github.com/clientFolder') {
-            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder));
+            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder)) as AxiosPromise;
           } else if (url === 'https://api.github.com/srcFolder') {
-            return Promise.resolve(gitHubTreeCallMockResponse(srcFolder));
+            return Promise.resolve(gitHubTreeCallMockResponse(srcFolder)) as AxiosPromise;
           }
           return Promise.reject(new Error('Unexpected URL'));
         });
@@ -103,9 +104,9 @@ describe('GitHub controller test', () => {
               (githubController as any).githubApiUrl
             }/repos/${userName}/${repoName}/git/trees/${branchName}:${(githubController as any)._trimFilePath(baseClientPath)}`
           ) {
-            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder));
+            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder)) as AxiosPromise;
           }
-          return Promise.reject(new Error('Unexpected URL'));
+          return Promise.reject(new Error('Unexpected URL')) as AxiosPromise;
         });
 
         const { isFound, folderPath } = await (githubController as any)._searchSpecifiedGitHubFile(
@@ -127,17 +128,17 @@ describe('GitHub controller test', () => {
             case `${
               (githubController as any).githubApiUrl
             }/repos/${userName}/${repoName}/git/trees/${branchName}:${(githubController as any)._trimFilePath(baseClientPath)}`:
-              return Promise.resolve(gitHubTreeCallMockResponse(baseClientFolder));
+              return Promise.resolve(gitHubTreeCallMockResponse(baseClientFolder)) as AxiosPromise;
             case 'https://api.github.com/srcFolder':
-              return Promise.resolve(gitHubTreeCallMockResponse(srcFolder));
+              return Promise.resolve(gitHubTreeCallMockResponse(srcFolder)) as AxiosPromise;
             case 'https://api.github.com/publicFolder':
-              return Promise.resolve(gitHubTreeCallMockResponse(publicFolder));
+              return Promise.resolve(gitHubTreeCallMockResponse(publicFolder)) as AxiosPromise;
             case 'https://api.github.com/publicSub1Folder':
-              return Promise.resolve(gitHubTreeCallMockResponse(publicSub1Folder));
+              return Promise.resolve(gitHubTreeCallMockResponse(publicSub1Folder)) as AxiosPromise;
             case 'https://api.github.com/publicSub2Folder':
-              return Promise.resolve(gitHubTreeCallMockResponse(publicSub2Folder));
+              return Promise.resolve(gitHubTreeCallMockResponse(publicSub2Folder)) as AxiosPromise;
             case 'https://api.github.com/publicSub3Folder':
-              return Promise.resolve(gitHubTreeCallMockResponse(publicSub3Folder));
+              return Promise.resolve(gitHubTreeCallMockResponse(publicSub3Folder)) as AxiosPromise;
             default:
               return Promise.reject(new Error('Not Found'));
           }
@@ -159,11 +160,11 @@ describe('GitHub controller test', () => {
       it('Should not find missingFileName.config.json.', async () => {
         httpServiceMock.get.mockImplementation(url => {
           if (url === `${(githubController as any).githubApiUrl}/repos/${userName}/${repoName}/git/trees/${branchName}`) {
-            return Promise.resolve(gitHubTreeCallMockResponse(baseRootFolder));
+            return Promise.resolve(gitHubTreeCallMockResponse(baseRootFolder)) as AxiosPromise;
           } else if (url === 'https://api.github.com/srcFolder') {
-            return Promise.resolve(gitHubTreeCallMockResponse(srcFolder));
+            return Promise.resolve(gitHubTreeCallMockResponse(srcFolder)) as AxiosPromise;
           } else if (url === 'https://api.github.com/clientFolder') {
-            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder));
+            return Promise.resolve(gitHubTreeCallMockResponse(clientFolder)) as AxiosPromise;
           } else {
             return Promise.reject(new Error('Not Found'));
           }
