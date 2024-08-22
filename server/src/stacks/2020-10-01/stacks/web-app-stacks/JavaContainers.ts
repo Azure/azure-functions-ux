@@ -338,6 +338,33 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
         ],
       },
       {
+        displayText: 'Red Hat JBoss EAP 8 BYO License',
+        value: 'jbosseap8.0_byol',
+        minorVersions: [
+          {
+            displayText: 'Red Hat JBoss EAP 8',
+            value: '8',
+            stackSettings: {
+              linuxContainerSettings: {
+                java11Runtime: 'JBOSSEAP|8-java11_byol',
+                java17Runtime: 'JBOSSEAP|8-java17_byol',
+                isAutoUpdate: true,
+              },
+            },
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 8 update 1',
+            value: '8.0.1',
+            stackSettings: {
+              linuxContainerSettings: {
+                java11Runtime: 'JBOSSEAP|8.0.1-java11_byol',
+                java17Runtime: 'JBOSSEAP|8.0.1-java17_byol',
+              }
+            }
+          },
+        ],
+      },
+      {
         displayText: 'Red Hat JBoss EAP 7',
         value: 'jbosseap',
         minorVersions: [
@@ -469,6 +496,107 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
                 isDeprecated: true
               },
             },
+          },
+        ],
+      },
+      {
+        displayText: 'Red Hat JBoss EAP 7 BYO License',
+        value: 'jbosseap7_byol',
+        minorVersions: [
+          {
+            displayText: 'Red Hat JBoss EAP 7',
+            value: '7',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7-java8_byol',
+                java11Runtime: 'JBOSSEAP|7-java11_byol',
+                java17Runtime: 'JBOSSEAP|7-java17_byol',
+                isAutoUpdate: true,
+              },
+            },
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 7.4.13',
+            value: '7.4.13',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7.4.13-java8_byol',
+                java11Runtime: 'JBOSSEAP|7.4.13-java11_byol',
+                java17Runtime: 'JBOSSEAP|7.4.13-java17_byol'
+              }
+            }
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 7.4.7',
+            value: '7.4.7',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7.4.7-java8_byol',
+                java11Runtime: 'JBOSSEAP|7.4.7-java11_byol',
+                java17Runtime: 'JBOSSEAP|7.4.7-java17_byol'
+              }
+            }
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 7.4.5',
+            value: '7.4.5',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7.4.5-java8_byol',
+                java11Runtime: 'JBOSSEAP|7.4.5-java11_byol',
+                java17Runtime: 'JBOSSEAP|7.4.5-java17_byol'
+              }
+            }
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 7.4.2',
+            value: '7.4.2',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7.4.2-java8_byol',
+                java11Runtime: 'JBOSSEAP|7.4.2-java11_byol'
+              }
+            }
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 7.4.1',
+            value: '7.4.1',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7.4.1-java8_byol',
+                java11Runtime: 'JBOSSEAP|7.4.1-java11_byol'
+              }
+            }
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 7.4.0',
+            value: '7.4.0',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7.4.0-java8_byol',
+                java11Runtime: 'JBOSSEAP|7.4.0-java11_byol'
+              }
+            }
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 7.3.10',
+            value: '7.3.10',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7.3.10-java8_byol',
+                java11Runtime: 'JBOSSEAP|7.3.10-java11_byol'
+              }
+            }
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 7.3.9',
+            value: '7.3.9',
+            stackSettings: {
+              linuxContainerSettings: {
+                java8Runtime: 'JBOSSEAP|7.3.9-java8_byol',
+                java11Runtime: 'JBOSSEAP|7.3.9-java11_byol'
+              }
+            }
           },
         ],
       },
