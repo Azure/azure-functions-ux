@@ -12,7 +12,7 @@ import { PortalResources } from '../../shared/models/portal-resources';
 import { SiteTabIds, KeyCodes, LogCategories } from '../../shared/models/constants';
 import { BroadcastMessageId } from '../../shared/models/portal';
 import { LogService, LogLevel } from 'app/shared/services/log.service';
-import { NationalCloudEnvironment } from './../../shared/services/scenario/national-cloud.environment';
+import { ArmUtil } from '../../shared/Utilities/arm-utils';
 import { Url } from './../../shared/Utilities/url';
 
 export interface StatusMessage {
@@ -27,6 +27,9 @@ interface SpecResult {
   skuCode: string;
   tier: string;
 }
+
+export const ASEV2_CREATE_PACKAGE_NAME = 'Microsoft.AppServiceEnvironmentCreate';
+export const ASEV3_CREATE_PACKAGE_NAME = 'Microsoft.AppServiceEnvironmentCreation';
 
 @Component({
   selector: 'spec-picker',
@@ -215,15 +218,23 @@ export class SpecPickerComponent extends FeatureComponent<TreeViewInfo<SpecPicke
     const selectedSpecGroup = this.specManager.selectedSpecGroup;
     const isEmpty = selectedSpecGroup.recommendedSpecs.length === 0 && this.specManager.selectedSpecGroup.additionalSpecs.length === 0;
 
-    // NOTE(shimedh): This is a temporary change for new WebApp or new ASP creates till we support creation of ASE.
+    //When user is trying to create a new ASP, we will provide a link to 'ASE' create page if it falls into one of two conditions below
+    //Condition 1: ASEv3 is supported, but no recommendation or additional specs are available
+    //Condition 2: ASEv3 is not supported.
     const isNewPlan = this._input.data && !this._input.data.selectedSkuCode;
-    if (!NationalCloudEnvironment.isNationalCloud() && isEmpty && selectedSpecGroup.id === PriceSpecGroupType.ISOLATED && isNewPlan) {
+    if (
+      ((ArmUtil.isASEV3GenerallyAccessible() && isEmpty) || !ArmUtil.isASEV3GenerallyAccessible()) &&
+      selectedSpecGroup.id === PriceSpecGroupType.ISOLATED &&
+      isNewPlan
+    ) {
       const shellUrl = decodeURI(window.location.href);
       selectedSpecGroup.emptyMessage = this._ts.instant(PortalResources.pricing_emptyIsolatedGroupNewPlan);
       selectedSpecGroup.emptyInfoLink = `${Url.getParameterByName(
         shellUrl,
         'trustedAuthority'
-      )}/?websitesextension_fromasporwebappcreate=true#create/Microsoft.AppServiceEnvironmentCreate`;
+      )}/?websitesextension_fromasporwebappcreate=true#create/${
+        ArmUtil.isASEV3GenerallyAccessible() ? ASEV3_CREATE_PACKAGE_NAME : ASEV2_CREATE_PACKAGE_NAME
+      }`;
       selectedSpecGroup.emptyInfoLinkText = this._ts.instant(PortalResources.pricing_emptyIsolatedGroupNewPlanLinkText);
     }
 

@@ -45,7 +45,7 @@ export default class DropboxService {
     };
 
     do {
-      let pageResponse = await DropboxService._sendDropboxRequest(requestUrl, dropboxToken, 'POST', data);
+      const pageResponse = await DropboxService._sendDropboxRequest(requestUrl, dropboxToken, 'POST', data);
       if (pageResponse.metadata.success && pageResponse.data) {
         dropboxObjectList.push(...pageResponse.data.entries);
 
@@ -66,7 +66,7 @@ export default class DropboxService {
   };
 
   private static _sendDropboxRequest = (url: string, dropboxToken: string, method: Method, data: any) => {
-    return sendHttpRequest<DropboxArrayResponse<DropboxFolder[]>>(
+    return sendHttpRequest<DropboxArrayResponse>(
       {
         url,
         method,

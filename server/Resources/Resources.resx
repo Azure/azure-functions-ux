@@ -153,6 +153,9 @@
     <data name="functionCreateErrorMessage" xml:space="preserve">
         <value>Function creation error! Please try again.</value>
     </data>
+    <data name="creatingFunction" xml:space="preserve">
+        <value>Creating function...</value>
+    </data>
     <data name="functionDev_functionErrorDetails" xml:space="preserve">
         <value>Function Error: {{error}}</value>
     </data>
@@ -1567,6 +1570,24 @@
     <data name="clientAffinityEnabledLabel" xml:space="preserve">
         <value>ARR affinity</value>
     </data>
+    <data name="httpsOnlyInfoBoxText" xml:space="preserve">
+        <value>Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.</value>
+    </data>
+    <data name="httpsOnlyLabel" xml:space="preserve">
+        <value>HTTPS Only</value>
+    </data>
+    <data name="httpsOnlyInfoBubbleMessage" xml:space="preserve">
+        <value>Enable this feature to redirect all HTTP traffic to HTTPS.</value>
+    </data>
+    <data name="https20ProxyInfoBubbleMessage" xml:space="preserve">
+        <value>When this setting is enabled, front end will forward HTTP 2.0 traffic to the worker enabling scenarios like GRPC.</value>
+    </data>
+    <data name="minTlsVersionLabel" xml:space="preserve">
+        <value>Minimum TLS Version</value>
+    </data>
+    <data name="minTlsVersionInfoBubbleMessage" xml:space="preserve">
+        <value>Select the minimum TLS encryption version required by your app.</value>
+    </data>
     <data name="clientAffinityInfoText" xml:space="preserve">
         <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
     </data>
@@ -2173,11 +2194,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="validation_shareNameAllowedCharacters" xml:space="preserve">
         <value>Share name can only include alphanumeric characters, underscores, hyphens, square brackets, and parenthesis</value>
     </data>
-    <data name="validation_mountNameAllowedCharacters" xml:space="preserve">
-        <value>Mount path must be a fully qualified path and can only include alphanumeric characters, underscores, hyphens, forward slashes, square brackets, and parenthesis</value>
-    </data>
     <data name="mountPath_info" xml:space="preserve">
-        <value>Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}</value>
+        <value>Following are examples of valid mount paths: {0}. Following are examples of invalid mount paths: {1}.</value>
     </data>
     <data name="validation_invalidMountPath" xml:space="preserve">
         <value>Invalid mount path</value>
@@ -3245,7 +3263,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Isolated pricing tiers within an App Service Environment (ASE) are not available for your configuration.  An ASE is a powerful feature offering of Azure App Service that gives network isolation and improved scale capabilities.</value>
     </data>
     <data name="pricing_emptyIsolatedGroupNewPlan" xml:space="preserve">
-        <value>Inline creation of App Service Environments is currently not supported.</value>
+        <value>To create an app on a new App Service Environment, click a link below to create the environment first.</value>
     </data>
     <data name="pricing_emptyIsolatedGroupNewPlanLinkText" xml:space="preserve">
         <value>Create new App Service Environment</value>
@@ -3309,6 +3327,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="pricing_customDomainsSslDesc" xml:space="preserve">
         <value>Configure and purchase custom domains with SNI SSL bindings</value>
+    </data>
+    <data name="pricing_jboss" xml:space="preserve">
+        <value>JBoss EAP Integrated Support</value>
+    </data>
+    <data name="pricing_jbossDesc" xml:space="preserve">
+        <value>Automatically receive integrated technical support from Red Hat and Azure for your JBoss EAP sites</value>
     </data>
     <data name="pricing_customDomainsIpSslDesc" xml:space="preserve">
         <value>Configure and purchase custom domains with SNI and IP SSL bindings</value>
@@ -3725,6 +3749,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="httpVersion" xml:space="preserve">
         <value>HTTP version</value>
     </data>
+    <data name="http20Proxy" xml:space="preserve">
+        <value>HTTP 2.0 Proxy</value>
+    </data>
     <data name="dismiss" xml:space="preserve">
         <value>Dismiss</value>
     </data>
@@ -3920,6 +3947,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="scmPingFailedErrorMessage" xml:space="preserve">
         <value>Azure Functions Runtime is unreachable.</value>
     </data>
+    <data name="functionEditorCorsWarning" xml:space="preserve">
+        <value>We are setting up the environment to enable testing in the Portal. This will restart your Function App and may take a few minutes.</value>
+    </data>
     <data name="scmPingFailedLearnMore" xml:space="preserve">
         <value>Click here for details on storage configuration.</value>
     </data>
@@ -3986,8 +4016,8 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="containerPassword" xml:space="preserve">
         <value>Password</value>
     </data>
-    <data name="containerStartupFile" xml:space="preserve">
-        <value>Startup File</value>
+    <data name="containerStartupFileOrCommand" xml:space="preserve">
+        <value>Startup file or command</value>
     </data>
     <data name="containerConfigurationSource" xml:space="preserve">
         <value>Configuration Source</value>
@@ -4517,6 +4547,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="stack" xml:space="preserve">
         <value>Stack</value>
     </data>
+    <data name="stackInfoMessage" xml:space="preserve">
+        <value>Select a stack to see how it is currently configured for your app.</value>
+    </data>
     <data name="slots" xml:space="preserve">
         <value>Deployment Slot</value>
     </data>
@@ -5012,14 +5045,29 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="clientCertificateModeAllow" xml:space="preserve">
         <value>Allow</value>
     </data>
+    <data name="clientCertificateModeOptional" xml:space="preserve">
+        <value>Optional</value>
+    </data>
     <data name="clientCertificateModeIgnore" xml:space="preserve">
         <value>Ignore</value>
+    </data>
+    <data name="clientCertificateModeRequiredInfoBubbleMessage" xml:space="preserve">
+        <value>All requests must be authenticated through a client certificate.</value>
+    </data>
+    <data name="clientCertificateModeAllowInfoBubbleMessage" xml:space="preserve">
+        <value>Clients will be prompted for a certificate, if no certificate is provided fallback to SSO or other means of authentication. Unauthenticated requests will be blocked.</value>
+    </data>
+    <data name="clientCertificateModeOptionalInfoBubbleMessage" xml:space="preserve">
+        <value>Clients will not be prompted for a certificate by default. Unless the request can be authenticated through other means (like SSO), it will be blocked.</value>
+    </data>
+    <data name="clientCertificateModeIgnoreInfoBubbleMessage" xml:space="preserve">
+        <value>No client authentication is required. Unauthenticated requests will not be blocked.</value>
     </data>
     <data name="certificateExlusionPaths" xml:space="preserve">
         <value>Certificate exclusion paths</value>
     </data>
     <data name="editCertificateExlusionPaths" xml:space="preserve">
-        <value>edit client eclusion paths</value>
+        <value>edit client exclusion paths</value>
         <comment>This is meant for aria-labeling, not visual</comment>
     </data>
     <data name="noExclusionRulesDefined" xml:space="preserve">
@@ -5067,6 +5115,27 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="filterAppSettings" xml:space="preserve">
         <value>Filter application settings</value>
     </data>
+    <data name="gridItemsCountAriaLabel" xml:space="preserve">
+        <value>{0} {1} for {2}</value>
+        <comment>0: number of results; 1: "result" or "results" depending on the number; 2: search string value</comment>
+    </data>
+    <data name="gridItemsCountAriaLabelNoFilter" xml:space="preserve">
+        <value>{0} {1}</value>
+        <comment>0: number of results; 1: "result" or "results" depending on the number</comment>
+    </data>
+    <data name="gridItemsCountAriaLabelNoResults" xml:space="preserve">
+        <value>No results found for {0}</value>
+        <comment>0: search string value</comment>
+    </data>
+    <data name="gridItemsCountAriaLabelNoFilterNoResults" xml:space="preserve">
+        <value>No results found</value>
+    </data>
+    <data name="result" xml:space="preserve">
+        <value>result</value>
+    </data>
+    <data name="results" xml:space="preserve">
+        <value>results</value>
+    </data>
     <data name="filterConnectionStrings" xml:space="preserve">
         <value>Filter connection strings</value>
     </data>
@@ -5083,7 +5152,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Change App Service plan</value>
     </data>
     <data name="changePlanDescription" xml:space="preserve">
-        <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance.</value>
+        <value>Changing the plan that your app is hosted on allows you to either consolidate your apps into a single plan which allows them to share machine resources, or spread them out to separate plans which allows them to be scaled separately for improved performance. There may be a short amount of down time associated with changing your App Service Plan.</value>
     </data>
     <data name="changePlanLocationTooltip" xml:space="preserve">
         <value>The region that your app currently resides in cannot be changed for new or existing plans.</value>
@@ -5605,7 +5674,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Successfully created {0}</value>
     </data>
     <data name="readonlyBlobStorageWarning" xml:space="preserve">
-        <value>Mounted Blob containers will become read only in Feb 2020.</value>
+        <value>Mounted Blob containers are read only.</value>
     </data>
     <data name="quickstartHeader" xml:space="preserve">
         <value>Learn how to develop Azure Functions locally</value>
@@ -5628,23 +5697,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="commitId" xml:space="preserve">
         <value>Commit ID</value>
     </data>
+    <data name="planType" xml:space="preserve">
+        <value>Plan type</value>
+    </data>
+    <data name="consumptionPlan" xml:space="preserve">
+        <value>Consumption (Serverless)</value>
+    </data>
+    <data name="functionPremiumPlan" xml:space="preserve">
+        <value>Function Premium</value>
+    </data>
     <data name="readWritePermissionsRequired" xml:space="preserve">
         <value>Read/Write permissions are required to view/edit this section.</value>
-    </data>
-    <data name="functionsRuntimeVersionMissingWarning" xml:space="preserve">
-        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please update the runtime version to a valid value (e.g. ~2).</value>
-    </data>
-    <data name="functionsRuntimeVersionLatestOrBetaWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}'. Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionLatestOrBetaWithExactVersionWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}', so your app is using the latest version ({1}). Pinning to '{0}' means you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionNeedsUpdateWarning" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}'. When this version is no longer supported your app will start using the latest version of the runtime, which could be a different major version and might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
-    </data>
-    <data name="functionsRuntimeVersionInvalidWarning" xml:space="preserve">
-        <value>Your custom runtime version ({0}) is not supported. As a result your app is using the latest version {1}, and you will always be running the latest version of the runtime even across major version updates which might contain breaking changes. It is advised to set that value to a specific major version (e.g. ~2) and you will get notified with newer versions for update.</value>
     </data>
     <data name="functionsRuntimeVersionCustomInfo" xml:space="preserve">
         <value>By configuring the value of FUNCTIONS_EXTENSION_VERSION in Application setting, you have opted to use a custom runtime version.</value>
@@ -5676,7 +5739,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionTestOutput" xml:space="preserve">
         <value>Output</value>
     </data>
-    <data name="functionTestInputDescription" xml:space="preserve">
+    <data name="functionTestInputDescriptionForHttp" xml:space="preserve">
         <value>Provide parameters to test the HTTP request. Results can be found in the Output tab.</value>
     </data>
     <data name="httpRun_responseContent" xml:space="preserve">
@@ -5748,6 +5811,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="hostConfigurationLabel" xml:space="preserve">
         <value>Host configuration</value>
     </data>
+     <data name="destinationPlanPlaceholder" xml:space="preserve">
+        <value>Select destination plan</value>
+    </data>
     <data name="configureHostJson" xml:space="preserve">
         <value>Configure host.json</value>
     </data>
@@ -5759,6 +5825,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="pricing_skuCheckWarning" xml:space="preserve">
         <value>Some SKUs might not be available in your region.</value>
+    </data>
+    <data name="premiumToConsumptionWarning" xml:space="preserve">
+        <value>WARNING: Not all features supported in Elastic Premium plans are supported in Consumption. Moving your Function App may cause it to break. Please ensure the Function App is compatible with a Consumption plan and is not using features only available in Premium.</value>
+    </data>
+    <data name="premiumAndConsumptionLinuxInfoMessage" xml:space="preserve">
+        <value>Changing App Service Plan to a Consumption plan is only available for Windows plans.</value>
     </data>
     <data name="githubActionWorkflowOption" xml:space="preserve">
         <value>Workflow Option</value>
@@ -5872,7 +5944,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Are you sure you want to delete the input?</value>
     </data>
     <data name="integrate_bindingsFailedLoading" xml:space="preserve">
-        <value>One or more bindings failed to load, please refresh the page.</value>
+        <value>One or more bindings failed to load. Please try again later.</value>
     </data>
     <data name="integrate_compiledDoNotShowInputOutput" xml:space="preserve">
         <value>When using compiled functions, bindings defined as attributes may not be shown.</value>
@@ -6285,6 +6357,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterFieldRequiredMessage" xml:space="preserve">
         <value>This field is required</value>
     </data>
+    <data name="deploymentCenterFieldPrivateSSHMessage" xml:space="preserve">
+        <value>Deploying with SSH and a private repository is not supported.</value>
+    </data>
     <data name="deploymentCenterExternalRepoMessage" xml:space="preserve">
         <value>The repository must begin with https://</value>
     </data>
@@ -6311,6 +6386,12 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterSettingsRuntimeVersionLabel" xml:space="preserve">
         <value>Version</value>
+    </data>
+    <data name="deploymentCenterConfigureRuntimeMessage" xml:space="preserve">
+        <value>A runtime stack has not been configured for this app. Select a runtime stack here. </value>
+    </data>
+    <data name="deploymentCenterConfigureRuntimeLink" xml:space="preserve">
+        <value>Configure runtime</value>
     </data>
     <data name="deploymentCenterImageAndTagError" xml:space="preserve">
         <value>There was an error fetching the image and tag.</value>
@@ -6571,7 +6652,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>Repository</value>
     </data>
     <data name="deploymentCenterOAuthRepositoryPlaceholder" xml:space="preserve">
-        <value>Select repository</value>
+        <value>Select or type repository</value>
     </data>
     <data name="deploymentCenterOAuthBranch" xml:space="preserve">
         <value>Branch</value>
@@ -6633,8 +6714,11 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="deploymentCenterFeedbackCVAQuestion" xml:space="preserve">
         <value>How valuable is this improved App Service deployment center page?</value>
     </data>
-    <data name="deploymentCenterConfigureGitHubPermissions" xml:space="preserve">
-        <value>If you can’t find an organization or repository, you may need to enable additional permissions on GitHub.</value>
+    <data name="deploymentCenterConfigureGitHubPermissionsKudu" xml:space="preserve">
+        <value>App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app. If you can't find your organization or repository, you may need to enable additional permissions on GitHub.</value>
+    </data>
+    <data name="deploymentCenterConfigureGitHubPermissionsGHA" xml:space="preserve">
+        <value>App Service will place a GitHub Actions workflow in your chosen repository to build and deploy your app whenever there is a commit on the chosen branch. If you can't find an organization or repository, you may need to enable additional permissions on GitHub.</value>
     </data>
     <data name="deploymentCenterProdSlotWarning" xml:space="preserve">
         <value>You’re now in the production slot, which is not recommended for setting up CI/CD.</value>
@@ -6834,9 +6918,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="savingContainerConfigurationFailedWithStatusMessage" xml:space="preserve">
         <value>Failed to save container configuration: {0}</value>
     </data>
-    <data name="functionsRuntimeVersionNeedsUpdateWarningForV2" xml:space="preserve">
-        <value>Your app is currently pinned to runtime version '{0}' and will no longer receive security upgrades after October 2020. It is recommended that you upgrade to the latest version of the runtime. Refer to this article for more information.</value>
-    </data>
     <data name="deploymentCenterServerUrlIsUrl" xml:space="preserve">
         <value>The server URL must begin with https://</value>
     </data>
@@ -6885,9 +6966,6 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="stackVersionPreview" xml:space="preserve">
         <value>{0} (preview)</value>
     </data>
-    <data name="validation_mountPathNotRoot" xml:space="preserve">
-        <value>Mount path cannot be '/'</value>
-    </data>
     <data name="workflowRuntimeSettings" xml:space="preserve">
         <value>Workflow runtime settings</value>
     </data>
@@ -6913,7 +6991,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
         <value>You will not be able to move back to ~2 after upgrading to ~3 as the underlying runtime is unified around ~3.</value>
     </data>
     <data name="deploymentCenterContainerType" xml:space="preserve">
-        <value>Container Type</value>
+        <value>Container type</value>
     </data>
     <data name="deploymentCenterInvalidYaml" xml:space="preserve">
         <value>Invalid YAML</value>
@@ -6948,16 +7026,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="endOfLifeStackMessage" xml:space="preserve">
         <value>The selected version '{0}' will deprecate on {1}. Please consider updating it soon.</value>
     </data>
-    <data name="classicContainerSettingDeprecationMessage" xml:space="preserve">
-        <value>Try out the new and improved Deployment Center to manage your container settings, view logs, and set up continuous deployment (CI/CD) from GitHub or your container registry.</value>
-    </data>
-    <data name="classicDeploymentCenterDeprecationMessage" xml:space="preserve">
-        <value>The Deployment Center (Classic) experience is deprecated and will be removed in March of 2021. To continue managing your deployments, try out the new Deployment Center experience.</value>
-    </data>
     <data name="netVersionLabel" xml:space="preserve">
         <value>.NET version</value>
     </data>
-    <data name="deploymentCenterContainerAcrRegistrieNotAvailable" xml:space="preserve">
+    <data name="deploymentCenterContainerAcrRegistriesNotAvailable" xml:space="preserve">
         <value>No ACR Registries are available in Subscription '{0}'.</value>
     </data>
     <data name="deploymentCenterContainerAcrFailedToLoadRegistriesWithError" xml:space="preserve">
@@ -7172,5 +7244,333 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="deploymentCenterUpdateTokenSuccessMessage" xml:space="preserve">
         <value>Succesfully updated your GitHub token.</value>
+    </data>
+    <data name="missingWorkflowDispatchTrigger" xml:space="preserve">
+        <value>Redeployment failed because your workflow file in your repository does not have a 'workflow_dispatch' trigger. To fix, add the 'workflow_dispatch' trigger to the workflow file under {0}</value>
+    </data>
+    <data name="deploymentCenterWorkflowError" xml:space="preserve">
+        <value>There was an error fetching the workflow file.</value>
+    </data>
+    <data name="enablePortalEditingForLinuxConsumptionWarning" xml:space="preserve">
+        <value>Adding third party dependencies in the Azure portal is currently not supported for Linux Consumption Function Apps. Click here to setup local environment.</value>
+    </data>
+    <data name="validFileShouldBeSelectedWarning" xml:space="preserve">
+        <value>Please select a valid file to upload.</value>
+    </data>
+    <data name="invalidFileSelectedWarning" xml:space="preserve">
+        <value>Invalid {0} file was selected. Please upload a valid file.</value>
+    </data>
+    <data name="switchToJbossWarningBaner" xml:space="preserve">
+        <value>JBoss EAP is jointly supported by Red Hat, switching your web app to JBoss will incur an additional cost per month. </value>
+    </data>
+    <data name="staticSiteEnterpriseGradeEdge" xml:space="preserve">
+        <value>Enterprise-grade edge</value>
+    </data>
+    <data name="staticSiteEnterpriseGradeEdgePrice" xml:space="preserve">
+        <value>{0}/per app/month</value>
+    </data>
+    <data name="adminCredentials" xml:space="preserve">
+        <value>Admin Credentials</value>
+    </data>
+    <data name="managedIdentity" xml:space="preserve">
+        <value>Managed Identity</value>
+    </data>
+    <data name="functionTestInputDescription" xml:space="preserve">
+        <value>Provide parameters to test your function in the portal. Results can be found in the Output tab.</value>
+    </data>
+    <data name="missingCorsMessage" xml:space="preserve">
+        <value>Running your function in portal requires the app to explicitly accept requests from {0}. This is known as cross-origin resource sharing (CORS). Click here to add {0} to the allowed origin configuration.</value>
+    </data>
+    <data name="invalidCronExpressionMessage" xml:space="preserve">
+        <value>Invalid Cron Expression. Please consult the &lt;a href="{0}" target="_blank"&gt;documentation&lt;/a&gt; to learn more.</value>
+    </data>
+    <data name="systemAssigned" xml:space="preserve">
+        <value>System assigned</value>
+    </data>
+    <data name="userAssigned" xml:space="preserve">
+        <value>User assigned</value>
+    </data>
+    <data name="managedIdentityTypePlaceholder" xml:space="preserve">
+        <value>Select managed identity</value>
+    </data>
+    <data name="managedIdentityInfoMessage" xml:space="preserve">
+        <value>When using managed identity, image and tag fields will not auto populate. Please manually enter the image and tag below.</value>
+    </data>
+    <data name="acrCredentialsWarningMessage" xml:space="preserve">
+        <value>Cannot access ACR '{0}' because admin credentials on ACR are disabled, and no managed identity is assigned. Either enable admin credentials, or assign a managed identity below.</value>
+    </data>
+    <data name="addIdentity" xml:space="preserve">
+        <value>Add identity</value>
+    </data>
+    <data name="staticSite_generalSettings" xml:space="preserve">
+        <value>General settings</value>
+    </data>
+    <data name="staticSite_passwordProtection" xml:space="preserve">
+        <value>Password protection</value>
+    </data>
+    <data name="staticSite_passwordProtectionDescription" xml:space="preserve">
+        <value>Select a password protection option. </value>
+    </data>
+    <data name="staticSite_passwordProtectionDisabled" xml:space="preserve">
+        <value>Disabled</value>
+    </data>
+    <data name="staticSite_passwordProtectionEnabledStaging" xml:space="preserve">
+        <value>Protect staging environments only</value>
+    </data>
+    <data name="staticSite_passwordProtectionEnabledProductionAndStaging" xml:space="preserve">
+        <value>Protect both staging and production environments</value>
+    </data>
+    <data name="staticSite_visitorPassword" xml:space="preserve">
+        <value>Visitor password</value>
+    </data>
+    <data name="staticSite_enterVisitorPassword" xml:space="preserve">
+        <value>Enter visitor password</value>
+    </data>
+    <data name="staticSite_confirmVisitorPassword" xml:space="preserve">
+        <value>Confirm visitor password</value>
+    </data>
+    <data name="staticSite_visitorPasswordRequired" xml:space="preserve">
+        <value>Visitor password is required. The password should be at least eight characters long and must contain capital letters, lowercase letters, numbers, and symbols. Key Vault references are not currently supported.</value>
+    </data>
+    <data name="staticSite_confirmVisitorPasswordRequired" xml:space="preserve">
+        <value>Please confirm the visitor password. This value must match the password entered above.</value>
+    </data>
+    <data name="staticSite_configurationFile" xml:space="preserve">
+        <value>Configuration file</value>
+    </data>
+    <data name="staticSite_configurationFileDescription" xml:space="preserve">
+        <value>Keep configuration file changes enabled to allow changes in your staticwebapp.config.json to take effect. Disabling them may cause new deployments to fail.</value>
+    </data>
+    <data name="staticSite_configurationFileToggle" xml:space="preserve">
+        <value>Enable configuration file changes</value>
+    </data>
+    <data name="staticSite_generalSettingsUpdate" xml:space="preserve">
+        <value>Updating general settings</value>
+    </data>
+    <data name="staticSite_loadingGeneralSettings" xml:space="preserve">
+        <value>Loading general settings...</value>
+    </data>
+    <data name="staticSite_loadingApplicationSettings" xml:space="preserve">
+        <value>Loading application settings...</value>
+    </data>
+    <data name="staticSite_generalSettingsUpdateWithSuccess" xml:space="preserve">
+        <value>Successfully updated general settings.</value>
+    </data>
+     <data name="staticSite_generalSettingsUpdateWithFailure" xml:space="preserve">
+        <value>Failed to update general settings with message: {0}</value>
+    </data>
+    <data name="staticSite_generalSettingsUpdateWithFailureNoMessage" xml:space="preserve">
+        <value>Failed to update general settings.</value>
+    </data>
+    <data name="staticSite_passwordProtectionSkuWarning" xml:space="preserve">
+        <value>Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.</value>
+    </data> 
+    <data name="functionSupportedRuntimeVersionNotConfiguredMessage" xml:space="preserve">
+        <value>Your app is pinned to an unsupported runtime version for '{0}'. For better performance, we recommend using one of our supported versions instead: {1}.</value>
+    </data>
+    <data name="functionsSupportedRuntimeVersionMissingWarningWithVersionList" xml:space="preserve">
+        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please use one of the supported runtime version - {0}.</value>
+    </data>
+    <data name="functionsSupportedRuntimeVersionMissingWarning" xml:space="preserve">
+        <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).</value>
+    </data>
+    <data name="deploymentCenterBitbucketDescriptionText" xml:space="preserve">
+        <value>App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app.</value>
+    </data>
+    <data name="deploymentCenterExternalGitDescriptionText" xml:space="preserve">
+        <value>If your code is not on GitHub or BitBucket, you can use this option to manually sync your code from the repository. When you sync your repository, App Service will pull your code, build your application, and deploy it to your web app.</value>
+    </data>
+    <data name="deploymentCenterAzureReposDescriptionText" xml:space="preserve">
+        <value>App Service will place a webhook on your chosen repository. When a new commit is pushed to the selected branch Azure will pull your code, build your application, and deploy it to your web app.</value>
+    </data>
+    <data name="deploymentCenterDropboxDescriptionText" xml:space="preserve">
+        <value>Authorize App Service with DropBox to manually sync your content from the selected folder with the Sync button above.</value>
+    </data>
+    <data name="deploymentCenterOneDriveDescriptionText" xml:space="preserve">
+        <value>Authorize App Service with OneDrive to manually sync your content from the selected folder with the Sync button above.</value>
+    </data>
+    <data name="disconnecting" xml:space="preserve">
+        <value>Disconnecting...</value>
+    </data>
+    <data name="connectedAndFilteredMessage" xml:space="preserve">
+        <value>Connected! You are now viewing logs of Function runs in the current Code + Test panel. To see all the logs for this Function, please go to 'Monitor' from the Function menu.</value>
+    </data>
+    <data name="logicAppPlanPickerHeaderText" xml:space="preserve">
+        <value>Select plan</value>
+    </data>
+    <data name="logicAppPlanPickerGridHeaderAriaLabel" xml:space="preserve">
+        <value>Plan or features</value>
+    </data>
+    <data name="logicAppPlanPickerGridHeaderFeatures" xml:space="preserve">
+        <value>Plan/Features</value>
+    </data>
+    <data name="logicAppPlanPickerGridHeaderConsumptionSectionButtonAriaLabel" xml:space="preserve">
+        <value>Consumption plan. Serverless, event-driven scaling for lowest minimum cost. Fast dynamic scale. Pay as you go usage.</value>
+    </data>
+    <data name="logicAppPlanPickerGridHeaderConsumptionSectionDescription" xml:space="preserve">
+        <value>Serverless, event-driven scaling for lowest minimum cost.</value>
+    </data>
+    <data name="logicAppPlanPickerGridHeaderConsumptionSectionTitle" xml:space="preserve">
+        <value>Consumption</value>
+    </data>
+    <data name="logicAppPlanPickerGridHeaderStandardSectionButtonAriaLabel" xml:space="preserve">
+        <value>Standard plan. Best for enterprise-level, serverless applications with event-based scaling and network isolation. Fast dynamic scale. Network isolation. Always on instances.</value>
+    </data>
+    <data name="logicAppPlanPickerGridHeaderStandardSectionDescription" xml:space="preserve">
+        <value>Best for enterprise-level, serverless applications with event-based scaling and network isolation.</value>
+    </data>
+    <data name="logicAppPlanPickerGridHeaderStandardSectionTitle" xml:space="preserve">
+        <value>Standard</value>
+    </data>
+    <data name="logicAppPlanPickerGridScaleRowTitle" xml:space="preserve">
+        <value>Fast dynamic scale</value>
+    </data>
+    <data name="logicAppPlanPickerGridNetworkRowTitle" xml:space="preserve">
+        <value>Network isolation</value>
+    </data>
+    <data name="logicAppPlanPickerGridInstancesRowTitle" xml:space="preserve">
+        <value>Always on instances</value>
+    </data>
+    <data name="logicAppPlanPickerGridUsageRowTitle" xml:space="preserve">
+        <value>Pay as you go usage</value>
+    </data>
+    <data name="containerApp_console_chooseStartUpCommand" xml:space="preserve">
+        <value>Choose start up command</value>
+    </data>
+    <data name="containerApp_console_failedToConnect" xml:space="preserve">
+        <value>Failed to connect to replica.</value>
+    </data>
+    <data name="containerApp_console_connect" xml:space="preserve">
+        <value>Connect</value>
+    </data>
+    <data name="containerApp_console_custom" xml:space="preserve">
+        <value>Custom</value>
+    </data>
+    <data name="new_parenthesized" xml:space="preserve">
+        <value>(new)</value>
+        <comment>Prefix for dropdown option text indicating their newness, e.g., (new) CosmosDatabase</comment>
+    </data>
+    <data name="automatic" xml:space="preserve">
+        <value>Automatic</value>
+    </data>
+    <data name="manual" xml:space="preserve">
+        <value>Manual</value>
+    </data>
+    <data name="cosmosDb_apiType_coreSql" xml:space="preserve">
+        <value>Core (SQL)</value>
+    </data>
+    <data name="cosmosDb_error_accountNameRequired" xml:space="preserve">
+        <value>The account name is required.</value>
+    </data>
+    <data name="cosmosDb_error_accountNameInvalid" xml:space="preserve">
+        <value>The account name must consist of minimum 3 and maximum 44 lowercase letters, numbers, or '-' characters.</value>
+    </data>
+    <data name="cosmosDb_error_accountNameTaken" xml:space="preserve">
+        <value>The account name is already taken.</value>
+    </data>
+    <data name="cosmosDb_error_containerAlreadyExists" xml:space="preserve">
+        <value>The container already exists.</value>
+    </data>
+    <data name="cosmosDb_error_containerNameCharacters" xml:space="preserve">
+        <value>The container name cannot contain any special characters.</value>
+    </data>
+    <data name="cosmosDb_error_containerNameSpace" xml:space="preserve">
+        <value>The container name cannot end with a space.</value>
+    </data>
+    <data name="cosmosDb_error_databaseAlreadyExists" xml:space="preserve">
+        <value>The database already exists.</value>
+    </data>
+    <data name="cosmosDb_error_databaseNameCharacters" xml:space="preserve">
+        <value>The database name cannot contain any special characters.</value>
+    </data>
+    <data name="cosmosDb_error_databaseNameSpace" xml:space="preserve">
+        <value>The database name cannot end with a space.</value>
+    </data>
+    <data name="cosmosDb_error_fieldRequired" xml:space="preserve">
+        <value>The field is required.</value>
+    </data>
+    <data name="cosmosDb_error_partitionKeyPathSlash" xml:space="preserve">
+        <value>The partition key path must contain at least one \'/\' at the beginning of the string.</value>
+    </data>
+    <data name="cosmosDb_error_writePermissionsRequired" xml:space="preserve">
+        <value>Automatic mode is disabled for users with read-only permissions in their subscription or resource group.</value>
+    </data>
+    <data name="cosmosDb_header_customAppSetting" xml:space="preserve">
+        <value>Custom app setting</value>
+    </data>
+    <data name="cosmosDb_header_details" xml:space="preserve">
+        <value>Cosmos DB details</value>
+    </data>
+    <data name="cosmosDb_label_accountName" xml:space="preserve">
+        <value>Account name</value>
+    </data>
+    <data name="cosmosDb_label_apiType" xml:space="preserve">
+        <value>API</value>
+    </data>
+    <data name="nodeStackLearnMore" xml:space="preserve">
+        <value>Node version is defined through the {0} app setting.</value>
+    </data>
+    <data name="cosmosDb_label_connection" xml:space="preserve">
+        <value>Cosmos DB connection</value>
+    </data>
+    <data name="cosmosDb_label_container" xml:space="preserve">
+        <value>Container</value>
+    </data>
+    <data name="cosmosDb_label_cosmosDbAccount" xml:space="preserve">
+        <value>Cosmos DB account</value>
+    </data>
+    <data name="cosmosDb_label_createAContainer" xml:space="preserve">
+        <value>Create a container</value>
+    </data>
+    <data name="cosmosDb_label_createADatabase" xml:space="preserve">
+        <value>Create a database</value>
+    </data>
+    <data name="cosmosDb_label_createAnAccount" xml:space="preserve">
+        <value>Create an account</value>
+    </data>
+    <data name="cosmosDb_label_customAppSettingKey" xml:space="preserve">
+        <value>Name</value>
+    </data>
+    <data name="cosmosDb_label_customAppSettingValue" xml:space="preserve">
+        <value>Connection string setting</value>
+    </data>
+    <data name="cosmosDb_label_database" xml:space="preserve">
+        <value>Database</value>
+    </data>
+    <data name="cosmosDb_label_partitionKeyPath" xml:space="preserve">
+        <value>Partition key path</value>
+    </data>
+    <data name="cosmosDb_newAccountDialog_description" xml:space="preserve">
+        <value>Create a new serverless account in the same Azure region and resource group as the function. For more options, go to </value>
+    </data>
+    <data name="cosmosDb_newAccountDialog_link" xml:space="preserve">
+        <value>Create Cosmos DB account.</value>
+    </data>
+    <data name="cosmosDb_newAccountDialog_title" xml:space="preserve">
+        <value>Create a Cosmos DB account</value>
+    </data>
+    <data name="cosmosDb_placeholder_noExistingAccounts" xml:space="preserve">
+        <value>Select an account</value>
+    </data>
+    <data name="cosmosDb_placeholder_selectAContainer" xml:space="preserve">
+        <value>Select a container</value>
+    </data>
+    <data name="cosmosDb_placeholder_selectADatabase" xml:space="preserve">
+        <value>Select a database</value>
+    </data>
+    <data name="cosmosDb_placeholder_selectAnAccount" xml:space="preserve">
+        <value>Select an account</value>
+    </data>
+    <data name="cosmosDb_tooltip_customAppSettingKey" xml:space="preserve">
+        <value>Enter the key/value pair for the Cosmos DB custom app setting.</value>
+    </data>
+    <data name="cosmosDb_tooltip_partitionKeyPath" xml:space="preserve">
+        <value>The partition key is used to automatically distribute data across partitions for scalability. Choose a property in your JSON document that has a wide range of values and evenly distributes request volume. Select /id for either small read-heavy workloads or write-heavy workloads of any size.</value>
+    </data>
+    <data name="containerApp_console_startUpCommandAriaLabel" xml:space="preserve">
+        <value>Custom start up command</value>
+    </data>
+    <data name="containerApp_console_cancel" xml:space="preserve">
+        <value>Cancel</value>
     </data>
 </root>

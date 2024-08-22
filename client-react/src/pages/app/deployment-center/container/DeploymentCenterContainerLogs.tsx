@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useRef } from 'react';
-import { ProgressIndicator } from 'office-ui-fabric-react';
+import { ProgressIndicator } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { logsTimerStyle, deploymentCenterContainerLogsBox, refreshButtonStyle, deploymentCenterContent } from '../DeploymentCenter.styles';
 import { DeploymentCenterContainerLogsProps } from '../DeploymentCenter.types';
@@ -24,9 +24,7 @@ const DeploymentCenterContainerLogs: React.FC<DeploymentCenterContainerLogsProps
   };
 
   useEffect(() => {
-    if (!!logsEndRef.current) {
-      logsEndRef.current.scrollIntoView({ behavior: 'smooth' });
-    }
+    logsEndRef.current?.scrollIntoView({ behavior: 'smooth' });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logsEndRef.current]);

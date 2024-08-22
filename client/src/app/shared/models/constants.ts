@@ -345,7 +345,6 @@ export class ScenarioIds {
 
 export class NationalCloudArmUris {
   public static readonly fairfax = 'https://management.usgovcloudapi.net';
-  public static readonly blackforest = 'https://management.microsoftazure.de';
   public static readonly mooncake = 'https://management.chinacloudapi.cn';
   public static readonly usNat: 'https://management.azure.eaglex.ic.gov';
   public static readonly usSec: 'https://management.azure.microsoft.scloud';
@@ -666,6 +665,7 @@ export class FeatureFlags {
   public static DisablePv2Experiment = 'DisablePv2Experiment';
   public static showHiddenStacks = 'showHiddenStacks';
   public static treatAsKubeApp = 'treatAsKubeApp';
+  public static showSlotsDiffForKubeApp = 'showSlotsDiffForKubeApp';
 }
 
 export class SupportedFeatures {

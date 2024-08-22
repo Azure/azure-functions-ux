@@ -11,7 +11,6 @@ import {
 } from '@angular/core';
 import { ArmObj } from '../../../../shared/models/arm/arm-obj';
 import { Site } from '../../../../shared/models/arm/site';
-import { PublishingCredentials } from '../../../../shared/models/publishing-credentials';
 import { Subscription } from 'rxjs/Subscription';
 import { ConsoleService } from './../services/console.service';
 import { KeyCodes, ConsoleConstants } from '../../../../shared/models/constants';
@@ -19,6 +18,8 @@ import { ErrorComponent } from './error.component';
 import { MessageComponent } from './message.component';
 import { PromptComponent } from './prompt.component';
 import { Headers } from '@angular/http';
+import { PortalService } from '../../../../shared/services/portal.service';
+import { Subject } from 'rxjs/Subject';
 
 export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   public resourceId: string;
@@ -30,7 +31,6 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   public cleared = false;
   protected enterPressed = false;
   protected site: ArmObj<Site>;
-  protected publishingCredentials: ArmObj<PublishingCredentials>;
   protected siteSubscription: Subscription;
   protected publishingCredSubscription: Subscription;
 
@@ -50,7 +50,8 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   private _messageComponent: ComponentFactory<any>;
   private _errorComponent: ComponentFactory<any>;
   private _msgComponents: ComponentRef<any>[] = [];
-  private _resourceIdSubscription: Subscription;
+  private _ngUnsubscribe = new Subject();
+  private _armToken: string;
 
   @Input()
   public appName: string;
@@ -62,22 +63,38 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
   @ViewChild('consoleText')
   private _consoleText: ElementRef;
 
-  constructor(private _componentFactoryResolver: ComponentFactoryResolver, private _consoleService: ConsoleService) {}
+  constructor(
+    private _componentFactoryResolver: ComponentFactoryResolver,
+    private _consoleService: ConsoleService,
+    private _portalService: PortalService
+  ) {}
 
   ngOnInit() {
-    this._resourceIdSubscription = this._consoleService.getResourceId().subscribe(resourceId => {
-      this.resourceId = resourceId;
-    });
-    this.initializeConsole();
-    this.initialized = true;
-    this.addPromptComponent();
-    this.focusConsole();
+    this._portalService
+      .getStartupInfo()
+      .takeUntil(this._ngUnsubscribe)
+      .subscribe(info => {
+        this._armToken = info.token;
+
+        if (!this.initialized) {
+          this.initializeConsole();
+          this.initialized = true;
+          this.addPromptComponent();
+          this.focusConsole();
+        }
+      });
+
+    this._consoleService
+      .getResourceId()
+      .takeUntil(this._ngUnsubscribe)
+      .subscribe(resourceId => {
+        this.resourceId = resourceId;
+      });
   }
 
   ngOnDestroy() {
-    this._resourceIdSubscription.unsubscribe();
+    this._ngUnsubscribe.next();
     this.siteSubscription.unsubscribe();
-    this.publishingCredSubscription.unsubscribe();
 
     if (this.lastAPICall && !this.lastAPICall.closed) {
       this.lastAPICall.unsubscribe();
@@ -267,13 +284,7 @@ export abstract class AbstractConsoleComponent implements OnInit, OnDestroy {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Accept', 'application/json');
-    headers.append(
-      'Authorization',
-      `Basic ` +
-        (this.publishingCredentials
-          ? btoa(`${this.publishingCredentials.properties.publishingUserName}:${this.publishingCredentials.properties.publishingPassword}`)
-          : btoa(`admin:kudu`))
-    );
+    headers.append('Authorization', `Bearer ${this._armToken}`);
     return headers;
   }
 

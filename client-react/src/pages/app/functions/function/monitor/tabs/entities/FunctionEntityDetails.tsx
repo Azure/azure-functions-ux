@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from 'office-ui-fabric-react';
+import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import { AppInsightsOrchestrationTrace, AppInsightsEntityTraceDetail } from '../../../../../../../models/app-insights';
 import { PortalContext } from '../../../../../../../PortalContext';
@@ -30,6 +30,7 @@ const FunctionEntityDetails: React.FC<FunctionEntityDetailsProps> = props => {
           openAppInsightsQueryEditor(portalContext, appInsightsResourceId, entityContext.formEntityTraceDetailsQuery(instanceId)),
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
     ];
   };

@@ -10,6 +10,8 @@ import {
   SiteSourceControlRequestBody,
   WorkflowOption,
   ContainerDockerAccessTypes,
+  ACRCredentialType,
+  ACRManagedIdentityType,
 } from '../DeploymentCenter.types';
 import { commandBarSticky, pivotContent } from '../DeploymentCenter.styles';
 import DeploymentCenterContainerPivot from './DeploymentCenterContainerPivot';
@@ -43,6 +45,7 @@ import { GitHubCommit, GitHubActionWorkflowRequestContent } from '../../../../mo
 import { AppOs } from '../../../../models/site/site';
 import { Guid } from '../../../../utils/Guid';
 import { KeyValue } from '../../../../models/portal-models';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 interface ResponseResult {
   success: boolean;
@@ -114,13 +117,30 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
   const getDockerFxVersion = (prefix: string, values: DeploymentCenterFormData<DeploymentCenterContainerFormData>) => {
     if (values.registrySource === ContainerRegistrySources.acr) {
-      return `${prefix}|${values.acrLoginServer}/${values.acrImage}:${values.acrTag}`;
+      const serverImageTag = formatServerImageTag(values.acrLoginServer, `${values.acrImage}:${values.acrTag}`);
+      return `${prefix}|${serverImageTag}`;
     } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
-      const server = values.privateRegistryServerUrl.toLocaleLowerCase().replace('https://', '');
-      return `${prefix}|${server}/${values.privateRegistryImageAndTag}`;
+      const server = values.privateRegistryServerUrl
+        .toLocaleLowerCase()
+        .replace(CommonConstants.DeploymentCenterConstants.https, '')
+        .replace(/\/+$/, '');
+      const serverImageTag = formatServerImageTag(server, values.privateRegistryImageAndTag);
+      return `${prefix}|${serverImageTag}`;
     } else {
       return `${prefix}|${values.dockerHubImageAndTag}`;
     }
+  };
+
+  const formatServerImageTag = (server: string, imageAndTag: string) => {
+    const imageAndTagWithoutScheme = imageAndTag
+      .replace(CommonConstants.DeploymentCenterConstants.https, '')
+      .replace(CommonConstants.DeploymentCenterConstants.http, '');
+    const imageAndTagParts = imageAndTagWithoutScheme.split(CommonConstants.singleForwardSlash);
+    let formattedImageAndTag = imageAndTagWithoutScheme;
+    if (imageAndTagParts[0] === server) {
+      formattedImageAndTag = imageAndTagParts.slice(1).join(CommonConstants.singleForwardSlash);
+    }
+    return `${server}/${formattedImageAndTag}`;
   };
 
   const getFxVersionPrefix = (values: DeploymentCenterFormData<DeploymentCenterContainerFormData>): string => {
@@ -288,6 +308,65 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
 
     if (siteConfigResponse.metadata.success) {
       siteConfigResponse.data.properties.appCommandLine = values.command;
+
+      if (values.registrySource === ContainerRegistrySources.acr) {
+        siteConfigResponse.data.properties.acrUseManagedIdentityCreds = values.acrCredentialType === ACRCredentialType.managedIdentity;
+
+        if (!siteConfigResponse.data.properties.acrUseManagedIdentityCreds) {
+          siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
+        } else if (values.acrManagedIdentityType === ACRManagedIdentityType.systemAssigned) {
+          const siteResponse = await deploymentCenterData.fetchSite(deploymentCenterContext.resourceId);
+          if (siteResponse.metadata.success && !!siteResponse.data) {
+            const site = siteResponse.data;
+            if (!!site.identity && !!site.identity.type) {
+              const types = site.identity.type.replace(CommonConstants.space, '').split(CommonConstants.comma);
+
+              if (!types.includes(ACRManagedIdentityType.systemAssigned)) {
+                portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentityWithUserAssignedIdentities', 'submit'));
+
+                const response = await deploymentCenterData.enableSystemAssignedIdentity(
+                  deploymentCenterContext.resourceId,
+                  site.identity.userAssignedIdentities
+                );
+                if (!response.metadata.success) {
+                  portalContext.log(
+                    getTelemetryInfo('error', 'enableSystemAssignedIdentityWithUserAssignedIdentities', 'failed', {
+                      resourceId: deploymentCenterContext.resourceId,
+                    })
+                  );
+                }
+              }
+            } else {
+              portalContext.log(getTelemetryInfo('info', 'enableSystemAssignedIdentity', 'submit'));
+              const response = await deploymentCenterData.enableSystemAssignedIdentity(deploymentCenterContext.resourceId);
+              if (!response.metadata.success) {
+                portalContext.log(
+                  getTelemetryInfo('error', 'enableSystemAssignedIdentity', 'failed', {
+                    resourceId: deploymentCenterContext.resourceId,
+                  })
+                );
+              }
+            }
+          }
+
+          siteConfigResponse.data.properties.acrUserManagedIdentityID = '';
+        } else {
+          const acrResourceId = values.acrResourceId;
+          const identityPrincipalId = values.acrManagedIdentityPrincipalId;
+
+          const hasAcrPullPermissions = await deploymentCenterData.hasAcrPullPermission(acrResourceId, identityPrincipalId);
+          if (!hasAcrPullPermissions) {
+            portalContext.log(getTelemetryInfo('info', 'setAcrPullPermission', 'submit', { resourceId: identityPrincipalId }));
+
+            const setPermissionSuccess = await deploymentCenterData.setAcrPullPermission(acrResourceId, identityPrincipalId);
+            if (!setPermissionSuccess) {
+              portalContext.log(getTelemetryInfo('error', 'setAcrPullPermission', 'failed', { resourceId: identityPrincipalId }));
+            }
+          }
+
+          siteConfigResponse.data.properties.acrUserManagedIdentityID = values.acrManagedIdentityType;
+        }
+      }
 
       if (values.scmType !== ScmType.GitHubAction) {
         if (siteContext.isLinuxApp) {
@@ -498,8 +577,7 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
         deploymentCenterData,
         deploymentCenterContext.resourceId,
         payload,
-        deploymentCenterContext.gitHubToken,
-        siteContext.isKubeApp
+        deploymentCenterContext.gitHubToken
       );
     } else {
       return updateSourceControlResponse;
@@ -566,9 +644,11 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
       const updateApplicationPropertiesResponse = await updateApplicationProperties(values);
 
       if (!updateApplicationPropertiesResponse.success) {
+        containerConfigurationSucceeded = false;
         errorMessage = getErrorMessage(updateApplicationPropertiesResponse.error);
       }
     } else {
+      containerConfigurationSucceeded = false;
       errorMessage = getErrorMessage(updateGitHubActionSettingsResponse.error);
     }
 
@@ -620,8 +700,8 @@ const DeploymentCenterContainerForm: React.FC<DeploymentCenterContainerFormProps
     };
     portalContext.log(getTelemetryInfo('info', 'saveDeploymentSettings', 'start', deploymentProperties));
 
-    // Only do the save if scmtype in the config is set to none.
-    // If the scmtype in the config is not none, the user should be doing a disconnect operation first.
+    // Only do the save if scmType in the config is set to none.
+    // If the scmType in the config is not none, the user should be doing a disconnect operation first.
     // This check is in place, because the use could set the form props ina dirty state by just modifying the
     // publishing user information.
     if (deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType === ScmType.None) {

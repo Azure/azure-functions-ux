@@ -1,8 +1,7 @@
 import { Field, FormikProps } from 'formik';
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
+import { ActionButton } from '@fluentui/react';
 import React, { useState, useEffect, useContext } from 'react';
 import { useTranslation } from 'react-i18next';
-
 import TextField from '../../../../components/form-controls/TextFieldNoLabel';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues } from '../AppSettings.types';

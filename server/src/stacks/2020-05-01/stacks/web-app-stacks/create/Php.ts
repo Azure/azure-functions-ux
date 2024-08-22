@@ -72,7 +72,7 @@ export const phpCreateStack: WebAppCreateStack = {
         {
           os: 'linux',
           isPreview: false,
-          isDeprecated: false,
+          isDeprecated: true,
           isHidden: false,
           applicationInsightsEnabled: false,
           remoteDebuggingEnabled: false,
@@ -87,7 +87,7 @@ export const phpCreateStack: WebAppCreateStack = {
         {
           os: 'windows',
           isPreview: false,
-          isDeprecated: false,
+          isDeprecated: true,
           isHidden: false,
           applicationInsightsEnabled: true,
           remoteDebuggingEnabled: false,

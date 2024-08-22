@@ -1,44 +1,45 @@
-import React, { useState, useEffect, useContext } from 'react';
+import { Icon, IDropdownOption, Link, registerIcons, ResponsiveMode } from '@fluentui/react';
+import { Formik, FormikProps } from 'formik';
+import { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Link, IDropdownOption, ResponsiveMode, registerIcons, Icon, Spinner } from 'office-ui-fabric-react';
-import {
-  containerStyle,
-  developmentEnvironmentStyle,
-  selectDevelopmentEnvironmentDescriptionStyle,
-  selectDevelopmentEnvironmentHeaderStyle,
-  formContainerStyle,
-  formContainerDivStyle,
-  dropdownIconStyle,
-  developInPortalIconStyle,
-} from './FunctionCreate.styles';
+import { getErrorMessage, getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import SiteService from '../../../../ApiHelpers/SiteService';
+import ActionBar from '../../../../components/ActionBar';
 import DropdownNoFormik from '../../../../components/form-controls/DropDownnoFormik';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
-import ActionBar from '../../../../components/ActionBar';
-import TemplateList from './portal-create/TemplateList';
-import { Formik, FormikProps } from 'formik';
-import { CreateFunctionFormValues, CreateFunctionFormBuilder } from '../common/CreateFunctionFormBuilder';
-import { DevelopmentExperience } from './FunctionCreate.types';
-import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
 import { ReactComponent as TerminalIconSvg } from '../../../../images/Functions/terminal.svg';
 import { ReactComponent as VisualStudioIconSvg } from '../../../../images/Functions/visual_studio.svg';
-import { SiteStateContext } from '../../../../SiteState';
-import SiteService from '../../../../ApiHelpers/SiteService';
-import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
-import { getErrorMessageOrStringify, getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
-import { isLinuxApp, isElastic, isKubeApp } from '../../../../utils/arm-utils';
-import SiteHelper from '../../../../utils/SiteHelper';
-import LocalCreateInstructions from './local-create/LocalCreateInstructions';
-import { PortalContext } from '../../../../PortalContext';
-import FunctionCreateData from './FunctionCreate.data';
-import { FunctionTemplate } from '../../../../models/functions/function-template';
+import { ReactComponent as VSCodeIconSvg } from '../../../../images/Functions/vs_code.svg';
 import { ArmObj } from '../../../../models/arm-obj';
-import { KeyValue } from '../../../../models/portal-models';
-import Url from '../../../../utils/url';
+import { FunctionTemplate } from '../../../../models/functions/function-template';
 import { HostStatus } from '../../../../models/functions/host-status';
-import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
+import { KeyValue } from '../../../../models/portal-models';
+import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
+import { isElastic, isKubeApp, isLinuxApp } from '../../../../utils/arm-utils';
+import { IArmResourceTemplate } from '../../../../utils/ArmTemplateHelper';
+import { CommonConstants, WorkerRuntimeLanguages } from '../../../../utils/CommonConstants';
 import { Links } from '../../../../utils/FwLinks';
+import { LogCategories } from '../../../../utils/LogCategories';
+import LogService from '../../../../utils/LogService';
+import SiteHelper from '../../../../utils/SiteHelper';
+import Url from '../../../../utils/url';
+import { CreateFunctionFormBuilder, CreateFunctionFormValues } from '../common/CreateFunctionFormBuilder';
+import FunctionCreateData from './FunctionCreate.data';
+import {
+  containerStyle,
+  developInPortalIconStyle,
+  developmentEnvironmentStyle,
+  dropdownIconStyle,
+  formContainerDivStyle,
+  formContainerStyle,
+  selectDevelopmentEnvironmentDescriptionStyle,
+  selectDevelopmentEnvironmentHeaderStyle,
+} from './FunctionCreate.styles';
+import { DevelopmentExperience } from './FunctionCreate.types';
+import { FunctionCreateContext, IFunctionCreateContext } from './FunctionCreateContext';
+import LocalCreateInstructions from './local-create/LocalCreateInstructions';
+import TemplateList from './portal-create/TemplateList';
 
 registerIcons({
   icons: {
@@ -52,7 +53,7 @@ export interface FunctionCreateDataLoaderProps {
   resourceId: string;
 }
 
-const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props => {
+const FunctionCreateDataLoader: React.FC<FunctionCreateDataLoaderProps> = (props: FunctionCreateDataLoaderProps) => {
   const { resourceId } = props;
 
   const siteStateContext = useContext(SiteStateContext);
@@ -68,8 +69,9 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   const [templates, setTemplates] = useState<FunctionTemplate[] | undefined | null>(undefined);
   const [hostStatus, setHostStatus] = useState<ArmObj<HostStatus> | undefined>(undefined);
   const [creatingFunction, setCreatingFunction] = useState(false);
+  const [armResources, setArmResources] = useState<IArmResourceTemplate[]>([]);
 
-  const onDevelopmentEnvironmentChange = (event: any, option: IDropdownOption) => {
+  const onDevelopmentEnvironmentChange = (_: React.FormEvent<HTMLElement>, option: IDropdownOption) => {
     setSelectedTemplate(undefined);
     setTemplateDetailFormBuilder(undefined);
 
@@ -199,7 +201,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
     const appSettingsResponse = await SiteService.fetchApplicationSettings(resourceId);
     if (appSettingsResponse.metadata.success) {
       const appSettings = appSettingsResponse.data.properties;
-      if (appSettings.hasOwnProperty(CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
+      if (Object.prototype.hasOwnProperty.call(appSettings, CommonConstants.AppSettingNames.functionsWorkerRuntime)) {
         setWorkerRuntime(appSettings[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLowerCase());
       }
     } else {
@@ -218,7 +220,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         LogService.trackEvent(LogCategories.localDevExperience, 'FunctionPortalCreateDefaulted', {
           resourceId,
           sessionId: Url.getParameterByName(null, 'sessionId'),
-          templateCount: !!templates ? templates.length : 0,
+          templateCount: templates?.length ?? 0,
           bundleWarning: !!hostStatus && !hostStatus.properties.version.startsWith('1') && !hostStatus.properties.extensionBundle,
         });
         setSelectedDropdownKey(DevelopmentExperience.developInPortal);
@@ -290,7 +292,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
   };
 
   const onSubmit = (formValues?: CreateFunctionFormValues) => {
-    if (!!formValues) {
+    if (formValues) {
       if (formValues.newAppSettings) {
         updateAppSettings(formValues.newAppSettings);
       }
@@ -324,7 +326,7 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
         {(formProps: FormikProps<CreateFunctionFormValues>) => {
           const actionBarPrimaryButtonProps = {
             id: 'add',
-            title: creatingFunction ? <Spinner /> : t('create'),
+            title: t('create'),
             onClick: formProps.submitForm,
             disable: !initialFormValues || creatingFunction,
           };
@@ -350,6 +352,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                   setTemplates={setTemplates}
                   hostStatus={hostStatus}
                   setHostStatus={setHostStatus}
+                  armResources={armResources}
+                  setArmResources={setArmResources}
                 />
               </div>
               <ActionBar
@@ -357,6 +361,8 @@ const FunctionCreateDataLoader: React.SFC<FunctionCreateDataLoaderProps> = props
                 id="add-function-footer"
                 primaryButton={actionBarPrimaryButtonProps}
                 secondaryButton={actionBarSecondaryButtonProps}
+                validating={creatingFunction}
+                validationMessage={t('creatingFunction')}
               />
             </form>
           );

@@ -4,5 +4,6 @@ export class IconConstants {
     TickBadge: 'Completed',
     ErrorBadge: 'ErrorBadge',
     InfoBadge: 'Info',
+    Filter: 'Filter',
   };
 }

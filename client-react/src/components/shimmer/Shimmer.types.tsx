@@ -1,5 +1,4 @@
-import React from 'react';
-import { ShimmerElementsGroup, ShimmerElementType } from 'office-ui-fabric-react';
+import { ShimmerElementsGroup, ShimmerElementType } from '@fluentui/react';
 import { wrapperStyle } from './Shimmer.styles';
 
 export const getLineGapShimmerGroup = (): JSX.Element => {
@@ -27,7 +26,10 @@ export const getLineCircleShimmerGroup = (): JSX.Element => {
   return (
     <div style={wrapperStyle}>
       <ShimmerElementsGroup
-        shimmerElements={[{ type: ShimmerElementType.circle, height: 40 }, { type: ShimmerElementType.gap, width: 10, height: 40 }]}
+        shimmerElements={[
+          { type: ShimmerElementType.circle, height: 40 },
+          { type: ShimmerElementType.gap, width: 10, height: 40 },
+        ]}
       />
       <ShimmerElementsGroup
         flexWrap
@@ -53,7 +55,10 @@ export const getLineGapCircleShimmerGroup = (): JSX.Element => {
       />
       <div style={{ display: 'flex', flexWrap: 'wrap', width: '100%' }}>
         <ShimmerElementsGroup
-          shimmerElements={[{ type: ShimmerElementType.circle, height: 40 }, { type: ShimmerElementType.gap, width: 10, height: 40 }]}
+          shimmerElements={[
+            { type: ShimmerElementType.circle, height: 40 },
+            { type: ShimmerElementType.gap, width: 10, height: 40 },
+          ]}
         />
         <ShimmerElementsGroup
           flexWrap

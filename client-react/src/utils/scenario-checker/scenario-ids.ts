@@ -115,4 +115,6 @@ export class ScenarioIds {
   public static readonly ftpStateSupported = 'ftpStateSupported';
   public static readonly incomingClientCertSupported = 'incomingClientCertSupported';
   public static readonly httpVersionSupported = 'httpVersionSupported';
+  public static readonly http20ProxySupported = 'http20ProxySupported';
+  public static readonly enableTLSVersion = 'enableTLSVersion';
 }

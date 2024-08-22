@@ -5,8 +5,8 @@ import { isWorkflowApp } from '../arm-utils';
 export class WorkflowAppEnvironment extends FunctionAppEnvironment {
   public name = 'WorkflowApp';
 
-  constructor(t: (string) => string) {
-    super(t);
+  constructor() {
+    super();
 
     this.scenarioChecks[ScenarioIds.runtimeScaleMonitoringSupported] = {
       id: ScenarioIds.runtimeScaleMonitoringSupported,
@@ -43,6 +43,11 @@ export class WorkflowAppEnvironment extends FunctionAppEnvironment {
 
     this.scenarioChecks[ScenarioIds.clientAffinitySupported] = {
       id: ScenarioIds.clientAffinitySupported,
+      runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.incomingClientCertSupported] = {
+      id: ScenarioIds.incomingClientCertSupported,
       runCheck: () => ({ status: 'disabled' }),
     };
   }

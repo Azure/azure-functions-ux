@@ -7,7 +7,7 @@ import {
   responseContentStyle,
   testFormLabelStyle,
 } from './FunctionTest.styles';
-import { Label } from 'office-ui-fabric-react';
+import { Label } from '@fluentui/react';
 import { ResponseContent } from '../FunctionEditor.types';
 import { HttpConstants } from '../../../../../../utils/constants/HttpConstants';
 import StringUtils from '../../../../../../utils/string';
@@ -33,7 +33,7 @@ const FunctionTestOutput: React.SFC<FunctionTestOutputProps> = props => {
       <div className={functionTestGroupStyle}>
         <Label className={testFormLabelStyle}>{t('httpRun_responseCode')}</Label>
         <div className={responseCodeStyle}>
-          {!!responseContent ? `${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}` : ''}
+          {responseContent ? `${responseContent.code} ${HttpConstants.statusCodeToText(responseContent.code)}` : ''}
         </div>
       </div>
       <div className={functionTestGroupStyle}>

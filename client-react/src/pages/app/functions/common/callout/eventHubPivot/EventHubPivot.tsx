@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
@@ -185,7 +185,7 @@ const EventHubPivot: React.SFC<NewConnectionCalloutProps & CustomDropdownProps &
                       mouseOverToolTip={undefined}
                     />
                     {(!namespaceAuthRules || !eventHubAuthRules) && <LoadingComponent />}
-                    {!!namespaceAuthRules && namespaceAuthRules.length === 0 && (!!eventHubAuthRules && eventHubAuthRules.length === 0) ? (
+                    {!!namespaceAuthRules && namespaceAuthRules.length === 0 && !!eventHubAuthRules && eventHubAuthRules.length === 0 ? (
                       <p>{t('eventHubPicker_noPolicies')}</p>
                     ) : (
                       <>

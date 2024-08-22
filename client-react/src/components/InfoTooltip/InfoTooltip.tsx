@@ -1,5 +1,5 @@
-import { TooltipDelay, TooltipHost } from 'office-ui-fabric-react';
-import React, { useContext } from 'react';
+import { TooltipDelay, TooltipHost } from '@fluentui/react';
+import { useContext } from 'react';
 import { style } from 'typestyle';
 import { ReactComponent as InfoTooltipSvg } from '../../images/Common/InfoTooltip.svg';
 import { ThemeExtended } from '../../theme/SemanticColorsExtended';

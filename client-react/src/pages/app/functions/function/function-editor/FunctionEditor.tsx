@@ -1,56 +1,58 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { ArmObj } from '../../../../../models/arm-obj';
-import { FunctionInfo } from '../../../../../models/functions/function-info';
-import FunctionEditorCommandBar from './FunctionEditorCommandBar';
-import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
-import { Site } from '../../../../../models/site/site';
-import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
-import { PanelType, IDropdownOption, Pivot, PivotItem, MessageBarType } from 'office-ui-fabric-react';
-import FunctionTest from './function-test/FunctionTest';
-import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
-import { InputFormValues, ResponseContent, PivotType, FileContent, UrlObj, LoggingOptions } from './FunctionEditor.types';
-import { VfsObject } from '../../../../../models/functions/vfs';
-import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
+import { IDropdownOption, MessageBarType, PanelType } from '@fluentui/react';
+import { useCallback, useContext, useEffect, useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import FunctionsService from '../../../../../ApiHelpers/FunctionsService';
 import ConfirmDialog from '../../../../../components/ConfirmDialog/ConfirmDialog';
-import { useTranslation } from 'react-i18next';
-import {
-  pivotStyle,
-  testLoadingStyle,
-  commandBarSticky,
-  logPanelStyle,
-  defaultMonacoEditorHeight,
-  testPanelStyle,
-  editorStyle,
-  editorDivStyle,
-} from './FunctionEditor.styles';
-import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
-import { FormikActions } from 'formik';
-import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
-import { SiteStateContext } from '../../../../../SiteState';
-import SiteHelper from '../../../../../utils/SiteHelper';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
-import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import LogService from '../../../../../utils/LogService';
+import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
+import EditModeBanner from '../../../../../components/EditModeBanner/EditModeBanner';
+import LoadingComponent from '../../../../../components/Loading/LoadingComponent';
+import MonacoEditor, { getMonacoEditorTheme } from '../../../../../components/monaco-editor/monaco-editor';
+import { ArmObj } from '../../../../../models/arm-obj';
+import { FunctionInfo } from '../../../../../models/functions/function-info';
+import { VfsObject } from '../../../../../models/functions/vfs';
+import { FunctionAppEditMode, PortalTheme } from '../../../../../models/portal-models';
+import { Site } from '../../../../../models/site/site';
+import { PortalContext } from '../../../../../PortalContext';
+import { SiteStateContext } from '../../../../../SiteState';
+import { StartupInfoContext } from '../../../../../StartupInfoContext';
+import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
+import { BindingManager } from '../../../../../utils/BindingManager';
+import { CommonConstants } from '../../../../../utils/CommonConstants';
+import EditorManager, { EditorLanguage } from '../../../../../utils/EditorManager';
+import FunctionAppService from '../../../../../utils/FunctionAppService';
+import { Links } from '../../../../../utils/FwLinks';
+import { Guid } from '../../../../../utils/Guid';
 import { LogCategories } from '../../../../../utils/LogCategories';
-import { minimumLogPanelHeight, logCommandBarHeight } from '../function-log/FunctionLog.styles';
+import LogService from '../../../../../utils/LogService';
+import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
+import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
+import SiteHelper from '../../../../../utils/SiteHelper';
+import Url from '../../../../../utils/url';
+import { logCommandBarHeight, minimumLogPanelHeight } from '../function-log/FunctionLog.styles';
 import FunctionLogAppInsightsDataLoader from '../function-log/FunctionLogAppInsightsDataLoader';
 import FunctionLogFileStreamDataLoader from '../function-log/FunctionLogFileStreamDataLoader';
-import { ScenarioService } from '../../../../../utils/scenario-checker/scenario.service';
-import { ScenarioIds } from '../../../../../utils/scenario-checker/scenario-ids';
-import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
+import FunctionTest from './function-test/FunctionTest';
+import {
+  commandBarSticky,
+  defaultMonacoEditorHeight,
+  editorDivStyle,
+  editorStyle,
+  logPanelStyle,
+  testLoadingStyle,
+  testPanelStyle,
+} from './FunctionEditor.styles';
+import { FileContent, InputFormValues, LoggingOptions, ResponseContent, UrlObj } from './FunctionEditor.types';
+import FunctionEditorCommandBar from './FunctionEditorCommandBar';
 import { FunctionEditorContext } from './FunctionEditorDataLoader';
-import { isKubeApp, isLinuxDynamic } from '../../../../../utils/arm-utils';
-import Url from '../../../../../utils/url';
-import { CommonConstants } from '../../../../../utils/CommonConstants';
-import { PortalContext } from '../../../../../PortalContext';
-import { BindingManager } from '../../../../../utils/BindingManager';
+import FunctionEditorFileSelectorBar from './FunctionEditorFileSelectorBar';
+import { isNewPythonProgrammingModel } from './useFunctionEditorQueries';
 
 export interface FunctionEditorProps {
   functionInfo: ArmObj<FunctionInfo>;
   site: ArmObj<Site>;
-  run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string) => void;
+  run: (functionInfo: ArmObj<FunctionInfo>, xFunctionKey?: string, liveLogsSessionId?: string) => void;
   functionRunning: boolean;
   urlObjs: UrlObj[];
   showTestPanel: boolean;
@@ -61,15 +63,19 @@ export interface FunctionEditorProps {
   isUploadingFile: boolean;
   setIsUploadingFile: (isUploadingFile: boolean) => void;
   refreshFileList: () => void;
+  addCorsRule: (corsRule: string) => void;
   xFunctionKey?: string;
   responseContent?: ResponseContent;
   runtimeVersion?: string;
   fileList?: VfsObject[];
   testData?: string;
   workerRuntime?: string;
+  enablePortalCall?: boolean;
+  isFunctionLogsApiFlightingEnabled?: boolean;
+  addingCorsRules?: boolean;
 }
 
-export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
+export const FunctionEditor: React.FC<FunctionEditorProps> = (props: FunctionEditorProps) => {
   const {
     functionInfo,
     site,
@@ -89,25 +95,31 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setIsUploadingFile,
     refreshFileList,
     workerRuntime,
+    addCorsRule,
+    enablePortalCall,
+    isFunctionLogsApiFlightingEnabled,
+    addingCorsRules,
   } = props;
   const [reqBody, setReqBody] = useState('');
   const [fetchingFileContent, setFetchingFileContent] = useState(false);
   const [fileContent, setFileContent] = useState<FileContent>({ default: '', latest: '' });
-  const [selectedFile, setSelectedFile] = useState<IDropdownOption | undefined>(undefined);
+  const [selectedFile, setSelectedFile] = useState<IDropdownOption>();
   const [editorLanguage, setEditorLanguage] = useState(EditorLanguage.plaintext);
-  const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption | undefined>(undefined);
-  const [initialLoading, setInitialLoading] = useState<boolean>(true);
-  const [savingFile, setSavingFile] = useState<boolean>(false);
-  const [selectedPivotTab, setSelectedPivotTab] = useState(PivotType.input);
+  const [selectedDropdownOption, setSelectedDropdownOption] = useState<IDropdownOption>();
+  const [initialLoading, setInitialLoading] = useState(true);
+  const [savingFile, setSavingFile] = useState(false);
   const [monacoHeight, setMonacoHeight] = useState(defaultMonacoEditorHeight);
   const [logPanelExpanded, setLogPanelExpanded] = useState(false);
   const [logPanelFullscreen, setLogPanelFullscreen] = useState(false);
   const [fileSavedCount, setFileSavedCount] = useState(0);
   const [readOnlyBanner, setReadOnlyBanner] = useState<HTMLDivElement | null>(null);
-  const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean | undefined>(undefined);
+  const [isFileContentAvailable, setIsFileContentAvailable] = useState<boolean>();
   const [showDiscardConfirmDialog, setShowDiscardConfirmDialog] = useState(false);
   const [logPanelHeight, setLogPanelHeight] = useState(0);
-  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions | undefined>(undefined);
+  const [selectedLoggingOption, setSelectedLoggingOption] = useState<LoggingOptions>();
+  const [liveLogsSessionId, setLiveLogsSessionId] = useState<string>();
+  const [showInvalidFileSelectedWarning, setShowInvalidFileSelectedWarning] = useState<boolean>();
+  const [selectedFileName, setSelectedFileName] = useState('');
 
   const { t } = useTranslation();
 
@@ -128,6 +140,8 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     if (!selectedFile) {
       return;
     }
+
+    resetInvalidFileSelectedWarningAndFileName();
 
     portalCommunicator.log({
       action: 'functionEditor',
@@ -163,6 +177,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const test = () => {
+    resetInvalidFileSelectedWarningAndFileName();
     setShowTestPanel(true);
   };
 
@@ -190,7 +205,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setFetchingFileContent(false);
   };
 
-  const run = (values: InputFormValues, formikActions: FormikActions<InputFormValues>) => {
+  const run = (values: InputFormValues) => {
     let data;
     if (isHttpOrWebHookFunction) {
       data = JSON.stringify({
@@ -205,53 +220,74 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const tempFunctionInfo = functionInfo;
     tempFunctionInfo.properties.test_data = data;
     expandLogPanel();
-    props.run(tempFunctionInfo, values.xFunctionKey);
+    props.run(tempFunctionInfo, values.xFunctionKey, liveLogsSessionId);
+
+    portalCommunicator.log({
+      action: 'functionEditor',
+      actionModifier: 'runClicked',
+      resourceId: siteStateContext.resourceId || '',
+      logLevel: 'verbose',
+      data: {
+        sessionId: Url.getParameterByName(null, 'sessionId'),
+        siteKind: site.kind,
+        isLinux: site.properties.isLinux,
+        runtime: runtimeVersion,
+        stack: workerRuntime,
+        sku: site.properties.sku,
+        liveLogsSessionId: liveLogsSessionId,
+      },
+    });
   };
 
   const isGetFunctionUrlVisible = () => {
+    const { properties } = functionInfo;
     return (
-      !!BindingManager.getHttpTriggerTypeInfo(functionInfo.properties) || !!BindingManager.getEventGridTriggerInfo(functionInfo.properties)
+      !!BindingManager.getHttpTriggerTypeInfo(properties) ||
+      !!BindingManager.getEventGridTriggerInfo(properties) ||
+      !!BindingManager.getAuthenticationEventTriggerTypeInfo(properties)
     );
   };
 
   const getDropdownOptions = (): IDropdownOption[] => {
-    return !!fileList
-      ? fileList
-          .map(file => ({
-            key: file.name,
-            text: file.name,
-            isSelected: false,
-            data: file,
-          }))
-          .filter(file => file.data.mime !== 'inode/directory')
-          .sort((a, b) => a.key.localeCompare(b.key))
-      : [];
+    return (
+      fileList
+        ?.map(file => ({
+          key: file.name,
+          text: file.name,
+          isSelected: false,
+          data: file,
+        }))
+        .filter(file => file.data.mime !== 'inode/directory')
+        .sort((a, b) => a.key.localeCompare(b.key)) ?? []
+    );
   };
 
-  const setSelectedFileContent = async (file: VfsObject) => {
-    const headers = {
-      'Content-Type': file.mime,
-    };
-    const fileResponse = await FunctionsService.getFileContent(site.id, functionInfo.properties.name, runtimeVersion, headers, file.name);
-    if (fileResponse.metadata.success) {
-      let fileText = fileResponse.data as string;
-      if (typeof fileResponse.data !== 'string') {
-        // third parameter refers to the number of white spaces.
-        // (https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/JSON/stringify)
-        fileText = JSON.stringify(fileResponse.data, null, 2);
-      }
-      setIsFileContentAvailable(true);
-      setFileContent({ default: fileText, latest: fileText });
-    } else {
-      setFileContent({ default: '', latest: '' });
-      setIsFileContentAvailable(false);
-      LogService.error(
-        LogCategories.FunctionEdit,
-        'getFileContent',
-        `Failed to get file content: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
-      );
-    }
-  };
+  const setSelectedFileContent = useCallback(
+    (file: VfsObject) => {
+      const headers = {
+        'Content-Type': file.mime,
+      };
+      const functionName = isNewPythonProgrammingModel(functionInfo) ? '' : functionInfo.properties.name;
+
+      FunctionsService.getFileContent(site.id, functionName, runtimeVersion, headers, file.name).then(fileResponse => {
+        setIsFileContentAvailable(fileResponse.metadata.success);
+
+        if (fileResponse.metadata.success) {
+          const fileText = typeof fileResponse.data === 'string' ? fileResponse.data : JSON.stringify(fileResponse.data, null, 2);
+          setFileContent({ default: fileText, latest: fileText });
+        } else {
+          setFileContent({ default: '', latest: '' });
+
+          LogService.error(
+            LogCategories.FunctionEdit,
+            'getFileContent',
+            `Failed to get file content: ${getErrorMessageOrStringify(fileResponse.metadata.error)}`
+          );
+        }
+      });
+    },
+    [functionInfo, runtimeVersion, site.id]
+  );
 
   const getScriptFileOption = (): IDropdownOption | undefined => {
     const scriptHref = functionInfo.properties.script_href;
@@ -278,7 +314,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
 
   const fetchData = async () => {
     const file = getScriptFileOption();
-    if (!!file) {
+    if (file) {
       setSelectedFileContent(file.data);
       setSelectedFile(file);
       getAndSetEditorLanguage(file.data.name);
@@ -286,7 +322,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     setInitialLoading(false);
   };
 
-  const onChange = (newValue, event) => {
+  const onChange = newValue => {
     setFileContent({ ...fileContent, latest: newValue });
   };
 
@@ -305,29 +341,11 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   const onCancelButtonClick = () => {
     setSelectedDropdownOption(undefined);
     setShowDiscardConfirmDialog(false);
-  };
-
-  const getPivotTabId = (itemKey: string, index: number): string => {
-    return `function-test-${itemKey}`;
-  };
-
-  const onPivotItemClick = (item?: PivotItem, ev?: React.MouseEvent<HTMLElement>) => {
-    if (!!item) {
-      setSelectedPivotTab(item.props.itemKey as PivotType);
-    }
+    resetInvalidFileSelectedWarningAndFileName();
   };
 
   const getHeaderContent = (): JSX.Element => {
-    return (
-      <Pivot getTabId={getPivotTabId} className={pivotStyle} onLinkClick={onPivotItemClick} selectedKey={selectedPivotTab}>
-        <PivotItem itemKey={PivotType.input} linkText={t('functionTestInput')} />
-        <PivotItem itemKey={PivotType.output} linkText={t('functionTestOutput')} />
-      </Pivot>
-    );
-  };
-
-  const changePivotTab = (pivotItem: PivotType) => {
-    setSelectedPivotTab(pivotItem);
+    return <></>;
   };
 
   const toggleLogPanelExpansion = () => {
@@ -339,7 +357,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const getReadOnlyBannerHeight = () => {
-    return !!readOnlyBanner ? readOnlyBanner.offsetHeight : 0;
+    return readOnlyBanner?.offsetHeight ?? 0;
   };
 
   const isRuntimeReachable = () => {
@@ -360,14 +378,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   };
 
   const fileChangeConfirmClicked = () => {
-    if (!!selectedDropdownOption) {
+    if (selectedDropdownOption) {
       changeDropdownOption(selectedDropdownOption);
     }
     onCancelButtonClick();
   };
 
   const isSelectedFileBlacklisted = () => {
-    return functionEditorContext.isBlacklistedFile(!!selectedFile ? (selectedFile.key as string) : '');
+    return functionEditorContext.isBlacklistedFile((selectedFile?.key as string) ?? '');
   };
 
   const expandLogPanel = () => {
@@ -386,7 +404,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     });
   };
 
-  const uploadFile = async (file: any) => {
+  const uploadFile = async file => {
     const xhr = new XMLHttpRequest();
     const url = `${window.appsvc &&
       window.appsvc.env &&
@@ -404,7 +422,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     const fileName = file.name;
     const notificationId = portalCommunicator.startNotification(t('uploadingFile'), t('uploadingFileWithName').format(fileName));
 
-    xhr.onloadstart = async loadStartEvent => {
+    xhr.onloadstart = async () => {
       setIsUploadingFile(true);
     };
     xhr.onloadend = async loadEndEvent => {
@@ -441,10 +459,49 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
     return SiteHelper.isFunctionAppReadOnly(appEditState);
   };
 
+  const resetInvalidFileSelectedWarningAndFileName = () => {
+    if (showInvalidFileSelectedWarning !== undefined) {
+      setShowInvalidFileSelectedWarning(undefined);
+      setSelectedFileName('');
+    }
+  };
+
+  const getBanner = (): JSX.Element => {
+    /* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */
+    if (addingCorsRules) {
+      return <CustomBanner message={t('functionEditorCorsWarning')} type={MessageBarType.info} />;
+    } else if (isAppReadOnly(siteStateContext.siteAppEditState)) {
+      return <EditModeBanner setBanner={setReadOnlyBanner} />;
+    } else if (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) {
+      return (
+        <CustomBanner
+          message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
+          type={MessageBarType.error}
+        />
+      );
+    } else if (FunctionAppService.enableEditingForLinux(site, workerRuntime) && isLinuxDynamic(site)) {
+      // NOTE(krmitta): Banner is only visible in case of Linux Consumption
+      return (
+        <CustomBanner
+          message={t('enablePortalEditingForLinuxConsumptionWarning')}
+          type={MessageBarType.warning}
+          learnMoreLink={Links.setupLocalFunctionEnvironment}
+        />
+      );
+    } else if (showInvalidFileSelectedWarning !== undefined && showInvalidFileSelectedWarning) {
+      return (
+        <CustomBanner
+          message={selectedFileName ? t('invalidFileSelectedWarning').format(selectedFileName) : t('validFileShouldBeSelectedWarning')}
+          type={MessageBarType.warning}
+        />
+      );
+    } else {
+      return <></>;
+    }
+  };
+
   useEffect(() => {
     setLogPanelHeight(logPanelExpanded ? minimumLogPanelHeight : 0);
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logPanelExpanded]);
 
   useEffect(() => {
@@ -454,22 +511,24 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
   }, [logPanelExpanded, readOnlyBanner, logPanelHeight]);
 
   useEffect(() => {
-    if (!!responseContent) {
-      changePivotTab(PivotType.output);
-    }
-  }, [responseContent]);
-
-  useEffect(() => {
     if (!isRefreshing && !initialLoading) {
       fetchData();
     }
+
+    resetInvalidFileSelectedWarningAndFileName();
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRefreshing]);
 
   useEffect(() => {
     fetchData();
-    setSelectedLoggingOption(isFileSystemLoggingAvailable ? LoggingOptions.fileBased : LoggingOptions.appInsights);
+    setLiveLogsSessionId(Guid.newGuid());
+    if (isFunctionLogsApiFlightingEnabled && runtimeVersion === CommonConstants.FunctionsRuntimeVersions.four) {
+      setSelectedLoggingOption(showAppInsightsLogs ? LoggingOptions.appInsights : LoggingOptions.fileBased);
+      expandLogPanel();
+    } else {
+      setSelectedLoggingOption(isFileSystemLoggingAvailable ? LoggingOptions.fileBased : LoggingOptions.appInsights);
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -490,6 +549,9 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           functionInfo={functionInfo}
           runtimeVersion={runtimeVersion}
           upload={uploadFile}
+          setShowInvalidFileSelectedWarning={setShowInvalidFileSelectedWarning}
+          setSelectedFileName={setSelectedFileName}
+          resetInvalidFileSelectedWarningAndFileName={resetInvalidFileSelectedWarningAndFileName}
         />
         <ConfirmDialog
           primaryActionButton={{
@@ -519,23 +581,13 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           hidden={!selectedDropdownOption}
           onDismiss={onCancelButtonClick}
         />
-        {/* NOTE (krmitta): Show the read-only banner first, instead of showing the Generic Runtime failure method */}
-        {isAppReadOnly(siteStateContext.siteAppEditState) ? (
-          <EditModeBanner setBanner={setReadOnlyBanner} />
-        ) : (
-          (!isRuntimeReachable() || (!isSelectedFileBlacklisted() && isFileContentAvailable !== undefined && !isFileContentAvailable)) && (
-            <CustomBanner
-              message={!isRuntimeReachable() ? t('scmPingFailedErrorMessage') : t('fetchFileContentFailureMessage')}
-              type={MessageBarType.error}
-            />
-          )
-        )}
+        {getBanner()}
         <FunctionEditorFileSelectorBar
           disabled={isDisabled()}
           functionAppNameLabel={site.name}
           functionInfo={functionInfo}
           fileDropdownOptions={getDropdownOptions()}
-          fileDropdownSelectedKey={!!selectedFile ? (selectedFile.key as string) : ''}
+          fileDropdownSelectedKey={(selectedFile?.key as string) ?? ''}
           onChangeDropdown={onFileSelectorChange}
         />
       </div>
@@ -543,7 +595,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
         type={PanelType.medium}
         isOpen={showTestPanel}
         onDismiss={onCloseTest}
-        overlay={functionRunning}
+        overlay={functionRunning || isRefreshing}
         headerContent={getHeaderContent()}
         isBlocking={false}
         customStyle={testPanelStyle}>
@@ -555,12 +607,14 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
           reqBody={reqBody}
           setReqBody={setReqBody}
           responseContent={responseContent}
-          selectedPivotTab={selectedPivotTab}
           functionRunning={functionRunning}
           testData={testData}
           urlObjs={urlObjs}
           xFunctionKey={xFunctionKey}
           getFunctionUrl={getFunctionUrl}
+          addCorsRule={addCorsRule}
+          enablePortalCall={enablePortalCall}
+          addingCorsRules={addingCorsRules}
         />
       </CustomPanel>
       {isLoading() && <LoadingComponent />}
@@ -601,6 +655,7 @@ export const FunctionEditor: React.SFC<FunctionEditorProps> = props => {
             showLoggingOptionsDropdown={showLoggingOptionsDropdown}
             selectedLoggingOption={selectedLoggingOption}
             setSelectedLoggingOption={setSelectedLoggingOption}
+            liveLogsSessionId={liveLogsSessionId}
           />
         )}
         {(!showAppInsightsLogs || selectedLoggingOption === LoggingOptions.fileBased) && (

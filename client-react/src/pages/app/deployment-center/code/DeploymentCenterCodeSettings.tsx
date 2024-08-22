@@ -1,5 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { DeploymentCenterFieldProps, DeploymentCenterCodeFormData, WorkflowOption } from '../DeploymentCenter.types';
+import {
+  DeploymentCenterFieldProps,
+  DeploymentCenterCodeFormData,
+  WorkflowOption,
+  RuntimeStackOptions,
+  AppType,
+  PublishType,
+} from '../DeploymentCenter.types';
 import DeploymentCenterGitHubDataLoader from '../github-provider/DeploymentCenterGitHubDataLoader';
 import DeploymentCenterBitbucketDataLoader from '../bitbucket-provider/DeploymentCenterBitbucketDataLoader';
 import { ScmType, BuildProvider } from '../../../../models/site/config';
@@ -11,17 +18,13 @@ import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/Dep
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import { useTranslation } from 'react-i18next';
-import {
-  getCodeWebAppWorkflowInformation,
-  getCodeFunctionAppCodeWorkflowInformation,
-  isWorkflowOptionExistingOrAvailable,
-} from '../utility/GitHubActionUtility';
-import { getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { isWorkflowOptionExistingOrAvailable, getRuntimeVersion } from '../utility/GitHubActionUtility';
+import { getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { SiteStateContext } from '../../../../SiteState';
-import { Link, ProgressIndicator } from 'office-ui-fabric-react';
+import { Link, ProgressIndicator } from '@fluentui/react';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 import DeploymentCenterLocalGitConfiguredView from '../local-git-provider/DeploymentCenterLocalGitConfiguredView';
 import DeploymentCenterExternalConfiguredView from '../external-provider/DeploymentCenterExternalConfiguredView';
@@ -35,6 +38,10 @@ import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/Deployme
 import DeploymentCenterDevOpsDataLoader from '../devops-provider/DeploymentCenterDevOpsDataLoader';
 import DeploymentCenterDevOpsKuduBuildConfiguredView from '../devops-provider/DeploymentCenterDevOpsKuduBuildConfiguredView';
 import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
+import { AppOs } from '../../../../models/site/site';
+import DeploymentCenterData from '../DeploymentCenter.data';
+import { PortalContext } from '../../../../PortalContext';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -42,6 +49,8 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const siteStateContext = useContext(SiteStateContext);
+  const portalContext = useContext(PortalContext);
+  const deploymentCenterData = new DeploymentCenterData();
 
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
   const [workflowFilePath, setWorkflowFilePath] = useState<string>('');
@@ -115,7 +124,30 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [siteConfigScmType, deploymentCenterContext.configMetadata]);
 
-  const getWorkflowFileContent = () => {
+  const getWorkflowFileVariables = () => {
+    const slotName = deploymentCenterContext.siteDescriptor?.slot ?? '';
+    const siteName = deploymentCenterContext.siteDescriptor?.site ?? '';
+
+    const variables = {
+      siteName: slotName ? `${siteName}(${slotName})` : siteName,
+      slotName: slotName || CommonConstants.production,
+      runtimeVersion: getRuntimeVersion(
+        siteStateContext.isLinuxApp,
+        formProps.values.runtimeVersion,
+        formProps.values.runtimeRecommendedVersion
+      ),
+      branch: formProps.values.branch || CommonConstants.master,
+      publishingProfileSecretName: `AzureAppService_PublishProfile_${formProps.values.gitHubPublishProfileSecretGuid}`,
+    };
+
+    if (formProps.values.runtimeStack === RuntimeStackOptions.Java) {
+      variables['javaContainer'] = formProps.values.javaContainer;
+    }
+
+    return variables;
+  };
+
+  const getWorkflowFileContent = async () => {
     if (deploymentCenterContext.siteDescriptor) {
       const runtimeInfoAvailable = formProps.values.runtimeStack && formProps.values.runtimeVersion;
 
@@ -125,30 +157,32 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
         (formProps.values.workflowOption === WorkflowOption.Add || formProps.values.workflowOption === WorkflowOption.Overwrite) &&
         runtimeInfoAvailable
       ) {
-        const information = siteStateContext.isFunctionApp
-          ? getCodeFunctionAppCodeWorkflowInformation(
-              formProps.values.runtimeStack,
-              formProps.values.runtimeVersion,
-              formProps.values.runtimeRecommendedVersion,
-              formProps.values.branch,
-              siteStateContext.isLinuxApp,
-              formProps.values.gitHubPublishProfileSecretGuid,
-              deploymentCenterContext.siteDescriptor.site,
-              deploymentCenterContext.siteDescriptor.slot
-            )
-          : getCodeWebAppWorkflowInformation(
-              formProps.values.runtimeStack,
-              formProps.values.runtimeVersion,
-              formProps.values.runtimeRecommendedVersion,
-              formProps.values.branch,
-              siteStateContext.isLinuxApp,
-              formProps.values.gitHubPublishProfileSecretGuid,
-              deploymentCenterContext.siteDescriptor.site,
-              deploymentCenterContext.siteDescriptor.slot,
-              formProps.values.javaContainer
-            );
+        const variables = getWorkflowFileVariables();
+        const appType = siteStateContext.isFunctionApp ? AppType.FunctionApp : AppType.WebApp;
+        const os = siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows;
 
-        return information.content;
+        const getWorkflowFile = await deploymentCenterData.getWorkflowFile(
+          appType,
+          PublishType.Code,
+          os,
+          variables,
+          formProps.values.runtimeStack
+        );
+        if (getWorkflowFile.metadata.success) {
+          return getWorkflowFile.data;
+        } else {
+          portalContext.log(
+            getTelemetryInfo('error', 'getWorkflowFile', 'failed', {
+              appType: appType,
+              publishType: PublishType.Code,
+              os: os,
+              runtimeVersion: variables.runtimeVersion,
+              branch: variables.branch,
+              runtimeStack: formProps.values.runtimeStack,
+            })
+          );
+          return t('deploymentCenterWorkflowError');
+        }
       }
     }
 
@@ -238,7 +272,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
           {isGitHubActionsBuild && (
             <>
-              <DeploymentCenterGitHubDataLoader formProps={formProps} />
+              <DeploymentCenterGitHubDataLoader isGitHubActions={isGitHubActionsBuild} formProps={formProps} />
               <DeploymentCenterGitHubWorkflowConfigSelector
                 formProps={formProps}
                 setGithubActionExistingWorkflowContents={setGithubActionExistingWorkflowContents}

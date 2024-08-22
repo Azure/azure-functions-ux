@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AppSettingsFormikPropsCombined, AppSettingsFormValues } from '../AppSettings.types';
-import { MessageBarType, Link } from 'office-ui-fabric-react';
+import { MessageBarType, Link } from '@fluentui/react';
 import ApplicationSettings from '../ApplicationSettings/ApplicationSettings';
 import ConnectionStrings from '../ConnectionStrings/ConnectionStrings';
 import { isEqual } from 'lodash-es';

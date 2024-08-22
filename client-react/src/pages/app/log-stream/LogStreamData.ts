@@ -28,9 +28,9 @@ function _getLogLevel(message: string): LogLevel {
 }
 
 function _addLogEntry(message: string, logLevel: LogLevel, logEntries: LogEntry[]) {
-  const logMessage = message ? message.trim() : message;
+  const logMessage = message?.trim() ?? message;
 
-  if (!!logMessage) {
+  if (logMessage) {
     if (logLevel === LogLevel.Unknown) {
       if (logEntries.length === 0) {
         logEntries.push({

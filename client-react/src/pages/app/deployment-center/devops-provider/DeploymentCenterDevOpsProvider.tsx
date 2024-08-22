@@ -5,7 +5,9 @@ import { useTranslation } from 'react-i18next';
 import { DeploymentCenterDevOpsProviderProps } from '../DeploymentCenter.types';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderProps> = props => {
   const {
@@ -31,6 +33,8 @@ const DeploymentCenterDevOpsProvider: React.FC<DeploymentCenterDevOpsProviderPro
   return (
     <>
       <h3>{t('deploymentCenterCodeDevOpsTitle')}</h3>
+
+      {getDescriptionSection(ScmType.Vso, t('deploymentCenterAzureReposDescriptionText'))}
 
       {showInfoBanner && errorMessage && (
         <div className={deploymentCenterInfoBannerDiv}>

@@ -1,4 +1,4 @@
-import { IButtonProps, IconButton as OfficeIconButton } from 'office-ui-fabric-react/lib/Button';
+import { IButtonProps, IconButton as OfficeIconButton } from '@fluentui/react';
 import React, { useContext } from 'react';
 
 import { ThemeContext } from '../../ThemeContext';

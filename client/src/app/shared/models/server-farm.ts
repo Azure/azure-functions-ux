@@ -3,5 +3,6 @@ export interface ServerFarm {
   hostingEnvironmentProfile?: HostingEnvironmentProfile;
   provisioningState?: 'InProgress' | 'Succeeded' | 'Failed';
   hyperV?: boolean;
+  isXenon?: boolean;
   numberOfWorkers?: number;
 }

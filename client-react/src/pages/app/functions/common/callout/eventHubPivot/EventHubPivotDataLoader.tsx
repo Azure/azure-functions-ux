@@ -4,7 +4,7 @@ import EventHubPivot from './EventHubPivot';
 import EventHubPivotData from './EventHubPivot.data';
 import { CustomDropdownProps } from '../../../../../../components/form-controls/DropDown';
 import { FieldProps } from 'formik';
-import { IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownProps } from '@fluentui/react';
 
 const eventHubPivotData = new EventHubPivotData();
 export const EventHubPivotContext = React.createContext(eventHubPivotData);

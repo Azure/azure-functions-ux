@@ -4,7 +4,7 @@
 
 运行以下命令以安装 Core Tools 包：
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 接下来，<a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">安装 Visual Studio Code 的 Azure Functions 扩展</a>。 安装扩展后，单击活动栏中的 Azure 徽标。 在“Azure:Functions”下，单击“登录到 Azure...”并遵照屏幕说明操作。
 

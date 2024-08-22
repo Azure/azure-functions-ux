@@ -21,7 +21,7 @@ export interface StaticSiteRouterProps {
   staticSiteName?: string;
 }
 
-const StaticSiteRouter: React.FC<RouteComponentProps<StaticSiteRouterProps>> = props => {
+const StaticSiteRouter: React.FC<RouteComponentProps<StaticSiteRouterProps>> = () => {
   const theme = useContext(ThemeContext);
 
   return (

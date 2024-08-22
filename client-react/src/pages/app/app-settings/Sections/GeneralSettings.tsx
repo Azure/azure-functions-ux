@@ -12,7 +12,6 @@ import DebuggingWindows from '../GeneralSettings/DebuggingWindows';
 import DebuggingLinux from '../GeneralSettings/DebuggingLinux';
 import { isEqual } from 'lodash-es';
 import ClientCert from '../GeneralSettings/ClientCert/ClientCert';
-import { isKubeApp } from '../../../../utils/arm-utils';
 
 const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const { values } = props;
@@ -34,15 +33,13 @@ const GeneralSettings: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   return (
     <>
       <Stacks {...props} />
-      {/* NOTE (krmitta): Need to hide platform settings for KubeApp as elements within are not shown */}
-      {!isKubeApp(site) && (
-        <>
-          <h3>{t('platformSettings')}</h3>
-          <div className={settingsWrapper}>
-            <Platform {...props} />
-          </div>
-        </>
-      )}
+      {/* NOTE (krmitta): Need to hide platform settings except TLS settings for KubeApp as elements within are not shown */}
+      <>
+        <h3>{t('platformSettings')}</h3>
+        <div className={settingsWrapper}>
+          <Platform {...props} />
+        </div>
+      </>
       {getDebuggingRender()}
       <SlotAutoSwap {...props} />
       <ClientCert {...props} />
@@ -65,6 +62,7 @@ const platformDirty = (values: AppSettingsFormValues, initialValues: AppSettings
     !isEqual(values.config.properties.managedPipelineMode, initialValues.config.properties.managedPipelineMode) ||
     !isEqual(values.config.properties.ftpsState, initialValues.config.properties.ftpsState) ||
     !isEqual(values.config.properties.http20Enabled, initialValues.config.properties.http20Enabled) ||
+    !isEqual(values.config.properties.http20ProxyFlag, initialValues.config.properties.http20ProxyFlag) ||
     !isEqual(values.config.properties.alwaysOn, initialValues.config.properties.alwaysOn) ||
     !isEqual(values.site.properties.clientAffinityEnabled, initialValues.site.properties.clientAffinityEnabled) ||
     !isEqual(values.config.properties.webSocketsEnabled, initialValues.config.properties.webSocketsEnabled)

@@ -3,7 +3,7 @@ import { PortalContext } from '../../../../../PortalContext';
 import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 import { AppInsightsInvocationTraceDetail, AppInsightsInvocationTrace } from '../../../../../models/app-insights';
 import { invocationsTabStyle } from './FunctionInvocations.style';
-import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from 'office-ui-fabric-react';
+import { DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn } from '@fluentui/react';
 import { useTranslation } from 'react-i18next';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 
@@ -28,23 +28,21 @@ const FunctionInvocationDetails: React.FC<FunctionInvocationDetailsProps> = prop
         onClick: openAppInsightsQueryEditor,
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
     ];
   };
 
   const openAppInsightsQueryEditor = () => {
-    portalContext.openBlade(
-      {
-        detailBlade: 'LogsBlade',
-        extension: 'Microsoft_Azure_Monitoring_Logs',
-        detailBladeInputs: {
-          resourceId: appInsightsResourceId,
-          source: 'Microsoft.Web-FunctionApp',
-          query: invocationsContext.formInvocationDetailsQuery(operationId, invocationId),
-        },
+    portalContext.openBlade({
+      detailBlade: 'LogsBlade',
+      extension: 'Microsoft_Azure_Monitoring_Logs',
+      detailBladeInputs: {
+        resourceId: appInsightsResourceId,
+        source: 'Microsoft.Web-FunctionApp',
+        query: invocationsContext.formInvocationDetailsQuery(operationId, invocationId),
       },
-      'function-monitor'
-    );
+    });
   };
 
   const getColumns = (): IColumn[] => {

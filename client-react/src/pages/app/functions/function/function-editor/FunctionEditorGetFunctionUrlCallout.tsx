@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import { findDOMNode } from 'react-dom';
 import { useTranslation } from 'react-i18next';
-import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint, DropdownMenuItemType } from 'office-ui-fabric-react';
+import { Dropdown as OfficeDropdown, IDropdownOption, Callout, DirectionalHint, DropdownMenuItemType } from '@fluentui/react';
 import TextFieldNoFormik from '../../../../../components/form-controls/TextFieldNoFormik';
 import { style } from 'typestyle';
 import { fileSelectorDropdownStyle, keyDivStyle, urlDivStyle, urlFieldStyle, urlFormStyle } from './FunctionEditor.styles';
@@ -70,11 +71,17 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [urlObjs]);
+
+  const target = React.useMemo(() => {
+    // eslint-disable-next-line react/no-find-dom-node
+    return dialogTarget instanceof Element ? dialogTarget : (findDOMNode(dialogTarget) as Element | null);
+  }, [dialogTarget]);
+
   return (
     <Callout
       role="alertdialog"
-      gapSpace={380}
-      target={dialogTarget}
+      gapSpace={0}
+      target={target}
       onDismiss={onCloseDialog}
       setInitialFocus={true}
       directionalHint={DirectionalHint.rightBottomEdge}
@@ -87,7 +94,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
           <div className={keyDivStyle}>
             {t('keysDialog_key')}
             <OfficeDropdown
-              defaultSelectedKey={!!selectedUrlObj ? selectedUrlObj.key : ''}
+              defaultSelectedKey={selectedUrlObj?.key ?? ''}
               options={dropdownOptions}
               onChange={onChangeHostKeyDropdown}
               ariaLabel={t('functionAppDirectoryDropdownAriaLabel')}
@@ -98,7 +105,7 @@ const FunctionEditorGetFunctionUrlCallout: React.FC<FunctionEditorGetFunctionUrl
             {t('keysDialog_url')}
             <TextFieldNoFormik
               id="function-editor-function-url"
-              value={!!selectedUrlObj ? selectedUrlObj.url : ''}
+              value={selectedUrlObj?.url ?? ''}
               disabled={true}
               copyButton={true}
               className={urlFieldStyle}

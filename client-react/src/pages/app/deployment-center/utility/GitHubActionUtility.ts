@@ -64,8 +64,7 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
   deploymentCenterData: DeploymentCenterData,
   resourceId: string,
   payload: SiteSourceControlRequestBody,
-  gitHubToken: string,
-  isKubeApp: boolean
+  gitHubToken: string
 ) => {
   // NOTE(michinoy): To be on the safe side, the update operations should be sequential rather than
   // parallel. The reason behind this is because incase the metadata update fails, but the scmtype is updated
@@ -81,7 +80,7 @@ export const updateGitHubActionSourceControlPropertiesManually = async (
     return fetchExistingMetadataResponse;
   }
 
-  const properties = !!fetchExistingMetadataResponse.data.properties ? fetchExistingMetadataResponse.data.properties : {};
+  const properties = fetchExistingMetadataResponse.data.properties ?? {};
 
   delete properties[DeploymentCenterConstants.metadataRepoUrl];
   delete properties[DeploymentCenterConstants.metadataScmUri];
@@ -135,7 +134,7 @@ export const clearGitHubActionSourceControlPropertiesManually = async (deploymen
     return fetchExistingMetadataResponse;
   }
 
-  const properties = !!fetchExistingMetadataResponse.data.properties ? fetchExistingMetadataResponse.data.properties : {};
+  const properties = fetchExistingMetadataResponse.data.properties ?? {};
 
   delete properties[DeploymentCenterConstants.metadataRepoUrl];
   delete properties[DeploymentCenterConstants.metadataScmUri];
@@ -255,15 +254,16 @@ export const getCodeWebAppWorkflowInformation = (
         content = getJavaJarGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       }
       break;
-    case RuntimeStacks.dotnet:
+    case RuntimeStacks.dotnet: {
       // NOTE(michinoy): All of the dotnet related stacks are under the 'dotnet' stack now
       // so workflow file creation will diverge based on the runtime version instead.
       const version = runtimeVersion.toLocaleLowerCase();
       content =
         version === 'v4.0' || version === 'v2.0'
-          ? getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
+          ? getAspNetGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName)
           : getDotnetCoreGithubActionWorkflowDefinition(siteName, slotName, repoBranch, isLinuxApp, secretName, runtimeStackVersion);
       break;
+    }
     case RuntimeStacks.php:
       content = isLinuxApp
         ? getPhpLinuxGithubActionWorkflowDefinition(siteName, slotName, repoBranch, secretName, runtimeStackVersion)
@@ -317,7 +317,7 @@ export const getCodeFunctionAppCodeWorkflowInformation = (
         : getFunctionAppJavaWindowsWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
       break;
     case RuntimeStacks.powershell:
-      content = getFunctionAppPowershellWindowsWorkflow(siteName, slotName, repoBranch, secretName, runtimeStackVersion);
+      content = getFunctionAppPowershellWindowsWorkflow(siteName, slotName, repoBranch, secretName);
       break;
     default:
       throw Error(`Incorrect stack value '${runtimeStack}' provided.`);
@@ -330,7 +330,7 @@ export const getCodeFunctionAppCodeWorkflowInformation = (
   };
 };
 
-const getRuntimeVersion = (isLinuxApp: boolean, runtimeVersion: string, runtimeStackRecommendedVersion: string) => {
+export const getRuntimeVersion = (isLinuxApp: boolean, runtimeVersion: string, runtimeStackRecommendedVersion: string) => {
   if (runtimeStackRecommendedVersion) {
     return runtimeStackRecommendedVersion;
   } else {
@@ -748,13 +748,7 @@ jobs:
 
 // TODO(michinoy): Need to implement templated github action workflow generation.
 // Current reference - https://github.com/Azure/actions-workflow-templates
-const getAspNetGithubActionWorkflowDefinition = (
-  siteName: string,
-  slotName: string,
-  branch: string,
-  secretName: string,
-  runtimeStackVersion: string
-) => {
+const getAspNetGithubActionWorkflowDefinition = (siteName: string, slotName: string, branch: string, secretName: string) => {
   const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
   const slot = slotName || 'production';
 
@@ -1258,13 +1252,7 @@ jobs:
         publish-profile: \${{ secrets.${secretName} }}`;
 };
 
-const getFunctionAppPowershellWindowsWorkflow = (
-  siteName: string,
-  slotName: string,
-  branch: string,
-  secretName: string,
-  runtimeStackVersion: string
-) => {
+const getFunctionAppPowershellWindowsWorkflow = (siteName: string, slotName: string, branch: string, secretName: string) => {
   const webAppName = slotName ? `${siteName}(${slotName})` : siteName;
   const slot = slotName || 'production';
 

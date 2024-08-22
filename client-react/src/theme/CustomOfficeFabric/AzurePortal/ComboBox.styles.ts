@@ -1,6 +1,5 @@
-import { ITheme } from 'office-ui-fabric-react/lib/Styling';
+import { ITheme, IComboBoxStyles } from '@fluentui/react';
 import { Depths } from './AzureDepths';
-import { IComboBoxStyles } from 'office-ui-fabric-react/lib/ComboBox';
 import * as StyleConstants from './Constants';
 
 export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
@@ -23,9 +22,6 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
           '&.is-open': {
             borderColor: semanticColors.focusBorder,
           },
-          '.ms-Button-icon': {
-            height: StyleConstants.inputControlHeightInner,
-          },
         },
       },
     ],
@@ -41,19 +37,15 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
       },
     },
     rootDisabled: {
-      selectors: {
-        '.ms-Button': {
-          backgroundColor: semanticColors.disabledBackground,
-          color: semanticColors.inputText,
-        },
-        '.ms-Button:hover': {
-          backgroundColor: semanticColors.disabledBackground,
-          color: semanticColors.inputText,
-        },
-      },
+      color: semanticColors.inputText,
+      backgroundColor: semanticColors.disabledBackground,
+      cursor: 'default',
     },
     rootFocused: {
       borderColor: semanticColors.focusBorder,
+    },
+    inputDisabled: {
+      background: 'transparent',
     },
     rootError: {
       borderColor: semanticColors.errorText,
@@ -88,6 +80,7 @@ export const ComboBoxStyles = (theme: ITheme): Partial<IComboBoxStyles> => {
       selectors: {
         '.ms-ComboBox-header': {
           ...fonts.medium,
+          fontWeight: StyleConstants.fontWeightBold,
           color: semanticColors.focusBorder,
         },
         '.ms-ComboBox-option': {

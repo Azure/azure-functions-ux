@@ -1,4 +1,4 @@
-import { Module, HttpModule } from '@nestjs/common';
+import { Module } from '@nestjs/common';
 import { ProxyController } from './proxy.controller';
 import { SharedModule } from '../shared/shared.module';
 @Module({

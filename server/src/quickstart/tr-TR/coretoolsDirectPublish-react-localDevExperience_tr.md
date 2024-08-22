@@ -4,7 +4,7 @@ Başlayabilmek için önce npm'yi içeren <a href="https://go.microsoft.com/fwli
 
 Core Tools paketini yüklemek için şu komutu çalıştırın:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Azure İşlevleri projesi oluşturma
@@ -42,6 +42,6 @@ Hata ayıklamayı durdurmak için terminalde **Ctrl-C** tuşlarını kullanın.
 
 İşlevler projenizi Azure'da yayımlamak için aşağıdaki komutu girin:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Azure'da oturum açmanız istenebilir. Ekrandaki yönergeleri takip edin.

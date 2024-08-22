@@ -6,6 +6,12 @@ export enum HostStates {
   offline = 'Offline',
 }
 
+export enum FunctionAppContentEditingState {
+  NotAllowed = 'NotAllowed',
+  Allowed = 'Allowed',
+  Unknown = 'Unknown',
+}
+
 export interface ExtensionBundle {
   id?: string;
   version?: string;
@@ -18,4 +24,5 @@ export interface HostStatus {
   versionDetails?: string[];
   errors?: string[];
   extensionBundle?: ExtensionBundle;
+  functionAppContentEditingState?: FunctionAppContentEditingState;
 }

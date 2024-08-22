@@ -1,4 +1,4 @@
-import { ITextFieldStyleProps, ITextFieldStyles } from 'office-ui-fabric-react/lib/TextField';
+import { ITextFieldStyleProps, ITextFieldStyles } from '@fluentui/react';
 import * as StyleConstants from './Constants';
 import { ThemeExtended } from '../../SemanticColorsExtended';
 
@@ -68,6 +68,9 @@ export const TextFieldStyles = (props: ITextFieldStyleProps): Partial<ITextField
     ],
     errorMessage: {
       color: semanticColors.errorText,
+    },
+    revealButton: {
+      height: 'auto',
     },
   };
 };

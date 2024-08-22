@@ -1,7 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import { IChoiceGroupOption } from 'office-ui-fabric-react/lib/ChoiceGroup';
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
-import { MessageBarType } from 'office-ui-fabric-react/lib/MessageBar';
+import { IChoiceGroupOption, IDropdownOption, MessageBarType } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
@@ -68,7 +66,7 @@ export const SlotAutoSwap: React.FC<FormikProps<AppSettingsFormValues>> = props 
                 ariaLabelledBy={`app-settings-auto-swap-enabled-label`}
                 id="app-settings-auto-swap-enabled"
                 disabled={disableAllControls}
-                selectedKey={!!values.config.properties.autoSwapSlotName ? 'on' : 'off'}
+                selectedKey={values.config.properties.autoSwapSlotName ? 'on' : 'off'}
                 options={[
                   {
                     key: 'on',

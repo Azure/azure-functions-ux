@@ -31,7 +31,7 @@ export default class AppKeysData {
       return [];
     }
     const { masterKey, functionKeys } = keys;
-    const hostKeys = Object.keys(functionKeys).map((key, i) => ({
+    const hostKeys = Object.keys(functionKeys).map(key => ({
       name: key,
       value: functionKeys[key],
     }));
@@ -45,7 +45,7 @@ export default class AppKeysData {
     }
     const { systemKeys } = keys;
     return sortBy(
-      Object.keys(systemKeys).map((key, i) => ({
+      Object.keys(systemKeys).map(key => ({
         name: key,
         value: systemKeys[key],
       })),

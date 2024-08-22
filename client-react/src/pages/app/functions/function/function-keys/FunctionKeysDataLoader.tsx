@@ -3,7 +3,6 @@ import FunctionKeysData from './FunctionKeys.data';
 import { FunctionKeysFormValues } from './FunctionKeys.types';
 import { PortalContext } from '../../../../../PortalContext';
 import FunctionKeys from './FunctionKeys';
-import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import SiteService from '../../../../../ApiHelpers/SiteService';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
@@ -25,13 +24,12 @@ const FunctionsKeysDataLoader: React.FC<FunctionsKeysDataLoaderProps> = props =>
   const [appPermission, setAppPermission] = useState(true);
 
   const portalContext = useContext(PortalContext);
-  const startupInfoContext = useContext(StartupInfoContext);
   const siteStateContext = useContext(SiteStateContext);
 
   const refreshData = async () => {
-    if (!!siteStateContext.site) {
+    if (siteStateContext.site) {
       setRefreshLoading(true);
-      SiteService.fireSyncTrigger(siteStateContext.site, startupInfoContext.token).then(r => {
+      SiteService.fireSyncTrigger(siteStateContext.site).then(r => {
         fetchData();
         if (!r.metadata.success) {
           LogService.error(

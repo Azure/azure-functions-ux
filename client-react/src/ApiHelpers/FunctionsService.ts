@@ -10,9 +10,10 @@ import { Binding } from '../models/functions/binding';
 import { RuntimeExtensionMajorVersions, RuntimeExtensionCustomVersions } from '../models/functions/runtime-extension';
 import { Host } from '../models/functions/host';
 import { VfsObject } from '../models/functions/vfs';
-import { Method } from 'axios';
 import { KeyValue } from '../models/portal-models';
 import { ContainerItem, ShareItem } from '../pages/app/app-settings/AppSettings.types';
+import { NetAjaxSettings } from '../models/ajax-request-model';
+import { Method } from 'axios';
 
 export default class FunctionsService {
   public static getHostStatus = (resourceId: string) => {
@@ -54,6 +55,33 @@ export default class FunctionsService {
       body: functionInfo,
     });
   };
+
+  public static runFunction(settings: NetAjaxSettings) {
+    const url = settings.uri;
+    const method = settings.type as Method;
+    const headers = settings.headers || {};
+    const data = settings.data;
+
+    return sendHttpRequest({ url, method, headers, data }).catch(err => {
+      return this.tryPassThroughController(err, url, method, headers, data);
+    });
+  }
+
+  public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
+    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
+      return this.tryPassThroughController(err, url, method, headers, body);
+    });
+  }
+
+  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
+    const passthroughBody = {
+      url,
+      headers,
+      method,
+      body,
+    };
+    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
+  }
 
   public static getBindings = (functionAppId: string) => {
     const resourceId = `${functionAppId}/host/default/bindings`;
@@ -142,7 +170,7 @@ export default class FunctionsService {
     inputHeaders?: KeyValue<string>,
     fileName?: string
   ) {
-    const endpoint = `${!!functionName ? `/${functionName}` : ''}/${!!fileName ? `${fileName}` : ''}`;
+    const endpoint = `${functionName ? `/${functionName}` : ''}/${fileName ? `${fileName}` : ''}`;
     const headers = FunctionsService._addOrGetVfsHeaders(inputHeaders);
 
     return MakeArmCall<VfsObject[] | string>({
@@ -161,7 +189,7 @@ export default class FunctionsService {
     runtimeVersion?: string,
     apiVersion?: string
   ) => {
-    const endpoint = `${!!functionName ? `/${functionName}` : ''}${!!fileName ? `/${fileName}` : ''}`;
+    const endpoint = `${functionName ? `/${functionName}` : ''}${fileName ? `/${fileName}` : ''}`;
     const shortUrl = `${resourceId}${FunctionsService._getVfsApiForRuntimeVersion(endpoint, runtimeVersion)}`;
     if (apiVersion) {
       return `${shortUrl}${shortUrl.indexOf('?') > -1 ? '&' : '?'}api-version=${apiVersion}`;
@@ -188,32 +216,23 @@ export default class FunctionsService {
     });
   }
 
-  public static runFunction(url: string, method: Method, headers: KeyValue<string>, body: any) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
-    });
-  }
-
-  public static getDataFromFunctionHref(url: string, method: Method, headers: KeyValue<string>, body?: any) {
-    return sendHttpRequest({ url, method, headers, data: body }).catch(err => {
-      return this.tryPassThroughController(err, url, method, headers, body);
-    });
-  }
-
   public static getTestDataOverVfsArm(resourceId: string, fileEndpoint: string, runtimeVersion?: string) {
     const headers = FunctionsService._addOrGetVfsHeaders();
     let uri;
 
     switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.v1: {
+        uri = `/extensions/api/vfs/${fileEndpoint}`;
+        break;
+      }
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
-      case RuntimeExtensionMajorVersions.v3: {
+      case RuntimeExtensionMajorVersions.v3:
+      case RuntimeExtensionMajorVersions.v4:
+      default: {
         uri = `/hostruntime/admin/vfs/${fileEndpoint}?relativePath=1`;
         break;
       }
-      case RuntimeExtensionMajorVersions.v1:
-      default:
-        uri = `/extensions/api/vfs/${fileEndpoint}`;
     }
 
     return MakeArmCall<VfsObject[] | string>({
@@ -241,25 +260,16 @@ export default class FunctionsService {
     });
   }
 
-  private static tryPassThroughController(err: any, url: string, method: Method, headers: KeyValue<string>, body: any) {
-    const passthroughBody = {
-      url,
-      headers,
-      method,
-      body,
-    };
-    return sendHttpRequest({ url: `${Url.serviceHost}api/passthrough`, method: 'POST', data: passthroughBody });
-  }
-
   private static _getVfsApiForRuntimeVersion(endpoint: string, runtimeVersion?: string) {
     switch (runtimeVersion) {
+      case RuntimeExtensionMajorVersions.v1:
+        return `/extensions/api/vfs/site/wwwroot/${endpoint}`;
       case RuntimeExtensionCustomVersions.beta:
       case RuntimeExtensionMajorVersions.v2:
       case RuntimeExtensionMajorVersions.v3:
-        return `/hostruntime/admin/vfs/${endpoint}?relativePath=1`;
-      case RuntimeExtensionMajorVersions.v1:
+      case RuntimeExtensionMajorVersions.v4:
       default:
-        return `/extensions/api/vfs/site/wwwroot/${endpoint}`;
+        return `/hostruntime/admin/vfs/${endpoint}?relativePath=1`;
     }
   }
 

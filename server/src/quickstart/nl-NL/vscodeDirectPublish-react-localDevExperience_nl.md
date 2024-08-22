@@ -4,7 +4,7 @@ Voordat u aan de slag kunt gaan, moet u <a href="https://go.microsoft.com/fwlink
 
 Voer de volgende opdracht uit om het Core Tools-pakket te installeren:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Installeer vervolgens de Azure Functions-extensie voor Visual Studio Code</a>. Zodra de extensie is geïnstalleerd, klikt u op het Azure-logo in de activiteitenbalk. Klik bij **Azure: Functions** op **Aanmelden bij Azure...** en volg de instructies op het scherm.
 

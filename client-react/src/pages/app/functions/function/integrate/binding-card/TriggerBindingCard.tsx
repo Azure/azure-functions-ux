@@ -1,5 +1,5 @@
+import { Link } from '@fluentui/react';
 import i18next from 'i18next';
-import { Link } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as PowerSvg } from '../../../../../../images/Common/power.svg';
@@ -11,14 +11,13 @@ import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
-import { BindingManager } from '../../../../../../utils/BindingManager';
-import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import { getBindingDirection } from '../FunctionIntegrate.utils';
-import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
+import BindingCard, { createNew, EditableBindingCardProps, emptyList } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
+import BindingCardLink from './BindingCardLink';
 
-const TriggerBindingCard: React.SFC<EditableBindingCardProps> = props => {
+const TriggerBindingCard: React.FC<EditableBindingCardProps> = props => {
   const { functionInfo, bindings, readOnly, loadBindingSettings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -62,14 +61,15 @@ const getContent = (
     <ul className={listStyle(theme)}>
       {trigger ? (
         <li key="0">
-          <Link
-            onClick={() => {
-              loadBindingSettings(bindings.find(binding => BindingManager.isBindingTypeEqual(binding.type, trigger.type))!.id, false).then(
-                () => {
-                  editExisting(portalCommunicator, t, functionInfo, trigger, bindingEditorContext, BindingDirection.trigger);
-                }
-              );
-            }}>{`${BindingFormBuilder.getBindingTypeName(trigger, bindings)} (${trigger.name})`}</Link>
+          <BindingCardLink
+            bindingDirection={BindingDirection.trigger}
+            bindingEditorContext={bindingEditorContext}
+            bindingInfo={trigger}
+            bindings={bindings}
+            functionInfo={functionInfo}
+            loadBindingSettings={loadBindingSettings}
+            portalCommunicator={portalCommunicator}
+          />
         </li>
       ) : !readOnly ? (
         <li key={'newTrigger'}>

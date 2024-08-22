@@ -8,7 +8,7 @@ import { InfoBoxType } from './../../../controls/info-box/info-box.component';
 import { ProgressBarStep, ProgressBarStepStatus } from './../../../controls/form-wizard/components/progress-bar.component';
 import { ArmSiteDescriptor } from './../../../shared/resourceDescriptors';
 import { FeatureComponent } from './../../../shared/components/feature-component';
-import { LogCategories, SiteTabIds, SlotOperationState, SwapOperationType } from './../../../shared/models/constants';
+import { FeatureFlags, LogCategories, SiteTabIds, SlotOperationState, SwapOperationType } from './../../../shared/models/constants';
 import { DropDownElement } from './../../../shared/models/drop-down-element';
 import { HttpResult } from './../../../shared/models/http-result';
 import { errorIds } from './../../../shared/models/error-ids';
@@ -28,6 +28,7 @@ import { SiteService } from './../../../shared/services/site.service';
 import { SlotSwapGroupValidator } from './slotSwapGroupValidator';
 import { SlotSwapSlotIdValidator } from './slotSwapSlotIdValidator';
 import { ArmUtil } from '../../../shared/Utilities/arm-utils';
+import { Url } from './../../../shared/Utilities/url';
 
 export type SwapStep =
   | 'loading'
@@ -97,6 +98,7 @@ export class SwapSlotsComponent extends FeatureComponent<ResourceId> implements 
   // TODO (refortie) #9868036: Remove this logic once the diff API is function for ARC
   // Defaulting to true, so that UI doesn't appear while loading and then get removed
   public isKubeApp = true;
+  public showSlotsDiffForKubeApp = Url.getFeatureValue(FeatureFlags.showSlotsDiffForKubeApp) === 'true';
 
   public showPhase2Controls = false;
   public phase2DropDownOptions: DropDownElement<Stage2OptionData>[];

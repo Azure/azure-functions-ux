@@ -82,7 +82,12 @@ const DeploymentCenterContainerPrivateRegistrySettings: React.FC<DeploymentCente
             </ReactiveFormControl>
           )}
 
-          <Field id="container-privateRegistry-startUpFile" name="command" component={TextField} label={t('containerStartupFile')} />
+          <Field
+            id="container-privateRegistry-startUpFileOrCommand"
+            name="command"
+            component={TextField}
+            label={t('containerStartupFileOrCommand')}
+          />
         </>
       )}
 

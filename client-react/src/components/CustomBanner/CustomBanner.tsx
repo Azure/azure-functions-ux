@@ -1,4 +1,4 @@
-import { Link, MessageBar, MessageBarType } from 'office-ui-fabric-react';
+import { css, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as ErrorSvg } from '../../images/Common/Error.svg';
@@ -17,19 +17,27 @@ interface CustomBannerProps {
   learnMoreLinkAriaLabel?: string;
   onDismiss?: (e?: any) => any;
   undocked?: boolean;
+  onClick?: (e?: any) => any;
 }
 
 const CustomBanner: React.FC<CustomBannerProps> = props => {
-  const { message, type, id, customIcon, className: customClassName, learnMoreLink, learnMoreLinkAriaLabel, onDismiss, undocked } = props;
+  const {
+    message,
+    type,
+    id,
+    customIcon,
+    className: customClassName,
+    learnMoreLink,
+    learnMoreLinkAriaLabel,
+    onDismiss,
+    undocked,
+    onClick,
+  } = props;
   const { t } = useTranslation();
 
   const theme = useContext(ThemeContext);
 
-  let className = messageBannerClass(theme, type);
-
-  if (!!customClassName) {
-    className = Object.assign(className, customClassName);
-  }
+  const className = css(messageBannerClass(theme, type, !!onClick), customClassName);
 
   const icon = customIcon ? customIcon : _getIconForType(type);
 
@@ -41,8 +49,10 @@ const CustomBanner: React.FC<CustomBannerProps> = props => {
         messageBarType={type}
         styles={messageBannerStyles(!!icon, !!undocked)}
         className={className}
-        onDismiss={onDismiss}>
-        {!!icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
+        onDismiss={onDismiss}
+        dismissButtonAriaLabel={t('close')}
+        onClick={onClick}>
+        {icon ? <span className={messageBannerIconStyle}>{icon}</span> : undefined}
         <span>
           <span tabIndex={0}>{message}</span>
           {learnMoreLink ? (

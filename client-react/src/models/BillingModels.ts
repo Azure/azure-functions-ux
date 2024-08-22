@@ -95,7 +95,7 @@ export interface BillingMeter {
 /**
  * Data contract for a third party resource and the quantity of that resource
  */
-interface CostEstimate {
+export interface CostEstimate {
   /**
    * The round-tripped Id
    */
@@ -312,7 +312,7 @@ enum SpecCostQueryResultStatusCode {
    */
   SuccessAsRetailForEa = 12,
   /**
-   * Spec is not supported in the current environment, e.g. Mooncake, Blackforest
+   * Spec is not supported in the current environment, e.g. Mooncake
    */
   NotSupportedInCurrentEnvironment = 13,
 }

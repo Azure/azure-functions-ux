@@ -4,7 +4,7 @@
 
 Выполните следующую команду, чтобы установить пакет Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Создание проекта Функций Azure
@@ -42,6 +42,6 @@
 
 Чтобы опубликовать проект Функций в Azure, введите следующую команду:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Возможно, вам будет предложено войти в Azure. Следуйте инструкциям на экране.

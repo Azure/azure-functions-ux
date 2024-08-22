@@ -28,7 +28,7 @@ export class FunctionsService implements OnModuleInit {
     const langLower = language.toLowerCase();
     let langCode = 'en';
     if (langLower !== 'en') {
-      if (!!Constants.quickstartLanguageMap[langLower]) {
+      if (Constants.quickstartLanguageMap[langLower]) {
         langCode = Constants.quickstartLanguageMap[langLower].toLowerCase();
       } else {
         langCode = langLower;
@@ -36,7 +36,7 @@ export class FunctionsService implements OnModuleInit {
     }
     let fileNameLower = `${fileName.toLowerCase()}${langCode !== 'en' ? `_${langCode}` : ''}`;
 
-    if (!!this.quickStartMap[fileNameLower]) {
+    if (this.quickStartMap[fileNameLower]) {
       return this.quickStartMap[fileNameLower];
     }
     /**
@@ -44,7 +44,7 @@ export class FunctionsService implements OnModuleInit {
      */
     if (langCode !== 'en') {
       fileNameLower = fileName.toLowerCase();
-      if (!!this.quickStartMap[fileNameLower]) {
+      if (this.quickStartMap[fileNameLower]) {
         return this.quickStartMap[fileNameLower];
       }
     }

@@ -1,6 +1,6 @@
 import { QuickPulseToken } from './../models/app-insights';
 import { sendHttpRequest } from './HttpClient';
-import { CommonConstants } from './../utils/CommonConstants';
+import { CommonConstants, Monitoring } from './../utils/CommonConstants';
 import { ResourceGraph, ArmObj } from './../models/arm-obj';
 import MakeArmCall, { getErrorMessageOrStringify } from './ArmHelper';
 import { ISubscription } from '../models/subscription';
@@ -26,6 +26,17 @@ import { StorageKeys } from '../models/LocalStorage.model';
 import SiteService from './SiteService';
 import { ArmFunctionDescriptor } from '../utils/resourceDescriptors';
 import PortalCommunicator from '../portal-communicator';
+import { HttpResponseObject } from '../ArmHelper.types';
+import { KeyValue } from '../models/portal-models';
+
+interface AppInsightsInstrumentationKeyObject {
+  appInsightsKeyType?: AppInsightsKeyType;
+  instrumentationKey?: string;
+}
+
+interface AppInsightsData extends AppInsightsInstrumentationKeyObject {
+  data: HttpResponseObject<ArmObj<AppInsightsComponent>> | null;
+}
 
 export default class AppInsightsService {
   public static getAppInsights = (resourceId: string) => {
@@ -40,13 +51,16 @@ export default class AppInsightsService {
     return portalContext.getAdToken('applicationinsightapi');
   };
 
-  public static getQuickPulseToken = (appInsightsComponentId: string) => {
-    const resourceId = `${appInsightsComponentId}/providers/microsoft.insights/generatelivetoken`;
+  public static getQuickPulseToken = (
+    appInsightsComponentId: string,
+    apiVersion = CommonConstants.ApiVersions.quickpulseTokenApiVersion20211014
+  ) => {
+    const resourceId = `${appInsightsComponentId}/providers/microsoft.insights/generatelivetoken?source=PortalAzureFunctions`;
 
     return MakeArmCall<QuickPulseToken>({
       resourceId,
       commandName: 'getQuickPulseToken',
-      apiVersion: CommonConstants.ApiVersions.quickpulseTokenApiVersion20200602preview,
+      apiVersion,
     });
   };
 
@@ -132,10 +146,9 @@ export default class AppInsightsService {
   };
 
   public static formInvocationTraceDetailsQuery = (operationId: string, invocationId: string) => {
-    const invocationIdFilter = !!invocationId ? `| where customDimensions['InvocationId'] == '${invocationId}'` : '';
+    const invocationIdFilter = invocationId ? `| where customDimensions['InvocationId'] == '${invocationId}'` : '';
 
     return (
-      // tslint:disable-next-line: prefer-template
       `union traces` +
       `| union exceptions` +
       `| where timestamp > ago(30d)` +
@@ -215,7 +228,6 @@ export default class AppInsightsService {
 
   public static formOrchestrationTraceDetailsQuery = (instanceId: string) => {
     return (
-      // tslint:disable-next-line: prefer-template
       `union traces` +
       `| where timestamp > ago(7d) ` +
       `| where customDimensions.Category == 'Host.Triggers.DurableTask' ` +
@@ -287,7 +299,6 @@ export default class AppInsightsService {
 
   public static formEntityTraceDetailsQuery = (instanceId: string) => {
     return (
-      // tslint:disable-next-line: prefer-template
       `union traces` +
       `| where timestamp > ago(7d) ` +
       `| where customDimensions.Category == 'Host.Triggers.DurableTask' ` +
@@ -351,7 +362,7 @@ export default class AppInsightsService {
         error = appInsightsResponse.metadata.error;
       }
 
-      if (!!aiResourceId) {
+      if (aiResourceId) {
         LocalStorageService.setItem(resourceId, StorageKeys.appInsights, aiResourceId);
       }
 
@@ -368,6 +379,180 @@ export default class AppInsightsService {
 
     return { metadata: { success, error, appInsightsKeyType }, data: aiResourceId };
   };
+
+  public static async getAppInsightsResourceAndUpdateTags(
+    resourceId: string,
+    logServiceName: string,
+    appSettingPromise: Promise<HttpResponseObject<ArmObj<KeyValue<string>>>>,
+    tags: KeyValue<string> = {},
+    subscriptions: ISubscription[],
+    hasPermissionToUpdateTags: boolean = false
+  ): Promise<AppInsightsData | undefined> {
+    const appInsightsResourceIdFromTags = AppInsightsService._getAppInsightsResourceIdFromTags(tags);
+
+    if (appInsightsResourceIdFromTags) {
+      const appInsightsResponse = await AppInsightsService.getAppInsights(appInsightsResourceIdFromTags);
+
+      if (appInsightsResponse.metadata.success) {
+        // NOTE: AI-Resource is successfully resolved using the resourceId from hidden-tag
+        // We return this AIResource but in the background verify that this is indeed the correct AI Resource for the app,
+        // This is required for the cases when user updates the app-setting manually or from outside the portal
+        AppInsightsService._getAppInsightsResourceFromAppSettingsAndUpdateTags(
+          logServiceName,
+          resourceId,
+          appSettingPromise,
+          tags,
+          subscriptions,
+          hasPermissionToUpdateTags
+        );
+        return {
+          data: appInsightsResponse,
+        };
+      }
+    }
+    // NOTE: If hidden tag do not exist, or unable to resolve AI using the resource Id from hidden-tag,
+    // we fall back on the extended logic of fetching InstrumentationKey from AppSetting and try to get AI Resource.
+    return AppInsightsService._getAppInsightsResourceFromAppSettingsAndUpdateTags(
+      logServiceName,
+      resourceId,
+      appSettingPromise,
+      tags,
+      subscriptions,
+      hasPermissionToUpdateTags
+    );
+  }
+
+  private static async _getAppInsightsResourceFromAppSettingsAndUpdateTags(
+    logServiceName: string,
+    resourceId: string,
+    appSettingPromise: Promise<HttpResponseObject<ArmObj<KeyValue<string>>>>,
+    tags: KeyValue<string>,
+    subscriptions: ISubscription[],
+    hasPermissionToUpdateTags: boolean = true
+  ): Promise<AppInsightsData | undefined> {
+    // NOTE: Fetch the AI resource using the basic logic of getting InstrumentationKey from app-setting first,
+    // and then getting the AI Resource. In this case we are also updating the hidden tags on the resource since AI fetched
+    // using this method is the most updated one.
+    const appInsightsData = await AppInsightsService._getAppInsightsResourceFromAppSettings(
+      logServiceName,
+      appSettingPromise,
+      subscriptions
+    );
+    if (hasPermissionToUpdateTags && !!appInsightsData?.data) {
+      AppInsightsService._addApplicationInsightsToHiddenTags(logServiceName, resourceId, tags, appInsightsData.data);
+    }
+    return appInsightsData;
+  }
+
+  private static async _getAppInsightsResourceFromAppSettings(
+    logServiceName: string,
+    appSettingPromise: Promise<HttpResponseObject<ArmObj<KeyValue<string>>>>,
+    subscriptions: ISubscription[]
+  ): Promise<AppInsightsData | undefined> {
+    const instrumentationKeyObject = await AppInsightsService._getAppInsightsInstrumentationKeyFromAppSettings(
+      logServiceName,
+      appSettingPromise
+    );
+    const { appInsightsKeyType, instrumentationKey } = instrumentationKeyObject;
+
+    const data =
+      appInsightsKeyType === AppInsightsKeyType.string && !!instrumentationKey
+        ? await AppInsightsService._getAppInsightsResourceUsingInstrumentationKey(logServiceName, instrumentationKey, subscriptions)
+        : null;
+
+    return {
+      ...instrumentationKeyObject,
+      data,
+    };
+  }
+
+  private static async _getAppInsightsInstrumentationKeyFromAppSettings(
+    logServiceName: string,
+    appSettingPromise: Promise<HttpResponseObject<ArmObj<KeyValue<string>>>>
+  ): Promise<AppInsightsInstrumentationKeyObject> {
+    const appSettingsResult = await appSettingPromise;
+
+    if (appSettingsResult.metadata.success) {
+      const appSettings = appSettingsResult.data.properties;
+      const appInsightsInstrumentationKey = appSettings[CommonConstants.AppSettingNames.appInsightsInstrumentationKey];
+
+      if (appInsightsInstrumentationKey && CommonConstants.isKeyVaultReference(appInsightsInstrumentationKey)) {
+        return {
+          appInsightsKeyType: AppInsightsKeyType.keyVault,
+        };
+      } else {
+        return {
+          appInsightsKeyType: AppInsightsKeyType.string,
+          instrumentationKey: appInsightsInstrumentationKey,
+        };
+      }
+    } else {
+      LogService.error(
+        logServiceName,
+        'getAppInsightsInstrumentationKeyFromAppSettings',
+        `Failed to getAppSettings: ${getErrorMessageOrStringify(appSettingsResult.metadata.error)}`
+      );
+      return {};
+    }
+  }
+
+  private static async _getAppInsightsResourceUsingInstrumentationKey(
+    logServiceName: string,
+    instrumentationKey: string,
+    subscriptions: ISubscription[]
+  ): Promise<HttpResponseObject<ArmObj<AppInsightsComponent>> | null> {
+    const appInsightResourceIdByInstrumentationKey = await AppInsightsService._getAppInsightsComponentFromInstrumentationKey(
+      instrumentationKey,
+      subscriptions
+    );
+    if (appInsightResourceIdByInstrumentationKey.metadata.success) {
+      const appInsightsResponse = await AppInsightsService.getAppInsights(appInsightResourceIdByInstrumentationKey.data);
+      if (appInsightsResponse.metadata.success) {
+        return appInsightsResponse;
+      } else {
+        LogService.error(
+          logServiceName,
+          'getAppInsightsResourceUsingInstrumentationKey',
+          `Failed to getAppInsight: ${getErrorMessageOrStringify(appInsightsResponse.metadata.error)}`
+        );
+      }
+    }
+
+    return null;
+  }
+
+  private static async _addApplicationInsightsToHiddenTags(
+    logServiceName: string,
+    resourceId: string,
+    tags: KeyValue<string>,
+    aiResource?: HttpResponseObject<ArmObj<AppInsightsComponent>> | null | undefined
+  ) {
+    const body = {
+      tags,
+    };
+
+    // NOTE: Add AI resourceId and instrumentationKey as hidden tags if AIResource is present.
+    if (aiResource) {
+      body.tags[Monitoring.AppInsightsResourceIdHiddenTagName] = aiResource.data.id;
+      body.tags[Monitoring.AppInsightsInstrumentationKeyHiddenTagName] = aiResource.data.properties.InstrumentationKey;
+    }
+
+    const updatedSite = await SiteService.patchSite(resourceId, body);
+
+    if (!updatedSite.metadata.success) {
+      LogService.error(
+        logServiceName,
+        'addApplicationInsightsToHiddenTags',
+        `Failed to update tags: ${getErrorMessageOrStringify(updatedSite.metadata.error)}`
+      );
+    }
+
+    return updatedSite;
+  }
+
+  private static _getAppInsightsResourceIdFromTags(tags: KeyValue<string> = {}): string | undefined {
+    return tags[Monitoring.AppInsightsResourceIdHiddenTagName];
+  }
 
   private static _getAppInsightsComponentFromConnectionString = (connectionString: string, subscriptions: ISubscription[]) => {
     const subscriptionIds = subscriptions.map(subscription => subscription.subscriptionId);

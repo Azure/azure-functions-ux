@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { IButtonProps, ActionButton } from 'office-ui-fabric-react';
+import { IButtonProps, ActionButton } from '@fluentui/react';
 import { tableCommandBarButtonStyle } from './DisplayTableWithCommandBar.style';
 import { ThemeContext } from '../../ThemeContext';
 

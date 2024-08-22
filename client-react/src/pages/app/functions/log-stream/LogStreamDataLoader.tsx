@@ -34,14 +34,14 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
   const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
   const siteResourceId = armSiteDescriptor.getTrimmedResourceId();
 
-  const fetchComponent = async (force?: boolean) => {
+  const fetchComponent = async () => {
     const appInsightsResourceIdResponse = await AppInsightsService.getAppInsightsResourceId(
       siteResourceId,
       startupInfoContext.subscriptions
     );
     if (appInsightsResourceIdResponse.metadata.success) {
       const aiResourceId = appInsightsResourceIdResponse.data;
-      if (!!aiResourceId) {
+      if (aiResourceId) {
         const appInsightsResponse = await AppInsightsService.getAppInsights(aiResourceId);
         if (appInsightsResponse.metadata.success) {
           setAppInsightsComponent(appInsightsResponse.data);
@@ -75,7 +75,7 @@ const LogStreamDataLoader: React.FC<LogStreamDataLoaderProps> = props => {
 
   useEffect(() => {
     if (appInsightsComponent === undefined) {
-      fetchComponent(true);
+      fetchComponent();
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

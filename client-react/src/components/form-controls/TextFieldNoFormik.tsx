@@ -1,31 +1,15 @@
-import React, { FC, useContext, useState } from 'react';
-import { TextField as OfficeTextField, ITextFieldProps } from 'office-ui-fabric-react/lib/TextField';
-import ReactiveFormControl, { Layout } from './ReactiveFormControl';
+import React, { FC, useCallback, useContext, useState } from 'react';
+import { TextField as OfficeTextField, ITextFieldProps } from '@fluentui/react';
+import ReactiveFormControl from './ReactiveFormControl';
 import { useWindowSize } from 'react-use';
 import { ThemeContext } from '../../ThemeContext';
 import { textFieldStyleOverrides, copyButtonStyle } from './formControl.override.styles';
-import { TooltipHost, Stack, IButton } from 'office-ui-fabric-react';
+import { TooltipHost, Stack, IButton } from '@fluentui/react';
 import IconButton from '../IconButton/IconButton';
 import { useTranslation } from 'react-i18next';
 import { TextUtilitiesService } from '../../utils/textUtilities';
-import { CommonConstants } from '../../utils/CommonConstants';
+import { CustomTextFieldProps } from './TextField';
 
-interface CustomTextFieldProps {
-  id: string;
-  upsellMessage?: string;
-  infoBubbleMessage?: string;
-  label?: string;
-  learnMoreLink?: string;
-  dirty?: boolean;
-  widthOverride?: string;
-  copyButton?: boolean;
-  formControlClassName?: string;
-  additionalControls?: JSX.Element[];
-  layout?: Layout;
-  hideShowButton?: {
-    onButtonClick?: (hidden: boolean) => void;
-  };
-}
 const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const {
     value,
@@ -39,7 +23,6 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     id,
     copyButton,
     additionalControls,
-    hideShowButton,
     required,
     ...rest
   } = props;
@@ -49,13 +32,10 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
   const fullpage = width > 1000;
 
   const [copied, setCopied] = useState(false);
-  const [hidden, setHidden] = useState(!!hideShowButton);
   const [copyButtonRef, setCopyButtonRef] = useState<IButton | undefined>(undefined);
 
   const copyToClipboard = (e: React.MouseEvent<any>) => {
-    if (!!e) {
-      e.stopPropagation();
-    }
+    e?.stopPropagation();
     TextUtilitiesService.copyContentToClipboard(value || '', copyButtonRef);
     setCopied(true);
   };
@@ -68,20 +48,6 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
     if (copied && !isToolTipVisible) {
       setCopied(false);
     }
-  };
-
-  const getHideShowButtonLabel = () => {
-    return hidden ? t('clickToShowValue') : t('clickToHideValue');
-  };
-
-  const onHideShowButtonClick = (e: React.MouseEvent<any>) => {
-    if (!!e) {
-      e.stopPropagation();
-    }
-    if (hideShowButton && hideShowButton.onButtonClick) {
-      hideShowButton.onButtonClick(!hidden);
-    }
-    setHidden(!hidden);
   };
 
   const onRenderSuffix = () => {
@@ -101,19 +67,13 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
             />
           </TooltipHost>
         )}
-        {hideShowButton && (
-          <TooltipHost content={getHideShowButtonLabel()} calloutProps={{ gapSpace: 0 }}>
-            <IconButton
-              id={`${id}-hide-show-button`}
-              iconProps={{ iconName: hidden ? 'RedEye' : 'Hide', styles: copyButtonStyle }}
-              onClick={onHideShowButtonClick}
-              ariaLabel={getHideShowButtonLabel()}
-            />
-          </TooltipHost>
-        )}
       </>
     );
   };
+
+  const getTextFieldStyles = useCallback(() => {
+    return styles ?? textFieldStyleOverrides(theme, fullpage, widthOverride);
+  }, [styles, theme, fullpage, widthOverride]);
 
   const getTextFieldProps = (): ITextFieldProps => {
     const textFieldProps: ITextFieldProps = {
@@ -123,25 +83,23 @@ const TextFieldNoFormik: FC<ITextFieldProps & CustomTextFieldProps> = props => {
       errorMessage,
       onRenderSuffix,
       tabIndex: 0,
-      styles: textFieldStyleOverrides(theme, fullpage, widthOverride),
+      styles: getTextFieldStyles(),
       required: false, // ReactiveFormControl will handle displaying required
       // // NOTE(michinoy): even though we are handling the required display marker at
       // // the field level, for a11y we need to have the aria-required tag set.
       'aria-labelledby': `${id}-label`,
       'aria-required': !!required,
+      // NOTE(krmitta): This is only used when the type is set as 'password'
+      canRevealPassword: true,
     };
 
-    const getValueProps = (val: string | undefined): string => {
-      return hideShowButton && hidden ? CommonConstants.DefaultHiddenValue : val || '';
-    };
+    const textFieldPropsWithValueProp = { ...textFieldProps, value: value };
+    const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue: defaultValue };
 
-    const textFieldPropsWithValueProp = { ...textFieldProps, value: getValueProps(value) };
-    const testFieldPropsWithDefaultValueProp = { ...textFieldProps, defaultValue: getValueProps(defaultValue) };
-
-    if (!!value) {
+    if (value) {
       return textFieldPropsWithValueProp;
     }
-    if (!!defaultValue) {
+    if (defaultValue) {
       return testFieldPropsWithDefaultValueProp;
     }
     return textFieldPropsWithValueProp;

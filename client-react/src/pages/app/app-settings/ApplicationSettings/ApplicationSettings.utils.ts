@@ -6,8 +6,7 @@ const getSchema = (disableSlotSetting: boolean, isLinux: boolean): Joi.ArraySche
   const nameSchema = isLinux
     ? Joi.string()
         .required()
-        // eslint-disable-next-line no-useless-escape
-        .regex(/^[\w|\.]*$/)
+        .regex(/^[\w|.]*$/)
     : Joi.string().required();
   return Joi.array()
     .unique((a, b) => a.name.toLowerCase() === b.name.toLowerCase())
@@ -81,7 +80,11 @@ const getAppSettingStickyValue = (appSettingName: string, initialAppSettings: Fo
 };
 
 export const formAppSettingToUseSlotSetting = (appSettings: FormAppSetting[], disableSlotSetting: boolean): string => {
-  return JSON.stringify(appSettings.map(x => getAppSettingObjectForMonacoEditor(x, disableSlotSetting)), null, 2);
+  return JSON.stringify(
+    appSettings.map(x => getAppSettingObjectForMonacoEditor(x, disableSlotSetting)),
+    null,
+    2
+  );
 };
 
 export const formAppSettingToUseStickySetting = (

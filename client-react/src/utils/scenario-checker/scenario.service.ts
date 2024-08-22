@@ -28,15 +28,15 @@ export class ScenarioService {
       new DynamicSiteEnvironment(t),
       new LinuxSiteEnvironment(t),
       new XenonSiteEnvironment(t),
-      new EmbeddedFunctionsEnvironment(t),
-      new DynamicLinuxEnvironment(t),
-      new FunctionAppEnvironment(t),
-      new WindowsCode(t),
-      new ContainerApp(t),
-      new KubeApp(t),
-      new ElasticPremiumAppEnvironment(t),
       new OnPremEnvironment(t),
-      new WorkflowAppEnvironment(t),
+      new EmbeddedFunctionsEnvironment(),
+      new DynamicLinuxEnvironment(),
+      new FunctionAppEnvironment(),
+      new WindowsCode(),
+      new ContainerApp(),
+      new KubeApp(),
+      new ElasticPremiumAppEnvironment(),
+      new WorkflowAppEnvironment(),
     ];
     // National cloud environments inherit from AzureEnvironment so we ensure there
     // aren't duplicates to reduce the chance of conflicts in behavior.

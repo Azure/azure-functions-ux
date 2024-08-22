@@ -167,7 +167,7 @@ function validateASPStack(aspDotnetStack) {
   expect(aspDotnetStack.displayText).to.equal('.NET');
   expect(aspDotnetStack.value).to.equal('aspnet');
   expect(aspDotnetStack.preferredOs).to.equal('windows');
-  expect(aspDotnetStack.majorVersions.length).to.equal(4);
+  expect(aspDotnetStack.majorVersions.length).to.equal(5);
   expect(aspDotnetStack).to.deep.equal(hardCodedAspDotnetStack);
 }
 
@@ -185,7 +185,7 @@ function validateNodeStack(nodeStack) {
   expect(nodeStack.displayText).to.equal('Node');
   expect(nodeStack.value).to.equal('node');
   expect(nodeStack.preferredOs).to.equal('linux');
-  expect(nodeStack.majorVersions.length).to.equal(9);
+  expect(nodeStack.majorVersions.length).to.equal(10);
   expect(nodeStack).to.deep.equal(hardCodedNodeStack);
 }
 
@@ -275,7 +275,7 @@ function validateJavaStack(javaStack) {
   expect(javaStack.displayText).to.equal('Java');
   expect(javaStack.value).to.equal('java');
   expect(javaStack.preferredOs).to.equal('linux');
-  expect(javaStack.majorVersions.length).to.equal(3);
+  expect(javaStack.majorVersions.length).to.equal(4);
   expect(javaStack).to.deep.equal(hardCodedJavaStack);
 }
 
@@ -293,7 +293,7 @@ function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.displayText).to.equal('Java Containers');
   expect(javaContainersStack.value).to.equal('javacontainers');
   expect(javaContainersStack.preferredOs).to.equal(undefined);
-  expect(javaContainersStack.majorVersions.length).to.equal(9);
+  expect(javaContainersStack.majorVersions.length).to.equal(10);
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
 }
 

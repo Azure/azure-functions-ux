@@ -1,5 +1,5 @@
 import { Router } from '@reach/router';
-import { Fabric } from 'office-ui-fabric-react/lib/Fabric';
+import { Fabric } from '@fluentui/react';
 import React, { useState, useEffect, Suspense } from 'react';
 import SiteRouter from './app/SiteRouter';
 import LandingPage from './LandingPage/LandingPage';
@@ -11,19 +11,28 @@ import PortalCommunicator from '../portal-communicator';
 import { lightTheme } from '../theme/light';
 import { ThemeExtended } from '../theme/SemanticColorsExtended';
 import { ThemeContext } from '../ThemeContext';
-import { IStartupInfo } from '../models/portal-models';
+import { IFeatureInfo, IStartupInfo } from '../models/portal-models';
 import { StartupInfoContext } from '../StartupInfoContext';
 import LoadingComponent from '../components/Loading/LoadingComponent';
 import StaticSiteRouter from './static-app/StaticSiteRouter';
+import ContainerAppRouter from './container-app/ContainerAppRouter';
+import LogicAppRouter from './logic-app/LogicAppRouter';
 
 const portalCommunicator = new PortalCommunicator();
 
 export const App: React.FC = () => {
   const [theme, setTheme] = useState(lightTheme as ThemeExtended);
   const [startupInfo, setStartupInfo] = useState({} as IStartupInfo<any>);
+  const [featureInfo, setFeatureInfo] = useState({} as IFeatureInfo<any>);
+
   useEffect(() => {
-    portalCommunicator.initializeIframe(setTheme, setStartupInfo, i18n);
+    portalCommunicator.initializeIframe(setTheme, setStartupInfo, setFeatureInfo, i18n);
   }, []);
+
+  useEffect(() => {
+    setStartupInfo({ ...startupInfo, featureInfo });
+  }, [featureInfo]);
+
   return (
     <Suspense fallback={<LoadingComponent />}>
       <I18nextProvider i18n={i18n}>
@@ -39,6 +48,8 @@ export const App: React.FC = () => {
                     <SiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/sites/:siteName/slots/:slotName/functions/:functionName/*" />
                     <StaticSiteRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.web/staticsites/:staticSiteName/*" />
                     <StaticSiteRouter path="feature/subscriptions/:subscriptionId/providers/microsoft.web/staticsites/*" />
+                    <ContainerAppRouter path="feature/subscriptions/:subscriptionId/resourcegroups/:resourcegroup/providers/microsoft.app/containerapps/:appName/*" />
+                    <LogicAppRouter path="feature/subscriptions/:subscriptionId/providers/microsoft.logic/workflows/*" />
                     <LandingPage path="/*" />
                   </Router>
                 </ErrorLogger>

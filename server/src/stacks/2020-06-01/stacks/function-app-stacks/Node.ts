@@ -6,6 +6,59 @@ export const nodeStack: FunctionAppStack = {
   preferredOs: 'windows',
   majorVersions: [
     {
+      displayText: 'Node.js 16',
+      value: '16',
+      minorVersions: [
+        {
+          displayText: 'Node.js 16 LTS',
+          value: '16 LTS',
+          stackSettings: {
+            windowsRuntimeSettings: {
+              runtimeVersion: '~16',
+              isPreview: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '16.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+                WEBSITE_NODE_DEFAULT_VERSION: '~16',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: true,
+                netFrameworkVersion: 'v6.0',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+            linuxRuntimeSettings: {
+              runtimeVersion: 'Node|16',
+              isPreview: false,
+              remoteDebuggingSupported: false,
+              appInsightsSettings: {
+                isSupported: true,
+              },
+              gitHubActionSettings: {
+                isSupported: true,
+                supportedVersion: '16.x',
+              },
+              appSettingsDictionary: {
+                FUNCTIONS_WORKER_RUNTIME: 'node',
+              },
+              siteConfigPropertiesDictionary: {
+                use32BitWorkerProcess: false,
+                linuxFxVersion: 'Node|16',
+              },
+              supportedFunctionsExtensionVersions: ['~4'],
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Node.js 14',
       value: '14',
       minorVersions: [

@@ -10,19 +10,19 @@ import {
 } from './AppSettings.types';
 import { sortBy, isEqual } from 'lodash-es';
 import { ArmObj } from '../../../models/arm-obj';
-import { Site, PublishingCredentialPolicies } from '../../../models/site/site';
+import { Site, PublishingCredentialPolicies, MinTlsVersion } from '../../../models/site/site';
 import { SiteConfig, ArmAzureStorageMount, ConnStringInfo, VirtualApplication, KeyVaultReference } from '../../../models/site/config';
 import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { NameValuePair } from '../../../models/name-value-pair';
 import StringUtils from '../../../utils/string';
 import { CommonConstants } from '../../../utils/CommonConstants';
 import { KeyValue } from '../../../models/portal-models';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isWindowsCode } from '../../../utils/arm-utils';
 import { IconConstants } from '../../../utils/constants/IconConstants';
 import { ThemeExtended } from '../../../theme/SemanticColorsExtended';
 
 export const findFormAppSettingIndex = (appSettings: FormAppSetting[], settingName: string) => {
-  return !!settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
+  return settingName ? appSettings.findIndex(x => x.name.toLowerCase() === settingName.toLowerCase()) : -1;
 };
 
 export const findFormAppSettingValue = (appSettings: FormAppSetting[], settingName: string) => {
@@ -30,7 +30,7 @@ export const findFormAppSettingValue = (appSettings: FormAppSetting[], settingNa
   return index >= 0 ? appSettings[index].value : null;
 };
 
-export const removeFormAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
+export const removeFromAppSetting = (appSettings: FormAppSetting[], settingName: string) => {
   const appSettingsUpdated = [...appSettings];
   const index = findFormAppSettingIndex(appSettingsUpdated, settingName);
   if (index !== -1) {
@@ -59,6 +59,7 @@ interface StateToFormParams {
   slotConfigNames: ArmObj<SlotConfigNames> | null;
   metadata: ArmObj<KeyValue<string>> | null;
   basicPublishingCredentialsPolicies: ArmObj<PublishingCredentialPolicies> | null;
+  appPermissions?: boolean;
 }
 export const convertStateToForm = (props: StateToFormParams): AppSettingsFormValues => {
   const {
@@ -70,6 +71,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     slotConfigNames,
     metadata,
     basicPublishingCredentialsPolicies,
+    appPermissions,
   } = props;
   const formAppSetting = getFormAppSetting(appSettings, slotConfigNames);
 
@@ -80,7 +82,7 @@ export const convertStateToForm = (props: StateToFormParams): AppSettingsFormVal
     appSettings: formAppSetting,
     connectionStrings: getFormConnectionStrings(connectionStrings, slotConfigNames),
     virtualApplications: config && config.properties && flattenVirtualApplicationsList(config.properties.virtualApplications),
-    currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site)),
+    currentlySelectedStack: getCurrentStackString(config, metadata, appSettings, isFunctionApp(site), isWindowsCode(site), appPermissions),
     azureStorageMounts: getFormAzureStorageMount(azureStorageMounts),
   };
 };
@@ -98,12 +100,15 @@ export const getCleanedConfig = (config: ArmObj<SiteConfig>) => {
     linuxFxVersion = linuxFxVersionParts.join('|');
   }
 
+  const minTlsVersion = config.properties.minTlsVersion || MinTlsVersion.tLS12;
+
   const newConfig: ArmObj<SiteConfig> = {
     ...config,
     properties: {
       ...config.properties,
       linuxFxVersion,
       remoteDebuggingVersion,
+      minTlsVersion,
     },
   };
   return newConfig;
@@ -223,7 +228,7 @@ export function getFormAppSetting(settingsData: ArmObj<KeyValue<string>> | null,
   if (!settingsData) {
     return [];
   }
-  const appSettingNames = !!slotConfigNames ? slotConfigNames.properties.appSettingNames : null;
+  const appSettingNames = slotConfigNames?.properties.appSettingNames ?? null;
   return sortBy(
     Object.keys(settingsData.properties).map((key, i) => ({
       name: key,
@@ -317,9 +322,9 @@ export function unFlattenVirtualApplicationsList(virtualApps: VirtualApplication
     const virtualPath = vd.virtualPath.startsWith('/') ? vd.virtualPath : `/${vd.virtualPath}`;
 
     const va = virtualApplications.find(v => {
-      return virtualPath.startsWith(v.virtualPath);
+      const vaVirtualPath = v.virtualPath.endsWith('/') ? v.virtualPath : `${v.virtualPath}/`;
+      return virtualPath.startsWith(vaVirtualPath);
     });
-
     if (va) {
       const regex = new RegExp(`${va.virtualPath}(.*)`);
       const match = regex.exec(virtualPath);
@@ -361,7 +366,9 @@ export function getCurrentStackString(
   config: ArmObj<SiteConfig>,
   metadata?: ArmObj<KeyValue<string>> | null,
   appSettings?: ArmObj<KeyValue<string>> | null,
-  isFunctionApp?: boolean
+  isFunctionApp?: boolean,
+  isWindowsCodeApp?: boolean,
+  appPermissions?: boolean
 ): string {
   if (
     !!isFunctionApp &&
@@ -371,11 +378,14 @@ export function getCurrentStackString(
   ) {
     return appSettings.properties[CommonConstants.AppSettingNames.functionsWorkerRuntime].toLocaleLowerCase();
   }
-  if (!!config.properties.javaVersion) {
+  if (config.properties.javaVersion) {
     return 'java';
   }
   if (metadata && metadata.properties && metadata.properties.CURRENT_STACK) {
     return metadata.properties.CURRENT_STACK;
+  } else if (isWindowsCodeApp || !appPermissions) {
+    // Return empty value if the windows code app does not have meta data or has no access to metadata api
+    return '';
   }
   return 'dotnet';
 }
@@ -401,20 +411,21 @@ export function getConfigWithStackSettings(config: SiteConfig, values: AppSettin
 }
 
 export function getCleanedReferences(references: ArmObj<ConfigKeyVaultReferenceList>) {
-  if (!references.properties.keyToReferenceStatuses) {
+  const keyToReferenceStatuses = !!references && !!references.properties && references.properties.keyToReferenceStatuses;
+  if (!keyToReferenceStatuses) {
     return [];
   }
-  const keyReferenceStatuses = references.properties.keyToReferenceStatuses;
-  return Object.keys(keyReferenceStatuses).map((key, i) => ({
+
+  return Object.keys(keyToReferenceStatuses).map(key => ({
     name: key,
-    reference: keyReferenceStatuses[key].reference,
-    status: keyReferenceStatuses[key].status,
-    details: keyReferenceStatuses[key].details,
+    reference: keyToReferenceStatuses[key].reference,
+    status: keyToReferenceStatuses[key].status,
+    details: keyToReferenceStatuses[key].details,
   }));
 }
 
 export function getKeyVaultReferenceStatus(reference: KeyVaultReferenceSummary | KeyVaultReference) {
-  return !!reference.status ? reference.status.toLowerCase() : '';
+  return reference.status?.toLowerCase() ?? '';
 }
 
 export function isKeyVaultReferenceResolved(reference: KeyVaultReferenceSummary | KeyVaultReference) {

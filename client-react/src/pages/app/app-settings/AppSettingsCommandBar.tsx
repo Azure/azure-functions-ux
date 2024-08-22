@@ -1,10 +1,9 @@
-import { CommandBar, ICommandBarItemProps } from 'office-ui-fabric-react/lib/CommandBar';
 import React, { useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CommandBarStyles } from '../../../theme/CustomOfficeFabric/AzurePortal/CommandBar.styles';
 import { PortalContext } from '../../../PortalContext';
 import { CustomCommandBarButton } from '../../../components/CustomCommandBarButton';
-import { IButtonProps } from 'office-ui-fabric-react';
+import { IButtonProps, CommandBar, ICommandBarItemProps } from '@fluentui/react';
 import StringUtils from '../../../utils/string';
 import { isServiceLinkerVisible } from './AppSettings.utils';
 import { ServiceLinkerProps } from './AppSettings.types';
@@ -101,22 +100,19 @@ const AppSettingsCommandBar: React.FC<AppSettingsCommandBarPropsCombined> = prop
 
   const openFeedbackBlade = () => {
     const featureName = 'AppServiceConfiguration';
-    portalCommunicator.openBlade(
-      {
-        detailBlade: 'InProductFeedbackBlade',
-        extension: 'HubsExtension',
-        openAsContextBlade: true,
-        detailBladeInputs: {
-          bladeName: `${featureName}`,
-          cesQuestion: t('configurationFeedbackCESQuestion'),
-          cvaQuestion: t('configurationFeedbackCVAQuestion'),
-          extensionName: 'WebsitesExtension',
-          featureName: `${featureName}`,
-          surveyId: `${featureName}- 0420`,
-        },
+    portalCommunicator.openBlade({
+      detailBlade: 'InProductFeedbackBlade',
+      extension: 'HubsExtension',
+      openAsContextBlade: true,
+      detailBladeInputs: {
+        bladeName: `${featureName}`,
+        cesQuestion: t('configurationFeedbackCESQuestion'),
+        cvaQuestion: t('configurationFeedbackCVAQuestion'),
+        extensionName: 'WebsitesExtension',
+        featureName: `${featureName}`,
+        surveyId: `${featureName}- 0420`,
       },
-      'configuration'
-    );
+    });
   };
 
   // Data for CommandBar

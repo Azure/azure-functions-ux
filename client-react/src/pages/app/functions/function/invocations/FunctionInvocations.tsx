@@ -8,13 +8,12 @@ import {
   DetailsListLayoutMode,
   SelectionMode,
   IColumn,
-  SearchBox,
   ICommandBarItemProps,
   PanelType,
   MessageBarType,
   Label,
   Link,
-} from 'office-ui-fabric-react';
+} from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { invocationsTabStyle, invocationsSummary, summaryItem, successElement, invocationsTable } from './FunctionInvocations.style';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +25,7 @@ import { FunctionInvocationsContext } from './FunctionInvocationsDataLoader';
 import FunctionInvocationDetails from './FunctionInvocationDetails';
 import CustomPanel from '../../../../../components/CustomPanel/CustomPanel';
 import CustomBanner from '../../../../../components/CustomBanner/CustomBanner';
-import { filterTextFieldStyle } from '../../../../../components/form-controls/formControl.override.styles';
+import { getSearchFilter } from '../../../../../components/form-controls/SearchBox';
 
 interface FunctionInvocationsProps {
   functionResourceId: string;
@@ -54,7 +53,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
 
-  const [filterValue, setFilterValue] = useState('');
+  const [filterValue, setFilterValue] = useState<string>('');
   const [showDelayMessage, setShowDelayMessage] = useState(false);
 
   const getCommandBarItems = (): ICommandBarItemProps[] => {
@@ -64,29 +63,28 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
         onClick: openAppInsightsQueryEditor,
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
       {
         key: 'invocations-refresh',
         onClick: refreshInvocations,
         iconProps: { iconName: 'Refresh' },
         name: t('refresh'),
+        ariaLabel: t('refresh'),
       },
     ];
   };
 
   const openAppInsightsQueryEditor = () => {
-    portalContext.openBlade(
-      {
-        detailBlade: 'LogsBlade',
-        extension: 'Microsoft_Azure_Monitoring_Logs',
-        detailBladeInputs: {
-          resourceId: appInsightsResourceId,
-          source: 'Microsoft.Web-FunctionApp',
-          query: invocationsContext.formInvocationTracesQuery(functionResourceId),
-        },
+    portalContext.openBlade({
+      detailBlade: 'LogsBlade',
+      extension: 'Microsoft_Azure_Monitoring_Logs',
+      detailBladeInputs: {
+        resourceId: appInsightsResourceId,
+        source: 'Microsoft.Web-FunctionApp',
+        query: invocationsContext.formInvocationTracesQuery(functionResourceId),
       },
-      'function-monitor'
-    );
+    });
   };
 
   const getColumns = (): IColumn[] => {
@@ -187,7 +185,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
 
       {/*Summary Items*/}
       <div id="summary-container" className={invocationsSummary}>
-        {!!monthlySummary ? (
+        {monthlySummary ? (
           <div>
             <div id="summary-success" className={summaryItem}>
               <h4>{t('successCount')}</h4>
@@ -220,15 +218,7 @@ const FunctionInvocations: React.FC<FunctionInvocationsProps> = props => {
             selectionPreservedOnEmptyClick={true}
             emptyMessage={t('noResults')}
             shimmer={{ lines: 2, show: !invocationTraces }}>
-            <SearchBox
-              id="invocations-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterTextFieldStyle}
-              placeholder={t('filterInvocations')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
+            {getSearchFilter('invocations-search', setFilterValue, t('filterInvocations'))}
           </DisplayTableWithCommandBar>
         </div>
       </div>

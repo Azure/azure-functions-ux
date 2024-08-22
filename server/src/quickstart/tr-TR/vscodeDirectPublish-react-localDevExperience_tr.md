@@ -4,7 +4,7 @@ Başlamadan önce <a href="https://go.microsoft.com/fwlink/?linkid=2016593" targ
 
 Core Tools paketini yüklemek için şu komutu çalıştırın:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 Ardından <a href="https://go.microsoft.com/fwlink/?linkid=2016800" target="_blank">Visual Studio Code için Azure İşlevleri uzantısını yükleyin</a>. Uzantı yüklendikten sonra Etkinlik Çubuğundaki Azure logosuna tıklayın. **Azure: İşlevler**'in altında **Azure'da oturum aç...** seçeneğine tıklayın ve ekrandaki yönergeleri izleyin.
 

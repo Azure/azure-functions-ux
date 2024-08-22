@@ -23,7 +23,7 @@ export default class SiteHelper {
       editMode === FunctionAppEditMode.ReadOnlyLock ||
       editMode === FunctionAppEditMode.ReadOnlyRbac ||
       editMode === FunctionAppEditMode.ReadOnlyCustom ||
-      editMode === FunctionAppEditMode.ReadOnlyDotnet5 ||
+      editMode === FunctionAppEditMode.ReadOnlyDotnetIsolated ||
       editMode === FunctionAppEditMode.ReadOnlyArc ||
       editMode === FunctionAppEditMode.ReadOnlyAzureFiles
     );
@@ -70,8 +70,8 @@ export default class SiteHelper {
       case FunctionAppEditMode.ReadOnlyCustom: {
         return t('ibizafication_readOnlyCustom');
       }
-      case FunctionAppEditMode.ReadOnlyDotnet5: {
-        return t('ibizafication_readOnlyDotnet5');
+      case FunctionAppEditMode.ReadOnlyDotnetIsolated: {
+        return t('ibizafication_readOnlyDotnetIsolated');
       }
       case FunctionAppEditMode.ReadOnlyArc: {
         return t('ibizafication_readOnlyArc');
@@ -107,5 +107,9 @@ export default class SiteHelper {
 
   public static isRbacReaderPermission(editMode: FunctionAppEditMode) {
     return editMode === FunctionAppEditMode.ReadOnlyRbac;
+  }
+
+  public static isReadOnlyLockPermission(editMode: FunctionAppEditMode) {
+    return editMode === FunctionAppEditMode.ReadOnlyLock;
   }
 }

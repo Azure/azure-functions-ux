@@ -4,13 +4,13 @@ import { StartupInfoContext } from '../../../../../StartupInfoContext';
 import { ThemeContext } from '../../../../../ThemeContext';
 import FunctionCreateData from '../FunctionCreate.data';
 import StringUtils from '../../../../../utils/string';
-import { ArmResourceDescriptor } from '../../../../../utils/resourceDescriptors';
+import { ArmResourceDescriptor, ArmSiteDescriptor } from '../../../../../utils/resourceDescriptors';
 import { SiteStateContext } from '../../../../../SiteState';
 import LogService from '../../../../../utils/LogService';
 import { LogCategories } from '../../../../../utils/LogCategories';
 import { getErrorMessageOrStringify } from '../../../../../ApiHelpers/ArmHelper';
 import Markdown from 'markdown-to-jsx';
-import { MarkdownHighlighter, StackInstructions } from '../../../../../components/MarkdownComponents/MarkdownComponents';
+import { MarkdownHighlighter, SlotComponent, StackInstructions } from '../../../../../components/MarkdownComponents/MarkdownComponents';
 import { ChevronUp } from './CustomMarkdownComponents';
 import { linkStyle } from './LocalCreateInstructions.style';
 import { localCreateContainerStyle } from '../FunctionCreate.styles';
@@ -35,11 +35,12 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
   const getParameters = () => {
     const resourceDescriptor = new ArmResourceDescriptor(resourceId);
     return {
-      functionAppName: !!site ? site.name : '',
-      region: !!site ? site.location : '',
-      resourceGroup: !!site ? site.properties.resourceGroup : '',
+      functionAppName: site?.name ?? '',
+      region: site?.location ?? '',
+      resourceGroup: site?.properties.resourceGroup ?? '',
       subscriptionName: resourceDescriptor.subscription,
       workerRuntime: workerRuntime || '',
+      slotName: site ? new ArmSiteDescriptor(site.id).slot || '' : '',
     };
   };
 
@@ -94,6 +95,12 @@ const LocalCreateInstructions: React.FC<LocalCreateInstructionsProps> = props =>
                 component: StackInstructions,
                 props: {
                   stack: workerRuntime,
+                },
+              },
+              SlotComponent: {
+                component: SlotComponent,
+                props: {
+                  slotName: getParameters().slotName,
                 },
               },
             },

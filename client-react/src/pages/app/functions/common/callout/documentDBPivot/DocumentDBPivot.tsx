@@ -1,5 +1,5 @@
 import { FieldProps, Formik, FormikProps } from 'formik';
-import { IDropdownOption, IDropdownProps, PrimaryButton } from 'office-ui-fabric-react';
+import { IDropdownOption, IDropdownProps, PrimaryButton } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../../../ApiHelpers/ArmHelper';
@@ -124,9 +124,7 @@ const setDocumentDBConnection = (
 ) => {
   if (formValues.databaseAccount && keyList) {
     const appSettingName = generateAppSettingName(appSettingKeys, `${formValues.databaseAccount.name}_DOCUMENTDB`);
-    const appSettingValue = `AccountEndpoint=${formValues.databaseAccount.properties.documentEndpoint};AccountKey=${
-      keyList.primaryMasterKey
-    };`;
+    const appSettingValue = `AccountEndpoint=${formValues.databaseAccount.properties.documentEndpoint};AccountKey=${keyList.primaryMasterKey};`;
     setNewAppSetting({ key: appSettingName, value: appSettingValue });
     setSelectedItem({ key: appSettingName, text: appSettingName, data: appSettingValue });
     setIsDialogVisible(false);

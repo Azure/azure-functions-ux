@@ -1,9 +1,9 @@
 import { ScenarioIds } from './scenario-ids';
-import { ScenarioCheckInput, Environment } from './scenario.models';
+import { Environment } from './scenario.models';
 export class EmbeddedFunctionsEnvironment extends Environment {
   public name = 'Embedded';
 
-  constructor(t: (string) => string) {
+  constructor() {
     super();
     this.scenarioChecks[ScenarioIds.showSideNavMenu] = {
       id: ScenarioIds.showSideNavMenu,
@@ -20,7 +20,7 @@ export class EmbeddedFunctionsEnvironment extends Environment {
     };
   }
 
-  public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
+  public isCurrentEnvironment(): boolean {
     return false;
   }
 }

@@ -1,5 +1,5 @@
 import i18next from 'i18next';
-import { CommandBar, IButtonProps, ICommandBarItemProps, ICommandBarStyles, ProgressIndicator } from 'office-ui-fabric-react';
+import { CommandBar, IButtonProps, ICommandBarItemProps, ICommandBarStyles, ProgressIndicator } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomCommandBarButton } from '../../../../../../components/CustomCommandBarButton';

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { ResourceGroup } from '../../../models/resource-group';
 import { ArmSubcriptionDescriptor } from '../../../utils/resourceDescriptors';
 import { ChangeAppPlan } from './ChangeAppPlan';
@@ -14,8 +14,10 @@ import { ArmObj } from '../../../models/arm-obj';
 import { Site } from '../../../models/site/site';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import { HostingEnvironment } from '../../../models/hostingEnvironment/hosting-environment';
-import { isFunctionApp } from '../../../utils/arm-utils';
+import { isFunctionApp, isLinuxApp } from '../../../utils/arm-utils';
 import { LogCategories } from '../../../utils/LogCategories';
+import { PortalContext } from '../../../PortalContext';
+import { ChangeAppPlanTierTypes } from './ChangeAppPlan.types';
 
 interface ChangeAppPlanDataLoaderProps {
   resourceId: string;
@@ -28,6 +30,7 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
   const [resourceGroups, setResourceGroups] = useState<ArmObj<ResourceGroup>[] | null>(null);
   const [serverFarms, setServerFarms] = useState<ArmObj<ServerFarm>[] | null>(null);
   const [initializeData, setInitializeData] = useState(true);
+  const portalCommunicator = useContext(PortalContext);
 
   const resourceId = props.resourceId;
   let siteResult: ArmObj<Site>;
@@ -54,7 +57,7 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
             // We make a separate call for the site's serverFarm because ARG has 1-min SLA for caching. This guarantees that we will
             // always get the current serverFarm object if they went ahead and created a new serverFarm and then came back here right away
             ServerFarmService.fetchServerFarm(siteResult.properties.serverFarmId),
-            ServerFarmService.fetchServerFarmsForWebspace(descriptor.subscriptionId, siteResult.properties.webSpace),
+            ServerFarmService.fetchServerFarmsForWebspace(descriptor.subscriptionId, siteResult.properties.webSpace, portalCommunicator),
             fetchAsePromise,
           ]);
         })
@@ -85,7 +88,7 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
           }
 
           setCurrentServerFarm(responses[0].data);
-          setServerFarms(filterListToPotentialPlans(siteResult, responses[1]));
+          setServerFarms(filterListToPotentialPlans(siteResult, responses[1], consumptionToPremiumEnabled(responses[0].data, site)));
           setInitializeData(false);
         });
     }
@@ -117,7 +120,7 @@ const ChangeAppPlanDataLoader: React.SFC<ChangeAppPlanDataLoaderProps> = props =
   );
 };
 
-const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<ServerFarm>[]) => {
+const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<ServerFarm>[], consumptionToPremiumEnabled: boolean) => {
   return serverFarms.filter(serverFarm => {
     if (site.properties.serverFarmId.toLowerCase() === serverFarm.id.toLowerCase()) {
       return false;
@@ -129,6 +132,7 @@ const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<Serv
     }
 
     if (
+      !consumptionToPremiumEnabled &&
       (site.properties.sku === ServerFarmSkuConstants.Tier.dynamic || site.properties.sku === ServerFarmSkuConstants.Tier.elasticPremium) &&
       serverFarm.sku.tier !== site.properties.sku
     ) {
@@ -142,6 +146,15 @@ const filterListToPotentialPlans = (site: ArmObj<Site>, serverFarms: ArmObj<Serv
 
     return true;
   });
+};
+
+export const consumptionToPremiumEnabled = (currentServerFarm: ArmObj<ServerFarm> | null, site: ArmObj<Site> | null) => {
+  const currentTier = currentServerFarm?.sku?.tier.toLocaleLowerCase();
+  const isDynamicOrPremium =
+    currentTier === ChangeAppPlanTierTypes.Dynamic.toLocaleLowerCase() ||
+    currentTier === ChangeAppPlanTierTypes.ElasticPremium.toLocaleLowerCase();
+  const isLinux = !!site && isLinuxApp(site);
+  return isDynamicOrPremium && !isLinux;
 };
 
 export default ChangeAppPlanDataLoader;

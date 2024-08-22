@@ -1,6 +1,6 @@
-// tslint:disable:prefer-template
+import { getGlobalClassNames, IStyle } from '@fluentui/react';
 import { ThemeExtended } from '../../SemanticColorsExtended';
-import { getGlobalClassNames, IStyle } from '@uifabric/styling';
+import * as StyleConstants from './Constants';
 
 const GlobalClassNames = {
   root: 'ms-Dropdown-container',
@@ -24,7 +24,7 @@ const DROPDOWN_ITEMHEIGHT = 23;
 
 export const DropDownStyles = props => {
   const { semanticColors, fonts } = props.theme as ThemeExtended;
-  const { disabled, isRenderingPlaceholder, widthOverride } = props;
+  const { disabled, hasError, isRenderingPlaceholder, widthOverride } = props;
 
   const borderColorError: IStyle = {
     borderColor: semanticColors.errorText,
@@ -121,10 +121,17 @@ export const DropDownStyles = props => {
         color: semanticColors.textColor,
         cursor: 'default',
       },
+      hasError && [
+        {
+          borderWidth: StyleConstants.borderWidthError,
+        },
+        globalClassnames.titleHasError,
+        borderColorError,
+      ],
     ],
     caretDown: [{ color: semanticColors.textColor }],
     caretDownWrapper: [{ height: `${DROPDOWN_HEIGHT}px`, lineHeight: `${DROPDOWN_HEIGHT}px` }],
-    errorMessage: [{ color: semanticColors.inlineErrorText }],
+    errorMessage: [{ color: semanticColors.errorText }],
     callout: [
       {
         border: `1px solid ${semanticColors.standardControlOutlineRest}`,

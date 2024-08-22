@@ -1,8 +1,8 @@
-import { IDropdownOption } from 'office-ui-fabric-react/lib/Dropdown';
+import { IDropdownOption } from '@fluentui/react';
 import { ArmObj } from '../../../../../models/arm-obj';
 import { SiteConfig } from '../../../../../models/site/config';
 import i18next from 'i18next';
-import { AppStackOs, AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
+import { AppStackMajorVersion } from '../../../../../models/stacks/app-stacks';
 import { WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';
 
@@ -40,7 +40,7 @@ export const getJavaMinorVersionObject = (javaStack: WebAppStack, selectedJavaVe
   return minorVersionSettings;
 };
 
-export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack, osType?: AppStackOs): IDropdownOption[] => {
+export const getJavaMajorVersionAsDropdownOptions = (javaStack: WebAppStack): IDropdownOption[] => {
   const options: IDropdownOption[] = [];
   javaStack.majorVersions.forEach(javaStackMajorVersion => {
     let windowsRuntimeCount = 0;
@@ -66,19 +66,17 @@ export const getJavaMinorVersionAsDropdownOptions = (
 ): IDropdownOption[] => {
   const currentJavaMajorVersionDetails = javaStack.majorVersions.find(x => x.value === currentJavaMajorVersion);
   const options: IDropdownOption[] = [];
-  if (!!currentJavaMajorVersionDetails) {
-    currentJavaMajorVersionDetails.minorVersions.forEach(minorVersion => {
-      if (minorVersion.stackSettings.windowsRuntimeSettings) {
-        options.push({
-          key: minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
-            ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
-            : minorVersion.value,
-          text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsRuntimeSettings),
-          data: minorVersion,
-        });
-      }
-    });
-  }
+  currentJavaMajorVersionDetails?.minorVersions.forEach(minorVersion => {
+    if (minorVersion.stackSettings.windowsRuntimeSettings) {
+      options.push({
+        key: minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
+          ? minorVersion.stackSettings.windowsRuntimeSettings.runtimeVersion
+          : minorVersion.value,
+        text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsRuntimeSettings),
+        data: minorVersion,
+      });
+    }
+  });
   return options;
 };
 
@@ -109,18 +107,16 @@ export const getFrameworkVersionOptions = (
 ): IDropdownOption[] => {
   const currentFramework = javaContainers.majorVersions.find(x => x.value === selectedJavaContainer);
   const options: IDropdownOption[] = [];
-  if (!!currentFramework) {
-    currentFramework.minorVersions.forEach(minorVersion => {
-      const containerSettings = minorVersion.stackSettings.windowsContainerSettings;
-      if (containerSettings) {
-        options.push({
-          key: containerSettings.javaContainerVersion ? containerSettings.javaContainerVersion : minorVersion.value,
-          text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsContainerSettings),
-          data: minorVersion,
-        });
-      }
-    });
-  }
+  currentFramework?.minorVersions.forEach(minorVersion => {
+    const containerSettings = minorVersion.stackSettings.windowsContainerSettings;
+    if (containerSettings) {
+      options.push({
+        key: containerSettings.javaContainerVersion ? containerSettings.javaContainerVersion : minorVersion.value,
+        text: getMinorVersionText(minorVersion.displayText, t, minorVersion.stackSettings.windowsContainerSettings),
+        data: minorVersion,
+      });
+    }
+  });
   return options;
 };
 

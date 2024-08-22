@@ -1,5 +1,5 @@
 import { FieldProps, FormikProps } from 'formik';
-import { Callout, DirectionalHint, IDropdownOption, IDropdownProps, Link } from 'office-ui-fabric-react';
+import { Callout, DirectionalHint, IDropdownOption, IDropdownProps, Link } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';

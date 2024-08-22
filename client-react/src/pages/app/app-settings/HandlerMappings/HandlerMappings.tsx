@@ -1,15 +1,14 @@
 import { FormikProps } from 'formik';
-import { DetailsListLayoutMode, IColumn, SelectionMode } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsListLayoutMode, IColumn, SelectionMode } from '@fluentui/react';
 import React, { useContext, useState } from 'react';
 import { withTranslation, WithTranslation } from 'react-i18next';
-
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import HandlerMappingsAddEdit from './HandlerMappingsAddEdit';
 import { PermissionsContext } from '../Contexts';
 import { HandlerMapping } from '../../../../models/site/config';
-import { TooltipHost, ICommandBarItemProps, PanelType } from 'office-ui-fabric-react';
+import { TooltipHost, ICommandBarItemProps, PanelType } from '@fluentui/react';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import { ThemeContext } from '../../../../ThemeContext';
@@ -36,6 +35,7 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
         iconProps: { iconName: 'Add' },
         ariaLabel: t('addNewHandlerMapping'),
         name: t('addNewHandler'),
+        role: 'button',
       },
     ];
   };
@@ -175,7 +175,6 @@ const HandlerMappings: React.FC<FormikProps<AppSettingsFormValues> & WithTransla
     return <div className={defaultCellStyle}>{item[column.fieldName!]}</div>;
   };
 
-  // tslint:disable-next-line:member-ordering
   const getColumns = () => {
     return [
       {

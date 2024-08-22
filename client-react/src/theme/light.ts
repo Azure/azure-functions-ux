@@ -1,4 +1,4 @@
-import { IPalette } from 'office-ui-fabric-react/lib/Styling';
+import { IPalette } from '@fluentui/react';
 import { ThemeExtended } from './SemanticColorsExtended';
 
 export const AzurePortalColors = {
@@ -45,7 +45,7 @@ export const AzurePortalColors = {
   cardBackgroundColor: '#ffffff',
 };
 
-const themePalette: IPalette = {
+export const themePalette: IPalette = {
   themeDarker: '#004578',
   themeDark: '#005a9e',
   themeDarkAlt: '#106ebe',
@@ -98,9 +98,13 @@ const themePalette: IPalette = {
   greenLight: '#bad80a',
 };
 
-const semanticColors = {
+export const semanticColors = {
   bodyBackground: AzurePortalColors.background,
   bodyStandoutBackground: AzurePortalColors.sectionBackground,
+  bodyBackgroundHovered: AzurePortalColors.background,
+  bodyBackgroundChecked: AzurePortalColors.background,
+  cardStandoutBackground: AzurePortalColors.cardBackgroundColor,
+  severeWarningBackground: AzurePortalColors.warningBackground,
   bodyFrameBackground: AzurePortalColors.background,
   bodyFrameDivider: AzurePortalColors.sectionDividerScrollbar,
   bodyText: AzurePortalColors.textColor,
@@ -116,10 +120,13 @@ const semanticColors = {
   variantBorder: AzurePortalColors.standardControlOutlineAccent,
   variantBorderHovered: AzurePortalColors.standardControlOutlineHover,
   defaultStateBackground: AzurePortalColors.standardControlOutlineDisabled,
+  disabledBorder: 'transparent',
 
   warningText: AzurePortalColors.textColor,
   blockingBackground: AzurePortalColors.errorBackground,
   warningHighlight: AzurePortalColors.warningIcon,
+  cardShadow: AzurePortalColors.cardBackgroundColor,
+  cardShadowHovered: AzurePortalColors.cardBackgroundColor,
 
   inputBorder: AzurePortalColors.textControlOutlineRest,
   inputBorderHovered: AzurePortalColors.textControlOutlineHovered,
@@ -130,6 +137,10 @@ const semanticColors = {
   inputFocusBorderAlt: AzurePortalColors.standardControlOutlineAccent,
   smallInputBorder: AzurePortalColors.standardControlOutlineRest,
   inputPlaceholderText: AzurePortalColors.placeholderText,
+  inputPlaceholderBackgroundChecked: AzurePortalColors.buttonPressed,
+  inputIconDisabled: AzurePortalColors.buttonDisabled,
+  inputIconHovered: AzurePortalColors.buttonHovered,
+  inputIcon: AzurePortalColors.hyperlinkText,
 
   buttonBackground: AzurePortalColors.background,
   buttonBackgroundChecked: AzurePortalColors.buttonPressed,
@@ -145,7 +156,7 @@ const semanticColors = {
   buttonTextChecked: AzurePortalColors.background,
   buttonTextCheckedHovered: AzurePortalColors.background,
   buttonTextPressed: AzurePortalColors.background,
-  buttonTextDisabled: AzurePortalColors.background,
+  buttonTextDisabled: AzurePortalColors.disabledText,
   buttonBorderDisabled: 'transparent',
 
   primaryButtonBackground: AzurePortalColors.buttonRest,
@@ -158,7 +169,7 @@ const semanticColors = {
   primaryButtonText: AzurePortalColors.background,
   primaryButtonTextHovered: AzurePortalColors.background,
   primaryButtonTextPressed: AzurePortalColors.background,
-  primaryButtonTextDisabled: AzurePortalColors.background,
+  primaryButtonTextDisabled: AzurePortalColors.disabledText,
 
   menuBackground: AzurePortalColors.background,
   menuDivider: AzurePortalColors.sectionDividerScrollbar,
@@ -182,6 +193,9 @@ const semanticColors = {
   actionLinkHovered: AzurePortalColors.hyperlinkText,
   link: AzurePortalColors.hyperlinkText,
   linkHovered: AzurePortalColors.hyperlinkHoverText,
+  messageLink: AzurePortalColors.hyperlinkText,
+  messageLinkHovered: AzurePortalColors.hyperlinkHoverText,
+  messageText: AzurePortalColors.textColor,
 
   // Deprecated slots, second pass by _fixDeprecatedSlots() later for self-referential slots
   listTextColor: '',
@@ -191,6 +205,8 @@ const semanticColors = {
   inputTextHovered: AzurePortalColors.textControlOutlineHovered,
   accentButtonText: AzurePortalColors.textColor,
   menuItemBackgroundChecked: AzurePortalColors.background,
+  blockingIcon: AzurePortalColors.warningIcon,
+  severeWarningIcon: AzurePortalColors.warningIcon,
   ...AzurePortalColors,
 };
 

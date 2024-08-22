@@ -5,11 +5,12 @@ import { paddingSidesStyle } from './Callout.styles';
 import StorageAccountPivotDataLoader from './storageAccountPivot/StorageAccountPivotDataLoader';
 import { CustomDropdownProps } from '../../../../../components/form-controls/DropDown';
 import { FieldProps } from 'formik';
-import { IDropdownProps } from 'office-ui-fabric-react';
+import { IDropdownProps } from '@fluentui/react';
 
-const NewStorageAccountConnectionCallout: React.SFC<
-  NewConnectionCalloutProps & CustomDropdownProps & FieldProps & IDropdownProps
-> = props => {
+const NewStorageAccountConnectionCallout: React.SFC<NewConnectionCalloutProps &
+  CustomDropdownProps &
+  FieldProps &
+  IDropdownProps> = props => {
   const { t } = useTranslation();
 
   return (

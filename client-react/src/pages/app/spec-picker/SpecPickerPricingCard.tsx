@@ -1,4 +1,4 @@
-import { Link } from 'office-ui-fabric-react/lib/Link';
+import { Link } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ThemeContext } from '../../../ThemeContext';
@@ -33,7 +33,7 @@ const SpecPickerPricingCard: React.FC<SpecPickerPricingCardProps> = props => {
   let divClassName = isSelected
     ? `${cssClassName} ${pricingCardDivStyle} ${PricingCardSelectedDivStyle(theme)}`
     : `${cssClassName} ${pricingCardDivStyle}`;
-  divClassName = !!disabledProps ? `${divClassName} ${PricingCardDisabledDivStyle(theme)}` : divClassName;
+  divClassName = disabledProps ? `${divClassName} ${PricingCardDisabledDivStyle(theme)}` : divClassName;
 
   const features: JSX.Element[] = [];
 

@@ -33,3 +33,17 @@ export const StackInstructions: React.FC<StackInstructionsProps> = props => {
 
   return isCustomStack() ? <div>{props.children}</div> : <></>;
 };
+
+export interface SlotComponentProps {
+  slotName?: string;
+}
+
+export const SlotComponent: React.FC<SlotComponentProps> = props => {
+  const { slotName } = props;
+
+  const isSlot = () => {
+    return !!slotName;
+  };
+
+  return isSlot() ? <>{props.children}</> : <></>;
+};

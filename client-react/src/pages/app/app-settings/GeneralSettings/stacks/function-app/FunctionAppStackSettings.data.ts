@@ -1,8 +1,7 @@
 import { FunctionAppRuntimes, FunctionAppRuntimeSettings, FunctionAppStack } from '../../../../../../models/stacks/function-app-stacks';
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import { RuntimeExtensionMajorVersions } from '../../../../../../models/functions/runtime-extension';
 import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../../../../../../models/stacks/app-stacks';
-import { WorkerRuntimeLanguages } from '../../../../../../utils/CommonConstants';
 
 export const getStackVersionDropdownOptions = (
   stack: FunctionAppStack,
@@ -32,27 +31,6 @@ export const getStackVersionDropdownOptions = (
   });
 
   return stackMinorVersions;
-};
-
-export const getStackVersionConfigPropertyName = (isLinuxApp: boolean, runtimeStack?: string) => {
-  if (isLinuxApp) {
-    return 'linuxFxVersion';
-  }
-
-  switch (runtimeStack) {
-    case WorkerRuntimeLanguages.dotnet:
-      return 'netFrameworkVersion';
-    case WorkerRuntimeLanguages.java:
-      return 'javaVersion';
-    case WorkerRuntimeLanguages.php:
-      return 'phpVersion';
-    case WorkerRuntimeLanguages.powershell:
-      return 'powerShellVersion';
-    case WorkerRuntimeLanguages.nodejs:
-      return 'nodeVersion';
-    default:
-      return 'netFrameworkVersion';
-  }
 };
 
 // Filter all the deprecated stack except the specific version passed as the parameter
@@ -134,7 +112,7 @@ export const getFilteredFunctionStackSettings = (
   alwaysIncludedStackVersion: string,
   settings?: FunctionAppRuntimeSettings
 ) => {
-  if (!!settings) {
+  if (settings) {
     if (
       stackName.toLowerCase() === alwaysIncludedStackName.toLowerCase() &&
       alwaysIncludedStackVersion.toLowerCase() === settings.runtimeVersion.toLowerCase()

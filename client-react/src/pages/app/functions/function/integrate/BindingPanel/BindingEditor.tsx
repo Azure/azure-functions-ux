@@ -1,5 +1,5 @@
 import { Field, Formik, FormikProps } from 'formik';
-import { Link } from 'office-ui-fabric-react';
+import { Link } from '@fluentui/react';
 import React, { useContext, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { style } from 'typestyle';
@@ -158,20 +158,17 @@ const onEventGridCreateClick = (functionResourceId: string, portalContext: Porta
   const armFunctionDescriptor = new ArmFunctionDescriptor(functionResourceId);
   const functionName = armFunctionDescriptor.name.toLowerCase();
 
-  portalContext.openBlade(
-    {
-      detailBlade: 'CreateEventSubscriptionBlade',
-      extension: 'Microsoft_Azure_EventGrid',
-      detailBladeInputs: {
-        inputs: {
-          label: `functions-${functionName}`,
-          endpointType: 'AzureFunction',
-          endpointResourceId: functionResourceId,
-        },
+  portalContext.openBlade({
+    detailBlade: 'CreateEventSubscriptionBlade',
+    extension: 'Microsoft_Azure_EventGrid',
+    detailBladeInputs: {
+      inputs: {
+        label: `functions-${functionName}`,
+        endpointType: 'AzureFunction',
+        endpointResourceId: functionResourceId,
       },
     },
-    'function-dev'
-  );
+  });
 };
 
 export default BindingEditor;

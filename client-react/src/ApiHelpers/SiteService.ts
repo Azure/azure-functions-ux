@@ -34,15 +34,21 @@ export default class SiteService {
     site: ArmObj<Site>,
     configSettingsToIgnore: string[] = SiteService._configSettingsToIgnore
   ) => {
-    const { identity, ...rest } = site;
+    const rest: ArmObj<Site> = { ...site };
+    delete rest.identity;
 
     const siteConfig = !!rest && !!rest.properties && rest.properties.siteConfig;
     SiteService._removePropertiesFromSiteConfig(siteConfig, configSettingsToIgnore);
+
+    // Setting virtualNetworkSubnetId to undefined since we do a linked access check against the network RP for this property.
+    // So if the user doesn't have permissions to that RP, then this call will fail.
+    const virtualNetworkSubnetId = undefined;
 
     const payload = {
       ...rest,
       properties: {
         ...rest.properties,
+        virtualNetworkSubnetId,
         siteConfig,
       },
     };
@@ -144,15 +150,20 @@ export default class SiteService {
     });
   };
 
-  public static getSourceControlDetails = async (resourceId: string) => {
+  public static getSourceControlDetails = (resourceId: string, apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201) => {
     return MakeArmCall<ArmObj<SourceControlProperties>>({
       resourceId: `${resourceId}/sourcecontrols/web`,
       commandName: 'fetchSourceControl',
       method: 'GET',
+      apiVersion: apiVersion,
     });
   };
 
-  public static deleteSourceControlDetails = async (resourceId: string, deleteWorkflow: boolean = true) => {
+  public static deleteSourceControlDetails = (
+    resourceId: string,
+    deleteWorkflow: boolean = true,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201
+  ) => {
     const id = deleteWorkflow
       ? `${resourceId}/sourcecontrols/web`
       : `${resourceId}/sourcecontrols/web/?additionalFlags=ScmGitHubActionSkipWorkflowDelete`;
@@ -161,16 +172,21 @@ export default class SiteService {
       resourceId: id,
       commandName: 'deleteSourceControl',
       method: 'DELETE',
+      apiVersion: apiVersion,
     });
   };
 
-  public static updateSourceControlDetails = (resourceId: string, body: any) => {
+  public static updateSourceControlDetails = (
+    resourceId: string,
+    body: any,
+    apiVersion = CommonConstants.ApiVersions.antaresApiVersion20201201
+  ) => {
     return MakeArmCall<void>({
       method: 'PUT',
       resourceId: `${resourceId}/sourcecontrols/web`,
       body: body,
       commandName: 'updateDeployment',
-      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+      apiVersion: apiVersion,
     });
   };
 
@@ -185,6 +201,16 @@ export default class SiteService {
       resourceId: `${resourceId}/config/web`,
       body: body,
       commandName: 'patchSiteConfig',
+      apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
+    });
+  };
+
+  public static patchSite = (resourceId: string, body: any) => {
+    return MakeArmCall<void>({
+      method: 'PATCH',
+      resourceId: resourceId,
+      body: body,
+      commandName: 'patchSite',
       apiVersion: CommonConstants.ApiVersions.antaresApiVersion20181101,
     });
   };
@@ -286,7 +312,7 @@ export default class SiteService {
     return MakeArmCall<ArmObj<HostStatus>>({ resourceId: id, commandName: 'getHostStatus', skipBatching: force });
   };
 
-  public static fireSyncTrigger = (site: ArmObj<Site>, token: string) => {
+  public static fireSyncTrigger = (site: ArmObj<Site>) => {
     return MakeArmCall<any>({ resourceId: `${site.id}/host/default/sync`, commandName: 'syncTrigger', method: 'POST' });
   };
 

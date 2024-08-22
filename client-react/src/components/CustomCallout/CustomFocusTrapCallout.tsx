@@ -1,5 +1,5 @@
+import { DefaultButton, FocusTrapCallout, PrimaryButton, Stack, FocusZone } from '@fluentui/react';
 import React from 'react';
-import { FocusTrapCallout, FocusZone, Stack, PrimaryButton, DefaultButton } from 'office-ui-fabric-react';
 import { focusTrapCalloutStyle } from './CustomCallout.styles';
 
 export interface CustomFocusTrapCalloutProps {

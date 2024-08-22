@@ -3,24 +3,15 @@ import { AppInsightsOrchestrationTrace, AppInsightsOrchestrationTraceDetail } fr
 import { tableStyle, tabStyle } from '../FunctionMonitorTab.styles';
 import CustomBanner from '../../../../../../../components/CustomBanner/CustomBanner';
 import { useTranslation } from 'react-i18next';
-import {
-  MessageBarType,
-  DetailsListLayoutMode,
-  SelectionMode,
-  SearchBox,
-  ICommandBarItemProps,
-  IColumn,
-  Link,
-  PanelType,
-} from 'office-ui-fabric-react';
+import { MessageBarType, DetailsListLayoutMode, SelectionMode, ICommandBarItemProps, IColumn, Link, PanelType } from '@fluentui/react';
 import DisplayTableWithCommandBar from '../../../../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
-import { filterTextFieldStyle } from '../../../../../../../components/form-controls/formControl.override.styles';
 import { openAppInsightsQueryEditor } from '../FunctionMonitorTab.data';
 import { PortalContext } from '../../../../../../../PortalContext';
 import { FunctionOrchestrationsContext } from './FunctionOrchestrationsDataLoader';
 import CustomPanel from '../../../../../../../components/CustomPanel/CustomPanel';
 import FunctionOrchestrationDetails from './FunctionOrchestrationDetails';
 import { Links } from '../../../../../../../utils/FwLinks';
+import { getSearchFilter } from '../../../../../../../components/form-controls/SearchBox';
 
 interface FunctionOrchestrationsProps {
   functionResourceId: string;
@@ -61,12 +52,14 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
           ),
         iconProps: { iconName: 'LineChart' },
         name: t('runQueryInApplicationInsights'),
+        ariaLabel: t('runQueryInApplicationInsights'),
       },
       {
         key: 'orchestrations-refresh',
         onClick: refreshOrchestrations,
         iconProps: { iconName: 'Refresh' },
         name: t('refresh'),
+        ariaLabel: t('refresh'),
       },
     ];
   };
@@ -149,15 +142,7 @@ const FunctionOrchestrations: React.FC<FunctionOrchestrationsProps> = props => {
             selectionPreservedOnEmptyClick={true}
             emptyMessage={t('noResults')}
             shimmer={{ lines: 2, show: !orchestrationTraces }}>
-            <SearchBox
-              id="orchestrations-search"
-              className="ms-slideDownIn20"
-              autoFocus
-              iconProps={{ iconName: 'Filter' }}
-              styles={filterTextFieldStyle}
-              placeholder={t('filterOrchestrations')}
-              onChange={newValue => setFilterValue(newValue)}
-            />
+            {getSearchFilter('orchestrations-search', setFilterValue, t('filterOrchestrations'))}
           </DisplayTableWithCommandBar>
         </div>
       </div>

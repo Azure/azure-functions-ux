@@ -1,8 +1,10 @@
-import { Controller, Post, Body, Res } from '@nestjs/common';
+import { Controller, Post, Body, Res, HttpException } from '@nestjs/common';
 import { HttpService } from '../shared/http/http.service';
 import { LoggingService } from '../shared/logging/logging.service';
 import { Response } from 'express';
 import { Method } from 'axios';
+
+export type KeyValue<T> = Record<string, T>;
 
 @Controller('api')
 export class ProxyController {
@@ -30,8 +32,14 @@ export class ProxyController {
     return this.makeCall(proxyMethod, proxyHeaders, proxyUrl, proxyBody, res);
   }
 
-  private async makeCall(method: Method, headers: any, url: string, body: any, res: Response) {
+  private async makeCall(method: Method, headers: KeyValue<string>, url: string, body, res: Response) {
     try {
+      Object.keys(headers).forEach(key => {
+        if (key.toLocaleLowerCase() === 'content-type' && headers[key].toLocaleLowerCase() !== 'application/json') {
+          throw new HttpException('Only content-type of application/json is accepted.', 500);
+        }
+      });
+
       const result = await this.httpService.request({
         method,
         url,
@@ -47,7 +55,9 @@ export class ProxyController {
 
       res.status(result.status).send(result.data);
     } catch (err) {
-      if (err.response) {
+      if (!!err.response && !!err.status) {
+        res.status(err.status).send(err.response);
+      } else if (err.response) {
         res.status(err.response.status).send(err.response.data);
       } else {
         res.sendStatus(500);

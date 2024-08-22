@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
-import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, DropdownMenuItemType, Link, MessageBarType } from '@fluentui/react';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
@@ -157,9 +157,13 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
 
   const setSourceBuildProvider = () => {
     if (formProps.values.sourceProvider === ScmType.GitHub) {
-      //Note (stpelleg): Need to disable GitHub Actions for Ruby and ILB ASE as we do not support it
+      //Note (stpelleg): Need to disable GitHub Actions for Ruby, PHP (Windows), and ILB ASE as we do not support it
       if (
         (!!defaultStackAndVersion && defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.Ruby) ||
+        (!!defaultStackAndVersion &&
+          defaultStackAndVersion.runtimeStack.toLocaleLowerCase() === RuntimeStackOptions.PHP &&
+          !defaultStackAndVersion.runtimeVersion &&
+          !siteStateContext.isLinuxApp) ||
         deploymentCenterContext.isIlbASE
       ) {
         setSelectedBuild(BuildProvider.AppServiceBuildService);
@@ -217,6 +221,7 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
           updateSelectedBuild={updateSelectedBuild}
           formProps={formProps}
           runtimeStack={defaultStackAndVersion.runtimeStack}
+          runtimeVersion={defaultStackAndVersion.runtimeVersion}
         />
       )
     );

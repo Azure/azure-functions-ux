@@ -1,5 +1,5 @@
+import { Link } from '@fluentui/react';
 import i18next from 'i18next';
-import { Link } from 'office-ui-fabric-react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as OutputSvg } from '../../../../../../images/Common/output.svg';
@@ -11,14 +11,13 @@ import PortalCommunicator from '../../../../../../portal-communicator';
 import { PortalContext } from '../../../../../../PortalContext';
 import { ThemeExtended } from '../../../../../../theme/SemanticColorsExtended';
 import { ThemeContext } from '../../../../../../ThemeContext';
-import { BindingManager } from '../../../../../../utils/BindingManager';
-import { BindingFormBuilder } from '../../../common/BindingFormBuilder';
 import { BindingEditorContext, BindingEditorContextInfo } from '../FunctionIntegrate';
 import { getBindingDirection } from '../FunctionIntegrate.utils';
-import BindingCard, { createNew, EditableBindingCardProps, editExisting, emptyList } from './BindingCard';
+import BindingCard, { createNew, EditableBindingCardProps, emptyList } from './BindingCard';
 import { listStyle } from './BindingCard.styles';
+import BindingCardLink from './BindingCardLink';
 
-const OutputBindingCard: React.SFC<EditableBindingCardProps> = props => {
+const OutputBindingCard: React.FC<EditableBindingCardProps> = props => {
   const { functionInfo, bindings, readOnly, loadBindingSettings } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
@@ -60,24 +59,18 @@ const getContent = (
   readOnly: boolean,
   loadBindingSettings: (bindingId: string, force: boolean) => Promise<void>
 ): JSX.Element => {
-  const outputList: JSX.Element[] = outputBindings.map((item, i) => {
-    const name = item.name ? `(${item.name})` : '';
-    const linkName = `${BindingFormBuilder.getBindingTypeName(item, bindings)} ${name}`;
+  const outputList: JSX.Element[] = outputBindings.map((outputBinding, i) => {
     return (
       <li key={i.toString()}>
-        <Link
-          onClick={() => {
-            loadBindingSettings(
-              bindings.find(
-                binding => BindingManager.isBindingTypeEqual(binding.type, item.type) && binding.direction === BindingDirection.out
-              )!.id,
-              false
-            ).then(() => {
-              editExisting(portalCommunicator, t, functionInfo, item, bindingEditorContext, BindingDirection.out);
-            });
-          }}>
-          {linkName}
-        </Link>
+        <BindingCardLink
+          bindingDirection={BindingDirection.out}
+          bindingEditorContext={bindingEditorContext}
+          bindingInfo={outputBinding}
+          bindings={bindings}
+          functionInfo={functionInfo}
+          loadBindingSettings={loadBindingSettings}
+          portalCommunicator={portalCommunicator}
+        />
       </li>
     );
   });

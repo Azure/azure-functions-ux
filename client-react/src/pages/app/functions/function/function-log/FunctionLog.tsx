@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
   logStreamStyle,
   logEntryDivStyle,
@@ -40,6 +40,8 @@ interface FunctionLogProps {
   showLoggingOptionsDropdown?: boolean;
   selectedLoggingOption?: LoggingOptions;
   setSelectedLoggingOption?: (options: LoggingOptions) => void;
+  showFilteredLogsMessage?: boolean;
+  useNewFunctionLogsApi?: boolean;
 }
 
 const FunctionLog: React.FC<FunctionLogProps> = props => {
@@ -68,6 +70,8 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     selectedLoggingOption,
     showLoggingOptionsDropdown,
     setSelectedLoggingOption,
+    showFilteredLogsMessage,
+    useNewFunctionLogsApi,
   } = props;
   const [maximized, setMaximized] = useState(false || !!forceMaximized);
   const [logsContainer, setLogsContainer] = useState<HTMLDivElement | undefined>(undefined);
@@ -161,6 +165,10 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [logLevel, allLogEntries]);
 
+  const getLogsMessage = useCallback(() => {
+    return showFilteredLogsMessage ? t('connectedAndFilteredMessage') : t('connected');
+  }, [showFilteredLogsMessage]);
+
   return (
     <Resizable
       size={{
@@ -195,12 +203,13 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
         showLoggingOptionsDropdown={showLoggingOptionsDropdown}
         selectedLoggingOption={selectedLoggingOption}
         setSelectedLoggingOption={setSelectedLoggingOption}
+        useNewFunctionLogsApi={useNewFunctionLogsApi}
       />
       {isExpanded && (
         <div
           className={logStreamStyle(maximized, logPanelHeight || minimumLogPanelHeight, readOnlyBannerHeight || 0, customHeight)}
           ref={container => {
-            if (!!container) {
+            if (container) {
               setLogsContainer(container);
               setScrollHeight(container.scrollHeight);
             }
@@ -209,7 +218,7 @@ const FunctionLog: React.FC<FunctionLogProps> = props => {
           {errorMessage && <div className={logErrorDivStyle}>{errorMessage}</div>}
 
           {/*Loading Message*/}
-          {!errorMessage && started && <div className={logConnectingDivStyle}>{loadingMessage ? loadingMessage : t('connected')}</div>}
+          {!errorMessage && started && <div className={logConnectingDivStyle}>{loadingMessage ? loadingMessage : getLogsMessage()}</div>}
 
           {/*Log Entries*/}
           {visibleLogEntries.map((logEntry: LogEntry, logIndex: number) => {

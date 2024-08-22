@@ -1,3 +1,4 @@
+import { ExtendedLocation } from './arm-obj';
 import { HostingEnvironmentProfile } from './hosting-environment';
 import { SiteConfig } from './site-config';
 
@@ -81,9 +82,4 @@ export interface CreateSlotRequest {
     clientCertExclusionPaths?: string[];
   };
   extendedLocation?: ExtendedLocation;
-}
-
-export interface ExtendedLocation {
-  name: string;
-  type: string;
 }

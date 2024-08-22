@@ -1,4 +1,4 @@
-import { Link, PrimaryButton } from 'office-ui-fabric-react';
+import { Link, PrimaryButton } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
@@ -8,7 +8,7 @@ import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { vstsDescriptionStyle } from '../DeploymentCenter.styles';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 
-const DeploymentCenterVstsBuildProvider: React.FC<{}> = props => {
+const DeploymentCenterVstsBuildProvider: React.FC = () => {
   const { t } = useTranslation();
   const portalContext = useContext(PortalContext);
   const siteStateContext = useContext(SiteStateContext);

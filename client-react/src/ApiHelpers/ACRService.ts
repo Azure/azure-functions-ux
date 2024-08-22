@@ -1,11 +1,14 @@
 import MakeArmCall from './ArmHelper';
 import { ArmArray, ArmObj } from '../models/arm-obj';
 import { ACRRegistry, ACRWebhookPayload, ACRCredential, ACRRepositories, ACRTags } from '../models/acr';
-import { CommonConstants } from '../utils/CommonConstants';
+import { CommonConstants, RBACRoleId } from '../utils/CommonConstants';
 import { HttpResponseObject } from '../ArmHelper.types';
 import { getLastItemFromLinks, getLinksFromLinkHeader, sendHttpRequest } from './HttpClient';
 import Url from '../utils/url';
 import { Method } from 'axios';
+import { getArmEndpoint, getArmToken } from '../pages/app/deployment-center/utility/DeploymentCenterUtility';
+import { ACRManagedIdentityType, RoleAssignment } from '../pages/app/deployment-center/DeploymentCenter.types';
+import { KeyValue } from '../models/portal-models';
 
 export default class ACRService {
   public static getRegistries(subscriptionId: string) {
@@ -73,6 +76,92 @@ export default class ACRService {
     return ACRService._dispatchSpecificPageableRequest<ACRTags>(data, 'getTags', 'POST', logger);
   }
 
+  public static async hasAcrPullPermission(acrResourceId: string, principalId: string) {
+    let hasAcrPullPermission = false;
+    const roleAssignments = await this.getRoleAssignments(acrResourceId, principalId);
+    if (!!roleAssignments && roleAssignments.length > 0) {
+      roleAssignments.forEach(roleAssignment => {
+        const roleDefinitionSplit = roleAssignment.properties.roleDefinitionId.split(CommonConstants.singleForwardSlash);
+        const roleId = roleDefinitionSplit[roleDefinitionSplit.length - 1];
+        if (roleId === RBACRoleId.acrPull) {
+          hasAcrPullPermission = true;
+        }
+      });
+    }
+
+    return hasAcrPullPermission;
+  }
+
+  public static async getRoleAssignments(
+    scope: string,
+    principalId: string,
+    apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
+  ) {
+    const armEndpoint = getArmEndpoint();
+    const armToken = getArmToken();
+
+    const response = await sendHttpRequest<RoleAssignment[]>({
+      data: { armEndpoint, armToken, apiVersion, scope, principalId },
+      url: `${Url.serviceHost}api/acr/getRoleAssignments`,
+      method: 'POST',
+    });
+
+    if (response.metadata.success && !!response.data) {
+      return response.data;
+    }
+  }
+
+  public static async setAcrPullPermission(
+    acrResourceId: string,
+    principalId: string,
+    apiVersion: string = CommonConstants.ApiVersions.roleAssignmentApiVersion20180701
+  ) {
+    const armEndpoint = getArmEndpoint();
+    const armToken = getArmToken();
+    const roleId = RBACRoleId.acrPull;
+
+    const response = await sendHttpRequest<RoleAssignment[]>({
+      data: { armEndpoint, armToken, apiVersion, scope: acrResourceId, principalId, roleId },
+      url: `${Url.serviceHost}api/acr/setRoleAssignment`,
+      method: 'POST',
+    });
+
+    return response.metadata.success;
+  }
+
+  public static async enableSystemAssignedIdentity(
+    resourceId: string,
+    userAssignedIdentities?: KeyValue<KeyValue<string>>,
+    apiVersion: string = CommonConstants.ApiVersions.enableSystemAssignedIdentityApiVersion20210201
+  ) {
+    return MakeArmCall({
+      resourceId: resourceId,
+      commandName: 'enableSystemAssignedIdentity',
+      method: 'PATCH',
+      apiVersion: apiVersion,
+      body: {
+        identity: this._getIdentity(userAssignedIdentities),
+      },
+    });
+  }
+
+  private static _getIdentity(userAssignedIdentities?: KeyValue<KeyValue<string>>) {
+    if (userAssignedIdentities) {
+      const userAssignedIdentitiesObj = {};
+      for (const identity in userAssignedIdentities) {
+        userAssignedIdentitiesObj[identity] = {};
+      }
+      return {
+        type: ACRManagedIdentityType.systemAssigned + ', ' + ACRManagedIdentityType.userAssigned,
+        userAssignedIdentities: userAssignedIdentitiesObj,
+      };
+    } else {
+      return {
+        type: ACRManagedIdentityType.systemAssigned,
+      };
+    }
+  }
+
   private static async _dispatchSpecificPageableRequest<T>(
     data: any,
     apiName: string,
@@ -88,14 +177,15 @@ export default class ACRService {
         acrObjectList.push(pageResponse.data);
 
         const linkHeader = pageResponse.metadata.headers.link;
-        if (!!linkHeader) {
+        if (linkHeader) {
           const links = getLinksFromLinkHeader(linkHeader);
           const lastItem = getLastItemFromLinks(links);
-          data.last = !!lastItem ? lastItem : '';
-          nextLink = !!links && !!links.next ? links.next : '';
+          data.last = lastItem ?? '';
+          nextLink = links?.next ?? '';
         }
       } else if (logger) {
         logger(nextLink, pageResponse);
+        break;
       }
     } while (nextLink);
 

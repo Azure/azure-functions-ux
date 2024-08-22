@@ -1,5 +1,4 @@
-import { Overlay } from 'office-ui-fabric-react';
-import { Spinner, SpinnerSize } from 'office-ui-fabric-react/lib/Spinner';
+import { Spinner, SpinnerSize, Overlay } from '@fluentui/react';
 import React from 'react';
 import { style } from 'typestyle/lib';
 
@@ -23,7 +22,7 @@ class LoadingComponent extends React.Component<LoadingComponentProps> {
     return (
       <>
         {overlay && <Overlay />}
-        <div className={!!className ? className : loadingCSS}>
+        <div className={className ?? loadingCSS}>
           <Spinner size={SpinnerSize.large} ariaLive="assertive" />
         </div>
       </>

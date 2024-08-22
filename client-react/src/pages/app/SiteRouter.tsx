@@ -2,35 +2,21 @@ import { RouteComponentProps, Router } from '@reach/router';
 import React, { createContext, lazy, useContext, useEffect, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
 import { ArmObj } from '../../models/arm-obj';
-import { FunctionAppEditMode, KeyValue, SiteReadWriteState } from '../../models/portal-models';
-import { SiteConfig } from '../../models/site/config';
+import { FunctionAppEditMode } from '../../models/portal-models';
 import { Site } from '../../models/site/site';
 import { PortalContext } from '../../PortalContext';
 import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import {
-  isContainerApp,
-  isDynamic,
-  isElastic,
-  isFunctionApp,
-  isKubeApp,
-  isLinuxApp,
-  isLinuxDynamic,
-  isPremiumV2,
-} from '../../utils/arm-utils';
+import { isContainerApp, isFunctionApp, isKubeApp, isLinuxApp } from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
-import FunctionAppService from '../../utils/FunctionAppService';
 import { LogCategories } from '../../utils/LogCategories';
-import LogService from '../../utils/LogService';
-import RbacConstants from '../../utils/rbac-constants';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
-import SiteHelper from '../../utils/SiteHelper';
 import { SiteRouterData } from './SiteRouter.data';
-import { getErrorMessageOrStringify } from '../../ApiHelpers/ArmHelper';
 import LoadingComponent from '../../components/Loading/LoadingComponent';
-import Url from '../../utils/url';
+import { AppSettings } from '../../models/app-setting';
+import { resolveState } from '../../utils/app-state-utils';
 
 export interface SiteRouterProps {
   subscriptionId?: string;
@@ -76,7 +62,7 @@ const DeploymentCenter: any = lazy(() =>
   import(/* webpackChunkName:"deploymentcenter" */ './deployment-center/DeploymentCenterDataLoader')
 );
 
-const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
+const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
   const theme = useContext(ThemeContext);
   const portalContext = useContext(PortalContext);
   const [resourceId, setResourceId] = useState<string | undefined>(undefined);
@@ -88,184 +74,64 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
 
-  const ignoreLinuxDynamicReadOnly = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): boolean => {
-    return (
-      FunctionAppService.usingPythonLinuxConsumption(site, appSettings) || FunctionAppService.usingNodeLinuxConsumption(site, appSettings)
-    );
-  };
-
-  const enableLinuxElasticPremiumFlagSetForPythonOrNode = (appSettings?: ArmObj<KeyValue<string>>): boolean => {
-    return (
-      !!appSettings &&
-      (FunctionAppService.usingPythonWorkerRuntime(appSettings) || FunctionAppService.usingNodeWorkerRuntime(appSettings)) &&
-      !!Url.getFeatureValue(CommonConstants.FeatureFlags.enableEditingForLinuxPremium)
-    );
-  };
-
-  const getSiteStateFromSiteData = (site: ArmObj<Site>, appSettings?: ArmObj<KeyValue<string>>): FunctionAppEditMode | undefined => {
-    if (isLinuxDynamic(site) && !ignoreLinuxDynamicReadOnly(site, appSettings)) {
-      return FunctionAppEditMode.ReadOnlyLinuxDynamic;
-    }
-
-    if (isContainerApp(site)) {
-      return FunctionAppEditMode.ReadOnlyBYOC;
-    }
-
-    if (isLinuxApp(site) && isElastic(site) && !enableLinuxElasticPremiumFlagSetForPythonOrNode(appSettings)) {
-      return FunctionAppEditMode.ReadOnlyLinuxCodeElastic;
-    }
-
-    return undefined;
-  };
-
-  const getSiteStateFromAppSettings = (appSettings: ArmObj<KeyValue<string>>, site: ArmObj<Site>): FunctionAppEditMode | undefined => {
-    if (isKubeApp(site)) {
-      return FunctionAppEditMode.ReadOnlyArc;
-    }
-
-    if (FunctionAppService.usingCustomWorkerRuntime(appSettings)) {
-      return FunctionAppEditMode.ReadOnlyCustom;
-    }
-
-    if (isFunctionApp(site) && FunctionAppService.usingDotnet5WorkerRuntime(appSettings)) {
-      return FunctionAppEditMode.ReadOnlyDotnet5;
-    }
-
-    if (FunctionAppService.usingRunFromPackage(appSettings)) {
-      return FunctionAppEditMode.ReadOnlyRunFromPackage;
-    }
-
-    if (FunctionAppService.usingLocalCache(appSettings)) {
-      return FunctionAppEditMode.ReadOnlyLocalCache;
-    }
-
-    if (
-      FunctionAppService.usingPythonWorkerRuntime(appSettings) &&
-      !FunctionAppService.usingPythonLinuxConsumption(site, appSettings) &&
-      !enableLinuxElasticPremiumFlagSetForPythonOrNode(appSettings)
-    ) {
-      return FunctionAppEditMode.ReadOnlyPython;
-    }
-
-    if (FunctionAppService.usingJavaWorkerRuntime(appSettings)) {
-      return FunctionAppEditMode.ReadOnlyJava;
-    }
-
-    if ((isDynamic(site) || isPremiumV2(site)) && !FunctionAppService.getAzureFilesSetting(appSettings)) {
-      return FunctionAppEditMode.ReadOnlyAzureFiles;
-    }
-
-    const editModeString = appSettings.properties[CommonConstants.AppSettingNames.functionAppEditModeSettingName] || '';
-    if (editModeString.toLowerCase() === SiteReadWriteState.readonly) {
-      return FunctionAppEditMode.ReadOnly;
-    }
-
-    if (editModeString.toLowerCase() === SiteReadWriteState.readwrite) {
-      return FunctionAppEditMode.ReadWrite;
-    }
-
-    return undefined;
-  };
-
-  const resolveAndGetUndefinedSiteState = async (armSiteDescriptor: ArmSiteDescriptor, config?: ArmObj<SiteConfig>) => {
-    if (!!config && SiteHelper.isSourceControlEnabled(config)) {
-      return FunctionAppEditMode.ReadOnlySourceControlled;
-    }
-
-    if (armSiteDescriptor.slot) {
-      return FunctionAppEditMode.ReadOnlySlots;
-    }
-
-    const siteOnlyResourceId = armSiteDescriptor.getSiteOnlyResourceId();
-
-    const slotResponse = await SiteService.fetchSlots(siteOnlyResourceId);
-    if (slotResponse.metadata.success) {
-      if (slotResponse.data.value.length > 0) {
-        return FunctionAppEditMode.ReadOnlySlots;
-      }
-    } else {
-      LogService.error(
-        LogCategories.siteRouter,
-        'getSlots',
-        `Failed to get slots: ${getErrorMessageOrStringify(slotResponse.metadata.error)}`
-      );
-    }
-
-    return FunctionAppEditMode.ReadWrite;
-  };
-
-  const findAndSetSiteState = async () => {
-    if (!!resourceId) {
+  const fetchDataAndSetState = async () => {
+    if (resourceId) {
       const armSiteDescriptor = new ArmSiteDescriptor(resourceId);
       const trimmedResourceId = armSiteDescriptor.getTrimmedResourceId();
-      const readOnlyLock = await portalContext.hasLock(trimmedResourceId, 'ReadOnly');
-      let functionAppEditMode: FunctionAppEditMode | undefined;
 
       const [siteResponse, appSettingsResponse] = await Promise.all([
         SiteService.fetchSite(trimmedResourceId),
         SiteService.fetchApplicationSettings(trimmedResourceId),
       ]);
 
-      if (readOnlyLock) {
-        functionAppEditMode = FunctionAppEditMode.ReadOnlyLock;
-      } else {
-        const writePermission = await portalContext.hasPermission(trimmedResourceId, [RbacConstants.writeScope]);
-
-        if (!writePermission) {
-          functionAppEditMode = FunctionAppEditMode.ReadOnlyRbac;
-        } else if (siteResponse.metadata.success && isFunctionApp(siteResponse.data)) {
-          functionAppEditMode = getSiteStateFromSiteData(siteResponse.data, appSettingsResponse.data);
-
-          if (!functionAppEditMode) {
-            if (appSettingsResponse.metadata.success) {
-              functionAppEditMode = getSiteStateFromAppSettings(appSettingsResponse.data, siteResponse.data);
-            } else {
-              LogService.error(
-                LogCategories.siteRouter,
-                'fetchAppSetting',
-                `Failed to fetch app settings: ${getErrorMessageOrStringify(appSettingsResponse.metadata.error)}`
-              );
-            }
-          }
-        } else if (!siteResponse.metadata.success) {
-          LogService.error(
-            LogCategories.siteRouter,
-            'get site',
-            `Failed to get site: ${getErrorMessageOrStringify(siteResponse.metadata.error)}`
-          );
-        }
-
-        if (!functionAppEditMode) {
-          const configResponse = await SiteService.fetchWebConfig(trimmedResourceId);
-          functionAppEditMode = await resolveAndGetUndefinedSiteState(
-            armSiteDescriptor,
-            configResponse.metadata.success ? configResponse.data : undefined
-          );
-
-          if (!configResponse.metadata.success) {
-            LogService.error(
-              LogCategories.siteRouter,
-              'fetchWebConfig',
-              `Failed to fetch web config: ${getErrorMessageOrStringify(configResponse.metadata.error)}`
-            );
-          }
-        }
-      }
+      let site: ArmObj<Site> | undefined;
+      let appSettings: ArmObj<AppSettings> | undefined;
 
       if (siteResponse.metadata.success) {
-        setSite(siteResponse.data);
-        setStopped(siteResponse.data.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
-        setIsLinuxApplication(isLinuxApp(siteResponse.data));
-        setIsContainerApplication(isContainerApp(siteResponse.data));
-        setIsFunctionApplication(isFunctionApp(siteResponse.data));
-        setIsKubeApplication(isKubeApp(siteResponse.data));
+        site = siteResponse.data;
+      } else {
+        portalContext.log({
+          action: 'fetchSite',
+          actionModifier: 'failed',
+          resourceId: resourceId,
+          logLevel: 'error',
+          data: {
+            error: siteResponse.metadata.error,
+            message: 'Failed to fetch site data',
+          },
+        });
       }
-      setSiteAppEditState(functionAppEditMode);
+
+      if (appSettingsResponse.metadata.success) {
+        appSettings = appSettingsResponse.data;
+      } else {
+        portalContext.log({
+          action: 'fetchAppSetting',
+          actionModifier: 'failed',
+          resourceId: resourceId,
+          logLevel: 'error',
+          data: {
+            error: appSettingsResponse.metadata.error,
+            message: 'Failed to fetch app settings',
+          },
+        });
+      }
+
+      if (site) {
+        const editMode = await resolveState(portalContext, trimmedResourceId, LogCategories.siteRouter, site, appSettings);
+        setSite(site);
+        setStopped(site.properties.state.toLocaleLowerCase() === CommonConstants.SiteStates.stopped);
+        setIsLinuxApplication(isLinuxApp(site));
+        setIsContainerApplication(isContainerApp(site));
+        setIsFunctionApplication(isFunctionApp(site));
+        setIsKubeApplication(isKubeApp(site));
+        setSiteAppEditState(editMode);
+      }
     }
   };
 
   useEffect(() => {
-    findAndSetSiteState();
+    fetchDataAndSetState();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resourceId]);
 
@@ -277,7 +143,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
             setResourceId(value.token && value.resourceId);
             return (
               value.token &&
-              (!!site ? (
+              (site ? (
                 <SiteStateContext.Provider
                   value={{
                     site,
@@ -292,7 +158,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = props => {
                   <Router>
                     {/* NOTE(michinoy): The paths should be always all lowercase. */}
 
-                    <AppSettingsLoadable resourceId={value.resourceId} path="/settings" />
+                    <AppSettingsLoadable resourceId={value.resourceId} tab={value.featureInfo?.data?.tab} path="/settings" />
                     <LogStreamLoadable resourceId={value.resourceId} path="/log-stream" />
                     <ChangeAppPlanLoadable resourceId={value.resourceId} path="/changeappplan" />
                     <FunctionIntegrateLoadable resourceId={value.resourceId} path="/integrate" />

@@ -1,13 +1,24 @@
+import {
+  DefaultButton,
+  Dialog,
+  DialogFooter,
+  DialogType,
+  IDialogProps,
+  IModalStyleProps,
+  IModalStyles,
+  IStyleFunctionOrObject,
+  PrimaryButton,
+} from '@fluentui/react';
 import React from 'react';
-import { IDialogProps, Dialog, DialogFooter, PrimaryButton, DefaultButton, DialogType } from 'office-ui-fabric-react';
-import { modalFooterStyles, modalContentStyles, modalStyles } from './ConfirmDialog.styles';
+import { modalContentStyles, modalFooterStyles, modalStyles } from './ConfirmDialog.styles';
 
 interface ConfirmDialogProps {
-  primaryActionButton: { title: string; onClick: () => void };
-  defaultActionButton: { title: string; onClick: () => void };
+  primaryActionButton: { title: string; onClick: () => void; disabled?: boolean };
+  defaultActionButton: { title: string; onClick: () => void; disabled?: boolean };
+  hideDefaultActionButton?: boolean;
   title: string;
   content: string;
-  modalStyles?: any;
+  modalStyles?: IStyleFunctionOrObject<IModalStyleProps, IModalStyles>;
   showCloseModal?: boolean;
 }
 
@@ -15,6 +26,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
   const {
     primaryActionButton,
     defaultActionButton,
+    hideDefaultActionButton,
     hidden,
     title,
     content,
@@ -31,7 +43,7 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
         styles: modalContentStyles,
       }}
       modalProps={{
-        styles: !!customModalStyles ? customModalStyles : modalStyles,
+        styles: customModalStyles ?? modalStyles,
         isBlocking: true,
       }}
       onDismiss={onDismiss}>
@@ -40,8 +52,12 @@ const ConfirmDialog: React.FC<ConfirmDialogProps & IDialogProps> = props => {
         <p>{content}</p>
       </div>
       <DialogFooter styles={modalFooterStyles}>
-        <PrimaryButton onClick={primaryActionButton.onClick} text={primaryActionButton.title} />
-        <DefaultButton onClick={defaultActionButton.onClick} text={defaultActionButton.title} />
+        <PrimaryButton onClick={primaryActionButton.onClick} text={primaryActionButton.title} disabled={primaryActionButton.disabled} />
+        {!hideDefaultActionButton ? (
+          <DefaultButton onClick={defaultActionButton.onClick} text={defaultActionButton.title} disabled={defaultActionButton.disabled} />
+        ) : (
+          <></>
+        )}
       </DialogFooter>
     </Dialog>
   );

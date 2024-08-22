@@ -1,4 +1,4 @@
-import { IDropdownOption } from 'office-ui-fabric-react';
+import { IDropdownOption } from '@fluentui/react';
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { PortalContext } from '../../../../PortalContext';
@@ -47,6 +47,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
         text: account.AccountName,
       }));
 
+      orgOptions.sort((a, b) => sortDropdownOptions(a, b));
       setOrganizationOptions(orgOptions);
     } else {
       setErrorMessage(t('deploymentCenterDevOpsNoAccounts'));
@@ -102,6 +103,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
           }
         }
 
+        orgToProjectMapping.current[formProps.values.org].sort((a, b) => sortDropdownOptions(a, b));
         setProjectOptions(orgToProjectMapping.current[formProps.values.org]);
       }
 
@@ -114,6 +116,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
       setLoadingRepositories(true);
       setBranchOptions([]);
 
+      projectToRepoMapping.current[formProps.values.devOpsProjectName].sort((a, b) => sortDropdownOptions(a, b));
       setRepositoryOptions(projectToRepoMapping.current[formProps.values.devOpsProjectName]);
       setLoadingRepositories(false);
     }
@@ -137,6 +140,7 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
           };
         });
 
+        dropdownItems.sort((a, b) => sortDropdownOptions(a, b));
         setBranchOptions(dropdownItems);
       } else {
         if (!response.metadata.success) {
@@ -150,6 +154,10 @@ const DeploymentCenterDevOpsDataLoader: React.FC<DeploymentCenterFieldProps> = p
 
       setLoadingBranches(false);
     }
+  };
+
+  const sortDropdownOptions = (a: IDropdownOption, b: IDropdownOption) => {
+    return a.text.localeCompare(b.text);
   };
 
   useEffect(() => {

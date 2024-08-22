@@ -1,33 +1,28 @@
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterGitHubProviderProps } from '../DeploymentCenter.types';
-import { PrimaryButton, Label, Link, TooltipHost, IconButton } from 'office-ui-fabric-react';
+import { PrimaryButton, Label, Link, TooltipHost, IconButton } from '@fluentui/react';
 import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
 import { additionalTextFieldControl, changeAccountInfoButtonStyle } from '../DeploymentCenter.styles';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
-import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
+import { getDescriptionSection } from '../utility/DeploymentCenterUtility';
+import { ScmType } from '../../../../models/site/config';
 
 const DeploymentCenterGitHubAccount: React.FC<DeploymentCenterGitHubProviderProps> = props => {
-  const { accountUser, accountStatusMessage, authorizeAccount } = props;
+  const { accountUser, accountStatusMessage, authorizeAccount, isGitHubActions } = props;
   const { t } = useTranslation();
 
   const gitHubAccountControls = accountUser ? (
     <>
-      <p>
-        <span id="deployment-center-github-permissions-message">{t('deploymentCenterConfigureGitHubPermissions')}</span>
-        <Link
-          id="deployment-center-github-permissions-learnMore"
-          href={DeploymentCenterLinks.configureDeployment}
-          target="_blank"
-          className={learnMoreLinkStyle}
-          aria-labelledby="deployment-center-github-permissions-message">
-          {` ${t('learnMore')}`}
-        </Link>
-      </p>
-
+      {getDescriptionSection(
+        ScmType.GitHub,
+        isGitHubActions ? t('deploymentCenterConfigureGitHubPermissionsGHA') : t('deploymentCenterConfigureGitHubPermissionsKudu'),
+        DeploymentCenterLinks.configureDeployment,
+        t('learnMore')
+      )}
       <ReactiveFormControl id="deployment-center-github-user" label={t('deploymentCenterOAuthSingedInAs')}>
         <div>
-          {`${accountUser.login}`}
+          {accountUser.login}
           <Link
             key="deployment-center-github-change-account-link"
             onClick={authorizeAccount}

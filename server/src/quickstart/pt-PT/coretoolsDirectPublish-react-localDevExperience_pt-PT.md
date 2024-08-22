@@ -4,7 +4,7 @@ Antes de poder começar, deve <a href="https://go.microsoft.com/fwlink/?linkid=2
 
 Execute o seguinte comando para instalar o pacote do Core Tools:
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>Criar um projeto das Funções do Azure
@@ -42,6 +42,6 @@ Para parar a depuração, utilize **Ctrl-C** no terminal.
 
 Para publicar o seu projeto das Funções no Azure, introduza o seguinte comando:
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 Poderá ser-lhe pedido que inicie sessão no Azure. Siga as instruções no ecrã.

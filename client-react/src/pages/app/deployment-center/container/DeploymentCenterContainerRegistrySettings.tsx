@@ -6,7 +6,7 @@ import {
   ContainerOptions,
 } from '../DeploymentCenter.types';
 import { useTranslation } from 'react-i18next';
-import { IChoiceGroupOptionProps, IDropdownOption } from 'office-ui-fabric-react';
+import { IChoiceGroupOptionProps, IDropdownOption } from '@fluentui/react';
 import { Field } from 'formik';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
@@ -50,14 +50,17 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
 
   const sourceTypes: IChoiceGroupOptionProps[] = [
     {
+      itemKey: ContainerRegistrySources.acr,
       key: ContainerRegistrySources.acr,
       text: t('containerACR'),
     },
     {
+      itemKey: ContainerRegistrySources.docker,
       key: ContainerRegistrySources.docker,
       text: t('containerDockerHub'),
     },
     {
+      itemKey: ContainerRegistrySources.privateRegistry,
       key: ContainerRegistrySources.privateRegistry,
       text: t('containerPrivateRegistry'),
     },
@@ -66,6 +69,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
   const getContainerTypes = () => {
     const containerTypes: IChoiceGroupOptionProps[] = [
       {
+        itemKey: ContainerOptions.docker,
         key: ContainerOptions.docker,
         text: t('singleContainerTitle'),
       },
@@ -73,6 +77,7 @@ const DeploymentCenterContainerRegistrySettings: React.FC<DeploymentCenterFieldP
 
     if (scenarioService.checkScenario(ScenarioIds.dockerCompose, { site: siteStateContext.site }).status !== 'disabled') {
       containerTypes.push({
+        itemKey: ContainerOptions.compose,
         key: ContainerOptions.compose,
         text: t('dockerComposeContainerTitle'),
       });

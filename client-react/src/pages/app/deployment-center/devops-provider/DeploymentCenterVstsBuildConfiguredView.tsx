@@ -1,4 +1,4 @@
-import { Icon, Link, MessageBarType } from 'office-ui-fabric-react';
+import { Icon, Link, MessageBarType } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getErrorMessage } from '../../../../ApiHelpers/ArmHelper';
@@ -11,7 +11,7 @@ import DeploymentCenterData from '../DeploymentCenter.data';
 import { deploymentCenterInfoBannerDiv } from '../DeploymentCenter.styles';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 
-const DeploymentCenterVstsBuildConfiguredView: React.FC<{}> = props => {
+const DeploymentCenterVstsBuildConfiguredView: React.FC = () => {
   const { t } = useTranslation();
 
   const [repo, setRepo] = useState<string | undefined>(undefined);

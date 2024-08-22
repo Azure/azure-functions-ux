@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Pivot, PivotItem, IPivotItemProps } from 'office-ui-fabric-react';
+import { Pivot, PivotItem, IPivotItemProps } from '@fluentui/react';
 import DeploymentCenterFtps from '../DeploymentCenterFtps';
 import { useTranslation } from 'react-i18next';
 import { DeploymentCenterCodePivotProps } from '../DeploymentCenter.types';
@@ -16,6 +16,8 @@ import { ScenarioService } from '../../../../utils/scenario-checker/scenario.ser
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterGitHubActionsCodeLogs from './DeploymentCenterGitHubActionsCodeLogs';
+import { getSubscriptionFromResourceId } from '../../../../utils/arm-utils';
+import { CommonConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = props => {
   const { formProps, deployments, deploymentsError, refreshLogs, isDataRefreshing, isLogsDataRefreshing } = props;
@@ -44,6 +46,14 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
   const onLinkClick = (item: PivotItem) => {
     if (item.props.itemKey) {
       setSelectedKey(item.props.itemKey);
+      const subscriptionId = siteStateContext.site ? getSubscriptionFromResourceId(siteStateContext.site.id) : '';
+      const data = {
+        tabName: item.props.itemKey,
+        subscriptionId: subscriptionId,
+        publishType: CommonConstants.Kinds.code,
+        appType: siteStateContext.isFunctionApp ? CommonConstants.Kinds.functionApp : CommonConstants.Kinds.webApp,
+      };
+      portalContext.log(getTelemetryInfo('info', 'tabClicked', 'clicked', data));
     }
   };
 
@@ -68,7 +78,8 @@ const DeploymentCenterCodePivot: React.FC<DeploymentCenterCodePivotProps> = prop
       !!currentUser &&
       ((currentUser.properties.publishingUserName && !formProps.values.publishingUsername) ||
         (!!formProps.values.publishingUsername && currentUser.properties.publishingUserName !== formProps.values.publishingUsername) ||
-        (!!formProps.values.publishingPassword || !!formProps.values.publishingConfirmPassword))
+        !!formProps.values.publishingPassword ||
+        !!formProps.values.publishingConfirmPassword)
     );
   };
 

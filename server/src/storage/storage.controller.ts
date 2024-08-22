@@ -59,7 +59,7 @@ export class StorageController {
     }
   }
 
-  private _getErrorMessage(e: any) {
+  private _getErrorMessage(e) {
     let message = '';
     if (!e) {
       return message;
@@ -72,7 +72,7 @@ export class StorageController {
     return message;
   }
 
-  private _getStatusCode(e: any) {
-    return e && e.statusCode ? e.statusCode : 500;
+  private _getStatusCode(e) {
+    return e?.statusCode || 500;
   }
 }

@@ -1,13 +1,20 @@
-import { ActionButton } from 'office-ui-fabric-react/lib/Button';
-import { DetailsListLayoutMode, IColumn, SelectionMode, IDetailsList } from 'office-ui-fabric-react/lib/DetailsList';
-import React, { lazy, Suspense, useState, useContext } from 'react';
+/* eslint-disable react-hooks/rules-of-hooks */
+import React, { lazy, Suspense, useState, useContext, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultCellStyle } from '../../../../components/DisplayTableWithEmptyMessage/DisplayTableWithEmptyMessage';
 import IconButton from '../../../../components/IconButton/IconButton';
 import { AppSettingsFormikPropsCombined, FormAppSetting } from '../AppSettings.types';
 import AppSettingAddEdit from './AppSettingAddEdit';
 import { PermissionsContext } from '../Contexts';
-import { SearchBox, TooltipHost, ICommandBarItemProps } from 'office-ui-fabric-react';
+import {
+  TooltipHost,
+  ICommandBarItemProps,
+  ActionButton,
+  DetailsListLayoutMode,
+  IColumn,
+  SelectionMode,
+  IDetailsList,
+} from '@fluentui/react';
 import { sortBy } from 'lodash-es';
 import LoadingComponent from '../../../../components/Loading/LoadingComponent';
 import { dirtyElementStyle } from '../AppSettings.styles';
@@ -15,10 +22,10 @@ import { isLinuxApp } from '../../../../utils/arm-utils';
 import DisplayTableWithCommandBar from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar';
 import CustomPanel from '../../../../components/CustomPanel/CustomPanel';
 import { ThemeContext } from '../../../../ThemeContext';
-import { filterTextFieldStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { linkCellStyle } from '../../../../components/DisplayTableWithCommandBar/DisplayTableWithCommandBar.style';
 import SettingSourceColumn from '../SettingSourceColumn';
 import { isServiceLinkerVisible, isSettingServiceLinker } from '../AppSettings.utils';
+import { SearchFilterWithResultAnnouncement } from '../../../../components/form-controls/SearchBox';
 
 const AppSettingsBulkEdit = lazy(() => import(/* webpackChunkName:"appsettingsAdvancedEdit" */ './AppSettingsBulkEdit'));
 
@@ -31,6 +38,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
   const [shownValues, setShownValues] = useState<string[]>([]);
   const [filter, setFilter] = useState('');
   const [showAllValues, setShowAllValues] = useState(false);
+  const [gridItems, setGridItems] = useState<FormAppSetting[]>([]);
 
   const { values } = props;
   const { t } = useTranslation();
@@ -50,12 +58,14 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         iconProps: { iconName: 'Add' },
         name: t('newApplicationSetting'),
         ariaLabel: t('addNewSetting'),
+        role: 'button',
       },
       {
         key: 'app-settings-application-settings-show-hide',
         onClick: flipHideSwitch,
         iconProps: { iconName: !allShown ? 'RedEye' : 'Hide' },
         name: !allShown ? t('showValues') : t('hideValues'),
+        role: 'button',
       },
       {
         key: 'app-settings-application-settings-bulk-edit',
@@ -63,6 +73,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         disabled: disableAllControls,
         iconProps: { iconName: 'Edit' },
         name: t('advancedEdit'),
+        role: 'button',
       },
     ];
   };
@@ -249,7 +260,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
 
   const isAppSettingDirty = (index: number): boolean => {
     const initialAppSettings = props.initialValues.appSettings;
-    const currentRow = values.appSettings[index];
+    const currentRow = gridItems[index];
     const currentAppSettingIndex = initialAppSettings.findIndex(x => {
       return (
         x.name.toLowerCase() === currentRow.name.toLowerCase() &&
@@ -260,7 +271,6 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
     return currentAppSettingIndex < 0;
   };
 
-  // tslint:disable-next-line:member-ordering
   const getColumns = () => {
     const columns = [
       {
@@ -335,7 +345,7 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         onRender: onRenderItemColumn,
       },
     ];
-    return !!values.references ? columns : columns.filter(column => column.key !== 'source');
+    return values.references ? columns : columns.filter(column => column.key !== 'source');
   };
 
   const onEditButtonClick = async (item: FormAppSetting) => {
@@ -358,16 +368,28 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
     return null;
   }
 
+  const setFilteredGridItems = (appSettings: FormAppSetting[], filter: string) => {
+    const filteredItems =
+      appSettings?.filter(x => {
+        if (!filter) {
+          return true;
+        }
+        return !!x.name && x.name.toLowerCase().includes(filter.toLowerCase());
+      }) ?? [];
+    setGridItems(filteredItems);
+  };
+
+  useEffect(() => {
+    setFilteredGridItems(values.appSettings, filter);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [values.appSettings, filter]);
+
   return (
     <>
       <DisplayTableWithCommandBar
         commandBarItems={getCommandBarItems()}
-        items={values.appSettings.filter(x => {
-          if (!filter) {
-            return true;
-          }
-          return x.name.toLowerCase().includes(filter.toLowerCase());
-        })}
+        items={gridItems}
         columns={getColumns()}
         componentRef={table => {
           if (table) {
@@ -379,14 +401,12 @@ const ApplicationSettings: React.FC<AppSettingsFormikPropsCombined> = props => {
         selectionMode={SelectionMode.none}
         selectionPreservedOnEmptyClick={true}
         emptyMessage={t('emptyAppSettings')}>
-        <SearchBox
+        <SearchFilterWithResultAnnouncement
           id="app-settings-application-settings-search"
-          className="ms-slideDownIn20"
-          autoFocus
-          iconProps={{ iconName: 'Filter' }}
-          styles={filterTextFieldStyle}
-          placeholder={t('filterAppSettings')}
-          onChange={newValue => setFilter(newValue)}
+          setFilterValue={setFilter}
+          filter={filter}
+          gridItemsCount={gridItems.length}
+          placeHolder={t('filterAppSettings')}
         />
       </DisplayTableWithCommandBar>
       <CustomPanel isOpen={showPanel && panelItem === 'add'} onDismiss={onCancel} headerText={t('addEditApplicationSetting')}>

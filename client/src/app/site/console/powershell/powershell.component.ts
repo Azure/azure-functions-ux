@@ -2,6 +2,7 @@ import { Component, ComponentFactoryResolver } from '@angular/core';
 import { ConsoleService, ConsoleTypes } from './../shared/services/console.service';
 import { AbstractWindowsComponent } from '../shared/components/abstract.windows.component';
 import { TranslateService } from '@ngx-translate/core';
+import { PortalService } from '../../../shared/services/portal.service';
 
 @Component({
   selector: 'app-powershell',
@@ -13,9 +14,10 @@ export class PowershellComponent extends AbstractWindowsComponent {
   constructor(
     componentFactoryResolver: ComponentFactoryResolver,
     public consoleService: ConsoleService,
-    translateService: TranslateService
+    translateService: TranslateService,
+    portalService: PortalService
   ) {
-    super(componentFactoryResolver, consoleService, translateService);
+    super(componentFactoryResolver, consoleService, translateService, portalService);
     this.consoleType = ConsoleTypes.PS;
   }
 

@@ -27,7 +27,6 @@ export enum CloudType {
   public = 'public',
   fairfax = 'fairfax',
   mooncake = 'mooncake',
-  blackforest = 'blackforest',
   usnat = 'usnat',
   ussec = 'ussec',
 }

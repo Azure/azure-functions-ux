@@ -13,6 +13,8 @@ import { HttpResponseObject } from '../ArmHelper.types';
 import { DeploymentCenterConstants } from '../pages/app/deployment-center/DeploymentCenterConstants';
 import { ProviderToken } from '../models/provider';
 import { Method } from 'axios';
+import { CommonConstants } from '../utils/CommonConstants';
+import { KeyValue } from '../models/portal-models';
 
 export default class GitHubService {
   public static authorizeUrl = `${Url.serviceHost}auth/github/authorize`;
@@ -47,19 +49,39 @@ export default class GitHubService {
     return GitHubService._getSpecificGitHubObjectList<GitHubOrganizations>(data, 'getOrganizations', 'POST', logger);
   };
 
-  public static getOrgRepositories = async (org: string, gitHubToken: string, logger?: (page, response) => void) => {
+  public static getOrgRepositories = async (org: string, gitHubToken: string, logger?: (page, response) => void, searchTerm?: string) => {
     const data = {
       gitHubToken,
       org,
     };
-    return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getOrgRepositories', 'POST', logger);
+
+    if (!searchTerm) {
+      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getOrgRepositories', 'POST', logger, 2);
+    } else {
+      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(
+        { ...data, searchTerm },
+        'getSearchOrgRepositories',
+        'POST',
+        logger
+      );
+    }
   };
 
-  public static getUserRepositories = async (gitHubToken: string, logger?: (page, response) => void) => {
+  public static getUserRepositories = async (gitHubToken: string, logger?: (page, response) => void, searchTerm?: string) => {
     const data = {
       gitHubToken,
     };
-    return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getUserRepositories', 'POST', logger);
+
+    if (!searchTerm) {
+      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(data, 'getUserRepositories', 'POST', logger, 2);
+    } else {
+      return GitHubService._getSpecificGitHubObjectList<GitHubRepository>(
+        { ...data, searchTerm },
+        'getSearchUserRepositories',
+        'POST',
+        logger
+      );
+    }
   };
 
   public static getBranches = async (org: string, repo: string, gitHubToken: string, logger?: (page, response) => void) => {
@@ -171,7 +193,7 @@ export default class GitHubService {
   };
 
   public static cancelWorkflowRun = (gitHubToken: string, url: string) => {
-    const cancelUrlParts = !!url ? url.split('/') : [];
+    const cancelUrlParts = url?.split('/') ?? [];
     const org = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[4] : '';
     const repo = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[5] : '';
     const workflowId = !!cancelUrlParts && cancelUrlParts.length > 9 ? cancelUrlParts[8] : '';
@@ -186,14 +208,37 @@ export default class GitHubService {
     return sendHttpRequest<any>({ url: `${Url.serviceHost}api/github/cancelWorkflowRun`, method: 'POST', data });
   };
 
+  public static getWorkflowFile = (
+    appType: string,
+    publishType: string,
+    os: string,
+    variables: KeyValue<string>,
+    runtimeStack?: string,
+    apiVersion = CommonConstants.ApiVersions.workflowApiVersion20201201
+  ) => {
+    //(NOTE) stpelleg: This will eventually move to calling an ARM api instead of the functions server
+    const url = `${Url.serviceHost}/workflows/generate?api-version=${apiVersion}`;
+    const data = {
+      appType: appType,
+      publishType: publishType,
+      os: os,
+      runtimeStack: runtimeStack || '',
+      variables: variables,
+    };
+
+    return sendHttpRequest<string>({ url: url, method: 'POST', data });
+  };
+
   private static _getSpecificGitHubObjectList = async <T>(
     data: any,
     apiName: string,
     method: Method,
-    logger?: (page, response) => void
+    logger?: (page, response) => void,
+    maxNumPages?: number
   ) => {
     const githubObjectList: T[] = [];
     let lastPageNumber = 1;
+    const MAX_NUM_PAGES = maxNumPages ? maxNumPages : 10;
     for (let page = 1; page <= lastPageNumber; page++) {
       data.page = page;
       const pageResponse = await GitHubService._sendSpecificGitHubRequest<T[]>(data, apiName, method);
@@ -204,7 +249,7 @@ export default class GitHubService {
         if (linkHeader) {
           const links = getLinksFromLinkHeader(linkHeader);
           const thisLastPageNumber = getLastPageNumberFromLinks(links);
-          lastPageNumber = thisLastPageNumber > 10 ? 10 : thisLastPageNumber;
+          lastPageNumber = thisLastPageNumber > MAX_NUM_PAGES ? MAX_NUM_PAGES : thisLastPageNumber;
         }
       } else if (logger) {
         logger(page, pageResponse);

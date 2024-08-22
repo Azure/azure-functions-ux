@@ -40,6 +40,8 @@ export interface SiteConfig {
   remoteDebuggingEnabled: boolean;
   remoteDebuggingVersion: string | null;
   httpLoggingEnabled: boolean;
+  acrUseManagedIdentityCreds: boolean;
+  acrUserManagedIdentityID: string | null;
   logsDirectorySizeLimit: number;
   detailedErrorLoggingEnabled: boolean;
   publishingUsername: string;
@@ -61,6 +63,7 @@ export interface SiteConfig {
   managedPipelineMode: number;
   ftpsState?: 'AllAllowed' | 'FtpsOnly' | 'Disabled';
   http20Enabled?: boolean;
+  http20ProxyFlag?: number;
   virtualApplications: VirtualApplication[];
   winAuthAdminState: number;
   winAuthTenantState: number;
@@ -221,7 +224,7 @@ export interface SiteAuthSettings {
 }
 
 export interface Cors {
-  allowedOrigins: string;
+  allowedOrigins: string[];
 }
 
 export interface KeyVaultReference {

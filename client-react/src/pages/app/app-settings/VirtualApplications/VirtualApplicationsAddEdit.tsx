@@ -1,4 +1,4 @@
-import { Checkbox } from 'office-ui-fabric-react';
+import { Checkbox } from '@fluentui/react';
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import ActionBar from '../../../../components/ActionBar';

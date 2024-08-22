@@ -15,9 +15,7 @@ export class EtwService {
   private _writeToSecondaryLogger: (name: string, properties?: { [name: string]: string }) => void;
 
   constructor(writeToSecondaryLogger: (name: string, properties?: { [name: string]: string }) => void) {
-    this._writeToSecondaryLogger = writeToSecondaryLogger
-      ? writeToSecondaryLogger
-      : (name: string, properties?: { [name: string]: string }) => null;
+    this._writeToSecondaryLogger = writeToSecondaryLogger ? writeToSecondaryLogger : () => null;
 
     try {
       const etwLoggerPath = process.env.etwLoggerPath || './EtwLogger/EtwLogger.exe';
@@ -79,7 +77,7 @@ export class EtwService {
   }
 
   public isHealthy() {
-    return this._ipc && (this._ipc as any).exitCode === null;
+    return this._ipc?.exitCode === null;
   }
 
   public trackEvent(
@@ -125,7 +123,7 @@ export class EtwService {
     }
   }
 
-  private _getSanitizedProperties(properties: any) {
+  private _getSanitizedProperties(properties) {
     if (!properties) {
       return { message: '' };
     }
@@ -136,7 +134,7 @@ export class EtwService {
 
     const sanitizedProperties: { [name: string]: string } = {};
     for (const propertyName in properties) {
-      if (properties.hasOwnProperty(propertyName)) {
+      if (Object.prototype.hasOwnProperty.call(properties, propertyName)) {
         const propertyValue = properties[propertyName];
         let sanitizedPropertyValue = '';
         if (typeof propertyValue === 'string') {
@@ -155,7 +153,7 @@ export class EtwService {
     return sanitizedProperties;
   }
 
-  private _getString(data: any) {
+  private _getString(data) {
     if (!data) {
       return null;
     }

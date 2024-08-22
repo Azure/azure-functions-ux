@@ -76,8 +76,11 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
     }
   }
 
+  protected _updateFeatureItemsList(input: PriceSpecInput) {}
+
   runInitialization(input: PriceSpecInput) {
     if (input.planDetails) {
+      this._updateFeatureItemsList(input);
       this._updateHardwareItemsList(input.planDetails.plan.properties.hyperV);
       this.state = this._shouldHideForExistingPlan(input.planDetails.plan, input.planDetails.containsJbossSite) ? 'hidden' : this.state;
 
@@ -86,6 +89,7 @@ export abstract class DV3SeriesPriceSpec extends PriceSpec {
       });
     } else if (input.specPickerInput.data) {
       const isXenon = input.specPickerInput.data.hyperV || input.specPickerInput.data.isXenon;
+      this._updateFeatureItemsList(input);
       this._updateHardwareItemsList(isXenon);
       this.state = this._shouldHideForNewPlan(input.specPickerInput.data) ? 'hidden' : this.state;
 

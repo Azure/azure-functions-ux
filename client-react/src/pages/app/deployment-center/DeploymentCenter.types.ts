@@ -5,11 +5,15 @@ import { ScmType, BuildProvider } from '../../../models/site/config';
 import moment from 'moment';
 import { Uri } from 'monaco-editor';
 import { GitHubUser } from '../../../models/github';
-import { IDropdownOption, IChoiceGroupOption, MessageBarType } from 'office-ui-fabric-react';
+import { IDropdownOption, IChoiceGroupOption, MessageBarType } from '@fluentui/react';
 import { BitbucketUser } from '../../../models/bitbucket';
 import { RepoTypeOptions } from '../../../models/external';
 import { OneDriveUser } from '../../../models/onedrive';
 import { DropboxUser } from '../../../models/dropbox';
+import { KeyValue } from '../../../models/portal-models';
+import DeploymentCenterData from './DeploymentCenter.data';
+import { IDeploymentCenterContext } from './DeploymentCenterContext';
+import PortalCommunicator from '../../../portal-communicator';
 
 export enum SourceControlOptions {
   GitHub = 'github',
@@ -72,6 +76,7 @@ export enum RuntimeStackOptions {
   PHP = 'php',
   AspDotNet = 'asp.net',
   Dotnet = 'dotnet',
+  DotnetIsolated = 'dotnet-isolated',
 }
 
 export enum RuntimeStackDisplayNames {
@@ -85,15 +90,18 @@ export enum RuntimeStackDisplayNames {
   PHP = 'PHP',
   AspDotNet = 'ASP.NET',
   Dotnet = '.NET',
+  DotnetIsolated = '.Net Isolated',
 }
 
 export enum RuntimeVersionOptions {
+  Java17 = 'java17',
   Java11 = 'java11',
   Java8 = 'java8',
   Java8Linux = 'jre8',
 }
 
 export enum RuntimeVersionDisplayNames {
+  Java17 = 'Java 17',
   Java11 = 'Java 11',
   Java8 = 'Java 8',
 }
@@ -118,6 +126,42 @@ export enum JavaContainerDisplayNames {
   JavaSE = 'Java SE',
   Tomcat = 'Tomcat',
   JBoss = 'JBoss EAP',
+}
+
+export enum PublishType {
+  Code = 'code',
+  Container = 'container',
+}
+
+export enum AppType {
+  WebApp = 'webapp',
+  FunctionApp = 'functionapp',
+}
+
+export enum JavaContainers {
+  JavaSE = 'java',
+  Tomcat = 'tomcat',
+  JBoss = 'jbosseap',
+}
+
+export enum DotnetRuntimeVersion {
+  aspNetv4 = 'v4.0',
+  aspNetv2 = 'v2.0',
+}
+
+export enum ACRCredentialType {
+  adminCredentials = 'adminCredentials',
+  managedIdentity = 'managedIdentity',
+}
+
+export enum ACRManagedIdentityType {
+  systemAssigned = 'SystemAssigned',
+  userAssigned = 'UserAssigned',
+}
+
+export enum ManagedIdentityInfo {
+  clientId = 'clientId',
+  principalId = 'principalId',
 }
 
 export interface AzureDevOpsUrl {
@@ -270,6 +314,7 @@ export interface DeploymentCenterCommonFormData {
   dropboxUser?: DropboxUser;
   folder?: string;
   devOpsProjectName?: string;
+  searchTerm?: string;
 }
 
 export interface AcrFormData {
@@ -281,6 +326,9 @@ export interface AcrFormData {
   acrComposeYml: string;
   acrResourceId: string;
   acrLocation: string;
+  acrCredentialType: string;
+  acrManagedIdentityType: string | null;
+  acrManagedIdentityPrincipalId: string;
 }
 
 export interface DockerHubFormData {
@@ -320,6 +368,7 @@ export interface DeploymentCenterCodeFormData {
 
 export interface DeploymentCenterFieldProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData> {
   formProps: FormikProps<DeploymentCenterFormData<T>>;
+  isGitHubActions?: boolean;
   isDataRefreshing?: boolean;
 }
 
@@ -353,7 +402,7 @@ export interface DeploymentCenterCommitLogsProps {
 
 export interface DeploymentCenterGitHubWorkflowConfigPreviewProps {
   isPreviewFileButtonDisabled: boolean;
-  getWorkflowFileContent: () => string;
+  getWorkflowFileContent: () => Promise<string>;
   workflowFilePath?: string;
   panelMessage?: string;
   panelMessageType?: MessageBarType;
@@ -421,6 +470,7 @@ export interface DeploymentCenterGitHubProviderProps<T = DeploymentCenterContain
   hasDeprecatedToken?: boolean;
   updateTokenSuccess?: boolean;
   resetToken?: () => void;
+  clearComboBox?: KeyValue<boolean>;
 }
 
 export interface DeploymentCenterGitHubDisconnectProps {
@@ -439,6 +489,7 @@ export interface DeploymentCenterCodeBuildCalloutProps {
   updateSelectedBuild: () => void;
   formProps: FormikProps<DeploymentCenterFormData<any>>;
   runtimeStack: string;
+  runtimeVersion: string;
 }
 
 export interface AuthorizationResult {
@@ -543,6 +594,26 @@ export interface SiteSourceControlRequestBody {
   isGitHubAction: boolean;
   isMercurial: boolean;
 }
+export interface SiteSourceControlGitHubActionsRequestBody {
+  repoUrl: string;
+  branch: string;
+  isManualIntegration: boolean;
+  isGitHubAction: boolean;
+  deploymentRollbackEnabled: boolean;
+  isMercurial: boolean;
+  gitHubActionConfiguration: {
+    generateWorkflowFile: boolean;
+    workflowSettings: {
+      appType: AppType;
+      publishType: PublishType;
+      os: string;
+      workflowApiVersion: string;
+      slotName: string;
+      variables: KeyValue<string>;
+      runtimeStack?: string;
+    };
+  };
+}
 
 export interface DeploymentCenterBitbucketProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
   extends DeploymentCenterFieldProps<T> {
@@ -571,6 +642,11 @@ export interface DeploymentCenterContainerAcrSettingsProps extends DeploymentCen
   acrSubscription: string;
   acrStatusMessage?: string;
   acrStatusMessageType?: MessageBarType;
+  acrUseManagedIdentities: boolean;
+  managedIdentityOptions: IDropdownOption[];
+  loadingManagedIdentities: boolean;
+  learnMoreLink?: string;
+  openIdentityBlade: () => void;
 }
 
 export interface DeploymentCenterOneDriveProviderProps<T = DeploymentCenterContainerFormData | DeploymentCenterCodeFormData>
@@ -643,4 +719,41 @@ export interface acrARGInfo {
   resourceGroup: string;
   subscriptionId: string;
   type: string;
+}
+
+export interface WorkflowFileUrlInfo {
+  repoUrl: string;
+  branch: string;
+  workflowFileName: string;
+}
+
+export interface SearchTermObserverInfo {
+  searchTerm: string | undefined;
+  org: string;
+  repo: string;
+  setLoadingRepositories: React.Dispatch<React.SetStateAction<boolean>>;
+  setRepositoryOptions: React.Dispatch<React.SetStateAction<IDropdownOption[]>>;
+  fetchBranchOptions: (org: string, repo: string) => Promise<void>;
+  setClearComboBox: React.Dispatch<React.SetStateAction<KeyValue<boolean>>>;
+  repositoryUrl: string;
+  deploymentCenterData: DeploymentCenterData;
+  deploymentCenterContext: IDeploymentCenterContext;
+  portalContext: PortalCommunicator;
+  isGitHubActions: boolean | undefined;
+}
+
+export interface RoleAssignment {
+  properties: {
+    roleDefinitionId: string;
+    principalId: string;
+    scope: string;
+  };
+  id: string;
+  type: string;
+  name: string;
+}
+export interface UserAssignedIdentity {
+  clientId: string;
+  principalId: string;
+  name: string;
 }

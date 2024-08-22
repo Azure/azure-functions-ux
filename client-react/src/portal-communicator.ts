@@ -1,8 +1,6 @@
 import { BatchUpdateSettings, BatchResponseItemEx } from './models/batch-models';
-import { loadTheme } from 'office-ui-fabric-react/lib/Styling';
 import { Observable, Subject } from 'rxjs';
 import { filter, first, map } from 'rxjs/operators';
-
 import { SpecCostQueryInput, SpecCostQueryResult } from './models/BillingModels';
 import {
   BroadcastMessage,
@@ -29,21 +27,34 @@ import {
   PortalDebugInformation,
   FrameBladeParams,
   PortalTheme,
+  IFeatureInfo,
+  HighContrastTheme,
 } from './models/portal-models';
 import { ISubscription } from './models/subscription';
 import { darkTheme } from './theme/dark';
 import { lightTheme } from './theme/light';
+import { blackHighContrast } from './theme/blackHighContrast';
+import { whiteHighContrast } from './theme/whiteHighContrast';
 import { Guid } from './utils/Guid';
 import Url from './utils/url';
 import { Dispatch, SetStateAction } from 'react';
 import { ThemeExtended } from './theme/SemanticColorsExtended';
 import { sendHttpRequest, getJsonHeaders } from './ApiHelpers/HttpClient';
 import { TelemetryInfo } from './models/telemetry';
+import { loadTheme } from '@fluentui/style-utilities';
+import { NetAjaxSettings } from './models/ajax-request-model';
+import { isPortalCommunicationStatusSuccess } from './utils/portal-utils';
+
 export default class PortalCommunicator {
   public static shellSrc: string;
   private static portalSignature = 'FxAppBlade';
   private static portalSignatureFrameBlade = 'FxFrameBlade';
-  private static acceptedSignatures = [PortalCommunicator.portalSignature, PortalCommunicator.portalSignatureFrameBlade];
+  private static portalSignatureFrameControl = 'FxFrameControl';
+  private static acceptedSignatures = [
+    PortalCommunicator.portalSignature,
+    PortalCommunicator.portalSignatureFrameBlade,
+    PortalCommunicator.portalSignatureFrameControl,
+  ];
   private acceptedOriginsSuffix = [
     'portal.azure.com',
     'portal.microsoftazure.de',
@@ -63,6 +74,16 @@ export default class PortalCommunicator {
         },
         this.shellSrc
       );
+    } else if (Url.getParameterByName(null, 'appsvc.bladetype') === 'framecontrol') {
+      const innerDataJson = data ? JSON.parse(data) : null;
+      window.parent.postMessage(
+        {
+          data: { data: innerDataJson, kind: verb },
+          kind: verb,
+          signature: this.portalSignatureFrameControl,
+        },
+        this.shellSrc
+      );
     } else {
       window.parent.postMessage(
         {
@@ -76,21 +97,25 @@ export default class PortalCommunicator {
   }
 
   public currentTheme = 'lightTheme';
+  public currentContrast: number;
   private operationStream = new Subject<IDataMessage<any>>();
   private notificationStartStream = new Subject<INotificationStartedInfo>();
   private frameId;
   private i18n: any;
   private setTheme: Dispatch<SetStateAction<ThemeExtended>>;
   private setStartupInfo: Dispatch<SetStateAction<IStartupInfo<any>>>;
+  private setUpdatedInputs: Dispatch<IFeatureInfo<any>>;
   public initializeIframe(
     setTheme: Dispatch<SetStateAction<ThemeExtended>>,
     setStartupInfo: Dispatch<SetStateAction<IStartupInfo<any>>>,
+    setUpdatedInputs: Dispatch<IFeatureInfo<any>>,
     i18n: any = null
   ): void {
     this.frameId = Url.getParameterByName(null, 'frameId');
     this.i18n = i18n;
     this.setTheme = setTheme;
     this.setStartupInfo = setStartupInfo;
+    this.setUpdatedInputs = setUpdatedInputs;
     window.addEventListener(Verbs.message, this.iframeReceivedMsg.bind(this) as any, false);
     window.updateAuthToken = this.getAdToken.bind(this);
     const shellUrl = decodeURI(window.location.href);
@@ -137,14 +162,14 @@ export default class PortalCommunicator {
     }
   }
 
-  public openBlade<T, U = any>(bladeInfo: IOpenBladeInfo<U>, source: string): Promise<IBladeResult<T>> {
+  public openBlade<T, U = any>(bladeInfo: IOpenBladeInfo<U>): Promise<IBladeResult<T>> {
     const payload: IDataMessage<IOpenBladeInfo<U>> = {
       operationId: Guid.newGuid(),
       data: bladeInfo,
     };
 
     PortalCommunicator.postMessage(Verbs.openBlade2, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === payload.operationId),
@@ -159,8 +184,8 @@ export default class PortalCommunicator {
     });
   }
 
-  public openFrameBlade<T, U = any>(bladeInfo: IOpenBladeInfo<FrameBladeParams<U>>, source: string): Promise<IBladeResult<T>> {
-    return this.openBlade(bladeInfo, source);
+  public openFrameBlade<T, U = any>(bladeInfo: IOpenBladeInfo<FrameBladeParams<U>>): Promise<IBladeResult<T>> {
+    return this.openBlade(bladeInfo);
   }
 
   public getSpecCosts(query: SpecCostQueryInput): Observable<SpecCostQueryResult> {
@@ -179,7 +204,51 @@ export default class PortalCommunicator {
     );
   }
 
-  public getSubscription(subscriptionId: string): Observable<ISubscription> {
+  public makeHttpRequestsViaPortal(query: NetAjaxSettings): Promise<IDataMessageResult<any>> {
+    const updatedQuery = { ...query };
+    // NOTE(krmitta): Make sure stringified data is sent if present
+    if (query.data) {
+      updatedQuery.data = JSON.stringify(query.data);
+    }
+
+    const payload: IDataMessage<NetAjaxSettings> = {
+      operationId: Guid.newGuid(),
+      data: updatedQuery,
+    };
+
+    PortalCommunicator.postMessage(Verbs.httpRequest, this.packageData(payload));
+    return new Promise(resolve => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<any>>) => {
+          resolve(r.data);
+        });
+    });
+  }
+
+  public hasFlightEnabled(flightName: string): Promise<boolean> {
+    const payload: IDataMessage<string> = {
+      operationId: Guid.newGuid(),
+      data: flightName,
+    };
+
+    PortalCommunicator.postMessage(Verbs.ibizaExperimentationFlighting, this.packageData(payload));
+    return new Promise(resolve => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<boolean>>) => {
+          resolve(r.data.result);
+        });
+    });
+  }
+
+  public getSubscription(subscriptionId: string): Promise<ISubscription> {
     const payload: IDataMessage<ISubscriptionRequest> = {
       operationId: Guid.newGuid(),
       data: {
@@ -188,13 +257,16 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.getSubscriptionInfo, this.packageData(payload));
-    return this.operationStream.pipe(
-      filter(o => o.operationId === payload.operationId),
-      first(),
-      map((r: IDataMessage<IDataMessageResult<ISubscription>>) => {
-        return r.data.result;
-      })
-    );
+    return new Promise(resolve => {
+      this.operationStream
+        .pipe(
+          filter(o => o.operationId === payload.operationId),
+          first()
+        )
+        .subscribe((r: IDataMessage<IDataMessageResult<ISubscription>>) => {
+          resolve(r.data.result);
+        });
+    });
   }
 
   public getAllSubscriptions(): Observable<ISubscription[]> {
@@ -231,7 +303,11 @@ export default class PortalCommunicator {
   }
 
   public loadComplete() {
-    PortalCommunicator.postMessage(Verbs.loadComplete, null);
+    PortalCommunicator.postMessage(Verbs.loadComplete, this.packageData({}));
+  }
+
+  public xtermReady() {
+    PortalCommunicator.postMessage(Verbs.xtermReady, this.packageData({}));
   }
 
   public startNotification(title: string, description: string) {
@@ -321,7 +397,7 @@ export default class PortalCommunicator {
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<any>>) => {
-          if (o.data.status === 'success') {
+          if (isPortalCommunicationStatusSuccess(o.data.status)) {
             resolve(o.data.result.token);
           } else {
             return reject();
@@ -339,7 +415,7 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.executeArmUpdateRequest, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === operationId),
@@ -373,14 +449,14 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.hasPermission, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === operationId),
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<CheckPermissionResponse>>) => {
-          if (o.data.status !== 'success') {
+          if (!isPortalCommunicationStatusSuccess(o.data.status)) {
             this.log({
               action: 'hasPermission',
               actionModifier: 'failed',
@@ -410,14 +486,14 @@ export default class PortalCommunicator {
     };
 
     PortalCommunicator.postMessage(Verbs.hasLock, this.packageData(payload));
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       this.operationStream
         .pipe(
           filter(o => o.operationId === operationId),
           first()
         )
         .subscribe((o: IDataMessage<IDataMessageResult<CheckLockResponse>>) => {
-          if (o.data.status !== 'success') {
+          if (!isPortalCommunicationStatusSuccess(o.data.status)) {
             this.log({
               action: 'hasLock',
               actionModifier: 'failed',
@@ -472,11 +548,20 @@ export default class PortalCommunicator {
 
     if (methodName === Verbs.sendStartupInfo) {
       const startupInfo = data as IStartupInfo<any>;
-      if (this.currentTheme !== startupInfo.theme) {
-        const newTheme = startupInfo.theme === PortalTheme.dark ? darkTheme : lightTheme;
+      if (this.currentTheme !== startupInfo.theme || this.currentContrast !== startupInfo.highContrastKey) {
+        const newTheme =
+          startupInfo.highContrastKey === HighContrastTheme.Black
+            ? blackHighContrast
+            : startupInfo.highContrastKey === HighContrastTheme.White
+            ? whiteHighContrast
+            : startupInfo.theme === PortalTheme.dark
+            ? darkTheme
+            : lightTheme;
+
         loadTheme(newTheme);
         this.setTheme(newTheme as ThemeExtended);
         this.currentTheme = startupInfo.theme;
+        this.currentContrast = startupInfo.highContrastKey;
       }
       this.setArmEndpointInternal(startupInfo.armEndpoint);
       this.setArmTokenInternal(startupInfo.token);
@@ -496,6 +581,8 @@ export default class PortalCommunicator {
       this.notificationStartStream.next(data);
     } else if (methodName === Verbs.sendData) {
       this.operationStream.next(data);
+    } else if (methodName === Verbs.sendUpdatedInputs) {
+      this.setUpdatedInputs(data);
     }
   }
 

@@ -4,7 +4,7 @@
 
 运行以下命令以安装 Core Tools 包：
 
-<MarkdownHighlighter>npm install -g azure-functions-core-tools@3 --unsafe-perm true</MarkdownHighlighter>
+<MarkdownHighlighter>npm install -g azure-functions-core-tools@4 --unsafe-perm true</MarkdownHighlighter>
 
 <br/>
 ### <a name="create-an-azure-functions-project"></a>创建 Azure Functions 项目
@@ -42,6 +42,6 @@
 
 要将“函数”项目发布到 Azure，请输入以下命令：
 
-<MarkdownHighlighter>func azure functionapp publish {functionAppName}</MarkdownHighlighter>
+<MarkdownHighlighter slot={false}>func azure functionapp publish {functionAppName} <SlotComponent>--slot {slotName}</SlotComponent></MarkdownHighlighter>
 
 系统可能会提示你登录到 Azure。 按照屏幕上的说明操作。

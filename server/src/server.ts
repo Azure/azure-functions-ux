@@ -6,9 +6,10 @@ import { LoggingService } from './shared/logging/logging.service';
 import * as cookieSession from 'cookie-session';
 import * as cookieParser from 'cookie-parser';
 import * as helmet from 'helmet';
+import * as requestIp from 'request-ip';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
-function normalizePort(val: any) {
+function normalizePort(val) {
   const port = parseInt(val, 10);
 
   if (isNaN(port)) {
@@ -54,6 +55,7 @@ async function bootstrap() {
     })
   );
   app.use(cookieParser());
+  app.use(requestIp.mw());
   app.use(
     cookieSession({
       // This session cookie will live as long as the session and be used for authentication/security purposes

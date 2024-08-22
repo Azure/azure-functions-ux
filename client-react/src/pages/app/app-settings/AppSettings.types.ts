@@ -98,6 +98,7 @@ export interface ServiceLinkerProps {
 export type AppSettingsFormikPropsCombined = FormikProps<AppSettingsFormValues> & ServiceLinkerProps;
 export interface AppSettingsFormProps extends AppSettingsFormikPropsCombined {
   asyncData: AppSettingsAsyncData;
+  tab?: string;
 }
 
 export type LeaseDurationType = 'infinite' | 'fixed';
@@ -145,4 +146,12 @@ export enum KeyVaultReferenceStatus {
 
 export interface ConfigKeyVaultReferenceList {
   keyToReferenceStatuses: { [name: string]: KeyVaultReference };
+}
+
+export enum AppSettingsTabs {
+  applicationSettings = 'applicationSettings',
+  functionRuntimeSettings = 'functionRuntimeSettings',
+  generalSettings = 'generalSettings',
+  defaultDocuments = 'defaultDocuments',
+  pathMappings = 'pathMappings',
 }

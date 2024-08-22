@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { FormAzureStorageMounts } from '../AppSettings.types';
 import { AzureStorageMountsAddEditPropsCombined } from './AzureStorageMountsAddEdit';
-import MakeArmCall, { getErrorMessageOrStringify } from '../../../../ApiHelpers/ArmHelper';
+import MakeArmCall from '../../../../ApiHelpers/ArmHelper';
 import { formElementStyle } from '../AppSettings.styles';
 import { FormikProps, Field } from 'formik';
 import ComboBox from '../../../../components/form-controls/ComboBox';
@@ -10,13 +10,12 @@ import { useTranslation } from 'react-i18next';
 import { StorageAccountsContext, SiteContext } from '../Contexts';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
-import { MessageBarType } from 'office-ui-fabric-react';
+import { MessageBarType } from '@fluentui/react';
 import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { Links } from '../../../../utils/FwLinks';
-import FunctionsService from '../../../../ApiHelpers/FunctionsService';
-import LogService from '../../../../utils/LogService';
-import { LogCategories } from '../../../../utils/LogCategories';
 import { StorageType } from '../../../../models/site/config';
+import StorageService from '../../../../ApiHelpers/StorageService';
+import { PortalContext } from '../../../../PortalContext';
 
 const storageKinds = {
   StorageV2: 'StorageV2',
@@ -51,6 +50,8 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   );
   const storageAccounts = useContext(StorageAccountsContext);
   const site = useContext(SiteContext);
+  const portalContext = useContext(PortalContext);
+
   const { t } = useTranslation();
   const scenarioService = new ScenarioService(t);
 
@@ -79,7 +80,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
   };
 
   const validateNoStorageContainerAvailable = (): string | undefined => {
-    return !!accountError ? accountError : undefined;
+    return accountError ?? undefined;
   };
 
   const getAccessKey = (key: string): string => {
@@ -116,20 +117,19 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             setValues({ ...values, accessKey });
           };
 
-          // Keep the original key if there is one, otherwise assign data.keys[0] to access key
-          const key = getAccessKey(data.keys[0].value);
+          // Keep the original key if there is one, otherwise assign data.keys[0] to access key.
+          // Add check on keys in case keys property is undefined or empty
+          const retrievedKey = data?.keys?.[0]?.value ?? '';
+          const key = getAccessKey(retrievedKey);
           setAccessKey(key);
-          const payload = {
-            accountName: values.accountName,
-            accessKey: key,
-          };
+
           try {
             let blobsCall: any = {
               data: [],
             };
 
             if (supportsBlobStorage) {
-              blobsCall = FunctionsService.getStorageContainers(values.accountName, payload);
+              blobsCall = StorageService.fetchStorageBlobContainers(storageAccount.id);
             }
 
             let filesCall: any = {
@@ -137,7 +137,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             };
 
             if (storageAccount.kind !== storageKinds.BlobStorage) {
-              filesCall = FunctionsService.getStorageFileShares(values.accountName, payload);
+              filesCall = StorageService.fetchStorageFileShareContainers(storageAccount.id);
             }
 
             const [blobs, files] = await Promise.all([blobsCall, filesCall]);
@@ -153,22 +153,38 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
             const errorSchema: StorageContainerErrorSchema = initializeStorageContainerErrorSchemaValue();
 
             if (blobsFailure && supportsBlobStorage) {
-              const errorMessage = getErrorMessageOrStringify(!!blobsMetaData && !!blobsMetaData.error ? blobsMetaData.error : '');
-              LogService.error(LogCategories.appSettings, 'getStorageContainers', `Failed to get storage containers: ${errorMessage}`);
+              portalContext.log({
+                action: 'getStorageContainers',
+                actionModifier: 'failed',
+                resourceId: site?.id,
+                logLevel: 'error',
+                data: {
+                  error: blobsMetaData?.error,
+                  message: 'Failed to fetch storage containers',
+                },
+              });
               errorSchema.blobsContainerIsEmpty = true;
               errorSchema.getBlobsFailure = true;
             } else {
-              blobData = blobs.data || [];
+              blobData = blobs.data.value || [];
               errorSchema.blobsContainerIsEmpty = blobData.length === 0;
             }
 
             if (filesFailure) {
-              const errorMessage = getErrorMessageOrStringify(!!filesMetaData && !!filesMetaData.error ? filesMetaData.error : '');
-              LogService.error(LogCategories.appSettings, 'getStorageFileShares', `Failed to get storage file shares: ${errorMessage}`);
+              portalContext.log({
+                action: 'getStorageFileShares',
+                actionModifier: 'failed',
+                resourceId: site?.id,
+                logLevel: 'error',
+                data: {
+                  error: filesMetaData?.error,
+                  message: 'Failed to fetch storage file shares',
+                },
+              });
               errorSchema.filesContainerIsEmpty = true;
               errorSchema.getFilesFailure = true;
             } else {
-              filesData = files.data || [];
+              filesData = files.data.value || [];
               errorSchema.filesContainerIsEmpty = filesData.length === 0;
             }
 
@@ -247,7 +263,7 @@ const AzureStorageMountsAddEditBasic: React.FC<FormikProps<FormAzureStorageMount
           id="azure-storage-mount-blob-warning"
           message={t('readonlyBlobStorageWarning')}
           learnMoreLink={Links.byosBlobReadonlyLearnMore}
-          type={MessageBarType.warning}
+          type={MessageBarType.info}
           undocked={true}
         />
       )}

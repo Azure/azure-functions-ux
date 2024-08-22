@@ -1,11 +1,11 @@
 import { SpecResourceSet } from '../../../../models/BillingModels';
 import PortalCommunicator from '../../../../portal-communicator';
-import { BillingService } from '../../../../utils/BillingService';
 import { LogCategories } from '../../../../utils/LogCategories';
 import LogService from '../../../../utils/LogService';
 import i18next from 'i18next';
 import { ArmObj } from '../../../../models/arm-obj';
 import { ServerFarm } from '../../../../models/serverFarm/serverfarm';
+import { isDreamsparkSubscription } from '../../../../utils/billing-utils';
 
 export interface PriceSpecInput {
   specPickerInput: SpecPickerInput<PlanSpecPickerData>;
@@ -58,10 +58,6 @@ export enum SpecColorCodes {
   ISOLATED = '#C44200',
 }
 
-enum SubscriptionQuotaIds {
-  DreamSparkQuotaId = 'DreamSpark_2015-02-01',
-}
-
 export abstract class PriceSpec {
   public skuCode: string; // SKU code name, like S1 or P1v2
   public tier: string;
@@ -87,13 +83,12 @@ export abstract class PriceSpec {
   public price: number;
   public priceIsBaseline = false;
 
-  protected _billingService: BillingService;
+  protected portalCommunicator: PortalCommunicator;
   protected _logService: LogService;
   protected _t: i18next.TFunction;
 
   constructor(t: i18next.TFunction) {
-    const portalCommunicator = new PortalCommunicator();
-    this._billingService = new BillingService(portalCommunicator);
+    this.portalCommunicator = new PortalCommunicator();
     this._logService = new LogService();
     this._t = t;
   }
@@ -111,13 +106,12 @@ export abstract class PriceSpec {
     return null;
   }
 
-  // tslint:disable:no-empty
   public updateUpsellBanner(): void {}
 
   protected async checkIfDreamspark(subscriptionId: string): Promise<void> {
     if (this.state !== 'hidden') {
-      const isDreamspark = await this._billingService.checkIfSubscriptionHasQuotaId(subscriptionId, SubscriptionQuotaIds.DreamSparkQuotaId);
-      if (isDreamspark) {
+      const subscription = await this.portalCommunicator.getSubscription(subscriptionId);
+      if (isDreamsparkSubscription(subscription)) {
         this.state = 'disabled';
         this.disabledMessage = this._t('pricing_subscriptionNotAllowed');
         this.disabledInfoLink = `https://account.windowsazure.com/Subscriptions/Statement?subscriptionId=${subscriptionId}&isRdfeId=true&launchOption=upgrade`;

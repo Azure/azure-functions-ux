@@ -1,4 +1,5 @@
 @import '../../../sass/common/variables';
+
 nav {
   display: flex;
 }
@@ -15,7 +16,7 @@ nav {
 .group-tab {
   background-color: #bbb;
   text-align: center;
-  height: 83px;
+  min-height: 83px;
   padding-top: 7px;
   box-shadow: $card-box-shadow;
   outline-offset: -2px;
@@ -35,9 +36,9 @@ nav {
 
 .group-tab-description {
   font-size: 12px;
-  line-height: 0px;
   white-space: nowrap;
   color: #161514;
+  white-space: initial;
 }
 
 :host-context(#app-root[theme='dark']) {
@@ -49,5 +50,9 @@ nav {
     &.selected-container {
       background-color: $chrome-color-dark;
     }
+  }
+
+  .group-tab-description {
+    color: $default-text-color-dark
   }
 }
