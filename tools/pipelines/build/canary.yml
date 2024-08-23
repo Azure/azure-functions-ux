@@ -61,149 +61,149 @@ jobs:
         inputs:
           ArtifactName: react-build
 
-  - job: AngularFull
-    pool:
-      vmImage: 'macOS-latest'
+  # - job: AngularFull
+  #   pool:
+  #     vmImage: 'macOS-latest'
 
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '14.x'
-        displayName: 'Install Node.js'
+  #   steps:
+  #     - task: NodeTool@0
+  #       inputs:
+  #         versionSpec: '14.x'
+  #       displayName: 'Install Node.js'
 
-      - script: |
-          cd client
-          npm ci
-        displayName: 'npm install'
+  #     - script: |
+  #         cd client
+  #         npm ci
+  #       displayName: 'npm install'
 
-      - script: |
-          cd client
-          node_modules/.bin/ng build --progress false --output-path="public/ng-full"
-        displayName: 'ng build full'
+  #     - script: |
+  #         cd client
+  #         node_modules/.bin/ng build --progress false --output-path="public/ng-full"
+  #       displayName: 'ng build full'
 
-      - task: CopyFiles@2
-        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          SourceFolder: client/public
-          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
+  #     - task: CopyFiles@2
+  #       displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  #       inputs:
+  #         SourceFolder: client/public
+  #         TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
 
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: angular-full'
-        inputs:
-          ArtifactName: angular-full
+  #     - task: PublishBuildArtifacts@1
+  #       displayName: 'Publish Artifact: angular-full'
+  #       inputs:
+  #         ArtifactName: angular-full
 
-  - job: AngularMin
-    pool:
-      vmImage: 'macOS-latest'
+  # - job: AngularMin
+  #   pool:
+  #     vmImage: 'macOS-latest'
 
-    steps:
-      - task: NodeTool@0
-        inputs:
-          versionSpec: '14.x'
-        displayName: 'Install Node.js'
+  #   steps:
+  #     - task: NodeTool@0
+  #       inputs:
+  #         versionSpec: '14.x'
+  #       displayName: 'Install Node.js'
 
-      - script: |
-          npm install -g gulp-cli
-        displayName: 'install gulp'
+  #     - script: |
+  #         npm install -g gulp-cli
+  #       displayName: 'install gulp'
 
-      - script: |
-          cd client
-          npm ci
-        displayName: 'npm install'
+  #     - script: |
+  #         cd client
+  #         npm ci
+  #       displayName: 'npm install'
 
-      - script: |
-          cd client
-          node_modules/.bin/ng build --progress false --prod --environment=prod --output-path="../server/public/ng-min"
-        displayName: 'ng build full'
+  #     - script: |
+  #         cd client
+  #         node_modules/.bin/ng build --progress false --prod --environment=prod --output-path="../server/public/ng-min"
+  #       displayName: 'ng build full'
 
-      - script: |
-          cd server
-          npm ci
-          gulp replace-tokens-for-minimized-angular
-        displayName: 'Generate config file with angular files'
+  #     - script: |
+  #         cd server
+  #         npm ci
+  #         gulp replace-tokens-for-minimized-angular
+  #       displayName: 'Generate config file with angular files'
 
-      - task: CopyFiles@2
-        displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          SourceFolder: server/public
-          TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
+  #     - task: CopyFiles@2
+  #       displayName: 'Copy Files to: $(Build.ArtifactStagingDirectory)'
+  #       inputs:
+  #         SourceFolder: server/public
+  #         TargetFolder: '$(Build.ArtifactStagingDirectory)/public'
 
-      - task: CopyFiles@2
-        displayName: 'Copy Assets to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          SourceFolder: client/src/assets
-          TargetFolder: '$(Build.ArtifactStagingDirectory)'
+  #     - task: CopyFiles@2
+  #       displayName: 'Copy Assets to: $(Build.ArtifactStagingDirectory)'
+  #       inputs:
+  #         SourceFolder: client/src/assets
+  #         TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: angular-min'
-        inputs:
-          ArtifactName: angular-min
+  #     - task: PublishBuildArtifacts@1
+  #       displayName: 'Publish Artifact: angular-min'
+  #       inputs:
+  #         ArtifactName: angular-min
 
-  - job: Localization
-    pool:
-      vmImage: 'windows-2019'
-    steps:
-      - task: OneLocBuild@2
-        env:
-          SYSTEM_ACCESSTOKEN: $(System.AccessToken)
-        inputs:
-          locProj: 'server/LocProject.json'
-          outDir: '$(Build.ArtifactStagingDirectory)'
-          packageSourceAuth: 'patAuth'
-          dependencyPackageSource: 'https://azure-functions-ux.pkgs.visualstudio.com/_packaging/azure-functions-ux-loc/nuget/v3/index.json'
+  # - job: Localization
+  #   pool:
+  #     vmImage: 'windows-2019'
+  #   steps:
+  #     - task: OneLocBuild@2
+  #       env:
+  #         SYSTEM_ACCESSTOKEN: $(System.AccessToken)
+  #       inputs:
+  #         locProj: 'server/LocProject.json'
+  #         outDir: '$(Build.ArtifactStagingDirectory)'
+  #         packageSourceAuth: 'patAuth'
+  #         dependencyPackageSource: 'https://azure-functions-ux.pkgs.visualstudio.com/_packaging/azure-functions-ux-loc/nuget/v3/index.json'
 
-      - task: PublishBuildArtifacts@1
-        displayName: 'Publish Artifact: loc'
-        inputs:
-          ArtifactName: loc
+  #     - task: PublishBuildArtifacts@1
+  #       displayName: 'Publish Artifact: loc'
+  #       inputs:
+  #         ArtifactName: loc
 
   - job: Server
     pool:
       vmImage: 'macOS-latest'
     dependsOn:
-      - AngularFull
-      - AngularMin
+      # - AngularFull
+      # - AngularMin
       - ReactBuild
-      - Localization
+      # - Localization
     steps:
       - task: NodeTool@0
         inputs:
           versionSpec: '18.x'
         displayName: 'Install Node.js'
 
-      - task: DownloadBuildArtifacts@0
-        displayName: 'Download Loc Artifacts'
-        inputs:
-          artifactName: loc
-          downloadPath: $(System.DefaultWorkingDirectory)
+      # - task: DownloadBuildArtifacts@0
+      #   displayName: 'Download Loc Artifacts'
+      #   inputs:
+      #     artifactName: loc
+      #     downloadPath: $(System.DefaultWorkingDirectory)
 
-      - task: CopyFiles@2
-        displayName: 'Copy Loc to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          SourceFolder: $(System.DefaultWorkingDirectory)/loc/loc
-          TargetFolder: server/resources-resx
+      # - task: CopyFiles@2
+      #   displayName: 'Copy Loc to: $(Build.ArtifactStagingDirectory)'
+      #   inputs:
+      #     SourceFolder: $(System.DefaultWorkingDirectory)/loc/loc
+      #     TargetFolder: server/resources-resx
 
-      - script: |
-          cd server
-          npm ci
-        displayName: 'npm install'
+      # - script: |
+      #     cd server
+      #     npm ci
+      #   displayName: 'npm install'
 
-      - script: |
-          cd server
-          npm run build
-        displayName: 'Setup Environment Variables and Build Resources'
+      # - script: |
+      #     cd server
+      #     npm run build
+      #   displayName: 'Setup Environment Variables and Build Resources'
 
-      - task: DownloadBuildArtifacts@0
-        displayName: 'Download Angular Full Artifacts'
-        inputs:
-          artifactName: angular-full
-          downloadPath: $(System.DefaultWorkingDirectory)
+      # - task: DownloadBuildArtifacts@0
+      #   displayName: 'Download Angular Full Artifacts'
+      #   inputs:
+      #     artifactName: angular-full
+      #     downloadPath: $(System.DefaultWorkingDirectory)
 
-      - task: DownloadBuildArtifacts@0
-        displayName: 'Download Angular Min Artifacts'
-        inputs:
-          artifactName: angular-min
-          downloadPath: $(System.DefaultWorkingDirectory)
+      # - task: DownloadBuildArtifacts@0
+      #   displayName: 'Download Angular Min Artifacts'
+      #   inputs:
+      #     artifactName: angular-min
+      #     downloadPath: $(System.DefaultWorkingDirectory)
 
       - task: DownloadBuildArtifacts@0
         displayName: 'Download React Build Artifacts'
@@ -211,23 +211,23 @@ jobs:
           artifactName: react-build
           downloadPath: $(System.DefaultWorkingDirectory)
 
-      - task: CopyFiles@2
-        displayName: 'Copy Angular Full Files to: server/dist'
-        inputs:
-          SourceFolder: $(System.DefaultWorkingDirectory)/angular-full
-          TargetFolder: server/dist
+      # - task: CopyFiles@2
+      #   displayName: 'Copy Angular Full Files to: server/dist'
+      #   inputs:
+      #     SourceFolder: $(System.DefaultWorkingDirectory)/angular-full
+      #     TargetFolder: server/dist
 
-      - task: CopyFiles@2
-        displayName: 'Copy Angular Min Files to: server/dist'
-        inputs:
-          SourceFolder: $(System.DefaultWorkingDirectory)/angular-min
-          TargetFolder: server/dist
+      # - task: CopyFiles@2
+      #   displayName: 'Copy Angular Min Files to: server/dist'
+      #   inputs:
+      #     SourceFolder: $(System.DefaultWorkingDirectory)/angular-min
+      #     TargetFolder: server/dist
 
-      - task: CopyFiles@2
-        displayName: 'Copy React Build Files to: server/dist'
-        inputs:
-          SourceFolder: $(System.DefaultWorkingDirectory)/react-build
-          TargetFolder: server/dist
+      # - task: CopyFiles@2
+      #   displayName: 'Copy React Build Files to: server/dist'
+      #   inputs:
+      #     SourceFolder: $(System.DefaultWorkingDirectory)/react-build
+      #     TargetFolder: server/dist
 
       - task: CopyFiles@2
         displayName: 'Copy React Build Files to: $(Build.ArtifactStagingDirectory)'
@@ -235,42 +235,43 @@ jobs:
           SourceFolder: $(System.DefaultWorkingDirectory)/react-build
           TargetFolder: $(Build.ArtifactStagingDirectory)/react-build
 
-      - task: CopyFiles@2
-        displayName: 'Copy EtwLogger Folder to: $(Build.ArtifactStagingDirectory)'
-        inputs:
-          SourceFolder: server/EtwLogger
-          TargetFolder: server/dist/EtwLogger
+      # - task: CopyFiles@2
+      #   displayName: 'Copy EtwLogger Folder to: $(Build.ArtifactStagingDirectory)'
+      #   inputs:
+      #     SourceFolder: server/EtwLogger
+      #     TargetFolder: server/dist/EtwLogger
 
-      - script: |
-          cd server
-          npm run bundle
-        displayName: 'Run Production Ready Script'
-        env:
-          bitbucketClientId: $(bitbucketClientId)
-          githubClientId: $(githubClientId)
-          githubClientSecret: $(githubClientSecret)
-          githubNationalCloudsClientId: $(githubNationalCloudsClientId)
-          githubNationalCloudsClientSecret: $(githubNationalCloudsClientSecret)
-          githubRedirectUrl: $(githubRedirectUrl)
-          bitbucketClientSecret: $(bitbucketClientSecret)
-          bitbucketRedirectUrl: $(bitbucketRedirectUrl)
-          staticSitesGithubClientId: $(staticSitesGithubClientId)
-          staticSitesGithubClientSecret: $(staticSitesGithubClientSecret)
-          githubForCreatesClientId: $(githubForCreatesClientId)
-          githubForCreatesClientSecret: $(githubForCreatesClientSecret)
-          githubForCreatesNationalCloudsClientId: $(githubForCreatesNationalCloudsClientId)
-          githubForCreatesNationalCloudsClientSecret: $(githubForCreatesNationalCloudsClientSecret)
-          githubForReactViewsV2ClientId: $(githubForReactViewsV2ClientId)
-          githubForReactViewsV2ClientSecret: $(githubForReactViewsV2ClientSecret)
+      # - script: |
+      #     cd server
+      #     npm run bundle
+      #   displayName: 'Run Production Ready Script'
+      #   env:
+      #     bitbucketClientId: $(bitbucketClientId)
+      #     githubClientId: $(githubClientId)
+      #     githubClientSecret: $(githubClientSecret)
+      #     githubNationalCloudsClientId: $(githubNationalCloudsClientId)
+      #     githubNationalCloudsClientSecret: $(githubNationalCloudsClientSecret)
+      #     githubRedirectUrl: $(githubRedirectUrl)
+      #     bitbucketClientSecret: $(bitbucketClientSecret)
+      #     bitbucketRedirectUrl: $(bitbucketRedirectUrl)
+      #     staticSitesGithubClientId: $(staticSitesGithubClientId)
+      #     staticSitesGithubClientSecret: $(staticSitesGithubClientSecret)
+      #     githubForCreatesClientId: $(githubForCreatesClientId)
+      #     githubForCreatesClientSecret: $(githubForCreatesClientSecret)
+      #     githubForCreatesNationalCloudsClientId: $(githubForCreatesNationalCloudsClientId)
+      #     githubForCreatesNationalCloudsClientSecret: $(githubForCreatesNationalCloudsClientSecret)
+      #     githubForReactViewsV2ClientId: $(githubForReactViewsV2ClientId)
+      #     githubForReactViewsV2ClientSecret: $(githubForReactViewsV2ClientSecret)
 
-      - script: |
-          cd server/dist
-          npm ci --production
-        displayName: 'Run Production Ready Script'
+      # - script: |
+      #     cd server/dist
+      #     npm ci --production
+      #   displayName: 'Run Production Ready Script'
 
       - task: ArchiveFiles@2
         inputs:
-          rootFolderOrFile: server/dist
+          # rootFolderOrFile: server/dist
+          rootFolderOrFile: $(System.DefaultWorkingDirectory)/react-build
           includeRootFolder: false
           archiveType: 'zip'
           archiveFile: '$(Build.ArtifactStagingDirectory)/bin/UX.zip'
