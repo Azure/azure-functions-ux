@@ -233,7 +233,7 @@ jobs:
         displayName: 'Copy React Build Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/react-build
-          TargetFolder: $(Build.ArtifactStagingDirectory)
+          TargetFolder: $(Build.ArtifactStagingDirectory)/react-build
 
       - task: CopyFiles@2
         displayName: 'Copy EtwLogger Folder to: $(Build.ArtifactStagingDirectory)'
