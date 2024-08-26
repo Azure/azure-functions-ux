@@ -212,22 +212,28 @@ jobs:
           downloadPath: $(System.DefaultWorkingDirectory)
 
       - task: CopyFiles@2
-        displayName: 'Copy Angular Full Files to: $(Build.ArtifactStagingDirectory)'
+        displayName: 'Copy Angular Full Files to: server/dist'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/angular-full
           TargetFolder: server/dist
 
       - task: CopyFiles@2
-        displayName: 'Copy Angular Min Files to: $(Build.ArtifactStagingDirectory)'
+        displayName: 'Copy Angular Min Files to: server/dist'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/angular-min
+          TargetFolder: server/dist
+
+      - task: CopyFiles@2
+        displayName: 'Copy React Build Files to: server/dist'
+        inputs:
+          SourceFolder: $(System.DefaultWorkingDirectory)/react-build
           TargetFolder: server/dist
 
       - task: CopyFiles@2
         displayName: 'Copy React Build Files to: $(Build.ArtifactStagingDirectory)'
         inputs:
           SourceFolder: $(System.DefaultWorkingDirectory)/react-build
-          TargetFolder: server/dist
+          TargetFolder: $(Build.ArtifactStagingDirectory)/react-build
 
       - task: CopyFiles@2
         displayName: 'Copy EtwLogger Folder to: $(Build.ArtifactStagingDirectory)'
