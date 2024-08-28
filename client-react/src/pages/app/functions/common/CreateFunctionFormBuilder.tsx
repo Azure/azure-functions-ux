@@ -1,5 +1,5 @@
 import { Field, FormikProps } from 'formik';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../components/form-controls/TextField';
 import { ArmObj } from '../../../../models/arm-obj';
@@ -23,7 +23,7 @@ export class CreateFunctionFormBuilder<TOptions = any> extends BindingFormBuilde
     resourceId: string,
     private _functionsInfo: ArmObj<FunctionInfo>[],
     private _defaultName: string,
-    protected t: i18next.TFunction,
+    protected t: TFunction,
     options?: TOptions
   ) {
     super(bindingInfo, bindings, resourceId, t, true, options);

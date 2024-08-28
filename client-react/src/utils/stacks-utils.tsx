@@ -1,5 +1,5 @@
 import { IDropdownOption, MessageBarType } from '@fluentui/react';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import CustomBanner from '../components/CustomBanner/CustomBanner';
 import { ArmObj } from '../models/arm-obj';
 import { Site } from '../models/site/site';
@@ -28,11 +28,7 @@ import Url from './url';
 const ENDOFLIFEMAXSECONDS = 15780000; // 6 months
 export const NETFRAMEWORKVERSION5 = 5;
 
-export const getStacksSummaryForDropdown = (
-  stack: WebAppStack | FunctionAppStack,
-  osType: AppStackOs,
-  t: i18next.TFunction
-): IDropdownOption[] => {
+export const getStacksSummaryForDropdown = (stack: WebAppStack | FunctionAppStack, osType: AppStackOs, t: TFunction): IDropdownOption[] => {
   const options: IDropdownOption[] = [];
   stack.majorVersions.forEach(stackMajorVersion => {
     stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
@@ -54,7 +50,7 @@ export const getStacksSummaryForDropdown = (
 
 export const getMinorVersionText = (
   text: string,
-  t: i18next.TFunction,
+  t: TFunction,
   settings?: WebAppRuntimeSettings | WindowsJavaContainerSettings | LinuxJavaContainerSettings
 ) => {
   if (settings) {
@@ -249,7 +245,7 @@ export const getFilteredWindowsJavaContainerSettings = (
   }
 };
 
-export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boolean, t: i18next.TFunction) => {
+export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boolean, t: TFunction) => {
   return {
     infoBubbleMessage: isEarlyStackMessageVisible ? t('earlyAccessStackMessage') : undefined,
     learnMoreLink: isEarlyStackMessageVisible ? Links.earlyAccessStackLearnMore : undefined,
@@ -257,7 +253,7 @@ export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boole
 };
 
 // NOTE(krmitta): Make sure this is in sync with what we show for Creates on ibiza
-export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stackVersion: string, eolDate?: string | null) => {
+export const checkAndGetStackEOLOrDeprecatedBanner = (t: TFunction, stackVersion: string, eolDate?: string | null) => {
   if (eolDate === undefined) {
     return <></>;
   }

@@ -1,5 +1,5 @@
 import { Field, Formik, FormikProps } from 'formik';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { IDropdownOption, Link, MessageBar, MessageBarType } from '@fluentui/react';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -126,7 +126,7 @@ const bindingTypeSpecificFields = (
   formProps: FormikProps<BindingInfo>,
   filteredBindings: Binding[],
   functionAppId: string,
-  t: i18next.TFunction,
+  t: TFunction,
   currentType: BindingType,
   setCurrentType
 ): JSX.Element[] => {
@@ -188,7 +188,7 @@ const getDefaultValues = (bindingType: BindingType, filteredBindings: Binding[])
   return defaultValues;
 };
 
-const getInstructions = (bindingDirection: BindingDirection, t: i18next.TFunction) => {
+const getInstructions = (bindingDirection: BindingDirection, t: TFunction) => {
   switch (bindingDirection) {
     case BindingDirection.in: {
       return t('integrateCreateInputBindingInstructions');
@@ -202,7 +202,7 @@ const getInstructions = (bindingDirection: BindingDirection, t: i18next.TFunctio
   }
 };
 
-const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingInfo>, readOnly: boolean, t: i18next.TFunction) => {
+const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingInfo>, readOnly: boolean, t: TFunction) => {
   return {
     id: 'save',
     title: t('ok'),
@@ -211,7 +211,7 @@ const actionBarPrimaryButtonProps = (formProps: FormikProps<BindingInfo>, readOn
   };
 };
 
-const actionBarSecondaryButtonProps = (onPanelClose: () => void, t: i18next.TFunction) => {
+const actionBarSecondaryButtonProps = (onPanelClose: () => void, t: TFunction) => {
   return {
     id: 'cancel',
     title: t('cancel'),

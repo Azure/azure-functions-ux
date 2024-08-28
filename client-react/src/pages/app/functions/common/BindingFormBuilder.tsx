@@ -1,6 +1,6 @@
 import { IDropdownOption } from '@fluentui/react';
 import { Field, FormikProps } from 'formik';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import { Layout } from '../../../../components/form-controls/ReactiveFormControl';
 import TextField from '../../../../components/form-controls/TextField';
@@ -25,7 +25,7 @@ export class BindingFormBuilder<TOptions> {
   protected bindingList: Binding[];
   protected options?: TOptions;
   protected resourceId: string;
-  protected t: i18next.TFunction;
+  protected t: TFunction;
 
   private _areCreateFunctionFieldsHorizontal: boolean;
   private _bindingInfoList: BindingInfo[];
@@ -34,7 +34,7 @@ export class BindingFormBuilder<TOptions> {
     bindingInfoList: BindingInfo[],
     bindingList: Binding[],
     resourceId: string,
-    t: i18next.TFunction,
+    t: TFunction,
     areCreateFunctionFieldsHorizontal: boolean,
     options?: TOptions
   ) {

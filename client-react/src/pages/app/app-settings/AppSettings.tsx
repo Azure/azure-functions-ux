@@ -7,7 +7,7 @@ import AppSettingsForm from './AppSettingsForm';
 import { ScenarioIds } from '../../../utils/scenario-checker/scenario-ids';
 import { useTranslation } from 'react-i18next';
 import { ScenarioService } from '../../../utils/scenario-checker/scenario.service';
-import i18n from 'i18next';
+import { TFunction } from 'i18next';
 import { PermissionsContext, SiteContext } from './Contexts';
 import { commandBarSticky, formStyle } from './AppSettings.styles';
 import UpsellBanner from '../../../components/UpsellBanner/UpsellBanner';
@@ -22,7 +22,7 @@ import { updateWebAppConfigForServiceLinker } from './AppSettings.utils';
 import { BladeCloseReason, IBladeResult } from '../../../models/portal-models';
 import { SiteStateContext } from '../../../SiteState';
 
-const validate = (values: AppSettingsFormValues | null, t: i18n.TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
+const validate = (values: AppSettingsFormValues | null, t: TFunction, scenarioChecker: ScenarioService, site: ArmObj<Site>) => {
   if (!values) {
     return {};
   }
