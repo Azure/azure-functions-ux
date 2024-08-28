@@ -2,7 +2,7 @@ import { ArmObj } from '../../../models/arm-obj';
 import { PublishingUser } from '../../../models/site/publish';
 import { SiteConfig, BuildProvider, ScmType } from '../../../models/site/config';
 import { AuthType, DeploymentCenterFormData, DeploymentCenterYupValidationSchemaType, WorkflowOption } from './DeploymentCenter.types';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { KeyValue } from '../../../models/portal-models';
 import * as Yup from 'yup';
 import { RepoTypeOptions } from '../../../models/external';
@@ -19,10 +19,10 @@ export abstract class DeploymentCenterFormBuilder {
   protected _siteConfig: ArmObj<SiteConfig>;
   protected _applicationSettings: ArmObj<KeyValue<string>>;
   protected _configMetadata: ArmObj<KeyValue<string>>;
-  protected _t: i18next.TFunction;
+  protected _t: TFunction;
   protected scenarioService: ScenarioService;
 
-  constructor(t: i18next.TFunction) {
+  constructor(t: TFunction) {
     this._t = t;
     this.scenarioService = new ScenarioService(this._t);
   }
@@ -79,33 +79,33 @@ export abstract class DeploymentCenterFormBuilder {
 
     return {
       publishingUsername: Yup.string()
-        .test('usernameMinCharsIfEntered', this._t('usernameLengthRequirements').format(usernameMinLength), value => {
+        .test('usernameMinCharsIfEntered', this._t('usernameLengthRequirements').format(usernameMinLength), (value) => {
           return !value || value.length >= usernameMinLength;
         })
-        .test('validatePublishingUsername', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        .test('validatePublishingUsername', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
           return value || !this.parent.publishingPassword;
         }),
       publishingPassword: Yup.string()
-        .test('publishingPasswordRequirements', this._t('userCredsError'), value => {
+        .test('publishingPasswordRequirements', this._t('userCredsError'), (value) => {
           return !value || passwordMinimumRequirementsRegex.test(value);
         })
-        .test('passwordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        .test('passwordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
           return this.parent.publishingUsername && this.parent.publishingUsername !== getPublishingUsername() ? value : true;
         }),
       // NOTE(michinoy): Cannot use the arrow operator for the test function as 'this' context is required.
       publishingConfirmPassword: Yup.string()
-        .test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function(value) {
+        .test('validatePublishingConfirmPassword', this._t('nomatchpassword'), function (value) {
           return !this.parent.publishingPassword || this.parent.publishingPassword === value;
         })
-        .test('confirmPasswordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        .test('confirmPasswordRequiredWhenUsernameChanged', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
           return this.parent.publishingUsername && this.parent.publishingUsername !== getPublishingUsername() ? value : true;
         }),
-      workflowOption: Yup.mixed().test('workflowOptionRequired', this._t('deploymentCenterFieldRequiredMessage'), function() {
+      workflowOption: Yup.mixed().test('workflowOptionRequired', this._t('deploymentCenterFieldRequiredMessage'), function () {
         return this.parent.buildProvider === BuildProvider.GitHubAction
           ? this.parent.branch && this.parent.workflowOption !== 'none'
           : true;
       }),
-      org: Yup.mixed().test('organizationRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+      org: Yup.mixed().test('organizationRequired', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
@@ -114,7 +114,7 @@ export abstract class DeploymentCenterFormBuilder {
           ? !!value
           : true;
       }),
-      repo: Yup.mixed().test('repositoryRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+      repo: Yup.mixed().test('repositoryRequired', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
@@ -124,7 +124,7 @@ export abstract class DeploymentCenterFormBuilder {
           ? !!value
           : true;
       }),
-      branch: Yup.mixed().test('branchRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+      branch: Yup.mixed().test('branchRequired', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
         return this.parent.sourceProvider === ScmType.GitHubAction ||
           this.parent.sourceProvider === ScmType.GitHub ||
           this.parent.sourceProvider === ScmType.BitbucketGit ||
@@ -138,7 +138,7 @@ export abstract class DeploymentCenterFormBuilder {
       bitbucketUser: Yup.mixed().notRequired(),
       gitHubPublishProfileSecretGuid: Yup.mixed().notRequired(),
       externalUsername: Yup.mixed()
-        .test('externalUsernameRequired', this._t('deploymentCenterFieldPrivateSSHMessage'), function(value) {
+        .test('externalUsernameRequired', this._t('deploymentCenterFieldPrivateSSHMessage'), function (value) {
           const isRepoSSH =
             this.parent.sourceProvider === ScmType.ExternalGit &&
             this.parent.externalRepoType === RepoTypeOptions.Private &&
@@ -155,7 +155,7 @@ export abstract class DeploymentCenterFormBuilder {
             );
           return this.parent.sourceProvider === ScmType.ExternalGit && isRepoSSH && isNotGitHubOrBitbucketRepo ? !value : true;
         })
-        .test('externalUsernameRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        .test('externalUsernameRequired', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
           const isNotGitHubOrBitbucketRepo =
             this.parent.repo &&
             !(
@@ -169,7 +169,7 @@ export abstract class DeploymentCenterFormBuilder {
             : true;
         }),
       externalPassword: Yup.mixed()
-        .test('externalPasswordRequired', this._t('deploymentCenterFieldPrivateSSHMessage'), function(value) {
+        .test('externalPasswordRequired', this._t('deploymentCenterFieldPrivateSSHMessage'), function (value) {
           const isRepoSSH =
             this.parent.sourceProvider === ScmType.ExternalGit &&
             this.parent.externalRepoType === RepoTypeOptions.Private &&
@@ -186,7 +186,7 @@ export abstract class DeploymentCenterFormBuilder {
             );
           return this.parent.sourceProvider === ScmType.ExternalGit && isRepoSSH && isNotGitHubOrBitbucketRepo ? !value : true;
         })
-        .test('externalPasswordRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+        .test('externalPasswordRequired', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
           const isNotGitHubOrBitbucketRepo =
             this.parent.repo &&
             !(
@@ -201,19 +201,19 @@ export abstract class DeploymentCenterFormBuilder {
         }),
       externalRepoType: Yup.mixed()
         .notRequired()
-        .test('externalPrivateGitHubRepoValid', this._t('externalGitPrivateGitHubNotSupported'), function(value) {
+        .test('externalPrivateGitHubRepoValid', this._t('externalGitPrivateGitHubNotSupported'), function (value) {
           const isGitHubAuthSupported = checkGitHubAuthSupport();
           return value === RepoTypeOptions.Private ? isGitHubAuthSupported : true;
         })
-        .test('externalPrivateBitbucketRepoValid', this._t('externalGitPrivateBitbucketNotSupported'), function(value) {
+        .test('externalPrivateBitbucketRepoValid', this._t('externalGitPrivateBitbucketNotSupported'), function (value) {
           const isBitbucketAuthSupported = checkBitbucketAuthSupport();
           return value === RepoTypeOptions.Private ? isBitbucketAuthSupported : true;
         }),
       devOpsProjectName: Yup.mixed().notRequired(),
-      authType: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+      authType: Yup.mixed().test('authTypeRequired', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
         return this.parent.buildProvider === BuildProvider.GitHubAction ? !!value : true;
       }),
-      authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function(value) {
+      authIdentity: Yup.mixed().test('authIdentityRequired', this._t('deploymentCenterFieldRequiredMessage'), function (value) {
         return this.parent.buildProvider === BuildProvider.GitHubAction && this.parent.authType === AuthType.Oidc ? !!value.id : true;
       }),
       hasPermissionToUseOIDC: Yup.boolean().notRequired(),

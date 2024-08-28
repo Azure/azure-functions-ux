@@ -5,7 +5,7 @@ import { ThemeContext } from '../../../ThemeContext';
 import { useWindowSize } from 'react-use';
 import { CreatePlan } from './CreatePlan';
 import { useTranslation } from 'react-i18next';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { ArmObj } from '../../../models/arm-obj';
 import { ServerFarm } from '../../../models/serverFarm/serverfarm';
 import {
@@ -126,7 +126,7 @@ export const CreateOrSelectPlan = (props: CreateOrSelectPlanFormValues & CreateO
 export const addNewPlanToOptions = (
   planName: string,
   options: IDropdownOption[],
-  t: i18next.TFunction,
+  t: TFunction,
   setHasDropdownChanged: Dispatch<SetStateAction<boolean>>
 ) => {
   if (planName) {
@@ -150,7 +150,7 @@ const onCreatePanelClose = (
   setPlanInfo: React.Dispatch<React.SetStateAction<CreateOrSelectPlanFormValues>>,
   newPlanInfo: NewPlanInfo,
   planOptions: IDropdownOption[],
-  t: i18next.TFunction,
+  t: TFunction,
   onPlanChange: (planInfo: CreateOrSelectPlanFormValues) => void,
   setHasDropdownChanged: Dispatch<SetStateAction<boolean>>
 ) => {
