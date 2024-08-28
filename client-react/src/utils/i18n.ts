@@ -1,9 +1,9 @@
 import i18n from 'i18next';
 import Backend from 'i18next-chained-backend';
 import LocalStorageBackend from 'i18next-localstorage-backend';
-import * as XHR from 'i18next-xhr-backend';
+import XHR, { BackendOptions } from 'i18next-xhr-backend';
 
-const backendOptions: XHR.I18NextXhrBackend.BackendOptions = {
+const backendOptions: BackendOptions = {
   // path where resources get loaded from, or a function
   // returning a path:
   // function(lngs, namespaces) { return customPath; }

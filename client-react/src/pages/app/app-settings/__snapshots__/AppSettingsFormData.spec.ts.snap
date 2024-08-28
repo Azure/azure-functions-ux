@@ -78,7 +78,6 @@ Object {
       "serverFarm": null,
       "serverFarmId": "/subscriptions/sub/resourceGroups/azure-functions-react-test/providers/Microsoft.Web/serverfarms/ServicePlan9131048f-9b79",
       "siteConfig": Object {
-        "ClusteringEnabled": false,
         "alwaysOn": false,
         "apiDefinition": null,
         "appCommandLine": "",
@@ -96,6 +95,7 @@ Object {
         "autoHealRules": null,
         "autoSwapSlotName": null,
         "azureStorageAccounts": Object {},
+        "clusteringEnabled": false,
         "connectionStrings": Array [
           Object {
             "connectionString": "TEST_CONNECTION_VALUE",
