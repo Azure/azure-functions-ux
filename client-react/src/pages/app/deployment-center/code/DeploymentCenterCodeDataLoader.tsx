@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useCallback } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { ArmArray } from '../../../../models/arm-obj';
 import {
@@ -15,6 +15,7 @@ import { DeploymentCenterPublishingContext } from '../authentication/DeploymentC
 import DeploymentCenterCodeForm from './DeploymentCenterCodeForm';
 import { getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { PortalContext } from '../../../../PortalContext';
+import { SiteStateContext } from '../../../../SiteState';
 
 const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> = props => {
   const { isDataRefreshing, tab } = props;
@@ -22,6 +23,7 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
 
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const deploymentCenterPublishingContext = useContext(DeploymentCenterPublishingContext);
+  const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
 
   const deploymentCenterCodeFormBuilder = new DeploymentCenterCodeFormBuilder(t);
@@ -33,7 +35,11 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
     DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> | undefined
   >(undefined);
 
-  const generateForm = () => {
+  const generateForm = useCallback(() => {
+    if (siteStateContext.site) {
+      deploymentCenterCodeFormBuilder.setSite(siteStateContext.site);
+    }
+
     if (deploymentCenterContext.siteConfig) {
       deploymentCenterCodeFormBuilder.setSiteConfig(deploymentCenterContext.siteConfig);
     }
@@ -66,7 +72,14 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
         publishType: 'code',
       })
     );
-  };
+  }, [
+    siteStateContext.site,
+    deploymentCenterContext.siteConfig,
+    deploymentCenterContext.configMetadata,
+    deploymentCenterContext.applicationSettings,
+    deploymentCenterPublishingContext.publishingUser,
+    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies,
+  ]);
 
   const refresh = () => {
     portalContext.log(
@@ -78,12 +91,8 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   };
 
   useEffect(() => {
-    if (deploymentCenterContext.applicationSettings && deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata) {
-      generateForm();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
+    generateForm();
+  }, [generateForm]);
 
   return (
     <DeploymentCenterCodeForm

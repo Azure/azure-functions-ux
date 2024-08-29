@@ -1,5 +1,5 @@
 import { FunctionAppEditMode } from '../models/portal-models';
-import i18n from './i18n';
+import { TFunction } from 'i18next';
 import { ArmObj } from '../models/arm-obj';
 import { Site } from '../models/site/site';
 import { SiteConfig } from '../models/site/config';
@@ -31,7 +31,7 @@ export default class SiteHelper {
     );
   }
 
-  public static getFunctionAppEditModeString(mode: FunctionAppEditMode, t: i18n.TFunction): string {
+  public static getFunctionAppEditModeString(mode: FunctionAppEditMode, t: TFunction): string {
     switch (mode) {
       case FunctionAppEditMode.ReadOnlySourceControlled: {
         return t('ibizafication_readOnlySourceControlled');

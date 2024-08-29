@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import * as Yup from 'yup';
 import { ArmObj } from '../../../models/arm-obj';
 import { Environment } from '../../../models/static-site/environment';
@@ -13,9 +13,9 @@ import {
 } from './Configuration.types';
 
 export class ConfigurationFormBuilder {
-  protected _t: i18next.TFunction;
+  protected _t: TFunction;
 
-  constructor(t: i18next.TFunction) {
+  constructor(t: TFunction) {
     this._t = t;
   }
 

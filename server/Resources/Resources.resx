@@ -8001,4 +8001,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="inboundIpModePreviewLabel" xml:space="preserve">
         <value>Inbound IP mode (preview)</value>
     </data>
+    <data name="externalGitPrivateGitHubNotSupported" xml:space="preserve">
+        <value>Authentication with private GitHub repositories is not supported for this app.</value>
+    </data>
+    <data name="externalGitPrivateBitbucketNotSupported" xml:space="preserve">
+        <value>Authentication with private Bitbucket repositories is not supported for this app.</value>
+    </data>
 </root>

@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import React, { useContext } from 'react';
 import { first } from 'rxjs/operators';
 import { getErrorMessage } from '../../../../../../ApiHelpers/ArmHelper';
@@ -52,7 +52,7 @@ const BindingCard: React.SFC<BindingCardProps> = props => {
 
 export const createNew = (
   portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction,
+  t: TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   bindingEditorContext: BindingEditorContextInfo,
   bindingDirection: BindingDirection
@@ -69,7 +69,7 @@ export const createNew = (
 
 export const editExisting = (
   portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction,
+  t: TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   functionBinding: BindingInfo,
   bindingEditorContext: BindingEditorContextInfo,
@@ -105,7 +105,7 @@ export const emptyList = (emptyMessage: string): JSX.Element[] => {
 const createOrUpdateBinding = (
   bindingEditorContext: BindingEditorContextInfo,
   portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction,
+  t: TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   newBindingInfo: BindingInfo,
   currentBindingInfo?: BindingInfo
@@ -187,7 +187,7 @@ const createOrUpdateBinding = (
 export const deleteBinding = (
   bindingEditorContext: BindingEditorContextInfo,
   portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction,
+  t: TFunction,
   functionInfo: ArmObj<FunctionInfo>,
   currentBindingInfo: BindingInfo
 ) => {
