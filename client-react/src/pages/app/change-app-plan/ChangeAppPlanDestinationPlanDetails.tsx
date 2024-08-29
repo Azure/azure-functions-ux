@@ -192,9 +192,14 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       return {
         forbiddenSkus,
         isFunctionApp: isFunctionApp(formProps.values.site),
+        selectedSkuCode: 'EP1',
+        isChangeAppPlan: true,
       };
     }
-    return null;
+    return {
+      selectedSkuCode: 'P2V3',
+      isChangeAppPlan: true,
+    };
   }, [currentServerFarm, forbiddenSkus, formProps.values.site]);
 
   const onPlanChange = (planInfo: CreateOrSelectPlanFormValues) => {
