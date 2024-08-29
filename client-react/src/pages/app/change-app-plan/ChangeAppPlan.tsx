@@ -1,5 +1,5 @@
 import { Formik, FormikProps } from 'formik';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { Link, MessageBar, MessageBarType, Stack } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -136,7 +136,7 @@ const updateAppDensityWarning = async (
 
 const getWarningBar = (
   siteIsReadOnlyLocked: boolean,
-  t: i18next.TFunction,
+  t: TFunction,
   showAppDensityWarning: boolean,
   formValues: ChangeAppPlanFormValues
 ) => {
@@ -182,7 +182,7 @@ const onSubmit = async (
   setIsUpdating: React.Dispatch<React.SetStateAction<boolean>>,
   setFormValues: React.Dispatch<React.SetStateAction<ChangeAppPlanFormValues>>,
   portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction,
+  t: TFunction,
   changeComplete: () => void
 ) => {
   const { serverFarmInfo } = values;
@@ -213,7 +213,7 @@ const changeSiteToExistingPlan = async (
   notificationId: string,
   formValues: ChangeAppPlanFormValues,
   portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction
+  t: TFunction
 ) => {
   const { site, serverFarmInfo } = formValues;
   let success = false;
@@ -272,7 +272,7 @@ const changeSiteToNewPlan = async (
   notificationId: string,
   formValues: ChangeAppPlanFormValues,
   portalCommunicator: PortalCommunicator,
-  t: i18next.TFunction
+  t: TFunction
 ) => {
   const { site, serverFarmInfo, currentServerFarm } = formValues;
   const siteDescriptor = new ArmSiteDescriptor(site.id);

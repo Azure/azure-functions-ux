@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { CommandBar, IButtonProps, ICommandBarItemProps, ICommandBarStyles, ProgressIndicator } from '@fluentui/react';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -53,7 +53,7 @@ const EditBindingCommandBar: React.FC<EditBindingCommandBarProps> = props => {
   );
 };
 
-const getItems = (props: EditBindingCommandBarProps, t: i18next.TFunction): ICommandBarItemProps[] => {
+const getItems = (props: EditBindingCommandBarProps, t: TFunction): ICommandBarItemProps[] => {
   return [
     {
       key: 'save',
