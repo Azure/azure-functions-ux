@@ -197,7 +197,7 @@ export const DestinationPlanDetails: React.FC<DestinationPlanDetailsProps> = ({
       };
     }
     return {
-      selectedSkuCode: 'P2V3',
+      selectedSkuCode: 'P1V3',
       isChangeAppPlan: true,
     };
   }, [currentServerFarm, forbiddenSkus, formProps.values.site]);
