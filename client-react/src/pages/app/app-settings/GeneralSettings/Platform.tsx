@@ -1,10 +1,11 @@
 import { Field, FormikProps } from 'formik';
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import Dropdown from '../../../../components/form-controls/DropDown';
 import RadioButton from '../../../../components/form-controls/RadioButton';
 import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
 import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { ScenarioCheckResult } from '../../../../utils/scenario-checker/scenario.models';
 import { AppSettingsFormValues } from '../AppSettings.types';
 import { PermissionsContext, SiteContext } from '../Contexts';
 import { Links } from '../../../../utils/FwLinks';
@@ -21,9 +22,25 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const scenarioChecker = new ScenarioService(t);
   const { app_write, editable, saving } = useContext(PermissionsContext);
   const disableAllControls = !app_write || !editable || saving;
-  const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
-  const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
-  const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
+  const [platformOptionEnable, setPlatformOptionEnable] = useState<ScenarioCheckResult>({ status: 'disabled' });
+  const [websocketsEnable, setWebsocketsEnable] = useState<ScenarioCheckResult>({ status: 'disabled' });
+  const [alwaysOnEnable, setAlwaysOnEnable] = useState<ScenarioCheckResult>({ status: 'disabled' });
+
+  const initScenarioResults = async () => {
+    const platformOptionEnable = await scenarioChecker.checkScenarioAsync(ScenarioIds.enablePlatform64, { site });
+    setPlatformOptionEnable(platformOptionEnable);
+
+    const websocketsEnable = await scenarioChecker.checkScenarioAsync(ScenarioIds.webSocketsEnabled, { site });
+    setWebsocketsEnable(websocketsEnable);
+
+    const alwaysOnEnable = await scenarioChecker.checkScenarioAsync(ScenarioIds.enableAlwaysOn, { site });
+    setAlwaysOnEnable(alwaysOnEnable);
+  };
+
+  useEffect(() => {
+    initScenarioResults();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const showHttpsOnlyInfo = (): boolean => {
     const siteProperties = values.site.properties;
@@ -60,7 +77,9 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
 
   return (
     <div>
-      {scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled' &&
+      {(window.appsvc && window.appsvc.env.runtimeType === 'OnPrem'
+        ? true
+        : scenarioChecker.checkScenario(ScenarioIds.platform64BitSupported, { site }).status !== 'disabled') &&
         values.currentlySelectedStack !== 'java' && (
           <Field
             name="config.properties.use32BitWorkerProcess"
