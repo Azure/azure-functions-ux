@@ -2,6 +2,7 @@ import { WebAppStack } from '../../models/WebAppStackModel';
 import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
+  const dotnet7EOL = getDateString(new Date(2024, 5, 14), useIsoDateFormat);
   const dotnet5EOL = getDateString(new Date(2022, 5, 8), useIsoDateFormat);
   const dotnetCore3Point0EOL = getDateString(new Date(2020, 3, 3), useIsoDateFormat);
   const dotnetCore3Point1EOL = getDateString(new Date(2022, 12, 3), useIsoDateFormat);
@@ -15,6 +16,45 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
     value: 'dotnet',
     preferredOs: 'windows',
     majorVersions: [
+      {
+        displayText: '.NET 8 (LTS)',
+        value: 'dotnet8',
+        minorVersions: [
+          {
+            displayText: '.NET 8 (LTS)',
+            value: '8',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: 'v8.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.x',
+                },
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'DOTNETCORE|8.0',
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                  isDefaultOff: false,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '8.x',
+                },
+                supportedFeatures: {
+                  disableSsh: true,
+                },
+              },
+            },
+          },
+        ],
+      },
       {
         displayText: '.NET 7',
         value: 'dotnet7',
@@ -143,6 +183,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.1.301',
                 },
+                isDeprecated: true,
                 endOfLifeDate: dotnetCore3Point1EOL,
               },
               linuxRuntimeSettings: {
