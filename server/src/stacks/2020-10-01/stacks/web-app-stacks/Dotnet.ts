@@ -28,8 +28,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'v8.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: true,
-                  isDefaultOff: false,
+                  isSupported: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -74,7 +73,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   supportedVersion: '7.0.x',
                 },
                 isHidden: true,
-                isEarlyAccess: true,
+                isDeprecated: true,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|7.0',
@@ -105,7 +104,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'v6.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: true,
+                  isSupported: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -140,7 +139,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: true,
+                  isSupported: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -178,7 +177,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: true,
+                  isSupported: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -280,7 +279,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 remoteDebuggingSupported: false,
                 isDeprecated: true,
                 appInsightsSettings: {
-                  isSupported: true,
+                  isSupported: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -419,7 +418,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'v4.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: true,
+                  isSupported: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
@@ -442,7 +441,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'v2.0',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: true,
+                  isSupported: false,
                 },
                 gitHubActionSettings: {
                   isSupported: true,
