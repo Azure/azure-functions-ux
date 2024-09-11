@@ -175,6 +175,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: '3.1',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -183,11 +184,11 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '3.1.301',
                 },
-                isDeprecated: true,
                 endOfLifeDate: dotnetCore3Point1EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|3.1',
+                isDeprecated: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
