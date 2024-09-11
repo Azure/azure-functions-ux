@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useState } from 'react';
+import React, { useEffect, useContext, useState, useCallback } from 'react';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { ArmArray } from '../../../../models/arm-obj';
 import {
@@ -35,8 +35,8 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
     DeploymentCenterYupValidationSchemaType<DeploymentCenterCodeFormData> | undefined
   >(undefined);
 
-  const generateForm = () => {
-    if (siteStateContext?.site) {
+  const generateForm = useCallback(() => {
+    if (siteStateContext.site) {
       deploymentCenterCodeFormBuilder.setSite(siteStateContext.site);
     }
 
@@ -72,7 +72,14 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
         publishType: 'code',
       })
     );
-  };
+  }, [
+    siteStateContext.site,
+    deploymentCenterContext.siteConfig,
+    deploymentCenterContext.configMetadata,
+    deploymentCenterContext.applicationSettings,
+    deploymentCenterPublishingContext.publishingUser,
+    deploymentCenterPublishingContext.basicPublishingCredentialsPolicies,
+  ]);
 
   const refresh = () => {
     portalContext.log(
@@ -84,12 +91,8 @@ const DeploymentCenterCodeDataLoader: React.FC<DeploymentCenterDataLoaderProps> 
   };
 
   useEffect(() => {
-    if (deploymentCenterContext.applicationSettings && deploymentCenterContext.siteConfig && deploymentCenterContext.configMetadata) {
-      generateForm();
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [deploymentCenterContext.applicationSettings, deploymentCenterContext.siteConfig, deploymentCenterContext.configMetadata]);
+    generateForm();
+  }, [generateForm]);
 
   return (
     <DeploymentCenterCodeForm

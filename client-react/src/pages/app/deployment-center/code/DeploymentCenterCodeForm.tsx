@@ -69,7 +69,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   useEffect(() => {
     let isSubscribed = true;
 
-    portalContext?.hasFlightEnabled(ExperimentationConstants.FlightVariable.removeDeployEnvironment).then(hasFlightEnabled => {
+    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.removeDeployEnvironment).then(hasFlightEnabled => {
       if (isSubscribed) {
         setIsRemoveEnvEnabled(hasFlightEnabled);
       }
