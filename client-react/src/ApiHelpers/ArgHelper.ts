@@ -1,8 +1,8 @@
-import MakeArmCall from './ArmHelper';
 import { HttpResponseObject } from '../ArmHelper.types';
-import LogService from '../utils/LogService';
-import { LogCategories } from '../utils/LogCategories';
 import { CommonConstants } from '../utils/CommonConstants';
+import { LogCategories } from '../utils/LogCategories';
+import { getTelemetryInfo } from '../utils/TelemetryUtils';
+import MakeArmCall from './ArmHelper';
 
 export interface ARGRequest {
   subscriptions?: string[];
@@ -87,7 +87,8 @@ export function MakeAzureResourceGraphCall<T>(
       });
     }
 
-    LogService.error(LogCategories.argHelper, 'MakeAzureResourceGraphCall', argResponse.metadata.error);
+    /** @note (joechung): Portal context is unavailable so log errors to console. */
+    console.error(getTelemetryInfo('error', LogCategories.argHelper, 'MakeAzureResourceGraphCall', { error: argResponse.metadata.error }));
     return new Promise(resolve => {
       resolve(argResponse.data);
     });

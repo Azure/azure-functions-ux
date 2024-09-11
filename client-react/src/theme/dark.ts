@@ -16,8 +16,8 @@ export const AzurePortalColors = {
   errorText: LightThemePortalColors.errorText, // No official dark color yet
   errorBackground: '#61050c',
   errorIcon: '#e00b1c',
-  warningBackground: '#b36200',
-  warningIcon: '#ff8c00',
+  warningBackground: '#4F2A0F',
+  warningIcon: '#DB7500',
   infoBackground: '#012b65',
   infoIcon: '#bbb',
   monochromaticIcon: '#bbb',

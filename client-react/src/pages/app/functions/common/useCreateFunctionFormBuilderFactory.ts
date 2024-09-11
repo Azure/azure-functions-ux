@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { useCallback, useEffect, useState } from 'react';
 import { ArmObj } from '../../../../models/arm-obj';
 import { Binding } from '../../../../models/functions/binding';
@@ -12,7 +12,7 @@ export type CreateFunctionFormBuilderFactory = (
   resourceId: string,
   functionInfos: ArmObj<FunctionInfo>[],
   defaultName: string,
-  t: i18next.TFunction
+  t: TFunction
 ) => CreateFunctionFormBuilder;
 
 export const useCreateFunctionFormBuilderFactory = () => {

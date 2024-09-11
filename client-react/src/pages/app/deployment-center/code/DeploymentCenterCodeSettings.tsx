@@ -7,10 +7,10 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { AppOs } from '../../../../models/site/site';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants, ExperimentationConstants } from '../../../../utils/CommonConstants';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { LogCategories } from '../../../../utils/LogCategories';
-import LogService from '../../../../utils/LogService';
+import { usePortalLogging } from '../../../../utils/hooks/usePortalLogging';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import {
   AppType,
@@ -22,6 +22,7 @@ import {
 } from '../DeploymentCenter.types';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { DeploymentCenterAuthenticationSettings } from '../authentication/DeploymentCenterAuthenticationSettings';
+import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 import DeploymentCenterBitbucketConfiguredView from '../bitbucket-provider/DeploymentCenterBitbucketConfiguredView';
 import DeploymentCenterBitbucketDataLoader from '../bitbucket-provider/DeploymentCenterBitbucketDataLoader';
 import DeploymentCenterDevOpsDataLoader from '../devops-provider/DeploymentCenterDevOpsDataLoader';
@@ -42,7 +43,6 @@ import DeploymentCenterCodeBuildConfiguredView from './DeploymentCenterCodeBuild
 import DeploymentCenterCodeBuildRuntimeAndVersion from './DeploymentCenterCodeBuildRuntimeAndVersion';
 import DeploymentCenterCodeSourceAndBuild from './DeploymentCenterCodeSourceAndBuild';
 import DeploymentCenterCodeSourceKuduConfiguredView from './DeploymentCenterCodeSourceKuduConfiguredView';
-import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
 
 const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
@@ -77,6 +77,22 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isVstsSetup, setIsVstsSetup] = useState(false);
   const [isTfsOrVsoSetup, setIsTfsOrVsoSetup] = useState(false);
   const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
+  const [isRemoveEnvEnabled, setIsRemoveEnvEnabled] = useState(false);
+  useEffect(() => {
+    let isSubscribed = true;
+
+    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.removeDeployEnvironment).then(hasFlightEnabled => {
+      if (isSubscribed) {
+        setIsRemoveEnvEnabled(hasFlightEnabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [portalContext]);
+
+  const log = usePortalLogging();
 
   useEffect(() => {
     setSiteConfigScmType(deploymentCenterContext.siteConfig && deploymentCenterContext.siteConfig.properties.scmType);
@@ -112,11 +128,15 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     const unsupportedSourceConfigured = sourceProvider === ScmType.Dropbox || sourceProvider === ScmType.OneDrive;
     if (unsupportedSourceConfigured) {
-      LogService.error(LogCategories.deploymentCenter, 'UnsupportedSourceConfigured', `Unsupported source configured: '${sourceProvider}'`);
+      log(
+        getTelemetryInfo('error', LogCategories.deploymentCenter, 'UnsupportedSourceConfigured', {
+          message: `Unsupported source configured: '${sourceProvider}'`,
+        })
+      );
     }
 
     setIsUnsupportedSource(sourceProvider === ScmType.Dropbox || sourceProvider === ScmType.OneDrive);
-  }, [formProps.values.sourceProvider]);
+  }, [formProps.values.sourceProvider, log]);
 
   useEffect(() => {
     setIsGitHubActionsSetup(siteConfigScmType === ScmType.GitHubAction);
@@ -146,6 +166,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     if (formProps.values.runtimeStack === RuntimeStackOptions.Java) {
       variables['javaContainer'] = formProps.values.javaContainer;
+    }
+
+    if (isRemoveEnvEnabled) {
+      variables['isRemoveEnvEnabled'] = true;
     }
 
     return variables;

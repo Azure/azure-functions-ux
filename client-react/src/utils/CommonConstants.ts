@@ -410,6 +410,10 @@ export class ExperimentationConstants {
     patchCallOnConfig: 'disable-patch-call-config',
     customErrorAlwaysUse: 'disable-customErrorAlwaysUse',
   };
+
+  public static FlightVariable = {
+    removeDeployEnvironment: 'remove-deploy-environment',
+  };
 }
 
 export class Monitoring {

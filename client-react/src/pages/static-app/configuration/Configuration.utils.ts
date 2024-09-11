@@ -1,8 +1,8 @@
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import * as Joi from 'joi';
 
 export class ConfigurationUtils {
-  public static getErrorMessage = (newValue: string, t: i18next.TFunction) => {
+  public static getErrorMessage = (newValue: string, t: TFunction) => {
     try {
       const obj = JSON.parse(newValue) as unknown;
       const schema = ConfigurationUtils._getSchema();

@@ -11,26 +11,8 @@ import {
 } from './AppSettingsFormData';
 import { mockSite, mockWebConfig, mockConnectionStrings, mockMetadata, mockAppSettings, mockSlotConfigName } from '../../../mocks/ArmMocks';
 import { SiteConfig, VirtualApplication } from '../../../models/site/config';
-
-jest.mock('applicationinsights-js', () => {
-  return {
-    AppInsights: {
-      downloadAndSetup: () => {},
-      queue: {
-        push: jest.fn(),
-      },
-      context: {
-        application: {},
-        addTelemetryInitializer: jest.fn(),
-      },
-      trackEvent: jest.fn(),
-      startTrackPage: jest.fn(),
-      stopTrackPage: jest.fn(),
-      startTrackEvent: jest.fn(),
-      stopTrackEvent: jest.fn(),
-    },
-  };
-});
+import { ArmObj } from '../../../models/arm-obj';
+import { Site } from '../../../models/site/site';
 
 describe('Convert State to Form Data', () => {
   it('convert redux state to form state', () => {
@@ -213,19 +195,20 @@ describe('Unflatten Virtual Applications List', () => {
 
 describe('Get Current Stack', () => {
   it('returns java if java version is there', () => {
-    const configData: any = { ...mockProps.config };
+    const configData = { ...mockProps.config };
     const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = '1.8';
-    const currentStack = getCurrentStackString(configData, metadata);
+    const currentStack = getCurrentStackString(configData, (mockSite as unknown) as ArmObj<Site>, metadata);
     expect(currentStack).toBe('java');
   });
 
-  it('returns .net as default is nothing else is there', () => {
-    const configData: any = { ...mockProps.config };
+  it('returns .net as default if nothing else is there', () => {
+    const configData = { ...mockProps.config };
     const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = null;
     const currentStack = getCurrentStackString(
       configData,
+      (mockSite as unknown) as ArmObj<Site>,
       metadata,
       /* appSettings */ undefined,
       /* isFunctionApp */ undefined,
@@ -236,20 +219,20 @@ describe('Get Current Stack', () => {
   });
 
   it('returns what is stored in metadata absent a java version', () => {
-    const configData: any = { ...mockProps.config };
+    const configData = { ...mockProps.config };
     const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = null;
     metadata.properties['CURRENT_STACK'] = 'python';
-    const currentStack = getCurrentStackString(configData, metadata);
+    const currentStack = getCurrentStackString(configData, (mockSite as unknown) as ArmObj<Site>, metadata);
     expect(currentStack).toBe('python');
   });
 
-  it('java version takes precidense over metadata', () => {
-    const configData: any = { ...mockProps.config };
+  it('java version takes precedence over metadata', () => {
+    const configData = { ...mockProps.config };
     const metadata = { ...mockProps.metadata };
     configData.properties.javaVersion = '1.8';
     metadata.properties['CURRENT_STACK'] = 'python';
-    const currentStack = getCurrentStackString(configData, metadata);
+    const currentStack = getCurrentStackString(configData, (mockSite as unknown) as ArmObj<Site>, metadata);
     expect(currentStack).toBe('java');
   });
 });

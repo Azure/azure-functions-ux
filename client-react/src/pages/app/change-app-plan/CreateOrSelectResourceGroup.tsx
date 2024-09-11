@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { Callout, DefaultButton, DirectionalHint, IDropdownOption, IDropdownProps, Link, PrimaryButton, Text } from '@fluentui/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -189,7 +189,7 @@ const checkWritePermissionOnRg = (
   rgResourceId: string,
   setExistingRgWritePermissionError: React.Dispatch<React.SetStateAction<string>>,
   onRgValidationError: (error: string) => void,
-  t: i18next.TFunction
+  t: TFunction
 ) => {
   if (!rgResourceId) {
     setExistingRgWritePermissionError('');
@@ -204,7 +204,7 @@ const checkWritePermissionOnRg = (
   });
 };
 
-export const addNewRgOption = (newRgName: string, options: IDropdownOption[], t: i18next.TFunction) => {
+export const addNewRgOption = (newRgName: string, options: IDropdownOption[], t: TFunction) => {
   if (newRgName) {
     const newItem = {
       key: newRgName,

@@ -169,6 +169,7 @@ gulp.task('resx-to-typescript-models', function (cb) {
  */
 gulp.task('resources-convert', function () {
   /** @note Work around gulp 5 ENOENT errors when doing local builds. */
+  ensurePath('resources-resx/');
   ensurePath('templates/');
 
   const portalResourceStream = gulp
