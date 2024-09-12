@@ -5295,6 +5295,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="arrAffinityInfoMessage" xml:space="preserve">
         <value>Improve performance of your stateless app by turning Affinity Cookie off, stateful apps should keep this setting on for compatibility.</value>
     </data>
+    <data name="arrAffinityProxyInfoMessage" xml:space="preserve">
+        <value>Adjust the Affinity Cookie domain to the reverse proxy domain.</value>
+    </data>
     <data name="applicationSettingsInfoMessage" xml:space="preserve">
         <value>Application settings are encrypted at rest and transmitted over an encrypted channel. You can choose to display them in plain text in your browser by using the controls below. Application Settings are exposed as environment variables for access by your application at runtime.</value>
     </data>

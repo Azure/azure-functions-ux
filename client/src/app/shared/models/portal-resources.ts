@@ -497,6 +497,7 @@ export class PortalResources {
   public static autoSwapSlotNameLabel = 'autoSwapSlotNameLabel';
   public static productionSlotDisplayName = 'productionSlotDisplayName';
   public static clientAffinityEnabledLabel = 'clientAffinityEnabledLabel';
+  public static clientAffinityProxyEnabledLabel = 'clientAffinityProxyEnabledLabel';
   public static httpsOnlyInfoBoxText = 'httpsOnlyInfoBoxText';
   public static httpsOnlyLabel = 'httpsOnlyLabel';
   public static httpsOnlyInfoBubbleMessage = 'httpsOnlyInfoBubbleMessage';
@@ -1702,6 +1703,7 @@ export class PortalResources {
   public static alwaysOnInfoMessage = 'alwaysOnInfoMessage';
   public static ftpsInfoMessage = 'ftpsInfoMessage';
   public static arrAffinityInfoMessage = 'arrAffinityInfoMessage';
+  public static arrAffinityProxyInfoMessage = 'arrAffinityProxyInfoMessage';
   public static applicationSettingsInfoMessage = 'applicationSettingsInfoMessage';
   public static connectionStringsInfoMessage = 'connectionStringsInfoMessage';
   public static powershellPreview = 'powershellPreview';
