@@ -159,7 +159,6 @@ export interface ConfigurationFormProps {
   refresh: (currentEnvironment?: ArmObj<Environment>) => Promise<void>;
   selectedEnvironmentVariableResponse?: ArmObj<KeyValue<string>>;
   staticSiteSku: StaticSiteSku;
-  showNewConfiguration: boolean;
   formData?: ConfigurationFormData;
   location?: string;
 }

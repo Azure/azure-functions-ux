@@ -36,7 +36,6 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
     resourceId,
     selectedEnvironmentVariableResponse,
     validationSchema,
-    showNewConfiguration,
   } = props;
 
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
@@ -323,7 +322,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
               isLoading={isLoading || formProps.isSubmitting}
               formProps={formProps}
               showAppSettings={false}
-              showNewConfiguration={showNewConfiguration}
+              showNewConfiguration={true}
             />
           </div>
         </div>
