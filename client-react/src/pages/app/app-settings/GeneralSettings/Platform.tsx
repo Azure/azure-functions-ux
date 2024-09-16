@@ -390,6 +390,28 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           ]}
         />
       )}
+      {scenarioChecker.checkScenario(ScenarioIds.clientAffinitySupported, { site }).status !== 'disabled' && (
+        <Field
+          name="site.properties.clientAffinityProxyEnabled"
+          dirty={values.site.properties.clientAffinityProxyEnabled !== initialValues.site.properties.clientAffinityProxyEnabled}
+          component={RadioButton}
+          infoBubbleMessage={t('arrAffinityProxyInfoMessage')}
+          learnMoreLink={Links.clientAffinityProxyInfo}
+          label={t('clientAffinityProxyEnabledLabel')}
+          id="app-settings-clientAffinityProxyEnabled"
+          disabled={disableAllControls}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
       {
         <Field
           name={'site.properties.httpsOnly'}

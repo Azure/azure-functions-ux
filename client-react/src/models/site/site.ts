@@ -137,6 +137,7 @@ export interface Site {
   microService: string;
   gatewaySiteName: string;
   clientAffinityEnabled: boolean;
+  clientAffinityProxyEnabled: boolean;
   clientCertEnabled: boolean;
   clientCertMode: ClientCertMode;
   clientCertExclusionPaths: string;
