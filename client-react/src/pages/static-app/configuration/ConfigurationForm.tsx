@@ -316,14 +316,7 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             </>
           </div>
           <div>
-            <ConfigurationPivot
-              {...props}
-              refresh={props.refresh}
-              isLoading={isLoading || formProps.isSubmitting}
-              formProps={formProps}
-              showAppSettings={false}
-              showNewConfiguration={true}
-            />
+            <ConfigurationPivot {...props} refresh={props.refresh} isLoading={isLoading || formProps.isSubmitting} formProps={formProps} />
           </div>
         </div>
       )}
