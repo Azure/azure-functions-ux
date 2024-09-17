@@ -276,7 +276,7 @@ function validateJavaContainersStack(javaContainersStack) {
   expect(javaContainersStack.displayText).to.equal('Java Containers');
   expect(javaContainersStack.value).to.equal('javacontainers');
   expect(javaContainersStack.preferredOs).to.equal(undefined);
-  expect(javaContainersStack.majorVersions.length).to.equal(12); // 1 x Java web server, 2 x JBoss, 6 x Tomcat, 2 x Jetty, 1 x Wildfly
+  expect(javaContainersStack.majorVersions.length).to.equal(14); // 1 x Java web server, 2 x JBoss, 6 x Tomcat, 2 x Jetty, 1 x Wildfly
   expect(javaContainersStack).to.deep.equal(hardCodedJavaContainersStack);
 }
 
