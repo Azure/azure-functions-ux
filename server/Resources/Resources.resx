@@ -4595,6 +4595,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="functionsAdminIsolation" xml:space="preserve">
         <value>Functions admin isolation</value>
     </data>
+    <data name="functionsAdminIsolationWarning" xml:space="preserve">
+        <value>Turning on Functions admin isolation can cause test runs of non-HTTP trigger Functions to fail in the Code+Test panel.</value>
+    </data>
     <data name="functionsAdminIsolationInfoBubble" xml:space="preserve">
         <value>Enable this feature to require Function App administrative actions to go through Azure Resource Manager.</value>
     </data>
