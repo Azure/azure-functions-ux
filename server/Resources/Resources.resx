@@ -1623,6 +1623,9 @@
     <data name="clientAffinityEnabledLabel" xml:space="preserve">
         <value>Session affinity</value>
     </data>
+    <data name="clientAffinityProxyEnabledLabel" xml:space="preserve">
+        <value>Session affinity proxy</value>
+    </data>
     <data name="httpsOnlyInfoBoxText" xml:space="preserve">
         <value>Some custom hostnames for your app are missing SSL bindings. When HTTPS Only is enabled clients accessing your app on those custom hostnames will see security warnings. To fix this add the missing SSL bindings or remove the custom hostnames.</value>
     </data>
