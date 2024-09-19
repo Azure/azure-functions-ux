@@ -1,6 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-import { isLinuxApp, isLinuxDynamic, isWorkflowApp } from '../arm-utils';
+import { isFlexConsumption, isLinuxApp, isLinuxDynamic, isWorkflowApp } from '../arm-utils';
 export class FunctionAppEnvironment extends Environment {
   public name = 'FunctionApp';
 
@@ -149,6 +149,17 @@ export class FunctionAppEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.sshEnabledSupported] = {
       id: ScenarioIds.sshEnabledSupported,
       runCheck: () => ({ status: 'disabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.functionsAdminIsolationSupported] = {
+      id: ScenarioIds.functionsAdminIsolationSupported,
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && (isLinuxDynamic(input.site) || isFlexConsumption(input.site))) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
+      },
     };
   }
 
