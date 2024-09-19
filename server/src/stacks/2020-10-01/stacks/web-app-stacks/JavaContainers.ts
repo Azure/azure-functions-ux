@@ -388,7 +388,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
         value: 'jbosseap8.0_byol',
         minorVersions: [
           {
-            displayText: 'Red Hat JBoss EAP 8',
+            displayText: 'Red Hat JBoss EAP 8 BYO License',
             value: '8',
             stackSettings: {
               linuxContainerSettings: {
@@ -400,13 +400,23 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             },
           },
           {
-            displayText: 'Red Hat JBoss EAP 8 update 1',
+            displayText: 'Red Hat JBoss EAP 8 update 1 BYO License',
             value: '8.0.1',
             stackSettings: {
               linuxContainerSettings: {
                 java11Runtime: 'JBOSSEAP|8.0.1-java11_byol',
                 java17Runtime: 'JBOSSEAP|8.0.1-java17_byol',
                 isHidden: true
+              }
+            }
+          },
+          {
+            displayText: 'Red Hat JBoss EAP 8.0 update 2.1 BYO License',
+            value: '8.0.2',
+            stackSettings: {
+              linuxContainerSettings: {
+                java11Runtime: 'JBOSSEAP|8.0.2-java11_byol',
+                java17Runtime: 'JBOSSEAP|8.0.2-java17_byol',
               }
             }
           },
@@ -574,7 +584,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
         value: 'jbosseap7_byol',
         minorVersions: [
           {
-            displayText: 'Red Hat JBoss EAP 7',
+            displayText: 'Red Hat JBoss EAP 7 BYO License',
             value: '7',
             stackSettings: {
               linuxContainerSettings: {
@@ -587,7 +597,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             },
           },
           {
-            displayText: 'Red Hat JBoss EAP 7.4.13',
+            displayText: 'Red Hat JBoss EAP 7.4.13 BYO License',
             value: '7.4.13',
             stackSettings: {
               linuxContainerSettings: {
@@ -599,7 +609,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             }
           },
           {
-            displayText: 'Red Hat JBoss EAP 7.4.7',
+            displayText: 'Red Hat JBoss EAP 7.4.7 BYO License',
             value: '7.4.7',
             stackSettings: {
               linuxContainerSettings: {
@@ -611,7 +621,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             }
           },
           {
-            displayText: 'Red Hat JBoss EAP 7.4.5',
+            displayText: 'Red Hat JBoss EAP 7.4.5 BYO License',
             value: '7.4.5',
             stackSettings: {
               linuxContainerSettings: {
@@ -623,7 +633,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             }
           },
           {
-            displayText: 'Red Hat JBoss EAP 7.4.2',
+            displayText: 'Red Hat JBoss EAP 7.4.2 BYO License',
             value: '7.4.2',
             stackSettings: {
               linuxContainerSettings: {
@@ -634,7 +644,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             }
           },
           {
-            displayText: 'Red Hat JBoss EAP 7.4.1',
+            displayText: 'Red Hat JBoss EAP 7.4.1 BYO License',
             value: '7.4.1',
             stackSettings: {
               linuxContainerSettings: {
@@ -645,7 +655,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             }
           },
           {
-            displayText: 'Red Hat JBoss EAP 7.4.0',
+            displayText: 'Red Hat JBoss EAP 7.4.0 BYO License',
             value: '7.4.0',
             stackSettings: {
               linuxContainerSettings: {
@@ -656,7 +666,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             }
           },
           {
-            displayText: 'Red Hat JBoss EAP 7.3.10',
+            displayText: 'Red Hat JBoss EAP 7.3.10 BYO License',
             value: '7.3.10',
             stackSettings: {
               linuxContainerSettings: {
@@ -667,7 +677,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             }
           },
           {
-            displayText: 'Red Hat JBoss EAP 7.3.9',
+            displayText: 'Red Hat JBoss EAP 7.3.9 BYO License',
             value: '7.3.9',
             stackSettings: {
               linuxContainerSettings: {
