@@ -23,7 +23,7 @@ import {
   StagingEnvironmentPolicyTypes,
 } from './Configuration.types';
 import ConfigurationCommandBar from './ConfigurationCommandBar';
-import ConfigurationPivot from './ConfigurationPivot';
+import ConfigurationSnippets from './ConfigurationSnippets';
 
 const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: ConfigurationFormProps) => {
   const {
@@ -316,7 +316,14 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             </>
           </div>
           <div>
-            <ConfigurationPivot {...props} refresh={props.refresh} isLoading={isLoading || formProps.isSubmitting} formProps={formProps} />
+            <ConfigurationSnippets
+              hasWritePermissions={hasWritePermissions}
+              refresh={refresh}
+              disabled={isLoading || !hasWritePermissions || formProps.isSubmitting}
+              formProps={formProps}
+              isLoading={isLoading}
+              resourceId={resourceId}
+            />
           </div>
         </div>
       )}
