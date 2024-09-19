@@ -24,9 +24,9 @@
     "@azure/storage-file": "^10.3.0",
     "@azure/web-apps-framework-detection": "^0.1.1",
     "@nestjs/cache-manager": "^2.2.2",
-    "@nestjs/common": "^10.3.10",
-    "@nestjs/core": "^10.3.10",
-    "@nestjs/platform-express": "^10.3.10",
+    "@nestjs/common": "^10.4.2",
+    "@nestjs/core": "^10.4.2",
+    "@nestjs/platform-express": "^10.4.2",
     "applicationinsights": "^2.1.4",
     "async-file": "^2.0.2",
     "axios": "^1.7.4",
@@ -47,7 +47,7 @@
     "tweetsodium": "^0.0.5"
   },
   "devDependencies": {
-    "@nestjs/testing": "^10.3.10",
+    "@nestjs/testing": "^10.4.2",
     "@types/chai": "^4.3.16",
     "@types/express": "^4.17.21",
     "@types/jsonwebtoken": "^9.0.6",
