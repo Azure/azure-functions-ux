@@ -8,6 +8,8 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
   const python39EOL = getDateString(new Date('2025/10/31'), useIsoDateFormat);
   const python310EOL = getDateString(new Date('2026/10/31'), useIsoDateFormat);
   const python311EOL = getDateString(new Date('2027/10/31'), useIsoDateFormat);
+  const python312EOL = getDateString(new Date('2028/10/31'), useIsoDateFormat);
+
 
   return {
     displayText: 'Python',
@@ -18,6 +20,42 @@ const getPythonStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
         displayText: 'Python 3',
         value: '3',
         minorVersions: [
+          {
+            displayText: 'Python 3.12',
+            value: '3.12',
+            stackSettings: {
+              linuxRuntimeSettings: {
+                runtimeVersion: 'Python|3.12',
+                remoteDebuggingSupported: false,
+                isPreview: true,
+                isDefault: false,
+                isHidden: true,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '3.12',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'python',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'Python|3.12',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
+                endOfLifeDate: python312EOL,
+              },
+            },
+          },
           {
             displayText: 'Python 3.11',
             value: '3.11',
