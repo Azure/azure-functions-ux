@@ -44,6 +44,12 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
     return functionsExtensionVersion?.value !== RuntimeExtensionMajorVersions.v1;
   }, [values.appSettings]);
 
+  const turningOnFunctionsAdminIsolation = useMemo(() => {
+    return (
+      !initialValues.site.properties.functionsRuntimeAdminIsolationEnabled && values.site.properties.functionsRuntimeAdminIsolationEnabled
+    );
+  }, [initialValues.site.properties.functionsRuntimeAdminIsolationEnabled, values.site.properties.functionsRuntimeAdminIsolationEnabled]);
+
   const http20ProxyDropdownItems = useMemo<IDropdownOption[]>(() => {
     const items = [
       {
@@ -511,32 +517,39 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           infoBubbleMessage={t('portCountRange').format(VnetPrivatePortsCount.min, VnetPrivatePortsCount.max)}
         />
       )}
-      {scenarioChecker.checkScenario(ScenarioIds.functionsAdminIsolationSupported, { site }).status !== 'disabled' &&
-        runtimeVersionIsNotV1 && (
-          <Field
-            name="site.properties.functionsRuntimeAdminIsolationEnabled"
-            id="app-settings-functionsRuntimeAdminIsolationEnabled"
-            label={t('functionsAdminIsolation')}
-            infoBubbleMessage={t('functionsAdminIsolationInfoBubble')}
-            learnMoreLink={Links.functionsRuntimeAdminIsolationEnabled}
-            component={RadioButton}
-            dirty={
-              values.site.properties.functionsRuntimeAdminIsolationEnabled !==
-              initialValues.site.properties.functionsRuntimeAdminIsolationEnabled
-            }
-            disabled={disableAllControls}
-            options={[
-              {
-                key: true,
-                text: t('on'),
-              },
-              {
-                key: false,
-                text: t('off'),
-              },
-            ]}
-          />
-        )}
+      {turningOnFunctionsAdminIsolation && (
+        <CustomBanner
+          id={'functionsadminisolation-customBanner'}
+          message={t('functionsAdminIsolationWarning')}
+          type={MessageBarType.warning}
+          undocked={true}
+        />
+      )}
+      {scenarioChecker.checkScenario(ScenarioIds.functionsAdminIsolationSupported, { site }).status === 'enabled' && runtimeVersionIsNotV1 && (
+        <Field
+          name="site.properties.functionsRuntimeAdminIsolationEnabled"
+          id="app-settings-functionsRuntimeAdminIsolationEnabled"
+          label={t('functionsAdminIsolation')}
+          infoBubbleMessage={t('functionsAdminIsolationInfoBubble')}
+          learnMoreLink={Links.functionsRuntimeAdminIsolationEnabled}
+          component={RadioButton}
+          dirty={
+            values.site.properties.functionsRuntimeAdminIsolationEnabled !==
+            initialValues.site.properties.functionsRuntimeAdminIsolationEnabled
+          }
+          disabled={disableAllControls}
+          options={[
+            {
+              key: true,
+              text: t('on'),
+            },
+            {
+              key: false,
+              text: t('off'),
+            },
+          ]}
+        />
+      )}
     </div>
   );
 };
