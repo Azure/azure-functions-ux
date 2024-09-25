@@ -398,7 +398,7 @@ const getJavaContainersStack: (useIsoDateFormat: boolean) => WebAppStack = (useI
             },
           },
           {
-            displayText: 'Red Hat JBoss EAP 8.0.2.1',
+            displayText: 'Red Hat JBoss EAP 8.0 update 2.1',
             value: '8.0.2.1',
             stackSettings: {
               linuxContainerSettings: {
