@@ -292,6 +292,7 @@ export enum WorkerRuntimeLanguages {
   php = 'php',
   custom = 'custom',
   dotnetIsolated = 'dotnet-isolated',
+  javaContainers = 'javacontainers',
 }
 
 export enum FunctionsDotnetVersion {
