@@ -475,6 +475,8 @@ export class GithubController {
 
   @Get('auth/github/authorize')
   async authorize(@Session() session, @Response() res, @Headers('host') host: string) {
+    this.loggingService.log(`GitHub authorize request received with host header: ${host}`);
+
     let stateKey = '';
     if (session) {
       stateKey = session[Constants.oauthApis.github_state_key] = GUID.newGuid();
