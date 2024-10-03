@@ -13,7 +13,7 @@ resources:
       type: github
       endpoint: Azure
       name: Azure/azure-functions-ux-templates
-      ref: refs/heads/main
+      ref: refs/heads/release-smanagedsdp
 
 # Node.js with gulp
 # Build a Node.js project using the gulp task runner.
