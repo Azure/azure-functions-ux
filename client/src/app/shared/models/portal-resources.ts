@@ -2411,6 +2411,7 @@ export class PortalResources {
   public static functionsSupportedRuntimeVersionMissingWarningWithVersionList =
     'functionsSupportedRuntimeVersionMissingWarningWithVersionList';
   public static functionsSupportedRuntimeVersionMissingWarning = 'functionsSupportedRuntimeVersionMissingWarning';
+  public static onpremFunctionSupportedVersionMessage = 'onpremFunctionSupportedVersionMessage';
   public static deploymentCenterBitbucketDescriptionText = 'deploymentCenterBitbucketDescriptionText';
   public static deploymentCenterExternalGitDescriptionText = 'deploymentCenterExternalGitDescriptionText';
   public static deploymentCenterAzureReposDescriptionText = 'deploymentCenterAzureReposDescriptionText';
