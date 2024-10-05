@@ -5811,7 +5811,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="hostConfigurationLabel" xml:space="preserve">
         <value>Host configuration</value>
     </data>
-     <data name="destinationPlanPlaceholder" xml:space="preserve">
+    <data name="destinationPlanPlaceholder" xml:space="preserve">
         <value>Select destination plan</value>
     </data>
     <data name="configureHostJson" xml:space="preserve">
@@ -7356,7 +7356,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="staticSite_generalSettingsUpdateWithSuccess" xml:space="preserve">
         <value>Successfully updated general settings.</value>
     </data>
-     <data name="staticSite_generalSettingsUpdateWithFailure" xml:space="preserve">
+    <data name="staticSite_generalSettingsUpdateWithFailure" xml:space="preserve">
         <value>Failed to update general settings with message: {0}</value>
     </data>
     <data name="staticSite_generalSettingsUpdateWithFailureNoMessage" xml:space="preserve">
@@ -7364,7 +7364,7 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="staticSite_passwordProtectionSkuWarning" xml:space="preserve">
         <value>Password protection is only available on the Standard hosting plan. Please update your hosting plan to configure password protection.</value>
-    </data> 
+    </data>
     <data name="functionSupportedRuntimeVersionNotConfiguredMessage" xml:space="preserve">
         <value>Your app is pinned to an unsupported runtime version for '{0}'. For better performance, we recommend using one of our supported versions instead: {1}.</value>
     </data>
@@ -7373,6 +7373,9 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="functionsSupportedRuntimeVersionMissingWarning" xml:space="preserve">
         <value>The runtime version is not configured for your app. As a result the runtime cannot be started. Please use a valid runtime version (e.g. ~3).</value>
+    </data>
+    <data name="onpremFunctionSupportedVersionMessage" xml:space="preserve">
+        <value>Azure Functions runtime v1.x will no longer be supported after 14th September 2026. Customers should migrate to Azure Functions runtime v4.x in Public Cloud where possible or, for customers who need to remain on Azure Stack hub switch your functions to Web Jobs(https://go.microsoft.com/fwlink/?linkid=2289252).</value>
     </data>
     <data name="deploymentCenterBitbucketDescriptionText" xml:space="preserve">
         <value>App Service will place a webhook on the chosen repository. When a new commit is pushed to the selected branch App Service will pull your code, build your application, and deploy it to your web app.</value>

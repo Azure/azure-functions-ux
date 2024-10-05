@@ -317,11 +317,11 @@ export const dotnetStack: FunctionAppStack = {
       value: 'dotnetframework4',
       minorVersions: [
         {
-          displayText: '.NET Framework 4.7',
-          value: '4.7',
+          displayText: '.NET Framework 4.8',
+          value: 'v4.8',
           stackSettings: {
             windowsRuntimeSettings: {
-              runtimeVersion: '4.7',
+              runtimeVersion: 'v4.0',
               remoteDebuggingSupported: false,
               appInsightsSettings: {
                 isSupported: true,

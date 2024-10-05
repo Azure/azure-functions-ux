@@ -71,6 +71,10 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
   const getBannerComponents = (): JSX.Element => {
     const supportedStackVersions = getSupportedExtensionVersions().join(',');
+    if (window.appsvc && window.appsvc.env.runtimeType === 'OnPrem') {
+      return <CustomBanner message={t('onpremFunctionSupportedVersionMessage')} type={MessageBarType.warning} undocked={true} />;
+    }
+
     if (showWarningBannerForNonSupportedVersion && !!supportedStackVersions) {
       const currentStack = values.currentlySelectedStack;
       return (
@@ -105,7 +109,9 @@ const RuntimeVersion: React.FC<AppSettingsFormProps> = props => {
 
     //(note): stpelleg -- Need to handle this version of dotnet bc it will not appear in stacks API call as v4.0. it will be 3.1
     if (currentStack === WorkerRuntimeLanguages.dotnet && currentStackVersion === FunctionsDotnetVersion.v4) {
-      currentStackVersion = FunctionsDotnetVersion.v3;
+      if (window.appsvc && window.appsvc.env.runtimeType !== 'OnPrem') {
+        currentStackVersion = FunctionsDotnetVersion.v3;
+      }
     }
 
     const filteredStacks = filterFunctionAppStack(functionAppStacksContext, values, isLinux, currentStack);
