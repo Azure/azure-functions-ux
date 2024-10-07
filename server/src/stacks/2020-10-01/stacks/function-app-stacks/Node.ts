@@ -28,7 +28,6 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
               windowsRuntimeSettings: {
                 runtimeVersion: '~22',
                 isPreview: true,
-                isHidden: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
@@ -58,7 +57,6 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
               linuxRuntimeSettings: {
                 runtimeVersion: 'Node|22',
                 isPreview: true,
-                isHidden: true,
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
                   isSupported: true,
