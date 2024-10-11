@@ -3,6 +3,7 @@ import { getDateString } from '../date-utilities';
 
 const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFormat: boolean) => {
   const dotnet7EOL = getDateString(new Date(2024, 5, 14), useIsoDateFormat);
+  const onpremDotnet6EOL = getDateString(new Date(2024 / 10 / 7), useIsoDateFormat);
   const dotnet5EOL = getDateString(new Date(2022, 5, 8), useIsoDateFormat);
   const dotnetCore3Point0EOL = getDateString(new Date(2020, 3, 3), useIsoDateFormat);
   const dotnetCore3Point1EOL = getDateString(new Date(2022, 12, 3), useIsoDateFormat);
@@ -110,6 +111,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                   isSupported: true,
                   supportedVersion: '6.0.x',
                 },
+                endOfLifeDate: onpremDotnet6EOL,
               },
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|6.0',
