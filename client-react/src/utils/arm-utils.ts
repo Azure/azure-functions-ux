@@ -21,6 +21,10 @@ export function isWindowsCode(obj: ArmObj<Site>): boolean {
   return kind === CommonConstants.Kinds.app || kind === CommonConstants.Kinds.api;
 }
 
+export function isWindowsContainer(obj: ArmObj<Site>): boolean {
+  return obj.properties.hyperV;
+}
+
 export function isLinuxDynamic(obj: ArmObj<Site>) {
   return isLinuxApp(obj) && isDynamic(obj);
 }
