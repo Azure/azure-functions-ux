@@ -34,10 +34,13 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
-  const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSsh, [
-    stackVersionDetails.data?.supportedFeatures?.disableSsh,
-  ]);
+  const canDisableSSH = scenarioChecker.checkScenario(ScenarioIds.canDisableSSH, { site });
   const gRPCOnlyEnabled = scenarioChecker.checkScenario(ScenarioIds.http20ProxyGRPCOnlySupported, { site });
+
+  const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSsh || canDisableSSH.status === 'enabled', [
+    stackVersionDetails.data?.supportedFeatures?.disableSsh,
+    canDisableSSH,
+  ]);
 
   const runtimeVersionIsNotV1 = useMemo(() => {
     const functionsExtensionVersion = values.appSettings.find(x => x.name === CommonConstants.AppSettingNames.functionsExtensionVersion);
