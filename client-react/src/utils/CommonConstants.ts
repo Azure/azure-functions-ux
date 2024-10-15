@@ -125,7 +125,6 @@ export class CommonConstants {
     'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3': 'PHP 8.3',
   };
 
-
   public static readonly AppSettingNames = {
     appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
     appInsightsInstrumentationKey: 'APPINSIGHTS_INSTRUMENTATIONKEY',
@@ -339,6 +338,7 @@ export class CommonConstants {
 
   public static readonly ResourceTypes = {
     cosmosDbAccount: 'Microsoft.DocumentDB/databaseAccounts',
+    site: 'Microsoft.Web/sites',
   };
 }
 
@@ -413,6 +413,7 @@ export class ExperimentationConstants {
 
   public static FlightVariable = {
     removeDeployEnvironment: 'remove-deploy-environment',
+    enableSidecarMigration: 'enable-sidecar-migration',
   };
 }
 

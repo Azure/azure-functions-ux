@@ -2619,4 +2619,6 @@ export class PortalResources {
   public static inboundIpModePreviewLabel = 'inboundIpModePreviewLabel';
   public static externalGitPrivateGitHubNotSupported = 'externalGitPrivateGitHubNotSupported';
   public static externalGitPrivateBitbucketNotSupported = 'externalGitPrivateBitbucketNotSupported';
+  public static deploymentCenterUpdateToSidecarContainers = 'deploymentCenterUpdateToSidecarContainers';
+  public static startUpdate = 'startUpdate';
 }

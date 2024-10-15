@@ -8016,4 +8016,10 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="externalGitPrivateBitbucketNotSupported" xml:space="preserve">
         <value>Authentication with private Bitbucket repositories is not supported for this app.</value>
     </data>
+    <data name="deploymentCenterUpdateToSidecarContainers" xml:space="preserve">
+        <value>Update your container to the new sidecar pattern for extended site functionality.</value>
+    </data>
+    <data name="startUpdate" xml:space="preserve">
+        <value>Start update</value>
+    </data>
 </root>
