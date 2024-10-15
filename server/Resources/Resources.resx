@@ -1651,7 +1651,7 @@
         <value>Select the minimum TLS encryption version required by clients connecting to your app.</value>
     </data>
     <data name="minTlsCipherSuiteLabel" xml:space="preserve">
-        <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
+        <value>Minimum Inbound TLS Cipher Suite</value>
     </data>
     <data name="vnetPrivatePortsCount" xml:space="preserve">
         <value>VNet Private Ports</value>
@@ -1669,7 +1669,7 @@
         <value>Minimum TLS Cipher Suite</value>
     </data>
     <data name="minTlsCipherSuitePanelHeader" xml:space="preserve">
-        <value>Change minimum TLS Cipher Suite (preview)</value>
+        <value>Change minimum TLS Cipher Suite</value>
     </data>
     <data name="minTlsCipherSuiteMostSecure" xml:space="preserve">
         <value>most secure</value>
