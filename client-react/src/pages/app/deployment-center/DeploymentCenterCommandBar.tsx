@@ -66,7 +66,7 @@ const DeploymentCenterCommandBar: React.FC<DeploymentCenterCommandBarProps> = pr
   };
 
   const openFeedbackBlade = () => {
-    const featureName = 'DeploymentCenter';
+    const featureName = siteStateContext?.isFunctionApp ? 'FunctionAppDeploymentCenter' : 'AppServiceDeploymentCenter';
     portalContext.openBlade({
       detailBlade: 'InProductFeedbackBlade',
       extension: 'HubsExtension',

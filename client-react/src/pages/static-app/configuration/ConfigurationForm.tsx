@@ -23,7 +23,7 @@ import {
   StagingEnvironmentPolicyTypes,
 } from './Configuration.types';
 import ConfigurationCommandBar from './ConfigurationCommandBar';
-import ConfigurationPivot from './ConfigurationPivot';
+import ConfigurationSnippets from './ConfigurationSnippets';
 
 const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: ConfigurationFormProps) => {
   const {
@@ -36,7 +36,6 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
     resourceId,
     selectedEnvironmentVariableResponse,
     validationSchema,
-    showNewConfiguration,
   } = props;
 
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
@@ -317,13 +316,13 @@ const ConfigurationForm: React.FC<ConfigurationFormProps> = (props: Configuratio
             </>
           </div>
           <div>
-            <ConfigurationPivot
-              {...props}
-              refresh={props.refresh}
-              isLoading={isLoading || formProps.isSubmitting}
+            <ConfigurationSnippets
+              hasWritePermissions={hasWritePermissions}
+              refresh={refresh}
+              disabled={isLoading || !hasWritePermissions || formProps.isSubmitting}
               formProps={formProps}
-              showAppSettings={false}
-              showNewConfiguration={showNewConfiguration}
+              isLoading={isLoading}
+              resourceId={resourceId}
             />
           </div>
         </div>

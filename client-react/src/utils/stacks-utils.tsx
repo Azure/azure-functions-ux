@@ -1,37 +1,34 @@
-import {
-  WebAppStack,
-  WebAppRuntimeSettings,
-  LinuxJavaContainerSettings,
-  WindowsJavaContainerSettings,
-  WebAppRuntimes,
-  JavaContainers as JavaContainersInterface,
-} from '../models/stacks/web-app-stacks';
 import { IDropdownOption, MessageBarType } from '@fluentui/react';
+import { TFunction } from 'i18next';
+import CustomBanner from '../components/CustomBanner/CustomBanner';
+import { ArmObj } from '../models/arm-obj';
+import { Site } from '../models/site/site';
 import { AppStackMajorVersion, AppStackMinorVersion, AppStackOs } from '../models/stacks/app-stacks';
 import { FunctionAppStack } from '../models/stacks/function-app-stacks';
-import i18next from 'i18next';
-import LogService from './LogService';
-import { LogCategories } from './LogCategories';
-import { getDateAfterXSeconds } from './DateUtilities';
-import { Links } from './FwLinks';
-import CustomBanner from '../components/CustomBanner/CustomBanner';
+import {
+  JavaContainers as JavaContainersInterface,
+  LinuxJavaContainerSettings,
+  WebAppRuntimes,
+  WebAppRuntimeSettings,
+  WebAppStack,
+  WindowsJavaContainerSettings,
+} from '../models/stacks/web-app-stacks';
 import { AppSettingsFormValues } from '../pages/app/app-settings/AppSettings.types';
-import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
 import { findFormAppSettingIndex } from '../pages/app/app-settings/AppSettingsFormData';
 import { filterDeprecatedFunctionAppStack } from '../pages/app/app-settings/GeneralSettings/stacks/function-app/FunctionAppStackSettings.data';
-import { Site } from '../models/site/site';
-import { ArmObj } from '../models/arm-obj';
-import Url from './url';
 import { isFlexConsumption } from './arm-utils';
+import { CommonConstants, WorkerRuntimeLanguages } from './CommonConstants';
+import { getDateAfterXSeconds } from './DateUtilities';
+import { Links } from './FwLinks';
+import { LogFunction } from './hooks/usePortalLogging';
+import { LogCategories } from './LogCategories';
+import { getTelemetryInfo } from './TelemetryUtils';
+import Url from './url';
 
 const ENDOFLIFEMAXSECONDS = 15780000; // 6 months
 export const NETFRAMEWORKVERSION5 = 5;
 
-export const getStacksSummaryForDropdown = (
-  stack: WebAppStack | FunctionAppStack,
-  osType: AppStackOs,
-  t: i18next.TFunction
-): IDropdownOption[] => {
+export const getStacksSummaryForDropdown = (stack: WebAppStack | FunctionAppStack, osType: AppStackOs, t: TFunction): IDropdownOption[] => {
   const options: IDropdownOption[] = [];
   stack.majorVersions.forEach(stackMajorVersion => {
     stackMajorVersion.minorVersions.forEach(stackMinorVersion => {
@@ -53,7 +50,7 @@ export const getStacksSummaryForDropdown = (
 
 export const getMinorVersionText = (
   text: string,
-  t: i18next.TFunction,
+  t: TFunction,
   settings?: WebAppRuntimeSettings | WindowsJavaContainerSettings | LinuxJavaContainerSettings
 ) => {
   if (settings) {
@@ -81,11 +78,11 @@ export const isStackVersionDeprecated = (settings: WebAppRuntimeSettings | Windo
 };
 
 // NOTE(krmitta): Make sure this is in sync with what we show for Creates on ibiza
-export const isStackVersionEndOfLife = (endOfLifeDate?: string): boolean => {
+export const isStackVersionEndOfLife = (endOfLifeDate?: string, log?: LogFunction): boolean => {
   try {
     return !!endOfLifeDate && Date.parse(endOfLifeDate) <= Date.parse(getDateAfterXSeconds(ENDOFLIFEMAXSECONDS).toString());
-  } catch (err) {
-    LogService.error(LogCategories.appSettings, 'StackSettings', err);
+  } catch (error) {
+    log?.(getTelemetryInfo('error', LogCategories.appSettings, 'StackSettings', { error }));
     return false;
   }
 };
@@ -248,7 +245,7 @@ export const getFilteredWindowsJavaContainerSettings = (
   }
 };
 
-export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boolean, t: i18next.TFunction) => {
+export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boolean, t: TFunction) => {
   return {
     infoBubbleMessage: isEarlyStackMessageVisible ? t('earlyAccessStackMessage') : undefined,
     learnMoreLink: isEarlyStackMessageVisible ? Links.earlyAccessStackLearnMore : undefined,
@@ -256,9 +253,24 @@ export const getEarlyStackMessageParameters = (isEarlyStackMessageVisible: boole
 };
 
 // NOTE(krmitta): Make sure this is in sync with what we show for Creates on ibiza
-export const checkAndGetStackEOLOrDeprecatedBanner = (t: i18next.TFunction, stackVersion: string, eolDate?: string | null) => {
+export const checkAndGetStackEOLOrDeprecatedBanner = (t: TFunction, stackVersion: string, eolDate?: string | null) => {
   if (eolDate === undefined) {
     return <></>;
+  }
+
+  if (stackVersion.includes('wordpress')) {
+    return (
+      <CustomBanner
+        type={MessageBarType.warning}
+        id={'eol-stack-banner'}
+        message={
+          eolDate
+            ? t('endOfLifeStackMessage').format(CommonConstants.WordPressStackDisplayTextMapping[stackVersion.toLocaleLowerCase()], new Date(eolDate).toLocaleDateString(undefined, { timeZone: 'UTC' }))
+            : t('deprecatedStackMessage').format(CommonConstants.WordPressStackDisplayTextMapping[stackVersion.toLocaleLowerCase()])
+        }
+        learnMoreLink={Links.endOfLifeStackLink}
+      />
+    );
   }
 
   return (

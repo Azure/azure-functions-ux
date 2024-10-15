@@ -1,5 +1,5 @@
 import { Link } from '@fluentui/react';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import React, { useContext } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ReactComponent as InputSvg } from '../../../../../../images/Common/input.svg';
@@ -52,7 +52,7 @@ const getContent = (
   portalCommunicator: PortalCommunicator,
   functionInfo: ArmObj<FunctionInfo>,
   bindings: Binding[],
-  t: i18next.TFunction,
+  t: TFunction,
   bindingEditorContext: BindingEditorContextInfo,
   theme: ThemeExtended,
   inputBindings: BindingInfo[],

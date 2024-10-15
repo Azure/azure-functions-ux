@@ -6,6 +6,7 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
   const node10EOL = getDateString(new Date('2021/04/30'), useIsoDateFormat);
   const node8EOL = getDateString(new Date('2019/12/31'), useIsoDateFormat);
   const node6EOL = getDateString(new Date('2019/04/30'), useIsoDateFormat);
+  const node22EOL = getDateString(new Date('2027/04/30'), useIsoDateFormat);
   const node20EOL = getDateString(new Date('2026/05/30'), useIsoDateFormat);
   const node18EOL = getDateString(new Date('2025/04/30'), useIsoDateFormat);
   const node16EOL = getDateString(new Date('2024/06/30'), useIsoDateFormat);
@@ -16,6 +17,75 @@ const getNodeStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoDat
     value: 'node',
     preferredOs: 'windows',
     majorVersions: [
+      {
+        displayText: 'Node.js 22',
+        value: '22',
+        minorVersions: [
+          {
+            displayText: 'Node.js 22',
+            value: '22',
+            stackSettings: {
+              windowsRuntimeSettings: {
+                runtimeVersion: '~22',
+                isPreview: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '22.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'node',
+                  WEBSITE_NODE_DEFAULT_VERSION: '~22',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: true,
+                  netFrameworkVersion: 'v6.0',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
+                endOfLifeDate: node22EOL,
+              },
+              linuxRuntimeSettings: {
+                runtimeVersion: 'Node|22',
+                isPreview: true,
+                remoteDebuggingSupported: false,
+                appInsightsSettings: {
+                  isSupported: true,
+                },
+                gitHubActionSettings: {
+                  isSupported: true,
+                  supportedVersion: '22.x',
+                },
+                appSettingsDictionary: {
+                  FUNCTIONS_WORKER_RUNTIME: 'node',
+                },
+                siteConfigPropertiesDictionary: {
+                  use32BitWorkerProcess: false,
+                  linuxFxVersion: 'Node|22',
+                },
+                supportedFunctionsExtensionVersions: ['~4'],
+                supportedFunctionsExtensionVersionsInfo: [
+                  {
+                    version: '~4',
+                    isDeprecated: false,
+                    isDefault: true,
+                  },
+                ],
+                endOfLifeDate: node22EOL,
+              },
+            },
+          },
+        ],
+      },
       {
         displayText: 'Node.js 20',
         value: '20',

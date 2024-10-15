@@ -111,6 +111,16 @@ export class XenonSiteEnvironment extends Environment {
         return { status: 'disabled' };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.sshEnabledSupported] = {
+      id: ScenarioIds.sshEnabledSupported,
+      runCheck: () => ({ status: 'enabled' }),
+    };
+
+    this.scenarioChecks[ScenarioIds.canDisableSSH] = {
+      id: ScenarioIds.canDisableSSH,
+      runCheck: () => ({ status: 'enabled' }),
+    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
