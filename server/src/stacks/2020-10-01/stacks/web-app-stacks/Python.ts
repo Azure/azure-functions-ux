@@ -21,7 +21,8 @@ const getPythonStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
                 runtimeVersion: 'PYTHON|3.12',
                 remoteDebuggingSupported: false,
                 appInsightsSettings: {
-                  isSupported: false,
+                  isSupported: true,
+                  isDefaultOff: true,
                 },
                 gitHubActionSettings: {
                   isSupported: true,

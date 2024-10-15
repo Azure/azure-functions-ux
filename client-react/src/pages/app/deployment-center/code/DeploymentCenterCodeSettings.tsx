@@ -7,7 +7,7 @@ import CustomBanner from '../../../../components/CustomBanner/CustomBanner';
 import { learnMoreLinkStyle } from '../../../../components/form-controls/formControl.override.styles';
 import { BuildProvider, ScmType } from '../../../../models/site/config';
 import { AppOs } from '../../../../models/site/site';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants, ExperimentationConstants } from '../../../../utils/CommonConstants';
 import { DeploymentCenterLinks } from '../../../../utils/FwLinks';
 import { LogCategories } from '../../../../utils/LogCategories';
 import { usePortalLogging } from '../../../../utils/hooks/usePortalLogging';
@@ -77,6 +77,20 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
   const [isVstsSetup, setIsVstsSetup] = useState(false);
   const [isTfsOrVsoSetup, setIsTfsOrVsoSetup] = useState(false);
   const [isUsingExistingOrAvailableWorkflowConfig, setIsUsingExistingOrAvailableWorkflowConfig] = useState(false);
+  const [isRemoveEnvEnabled, setIsRemoveEnvEnabled] = useState(false);
+  useEffect(() => {
+    let isSubscribed = true;
+
+    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.removeDeployEnvironment).then(hasFlightEnabled => {
+      if (isSubscribed) {
+        setIsRemoveEnvEnabled(hasFlightEnabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [portalContext]);
 
   const log = usePortalLogging();
 
@@ -152,6 +166,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     if (formProps.values.runtimeStack === RuntimeStackOptions.Java) {
       variables['javaContainer'] = formProps.values.javaContainer;
+    }
+
+    if (isRemoveEnvEnabled) {
+      variables['isRemoveEnvEnabled'] = true;
     }
 
     return variables;

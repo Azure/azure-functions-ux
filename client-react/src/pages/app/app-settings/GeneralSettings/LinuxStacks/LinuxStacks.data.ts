@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { WebAppRuntimeSettings, WebAppStack } from '../../../../../models/stacks/web-app-stacks';
 import { getMinorVersionText } from '../../../../../utils/stacks-utils';
 import { CommonConstants } from '../../../../../utils/CommonConstants';
@@ -35,7 +35,7 @@ export const getMajorVersions = (builtInStacks: WebAppStack[], stack: string) =>
   );
 };
 
-export const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, majorVersion: string, t: i18next.TFunction) => {
+export const getMinorVersions = (builtInStacks: WebAppStack[], stack: string, majorVersion: string, t: TFunction) => {
   const stackToLower = (stack || '').toLowerCase();
   const currentStack = builtInStacks.find(s => s.value === stackToLower);
   if (!currentStack) {

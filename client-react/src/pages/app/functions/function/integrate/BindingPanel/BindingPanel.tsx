@@ -1,4 +1,4 @@
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 import { PanelType } from '@fluentui/react';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
@@ -81,7 +81,7 @@ const BindingPanel: React.SFC<BindingPanelProps> = props => {
 };
 
 // If binding info is undefined that means you are creating a new binding info, otherwise you are editing
-const getPanelHeader = (t: i18next.TFunction, bindingDirection: BindingDirection, bindingInfo?: BindingInfo) => {
+const getPanelHeader = (t: TFunction, bindingDirection: BindingDirection, bindingInfo?: BindingInfo) => {
   if (!bindingInfo) {
     switch (bindingDirection) {
       case BindingDirection.in: {
@@ -109,7 +109,7 @@ const getPanelHeader = (t: i18next.TFunction, bindingDirection: BindingDirection
   }
 };
 
-const getDeleteDialogDetails = (t: i18next.TFunction, bindingDirection: BindingDirection): DeleteDialog => {
+const getDeleteDialogDetails = (t: TFunction, bindingDirection: BindingDirection): DeleteDialog => {
   switch (bindingDirection) {
     case BindingDirection.in: {
       return { header: t('integrateDeleteInputConfirmHeader'), content: t('integrateDeleteInputConfirmMessage') };

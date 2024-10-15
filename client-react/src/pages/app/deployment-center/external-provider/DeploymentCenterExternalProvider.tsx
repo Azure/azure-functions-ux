@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, useContext } from 'react';
+import React, { useState, useEffect, useMemo, useContext, useCallback } from 'react';
 import { Field } from 'formik';
 import TextField from '../../../../components/form-controls/TextField';
 import { useTranslation } from 'react-i18next';
@@ -17,31 +17,50 @@ import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { PortalContext } from '../../../../PortalContext';
 import { BitbucketUser } from '../../../../models/bitbucket';
 import BitbucketService from '../../../../ApiHelpers/BitbucketService';
+import { ScenarioService } from '../../../../utils/scenario-checker/scenario.service';
+import { SiteStateContext } from '../../../../SiteState';
+import { ScenarioIds } from '../../../../utils/scenario-checker/scenario-ids';
+import ReactiveFormControl from '../../../../components/form-controls/ReactiveFormControl';
+import { IconConstants } from '../../../../utils/constants/IconConstants';
+import { ThemeContext } from '../../../../ThemeContext';
+import { IconGridCell } from '../../../../components/IconGridCell/IconGridCell';
+import { style } from 'typestyle';
 
 const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
   const { t } = useTranslation();
+  const scenarioService = new ScenarioService(t);
 
   const deploymentCenterData = new DeploymentCenterData();
   const deploymentCenterContext = useContext(DeploymentCenterContext);
   const portalContext = useContext(PortalContext);
+  const theme = useContext(ThemeContext);
+  const { site } = useContext(SiteStateContext);
 
-  const [repoType, setRepoType] = useState<RepoTypeOptions>(RepoTypeOptions.Public);
-  const [showGitHubOAuthButton, setShowGitHubOAuthButton] = useState<boolean>(false);
+  const [isGitHubOAuthSupported, setIsGitHubOAuthSupported] = useState<boolean>(false);
+  const [fetchGitHubAccount, setFetchGitHubAccount] = useState<boolean>(false);
   const [gitHubUser, setGitHubUser] = useState<GitHubUser | undefined>(undefined);
   const [gitHubAccountStatusMessage, setGitHubAccountStatusMessage] = useState<string | undefined>(
     t('deploymentCenterOAuthFetchingUserInformation')
   );
-  const [showBitbucketOAuthButton, setBitbucketOAuthButton] = useState<boolean>(false);
+  const [isBitbucketOAuthSupported, setIsBitbucketOAuthSupported] = useState<boolean>(false);
+  const [fetchBitbucketAccount, setFetchBitbucketAccount] = useState<boolean>(false);
   const [bitbucketUser, setBitbucketUser] = useState<BitbucketUser | undefined>(undefined);
   const [bitbucketAccountStatusMessage, setBitbucketAccountStatusMessage] = useState<string | undefined>(
     t('deploymentCenterOAuthFetchingUserInformation')
   );
 
-  const authorizeGitHubAccount = () => {
+  useEffect(() => {
+    if (site) {
+      setIsGitHubOAuthSupported(scenarioService.checkScenario(ScenarioIds.githubSource, { site }).status !== 'disabled');
+      setIsBitbucketOAuthSupported(scenarioService.checkScenario(ScenarioIds.bitbucketSource, { site }).status !== 'disabled');
+    }
+  }, [site]);
+
+  const authorizeGitHubAccount = useCallback(() => {
     portalContext.log(getTelemetryInfo('info', 'gitHubAccount', 'authorize'));
     authorizeWithProvider(GitHubService.authorizeUrl, startingGitHubAuthCallback, completingGitHubAuthCallBack);
-  };
+  }, []);
 
   const completingGitHubAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
@@ -79,10 +98,10 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
     }
   };
 
-  const authorizeBitbucketAccount = () => {
+  const authorizeBitbucketAccount = useCallback(() => {
     portalContext.log(getTelemetryInfo('info', 'bitBucketAccount', 'authorize'));
     authorizeWithProvider(BitbucketService.authorizeUrl, startingBitbucketAuthCallback, completingBitbucketAuthCallBack);
-  };
+  }, []);
 
   const completingBitbucketAuthCallBack = (authorizationResult: AuthorizationResult) => {
     if (authorizationResult.redirectUrl) {
@@ -121,95 +140,101 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
   };
 
   useEffect(() => {
-    if (formProps) {
-      setRepoType(formProps.values.externalRepoType);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [formProps && formProps.values.externalRepoType]);
-
-  useEffect(() => {
-    if (formProps?.values.repo) {
-      if (formProps.values.repo.includes(DeploymentCenterConstants.githubHostname)) {
-        setShowGitHubOAuthButton(true);
+    if (fetchGitHubAccount) {
+      if (!formProps.values.gitHubUser) {
+        fetchGitHubData();
       } else {
-        setShowGitHubOAuthButton(false);
-      }
-
-      if (formProps.values.repo.includes(DeploymentCenterConstants.bitbucketHostname)) {
-        setBitbucketOAuthButton(true);
-      } else {
-        setBitbucketOAuthButton(false);
+        setGitHubUser(formProps.values.gitHubUser);
+        setGitHubAccountStatusMessage(undefined);
       }
     }
-  }, [formProps?.values.repo]);
+  }, [fetchGitHubAccount]);
 
   useEffect(() => {
-    if (!formProps.values.gitHubUser) {
-      fetchGitHubData();
-    } else {
-      setGitHubUser(formProps.values.gitHubUser);
-      setGitHubAccountStatusMessage(undefined);
+    if (fetchBitbucketAccount) {
+      if (!formProps.values.bitbucketUser) {
+        fetchBitbucketData();
+      } else {
+        setBitbucketUser(formProps.values.bitbucketUser);
+        setBitbucketAccountStatusMessage(undefined);
+      }
     }
-  }, [showGitHubOAuthButton]);
+  }, [fetchBitbucketAccount]);
 
-  useEffect(() => {
-    if (!formProps.values.bitbucketUser) {
-      fetchBitbucketData();
-    } else {
-      setBitbucketUser(formProps.values.bitbucketUser);
-      setBitbucketAccountStatusMessage(undefined);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [showBitbucketOAuthButton]);
-
-  const authentication = useMemo(() => {
-    if (showGitHubOAuthButton) {
-      return (
-        <DeploymentCenterGitHubAccount
-          authorizeAccount={authorizeGitHubAccount}
-          accountUser={gitHubUser}
-          accountStatusMessage={gitHubAccountStatusMessage}
-          isExternalGit={true}
+  const getAuthNotSupportedError = useCallback((error: string) => {
+    return (
+      <ReactiveFormControl id="deployment-center-external-private-text" pushContentRight={true}>
+        <IconGridCell
+          text={<div style={{ color: theme.semanticColors.errorText }}>{error}</div>}
+          iconName={IconConstants.IconNames.ErrorBadgeFilled}
+          style={{ color: theme.semanticColors.errorIcon, marginTop: '2px' }}
         />
-      );
-    } else if (showBitbucketOAuthButton) {
-      return (
-        <DeploymentCenterBitbucketAccount
-          authorizeAccount={authorizeBitbucketAccount}
-          accountUser={bitbucketUser}
-          accountStatusMessage={bitbucketAccountStatusMessage}
-          isExternalGit={true}
-        />
-      );
-    } else {
-      return (
-        <>
-          <Field
-            id="deployment-center-external-provider-username"
-            label={t('deploymentCenterCodeExternalUsernameLabel')}
-            name="externalUsername"
-            required={true}
-            component={TextField}
-          />
+      </ReactiveFormControl>
+    );
+  }, []);
 
-          <Field
-            id="deployment-center-external-provider-password"
-            label={t('deploymentCenterCodeExternalPasswordLabel')}
-            name="externalPassword"
-            component={TextField}
-            required={true}
-            type="password"
+  const authSettings = useMemo(() => {
+    if (formProps?.values?.externalRepoType === RepoTypeOptions.Private) {
+      const repository = formProps?.values?.repo ?? '';
+      if (repository.includes(DeploymentCenterConstants.githubHostname)) {
+        setFetchGitHubAccount(isGitHubOAuthSupported);
+        return isGitHubOAuthSupported ? (
+          <DeploymentCenterGitHubAccount
+            authorizeAccount={authorizeGitHubAccount}
+            accountUser={gitHubUser}
+            accountStatusMessage={gitHubAccountStatusMessage}
+            isExternalGit={true}
           />
-        </>
-      );
+        ) : (
+          getAuthNotSupportedError(t('externalGitPrivateGitHubNotSupported'))
+        );
+      } else if (repository.includes(DeploymentCenterConstants.bitbucketHostname)) {
+        setFetchBitbucketAccount(isBitbucketOAuthSupported);
+        return isBitbucketOAuthSupported ? (
+          <DeploymentCenterBitbucketAccount
+            authorizeAccount={authorizeBitbucketAccount}
+            accountUser={bitbucketUser}
+            accountStatusMessage={bitbucketAccountStatusMessage}
+            isExternalGit={true}
+          />
+        ) : (
+          getAuthNotSupportedError(t('externalGitPrivateBitbucketNotSupported'))
+        );
+      } else {
+        return (
+          <>
+            <Field
+              id="deployment-center-external-provider-username"
+              label={t('deploymentCenterCodeExternalUsernameLabel')}
+              name="externalUsername"
+              required={true}
+              component={TextField}
+            />
+
+            <Field
+              id="deployment-center-external-provider-password"
+              label={t('deploymentCenterCodeExternalPasswordLabel')}
+              name="externalPassword"
+              component={TextField}
+              required={true}
+              type="password"
+            />
+          </>
+        );
+      }
     }
   }, [
-    showGitHubOAuthButton,
+    formProps?.values?.externalRepoType,
+    formProps?.values?.repo,
+    isGitHubOAuthSupported,
+    authorizeGitHubAccount,
     gitHubUser,
     gitHubAccountStatusMessage,
-    showBitbucketOAuthButton,
+    isBitbucketOAuthSupported,
+    authorizeBitbucketAccount,
     bitbucketUser,
     bitbucketAccountStatusMessage,
+    t,
   ]);
 
   return (
@@ -241,6 +266,9 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         label={t('deploymentCenterCodeExternalRepositoryTypeLabel')}
         name="externalRepoType"
         component={RadioButton}
+        formControlClassName={style({
+          marginBottom: '2px !important',
+        })}
         options={[
           {
             key: RepoTypeOptions.Public,
@@ -253,7 +281,7 @@ const DeploymentCenterExternalProvider: React.FC<DeploymentCenterFieldProps<Depl
         ]}
       />
 
-      {repoType === RepoTypeOptions.Private && authentication}
+      {formProps?.values?.externalRepoType === RepoTypeOptions.Private && authSettings}
     </>
   );
 };

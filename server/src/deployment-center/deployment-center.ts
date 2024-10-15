@@ -35,8 +35,8 @@ export class EnvironmentUrlMappings {
   static readonly urlToEnvironmentMap: { [id: string]: Environments } = {
     'https://functions.azure.com': Environments.Prod,
     'https://functions-staging.azure.com': Environments.Stage,
-    'https://functions-staging-westus-ame.azurewebsites.net': Environments.Stage,
-    'https://functions-staging-westeurope-ame.azurewebsites.net': Environments.Stage,
+    'https://functions-staging-westus-ame-staging.azurewebsites.net': Environments.Stage,
+    'https://functions-staging-westeurope-ame-staging.azurewebsites.net': Environments.Stage,
     'https://functions-release.azure.com': Environments.Release,
     'https://functions-release-ame.azurewebsites.net': Environments.Release,
     'https://functions-next.azure.com': Environments.Next,

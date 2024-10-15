@@ -8,7 +8,6 @@ import { PortalContext } from '../../../PortalContext';
 import { ArmObj } from '../../../models/arm-obj';
 import { KeyValue } from '../../../models/portal-models';
 import { Environment } from '../../../models/static-site/environment';
-import { ExperimentationConstants } from '../../../utils/CommonConstants';
 import { LogCategories } from '../../../utils/LogCategories';
 import { usePortalLogging } from '../../../utils/hooks/usePortalLogging';
 import RbacConstants from '../../../utils/rbac-constants';
@@ -44,7 +43,6 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   const [codeFormValidationSchema, setCodeFormValidationSchema] = useState<ConfigurationYupValidationSchemaType>();
   const [staticSiteSku, setStaticSiteSku] = useState(StaticSiteSku.Standard);
   const [location, setLocation] = useState<string>();
-  const [showNewConfiguration, setShowNewConfiguration] = useState(false);
 
   const portalContext = useContext(PortalContext);
   const { t } = useTranslation();
@@ -230,12 +228,6 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
   );
 
   useEffect(() => {
-    portalContext
-      .getBooleanFlight(ExperimentationConstants.TreatmentFlight.swaConfigurationNew)
-      .then((isEnabled: boolean) => setShowNewConfiguration(isEnabled));
-  }, [portalContext]);
-
-  useEffect(() => {
     fetchData();
 
     /** @note (joechung): This was originally intended to be a once-only effect. */
@@ -259,7 +251,6 @@ const ConfigurationDataLoader: React.FC<ConfigurationDataLoaderProps> = (props: 
         selectedEnvironmentVariableResponse={selectedEnvironmentVariableResponse}
         staticSiteSku={staticSiteSku}
         validationSchema={codeFormValidationSchema}
-        showNewConfiguration={showNewConfiguration}
       />
     </ConfigurationContext.Provider>
   );
