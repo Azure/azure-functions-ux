@@ -373,6 +373,8 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         detailBlade: 'UpdateToSidecarForm.ReactView',
         detailBladeInputs: {
           resourceId: deploymentCenterContext.resourceId,
+          // COMPOSE case is more complicated, so we're letting the user
+          // define the sitecontainer settings for now
           ...(prefix === 'DOCKER' ? { siteContainer: siteContainer } : {}),
         },
         extension: CommonConstants.Extensions.WebsitesExtension,
@@ -380,13 +382,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
       });
 
       if (result?.data?.saveSuccess) {
-        await portalContext.openBlade<{ saveSuccess: boolean }>({
-          detailBlade: 'DeploymentCenter.ReactView',
-          detailBladeInputs: {
-            resourceId: deploymentCenterContext.resourceId,
-          },
-          extension: CommonConstants.Extensions.WebsitesExtension,
-        });
+        portalContext.switchMenuItem({ menuItemId: 'vstscd' });
       }
     }
   }, [
@@ -394,6 +390,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     deploymentCenterContext?.resourceId,
     deploymentCenterContext?.siteConfig?.properties?.linuxFxVersion,
     formProps.values,
+    portalContext,
   ]);
 
   const renderSetupView = () => {
