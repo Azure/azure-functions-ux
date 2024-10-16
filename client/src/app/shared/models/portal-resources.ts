@@ -497,6 +497,7 @@ export class PortalResources {
   public static autoSwapSlotNameLabel = 'autoSwapSlotNameLabel';
   public static productionSlotDisplayName = 'productionSlotDisplayName';
   public static clientAffinityEnabledLabel = 'clientAffinityEnabledLabel';
+  public static clientAffinityProxyEnabledLabel = 'clientAffinityProxyEnabledLabel';
   public static httpsOnlyInfoBoxText = 'httpsOnlyInfoBoxText';
   public static httpsOnlyLabel = 'httpsOnlyLabel';
   public static httpsOnlyInfoBubbleMessage = 'httpsOnlyInfoBubbleMessage';
@@ -1478,6 +1479,7 @@ export class PortalResources {
   public static stackSettings = 'stackSettings';
   public static platformSettings = 'platformSettings';
   public static functionsAdminIsolation = 'functionsAdminIsolation';
+  public static functionsAdminIsolationWarning = 'functionsAdminIsolationWarning';
   public static functionsAdminIsolationInfoBubble = 'functionsAdminIsolationInfoBubble';
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
@@ -1702,6 +1704,7 @@ export class PortalResources {
   public static alwaysOnInfoMessage = 'alwaysOnInfoMessage';
   public static ftpsInfoMessage = 'ftpsInfoMessage';
   public static arrAffinityInfoMessage = 'arrAffinityInfoMessage';
+  public static arrAffinityProxyInfoMessage = 'arrAffinityProxyInfoMessage';
   public static applicationSettingsInfoMessage = 'applicationSettingsInfoMessage';
   public static connectionStringsInfoMessage = 'connectionStringsInfoMessage';
   public static powershellPreview = 'powershellPreview';
@@ -2614,4 +2617,8 @@ export class PortalResources {
   public static ipv6 = 'ipv6';
   public static ipv4AndIpv6 = 'ipv4AndIpv6';
   public static inboundIpModePreviewLabel = 'inboundIpModePreviewLabel';
+  public static externalGitPrivateGitHubNotSupported = 'externalGitPrivateGitHubNotSupported';
+  public static externalGitPrivateBitbucketNotSupported = 'externalGitPrivateBitbucketNotSupported';
+  public static deploymentCenterUpdateToSidecarContainers = 'deploymentCenterUpdateToSidecarContainers';
+  public static startUpdate = 'startUpdate';
 }

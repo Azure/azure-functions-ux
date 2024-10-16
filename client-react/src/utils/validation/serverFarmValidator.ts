@@ -1,6 +1,6 @@
 import ServerFarmService from '../../ApiHelpers/ServerFarmService';
 import { Guid } from '../Guid';
-import i18next from 'i18next';
+import { TFunction } from 'i18next';
 
 const SERVERFARM_MAX_LENGTH = 40;
 const RESTRICTED_NAME = 'default';
@@ -8,7 +8,7 @@ const RESTRICTED_NAME = 'default';
 // matches any character(i.e. german, chinese, english) or -
 const INVALID_CHARS_REGEX = /[^\u00BF-\u1FFF\u2C00-\uD7FFa-zA-Z0-9-]/;
 
-export const getServerFarmValidator = (subscriptionId: string, resourceGroupName: string, t: i18next.TFunction) => {
+export const getServerFarmValidator = (subscriptionId: string, resourceGroupName: string, t: TFunction) => {
   return (name: string) => {
     return new Promise((resolve, reject) => {
       const errors: any = {};

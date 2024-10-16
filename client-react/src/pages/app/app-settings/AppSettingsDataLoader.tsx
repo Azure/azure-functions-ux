@@ -41,7 +41,7 @@ import { SlotConfigNames } from '../../../models/site/slot-config-names';
 import { StorageAccount } from '../../../models/storage-account';
 import { Site } from '../../../models/site/site';
 import { SiteRouterContext } from '../SiteRouter';
-import { isFlexConsumption, isFunctionApp, isKubeApp, isLinuxApp, isWordPressApp } from '../../../utils/arm-utils';
+import { isFlexConsumption, isFunctionApp, isKubeApp, isLinuxApp, isWordPressApp, isWindowsContainer } from '../../../utils/arm-utils';
 import { KeyValue } from '../../../models/portal-models';
 import { getErrorMessage } from '../../../ApiHelpers/ArmHelper';
 import { WebAppStack } from '../../../models/stacks/web-app-stacks';
@@ -159,6 +159,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
     }
 
     const isLinux = isLinuxApp(site.data);
+    const windowsContainer = isWindowsContainer(site.data);
     // Get stacks response
     if (!loadingFailed) {
       if (isFunctionApp(site.data)) {
@@ -256,7 +257,7 @@ const AppSettingsDataLoader: React.FC<AppSettingsDataLoaderProps> = props => {
             ...site.data,
             properties: {
               ...site.data.properties,
-              sshEnabled: isLinux && sshEnabled === null ? true : sshEnabled,
+              sshEnabled: (isLinux || windowsContainer) && sshEnabled === null ? true : sshEnabled,
               functionsRuntimeAdminIsolationEnabled: functionsRuntimeAdminIsolationEnabled,
             },
           },

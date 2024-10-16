@@ -12,6 +12,9 @@ import {
   GitHubActionsCodeDeploymentsRow,
   CodeDeploymentsRow,
   DeploymentProperties,
+  ACRCredentialType,
+  ManagedIdentityType,
+  ContainerDockerAccessTypes,
 } from '../DeploymentCenter.types';
 import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { ScmType, SiteConfig } from '../../../../models/site/config';
@@ -37,6 +40,7 @@ import { Guid } from '../../../../utils/Guid';
 import { truncate } from 'lodash-es';
 import { isSameLocation } from '../../../../utils/location';
 import { toASCII } from 'punycode';
+import { SiteContainerAuthType } from '../../../../models/site/site';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
@@ -672,4 +676,56 @@ export const isFederatedCredentialsSupported = (identityLocation: string): boole
 export const sanitizeLogMessage = (message: string) => {
   const credPattern = /https:(.+):(.+)@/;
   return message.replace(credPattern, 'https://pii-removed:secret-removed@');
+};
+
+export const getAuthSettings = (values: DeploymentCenterContainerFormData) => {
+  let authType: SiteContainerAuthType = SiteContainerAuthType.Anonymous;
+  let userManagedIdentityClientId: string = '';
+  let userName: string = '';
+  let passwordSecret: string = '';
+
+  if (values.registrySource === ContainerRegistrySources.acr) {
+    if (values.acrCredentialType === ACRCredentialType.adminCredentials) {
+      authType = SiteContainerAuthType.UserCredentials;
+      userManagedIdentityClientId = '';
+      userName = values.acrUsername ?? '';
+      passwordSecret = values.acrPassword ?? '';
+    } else {
+      if (values.acrManagedIdentityClientId === ManagedIdentityType.systemAssigned) {
+        authType = SiteContainerAuthType.SystemIdentity;
+        userManagedIdentityClientId = SiteContainerAuthType.SystemIdentity;
+        userName = '';
+        passwordSecret = '';
+      } else {
+        authType = SiteContainerAuthType.UserAssigned;
+        userManagedIdentityClientId = values.acrManagedIdentityClientId ?? '';
+        userName = '';
+        passwordSecret = '';
+      }
+    }
+  } else if (values.registrySource === ContainerRegistrySources.docker) {
+    if (values.dockerHubAccessType === ContainerDockerAccessTypes.private) {
+      authType = SiteContainerAuthType.UserCredentials;
+      userManagedIdentityClientId = '';
+      userName = values.dockerHubUsername;
+      passwordSecret = values.dockerHubPassword;
+    } else {
+      authType = SiteContainerAuthType.Anonymous;
+      userManagedIdentityClientId = '';
+      userName = '';
+      passwordSecret = '';
+    }
+  } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
+    authType = SiteContainerAuthType.UserCredentials;
+    userManagedIdentityClientId = '';
+    userName = values.privateRegistryUsername;
+    passwordSecret = values.privateRegistryPassword;
+  }
+
+  return {
+    authType,
+    userManagedIdentityClientId,
+    userName,
+    passwordSecret,
+  };
 };

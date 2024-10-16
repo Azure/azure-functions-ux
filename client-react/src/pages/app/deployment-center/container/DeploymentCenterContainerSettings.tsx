@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback, useMemo } from 'react';
 import DeploymentCenterContainerSource from './DeploymentCenterContainerSource';
 import {
   ContainerRegistrySources,
@@ -18,7 +18,7 @@ import DeploymentCenterGitHubWorkflowConfigSelector from '../github-provider/Dep
 import DeploymentCenterGitHubWorkflowConfigPreview from '../github-provider/DeploymentCenterGitHubWorkflowConfigPreview';
 import { DeploymentCenterContext } from '../DeploymentCenterContext';
 import { useTranslation } from 'react-i18next';
-import { getAcrNameFromLoginServer, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
+import { getAcrNameFromLoginServer, getAuthSettings, getTelemetryInfo, getWorkflowFileName } from '../utility/DeploymentCenterUtility';
 import { Guid } from '../../../../utils/Guid';
 import DeploymentCenterContainerContinuousDeploymentSettings from './DeploymentCenterContainerContinuousDeploymentSettings';
 import { DeploymentCenterConstants } from '../DeploymentCenterConstants';
@@ -26,15 +26,18 @@ import DeploymentCenterGitHubConfiguredView from '../github-provider/DeploymentC
 import DeploymentCenterContainerSettingsReadOnlyView from './DeploymentCenterContainerSettingsReadOnlyView';
 import { SiteStateContext } from '../../../../SiteState';
 import DeploymentCenterVstsBuildProvider from '../devops-provider/DeploymentCenterVstsBuildProvider';
-import { ProgressIndicator } from '@fluentui/react';
-import { AppOs } from '../../../../models/site/site';
+import { MessageBar, MessageBarType, PrimaryButton, ProgressIndicator, Text } from '@fluentui/react';
+import { AppOs, SiteContainer } from '../../../../models/site/site';
 import DeploymentCenterData from '../DeploymentCenter.data';
 import { PortalContext } from '../../../../PortalContext';
-import { CommonConstants } from '../../../../utils/CommonConstants';
+import { CommonConstants, ExperimentationConstants } from '../../../../utils/CommonConstants';
 import { AcrDependency } from '../../../../utils/dependency/Dependency';
 import DeploymentCenterVstsBuildConfiguredView from '../devops-provider/DeploymentCenterVstsBuildConfiguredView';
+import { ArmObj } from '../../../../models/arm-obj';
+import { style } from 'typestyle';
+import { migrationBannerStyle } from '../DeploymentCenter.styles';
 
-const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
+const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = (props) => {
   const { formProps, isDataRefreshing } = props;
   const { t } = useTranslation();
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
@@ -44,6 +47,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const [showGitHubActionReadOnlyView, setShowGitHubActionReadOnlyView] = useState(false);
   const [showVstsReadOnlyView, setShowVstsReadOnlyView] = useState(false);
   const [showSourceSelectionOption, setShowSourceSelectionOption] = useState(false);
+  const [enableSidecarMigration, setEnableSidecarMigration] = useState(false);
 
   // NOTE(michinoy): The serverUrl, image, username, and password are retrieved from  one of three sources:
   // acr, dockerHub, or privateRegistry.
@@ -65,6 +69,28 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   const isDockerHubConfigured = formProps.values.registrySource === ContainerRegistrySources.docker;
   const isPrivateRegistryConfigured = formProps.values.registrySource === ContainerRegistrySources.privateRegistry;
 
+  useEffect(() => {
+    let isSubscribed = true;
+
+    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.enableSidecarMigration).then((hasFlightEnabled) => {
+      if (isSubscribed) {
+        setEnableSidecarMigration(hasFlightEnabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [portalContext]);
+
+  // We're only migrating apps that are linux, container, web apps
+  // that are not configured with either GHA or Azure Pipelines
+  const showMigrationBanner = useMemo(() => {
+    const containerRegistrySource = formProps.values.scmType === ScmType.None;
+    const isLinux = siteStateContext?.isLinuxApp;
+    return containerRegistrySource && isLinux && enableSidecarMigration;
+  }, [formProps.values.scmType, siteStateContext, enableSidecarMigration]);
+
   const [isDataLoading, setIsDataLoading] = useState<boolean>(false);
 
   const hasAcrReadAccess = React.useCallback(() => {
@@ -75,7 +101,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
       setIsDataLoading(true);
       const acrTagInstance = new AcrDependency();
       const acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
-      acrTagInstance.discoverResourceId(portalContext, acrName).then(response => {
+      acrTagInstance.discoverResourceId(portalContext, acrName).then((response) => {
         const isValidAcr = !!response?.subscriptionId;
         setIsAcrConfigured(isValidAcr);
         if (!isValidAcr) {
@@ -277,26 +303,11 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     // the container registry username and password need to be added as secrets on
     // the GitHub repo.
     if (formProps.values.scmType === ScmType.GitHubAction) {
-      formProps.setFieldValue(
-        'gitHubPublishProfileSecretGuid',
-        Guid.newGuid()
-          .toLowerCase()
-          .replace(/[-]/g, '')
-      );
+      formProps.setFieldValue('gitHubPublishProfileSecretGuid', Guid.newGuid().toLowerCase().replace(/[-]/g, ''));
 
-      formProps.setFieldValue(
-        'gitHubContainerUsernameSecretGuid',
-        Guid.newGuid()
-          .toLowerCase()
-          .replace(/[-]/g, '')
-      );
+      formProps.setFieldValue('gitHubContainerUsernameSecretGuid', Guid.newGuid().toLowerCase().replace(/[-]/g, ''));
 
-      formProps.setFieldValue(
-        'gitHubContainerPasswordSecretGuid',
-        Guid.newGuid()
-          .toLowerCase()
-          .replace(/[-]/g, '')
-      );
+      formProps.setFieldValue('gitHubContainerPasswordSecretGuid', Guid.newGuid().toLowerCase().replace(/[-]/g, ''));
     } else {
       formProps.setFieldValue('gitHubPublishProfileSecretGuid', '');
       formProps.setFieldValue('gitHubContainerUsernameSecretGuid', '');
@@ -321,9 +332,66 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
 
   useEffect(() => setIsAcrConfigured(formProps.values.registrySource === ContainerRegistrySources.acr), [formProps.values.registrySource]);
 
+  const openUpdateToSidecarPane = useCallback(async () => {
+    if (siteStateContext?.site && deploymentCenterContext?.resourceId) {
+      const values = formProps.values;
+      const site = siteStateContext.site;
+      const [prefix, image] = deploymentCenterContext?.siteConfig?.properties?.linuxFxVersion?.split('|') ?? [];
+      const { authType, userManagedIdentityClientId, userName, passwordSecret } = getAuthSettings(values);
+      const siteContainer: ArmObj<SiteContainer> = {
+        id: site.id,
+        name: site.name.replace('/', '-'),
+        type: `${CommonConstants.ResourceTypes.site}/sitecontainers`,
+        location: site.location,
+        properties: {
+          image: image,
+          isMain: true,
+          startUpCommand: values.command,
+          authType: authType,
+          userName: userName,
+          passwordSecret: passwordSecret,
+          userManagedIdentityClientId: userManagedIdentityClientId,
+        },
+      };
+
+      const result: any = await portalContext.openBlade({
+        detailBlade: 'UpdateToSidecarForm.ReactView',
+        detailBladeInputs: {
+          resourceId: deploymentCenterContext.resourceId,
+          // COMPOSE case is more complicated, so we're letting the user
+          // define the sitecontainer settings for now
+          ...(prefix === 'DOCKER' ? { siteContainer: siteContainer } : {}),
+        },
+        extension: CommonConstants.Extensions.WebsitesExtension,
+        openAsContextBlade: true,
+      });
+
+      if (result?.data?.saveSuccess) {
+        portalContext.switchMenuItem({ menuItemId: 'vstscd' });
+      }
+    }
+  }, [
+    siteStateContext?.site,
+    deploymentCenterContext?.resourceId,
+    deploymentCenterContext?.siteConfig?.properties?.linuxFxVersion,
+    formProps.values,
+    portalContext,
+  ]);
+
   const renderSetupView = () => {
     return (
       <>
+        {showMigrationBanner && (
+          <>
+            <MessageBar messageBarType={MessageBarType.warning}>
+              <div className={migrationBannerStyle}>
+                <Text>{t('deploymentCenterUpdateToSidecarContainers')}</Text>
+                <PrimaryButton text={t('startUpdate')} onClick={openUpdateToSidecarPane} className={style({ maxWidth: '130px' })} />
+              </div>
+            </MessageBar>
+          </>
+        )}
+
         {showSourceSelectionOption && <DeploymentCenterContainerSource formProps={formProps} />}
 
         {isGitHubActionSelected && (
