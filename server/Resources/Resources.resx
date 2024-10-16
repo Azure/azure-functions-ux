@@ -8022,7 +8022,4 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     <data name="startUpdate" xml:space="preserve">
         <value>Start update</value>
     </data>
-    <data name="deploymentCenterSidecarForCodePrompt" xml:space="preserve">
-        <value>Interested in adding containers to run alongside your app? Click here to give it a try.</value>
-    </data>
 </root>

@@ -268,7 +268,6 @@ export enum BroadcastMessageId {
   slotNew = 'SLOT_NEW',
   menuItemSelected = 'SELECTED_MENU_ITEM',
   swaSkuUpdated = 'SWA_SKU_UPDATED',
-  optIntoDCReactView = 'OPT_INTO_DC_REACT_VIEW',
 }
 
 export interface BroadcastMessage<T> {
