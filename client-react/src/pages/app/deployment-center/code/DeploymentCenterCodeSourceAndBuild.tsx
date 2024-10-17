@@ -45,6 +45,10 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
 
+  const isFlexFunctionAppAndHasVsoProvider = useMemo(() => {
+    return siteStateContext.isFlexConsumptionApp && formProps.values.sourceProvider === ScmType.Vso;
+  }, [siteStateContext.isFlexConsumptionApp, formProps.values.sourceProvider]);
+
   const toggleIsCalloutVisible = () => {
     setSelectedBuildChoice(selectedBuild);
     setIsCalloutVisible(!isCalloutVisible);
@@ -177,8 +181,13 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         );
       }
     } else {
-      setSelectedBuild(BuildProvider.AppServiceBuildService);
-      formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+      if (isFlexFunctionAppAndHasVsoProvider) {
+        setSelectedBuild(BuildProvider.Vsts);
+        formProps.setFieldValue('buildProvider', BuildProvider.Vsts);
+      } else {
+        setSelectedBuild(BuildProvider.AppServiceBuildService);
+        formProps.setFieldValue('buildProvider', BuildProvider.AppServiceBuildService);
+      }
     }
   };
 
@@ -380,13 +389,15 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
                 <ReactiveFormControl id="deployment-center-build-provider-text" pushContentRight={true}>
                   <div>
                     {getBuildDescription()}
-                    <Link
-                      key="deployment-center-change-build-provider"
-                      onClick={toggleIsCalloutVisible}
-                      className={additionalTextFieldControl}
-                      aria-label={t('deploymentCenterChangeBuildText')}>
-                      {`${t('deploymentCenterChangeBuildText')}`}
-                    </Link>
+                    {!isFlexFunctionAppAndHasVsoProvider && (
+                      <Link
+                        key="deployment-center-change-build-provider"
+                        onClick={toggleIsCalloutVisible}
+                        className={additionalTextFieldControl}
+                        aria-label={t('deploymentCenterChangeBuildText')}>
+                        {`${t('deploymentCenterChangeBuildText')}`}
+                      </Link>
+                    )}
                   </div>
                 </ReactiveFormControl>
                 {getCalloutContent()}

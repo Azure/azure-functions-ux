@@ -156,8 +156,8 @@ export function isDynamic(obj: ArmObj<Site>) {
   return !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.dynamic;
 }
 
-export function isFlexConsumption(obj: ArmObj<Site>) {
-  return !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.flexConsumption;
+export function isFlexConsumption(obj?: ArmObj<Site>) {
+  return !!obj && !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.flexConsumption;
 }
 
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {
