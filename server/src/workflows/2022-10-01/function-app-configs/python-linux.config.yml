@@ -68,6 +68,4 @@ jobs:
           app-name: '__sitename__'
           slot-name: '__slotname__'
           package: ${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}
-          scm-do-build-during-deployment: true
-          enable-oryx-build: true
           __publishing-profile__

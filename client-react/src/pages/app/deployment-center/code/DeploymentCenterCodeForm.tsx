@@ -395,6 +395,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       variables['isRemoveEnvEnabled'] = true;
     }
 
+    if (siteStateContext.isFlexConsumptionApp) {
+      variables['isFlexConsumption'] = true;
+    }
+
     return variables;
   };
 
@@ -682,6 +686,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
         externalRepoType: values.externalRepoType,
+        isFlexConsumption: siteStateContext.isFlexConsumptionApp,
         requestId,
         startTime,
       };
