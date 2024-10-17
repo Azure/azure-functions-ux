@@ -153,13 +153,20 @@ export class AzureEnvironment extends Environment {
         };
       },
     };
+
+    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
+      id: ScenarioIds.enableMinCipherSuite,
+      runCheck: (input?: ScenarioCheckInput) => {
+        return this.enableIfBasicOrHigher(input);
+      },
+    };
   }
 
   public isCurrentEnvironment(): boolean {
     return process.env.REACT_APP_RUNETIME_TYPE === 'Azure';
   }
 
-  private enableIfBasicOrHigher(input: ScenarioCheckInput): ScenarioResult {
+  private enableIfBasicOrHigher(input?: ScenarioCheckInput): ScenarioResult {
     const disabled =
       input &&
       input.site &&

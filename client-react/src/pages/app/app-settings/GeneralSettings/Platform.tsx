@@ -18,6 +18,7 @@ import useStacks from '../Hooks/useStacks';
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
+import { isASE } from '../../../../utils/arm-utils';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -483,6 +484,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           infoBubbleMessage={t('minTlsCipherSuiteInfoBubbleMessage')}
           dirty={values.config.properties.minTlsCipherSuite !== initialValues.config.properties.minTlsCipherSuite}
           widthLabel={'230px'}
+          isIsolated={!!site && isASE(site)}
+          disabled={disableAllControls}
         />
       )}
       {scenarioChecker.checkScenario(ScenarioIds.enableE2ETlsEncryption, { site }).status === 'enabled' && (

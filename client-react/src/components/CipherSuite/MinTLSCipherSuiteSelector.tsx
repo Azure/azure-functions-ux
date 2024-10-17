@@ -14,12 +14,15 @@ import { ReactComponent as SuccessSvg } from '../../images/Common/Success.svg';
 import ActionBar from '../ActionBar';
 import { ThemeContext } from '../../ThemeContext';
 import { useContext } from 'react';
+import { Links } from '../../utils/FwLinks';
 
 export interface MinTLSCipherSuiteSelectorProps {
   onChange?: (_e, checked: boolean) => void;
   infoBubbleMessage?: string;
   id: string;
   label: string;
+  isIsolated: boolean;
+  disabled: boolean;
 }
 
 // cipherSuites ordered from most secure to least secure
@@ -32,14 +35,16 @@ const cipherOptions = cipherSuites.map(value => {
 });
 
 const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & FieldProps> = props => {
-  const { field, form } = props;
+  const { field, form, isIsolated, disabled } = props;
   const { t } = useTranslation();
   const theme = useContext(ThemeContext);
 
-  const defaultCipherSuite = field.value ? field.value : leastSecureCipherSuite;
+  const initialCipherSuite = field.value ? field.value : leastSecureCipherSuite;
+  const cipherSuiteFieldValue =
+    initialCipherSuite !== leastSecureCipherSuite ? initialCipherSuite : `${initialCipherSuite} (${t('defaultUpperCase')})`;
 
   const [showCipherSuitePanel, setShowCipherSuitePanel] = React.useState(false);
-  const [selectedCipherSuite, setSelectedCipherSuite] = React.useState(defaultCipherSuite);
+  const [selectedCipherSuite, setSelectedCipherSuite] = React.useState(initialCipherSuite);
 
   const dismissPanel = React.useCallback(() => {
     setShowCipherSuitePanel(false);
@@ -58,9 +63,9 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
   );
 
   const openCipherSuitePanel = React.useCallback(() => {
-    setSelectedCipherSuite(field.value);
+    setSelectedCipherSuite(initialCipherSuite);
     setShowCipherSuitePanel(true);
-  }, [setSelectedCipherSuite, setShowCipherSuitePanel, field.value]);
+  }, [setSelectedCipherSuite, setShowCipherSuitePanel, initialCipherSuite]);
 
   const actionBarPrimaryButtonProps = React.useMemo(
     () => ({
@@ -109,7 +114,10 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
     <ReactiveFormControl {...props}>
       <>
         <div>
-          {defaultCipherSuite} ({<Link onClick={openCipherSuitePanel}>{t('change')}</Link>})
+          {cipherSuiteFieldValue}{' '}
+          <Link onClick={openCipherSuitePanel} disabled={disabled}>
+            {t('change')}
+          </Link>
         </div>
         <CustomPanel
           isOpen={showCipherSuitePanel}
@@ -117,7 +125,17 @@ const MinTLSCipherSuiteSelector: React.FC<MinTLSCipherSuiteSelectorProps & Field
           type={PanelType.medium}
           headerText={t('minTlsCipherSuitePanelHeader')}>
           <div className={cipherSuiteStyle.verticalFlexBox}>
-            <MessageBar messageBarType={MessageBarType.info}>{t('minTlsCipherSuiteBannerInfo')}</MessageBar>
+            <MessageBar messageBarType={MessageBarType.info}>
+              <span>{t('minTlsCipherSuiteBannerInfo')}</span>
+              {isIsolated && <span>{t('minTlsCipherSuiteASEBannerInfo')}</span>}
+              {isIsolated && (
+                <span>
+                  <Link href={Links.minTlsCipherSuiteASE} target="_blank">
+                    {t('learnMore')}
+                  </Link>
+                </span>
+              )}
+            </MessageBar>
             <div>
               <Text className={cipherSuiteStyle.dropdownHeader}>{t('minTlsCipherSuiteDropdownLabel')}</Text>
               <DropdownNoFormik

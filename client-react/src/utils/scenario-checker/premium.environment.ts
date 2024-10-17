@@ -7,13 +7,6 @@ export class PremiumAppEnvironment extends Environment {
   constructor() {
     super();
 
-    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
-      id: ScenarioIds.enableMinCipherSuite,
-      runCheck: () => ({
-        status: 'enabled',
-      }),
-    };
-
     this.scenarioChecks[ScenarioIds.enableCustomErrorPagesOverlay] = {
       id: ScenarioIds.enableCustomErrorPagesOverlay,
       runCheck: () => ({
