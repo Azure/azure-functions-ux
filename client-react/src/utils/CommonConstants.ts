@@ -125,7 +125,6 @@ export class CommonConstants {
     'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3': 'PHP 8.3',
   };
 
-
   public static readonly AppSettingNames = {
     appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
     appInsightsInstrumentationKey: 'APPINSIGHTS_INSTRUMENTATIONKEY',
@@ -303,7 +302,7 @@ export class CommonConstants {
 
   public static readonly workflowDispatchTriggerErrorMessage = "workflow does not have 'workflow_dispatch' trigger";
 
-  public static readonly production = 'production';
+  public static readonly Production = 'Production';
 
   public static readonly master = 'master';
 

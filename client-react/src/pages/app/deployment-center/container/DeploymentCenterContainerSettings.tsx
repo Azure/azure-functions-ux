@@ -122,7 +122,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         : loginServer.replace(CommonConstants.DeploymentCenterConstants.https, '');
     return {
       siteName: slotName ? `${siteName}(${slotName})` : siteName,
-      slotName: slotName || CommonConstants.production,
+      slotName: slotName || CommonConstants.Production,
       branch: formProps.values.branch || CommonConstants.master,
       publishingProfileSecretName: `AzureAppService_PublishProfile_${formProps.values.gitHubPublishProfileSecretGuid}`,
       loginServer: loginServer,
