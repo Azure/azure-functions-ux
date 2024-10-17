@@ -15,6 +15,7 @@ export interface ISiteState {
   resourceId?: string;
   site?: ArmObj<Site>;
   refresh: () => Promise<void>;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 export const SiteStateContext = React.createContext<ISiteState>({} as ISiteState);

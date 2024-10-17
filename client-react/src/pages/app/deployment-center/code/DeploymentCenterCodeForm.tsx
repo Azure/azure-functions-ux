@@ -136,13 +136,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             if (isRemoveEnvEnabled) {
               subject = siteStateContext.isFunctionApp
                 ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-                : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? 'production'}`;
+                : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
             } else {
               subject =
                 siteStateContext.isFunctionApp &&
                 !(values.runtimeStack === RuntimeStacks.node || values.runtimeStack === RuntimeStacks.python)
                   ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-                  : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? 'production'}`;
+                  : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
             }
             const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
               subject,

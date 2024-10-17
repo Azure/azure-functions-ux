@@ -26,6 +26,8 @@ import { SiteStateContext } from '../../../../SiteState';
 import { PortalContext } from '../../../../PortalContext';
 import { getRuntimeStackSetting, getTelemetryInfo } from '../utility/DeploymentCenterUtility';
 import { DeploymentCenterPublishingContext } from '../authentication/DeploymentCenterPublishingContext';
+import { BroadcastMessageId } from '../../../../models/portal-models';
+import { ExperimentationConstants } from '../../../../utils/CommonConstants';
 
 const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<DeploymentCenterCodeFormData>> = props => {
   const { formProps } = props;
@@ -273,6 +275,45 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     return !deploymentCenterContext.hasWritePermission;
   }, [deploymentCenterContext.hasWritePermission]);
 
+  const [showDCReactView, setShowDCReactView] = useState(false);
+
+  useEffect(() => {
+    let isSubscribed = true;
+
+    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.showDCReactView).then(hasFlightEnabled => {
+      if (isSubscribed) {
+        setShowDCReactView(hasFlightEnabled);
+      }
+    });
+
+    return () => {
+      isSubscribed = false;
+    };
+  }, [portalContext]);
+
+  const showOptIntoDCReactViewBanner = useMemo(() => {
+    const isLinuxCodeWebApp = siteStateContext?.isLinuxApp && !siteStateContext?.isContainerApp && !siteStateContext?.isFunctionApp;
+    const canUseGitHub = scenarioService.checkScenario(ScenarioIds.githubSource, { site: siteStateContext.site }).status !== 'disabled';
+    return showDCReactView && isLinuxCodeWebApp && canUseGitHub;
+  }, [
+    showDCReactView,
+    siteStateContext?.isLinuxApp,
+    siteStateContext?.isContainerApp,
+    siteStateContext?.isFunctionApp,
+    scenarioService,
+    siteStateContext.site,
+  ]);
+
+  const openDCReactView = () => {
+    portalContext.log(
+      getTelemetryInfo('info', 'optIntoDCReactView', 'submit', {
+        resourceId: deploymentCenterContext.resourceId,
+      })
+    );
+    siteStateContext.setIsLoading(true);
+    portalContext.broadcastMessage(BroadcastMessageId.optIntoDCReactView, deploymentCenterContext.resourceId);
+  };
+
   return (
     <>
       {showNoWritePermissionBanner ? (
@@ -285,6 +326,16 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
         </div>
       ) : (
         <>
+          {showOptIntoDCReactViewBanner && (
+            <div className={deploymentCenterInfoBannerDiv}>
+              <CustomBanner
+                id="deployment-center-opt-into-dc-react-view"
+                message={t('deploymentCenterSidecarForCodePrompt')}
+                type={MessageBarType.info}
+                onClick={openDCReactView}
+              />
+            </div>
+          )}
           {showBasicAuthError && (
             <div className={deploymentCenterInfoBannerDiv}>
               <CustomBanner

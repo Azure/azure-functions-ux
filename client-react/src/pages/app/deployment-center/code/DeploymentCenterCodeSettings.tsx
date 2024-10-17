@@ -154,7 +154,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     const variables = {
       siteName: slotName ? `${siteName}(${slotName})` : siteName,
-      slotName: slotName || CommonConstants.production,
+      slotName: slotName || CommonConstants.Production,
       runtimeVersion: getRuntimeVersion(
         siteStateContext.isLinuxApp,
         formProps.values.runtimeVersion,

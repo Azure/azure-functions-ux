@@ -302,7 +302,7 @@ export class CommonConstants {
 
   public static readonly workflowDispatchTriggerErrorMessage = "workflow does not have 'workflow_dispatch' trigger";
 
-  public static readonly production = 'production';
+  public static readonly Production = 'Production';
 
   public static readonly master = 'master';
 
@@ -414,6 +414,7 @@ export class ExperimentationConstants {
   public static FlightVariable = {
     removeDeployEnvironment: 'remove-deploy-environment',
     enableSidecarMigration: 'enable-sidecar-migration',
+    showDCReactView: 'show-dc-reactview',
   };
 }
 

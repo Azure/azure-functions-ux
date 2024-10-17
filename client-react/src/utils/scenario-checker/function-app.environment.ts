@@ -1,6 +1,6 @@
 import { ScenarioIds } from './scenario-ids';
 import { ScenarioCheckInput, Environment } from './scenario.models';
-import { isFlexConsumption, isLinuxApp, isLinuxDynamic, isWorkflowApp } from '../arm-utils';
+import { isContainerApp, isFlexConsumption, isLinuxApp, isLinuxDynamic, isWorkflowApp } from '../arm-utils';
 export class FunctionAppEnvironment extends Environment {
   public name = 'FunctionApp';
 
@@ -29,8 +29,12 @@ export class FunctionAppEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.azureStorageMount] = {
       id: ScenarioIds.azureStorageMount,
-      runCheck: () => {
-        return { status: 'disabled' };
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isContainerApp(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
       },
     };
 

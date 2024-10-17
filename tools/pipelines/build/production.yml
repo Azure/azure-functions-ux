@@ -287,7 +287,12 @@ jobs:
           SourceFolder: $(Agent.BuildDirectory)/s/deployment
           Contents: '**'
           TargetFolder: $(Build.ArtifactStagingDirectory)
-
+      - task: PowerShell@2
+        displayName: 'Update BuildVer.txt' # For other versioning options check https://aka.ms/obpipelines/versioning
+        inputs:
+          targetType: 'inline'
+          script: |
+            $(Build.BuildNumber) | Out-File "$(Build.ArtifactStagingDirectory)\BuildVer.txt" -Encoding ascii
       - task: PublishBuildArtifacts@1
         displayName: 'Publish Artifact: dest'
         inputs:
