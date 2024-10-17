@@ -15,6 +15,7 @@ export const cipherSuiteStyle = mergeStyleSets({
     display: 'flex',
     flexFlow: 'column',
     gap: '10px',
+    paddingBottom: '45px',
   },
 
   verticalFlexBoxMedGap: {
