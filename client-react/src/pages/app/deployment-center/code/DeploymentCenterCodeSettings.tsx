@@ -172,6 +172,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
       variables['isRemoveEnvEnabled'] = true;
     }
 
+    if (siteStateContext.isFlexConsumptionApp) {
+      variables['isFlexConsumption'] = true;
+    }
+
     return variables;
   };
 

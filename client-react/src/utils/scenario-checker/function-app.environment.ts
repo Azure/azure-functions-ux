@@ -81,7 +81,7 @@ export class FunctionAppEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.bitbucketSource] = {
       id: ScenarioIds.bitbucketSource,
       runCheck: (input: ScenarioCheckInput) => {
-        if (input && input.site && isLinuxDynamic(input.site)) {
+        if (input && input.site && (isLinuxDynamic(input.site) || isFlexConsumption(input.site))) {
           return { status: 'disabled' };
         } else {
           return { status: 'enabled' };
@@ -92,7 +92,7 @@ export class FunctionAppEnvironment extends Environment {
     this.scenarioChecks[ScenarioIds.localGitSource] = {
       id: ScenarioIds.localGitSource,
       runCheck: (input: ScenarioCheckInput) => {
-        if (input && input.site && isLinuxDynamic(input.site)) {
+        if (input && input.site && (isLinuxDynamic(input.site) || isFlexConsumption(input.site))) {
           return { status: 'disabled' };
         } else {
           return { status: 'enabled' };
@@ -113,8 +113,12 @@ export class FunctionAppEnvironment extends Environment {
 
     this.scenarioChecks[ScenarioIds.externalSource] = {
       id: ScenarioIds.externalSource,
-      runCheck: () => {
-        return { status: 'enabled' };
+      runCheck: (input: ScenarioCheckInput) => {
+        if (input && input.site && isFlexConsumption(input.site)) {
+          return { status: 'disabled' };
+        } else {
+          return { status: 'enabled' };
+        }
       },
     };
 

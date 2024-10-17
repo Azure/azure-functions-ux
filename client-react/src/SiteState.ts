@@ -11,6 +11,7 @@ export interface ISiteState {
   isFunctionApp: boolean;
   isWordPressApp: boolean;
   isKubeApp: boolean;
+  isFlexConsumptionApp: boolean;
   resourceId?: string;
   site?: ArmObj<Site>;
   refresh: () => Promise<void>;
