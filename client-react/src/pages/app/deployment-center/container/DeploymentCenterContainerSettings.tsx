@@ -37,7 +37,7 @@ import { ArmObj } from '../../../../models/arm-obj';
 import { style } from 'typestyle';
 import { migrationBannerStyle } from '../DeploymentCenter.styles';
 
-const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = (props) => {
+const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<DeploymentCenterContainerFormData>> = props => {
   const { formProps, isDataRefreshing } = props;
   const { t } = useTranslation();
   const [githubActionExistingWorkflowContents, setGithubActionExistingWorkflowContents] = useState<string>('');
@@ -72,7 +72,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
   useEffect(() => {
     let isSubscribed = true;
 
-    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.enableSidecarMigration).then((hasFlightEnabled) => {
+    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.enableSidecarMigration).then(hasFlightEnabled => {
       if (isSubscribed) {
         setEnableSidecarMigration(hasFlightEnabled);
       }
@@ -101,7 +101,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
       setIsDataLoading(true);
       const acrTagInstance = new AcrDependency();
       const acrName = getAcrNameFromLoginServer(formProps.values.acrLoginServer);
-      acrTagInstance.discoverResourceId(portalContext, acrName).then((response) => {
+      acrTagInstance.discoverResourceId(portalContext, acrName).then(response => {
         const isValidAcr = !!response?.subscriptionId;
         setIsAcrConfigured(isValidAcr);
         if (!isValidAcr) {
@@ -148,7 +148,7 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
         : loginServer.replace(CommonConstants.DeploymentCenterConstants.https, '');
     return {
       siteName: slotName ? `${siteName}(${slotName})` : siteName,
-      slotName: slotName || CommonConstants.production,
+      slotName: slotName || CommonConstants.Production,
       branch: formProps.values.branch || CommonConstants.master,
       publishingProfileSecretName: `AzureAppService_PublishProfile_${formProps.values.gitHubPublishProfileSecretGuid}`,
       loginServer: loginServer,
@@ -303,11 +303,26 @@ const DeploymentCenterContainerSettings: React.FC<DeploymentCenterFieldProps<Dep
     // the container registry username and password need to be added as secrets on
     // the GitHub repo.
     if (formProps.values.scmType === ScmType.GitHubAction) {
-      formProps.setFieldValue('gitHubPublishProfileSecretGuid', Guid.newGuid().toLowerCase().replace(/[-]/g, ''));
+      formProps.setFieldValue(
+        'gitHubPublishProfileSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
 
-      formProps.setFieldValue('gitHubContainerUsernameSecretGuid', Guid.newGuid().toLowerCase().replace(/[-]/g, ''));
+      formProps.setFieldValue(
+        'gitHubContainerUsernameSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
 
-      formProps.setFieldValue('gitHubContainerPasswordSecretGuid', Guid.newGuid().toLowerCase().replace(/[-]/g, ''));
+      formProps.setFieldValue(
+        'gitHubContainerPasswordSecretGuid',
+        Guid.newGuid()
+          .toLowerCase()
+          .replace(/[-]/g, '')
+      );
     } else {
       formProps.setFieldValue('gitHubPublishProfileSecretGuid', '');
       formProps.setFieldValue('gitHubContainerUsernameSecretGuid', '');
