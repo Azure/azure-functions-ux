@@ -302,7 +302,7 @@ export class CommonConstants {
 
   public static readonly workflowDispatchTriggerErrorMessage = "workflow does not have 'workflow_dispatch' trigger";
 
-  public static readonly production = 'production';
+  public static readonly Production = 'Production';
 
   public static readonly master = 'master';
 
