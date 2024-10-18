@@ -164,6 +164,13 @@ export enum AuthType {
   PublishProfile = 'publishprofile',
 }
 
+export enum RepoProvider {
+  TfsGit = 'tfsgit',
+  Git = 'git',
+  GitHub = 'github',
+  TfsVersionControl = 'tfsversioncontrol',
+}
+
 export interface AzureDevOpsUrl {
   Tfs: string;
   Sps: string;
