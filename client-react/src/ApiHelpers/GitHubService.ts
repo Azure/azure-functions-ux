@@ -228,7 +228,7 @@ export default class GitHubService {
     apiVersion = CommonConstants.ApiVersions.workflowApiVersion20201201
   ) => {
     //(NOTE) stpelleg: This will eventually move to calling an ARM api instead of the functions server
-    const url = `https://localhost:44300/workflows/generate?api-version=${apiVersion}`;
+    const url = `${Url.serviceHost}/workflows/generate?api-version=${apiVersion}`;
     const data = {
       appType: appType,
       authType: authType,
