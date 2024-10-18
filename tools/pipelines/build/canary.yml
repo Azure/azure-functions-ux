@@ -328,4 +328,4 @@ jobs:
           feedPublishExternal: azure-functions-ux
           packagePublishExternal: canary
           versionOption: minor
-          packagePublishDescription: 'Canary build; Branch - $(Build.SourceBranchName)'
+          packagePublishDescription: 'Canary build; Branch - $(Build.SourceBranchName); Build - $(Build.BuildNumber)'
