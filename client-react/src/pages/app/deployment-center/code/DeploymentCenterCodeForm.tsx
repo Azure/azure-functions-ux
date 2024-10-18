@@ -59,7 +59,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   const { t } = useTranslation();
   const [isRedeployConfirmDialogVisible, setIsRedeployConfirmDialogVisible] = useState(false);
   const [isDiscardConfirmDialogVisible, setIsDiscardConfirmDialogVisible] = useState(false);
-  const [isRemoveEnvEnabled, setIsRemoveEnvEnabled] = useState(false);
+  const [isRemoveEnvWebAppEnabled, setIsRemoveEnvWebAppEnabled] = useState(false);
 
   const siteStateContext = useContext(SiteStateContext);
   const portalContext = useContext(PortalContext);
@@ -70,9 +70,9 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
   useEffect(() => {
     let isSubscribed = true;
 
-    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.removeDeployEnvironment).then(hasFlightEnabled => {
+    portalContext?.getBooleanFlight(ExperimentationConstants.FlightVariable.removeDeployEnvironmentWebApp).then(hasFlightEnabled => {
       if (isSubscribed) {
-        setIsRemoveEnvEnabled(hasFlightEnabled);
+        setIsRemoveEnvWebAppEnabled(hasFlightEnabled);
       }
     });
 
@@ -130,20 +130,16 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
           }
 
           if (listFederatedCredentialsResponse.metadata.success) {
-            // NOTE(yoonaoh): For Function Apps that are not node or python, the workflow file does not define
-            // an environment in the build and deploy step, so we need to use the branch as the subject.
-            // This is a workaround until we update the workflow files to define environments for all the stacks.
+            // NOTE(yoonaoh): Web Apps define an environment in the workflow file, so we need to
+            // continue using the environment reference as the subject. Eventually, we will
+            // remove the environment entirely, so that we only need to use the branch reference.
             let subject = '';
-            if (isRemoveEnvEnabled) {
+            if (isRemoveEnvWebAppEnabled) {
+              subject = `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`;
+            } else {
               subject = siteStateContext.isFunctionApp
                 ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
                 : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
-            } else {
-              subject =
-                siteStateContext.isFunctionApp &&
-                !(values.runtimeStack === RuntimeStacks.node || values.runtimeStack === RuntimeStacks.python)
-                  ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-                  : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
             }
             const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
               subject,
@@ -393,7 +389,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       variables['tenantId'] = values.authIdentity.properties.tenantId;
     }
 
-    if (isRemoveEnvEnabled) {
+    if (isRemoveEnvWebAppEnabled) {
       variables['isRemoveEnvEnabled'] = true;
     }
 

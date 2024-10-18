@@ -43,7 +43,6 @@ jobs:
   deploy:
     runs-on: windows-latest
     needs: build
-    __environment__
     __permissions__
     steps:
       - name: Download artifact from build job
