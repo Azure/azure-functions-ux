@@ -81,9 +81,11 @@ const DeploymentCenterCodeBuildRuntimeAndVersion: React.FC<DeploymentCenterField
       siteStateContext.isFunctionApp,
       siteStateContext.isKubeApp,
       siteStateContext.isWordPressApp,
+      siteStateContext.isFlexConsumptionApp,
       deploymentCenterContext.siteConfig,
       deploymentCenterContext.configMetadata,
-      deploymentCenterContext.applicationSettings
+      deploymentCenterContext.applicationSettings,
+      siteStateContext.site
     );
 
     //Note (stpelleg): Java is different
