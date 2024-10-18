@@ -40,19 +40,21 @@ import { Guid } from '../../../../utils/Guid';
 import { truncate } from 'lodash-es';
 import { isSameLocation } from '../../../../utils/location';
 import { toASCII } from 'punycode';
-import { SiteContainerAuthType } from '../../../../models/site/site';
+import { Site, SiteContainerAuthType } from '../../../../models/site/site';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
   isFunctionApp: boolean,
   isKubeApp: boolean,
   isWordPressApp: boolean,
+  isFlexConsumptionApp: boolean,
   siteConfig?: ArmObj<SiteConfig>,
   configMetadata?: ArmObj<KeyValue<string>>,
-  applicationSettings?: ArmObj<KeyValue<string>>
+  applicationSettings?: ArmObj<KeyValue<string>>,
+  site?: ArmObj<Site>
 ): RuntimeStackSetting => {
   if ((isLinuxApp || isKubeApp) && !!siteConfig) {
-    return getRuntimeStackSettingForLinux(isFunctionApp, isWordPressApp, siteConfig);
+    return getRuntimeStackSettingForLinux(isFunctionApp, isWordPressApp, isFlexConsumptionApp, siteConfig, site);
   } else if (!isLinuxApp && !isKubeApp && !!siteConfig && !!configMetadata && !!applicationSettings) {
     return getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
   } else {
@@ -162,7 +164,16 @@ const getRuntimeStackSettingForWindows = (
   return stackData;
 };
 
-const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFunctionApp: boolean, isWordPressApp: boolean) => {
+const getRuntimeStackVersionForLinux = (
+  siteConfig: ArmObj<SiteConfig>,
+  isFunctionApp: boolean,
+  isWordPressApp: boolean,
+  isFlexConsumptionApp: boolean,
+  site?: ArmObj<Site>
+) => {
+  if (isFlexConsumptionApp) {
+    return site?.properties?.functionAppConfig?.runtime?.version ?? '';
+  }
   // NOTE(stpelleg): Java is special, so need to handle it carefully.
   if (!siteConfig.properties.linuxFxVersion) {
     return '';
@@ -213,26 +224,32 @@ const getWebAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>, isWordPre
   }
 };
 
-const getFunctionAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
-  const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
-  const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
-  return runtimeStack === 'dotnetcore' || runtimeStack === 'dotnet' || runtimeStack === 'dotnet-isolated'
-    ? RuntimeStacks.dotnet
-    : runtimeStack;
+const getFunctionAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>, isFlexConsumptionApp: boolean, site?: ArmObj<Site>) => {
+  if (isFlexConsumptionApp) {
+    return site?.properties?.functionAppConfig?.runtime?.name ?? '';
+  } else {
+    const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
+    const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
+    return runtimeStack === 'dotnetcore' || runtimeStack === 'dotnet' || runtimeStack === 'dotnet-isolated'
+      ? RuntimeStacks.dotnet
+      : runtimeStack;
+  }
 };
 
 const getRuntimeStackSettingForLinux = (
   isFunctionApp: boolean,
   isWordPressApp: boolean,
-  siteConfig: ArmObj<SiteConfig>
+  isFlexConsumptionApp: boolean,
+  siteConfig: ArmObj<SiteConfig>,
+  site?: ArmObj<Site>
 ): RuntimeStackSetting => {
   const stackData = { runtimeStack: '', runtimeVersion: '' };
 
   stackData.runtimeStack = isFunctionApp
-    ? getFunctionAppRuntimeStackForLinux(siteConfig)
+    ? getFunctionAppRuntimeStackForLinux(siteConfig, isFlexConsumptionApp, site)
     : getWebAppRuntimeStackForLinux(siteConfig, isWordPressApp);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp, isWordPressApp) ?? '';
+  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp, isWordPressApp, isFlexConsumptionApp, site) ?? '';
 
   return stackData;
 };

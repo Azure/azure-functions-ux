@@ -22,9 +22,11 @@ const DeploymentCenterCodeBuildConfiguredView: React.FC = () => {
       siteStateContext.isFunctionApp,
       siteStateContext.isKubeApp,
       siteStateContext.isWordPressApp,
+      siteStateContext.isFlexConsumptionApp,
       deploymentCenterContext.siteConfig,
       deploymentCenterContext.configMetadata,
-      deploymentCenterContext.applicationSettings
+      deploymentCenterContext.applicationSettings,
+      siteStateContext.site
     );
 
     setDefaultStack(getRuntimeStackDisplayName(defaultStackAndVersionKeys.runtimeStack));
