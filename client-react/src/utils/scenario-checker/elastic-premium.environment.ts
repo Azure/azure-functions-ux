@@ -18,13 +18,6 @@ export class ElasticPremiumAppEnvironment extends Environment {
         return { status: 'enabled' };
       },
     };
-
-    this.scenarioChecks[ScenarioIds.enableMinCipherSuite] = {
-      id: ScenarioIds.enableMinCipherSuite,
-      runCheck: () => ({
-        status: 'enabled',
-      }),
-    };
   }
 
   public isCurrentEnvironment(input?: ScenarioCheckInput): boolean {
