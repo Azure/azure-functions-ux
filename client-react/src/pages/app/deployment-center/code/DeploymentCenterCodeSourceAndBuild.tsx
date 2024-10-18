@@ -196,9 +196,11 @@ const DeploymentCenterCodeSourceAndBuild: React.FC<DeploymentCenterFieldProps<De
     siteStateContext.isFunctionApp,
     siteStateContext.isKubeApp,
     siteStateContext.isWordPressApp,
+    siteStateContext.isFlexConsumptionApp,
     deploymentCenterContext.siteConfig,
     deploymentCenterContext.configMetadata,
-    deploymentCenterContext.applicationSettings
+    deploymentCenterContext.applicationSettings,
+    siteStateContext.site
   );
   const isSourceSelected = formProps.values.sourceProvider !== ScmType.None;
   const calloutOkButtonDisabled = selectedBuildChoice === selectedBuild;
