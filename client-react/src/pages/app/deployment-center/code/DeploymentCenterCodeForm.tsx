@@ -53,6 +53,7 @@ import {
 } from '../utility/GitHubActionUtility';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
 import { ArmResourceDescriptor, ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import Url from '../../../../utils/url';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -363,6 +364,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20221001,
         slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
         variables: variables,
+        useCanaryFusionServer: !!Url.getFeatureValue(CommonConstants.FeatureFlags.useCanaryFusionServer),
       },
     };
 
@@ -553,7 +555,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       values.buildProvider === BuildProvider.GitHubAction &&
       (values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add)
     ) {
-      if (values.runtimeStack === RuntimeStacks.python) {
+      if (values.runtimeStack === RuntimeStacks.python && !siteStateContext.isFlexConsumptionApp) {
         const updateAppSettingsResponse = await updateGitHubActionAppSettingsForPython(
           deploymentCenterData,
           deploymentCenterContext.resourceId,

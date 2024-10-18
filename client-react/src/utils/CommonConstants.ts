@@ -84,6 +84,7 @@ export class CommonConstants {
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
     showJBossClustering: 'showJBossClustering',
+    useCanaryFusionServer: 'useCanaryFusionServer',
   };
 
   public static readonly AppDensityLimit = 8;
