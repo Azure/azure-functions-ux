@@ -132,18 +132,9 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             // NOTE(yoonaoh): For Function Apps that are not node or python, the workflow file does not define
             // an environment in the build and deploy step, so we need to use the branch as the subject.
             // This is a workaround until we update the workflow files to define environments for all the stacks.
-            let subject = '';
-            if (isRemoveEnvEnabled) {
-              subject = siteStateContext.isFunctionApp
-                ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-                : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
-            } else {
-              subject =
-                siteStateContext.isFunctionApp &&
-                !(values.runtimeStack === RuntimeStacks.node || values.runtimeStack === RuntimeStacks.python)
-                  ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-                  : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
-            }
+            const subject = siteStateContext.isFunctionApp
+              ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
+              : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
             const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
               subject,
               listFederatedCredentialsResponse.data.value ?? []
