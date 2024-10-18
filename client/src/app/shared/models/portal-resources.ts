@@ -511,6 +511,7 @@ export class PortalResources {
   public static minTlsCipherSuiteInfoBubbleMessage = 'minTlsCipherSuiteInfoBubbleMessage';
   public static minTlsCipherSuiteSelectionInfo = 'minTlsCipherSuiteSelectionInfo';
   public static minTlsCipherSuiteBannerInfo = 'minTlsCipherSuiteBannerInfo';
+  public static minTlsCipherSuiteASEBannerInfo = 'minTlsCipherSuiteASEBannerInfo';
   public static minTlsCipherSuiteDropdownLabel = 'minTlsCipherSuiteDropdownLabel';
   public static minTlsCipherSuitePanelHeader = 'minTlsCipherSuitePanelHeader';
   public static minTlsCipherSuiteMostSecure = 'minTlsCipherSuiteMostSecure';
@@ -2622,4 +2623,5 @@ export class PortalResources {
   public static deploymentCenterUpdateToSidecarContainers = 'deploymentCenterUpdateToSidecarContainers';
   public static startUpdate = 'startUpdate';
   public static deploymentCenterSidecarForCodePrompt = 'deploymentCenterSidecarForCodePrompt';
+  public static defaultUpperCase = 'defaultUpperCase';
 }

@@ -93,6 +93,10 @@ export function isIsolatedMV2(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.isolatedMV2;
 }
 
+export function isASE(obj: ArmObj<Site>): boolean {
+  return isIsolated(obj) || isIsolatedV2(obj) || isIsolatedMV2(obj);
+}
+
 export function isPremiumV3(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premiumV3;
@@ -113,9 +117,7 @@ export function isPremium(obj: ArmObj<Site>): boolean {
 }
 
 export function isPremiumOrHigher(obj: ArmObj<Site>): boolean {
-  return (
-    isWorkflowStandard(obj) || isIsolated(obj) || isIsolatedV2(obj) || isElasticPremium(obj) || isElasticIsolated(obj) || isPremium(obj)
-  );
+  return isWorkflowStandard(obj) || isASE(obj) || isElasticPremium(obj) || isElasticIsolated(obj) || isPremium(obj);
 }
 
 export function isStandard(obj: ArmObj<Site>): boolean {

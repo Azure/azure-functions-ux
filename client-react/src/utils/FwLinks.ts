@@ -61,6 +61,7 @@ export const Links = {
   endToEndEncryptionLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2252411',
   disableBasicAuthLearnMore: 'https://go.microsoft.com/fwlink/?linkid=2260316',
   functionsRuntimeAdminIsolationEnabled: 'https://go.microsoft.com/fwlink/?linkid=2281478',
+  minTlsCipherSuiteASE: 'https://go.microsoft.com/fwlink/?linkid=2292349',
 };
 
 export const DeploymentCenterLinks = {

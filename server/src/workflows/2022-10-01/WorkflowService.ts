@@ -49,9 +49,8 @@ export class WorkflowService20221001 {
       }
     } else {
       if (variables?.isFlexConsumption) {
-        const flexConsumptionPublishProfile = `
-        publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
-        sku: 'flexconsumption'
+        const flexConsumptionPublishProfile = `publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          sku: 'flexconsumption'
         `;
         workflowFile = workflowFile.replace(new RegExp(publishProfilePlaceholder, 'gi'), flexConsumptionPublishProfile);
       } else {
