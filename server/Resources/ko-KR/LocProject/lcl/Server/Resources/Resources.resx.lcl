@@ -7257,6 +7257,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterUpdateToSidecarContainers" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Update your container to the new sidecar pattern for extended site functionality.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[확장된 사이트 기능을 위해 컨테이너를 새 사이드카 패턴으로 업데이트합니다.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterUpdateTokenSuccessMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Succesfully updated your GitHub token.]]></Val>
@@ -15551,12 +15560,12 @@
       </Item>
       <Item ItemId=";minTlsCipherSuiteLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Minimum Inbound TLS Cipher Suite (Preview)]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[Minimum Inbound TLS Cipher Suite]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[최소 인바운드 TLS 암호 그룹(미리 보기)]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Minimum TLS Cipher Suite (Preview)]]></Val>
+            <Val><![CDATA[Minimum Inbound TLS Cipher Suite (Preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -15581,10 +15590,13 @@
       </Item>
       <Item ItemId=";minTlsCipherSuitePanelHeader" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Change minimum TLS Cipher Suite (preview)]]></Val>
-          <Tgt Cat="Text" Stat="Loc" Orig="New">
+          <Val><![CDATA[Change minimum TLS Cipher Suite]]></Val>
+          <Tgt Cat="Text" Stat="Update" Orig="New">
             <Val><![CDATA[최소 TLS 암호 그룹 변경(미리 보기)]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Change minimum TLS Cipher Suite (preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20684,6 +20696,15 @@
           <Val><![CDATA[Start Swap]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[교체 시작]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";startUpdate" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Start update]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[업데이트 시작]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

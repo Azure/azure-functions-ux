@@ -7260,6 +7260,15 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterUpdateToSidecarContainers" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Update your container to the new sidecar pattern for extended site functionality.]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Werk uw container bij naar het nieuwe sidecar-patroon voor uitgebreide sitefunctionaliteit.]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterUpdateTokenSuccessMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Succesfully updated your GitHub token.]]></Val>
@@ -15572,12 +15581,12 @@
       </Item>
       <Item ItemId=";minTlsCipherSuiteLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Minimum Inbound TLS Cipher Suite (Preview)]]></Val>
+          <Val><![CDATA[Minimum Inbound TLS Cipher Suite]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Minimale binnenkomende TLS-coderingssuite (preview)]]></Val>
+            <Val><![CDATA[Minimale binnenkomende TLS-suite met coderingsmethoden]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Minimum TLS Cipher Suite (Preview)]]></Val>
+            <Val><![CDATA[Minimum Inbound TLS Cipher Suite (Preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -15602,10 +15611,13 @@
       </Item>
       <Item ItemId=";minTlsCipherSuitePanelHeader" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Change minimum TLS Cipher Suite (preview)]]></Val>
+          <Val><![CDATA[Change minimum TLS Cipher Suite]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Minimale TLS-coderingssuite wijzigen (preview)]]></Val>
+            <Val><![CDATA[Minimale TLS-suite met coderingsmethoden wijzigen]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Change minimum TLS Cipher Suite (preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20705,6 +20717,15 @@
           <Val><![CDATA[Start Swap]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Wisselen starten]]></Val>
+          </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";startUpdate" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Start update]]></Val>
+          <Tgt Cat="Text" Stat="Loc" Orig="New">
+            <Val><![CDATA[Update starten]]></Val>
           </Tgt>
         </Str>
         <Disp Icon="Str" />

@@ -7260,6 +7260,12 @@
         </Str>
         <Disp Icon="Str" />
       </Item>
+      <Item ItemId=";deploymentCenterUpdateToSidecarContainers" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Update your container to the new sidecar pattern for extended site functionality.]]></Val>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
       <Item ItemId=";deploymentCenterUpdateTokenSuccessMessage" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
           <Val><![CDATA[Succesfully updated your GitHub token.]]></Val>
@@ -15560,12 +15566,12 @@
       </Item>
       <Item ItemId=";minTlsCipherSuiteLabel" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Minimum Inbound TLS Cipher Suite (Preview)]]></Val>
+          <Val><![CDATA[Minimum Inbound TLS Cipher Suite]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Conjunto de cifrado TLS de entrada mínimo (versión preliminar)]]></Val>
+            <Val><![CDATA[Conjunto de cifrado TLS de entrada mínimo]]></Val>
           </Tgt>
           <Prev Cat="Text">
-            <Val><![CDATA[Minimum TLS Cipher Suite (Preview)]]></Val>
+            <Val><![CDATA[Minimum Inbound TLS Cipher Suite (Preview)]]></Val>
           </Prev>
         </Str>
         <Disp Icon="Str" />
@@ -15590,10 +15596,13 @@
       </Item>
       <Item ItemId=";minTlsCipherSuitePanelHeader" ItemType="0;.resx" PsrId="211" Leaf="true">
         <Str Cat="Text">
-          <Val><![CDATA[Change minimum TLS Cipher Suite (preview)]]></Val>
+          <Val><![CDATA[Change minimum TLS Cipher Suite]]></Val>
           <Tgt Cat="Text" Stat="Loc" Orig="New">
-            <Val><![CDATA[Cambiar el conjunto de cifrado TLS mínimo (versión preliminar)]]></Val>
+            <Val><![CDATA[Cambiar el conjunto de cifrado TLS mínimo]]></Val>
           </Tgt>
+          <Prev Cat="Text">
+            <Val><![CDATA[Change minimum TLS Cipher Suite (preview)]]></Val>
+          </Prev>
         </Str>
         <Disp Icon="Str" />
       </Item>
@@ -20691,6 +20700,12 @@
           <Tgt Cat="Text" Stat="Loc" Orig="New">
             <Val><![CDATA[Iniciar intercambio]]></Val>
           </Tgt>
+        </Str>
+        <Disp Icon="Str" />
+      </Item>
+      <Item ItemId=";startUpdate" ItemType="0;.resx" PsrId="211" Leaf="true">
+        <Str Cat="Text">
+          <Val><![CDATA[Start update]]></Val>
         </Str>
         <Disp Icon="Str" />
       </Item>
