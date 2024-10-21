@@ -12,6 +12,9 @@ import {
   GitHubActionsCodeDeploymentsRow,
   CodeDeploymentsRow,
   DeploymentProperties,
+  ACRCredentialType,
+  ManagedIdentityType,
+  ContainerDockerAccessTypes,
 } from '../DeploymentCenter.types';
 import { ArmArray, ArmObj } from '../../../../models/arm-obj';
 import { ScmType, SiteConfig } from '../../../../models/site/config';
@@ -37,18 +40,21 @@ import { Guid } from '../../../../utils/Guid';
 import { truncate } from 'lodash-es';
 import { isSameLocation } from '../../../../utils/location';
 import { toASCII } from 'punycode';
+import { Site, SiteContainerAuthType } from '../../../../models/site/site';
 
 export const getRuntimeStackSetting = (
   isLinuxApp: boolean,
   isFunctionApp: boolean,
   isKubeApp: boolean,
   isWordPressApp: boolean,
+  isFlexConsumptionApp: boolean,
   siteConfig?: ArmObj<SiteConfig>,
   configMetadata?: ArmObj<KeyValue<string>>,
-  applicationSettings?: ArmObj<KeyValue<string>>
+  applicationSettings?: ArmObj<KeyValue<string>>,
+  site?: ArmObj<Site>
 ): RuntimeStackSetting => {
   if ((isLinuxApp || isKubeApp) && !!siteConfig) {
-    return getRuntimeStackSettingForLinux(isFunctionApp, isWordPressApp, siteConfig);
+    return getRuntimeStackSettingForLinux(isFunctionApp, isWordPressApp, isFlexConsumptionApp, siteConfig, site);
   } else if (!isLinuxApp && !isKubeApp && !!siteConfig && !!configMetadata && !!applicationSettings) {
     return getRuntimeStackSettingForWindows(isFunctionApp, siteConfig, configMetadata, applicationSettings);
   } else {
@@ -158,7 +164,16 @@ const getRuntimeStackSettingForWindows = (
   return stackData;
 };
 
-const getRuntimeStackVersionForLinux = (siteConfig: ArmObj<SiteConfig>, isFunctionApp: boolean, isWordPressApp: boolean) => {
+const getRuntimeStackVersionForLinux = (
+  siteConfig: ArmObj<SiteConfig>,
+  isFunctionApp: boolean,
+  isWordPressApp: boolean,
+  isFlexConsumptionApp: boolean,
+  site?: ArmObj<Site>
+) => {
+  if (isFlexConsumptionApp) {
+    return site?.properties?.functionAppConfig?.runtime?.version ?? '';
+  }
   // NOTE(stpelleg): Java is special, so need to handle it carefully.
   if (!siteConfig.properties.linuxFxVersion) {
     return '';
@@ -209,26 +224,32 @@ const getWebAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>, isWordPre
   }
 };
 
-const getFunctionAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>) => {
-  const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
-  const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
-  return runtimeStack === 'dotnetcore' || runtimeStack === 'dotnet' || runtimeStack === 'dotnet-isolated'
-    ? RuntimeStacks.dotnet
-    : runtimeStack;
+const getFunctionAppRuntimeStackForLinux = (siteConfig: ArmObj<SiteConfig>, isFlexConsumptionApp: boolean, site?: ArmObj<Site>) => {
+  if (isFlexConsumptionApp) {
+    return site?.properties?.functionAppConfig?.runtime?.name ?? '';
+  } else {
+    const linuxFxVersionParts = siteConfig.properties.linuxFxVersion ? siteConfig.properties.linuxFxVersion.split('|') : [];
+    const runtimeStack = linuxFxVersionParts.length > 0 ? linuxFxVersionParts[0].toLocaleLowerCase() : '';
+    return runtimeStack === 'dotnetcore' || runtimeStack === 'dotnet' || runtimeStack === 'dotnet-isolated'
+      ? RuntimeStacks.dotnet
+      : runtimeStack;
+  }
 };
 
 const getRuntimeStackSettingForLinux = (
   isFunctionApp: boolean,
   isWordPressApp: boolean,
-  siteConfig: ArmObj<SiteConfig>
+  isFlexConsumptionApp: boolean,
+  siteConfig: ArmObj<SiteConfig>,
+  site?: ArmObj<Site>
 ): RuntimeStackSetting => {
   const stackData = { runtimeStack: '', runtimeVersion: '' };
 
   stackData.runtimeStack = isFunctionApp
-    ? getFunctionAppRuntimeStackForLinux(siteConfig)
+    ? getFunctionAppRuntimeStackForLinux(siteConfig, isFlexConsumptionApp, site)
     : getWebAppRuntimeStackForLinux(siteConfig, isWordPressApp);
 
-  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp, isWordPressApp) ?? '';
+  stackData.runtimeVersion = getRuntimeStackVersionForLinux(siteConfig, isFunctionApp, isWordPressApp, isFlexConsumptionApp, site) ?? '';
 
   return stackData;
 };
@@ -672,4 +693,56 @@ export const isFederatedCredentialsSupported = (identityLocation: string): boole
 export const sanitizeLogMessage = (message: string) => {
   const credPattern = /https:(.+):(.+)@/;
   return message.replace(credPattern, 'https://pii-removed:secret-removed@');
+};
+
+export const getAuthSettings = (values: DeploymentCenterContainerFormData) => {
+  let authType: SiteContainerAuthType = SiteContainerAuthType.Anonymous;
+  let userManagedIdentityClientId: string = '';
+  let userName: string = '';
+  let passwordSecret: string = '';
+
+  if (values.registrySource === ContainerRegistrySources.acr) {
+    if (values.acrCredentialType === ACRCredentialType.adminCredentials) {
+      authType = SiteContainerAuthType.UserCredentials;
+      userManagedIdentityClientId = '';
+      userName = values.acrUsername ?? '';
+      passwordSecret = values.acrPassword ?? '';
+    } else {
+      if (values.acrManagedIdentityClientId === ManagedIdentityType.systemAssigned) {
+        authType = SiteContainerAuthType.SystemIdentity;
+        userManagedIdentityClientId = SiteContainerAuthType.SystemIdentity;
+        userName = '';
+        passwordSecret = '';
+      } else {
+        authType = SiteContainerAuthType.UserAssigned;
+        userManagedIdentityClientId = values.acrManagedIdentityClientId ?? '';
+        userName = '';
+        passwordSecret = '';
+      }
+    }
+  } else if (values.registrySource === ContainerRegistrySources.docker) {
+    if (values.dockerHubAccessType === ContainerDockerAccessTypes.private) {
+      authType = SiteContainerAuthType.UserCredentials;
+      userManagedIdentityClientId = '';
+      userName = values.dockerHubUsername;
+      passwordSecret = values.dockerHubPassword;
+    } else {
+      authType = SiteContainerAuthType.Anonymous;
+      userManagedIdentityClientId = '';
+      userName = '';
+      passwordSecret = '';
+    }
+  } else if (values.registrySource === ContainerRegistrySources.privateRegistry) {
+    authType = SiteContainerAuthType.UserCredentials;
+    userManagedIdentityClientId = '';
+    userName = values.privateRegistryUsername;
+    passwordSecret = values.privateRegistryPassword;
+  }
+
+  return {
+    authType,
+    userManagedIdentityClientId,
+    userName,
+    passwordSecret,
+  };
 };

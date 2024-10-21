@@ -27,7 +27,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
             stackSettings: {
               windowsRuntimeSettings: {
                 runtimeVersion: 'v9.0',
-                isHidden: true,
                 isPreview: true,
                 isDefault: false,
                 remoteDebuggingSupported: false,
@@ -357,7 +356,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet',
-                  FUNCTIONS_INPROC_NET8_ENABLED: '1'
+                  FUNCTIONS_INPROC_NET8_ENABLED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,
@@ -386,7 +385,7 @@ const getDotnetStack: (useIsoDateFormat: boolean) => FunctionAppStack = (useIsoD
                 },
                 appSettingsDictionary: {
                   FUNCTIONS_WORKER_RUNTIME: 'dotnet',
-                  FUNCTIONS_INPROC_NET8_ENABLED: '1'
+                  FUNCTIONS_INPROC_NET8_ENABLED: '1',
                 },
                 siteConfigPropertiesDictionary: {
                   use32BitWorkerProcess: true,

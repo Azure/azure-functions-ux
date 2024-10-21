@@ -198,3 +198,20 @@ export interface PublishingCredentialPoliciesContext {
   ftp: PublishingCredentialPolicies;
   scm: PublishingCredentialPolicies;
 }
+
+export interface SiteContainer {
+  image: string;
+  isMain: boolean;
+  startUpCommand?: string;
+  authType?: SiteContainerAuthType;
+  userName?: string | null;
+  passwordSecret?: string | null;
+  userManagedIdentityClientId?: string | null;
+}
+
+export enum SiteContainerAuthType {
+  Anonymous = 'Anonymous',
+  UserCredentials = 'UserCredentials',
+  SystemIdentity = 'SystemIdentity',
+  UserAssigned = 'UserAssigned',
+}

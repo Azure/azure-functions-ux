@@ -511,6 +511,7 @@ export class PortalResources {
   public static minTlsCipherSuiteInfoBubbleMessage = 'minTlsCipherSuiteInfoBubbleMessage';
   public static minTlsCipherSuiteSelectionInfo = 'minTlsCipherSuiteSelectionInfo';
   public static minTlsCipherSuiteBannerInfo = 'minTlsCipherSuiteBannerInfo';
+  public static minTlsCipherSuiteASEBannerInfo = 'minTlsCipherSuiteASEBannerInfo';
   public static minTlsCipherSuiteDropdownLabel = 'minTlsCipherSuiteDropdownLabel';
   public static minTlsCipherSuitePanelHeader = 'minTlsCipherSuitePanelHeader';
   public static minTlsCipherSuiteMostSecure = 'minTlsCipherSuiteMostSecure';
@@ -1479,6 +1480,7 @@ export class PortalResources {
   public static stackSettings = 'stackSettings';
   public static platformSettings = 'platformSettings';
   public static functionsAdminIsolation = 'functionsAdminIsolation';
+  public static functionsAdminIsolationWarning = 'functionsAdminIsolationWarning';
   public static functionsAdminIsolationInfoBubble = 'functionsAdminIsolationInfoBubble';
   public static debugging = 'debugging';
   public static modifiedTag = 'modifiedTag';
@@ -2618,4 +2620,8 @@ export class PortalResources {
   public static inboundIpModePreviewLabel = 'inboundIpModePreviewLabel';
   public static externalGitPrivateGitHubNotSupported = 'externalGitPrivateGitHubNotSupported';
   public static externalGitPrivateBitbucketNotSupported = 'externalGitPrivateBitbucketNotSupported';
+  public static deploymentCenterUpdateToSidecarContainers = 'deploymentCenterUpdateToSidecarContainers';
+  public static startUpdate = 'startUpdate';
+  public static deploymentCenterSidecarForCodePrompt = 'deploymentCenterSidecarForCodePrompt';
+  public static defaultUpperCase = 'defaultUpperCase';
 }

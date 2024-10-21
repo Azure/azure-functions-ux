@@ -1651,7 +1651,7 @@
         <value>Select the minimum TLS encryption version required by clients connecting to your app.</value>
     </data>
     <data name="minTlsCipherSuiteLabel" xml:space="preserve">
-        <value>Minimum Inbound TLS Cipher Suite (Preview)</value>
+        <value>Minimum Inbound TLS Cipher Suite</value>
     </data>
     <data name="vnetPrivatePortsCount" xml:space="preserve">
         <value>VNet Private Ports</value>
@@ -1665,11 +1665,14 @@
     <data name="minTlsCipherSuiteBannerInfo" xml:space="preserve">
         <value>All incoming requests from clients that only support TLS Cipher Suites less secure than the set minimum will be rejected by the front-end.</value>
     </data>
+    <data name="minTlsCipherSuiteASEBannerInfo" xml:space="preserve">
+        <value>Minimum TLS cipher suite is not compatible with App Service Environment "FrontEndSSLCipherSuiteOrder" cluster setting. Ensure you have only configured one or the other.</value>
+    </data>
     <data name="minTlsCipherSuiteDropdownLabel" xml:space="preserve">
         <value>Minimum TLS Cipher Suite</value>
     </data>
     <data name="minTlsCipherSuitePanelHeader" xml:space="preserve">
-        <value>Change minimum TLS Cipher Suite (preview)</value>
+        <value>Change minimum TLS Cipher Suite</value>
     </data>
     <data name="minTlsCipherSuiteMostSecure" xml:space="preserve">
         <value>most secure</value>
@@ -1687,7 +1690,7 @@
         <value>selected</value>
     </data>
     <data name="change" xml:space="preserve">
-        <value>change</value>
+        <value>Change</value>
     </data>
     <data name="clientAffinityInfoText" xml:space="preserve">
         <value>You can improve the performance of your stateless applications by turning off the Affinity Cookie, stateful applications should keep the Affinity Cookie turned on for increased compatibility. Click to learn more.</value>
@@ -8015,5 +8018,17 @@ Set to "External URL" to use an API definition that is hosted elsewhere.</value>
     </data>
     <data name="externalGitPrivateBitbucketNotSupported" xml:space="preserve">
         <value>Authentication with private Bitbucket repositories is not supported for this app.</value>
+    </data>
+    <data name="deploymentCenterUpdateToSidecarContainers" xml:space="preserve">
+        <value>Update your container to the new sidecar pattern for extended site functionality.</value>
+    </data>
+    <data name="startUpdate" xml:space="preserve">
+        <value>Start update</value>
+    </data>
+    <data name="deploymentCenterSidecarForCodePrompt" xml:space="preserve">
+        <value>Interested in adding containers to run alongside your app? Click here to give it a try.</value>
+    </data>
+    <data name="defaultUpperCase" xml:space="preserve">
+        <value>Default</value>
     </data>
 </root>

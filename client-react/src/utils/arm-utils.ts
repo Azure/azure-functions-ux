@@ -21,6 +21,10 @@ export function isWindowsCode(obj: ArmObj<Site>): boolean {
   return kind === CommonConstants.Kinds.app || kind === CommonConstants.Kinds.api;
 }
 
+export function isWindowsContainer(obj: ArmObj<Site>): boolean {
+  return obj.properties.hyperV;
+}
+
 export function isLinuxDynamic(obj: ArmObj<Site>) {
   return isLinuxApp(obj) && isDynamic(obj);
 }
@@ -89,6 +93,10 @@ export function isIsolatedMV2(obj: ArmObj<Site>): boolean {
   return sku === CommonConstants.SkuNames.isolatedMV2;
 }
 
+export function isASE(obj: ArmObj<Site>): boolean {
+  return isIsolated(obj) || isIsolatedV2(obj) || isIsolatedMV2(obj);
+}
+
 export function isPremiumV3(obj: ArmObj<Site>): boolean {
   const sku = obj.properties.sku?.toLocaleLowerCase();
   return sku === CommonConstants.SkuNames.premiumV3;
@@ -109,9 +117,7 @@ export function isPremium(obj: ArmObj<Site>): boolean {
 }
 
 export function isPremiumOrHigher(obj: ArmObj<Site>): boolean {
-  return (
-    isWorkflowStandard(obj) || isIsolated(obj) || isIsolatedV2(obj) || isElasticPremium(obj) || isElasticIsolated(obj) || isPremium(obj)
-  );
+  return isWorkflowStandard(obj) || isASE(obj) || isElasticPremium(obj) || isElasticIsolated(obj) || isPremium(obj);
 }
 
 export function isStandard(obj: ArmObj<Site>): boolean {
@@ -152,8 +158,8 @@ export function isDynamic(obj: ArmObj<Site>) {
   return !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.dynamic;
 }
 
-export function isFlexConsumption(obj: ArmObj<Site>) {
-  return !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.flexConsumption;
+export function isFlexConsumption(obj?: ArmObj<Site>) {
+  return !!obj && !!obj.properties.sku && obj.properties.sku.toLocaleLowerCase() === CommonConstants.SkuNames.flexConsumption;
 }
 
 export function mapResourcesTopologyToArmObjects<T>(columns: ResourceGraphColumn[], rows: any[][]): ArmObj<T>[] {

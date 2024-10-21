@@ -53,6 +53,7 @@ import {
 } from '../utility/GitHubActionUtility';
 import DeploymentCenterCodePivot from './DeploymentCenterCodePivot';
 import { ArmResourceDescriptor, ArmSiteDescriptor } from '../../../../utils/resourceDescriptors';
+import Url from '../../../../utils/url';
 
 const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props => {
   const { t } = useTranslation();
@@ -136,13 +137,13 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
             if (isRemoveEnvEnabled) {
               subject = siteStateContext.isFunctionApp
                 ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-                : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? 'production'}`;
+                : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
             } else {
               subject =
                 siteStateContext.isFunctionApp &&
                 !(values.runtimeStack === RuntimeStacks.node || values.runtimeStack === RuntimeStacks.python)
                   ? `repo:${values.org}/${values.repo}:ref:refs/heads/${values.branch}`
-                  : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? 'production'}`;
+                  : `repo:${values.org}/${values.repo}:environment:${armSiteId.slot ?? CommonConstants.Production}`;
             }
             const issuerSubjectAlreadyExists = deploymentCenterData.issuerSubjectAlreadyExists(
               subject,
@@ -363,6 +364,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         workflowApiVersion: CommonConstants.ApiVersions.workflowApiVersion20221001,
         slotName: deploymentCenterContext.siteDescriptor ? deploymentCenterContext.siteDescriptor.slot : '',
         variables: variables,
+        useCanaryFusionServer: !!Url.getFeatureValue(CommonConstants.FeatureFlags.useCanaryFusionServer),
       },
     };
 
@@ -393,6 +395,10 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
 
     if (isRemoveEnvEnabled) {
       variables['isRemoveEnvEnabled'] = true;
+    }
+
+    if (siteStateContext.isFlexConsumptionApp) {
+      variables['isFlexConsumption'] = true;
     }
 
     return variables;
@@ -549,7 +555,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       values.buildProvider === BuildProvider.GitHubAction &&
       (values.workflowOption === WorkflowOption.Overwrite || values.workflowOption === WorkflowOption.Add)
     ) {
-      if (values.runtimeStack === RuntimeStacks.python) {
+      if (values.runtimeStack === RuntimeStacks.python && !siteStateContext.isFlexConsumptionApp) {
         const updateAppSettingsResponse = await updateGitHubActionAppSettingsForPython(
           deploymentCenterData,
           deploymentCenterContext.resourceId,
@@ -682,6 +688,7 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
         isKubeApp: siteStateContext.isKubeApp ? 'true' : 'false',
         os: siteStateContext.isLinuxApp ? AppOs.linux : AppOs.windows,
         externalRepoType: values.externalRepoType,
+        isFlexConsumption: siteStateContext.isFlexConsumptionApp,
         requestId,
         startTime,
       };

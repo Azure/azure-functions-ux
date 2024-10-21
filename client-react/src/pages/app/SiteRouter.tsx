@@ -9,7 +9,15 @@ import { SiteStateContext } from '../../SiteState';
 import { StartupInfoContext } from '../../StartupInfoContext';
 import { iconStyles } from '../../theme/iconStyles';
 import { ThemeContext } from '../../ThemeContext';
-import { isContainerAppEnvironmentApp, isContainerApp, isFunctionApp, isKubeApp, isLinuxApp, isWordPressApp } from '../../utils/arm-utils';
+import {
+  isContainerAppEnvironmentApp,
+  isContainerApp,
+  isFunctionApp,
+  isKubeApp,
+  isLinuxApp,
+  isWordPressApp,
+  isFlexConsumption,
+} from '../../utils/arm-utils';
 import { CommonConstants } from '../../utils/CommonConstants';
 import { ArmSiteDescriptor } from '../../utils/resourceDescriptors';
 import { SiteRouterData } from './SiteRouter.data';
@@ -72,6 +80,8 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
   const [isFunctionApplication, setIsFunctionApplication] = useState<boolean>(false);
   const [isWordPressApplication, setIsWordPressApplication] = useState<boolean>(false);
   const [isKubeApplication, setIsKubeApplication] = useState<boolean>(false);
+  const [isFlexConsumptionApplication, setIsFlexConsumptionApplication] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const fetchDataAndSetState = useCallback(async (resourceId?: string) => {
     if (resourceId) {
@@ -128,6 +138,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
         setIsWordPressApplication(isWPApplication);
         setIsKubeApplication(isKubeApp(site));
         setSiteAppEditState(editMode);
+        setIsFlexConsumptionApplication(isFlexConsumption(site));
       }
     }
   }, []);
@@ -139,7 +150,7 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
           {value => {
             if (value.token) {
               const resourceId = value.resourceId;
-              if (site) {
+              if (site && !isLoading) {
                 return (
                   <SiteStateContext.Provider
                     value={{
@@ -152,7 +163,9 @@ const SiteRouter: React.FC<RouteComponentProps<SiteRouterProps>> = () => {
                       isFunctionApp: isFunctionApplication,
                       isWordPressApp: isWordPressApplication,
                       isKubeApp: isKubeApplication,
+                      isFlexConsumptionApp: isFlexConsumptionApplication,
                       refresh: () => fetchDataAndSetState(resourceId),
+                      setIsLoading,
                     }}>
                     <Router>
                       {/* NOTE(michinoy): The paths should be always all lowercase. */}

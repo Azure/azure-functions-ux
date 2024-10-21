@@ -265,3 +265,9 @@ export const logStatusIconStyle = (color: string) =>
 export const authorizeButtonStyle = style({
   maxWidth: '30px',
 });
+
+export const migrationBannerStyle = style({
+  display: 'flex',
+  flexDirection: 'column',
+  rowGap: '10px',
+});

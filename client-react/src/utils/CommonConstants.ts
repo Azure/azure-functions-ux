@@ -84,6 +84,7 @@ export class CommonConstants {
     enableNewNodeEditMode: 'enableNewNodeEditMode',
     customErrorPage: 'customErrorPage',
     showJBossClustering: 'showJBossClustering',
+    useCanaryFusionServer: 'useCanaryFusionServer',
   };
 
   public static readonly AppDensityLimit = 8;
@@ -124,7 +125,6 @@ export class CommonConstants {
     'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.2': 'PHP 8.2',
     'docker|mcr.microsoft.com/appsvc/wordpress-debian-php:8.3': 'PHP 8.3',
   };
-
 
   public static readonly AppSettingNames = {
     appInsightsConnectionString: 'APPLICATIONINSIGHTS_CONNECTION_STRING',
@@ -303,7 +303,7 @@ export class CommonConstants {
 
   public static readonly workflowDispatchTriggerErrorMessage = "workflow does not have 'workflow_dispatch' trigger";
 
-  public static readonly production = 'production';
+  public static readonly Production = 'Production';
 
   public static readonly master = 'master';
 
@@ -339,6 +339,7 @@ export class CommonConstants {
 
   public static readonly ResourceTypes = {
     cosmosDbAccount: 'Microsoft.DocumentDB/databaseAccounts',
+    site: 'Microsoft.Web/sites',
   };
 }
 
@@ -413,6 +414,8 @@ export class ExperimentationConstants {
 
   public static FlightVariable = {
     removeDeployEnvironment: 'remove-deploy-environment',
+    enableSidecarMigration: 'enable-sidecar-migration',
+    showDCReactView: 'show-dc-reactview',
   };
 }
 

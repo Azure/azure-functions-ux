@@ -154,7 +154,7 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     const variables = {
       siteName: slotName ? `${siteName}(${slotName})` : siteName,
-      slotName: slotName || CommonConstants.production,
+      slotName: slotName || CommonConstants.Production,
       runtimeVersion: getRuntimeVersion(
         siteStateContext.isLinuxApp,
         formProps.values.runtimeVersion,
@@ -170,6 +170,10 @@ const DeploymentCenterCodeSettings: React.FC<DeploymentCenterFieldProps<Deployme
 
     if (isRemoveEnvEnabled) {
       variables['isRemoveEnvEnabled'] = true;
+    }
+
+    if (siteStateContext.isFlexConsumptionApp) {
+      variables['isFlexConsumption'] = true;
     }
 
     return variables;

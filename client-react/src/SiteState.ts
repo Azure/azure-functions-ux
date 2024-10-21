@@ -11,9 +11,11 @@ export interface ISiteState {
   isFunctionApp: boolean;
   isWordPressApp: boolean;
   isKubeApp: boolean;
+  isFlexConsumptionApp: boolean;
   resourceId?: string;
   site?: ArmObj<Site>;
   refresh: () => Promise<void>;
+  setIsLoading: (isLoading: boolean) => void;
 }
 
 export const SiteStateContext = React.createContext<ISiteState>({} as ISiteState);

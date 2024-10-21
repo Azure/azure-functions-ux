@@ -48,10 +48,17 @@ export class WorkflowService20221001 {
         workflowFile = workflowFile.replace(new RegExp(environmentPlaceholder, 'gi'), environment);
       }
     } else {
-      workflowFile = workflowFile.replace(
-        new RegExp(publishProfilePlaceholder, 'gi'),
-        'publish-profile: ${{ secrets.__publishingprofilesecretname__ }}'
-      );
+      if (variables?.isFlexConsumption) {
+        const flexConsumptionPublishProfile = `publish-profile: \${{ secrets.__publishingprofilesecretname__ }}
+          sku: 'flexconsumption'
+        `;
+        workflowFile = workflowFile.replace(new RegExp(publishProfilePlaceholder, 'gi'), flexConsumptionPublishProfile);
+      } else {
+        workflowFile = workflowFile.replace(
+          new RegExp(publishProfilePlaceholder, 'gi'),
+          'publish-profile: ${{ secrets.__publishingprofilesecretname__ }}'
+        );
+      }
       workflowFile = workflowFile.replace(new RegExp(loginToAzureStepPlaceholder, 'gi'), '');
       workflowFile = workflowFile.replace(new RegExp(permissionsPlaceholder, 'gi'), '');
     }

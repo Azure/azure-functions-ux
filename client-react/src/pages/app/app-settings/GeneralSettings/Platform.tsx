@@ -18,6 +18,7 @@ import useStacks from '../Hooks/useStacks';
 import { messageBannerStyle } from '../AppSettings.styles';
 import { ThemeContext } from '../../../../ThemeContext';
 import { RuntimeExtensionMajorVersions } from '../../../../models/functions/runtime-extension';
+import { isASE } from '../../../../utils/arm-utils';
 
 const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const site = useContext(SiteContext);
@@ -34,10 +35,13 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
   const platformOptionEnable = scenarioChecker.checkScenario(ScenarioIds.enablePlatform64, { site });
   const websocketsEnable = scenarioChecker.checkScenario(ScenarioIds.webSocketsEnabled, { site });
   const alwaysOnEnable = scenarioChecker.checkScenario(ScenarioIds.enableAlwaysOn, { site });
-  const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSsh, [
-    stackVersionDetails.data?.supportedFeatures?.disableSsh,
-  ]);
+  const canDisableSSH = scenarioChecker.checkScenario(ScenarioIds.canDisableSSH, { site });
   const gRPCOnlyEnabled = scenarioChecker.checkScenario(ScenarioIds.http20ProxyGRPCOnlySupported, { site });
+
+  const sshControlEnabled = useMemo(() => stackVersionDetails.data?.supportedFeatures?.disableSsh || canDisableSSH.status === 'enabled', [
+    stackVersionDetails.data?.supportedFeatures?.disableSsh,
+    canDisableSSH,
+  ]);
 
   const runtimeVersionIsNotV1 = useMemo(() => {
     const functionsExtensionVersion = values.appSettings.find(x => x.name === CommonConstants.AppSettingNames.functionsExtensionVersion);
@@ -480,6 +484,8 @@ const Platform: React.FC<FormikProps<AppSettingsFormValues>> = props => {
           infoBubbleMessage={t('minTlsCipherSuiteInfoBubbleMessage')}
           dirty={values.config.properties.minTlsCipherSuite !== initialValues.config.properties.minTlsCipherSuite}
           widthLabel={'230px'}
+          isIsolated={!!site && isASE(site)}
+          disabled={disableAllControls}
         />
       )}
       {scenarioChecker.checkScenario(ScenarioIds.enableE2ETlsEncryption, { site }).status === 'enabled' && (
