@@ -1,6 +1,6 @@
 import React from 'react';
 import { style } from 'typestyle';
-import { RouteComponentProps } from '@reach/router';
+import { RouteComponentProps } from '@gatsbyjs/reach-router';
 import ReactSVG from 'react-svg';
 
 const divStyle = style({

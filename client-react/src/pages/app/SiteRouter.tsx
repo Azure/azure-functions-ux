@@ -1,4 +1,4 @@
-import { RouteComponentProps, Router } from '@reach/router';
+import { RouteComponentProps, Router } from '@gatsbyjs/reach-router';
 import React, { createContext, lazy, useContext, useCallback, useState } from 'react';
 import SiteService from '../../ApiHelpers/SiteService';
 import { ArmObj } from '../../models/arm-obj';

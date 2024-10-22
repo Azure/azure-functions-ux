@@ -1,4 +1,4 @@
-import { Router } from '@reach/router';
+import { Router } from '@gatsbyjs/reach-router';
 import { Fabric } from '@fluentui/react';
 import React, { useState, useEffect, Suspense } from 'react';
 import SiteRouter from './app/SiteRouter';
