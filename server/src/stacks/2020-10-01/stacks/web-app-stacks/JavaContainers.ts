@@ -29,6 +29,33 @@ export const javaContainersStack: WebAppStack = {
       ],
     },
     {
+      displayText: 'Apache Tomcat 11.0',
+      value: 'tomcat11.0',
+      minorVersions: [
+        {
+          displayText: 'Apache Tomcat 11.0',
+          value: '11.0',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '11.0',
+              isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 11.0.0',
+          value: '11.0.0',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '11.0.0',
+            },
+          },
+        },
+      ],
+    },
+    {
       displayText: 'Apache Tomcat 10.1',
       value: 'tomcat10.1',
       minorVersions: [
@@ -45,6 +72,26 @@ export const javaContainersStack: WebAppStack = {
               java17Runtime: 'TOMCAT|10.1-java17',
               java11Runtime: 'TOMCAT|10.1-java11',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 10.1.31',
+          value: '10.1.31',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '10.1.31',
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 10.1.25',
+          value: '10.1.25',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '10.1.25',
             },
           },
         },
@@ -180,6 +227,26 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|9.0-java11',
               java8Runtime: 'TOMCAT|9.0-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 9.0.96',
+          value: '9.0.96',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '9.0.96',
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 9.0.91',
+          value: '9.0.91',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '9.0.91',
             },
           },
         },
@@ -429,6 +496,16 @@ export const javaContainersStack: WebAppStack = {
               java11Runtime: 'TOMCAT|8.5-java11',
               java8Runtime: 'TOMCAT|8.5-jre8',
               isAutoUpdate: true,
+            },
+          },
+        },
+        {
+          displayText: 'Apache Tomcat 8.5.100',
+          value: '8.5.100',
+          stackSettings: {
+            windowsContainerSettings: {
+              javaContainer: 'TOMCAT',
+              javaContainerVersion: '8.5.100',
             },
           },
         },
