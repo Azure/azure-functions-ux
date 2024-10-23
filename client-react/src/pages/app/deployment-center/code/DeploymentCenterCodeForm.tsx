@@ -401,6 +401,15 @@ const DeploymentCenterCodeForm: React.FC<DeploymentCenterCodeFormProps> = props 
       variables['isFlexConsumption'] = true;
     }
 
+    if (
+      values.runtimeStack === RuntimeStackOptions.Node &&
+      siteStateContext.isLinuxApp &&
+      deploymentCenterContext.applicationSettings?.properties &&
+      deploymentCenterContext.applicationSettings.properties[DeploymentCenterConstants.appSettings_SCM_DO_BUILD_DURING_DEPLOYMENT]
+    ) {
+      variables['nodeOryxWorkflow'] = true;
+    }
+
     return variables;
   };
 

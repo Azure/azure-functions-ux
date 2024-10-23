@@ -142,7 +142,11 @@ export class WorkflowService20221001 {
           throw new HttpException(`The java container must be specified`, 404);
         }
       case RuntimeStacks.Node:
-        return this.readWorkflowFile('web-app-configs/node-linux.config.yml');
+        if (this.nodeOryxWorkflowCheck(variables)) {
+          return this.readWorkflowFile('web-app-configs/node-linux-oryx.config.yml');
+        } else {
+          return this.readWorkflowFile('web-app-configs/node-linux.config.yml');
+        }
       case RuntimeStacks.Python:
         return this.readWorkflowFile('web-app-configs/python-linux.config.yml');
       case RuntimeStacks.Php:
@@ -192,6 +196,10 @@ export class WorkflowService20221001 {
 
   javaJarWorkflowCheck(variables: { [key: string]: string }) {
     return !!variables && !!variables['javaContainer'] && variables['javaContainer'].toLocaleLowerCase() === JavaContainers.JavaSE;
+  }
+
+  nodeOryxWorkflowCheck(variables: { [key: string]: string }) {
+    return !!variables && !!variables['nodeOryxWorkflow'];
   }
 
   getContainerWorkflowFile(appType: string, os: string) {
