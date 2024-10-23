@@ -27,7 +27,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
               windowsRuntimeSettings: {
                 runtimeVersion: 'v9.0',
                 remoteDebuggingSupported: false,
-                isPreview: true,
                 appInsightsSettings: {
                   isSupported: true,
                   isDefaultOff: false,
@@ -40,7 +39,6 @@ const getDotnetStack: (useIsoDateFormat: boolean) => WebAppStack = (useIsoDateFo
               linuxRuntimeSettings: {
                 runtimeVersion: 'DOTNETCORE|9.0',
                 remoteDebuggingSupported: false,
-                isPreview: true,
                 appInsightsSettings: {
                   isSupported: true,
                   isDefaultOff: false,
