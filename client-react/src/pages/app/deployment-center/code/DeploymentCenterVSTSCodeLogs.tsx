@@ -9,6 +9,7 @@ import {
   CodeDeploymentsRow,
   KuduLogMessage,
   UrlInfo,
+  RepoProvider,
 } from '../DeploymentCenter.types';
 import { ProgressIndicator } from '@fluentui/react/lib/ProgressIndicator';
 import { PanelType } from '@fluentui/react/lib/Panel';
@@ -181,11 +182,13 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
     const urlInfo: UrlInfo[] = [];
     if (messageJSON.commitId) {
       const commitUrl: string = getCommitUrl(messageJSON);
-      urlInfo.push({
-        urlIcon: 'BranchCommit',
-        urlText: t('sourceVersionUrl').format(messageJSON.commitId.substr(0, 10)),
-        url: commitUrl,
-      });
+      if (commitUrl) {
+        urlInfo.push({
+          urlIcon: 'BranchCommit',
+          urlText: t('sourceVersionUrl').format(messageJSON.commitId.substring(0, 10)),
+          url: commitUrl,
+        });
+      }
     }
     if (messageJSON.buildNumber) {
       const buildUrl: string = getBuildUrl(messageJSON);
@@ -253,14 +256,32 @@ const DeploymentCenterVSTSCodeLogs: React.FC<DeploymentCenterCodeLogsProps> = pr
   };
 
   const getCommitUrl = (messageJSON: KuduLogMessage) => {
-    if (messageJSON.commitId && messageJSON.repoProvider && messageJSON.repositoryUrl) {
-      if (messageJSON.repoProvider === ScmType.GitHub) {
-        return '{0}/commit/{1}'.format(messageJSON.repositoryUrl, messageJSON.commitId);
+    const { repoProvider, repositoryUrl, collectionUrl, teamProject, repoName, commitId } = messageJSON;
+    switch (repoProvider?.toLowerCase()) {
+      case RepoProvider.TfsGit:
+      case RepoProvider.Git:
+      case RepoProvider.GitHub: {
+        let repoUrl = repositoryUrl;
+        if (!repoUrl) {
+          if (collectionUrl && teamProject && repoName) {
+            repoUrl = '{0}{1}/_git/{2}'.format(collectionUrl, teamProject, repoName);
+          }
+        }
+        return repoUrl ? '{0}/commit/{1}'.format(repoUrl, commitId) : '';
       }
+      case RepoProvider.TfsVersionControl: {
+        let repoUrl = repositoryUrl;
+        if (!repoUrl) {
+          if (collectionUrl && teamProject) {
+            repoUrl = '{0}{1}'.format(collectionUrl, teamProject);
+          }
+        }
+        return repoUrl ? '{0}/_versionControl/changeset/{1}'.format(repoUrl, commitId) : '';
+      }
+      default:
+        return '';
     }
-    return '';
   };
-
   const getBuildUrl = (messageJSON: KuduLogMessage) => {
     if (messageJSON.buildId) {
       return messageJSON.buildProjectUrl
