@@ -72,7 +72,7 @@ function validateStacksOnlyHaveCorrectOS(stacks, os: 'windows' | 'linux') {
         expect(minorVersion.stackSettings).to.have.property(os === 'windows' ? 'windowsRuntimeSettings' : 'linuxRuntimeSettings');
         expect(minorVersion.stackSettings).to.have.not.property(
           os === 'windows' ? 'linuxRuntimeSettings' : 'windowsRuntimeSettings',
-          !undefined
+          true // !undefined
         );
       });
     });
